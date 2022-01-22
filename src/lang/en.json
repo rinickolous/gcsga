@@ -1,0 +1,95 @@
+{
+	"gcsga": {
+		"sheet": {
+			"portrait": "Portrait",
+			"identity": "Identity",
+			"name": "Name",
+			"title": "Title",
+			"organization": "Organization",
+			"miscellaneous": "Miscellaneous",
+			"created_date": "Created Date",
+			"modified_date": "Modified Date",
+			"player_name": "Player",
+			"description": "Description",
+			"gender": "Gender",
+			"age": "Age",
+			"birthday": "Birthday",
+			"religion": "Religion",
+			"height": "Height",
+			"weight": "Weight",
+			"SM": "SM",
+			"tech_level": "TL",
+			"hair": "Hair",
+			"eyes": "Eyes",
+			"skin": "Skin",
+			"handedness": "Hand",
+			"points": {
+				"title": "Points",
+				"unspent": "Unspent",
+				"race": "Race",
+				"attributes": "Attributes",
+				"advantages": "Advantages",
+				"disadvantages": "Disadvantages",
+				"quirks": "Quirks",
+				"skills": "Skills",
+				"spells": "Spells"
+			},
+			"primary_attributes": "Primary Attributes",
+			"secondary_attributes": "Secondary Attributes",
+			"pool_attributes": "Point Pools",
+			"basic_thrust": "Basic Thrust",
+			"basic_swing": "Basic Swing",
+			"pool_attribute_of": "of",
+			"hit_locations": {
+				"roll": "Roll",
+				"location": "Location",
+				"penalty": "Penalty",
+				"DR": "DR"
+			},
+			"encumbrance": {
+				"title": "Encumbrance, Move & Dodge",
+				"level": "Level",
+				"max_load": "Max Load",
+				"move": "Move",
+				"dodge": "Dodge",
+				"levels": {
+					"0": "0 None",
+					"1": "1 Light",
+					"2": "2 Medium",
+					"3": "3 Heavy",
+					"4": "4 X-Heavy"
+				}
+			},
+			"lifting": {
+				"title": "Lifting & Moving Things",
+				"basic_lift": "Basic Lift",
+				"one_handed_lift": "One-Handed Lift",
+				"two_handed_lift": "Two-Handed Lift",
+				"shove": "Shove & Knock Over",
+				"running_shove": "Running Shove & Knock Over",
+				"carry_on_back": "Carry On Back",
+				"shift_slightly": "Shift Slightly"
+			},
+			"advantages": {
+				"desc": "Advantages & Disadvantages",
+				"points": "Pts"
+			},
+			"skills": {
+				"desc": "Skills",
+				"level": "SL",
+				"rsl": "RSL",
+				"points": "Pts"
+			}
+		},
+		"advantage": {
+			"cr": {
+				"-1": "None Requires",
+				"0": "CR: N/A (Cannot Resist)",
+				"6": "CR: 6 (Resist Rarely)",
+				"9": "CR: 9 (Resist Fairly Often)",
+				"12": "CR: 12 (Resist Quite Often)",
+				"15": "CR: 15 (Resist Almost All The Time)"
+			}
+		}
+	}
+}

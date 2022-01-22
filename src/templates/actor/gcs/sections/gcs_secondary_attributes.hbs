@@ -1,0 +1,21 @@
+<div id="secondary_attributes">
+	<div class="header">{{localize "gcsga.sheet.secondary_attributes"}}</div>
+	<div class="fieldblock3">
+		{{#each secondary_attributes}}
+			<div class="points">[{{this.points}}]</div>
+			{{#if ../editing}}
+			<div class="field align_right">
+				<input
+					name="data.attributes.{{this.index}}.calc.value"
+					class="input"
+					type="number"
+					value="{{this.value}}"
+				/>
+			</div>
+			{{else}}
+			<div class="field rollable align_right" data-path="this.value">{{this.value}}</div>
+			{{/if}}
+			<div class="label">{{#if this.full_name}}{{this.full_name}} ({{this.name}}){{else}}{{this.name}}{{/if}}</div>
+		{{/each}}
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<div class="entry_parent" readonly></div>
+<div class="roll align_center">{{this.calc.roll_range}}</div>
+<div class="location">{{tab}}{{this.table_name}}</div>
+<div class="penalty align_right">{{this.hit_penalty}}</div>
+<div class="dr align_center">{{this.calc.dr.all}}</div>
+{{#if this.sub_table}}
+	{{#each this.sub_table.locations}}
+		{{>gcs_hit_location tab=(concat tab " ")}}
+	{{/each}}
+{{/if}}

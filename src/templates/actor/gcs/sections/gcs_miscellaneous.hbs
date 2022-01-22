@@ -1,0 +1,35 @@
+<div id="miscellaneous">
+	<div class="header">{{localize "gcsga.sheet.miscellaneous"}}</div>
+	<div class="fieldblock">
+		<div class="label align_right">{{localize "gcsga.sheet.created_date"}}</div>
+		<div class="field">
+			<input
+				name="data.created_date"
+				class="input"
+				type="text"
+				value="{{data.created_date}}"
+				disabled
+			/>
+		</div>
+		<div class="label align_right">{{localize "gcsga.sheet.modified_date"}}</div>
+		<div class="field">
+			<input
+				name="data.profile.modified_date"
+				class="input"
+				type="text"
+				value="{{data.profile.title}}"
+				disabled
+			/>
+		</div>
+		<div class="label align_right">{{localize "gcsga.sheet.player_name"}}</div>
+		<div class="field">
+			<input
+				name="data.profile.player_name"
+				class="input"
+				type="text"
+				value="{{data.profile.player_name}}"
+				{{input_lock editing}}
+			/>
+		</div>
+	</div>
+</div>

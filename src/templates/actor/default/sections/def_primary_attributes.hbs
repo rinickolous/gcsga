@@ -1,0 +1,8 @@
+<div id='primary_attributes' style="display: flex; flex-flow: column;">
+	<div class="header" style="grid-column: 1 / 4">{{localize "gcsga.sheet.actor.primary_attributes"}}</div>
+	{{#each primary_attributes}}
+		<div class="label">{{#if this.full_name}}{{this.full_name}} ({{this.name}}){{else}}{{this.name}}{{/if}}</div>
+		<div class="points">[{{this.points}}]</div>
+		<div class="field">{{this.value}}</div>
+	{{/each}}
+</div>

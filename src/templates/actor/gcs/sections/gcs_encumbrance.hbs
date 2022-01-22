@@ -1,0 +1,22 @@
+<div id="encumbrance" class="table">
+	<div class="title header">{{localize "gcsga.sheet.encumbrance.title"}}</div>
+	<div class="level header">{{localize "gcsga.sheet.encumbrance.level"}}</div>
+	<div class="max_load header">{{localize "gcsga.sheet.encumbrance.max_load"}}</div>
+	<div class="move header">{{localize "gcsga.sheet.encumbrance.move"}}</div>
+	<div class="dodge header">{{localize "gcsga.sheet.encumbrance.dodge"}}</div>
+	{{#each encumbrance}}
+		{{#if this.active}}
+			<div class="encumbrance_marker active"><i class="fas fa-balance-scale"></i></div>
+			<div class="level active align_left">{{localize this.level}}</div>
+			<div class="max_load active align_right">{{this.max_load}}</div>
+			<div class="move active align_right">{{this.move}}</div>
+			<div class="dodge active align_right">{{this.dodge}}</div>
+		{{else}}
+			<div class="encumbrance_marker"></div>
+			<div class="level align_left">{{localize this.level}}</div>
+			<div class="max_load align_right">{{this.max_load}}</div>
+			<div class="move align_right">{{this.move}}</div>
+			<div class="dodge align_right">{{this.dodge}}</div>
+		{{/if}}
+	{{/each}}
+</div>

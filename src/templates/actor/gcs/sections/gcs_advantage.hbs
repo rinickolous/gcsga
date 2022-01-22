@@ -1,0 +1,19 @@
+<div class="entry_parent" readonly></div>
+<div class="desc" style="padding-left: {{indent}}.2em;">
+	{{#if (eq this.type "advantage_container")}}
+	{{#if this.data.open}}
+	<i class="fas fa-caret-down toggle_open" data-id={{this._id}}></i>
+	{{else}}
+	<i class="fas fa-caret-right toggle_open" data-id={{this._id}}></i>
+	{{/if}}
+	{{/if}}
+	{{this.name}}{{#unless (eq this.data.levels "0")}} {{this.data.levels}}{{/unless}}
+	{{>gcs_item_notes}}
+</div>
+<div class="points align_right">{{this.data.calc.points}}</div>
+<div class="reference">{{this.data.reference}}</div>
+{{#if this.data.open}}
+	{{#each this.children}}
+		{{>gcs_advantage indent=(sum indent 1)}}
+	{{/each}}
+{{/if}}

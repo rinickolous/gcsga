@@ -1,0 +1,41 @@
+{
+	"name": "gcsga",
+	"title": "gcsga",
+	"description": "",
+	"version": "0.0.1",
+	"author": "neck",
+	"authors": [
+		{
+			"name": "Mateusz Sasiedny",
+			"email": "rinickolous@gmail.com",
+			"discord": "neck#0001"
+		}
+	],
+	"minimumCoreVersion": "9",
+	"compatibleCoreVersion": "9.242",
+	"scripts": [],
+	"esmodules": ["module/gcsga.js"],
+	"styles": ["styles/gcsga.css"],
+	"packs": [],
+	"dependencies": [],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	],
+	"socket": false,
+	"url": "",
+	"manifest": "",
+	"download": "https://host/path/to/0.0.0.zip",
+	"license": "",
+	"readme": "",
+	"bugs": "",
+	"changelog": "",
+	"initiative": "",
+	"gridDistance": 1,
+	"gridUnits": "yd",
+	"primaryTokenAttribute": "",
+	"secondaryTokenAttribute": ""
+}

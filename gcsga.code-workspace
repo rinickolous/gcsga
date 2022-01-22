@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\foundry-vtt---pathfinder-2e"
+		},
+		{
+			"path": "..\\itemcollection"
+		},
+		{
+			"path": "..\\..\\Documents\\FoundryVTT\\Data\\systems\\gurps"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,61 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet" class="gcs_actor_sheet">
+		<div id="personal">
+			{{>gcs_portrait}}
+			{{>gcs_identity}}
+			{{>gcs_miscellaneous}}
+			{{>gcs_description}}
+			{{>gcs_points}}
+		</div>
+		<div id="stats">
+			<div id="attributes">
+				{{>gcs_primary_attributes}}
+				{{>gcs_secondary_attributes}}
+				{{>gcs_pool_attributes}}
+			</div>
+			<div id="hit_locations" class="table">
+				<div class="header body_plan">{{data.settings.hit_locations.name}}</div>
+				<div class="header entry_parent" readonly></div>
+				<div class="header roll">{{localize "gcsga.sheet.hit_locations.roll"}}</div>
+				<div class="header location">{{localize "gcsga.sheet.hit_locations.location"}}</div>
+				<div class="header dr">{{localize "gcsga.sheet.hit_locations.DR"}}</div>
+				{{#each data.settings.hit_locations.locations}}
+					{{>gcs_hit_location tab=""}}
+				{{/each}}
+			</div>
+			<div id="encumbrance_lifting">
+				{{>gcs_encumbrance}}
+				{{>gcs_lifting}}
+			</div>
+		</div>
+		<div
+			id="embeds"
+			style="grid-template:{{blockLayout data.settings.block_layout blocks}};"
+		>
+			{{#if advantages.length}}
+			<div id="advantages" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.advantages.desc"}}</div>
+				<div class="header points">{{localize "gcsga.sheet.advantages.points"}}</div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each advantages}}
+					{{>gcs_advantage indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if skills.length}}
+			<div id="skills" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.skills.desc"}}</div>
+				<div class="header level">{{localize "gcsga.sheet.skills.level"}}</div>
+				<div class="header rsl">{{localize "gcsga.sheet.skills.rsl"}}</div>
+				<div class="header points">{{localize "gcsga.sheet.skills.points"}}</div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each skills}}
+					{{>gcs_skill indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+		</div>
+	</div>
+</form>

@@ -3,18 +3,18 @@
 	"name": "gcsga",
 	"description": "",
 	"license": "",
-	"homepage": "",
+	"homepage": "https://github.com/rinickolous/gcsga",
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/rinickolous/gcsga"
 	},
 	"bugs": {
-		"url": ""
+		"url": "https://github.com/rinickolous/gcsga/issues"
 	},
 	"contributors": [
 		{
-			"name": "",
-			"email": ""
+			"name": "Mateusz Sasiedny",
+			"email": "mateuszsasiedny@protonmail.com"
 		}
 	],
 	"scripts": {

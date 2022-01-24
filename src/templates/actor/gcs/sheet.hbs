@@ -32,6 +32,61 @@
 			id="embeds"
 			style="grid-template:{{blockLayout data.settings.block_layout blocks}};"
 		>
+			{{#if reactions.length}}
+			<div id="reactions" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header modifier">{{localize "gcsga.sheet.reactions.modifier"}}</div>
+				<div class="header reaction">{{localize "gcsga.sheet.reactions.reaction"}}</div>
+				{{#each reactions}}
+					{{>gcs_reactions}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if conditional_modifiers.length}}
+			<div id="conditional_modifiers" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header modifier">{{localize "gcsga.sheet.conditional_modifiers.modifier"}}</div>
+				<div class="header condition">{{localize "gcsga.sheet.conditional_modifiers.reaction"}}</div>
+				{{#each conditional_modifiers}}
+					{{>gcs_conditional_modifiers}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if melee_attacks.length}}
+			<div id="melee_attacks" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.melee_attacks.desc"}}</div>
+				<div class="header usage">{{localize "gcsga.sheet.melee_attacks.usage"}}</div>
+				<div class="header level">{{localize "gcsga.sheet.melee_attacks.level"}}</div>
+				<div class="header parry">{{localize "gcsga.sheet.melee_attacks.parry"}}</div>
+				<div class="header block">{{localize "gcsga.sheet.melee_attacks.block"}}</div>
+				<div class="header damage">{{localize "gcsga.sheet.melee_attacks.damage"}}</div>
+				<div class="header reach">{{localize "gcsga.sheet.melee_attacks.reach"}}</div>
+				<div class="header st">{{localize "gcsga.sheet.melee_attacks.st"}}</div>
+				{{#each melee_attacks}}
+					{{>gcs_melee_attacks}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if ranged_attacks.length}}
+			<div id="ranged_attacks" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.ranged_attacks.desc"}}</div>
+				<div class="header usage">{{localize "gcsga.sheet.ranged_attacks.usage"}}</div>
+				<div class="header level">{{localize "gcsga.sheet.ranged_attacks.level"}}</div>
+				<div class="header accuracy">{{localize "gcsga.sheet.ranged_attacks.accuracy"}}</div>
+				<div class="header damage">{{localize "gcsga.sheet.ranged_attacks.damage"}}</div>
+				<div class="header range">{{localize "gcsga.sheet.ranged_attacks.range"}}</div>
+				<div class="header rate_of_fire">{{localize "gcsga.sheet.ranged_attacks.rate_of_fire"}}</div>
+				<div class="header shots">{{localize "gcsga.sheet.ranged_attacks.shots"}}</div>
+				<div class="header bulk">{{localize "gcsga.sheet.ranged_attacks.bulk"}}</div>
+				<div class="header recoil">{{localize "gcsga.sheet.ranged_attacks.recoil"}}</div>
+				<div class="header st">{{localize "gcsga.sheet.ranged_attacks.st"}}</div>
+				{{#each ranged_attacks}}
+					{{>gcs_ranged_attacks}}
+				{{/each}}
+			</div>
+			{{/if}}
 			{{#if advantages.length}}
 			<div id="advantages" class="table">
 				<div class="header entry_parent" readonly></div>
@@ -53,6 +108,68 @@
 				<div class="header reference"><i class="fas fa-bookmark"></i></div>
 				{{#each skills}}
 					{{>gcs_skill indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if spells.length}}
+			<div id="spells" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.spells.desc"}}</div>
+				<div class="header resist">{{localize "gcsga.sheet.spells.resist"}}</div>
+				<div class="header class">{{localize "gcsga.sheet.spells.class"}}</div>
+				<div class="header casting_cost">{{localize "gcsga.sheet.spells.casting_cost"}}</div>
+				<div class="header maintenance_cost">{{localize "gcsga.sheet.spells.maintenance_cost"}}</div>
+				<div class="header casting_time">{{localize "gcsga.sheet.spells.casting_time"}}</div>
+				<div class="header duration">{{localize "gcsga.sheet.spells.duration"}}</div>
+				<div class="header level">{{localize "gcsga.sheet.spells.level"}}</div>
+				<div class="header rsl">{{localize "gcsga.sheet.spells.rsl"}}</div>
+				<div class="header points">{{localize "gcsga.sheet.spells.points"}}</div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each spells}}
+					{{>gcs_spell indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if equipment.length}}
+			<div id="equipment" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header equipped"><i class="fas fa-check-circle"></i></div>
+				<div class="header quantity"><i class="fas fa-slack-hash"></i></div>
+				<div class="header desc">{{localize "gcsga.sheet.equipment.desc" weight=data.carried_weight value=data.carried_value}}</div>
+				<div class="header uses">{{localize "gcsga.sheet.equipment.uses"}}</div>
+				<div class="header value"><i class="fas fa-dollar-sign"></i></div>
+				<div class="header weight"><i class="fas fa-weight-hanging"></i></div>
+				<div class="header value_total"><i class="fas fa-layer-group"></i><i class="fas fa-dollar-sign"></i></div>
+				<div class="header weight_total"><i class="fas fa-layer-group"></i><i class="fas fa-weight-hanging"></i></div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each equipment}}
+					{{>gcs_equipment indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if other_equipment.length}}
+			<div id="other_equipment" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header quantity"><i class="fas fa-slack-hash"></i></div>
+				<div class="header desc">{{localize "gcsga.sheet.other_equipment.desc" value=data.other_value}}</div>
+				<div class="header uses">{{localize "gcsga.sheet.other_equipment.uses"}}</div>
+				<div class="header value"><i class="fas fa-dollar-sign"></i></div>
+				<div class="header weight"><i class="fas fa-weight-hanging"></i></div>
+				<div class="header value_total"><i class="fas fa-layer-group"></i><i class="fas fa-dollar-sign"></i></div>
+				<div class="header weight_total"><i class="fas fa-layer-group"></i><i class="fas fa-weight-hanging"></i></div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each other_equipment}}
+					{{>gcs_other_equipment indent=0}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if notes.length}}
+			<div id="notes" class="table">
+				<div class="header entry_parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.sheet.notes.desc"}}</div>
+				<div class="header reference"><i class="fas fa-bookmark"></i></div>
+				{{#each notes}}
+					{{>gcs_note indent=0}}
 				{{/each}}
 			</div>
 			{{/if}}

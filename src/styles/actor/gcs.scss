@@ -1,0 +1,522 @@
+.gcs .window-content {
+	height: 100%;
+	padding: 5px;
+	scroll-behavior: smooth;
+	background: white;
+}
+
+.gcs_actor_sheet {
+	// font-size: 125%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: start;
+	gap: var(--section-gap);
+	.header {
+		background-color: var(--color-header);
+		color: var(--color-on-header);
+		justify-content: center;
+		text-align: center;
+		font: var(--font-page-primary-labels);
+		font-size: var(--fontsize-medium);
+	}
+	.fieldblock {
+		display: grid;
+		grid-template-columns: 0fr 1fr;
+		align-items: end;
+		padding-bottom: 0.15em;
+		text-align: left;
+		padding-left: 0.2em;
+		padding-right: 0.2em;
+		white-space: nowrap;
+		align-self: stretch;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+	}
+	.fieldblock3 {
+		display: grid;
+		grid-template-columns: 0fr 0fr 0fr;
+		align-items: end;
+		padding-bottom: 0.15em;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+		align-content: baseline;
+		hr {
+			grid-column: 1 / span 3;
+			width: 100%;
+			border: none;
+			background-color: var(--color-divider);
+			height: 1px;
+			margin: 0;
+			margin-top: 0.2em;
+			margin-bottom: 0.1em;
+		}
+		.wide {
+			grid-column: 1 / span 2;
+			text-align: right;
+		}
+	}
+	.fieldblock6 {
+		display: grid;
+		grid-template-columns: 0fr 1fr 0fr 1fr 0fr 0fr;
+		align-items: end;
+		padding-bottom: 0.15em;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+		align-content: baseline;
+	}
+	.label {
+		text-align: left;
+		padding-left: 0.2em;
+		padding-right: 0.2em;
+		font: var(--font-page-primary-labels);
+		// font-size: var(--header-font-size);
+		white-space: nowrap;
+	}
+	.field {
+		margin-right: 0.2em;
+		padding-left: 0.2em;
+		padding-right: 0.2em;
+		border-bottom: 1px solid var(--color-editable-border);
+		font: var(--font-page-primary-fields);
+		input.input {
+			color: var(--color-on-editable);
+			background-color: var(--color-editable);
+			font: inherit;
+		}
+	}
+	input.input {
+		min-width: 20px !important;
+		border: none !important;
+		height: 100% !important;
+		padding: 1px !important;
+		color: var(--color-on-editable);
+		background-color: var(--color-editable);
+		font: inherit;
+		&:focus {
+			box-shadow: none;
+		}
+		&:disabled {
+			background: unset;
+			padding: 0;
+			// change later
+			color: var(--color-on-content);
+		}
+	}
+	.entry_parent[readonly] {
+		padding: 0 !important;
+		border-right: none !important;
+	}
+	.table {
+		display: grid;
+		background-color: var(--color-content);
+		border: var(--standard-border);
+		align-content: baseline;
+	}
+	.align_left {
+		text-align: left;
+	}
+	.align_right {
+		text-align: right;
+	}
+	.align_center {
+		text-align: center;
+	}
+	// .bottom {
+	// 	// grid-area: bottom;
+	// 	background-color: black;
+	// }
+	.desc,
+	.points,
+	.reference,
+	.roll,
+	.location,
+	.penalty,
+	.dr,
+	.level,
+	.max_load,
+	.move,
+	.dodge,
+	.level,
+	.resist,
+	.class,
+	.casting_cost,
+	.maintenance_cost,
+	.casting_time,
+	.duration,
+	.rsl {
+		&:not(.header) {
+			font: var(--font-page-primary-fields);
+		}
+	}
+	.fas {
+		font-size: var(--fontsize-small);
+	}
+	.item_notes {
+		font: var(--font-page-secondary-fields);
+	}
+	#personal {
+		flex-grow: 0;
+		grid-area: personal;
+		display: grid;
+		grid-template:
+			'portrait identity miscellaneous points'
+			'portrait description description points';
+		grid-template-columns: 0fr 1fr 1fr 0fr;
+		gap: var(--section-gap);
+		#portrait {
+			grid-area: portrait;
+			display: grid;
+			grid-template:
+				'header'
+				'portrait';
+			grid-template-rows: 0fr auto min-content;
+			grid-template-columns: auto;
+			border: var(--standard-border) var(--color-header);
+			.img_display {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				width: 112.25px;
+				.profile_img {
+					display: block;
+					height: 100%;
+					width: 100%;
+					opacity: 0;
+				}
+			}
+		}
+		#identity,
+		#miscellaneous,
+		#description,
+		#points {
+			display: grid;
+			grid-template-rows: 0fr 1fr;
+			border: var(--standard-border) var(--color-header);
+		}
+		#identity {
+			grid-area: identity;
+		}
+		#miscellaneous {
+			grid-area: miscellaneous;
+		}
+		#description {
+			grid-area: description;
+			grid-template:
+				'header header header'
+				'block1 block2 block3';
+			grid-template-columns: 1fr 1fr 1fr;
+			.header {
+				grid-area: header;
+			}
+			.fieldblock:nth-child(1n + 3) {
+				border-left: var(--standard-border);
+			}
+		}
+		#points {
+			grid-area: points;
+			input {
+				min-width: 3em;
+			}
+		}
+	}
+	#stats {
+		grid-area: stats;
+		flex-grow: 0;
+		display: grid;
+		grid-template:
+			'attributes hit_locations encumbrance_lifting'
+			'attributes hit_locations encumbrance_lifting';
+		grid-template-columns: 17fr 9fr 19fr;
+		gap: var(--section-gap);
+		.points {
+			font: var(--font-page-secondary-labels);
+		}
+		#attributes {
+			flex-grow: 0;
+			grid-area: attributes;
+			display: grid;
+			grid-template:
+				'primary_attributes secondary_attributes'
+				'pool_attributes pool_attributes';
+			grid-template-columns: 1fr 1fr;
+			gap: var(--section-gap);
+			.points {
+				text-align: right;
+			}
+			#primary_attributes,
+			#secondary_attributes,
+			#pool_attributes {
+				display: grid;
+				grid-template-rows: 0fr 0fr;
+				border: var(--standard-border) var(--color-header);
+				background-color: var(--color-content);
+			}
+			#primary_attributes {
+				grid-area: primary_attributes;
+			}
+			#secondary_attributes {
+				grid-area: secondary_attributes;
+			}
+			#pool_attributes {
+				grid-area: pool_attributes;
+			}
+			input.input {
+				min-width: 2.5em;
+			}
+		}
+		#hit_locations {
+			display: grid;
+			grid-area: hit_locations;
+			grid-template:
+				'header header header header header'
+				'entry_parent roll location penalty dr';
+			grid-template-columns: min-content min-content 1fr min-content min-content;
+			// figure out how to scale last row to 1fr only
+			// grid-template-rows: 0fr 1fr;
+			border: var(--standard-border) var(--color-header);
+			> div {
+				padding: 0 0.2em 0 0.2em;
+				white-space: nowrap;
+				width: 100%;
+			}
+			.body_plan {
+				grid-area: header;
+				border-right: none;
+				border-bottom: 1px solid var(--color-divider);
+			}
+			.roll,
+			.location.header,
+			.penalty {
+				border-right: 1px solid var(--color-divider);
+			}
+			.location.header {
+				grid-column: span 2;
+			}
+			.entry_parent:nth-child(10n + 1),
+			.roll:nth-child(10n + 2),
+			.location:nth-child(10n + 3),
+			.penalty:nth-child(10n + 4),
+			.dr:nth-child(10n + 5) {
+				&:not(.header) {
+					background-color: var(--color-banding);
+				}
+			}
+		}
+		#encumbrance_lifting {
+			grid-area: encumbrance_lifting;
+			display: grid;
+			grid-template:
+				'encumbrance'
+				'lifting';
+			gap: var(--section-gap);
+			#encumbrance {
+				border: var(--standard-border) var(--color-header);
+				grid-area: encumbrance;
+				grid-template:
+					'title title title title title'
+					'encumbrance_marker level max_load move dodge';
+				grid-template-columns: min-content 1fr min-content min-content min-content;
+				white-space: nowrap;
+				grid-template-rows: 0fr 0fr;
+				align-content: baseline;
+				> div {
+					padding: 0 0.2em 0 0.2em;
+					white-space: nowrap;
+					width: 100%;
+				}
+				.level,
+				.max_load,
+				.move {
+					border-right: 1px solid var(--color-divider);
+				}
+				.title {
+					grid-area: title;
+					border-bottom: 1px solid var(--color-divider);
+				}
+				.level.header {
+					grid-column: 1 / span 2;
+				}
+				.active {
+					background-color: var(--color-marker);
+				}
+				.encumbrance_marker:nth-last-child(10n + 10),
+				.level:nth-last-child(10n + 9),
+				.max_load:nth-last-child(10n + 8),
+				.move:nth-last-child(10n + 7),
+				.dodge:nth-last-child(10n + 6) {
+					&:not(.header) {
+						background-color: var(--color-banding);
+					}
+				}
+				> div:not(.header) {
+					padding-left: 0.2em;
+					padding-right: 0.2em;
+				}
+			}
+			#lifting {
+				border: var(--standard-border) var(--color-header);
+				grid-area: lifting;
+				grid-template:
+					'header header'
+					'lift label';
+				grid-template-columns: 1fr 1fr;
+				grid-template-rows: 0fr;
+				align-content: baseline;
+				.header {
+					grid-area: header;
+				}
+			}
+		}
+	}
+	#embeds {
+		display: grid;
+		grid-auto-columns: 1fr 1fr;
+		gap: var(--section-gap);
+		.header {
+			padding: 0 0.2em;
+		}
+	}
+	#advantages {
+		grid-template-columns: min-content 1fr repeat(2, auto);
+		grid-area: advantages;
+		align-content: start;
+		border: var(--standard-border);
+		.desc,
+		.points {
+			border-right: 1px solid var(--color-divider);
+		}
+		.entry_parent:nth-child(8n + 1),
+		.desc:nth-child(8n + 2),
+		.points:nth-child(8n + 3),
+		.reference:nth-child(8n + 4) {
+			&:not(.header) {
+				background-color: var(--color-banding);
+			}
+		}
+	}
+	#skills {
+		grid-template-columns: min-content 1fr repeat(4, auto);
+		grid-area: skills;
+		align-content: start;
+		.desc,
+		.level,
+		.rsl,
+		.points {
+			border-right: 1px solid var(--color-divider);
+		}
+		.entry_parent:nth-child(12n + 1),
+		.desc:nth-child(12n + 2),
+		.level:nth-child(12n + 3),
+		.rsl:nth-child(12n + 4),
+		.points:nth-child(12n + 5),
+		.reference:nth-child(12n + 6) {
+			&:not(.header) {
+				background-color: var(--color-banding);
+			}
+		}
+	}
+	#spells {
+		grid-template-columns: min-content 1fr repeat(10, auto);
+		grid-area: spells;
+		align-content: start;
+		.desc,
+		.resist,
+		.class,
+		.casting_cost,
+		.maintenance_cost,
+		.casting_time,
+		.duration,
+		.level,
+		.rsl,
+		.points {
+			border-right: 1px solid var(--color-divider);
+		}
+		.entry_parent:nth-child(24n + 1),
+		.desc:nth-child(24n + 2),
+		.resist:nth-child(24n + 3),
+		.class:nth-child(24n + 4),
+		.casting_cost:nth-child(24n + 5),
+		.maintenance_cost:nth-child(24n + 6),
+		.casting_time:nth-child(24n + 7),
+		.duration:nth-child(24n + 8),
+		.level:nth-child(24n + 9),
+		.rsl:nth-child(24n + 10),
+		.points:nth-child(24n + 11),
+		.reference:nth-child(24n + 12) {
+			&:not(.header) {
+				background-color: var(--color-banding);
+			}
+		}
+	}
+	#equipment {
+		grid-template-columns: min-content auto auto 1fr repeat(6, auto);
+		grid-area: equipment;
+		align-content: start;
+		.equipped,
+		.quantity,
+		.desc,
+		.uses,
+		.value,
+		.weight,
+		.value_total,
+		.weight_total {
+			border-right: 1px solid var(--color-divider);
+		}
+	}
+	.entry_parent:nth-child(20n + 1),
+	.equipped:nth-child(20n + 2),
+	.quantity:nth-child(20n + 3),
+	.desc:nth-child(20n + 4),
+	.uses:nth-child(20n + 5),
+	.value:nth-child(20n + 6),
+	.weight:nth-child(20n + 7),
+	.value_total:nth-child(20n + 8),
+	.weight_total:nth-child(20n + 9),
+	.reference:nth-child(20n + 10) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+		}
+	}
+	#other_equipment {
+		grid-template-columns: min-content auto 1fr repeat(6, auto);
+		grid-area: other_equipment;
+		align-content: start;
+		.quantity,
+		.desc,
+		.uses,
+		.value,
+		.weight,
+		.value_total,
+		.weight_total {
+			border-right: 1px solid var(--color-divider);
+		}
+	}
+	.entry_parent:nth-child(18n + 1),
+	.quantity:nth-child(18n + 2),
+	.desc:nth-child(18n + 3),
+	.uses:nth-child(18n + 4),
+	.value:nth-child(18n + 5),
+	.weight:nth-child(18n + 6),
+	.value_total:nth-child(18n + 7),
+	.weight_total:nth-child(18n + 8),
+	.reference:nth-child(18n + 9) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+		}
+	}
+	#notes {
+		grid-template-columns: min-content 1fr 0fr;
+		grid-area: notes;
+		align-content: start;
+		.desc {
+			border-right: 1px solid var(--color-divider);
+		}
+		.entry_parent:nth-child(6n + 1),
+		.desc:nth-child(6n + 2),
+		.reference:nth-child(6n + 3) {
+			&:not(.header) {
+				background-color: var(--color-banding);
+			}
+		}
+	}
+}

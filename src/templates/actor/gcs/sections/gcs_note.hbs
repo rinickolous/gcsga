@@ -1,0 +1,12 @@
+<div class="entry_parent" readonly></div>
+<div class="desc" style="padding-left: {{indent}}.2em;">
+	{{#if (eq this.type "note_container")}}
+	{{#if this.data.open}}
+	<i class="fas fa-caret-down toggle_open" data-id={{this._id}}></i>
+	{{else}}
+	<i class="fas fa-caret-right toggle_open" data-id={{this._id}}></i>
+	{{/if}}
+	{{/if}}
+	{{this.data.desc}}
+</div>
+<div class="reference">{{this.reaction}}</div>

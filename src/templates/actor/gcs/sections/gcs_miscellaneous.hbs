@@ -21,7 +21,7 @@
 				disabled
 			/>
 		</div>
-		<div class="label align_right">{{localize "gcsga.sheet.player_name"}}</div>
+		<div class="label align_right">{{#if editing}}<i class="edit_lock fas fa-unlock"></i>{{else}}<i class="edit_lock fas fa-lock"></i>{{/if}}	{{localize "gcsga.sheet.player_name"}}</div>
 		<div class="field">
 			<input
 				name="data.profile.player_name"

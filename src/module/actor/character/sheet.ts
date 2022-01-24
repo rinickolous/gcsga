@@ -7,6 +7,8 @@ import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
+	editing = false;
+
 	/** @override */
 	static get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
@@ -21,6 +23,31 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	/** @override */
 	get template(): string {
 		return "/systems/gcsga/templates/actor/gcs/sheet.hbs";
+	}
+
+	/** @override */
+	activateListeners(html: JQuery<HTMLElement>): void {
+		super.activateListeners(html);
+		html.find(".toggle_open").on("click", this._onCollapseToggle.bind(this));
+		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
+	}
+
+	async _onCollapseToggle(event: Event) {
+		event.preventDefault();
+		//@ts-ignore
+		const id: string = $(event.currentTarget).attr("data-id") || "";
+		//@ts-ignore
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("fa-caret-right") ? true : false;
+		console.log(id);
+		console.log(await this.actor.getEmbeddedDocument("Item", id));
+		return this.actor.updateEmbeddedDocuments("Item", [{ _id: id, "data.open": open }]);
+	}
+
+	async _onEditToggle(event: Event) {
+		event.preventDefault();
+		console.log(this.editing);
+		this.editing = !this.editing;
+		return this.render();
 	}
 
 	/** @override */
@@ -50,6 +77,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				encumbrance: encumbrance,
 				lifting: lifting,
 				user: { isGM: (game as any).user.isGM },
+				editing: this.editing || false,
 			},
 		};
 
@@ -81,7 +109,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
+		console.log(data.attributes, data.settings.attributes);
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
+			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];
 			if (f.type === "pool") {
 				let state = {};

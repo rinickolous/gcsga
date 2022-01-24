@@ -1,0 +1,24 @@
+<div class="entry_parent" readonly></div>
+<div class="quantity">{{this.data.quantity}}</div>
+<div class="desc" style="padding-left: {{indent}}.2em">
+	{{#if (eq this.type "equipment_container")}}
+	{{#if this.data.open}}
+	<i class="fas fa-caret-down toggle_open" data-id={{this._id}}></i>
+	{{else}}
+	<i class="fas fa-caret-right toggle_open" data-id={{this._id}}></i>
+	{{/if}}
+	{{/if}}
+	{{this.name}}
+	{{>gcs_item_notes}}
+</div>
+<div class="uses">{{this.data.uses}}</div>
+<div class="value">{{this.calc.value}}</div>
+<div class="weight">{{this.calc.weight}}</div>
+<div class="value_total">{{this.calc.extended_value}}</div>
+<div class="weight_total">{{this.calc.extended_weight}}</div>
+<div class="reference">{{this.data.reference}}</div>
+{{#if this.data.open}}
+	{{#each this.children}}
+		{{>gcs_other_equipment indent=(sum indent 1)}}
+	{{/each}}
+{{/if}}

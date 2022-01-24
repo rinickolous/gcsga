@@ -1,0 +1,19 @@
+@font-face {
+	font-family: 'New Aster';
+	font-style: normal;
+	font-weight: bold;
+	src: local('NewAsterBlack', serif), format('ttf');
+}
+
+@font-face {
+	font-family: 'New Aster';
+	font-style: normal;
+	font-weight: normal;
+	src: local('NewAsterRoman', serif), format('ttf');
+}
+
+:root {
+	--body-serif: 'New Aster', Times, serif;
+	--title-serif: 'New Aster', Times, serif;
+	--serif: 'New Aster', Times, serif;
+}

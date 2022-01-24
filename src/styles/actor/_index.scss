@@ -1,0 +1,14 @@
+@import 'gcs';
+
+.actor-sheet.def-style {
+	display: grid;
+	grid:
+		'sidebar header' 75px
+		'sidebar nav' minmax(min-content, max-content)
+		'sidebar content' 1fr
+		/ 247px 1fr;
+
+	font-family: var(--serif);
+
+	@import 'sidebar', 'header';
+}

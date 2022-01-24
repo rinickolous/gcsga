@@ -79,6 +79,29 @@
 				"level": "SL",
 				"rsl": "RSL",
 				"points": "Pts"
+			},
+			"spells": {
+				"desc": "Spells",
+				"resist": "Resist",
+				"class": "Class",
+				"casting_cost": "Cost",
+				"maintenance_cost": "Maintain",
+				"casting_time": "Time",
+				"duration": "Duration",
+				"level": "SL",
+				"rsl": "RSL",
+				"points": "Pts"
+			},
+			"equipment": {
+				"desc": "Carried Equipment ({weight}; {value})",
+				"uses": "Uses"
+			},
+			"other_equipment": {
+				"desc": "Other Equipment ({value})",
+				"uses": "Uses"
+			},
+			"notes": {
+				"desc": "Notes"
 			}
 		},
 		"advantage": {

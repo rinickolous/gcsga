@@ -15,6 +15,7 @@ import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
+import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
 import { ActorGURPS } from "../base";
@@ -24,6 +25,15 @@ import { Attribute, AttributeSetting, CharacterData, HitLocationTable, ImportedD
 export class CharacterGURPS extends ActorGURPS {
 	static override get schema(): typeof CharacterData {
 		return CharacterData;
+	}
+
+	/** @override */
+	update(
+		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
+		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
+	): Promise<this | undefined> {
+		console.log(data);
+		return super.update(data, context);
 	}
 
 	async importCharacter() {
@@ -119,6 +129,7 @@ export class CharacterGURPS extends ActorGURPS {
 			items = items.concat(this.importItems(r.spells));
 			items = items.concat(this.importItems(r.equipment));
 			items = items.concat(this.importItems(r.other_equipment, { other_equipment: true }));
+			items = items.concat(this.importItems(r.notes));
 			commit = { ...commit, ...{ items: items } };
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;

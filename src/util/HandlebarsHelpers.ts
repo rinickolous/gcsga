@@ -24,17 +24,19 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("or", function (...args) {
-		for (const arg of args) {
-			if (arg) return true;
-		}
-		return false;
+		let val = false;
+		args.forEach((arg) => {
+			if (arg && typeof arg != "object") val = true;
+		});
+		return val;
 	});
 
 	Handlebars.registerHelper("and", function (...args) {
-		for (const arg of args) {
-			if (!arg) return false;
-		}
-		return true;
+		let val = true;
+		args.forEach((arg) => {
+			if (!arg && typeof arg != "object") val = false;
+		});
+		return val;
 	});
 
 	Handlebars.registerHelper("eq", function (a, b) {

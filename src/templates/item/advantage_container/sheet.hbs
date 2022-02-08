@@ -1,25 +1,87 @@
-<form class="item-sheet {{cssClass}} container" autocomplete="off">
-    <header class="sheet-header">
-        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}"/></h1>
-    </header>
-
-    <section class="items">
-        <h3>Contained Items</h3>
-        <ol class="item-items">
-        {{#each item.items as |item id|}}
-            <li class="item-item" data-item-id="{{id}}">
-                <div class="item-name">
-                  <img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/>
-                    <h4>{{item.name}}</h4>
-                </div>
-                <div class="item-controls">
-                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                </div>
-            </li>
-        {{/each}}
-        </ol>
-    </section>
+<form class="{{cssClass}} gcsga" autocomplete="off">
+    <div id="sheet" class="gcs_advantage_container_sheet">
+        <div id="details">
+            <div class="label align_right">{{localize "gcsga.advantage_container.name"}}</div>
+            <div id="name" class="field">
+                <input
+                    name="name"
+                    class="input"
+                    type="text"
+                    value="{{item.name}}"
+                    {{input_lock editing}}
+                />
+                <input type="checkbox" name="data.disabled" {{checked (not data.disabled)}}>
+                <div class="label align_right">{{localize "gcsga.advantage_container.disabled"}}</div>
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.notes"}}</div>
+            <div class="field">
+                <input
+                    name="data.notes"
+                    class="input"
+                    type="text"
+                    value="{{data.notes}}"
+                    {{input_lock editing}}
+                />
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.vtt_notes"}}</div>
+            <div class="field">
+                <input
+                    name="data.vtt_notes"
+                    class="input"
+                    type="text"
+                    value="{{data.vtt_notes}}"
+                    {{input_lock editing}}
+                />
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.user_description"}}</div>
+            <div class="field">
+                <input
+                    name="data.user_description"
+                    class="input"
+                    type="text"
+                    value="{{data.user_description}}"
+                    {{input_lock editing}}
+                />
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.categories"}}</div>
+            <div class="field">
+                <input
+                    name="data.categories"
+                    class="input"
+                    type="text"
+                    value="{{join data.categories ", "}}"
+                    {{input_lock editing}}
+                />
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.cr"}}</div>
+            <div id="cr" class="field">
+                <select name="data.cr">
+                    {{selectOptions options.cr selected=data.cr localize=true}}
+                </select>
+                <select name="data.cr_adj">
+                    {{selectOptions options.cr_adj selected=data.cr_adj localize=true}}
+                </select>
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.container_type"}}</div>
+            <div id="container_type" class="field">
+                <select name="data.container_type">
+                    {{selectOptions options.container_type selected=data.container_type localize=true}}
+                </select>
+                <div class="label align_right">{{localize "gcsga.advantage_container.reference"}}</div>
+                <input
+                    name="data.reference"
+                    class="input"
+                    type="text"
+                    value="{{data.reference}}"
+                    {{input_lock editing}}
+                />
+            </div>
+            <div class="label align_right">{{localize "gcsga.advantage_container.ancestry"}}</div>
+            <div class="field">
+                <select name="data.cr_adj">
+                    {{selectOptions options.ancestry selected=data.ancestry localize=true}}
+                </select>
+            </div>
+        </div>
+    </div>
 </form>
-

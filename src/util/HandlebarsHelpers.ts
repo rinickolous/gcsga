@@ -77,4 +77,13 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("json", function (a: any) {
 		return JSON.stringify(a);
 	});
+
+	Handlebars.registerHelper("not", function (a: any) {
+		return !a;
+	});
+
+	Handlebars.registerHelper("join", function (a: any[], j: string): string {
+		if (!a.length) return "";
+		return a.join(j);
+	});
 }

@@ -7,4 +7,5 @@ module.exports = {
 	useTabs: true,
 	singleQuote: false,
 	bracketSpacing: true,
+	endOfLine: "auto",
 };

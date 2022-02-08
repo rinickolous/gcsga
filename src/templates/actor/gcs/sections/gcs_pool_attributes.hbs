@@ -13,7 +13,15 @@
 				/>
 			</div>
 			{{else}}
-			<div class="field rollable align_right" data-path="this.value">{{this.value}}</div>
+			<div class="field rollable align_right" data-path="this.value">
+				<input
+					name="data.attributes.{{this.id}}.calc.current"
+					class="input"
+					type="number"
+					value="{{this.current}}"
+					disabled
+				/>
+			</div>
 			{{/if}}
 			<div class="label">{{localize "gcsga.sheet.pool_attribute_of"}}</div>
 			{{#if ../editing}}
@@ -26,7 +34,15 @@
 				/>
 			</div>
 			{{else}}
-			<div class="field rollable align_right" data-path="this.value">{{this.value}}</div>
+			<div class="field rollable align_right" data-path="this.value">
+				<input
+					name="data.attributes.{{this.id}}.calc.value"
+					class="input"
+					type="number"
+					value="{{this.value}}"
+					disabled
+				/>
+			</div>
 			{{/if}}
 			<div class="label">{{this.name}}</div>
 			<div class="label tooltip">

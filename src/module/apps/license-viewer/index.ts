@@ -1,5 +1,5 @@
 export class LicenseViewer extends Application {
-	static override get defaultOptions(): Application.Options {
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "license-viewer",
 			title: (game as Game).i18n.localize("gcsga.apps.license_viewer"),

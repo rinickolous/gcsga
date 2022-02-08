@@ -7,8 +7,8 @@
 			"title": "Title",
 			"organization": "Organization",
 			"miscellaneous": "Miscellaneous",
-			"created_date": "Created Date",
-			"modified_date": "Modified Date",
+			"created_date": "Created",
+			"modified_date": "Modified",
 			"player_name": "Player",
 			"description": "Description",
 			"gender": "Gender",
@@ -113,6 +113,18 @@
 				"12": "CR: 12 (Resist Quite Often)",
 				"15": "CR: 15 (Resist Almost All The Time)"
 			}
+		},
+		"advantage_container": {
+			"name": "Name",
+			"disabled": "Enabled",
+			"notes": "Notes",
+			"vtt_notes": "VTT Notes",
+			"user_description": "User Description",
+			"categories": "Categories",
+			"cr": "Self-Control Roll",
+			"container_type": "Container Type",
+			"reference": "Page Reference",
+			"ancestry": "Ancestry"
 		}
 	}
 }

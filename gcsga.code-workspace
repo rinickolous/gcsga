@@ -11,7 +11,12 @@
 		},
 		{
 			"path": "..\\..\\Documents\\FoundryVTT\\Data\\systems\\gurps"
+		},
+		{
+			"path": "..\\GCS\\gcs\\com.trollworks.gcs\\src\\com\\trollworks\\gcs"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"typescript.tsdk": "gcsga\\node_modules\\typescript\\lib"
+	}
 }

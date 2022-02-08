@@ -41,6 +41,12 @@ export function i18n_f(value: string, data: object, fallback?: string) {
 	return result;
 }
 
+export function signed(i: string | number) {
+	if (typeof i == "string") i = parseFloat(i);
+	if (i >= 0) return "+" + i.toString();
+	return i.toString();
+}
+
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =
 // 	| 'none'

@@ -18,6 +18,7 @@
 		text-align: center;
 		font: var(--font-page-primary-labels);
 		font-size: var(--fontsize-medium);
+		padding-bottom: 2px;
 	}
 	.fieldblock {
 		display: grid;
@@ -25,8 +26,8 @@
 		align-items: end;
 		padding-bottom: 0.15em;
 		text-align: left;
-		padding-left: 0.2em;
-		padding-right: 0.2em;
+		padding-left: 2px;
+		padding-right: 2px;
 		white-space: nowrap;
 		align-self: stretch;
 		background-color: var(--color-content);
@@ -66,16 +67,17 @@
 	}
 	.label {
 		text-align: left;
-		padding-left: 0.2em;
-		padding-right: 0.2em;
+		padding-right: 6px;
 		font: var(--font-page-primary-labels);
 		// font-size: var(--header-font-size);
 		white-space: nowrap;
+		border-bottom: 1px solid transparent;
 	}
 	.field {
-		margin-right: 0.2em;
-		padding-left: 0.2em;
-		padding-right: 0.2em;
+		// margin-right: 0.2em;
+		// padding-left: 0.2em;
+		// padding-right: 0.2em;
+		text-align: left;
 		border-bottom: 1px solid var(--color-editable-border);
 		font: var(--font-page-primary-fields);
 		input.input {
@@ -83,12 +85,28 @@
 			background-color: var(--color-editable);
 			font: inherit;
 		}
+		&.grey {
+			color: var(--color-on-content);
+			opacity: 0.50;
+			border: none;
+		}
+		&.rollable {
+			background-color: var(--color-control);
+			color: var(--color-on-control);
+			input.input {
+				color: inherit;
+			}
+			&:hover {
+				background-color: var(--color-pressed-control);
+				color: var(--color-on-pressed-control)
+			}
+		}
 	}
 	input.input {
 		min-width: 20px !important;
 		border: none !important;
 		height: 100% !important;
-		padding: 1px !important;
+		padding: 0px !important;
 		color: var(--color-on-editable);
 		background-color: var(--color-editable);
 		font: inherit;
@@ -161,7 +179,8 @@
 		grid-template:
 			'portrait identity miscellaneous points'
 			'portrait description description points';
-		grid-template-columns: 0fr 1fr 1fr 0fr;
+		grid-template-columns: 92px 1fr 0fr 0fr;
+		height: 136px;
 		gap: var(--section-gap);
 		#portrait {
 			grid-area: portrait;
@@ -176,7 +195,8 @@
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: cover;
-				width: 112.25px;
+				// width: 112.25px;
+				width: 90px;
 				.profile_img {
 					display: block;
 					height: 100%;
@@ -198,6 +218,12 @@
 		}
 		#miscellaneous {
 			grid-area: miscellaneous;
+			.edit_lock {
+				opacity: 0.5;
+				&:hover {
+					opacity: 1;
+				}
+			}
 		}
 		#description {
 			grid-area: description;
@@ -214,8 +240,11 @@
 		}
 		#points {
 			grid-area: points;
-			input {
-				min-width: 3em;
+			.field {
+				text-align: right;
+				&.noedit {
+					border-bottom: 1px solid transparent;
+				}
 			}
 		}
 	}
@@ -352,6 +381,10 @@
 					padding-left: 0.2em;
 					padding-right: 0.2em;
 				}
+				.encumbrance_marker {
+					font-size: 11.25px;
+					height: 12px;
+				}
 			}
 			#lifting {
 				border: var(--standard-border) var(--color-header);
@@ -359,11 +392,13 @@
 				grid-template:
 					'header header'
 					'lift label';
-				grid-template-columns: 1fr 1fr;
 				grid-template-rows: 0fr;
 				align-content: baseline;
 				.header {
 					grid-area: header;
+				}
+				:not(.header) {
+					justify-content: center;
 				}
 			}
 		}
@@ -374,6 +409,12 @@
 		gap: var(--section-gap);
 		.header {
 			padding: 0 0.2em;
+		}
+		.toggle_open {
+			opacity: 0.5;
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 	#advantages {

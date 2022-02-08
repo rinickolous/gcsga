@@ -18,8 +18,9 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
-import { ActorGURPS } from "../base";
-import { Attribute, AttributeSetting, CharacterData, HitLocationTable, ImportedData } from "./data";
+import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
+import { Attribute, AttributeSetting, CharacterData, CharacterSource, HitLocationTable, ImportedData } from "./data";
+import { CHARACTER_DEFAULTS } from "./defaults";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
@@ -27,13 +28,53 @@ export class CharacterGURPS extends ActorGURPS {
 		return CharacterData;
 	}
 
+	constructor(data: CharacterSource, context: ActorConstructorContextGURPS = {}) {
+		if (!context.gcsga?.ready) {
+			// mergeObject(data, expandObject(CHARACTER_DEFAULTS));
+			// mergeObject(context, { gcsga: { initialized: true } });
+		}
+		super(data, context);
+	}
+
+	/**
+	 * Preform follow-up operations after a Document of this typ eis created. Post-creation operations occur for all clients after the creation is broadcast.
+	 * @param data The initial data object provided to the document creation request
+	 * @param options Additional options which modify the creation request
+	 * @param userId The id of the User requesting the document update
+	 */
+	// _preCreate(data: CharacterSource, options: any, userId: string) {
+	// 	super._onCreate(data, options, userId);
+	// 	console.log(CHARACTER_DEFAULTS);
+	// 	this.update(CHARACTER_DEFAULTS);
+	// }
+
 	/** @override */
 	update(
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
-		console.log(data);
+		// console.log(data);
 		return super.update(data, context);
+	}
+
+	/** @override */
+	prepareBaseData() {
+		super.prepareBaseData();
+	}
+
+	/** @override */
+	prepareData() {
+		super.prepareData();
+	}
+
+	/** @override */
+	prepareDerivedData() {
+		super.prepareDerivedData();
+	}
+
+	/** @override */
+	prepareEmbeddedDocuments() {
+		super.prepareEmbeddedDocuments();
 	}
 
 	async importCharacter() {
@@ -145,6 +186,14 @@ export class CharacterGURPS extends ActorGURPS {
 
 		try {
 			// console.log(commit);
+			await this.update(
+				{
+					"data.settings.attributes": null,
+					"data.settings.hit_locations": null,
+					"data.attributes": null,
+				},
+				{ diff: true, recursive: false },
+			);
 			await this.update(commit, { diff: false, recursive: false });
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
@@ -454,6 +503,7 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	getAdvantageContainerData(data: AdvantageContainerSystemData) {
+		console.log(data);
 		return {
 			id: data.id || "",
 			reference: data.reference || "",

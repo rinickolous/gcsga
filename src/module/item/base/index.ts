@@ -3,6 +3,7 @@ import { ActorGURPS } from "@actor";
 import { ContainerGURPS } from "@item";
 import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemType } from "./data";
+import { documents } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/module.mjs";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -49,6 +50,17 @@ export class ItemGURPS extends Item {
 		if (this.parent instanceof ContainerGURPS) return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
 		return super.delete(context);
 		// return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
+	}
+
+	getData() {
+		return this.data.data;
+	}
+
+	async _preUpdate(changed: any, options: object, user: documents.BaseUser) {
+		console.log(changed);
+		if (typeof changed.data.categories == "string") {
+			changed.data.categories = changed.data.categories.length ? changed.data.categories.split(/,\s*/) : [];
+		}
 	}
 }
 

@@ -13,7 +13,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	static get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			width: 650,
+			width: 749,
 			height: 800,
 			classes: ["gcs"],
 		});
@@ -30,6 +30,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		super.activateListeners(html);
 		html.find(".toggle_open").on("click", this._onCollapseToggle.bind(this));
 		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
+		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
 	}
 
 	async _onCollapseToggle(event: Event) {
@@ -45,9 +46,19 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	async _onEditToggle(event: Event) {
 		event.preventDefault();
-		console.log(this.editing);
+		// console.log(this.editing);
 		this.editing = !this.editing;
 		return this.render();
+	}
+
+	async _onAttributeEdit(event: Event) {
+		event.preventDefault();
+		// @ts-ignore
+		const id = $(event.currentTarget).attr("data-id") || "";
+		//@ts-ignore
+		const value = $(event.currentTarget).val();
+		//@ts-ignore
+		return this.actor.setAttributeValue(id, value);
 	}
 
 	/** @override */
@@ -109,7 +120,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
-		console.log(data.attributes, data.settings.attributes);
+		// console.log(data.attributes, data.settings.attributes);
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
 			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];

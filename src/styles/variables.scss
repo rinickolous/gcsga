@@ -1,10 +1,10 @@
 :root {
-	--section-gap: 0.05in;
+	--section-gap: 2px;
 	--header-font-size: 80%;
 	--standard-border: 1px solid;
 
 	--font-button: 900 var(--fontsize-larger) 'Roboto', sans-serif;
-	--font-header: 500 var(--fontsize-larger) 'Roboto', sans-serif;
+	--font-header: 600 var(--fontsize-larger) 'Roboto', sans-serif;
 	--font-primary-labels: 400 var(--fontsize-larger) 'Roboto', sans-serif;
 	--font-secondary-labels: 400 var(--fontsize-large) 'Roboto', sans-serif;
 	--font-primary-fields: 400 var(--fontsize-large) 'Roboto', sans-serif;
@@ -12,9 +12,9 @@
 	--font-tooltip: 400 12px 'Roboto', sans-serif;
 	--font-page-primary-labels: 400 var(--fontsize-medium) 'Roboto', sans-serif;
 	--font-page-secondary-labels: 400 var(--fontsize-small) 'Roboto', sans-serif;
-	--font-page-primary-fields: 500 var(--fontsize-medium) 'Roboto', sans-serif;
+	--font-page-primary-fields: 600 var(--fontsize-medium) 'Roboto', sans-serif;
 	--font-page-secondary-fields: 400 var(--fontsize-small) 'Roboto', sans-serif;
-	--font-page-primary-footer: 500 var(--fontsize-small) 'Roboto', sans-serif;
+	--font-page-primary-footer: 600 var(--fontsize-small) 'Roboto', sans-serif;
 	--font-page-secondary-footer: 400 var(--fontsize-smaller) 'Roboto', sans-serif;
 
 	--fontsize-larger: 16.25px;

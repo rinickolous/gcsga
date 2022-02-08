@@ -82,7 +82,7 @@ Hooks.once("init", async () => {
 		label: "gcsga.item.sheet.container.name",
 	});
 	Items.registerSheet("gcsga", ItemSheetGURPS, {
-		makeDefault: true,
+		makeDefault: false,
 		label: "gcsga.item.sheet.base.name",
 	});
 

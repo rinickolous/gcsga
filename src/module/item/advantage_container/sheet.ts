@@ -10,7 +10,7 @@ export class AdvantageContainerSheet extends ContainerSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			classes: ["gcs"],
+			classes: ["gcs_item"],
 		});
 		return options;
 	}

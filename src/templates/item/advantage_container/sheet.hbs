@@ -10,8 +10,12 @@
                     value="{{item.name}}"
                     {{input_lock editing}}
                 />
-                <input type="checkbox" name="data.disabled" {{checked (not data.disabled)}}>
-                <div class="label align_right">{{localize "gcsga.advantage_container.disabled"}}</div>
+                <label class="f-checkbox-reverse">
+                    <input type="checkbox" name="data.disabled" {{checked data.disabled}}/>
+                    <i class="far fa-check-circle checked"></i>
+                    <i class="far fa-circle unchecked"></i>
+                    {{localize "gcsga.advantage_container.disabled"}}
+                </label>
             </div>
             <div class="label align_right">{{localize "gcsga.advantage_container.notes"}}</div>
             <div class="field">

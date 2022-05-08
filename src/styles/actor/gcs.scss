@@ -434,6 +434,12 @@
 				background-color: var(--color-banding);
 			}
 		}
+		.desc, .points, .reference {
+			&.selected {
+				background: var(--color-selection) !important;
+				color: var(--color-on-selection) !important;
+			}
+		}
 	}
 	#skills {
 		grid-template-columns: min-content 1fr repeat(4, auto);

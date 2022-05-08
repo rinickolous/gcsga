@@ -1,5 +1,5 @@
 import { ActorSheetGURPS } from "@actor/base/sheet";
-import { ContainerGURPS, ItemGURPS } from "@item";
+import { ContainerGURPS, EquipmentContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
 import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";
@@ -8,6 +8,15 @@ import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
 	editing = false;
+	selection = {
+		active: "none",
+		advantages: [] as any[],
+		skills: [] as any[],
+		spells: [] as any[],
+		equipment: [] as any[],
+		other_equipment: [] as any[],
+		notes: [] as any[],
+	};
 
 	/** @override */
 	static get defaultOptions(): ActorSheet.Options {
@@ -31,6 +40,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".toggle_open").on("click", this._onCollapseToggle.bind(this));
 		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
+		html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
 
 	async _onCollapseToggle(event: Event) {
@@ -61,6 +71,49 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return this.actor.setAttributeValue(id, value);
 	}
 
+	async _onItemSelect(event: Event) {
+		event.preventDefault();
+		//@ts-ignore
+		const id: string = $(event.currentTarget).attr("data-id") || "";
+		//@ts-ignore
+		const item: ItemGURPS = await this.actor.getDeepItem(id);
+		if (["advantage", "advantage_container"].includes(item.type)) this.selection.active = "advantages";
+		else if (["skill", "skill_container", "technique"].includes(item.type)) this.selection.active = "skills";
+		else if (["spell", "spell_container", "ritual_magic_spell"].includes(item.type))
+			this.selection.active = "spells";
+		else if (["equipment", "equipment_container"].includes(item.type)) {
+			//@ts-ignore
+			if (item.getData().other) this.selection.active = "other_equipment";
+			else this.selection.active = "equipment";
+		}
+		const s_id = id.split(" ");
+		const f_id = [s_id[s_id.length - 1], s_id];
+		let exists_index = -1;
+		//@ts-ignore
+		for (let i = 0; i < this.selection[this.selection.active].length; i++) {
+			//@ts-ignore
+			if (this.selection[this.selection.active][i][0] == f_id[0]) {
+				exists_index = i;
+			}
+		}
+		//@ts-ignore
+		if (event.ctrlKey) {
+			//@ts-ignore
+			if (exists_index != -1) this.selection[this.selection.active].splice(exists_index, 1);
+			//@ts-ignore
+			else this.selection[this.selection.active].push(f_id);
+		//@ts-ignore
+		} else if (event.shiftKey) {
+			// note implemented yet
+			//@ts-ignore
+			this.selection[this.selection.active] = [f_id];
+		} else {
+			//@ts-ignore
+			this.selection[this.selection.active] = [f_id];
+		}
+		this.render();
+	}
+
 	/** @override */
 	getData(options?: Partial<ActorSheet.Options>): any {
 		const actorData = this.actor.toObject(false);
@@ -89,6 +142,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				lifting: lifting,
 				user: { isGM: (game as any).user.isGM },
 				editing: this.editing || false,
+				selection: this.selection,
 			},
 		};
 

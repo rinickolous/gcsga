@@ -1,5 +1,5 @@
-<div class="entry_parent" readonly></div>
-<div class="desc" style="padding-left: {{indent}}.2em;">
+<div class="entry_parent {{selected selected this._id}}" readonly></div>
+<div class="desc item {{selected selected this._id}}" data-id="{{#if parents}}{{parents}} {{/if}}{{this._id}}" style="padding-left: {{indent}}.2em;">
 	{{#if (eq this.type "advantage_container")}}
 	{{#if this.data.open}}
 	<i class="fas fa-caret-down toggle_open" data-id={{this._id}}></i>
@@ -10,10 +10,10 @@
 	{{this.name}}{{#unless (eq this.data.levels "0")}} {{this.data.levels}}{{/unless}}
 	{{>gcs_item_notes}}
 </div>
-<div class="points align_right">{{this.data.calc.points}}</div>
-<div class="reference">{{this.data.reference}}</div>
+<div class="points align_right {{selected selected this._id}}">{{this.data.calc.points}}</div>
+<div class="reference {{selected selected this._id}}">{{this.data.reference}}</div>
 {{#if this.data.open}}
 	{{#each this.children}}
-		{{>gcs_advantage indent=(sum indent 1)}}
+		{{>gcs_advantage indent=(sum indent 1) parents=(concat ../parents " " ../this._id) selected=../selected}}
 	{{/each}}
 {{/if}}

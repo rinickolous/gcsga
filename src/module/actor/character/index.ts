@@ -15,6 +15,7 @@ import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
+import { PASSWORD_SAFE_STRING } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
@@ -75,6 +76,17 @@ export class CharacterGURPS extends ActorGURPS {
 	/** @override */
 	prepareEmbeddedDocuments() {
 		super.prepareEmbeddedDocuments();
+	}
+
+	async getDeepItem(id: string) {
+		const ids = id.split(" ");
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		let parent: any = this;
+		for (let i = 0; i < ids.length; i++) {
+			if (i == 0) continue;
+			else if (i == ids.length - 1) return parent.getEmbeddedDocument("Item", ids[i]);
+			else parent = parent.getEmbeddedDocument("Item", ids[i]);
+		}
 	}
 
 	async importCharacter() {

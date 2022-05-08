@@ -48,7 +48,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		//@ts-ignore
 		const id: string = $(event.currentTarget).attr("data-id") || "";
 		//@ts-ignore
-		const open: boolean = $(event.currentTarget).attr("class")?.includes("fa-caret-right") ? true : false;
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("fa-chevron-right") ? true : false; // change to icon agnostic later
 		console.log(id);
 		console.log(await this.actor.getEmbeddedDocument("Item", id));
 		return this.actor.updateEmbeddedDocuments("Item", [{ _id: id, "data.open": open }]);

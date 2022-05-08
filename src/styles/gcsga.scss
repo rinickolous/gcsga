@@ -48,3 +48,60 @@ input {
 		visibility: visible;
 	}
 }
+
+// #controls {
+// 	ol.control-tools > li {
+// 		background-color: var(--color-current-tab);
+// 		color: var(--color-on-current-tab);
+// 		border-color: var(--color-header);
+// 		box-shadow: none;
+// 		&.active {
+// 			background-color: var(--color-focused-tab);
+// 			color: var(--color-on-focused-tab);
+// 			box-shadow: 0 0 10px var(--color-focused-tab);
+// 			border-color: var(--color-header);
+// 		}
+// 		&:hover {
+// 			background-color: var(--color-focused-tab);
+// 			color: var(--color-on-focused-tab);
+// 			box-shadow: 0 0 10px var(--color-focused-tab);
+// 			border-color: var(--color-header);
+// 		}
+// 		&.toggle {
+// 			background-color: var(--color-inactive-selection);
+// 			color: var(--color-on-inactive-selection);
+// 			&.active {
+// 				box-shadow: 0 0 10px var(--color-selection);
+// 				background-color: var(--color-selection);
+// 				color: var(--color-on-selection);
+// 			}
+// 			&:hover {
+// 				box-shadow: 0 0 10px var(--color-selection);
+// 				background-color: var(--color-selection);
+// 				color: var(--color-on-selection);
+// 			}
+// 		}
+// 	}
+// }
+
+// #navigation {
+// 	#nav-toggle {
+// 		background-color: var(--color-current-tab);
+// 		color: var(--color-on-current-tab);
+// 		&:hover {
+// 			background-color: var(--color-focused-tab);
+// 			color: var(--color-on-focused-tab);
+// 			text-shadow: none;
+// 		}
+// 	}
+// 	#scene-list .scene {
+// 		color: var(--color-on-current-tab);
+// 		background-color: var(--color-current-tab);
+// 		border-color: var(--color-header);
+// 		&.view {
+// 			color: var(--color-on-focused-tab);
+// 			background-color: var(--color-focused-tab);
+// 			box-shadow: 0 0 10px var(--color-focused-tab);
+// 		}
+// 	}
+// }

@@ -27,6 +27,10 @@ import { GURPSCONFIG } from "./config";
 Hooks.once("init", async () => {
 	console.log("gcsga | Initializing gcsga");
 
+	const src = "systems/gcsga/assets/gcsga.webp";
+	$("#logo").attr("src", src);
+	$("#logo").attr("height", "32px");
+
 	// Assign custom classes and constants here
 	//@ts-ignore
 	CONFIG.Item.documentClass = ItemGURPS;

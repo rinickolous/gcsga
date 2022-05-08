@@ -133,8 +133,8 @@
 			{{#if equipment.length}}
 			<div id="equipment" class="table">
 				<div class="header entry_parent" readonly></div>
-				<div class="header equipped"><i class="fas fa-check-circle"></i></div>
-				<div class="header quantity"><i class="fas fa-slack-hash"></i></div>
+				<div class="header equipped"><i class="fas fa-check"></i></div>
+				<div class="header quantity"><i class="fas fa-hashtag"></i></div>
 				<div class="header desc">{{localize "gcsga.sheet.equipment.desc" weight=data.carried_weight value=data.carried_value}}</div>
 				<div class="header uses">{{localize "gcsga.sheet.equipment.uses"}}</div>
 				<div class="header value"><i class="fas fa-dollar-sign"></i></div>
@@ -150,7 +150,7 @@
 			{{#if other_equipment.length}}
 			<div id="other_equipment" class="table">
 				<div class="header entry_parent" readonly></div>
-				<div class="header quantity"><i class="fas fa-slack-hash"></i></div>
+				<div class="header quantity"><i class="fas fa-hashtag"></i></div>
 				<div class="header desc">{{localize "gcsga.sheet.other_equipment.desc" value=data.other_value}}</div>
 				<div class="header uses">{{localize "gcsga.sheet.other_equipment.uses"}}</div>
 				<div class="header value"><i class="fas fa-dollar-sign"></i></div>

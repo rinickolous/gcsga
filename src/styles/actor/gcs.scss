@@ -1,8 +1,26 @@
-.gcs .window-content {
-	height: 100%;
-	padding: 5px;
-	scroll-behavior: smooth;
-	background: var(--color-content);
+.gcs {
+	background-image: linear-gradient(var(--color-focused-tab),black);
+	color: var(--color-on-focused-tab);
+	border: 1px solid var(--color-header);
+	font: var(--font-system);
+	.window-title {
+		font: inherit;
+	}
+	.window-content {
+		height: 100%;
+		padding: 5px;
+		scroll-behavior: smooth;
+		background: var(--color-content);
+		--color-border-highlight: var(--color-scroll-edge);
+	}
+	.window-resizable-handle {
+		background-color: var(--color-background);
+		color: var(--color-on-background);
+	}
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-scroll);
 }
 
 .gcs_actor_sheet {
@@ -16,8 +34,6 @@
 		color: var(--color-on-header);
 		justify-content: center;
 		text-align: center;
-		font: var(--font-page-primary-labels);
-		font-size: var(--fontsize-medium);
 		padding-bottom: 2px;
 	}
 	.fieldblock {
@@ -67,8 +83,8 @@
 	}
 	.label {
 		text-align: left;
+		padding-left: 6px;
 		padding-right: 6px;
-		font: var(--font-page-primary-labels);
 		// font-size: var(--header-font-size);
 		white-space: nowrap;
 		border-bottom: 1px solid transparent;
@@ -79,26 +95,28 @@
 		// padding-right: 0.2em;
 		text-align: left;
 		border-bottom: 1px solid var(--color-editable-border);
-		font: var(--font-page-primary-fields);
 		input.input {
-			color: var(--color-on-editable);
+			// color: var(--color-on-editable);
 			background-color: var(--color-editable);
-			font: inherit;
 		}
 		&.grey {
-			color: var(--color-on-content);
-			opacity: 0.50;
+			// color: var(--color-on-content);
+			// opacity: 0.50;
 			border: none;
 		}
 		&.rollable {
-			background-color: var(--color-control);
-			color: var(--color-on-control);
-			input.input {
-				color: inherit;
-			}
+			// background-color: var(--color-control);
+			// color: var(--color-on-control);
+			// input.input {
+			// 	color: inherit;
+			// }
 			&:hover {
-				background-color: var(--color-pressed-control);
-				color: var(--color-on-pressed-control)
+				background-color: var(--color-link) !important;
+				color: var(--color-on-link) !important;
+				input.input {
+					background-color: var(--color-link) !important;
+					color: var(--color-on-link) !important;
+				}
 			}
 		}
 	}
@@ -107,17 +125,16 @@
 		border: none !important;
 		height: 100% !important;
 		padding: 0px !important;
-		color: var(--color-on-editable);
-		background-color: var(--color-editable);
-		font: inherit;
+		// color: var(--color-on-editable);
+		// background-color: var(--color-editable);
 		&:focus {
 			box-shadow: none;
 		}
 		&:disabled {
-			background: unset;
+			// background-color: var(--color-link);
 			padding: 0;
 			// change later
-			color: var(--color-on-content);
+			// color: var(--color-on-link);
 		}
 	}
 	.entry_parent[readonly] {
@@ -139,38 +156,17 @@
 	.align_center {
 		text-align: center;
 	}
-	// .bottom {
-	// 	// grid-area: bottom;
-	// 	background-color: black;
-	// }
-	.desc,
-	.points,
-	.reference,
-	.roll,
-	.location,
-	.penalty,
-	.dr,
-	.level,
-	.max_load,
-	.move,
-	.dodge,
-	.level,
-	.resist,
-	.class,
-	.casting_cost,
-	.maintenance_cost,
-	.casting_time,
-	.duration,
-	.rsl {
+	.desc, .points, .reference, .roll,
+	.location, .penalty, .dr, .level_number,
+	.level, .max_load, .move, .dodge,
+	.resist, .class, .casting_cost, .maintenance_cost,
+	.casting_time, .duration, .rsl {
 		&:not(.header) {
-			font: var(--font-page-primary-fields);
 		}
 	}
 	.fas {
-		font-size: var(--fontsize-small);
 	}
 	.item_notes {
-		font: var(--font-page-secondary-fields);
 	}
 	#personal {
 		flex-grow: 0;
@@ -180,7 +176,7 @@
 			'portrait identity miscellaneous points'
 			'portrait description description points';
 		grid-template-columns: 92px 1fr 0fr 0fr;
-		height: 136px;
+		// height: 136px; don't know why this is here
 		gap: var(--section-gap);
 		#portrait {
 			grid-area: portrait;
@@ -190,7 +186,7 @@
 				'portrait';
 			grid-template-rows: 0fr auto min-content;
 			grid-template-columns: auto;
-			border: var(--standard-border) var(--color-header);
+			border: var(--standard-border);
 			.img_display {
 				background-position: center;
 				background-repeat: no-repeat;
@@ -211,7 +207,10 @@
 		#points {
 			display: grid;
 			grid-template-rows: 0fr 1fr;
-			border: var(--standard-border) var(--color-header);
+			border: var(--standard-border);
+			.label {
+				// margin-left: 5px;
+			}
 		}
 		#identity {
 			grid-area: identity;
@@ -219,7 +218,7 @@
 		#miscellaneous {
 			grid-area: miscellaneous;
 			.edit_lock {
-				opacity: 0.5;
+				// opacity: 0.5;
 				&:hover {
 					opacity: 1;
 				}
@@ -243,7 +242,7 @@
 			.field {
 				text-align: right;
 				&.noedit {
-					border-bottom: 1px solid transparent;
+					border-bottom: 2px solid transparent;
 				}
 			}
 		}
@@ -258,7 +257,6 @@
 		grid-template-columns: 17fr 9fr 19fr;
 		gap: var(--section-gap);
 		.points {
-			font: var(--font-page-secondary-labels);
 		}
 		#attributes {
 			flex-grow: 0;
@@ -272,13 +270,19 @@
 			.points {
 				text-align: right;
 			}
+			.field, .label {
+				// margin-left: 5px;
+			}
 			#primary_attributes,
 			#secondary_attributes,
 			#pool_attributes {
 				display: grid;
 				grid-template-rows: 0fr 0fr;
-				border: var(--standard-border) var(--color-header);
+				border: var(--standard-border);
 				background-color: var(--color-content);
+				.field.thrust, .field.swing {
+					border-bottom: none;
+				}
 			}
 			#primary_attributes {
 				grid-area: primary_attributes;
@@ -302,7 +306,7 @@
 			grid-template-columns: min-content min-content 1fr min-content min-content;
 			// figure out how to scale last row to 1fr only
 			// grid-template-rows: 0fr 1fr;
-			border: var(--standard-border) var(--color-header);
+			border: var(--standard-border);
 			> div {
 				padding: 0 0.2em 0 0.2em;
 				white-space: nowrap;
@@ -321,15 +325,6 @@
 			.location.header {
 				grid-column: span 2;
 			}
-			.entry_parent:nth-child(10n + 1),
-			.roll:nth-child(10n + 2),
-			.location:nth-child(10n + 3),
-			.penalty:nth-child(10n + 4),
-			.dr:nth-child(10n + 5) {
-				&:not(.header) {
-					background-color: var(--color-banding);
-				}
-			}
 		}
 		#encumbrance_lifting {
 			grid-area: encumbrance_lifting;
@@ -339,12 +334,12 @@
 				'lifting';
 			gap: var(--section-gap);
 			#encumbrance {
-				border: var(--standard-border) var(--color-header);
+				border: var(--standard-border);
 				grid-area: encumbrance;
 				grid-template:
-					'title title title title title'
-					'encumbrance_marker level max_load move dodge';
-				grid-template-columns: min-content 1fr min-content min-content min-content;
+					'title title title title title title'
+					'encumbrance_marker level_number level max_load move dodge';
+				grid-template-columns: min-content min-content 1fr min-content min-content min-content;
 				white-space: nowrap;
 				grid-template-rows: 0fr 0fr;
 				align-content: baseline;
@@ -363,31 +358,22 @@
 					border-bottom: 1px solid var(--color-divider);
 				}
 				.level.header {
-					grid-column: 1 / span 2;
+					grid-column: 1 / span 3;
 				}
 				.active {
 					background-color: var(--color-marker);
-				}
-				.encumbrance_marker:nth-last-child(10n + 10),
-				.level:nth-last-child(10n + 9),
-				.max_load:nth-last-child(10n + 8),
-				.move:nth-last-child(10n + 7),
-				.dodge:nth-last-child(10n + 6) {
-					&:not(.header) {
-						background-color: var(--color-banding);
-					}
 				}
 				> div:not(.header) {
 					padding-left: 0.2em;
 					padding-right: 0.2em;
 				}
 				.encumbrance_marker {
-					font-size: 11.25px;
-					height: 12px;
+					// font-size: 11.25px;
+					// height: 12px;
 				}
 			}
 			#lifting {
-				border: var(--standard-border) var(--color-header);
+				border: var(--standard-border);
 				grid-area: lifting;
 				grid-template:
 					'header header'
@@ -420,52 +406,25 @@
 	#advantages {
 		grid-template-columns: min-content 1fr repeat(2, auto);
 		grid-area: advantages;
-		align-content: start;
 		border: var(--standard-border);
 		.desc,
 		.points {
 			border-right: 1px solid var(--color-divider);
 		}
-		.entry_parent:nth-child(8n + 1),
-		.desc:nth-child(8n + 2),
-		.points:nth-child(8n + 3),
-		.reference:nth-child(8n + 4) {
-			&:not(.header) {
-				background-color: var(--color-banding);
-			}
-		}
-		.desc, .points, .reference {
-			&.selected {
-				background: var(--color-selection) !important;
-				color: var(--color-on-selection) !important;
-			}
-		}
 	}
 	#skills {
 		grid-template-columns: min-content 1fr repeat(4, auto);
 		grid-area: skills;
-		align-content: start;
 		.desc,
 		.level,
 		.rsl,
 		.points {
 			border-right: 1px solid var(--color-divider);
 		}
-		.entry_parent:nth-child(12n + 1),
-		.desc:nth-child(12n + 2),
-		.level:nth-child(12n + 3),
-		.rsl:nth-child(12n + 4),
-		.points:nth-child(12n + 5),
-		.reference:nth-child(12n + 6) {
-			&:not(.header) {
-				background-color: var(--color-banding);
-			}
-		}
 	}
 	#spells {
 		grid-template-columns: min-content 1fr repeat(10, auto);
 		grid-area: spells;
-		align-content: start;
 		.desc,
 		.resist,
 		.class,
@@ -478,27 +437,10 @@
 		.points {
 			border-right: 1px solid var(--color-divider);
 		}
-		.entry_parent:nth-child(24n + 1),
-		.desc:nth-child(24n + 2),
-		.resist:nth-child(24n + 3),
-		.class:nth-child(24n + 4),
-		.casting_cost:nth-child(24n + 5),
-		.maintenance_cost:nth-child(24n + 6),
-		.casting_time:nth-child(24n + 7),
-		.duration:nth-child(24n + 8),
-		.level:nth-child(24n + 9),
-		.rsl:nth-child(24n + 10),
-		.points:nth-child(24n + 11),
-		.reference:nth-child(24n + 12) {
-			&:not(.header) {
-				background-color: var(--color-banding);
-			}
-		}
 	}
 	#equipment {
 		grid-template-columns: min-content auto auto 1fr repeat(6, auto);
 		grid-area: equipment;
-		align-content: start;
 		.equipped,
 		.quantity,
 		.desc,
@@ -510,24 +452,9 @@
 			border-right: 1px solid var(--color-divider);
 		}
 	}
-	.entry_parent:nth-child(20n + 1),
-	.equipped:nth-child(20n + 2),
-	.quantity:nth-child(20n + 3),
-	.desc:nth-child(20n + 4),
-	.uses:nth-child(20n + 5),
-	.value:nth-child(20n + 6),
-	.weight:nth-child(20n + 7),
-	.value_total:nth-child(20n + 8),
-	.weight_total:nth-child(20n + 9),
-	.reference:nth-child(20n + 10) {
-		&:not(.header) {
-			background-color: var(--color-banding);
-		}
-	}
-	#other_equipment {
+	#other_equipment{
 		grid-template-columns: min-content auto 1fr repeat(6, auto);
 		grid-area: other_equipment;
-		align-content: start;
 		.quantity,
 		.desc,
 		.uses,
@@ -538,31 +465,181 @@
 			border-right: 1px solid var(--color-divider);
 		}
 	}
-	.entry_parent:nth-child(18n + 1),
-	.quantity:nth-child(18n + 2),
-	.desc:nth-child(18n + 3),
-	.uses:nth-child(18n + 4),
-	.value:nth-child(18n + 5),
-	.weight:nth-child(18n + 6),
-	.value_total:nth-child(18n + 7),
-	.weight_total:nth-child(18n + 8),
-	.reference:nth-child(18n + 9) {
-		&:not(.header) {
-			background-color: var(--color-banding);
-		}
-	}
 	#notes {
 		grid-template-columns: min-content 1fr 0fr;
 		grid-area: notes;
-		align-content: start;
 		.desc {
 			border-right: 1px solid var(--color-divider);
 		}
-		.entry_parent:nth-child(6n + 1),
-		.desc:nth-child(6n + 2),
-		.reference:nth-child(6n + 3) {
-			&:not(.header) {
-				background-color: var(--color-banding);
+	}
+
+	#stats, #advantages, #skills, #spells, #equipment, #other_equipment, #notes {
+		align-content: start;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+		.desc, .points, .reference, .level, .rsl,
+		.resist, .class, .casting_cost, .maintenance_cost,
+		.casting_time, .duration, .equipped, .quantity, .uses,
+		.value, .weight, .value_total, .weight_total {
+			&.selected {
+				background-color: var(--color-selection) !important;
+				color: var(--color-on-selection) !important;
+			}
+		}
+	}
+
+	#personal .field, #attributes .field, #hit_locations .penalty,
+	#hit_locations .dr, #encumbrance .encumbrance_marker,
+	#encumbrance .level_number, #encumbrance .max_load,
+	#encumbrance .move, #encumbrance .dodge, #advantages .desc,
+	#advantages .points, #advantages .reference, #skills .desc,
+	#skills .level, #skills .rsl, #skills .points,
+	#skills .reference, #spells .desc, #spells .reist,
+	#spells .class, #spells .casting_cost, #spells .maintenance_cost,
+	#spells .casting_time, #spells .duration, #spells .level,
+	#spells .rsl, #spells .points, #spells .reference,
+	#equipment .equipped,
+	#equipment .quantity, #equipment .desc, #equipment .uses,
+	#equipment .value, #equipment .weight, #equipment .value_total,
+	#equipment .weight_total, #equipment .reference,
+	#other_equipment .quantity, #other_equipment .desc,
+	#other_equipment .uses, #other_equipment .value, #other_equipment .weight,
+	#other_equipment .value_total, #other_equipment .weight_total, #other_equipment .reference
+	#notes .desc, #notes .reference
+	{
+		.fas {
+			font-size: 80%;
+		}
+		&:not(.header) {
+			font: var(--font-page-primary-fields);
+			// color: green !important;
+		}
+		&.header {
+			font: var(--font-page-primary-labels);
+		}
+		input.input {
+			color: inherit;
+		}
+		.item_notes {
+			font: var(--font-page-secondary-fields);
+			// color: red !important;
+		}
+	}
+
+	.header, #personal .label, #stats .label,
+	#hit_locations .roll, #hit_locations .location,
+	#encumbrance .level {
+		font: var(--font-page-primary-labels);
+	}
+
+	#attributes .points {
+		font: var(--font-page-secondary-fields);
+	}
+
+	.reference:hover:not(.header) {
+		background-color: var(--color-link) !important;
+		color: var(--color-on-link) !important;
+	}
+
+	#primary_attributes .field.thrust,
+	#primary_attributes .field.swing,
+	#personal .field input.input,
+	#attributes .field input.input,
+	#attributes .points,
+	#hit_locations .penalty,
+	#hit_locations .dr,
+	#encumbrance .level_number,
+	#encumbrance .max_load,
+	#encumbrance .move,
+	#encumbrance .dodge,
+	#lifting .lift {
+		&:not(.header) {
+			// color: var(--color-on-editable) !important;
+			color: var(--color-on-editable);
+		}
+	}
+
+	#primary_attributes .field.thrust,
+	#primary_attributes .field.swing,
+	#attributes .points,
+	#hit_locations .penalty,
+	#hit_locations .dr,
+	#encumbrance .max_load,
+	#encumbrance .move,
+	#encumbrance .dodge,
+	#lifting .lift {
+		&:not(.header) {
+			// color: var(--color-on-editable) !important;
+			color: var(--color-on-editable);
+			// color: var(--color-on-editable-faded) !important;
+		}
+	}
+
+	#primary_attributes .swing,
+	#points .fieldblock .field:nth-child(4n-1),
+	#points .fieldblock .field:nth-child(4n-1) input,
+	#points .fieldblock .label:nth-child(4n),
+	#hit_locations .entry_parent:nth-child(10n + 1),
+	#hit_locations .roll:nth-child(10n + 2),
+	#hit_locations .location:nth-child(10n + 3),
+	#hit_locations .penalty:nth-child(10n + 4),
+	#hit_locations .dr:nth-child(10n + 5),
+	#encumbrance .encumbrance_marker:nth-last-child(12n + 12),
+	#encumbrance .level_number:nth-last-child(12n + 11),
+	#encumbrance .level:nth-last-child(12n + 10),
+	#encumbrance .max_load:nth-last-child(12n + 9),
+	#encumbrance .move:nth-last-child(12n + 8),
+	#encumbrance .dodge:nth-last-child(12n + 7),
+	#lifting .lift:nth-child(4n),
+	#lifting .label:nth-child(4n+1),
+	#advantages .entry_parent:nth-child(8n + 1),
+	#advantages .desc:nth-child(8n + 2),
+	#advantages .points:nth-child(8n + 3),
+	#advantages .reference:nth-child(8n + 4),
+	#skills .entry_parent:nth-child(12n + 1),
+	#skills .desc:nth-child(12n + 2),
+	#skills .level:nth-child(12n + 3),
+	#skills .rsl:nth-child(12n + 4),
+	#skills .points:nth-child(12n + 5),
+	#skills .reference:nth-child(12n + 6),
+	#spells .entry_parent:nth-child(24n + 1),
+	#spells .desc:nth-child(24n + 2),
+	#spells .resist:nth-child(24n + 3),
+	#spells .class:nth-child(24n + 4),
+	#spells .casting_cost:nth-child(24n + 5),
+	#spells .maintenance_cost:nth-child(24n + 6),
+	#spells .casting_time:nth-child(24n + 7),
+	#spells .duration:nth-child(24n + 8),
+	#spells .level:nth-child(24n + 9),
+	#spells .rsl:nth-child(24n + 10),
+	#spells .points:nth-child(24n + 11),
+	#spells .reference:nth-child(24n + 12),
+	#equipment .entry_parent:nth-child(20n + 1),
+	#equipment .equipped:nth-child(20n + 2),
+	#equipment .quantity:nth-child(20n + 3),
+	#equipment .desc:nth-child(20n + 4),
+	#equipment .uses:nth-child(20n + 5),
+	#equipment .value:nth-child(20n + 6),
+	#equipment .weight:nth-child(20n + 7),
+	#equipment .value_total:nth-child(20n + 8),
+	#equipment .weight_total:nth-child(20n + 9),
+	#equipment .reference:nth-child(20n + 10),
+	#other_equipment .entry_parent:nth-child(18n + 1),
+	#other_equipment .quantity:nth-child(18n + 2),
+	#other_equipment .desc:nth-child(18n + 3),
+	#other_equipment .uses:nth-child(18n + 4),
+	#other_equipment .value:nth-child(18n + 5),
+	#other_equipment .weight:nth-child(18n + 6),
+	#other_equipment .value_total:nth-child(18n + 7),
+	#other_equipment .weight_total:nth-child(18n + 8),
+	#other_equipment .reference:nth-child(18n + 9),
+	#notes .entry_parent:nth-child(6n + 1),
+	#notes .desc:nth-child(6n + 2),
+	#notes .reference:nth-child(6n + 3) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+			&:not(.penalty, .dr, .lift, .level_number, .max_load, .move, .dodge, .swing, .points) {
+				color: var(--color-on-banding);
 			}
 		}
 	}

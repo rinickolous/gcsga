@@ -6,7 +6,6 @@
 			{{#if ../editing}}
 			<div class="field align_right">
 				<input
-					{{!-- name="data.attributes.{{this.id}}.calc.value" --}}
 					data-id="{{this.id}}"
 					class="input attr"
 					type="number"
@@ -27,9 +26,9 @@
 			<div class="label">{{#if this.full_name}}{{this.full_name}} ({{this.name}}){{else}}{{this.name}}{{/if}}</div>
 		{{/each}}
 		<hr>
-		<div class="field wide">{{data.calc.thrust}}</div>
-		<div class="label">{{localize "gcsga.sheet.basic_thrust"}}</div>
-		<div class="field wide">{{data.calc.swing}}</div>
-		<div class="label">{{localize "gcsga.sheet.basic_swing"}}</div>
+		<div class="field rollable wide thrust">{{data.calc.thrust}}</div>
+		<div class="label thrust">{{localize "gcsga.sheet.basic_thrust"}}</div>
+		<div class="field rollable wide swing">{{data.calc.swing}}</div>
+		<div class="label swing">{{localize "gcsga.sheet.basic_swing"}}</div>
 	</div>
 </div>

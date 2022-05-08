@@ -53,11 +53,11 @@
 				"move": "Move",
 				"dodge": "Dodge",
 				"levels": {
-					"0": "0 None",
-					"1": "1 Light",
-					"2": "2 Medium",
-					"3": "3 Heavy",
-					"4": "4 X-Heavy"
+					"0": "None",
+					"1": "Light",
+					"2": "Medium",
+					"3": "Heavy",
+					"4": "X-Heavy"
 				}
 			},
 			"lifting": {

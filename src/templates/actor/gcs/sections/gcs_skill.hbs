@@ -2,9 +2,9 @@
 <div class="desc" style="padding-left: {{indent}}.2em">
 	{{#if (eq this.type "skill_container")}}
 	{{#if this.data.open}}
-	<i class="fas fa-caret-down toggle_open" data-id={{this._id}}></i>
+	<i class="fas fa-chevron-down toggle_open" data-id={{this._id}}></i>
 	{{else}}
-	<i class="fas fa-caret-right toggle_open" data-id={{this._id}}></i>
+	<i class="fas fa-chevron-right toggle_open" data-id={{this._id}}></i>
 	{{/if}}
 	{{/if}}
 	{{this.name}}{{#if this.data.tech_level}}/TL{{this.data.tech_level}}{{/if}}{{#if this.data.specialization}} ({{this.data.specialization}}){{/if}}

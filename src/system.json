@@ -12,7 +12,7 @@
 		}
 	],
 	"minimumCoreVersion": "9",
-	"compatibleCoreVersion": "9.242",
+	"compatibleCoreVersion": "9.269",
 	"scripts": [],
 	"esmodules": ["module/gcsga.js"],
 	"styles": ["styles/gcsga.css"],

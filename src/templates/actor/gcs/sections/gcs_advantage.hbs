@@ -1,5 +1,5 @@
 <div class="entry_parent {{selected selected this._id}}" readonly></div>
-<div class="desc item {{selected selected this._id}}" data-id="{{#if parents}}{{parents}} {{/if}}{{this._id}}" style="padding-left: {{indent}}.2em;">
+<div class="desc item {{selected selected this._id}}" draggable="true" data-id="{{#if parents}}{{parents}} {{/if}}{{this._id}}" style="padding-left: {{indent}}.2em;">
 	{{#if (eq this.type "advantage_container")}}
 	{{#if this.data.open}}
 	<i class="fas fa-chevron-down toggle_open" data-id={{this._id}}></i>

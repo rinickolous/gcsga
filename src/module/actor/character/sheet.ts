@@ -3,6 +3,7 @@ import { ContainerGURPS, EquipmentContainerGURPS, EquipmentGURPS, ItemGURPS } fr
 import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";
+import { openPDF } from "@module/modules/pdfoundry";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
 
@@ -41,6 +42,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
 		html.find(".item").on("click", this._onItemSelect.bind(this));
+		html.find(".reference").on("click", this._handlePDF.bind(this));
+		html.find(".item").on("contextmenu", this._getItem.bind(this));
 	}
 
 	async _onCollapseToggle(event: Event) {
@@ -112,6 +115,21 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			this.selection[this.selection.active] = [f_id];
 		}
 		this.render();
+	}
+
+	async _handlePDF(event: Event) {
+		event.preventDefault();
+		//@ts-ignore
+		const pdf = $(event.currentTarget).text();
+		if (!!pdf) return openPDF(pdf);
+	}
+
+	async _getItem(event: Event) {
+		event.preventDefault();
+		//@ts-ignore
+		const id = $(event.currentTarget)?.attr("data-id") || "";
+		//@ts-ignore
+		console.log(await this.actor.getDeepItem(id));
 	}
 
 	/** @override */

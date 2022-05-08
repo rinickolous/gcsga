@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "..\\foundry-vtt---pathfinder-2e"
-		},
-		{
 			"path": "..\\itemcollection"
 		},
 		{
@@ -14,6 +11,9 @@
 		},
 		{
 			"path": "..\\GCS\\gcs\\com.trollworks.gcs\\src\\com\\trollworks\\gcs"
+		},
+		{
+			"path": "..\\..\\GitHub\\foundry-vtt---pathfinder-2e"
 		}
 	],
 	"settings": {

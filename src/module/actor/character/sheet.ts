@@ -105,7 +105,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			if (exists_index != -1) this.selection[this.selection.active].splice(exists_index, 1);
 			//@ts-ignore
 			else this.selection[this.selection.active].push(f_id);
-		//@ts-ignore
+			//@ts-ignore
 		} else if (event.shiftKey) {
 			// note implemented yet
 			//@ts-ignore

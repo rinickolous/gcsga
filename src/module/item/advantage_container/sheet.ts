@@ -18,7 +18,7 @@ export class AdvantageContainerSheet extends ContainerSheetGURPS {
 	/** @override */
 	getData(
 		options?: Partial<DocumentSheetOptions>,
-	// ): ItemSheet.Data<DocumentSheetOptions> | Promise<ItemSheet.Data<DocumentSheetOptions>> {
+		// ): ItemSheet.Data<DocumentSheetOptions> | Promise<ItemSheet.Data<DocumentSheetOptions>> {
 	): any {
 		const itemData = this.item.toObject(false);
 		console.log(itemData);

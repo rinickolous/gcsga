@@ -16,6 +16,7 @@ module.exports = {
 
 	rules: {
 		// Specify any specific ESLint rules.
+		"@typescript-eslint/ban-ts-comment": "off",
 	},
 
 	overrides: [

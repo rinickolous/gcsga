@@ -1,7 +1,10 @@
 import { ItemDataGURPS } from "@item/data";
 import { ActorGURPS } from "@actor";
 import { ContainerGURPS } from "@item";
-import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemType } from "./data";
 import { documents } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/module.mjs";
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/foundry.js/clientDocumentMixin";

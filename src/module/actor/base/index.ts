@@ -1,6 +1,6 @@
 import { ActorDataGURPS, ActorSourceGURPS } from "@actor/data";
 import { ContainerGURPS, ItemGURPS } from "@item";
-import { Context, Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -85,6 +85,3 @@ interface ActorGURPS {
 }
 
 export { ActorGURPS };
-function e(e: any) {
-	throw new Error("Function not implemented.");
-}

@@ -647,4 +647,8 @@
 	.redline {
 		border-bottom: 1px solid red;
 	}
+
+	.edit_lock.fa-unlock {
+		color: var(--color-warning);
+	}
 }

@@ -88,18 +88,19 @@
 			</div>
 			{{/if}}
 			{{#if advantages.length}}
-			<div id="advantages" class="table item-list">
+			<div id="advantages" class="table advantage-list item-list">
 				<div class="header entry_parent" readonly></div>
 				<div class="header desc">{{localize "gcsga.sheet.advantages.desc"}}</div>
 				<div class="header points">{{localize "gcsga.sheet.advantages.points"}}</div>
 				<div class="header reference"><i class="fas fa-bookmark"></i></div>
 				{{#each advantages}}
 					{{>gcs_advantage indent=0 parents=../document.id selected=../selection.advantages}}
+					{{!-- {{>gcs_advantage indent=0 parents="" selected=../selection.advantages}} --}}
 				{{/each}}
 			</div>
 			{{/if}}
 			{{#if skills.length}}
-			<div id="skills" class="table">
+			<div id="skills" class="skill-list item-list table">
 				<div class="header entry_parent" readonly></div>
 				<div class="header desc">{{localize "gcsga.sheet.skills.desc"}}</div>
 				<div class="header level">{{localize "gcsga.sheet.skills.level"}}</div>
@@ -112,7 +113,7 @@
 			</div>
 			{{/if}}
 			{{#if spells.length}}
-			<div id="spells" class="table">
+			<div id="spells" class="table spell-list item-list">
 				<div class="header entry_parent" readonly></div>
 				<div class="header desc">{{localize "gcsga.sheet.spells.desc"}}</div>
 				<div class="header resist">{{localize "gcsga.sheet.spells.resist"}}</div>
@@ -131,7 +132,7 @@
 			</div>
 			{{/if}}
 			{{#if equipment.length}}
-			<div id="equipment" class="table">
+			<div id="equipment" class="table equipment-list item-list">
 				<div class="header entry_parent" readonly></div>
 				<div class="header equipped"><i class="fas fa-check"></i></div>
 				<div class="header quantity"><i class="fas fa-hashtag"></i></div>
@@ -148,7 +149,7 @@
 			</div>
 			{{/if}}
 			{{#if other_equipment.length}}
-			<div id="other_equipment" class="table">
+			<div id="other_equipment" class="table other-equipment-list item-list">
 				<div class="header entry_parent" readonly></div>
 				<div class="header quantity"><i class="fas fa-hashtag"></i></div>
 				<div class="header desc">{{localize "gcsga.sheet.other_equipment.desc" value=data.other_value}}</div>
@@ -164,7 +165,7 @@
 			</div>
 			{{/if}}
 			{{#if notes.length}}
-			<div id="notes" class="table">
+			<div id="notes" class="table note-list item-list">
 				<div class="header entry_parent" readonly></div>
 				<div class="header desc">{{localize "gcsga.sheet.notes.desc"}}</div>
 				<div class="header reference"><i class="fas fa-bookmark"></i></div>

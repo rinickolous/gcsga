@@ -4,8 +4,6 @@ import { ItemGURPS } from "@item/base";
 import { BaseContainerData } from "./data";
 
 export abstract class ContainerGURPS extends ItemGURPS {
-	// items: EmbeddedCollection<ItemDataGURPS, any> = new EmbeddedCollection(this.data, [], ItemGURPS);
-	// items: any;
 	items: foundry.utils.Collection<ItemGURPS> = new foundry.utils.Collection();
 
 	/**
@@ -26,9 +24,15 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		if (data.length) {
 			for (const itemData of data) {
 				let theData = itemData;
+				console.log("CONTAINED DATA", theData);
 				theData._id = randomID();
 				//@ts-ignore
-				theData = new CONFIG.Item.documentClass(theData as ItemDataConstructorData, { parent: this }).toJSON();
+				theData = new CONFIG.Item.documentClass(theData as ItemDataConstructorData, {
+					//@ts-ignore
+					parent: this,
+					//@ts-ignore
+					// "flags.gcsga.parents": this.getFlag("gcsga", "parents").concat(" " + this.id)
+				}).toJSON();
 				currentItems.push(theData);
 				createdItems.push(theData);
 			}
@@ -56,6 +60,24 @@ export abstract class ContainerGURPS extends ItemGURPS {
 	): foundry.abstract.Document<any, any> | undefined {
 		if (embeddedName !== "Item") return super.getEmbeddedDocument(embeddedName, id, options);
 		return this.items.get(id);
+	}
+
+	get deepItems(): Collection<ItemGURPS> {
+		const items = this.items;
+		const deepItems = [];
+		for (const i of items) {
+			deepItems.push(i);
+			if (i instanceof ContainerGURPS)
+				i.deepItems.forEach((e: ItemGURPS) => {
+					return deepItems.push(e);
+				});
+		}
+		const deepMap = new Collection(
+			deepItems.map((e) => {
+				return [e.id!, e];
+			}),
+		);
+		return deepMap;
 	}
 
 	/**

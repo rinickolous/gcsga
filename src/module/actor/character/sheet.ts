@@ -77,7 +77,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	async _onItemSelect(event: Event) {
 		event.preventDefault();
 		//@ts-ignore
-		const id: string = $(event.currentTarget).attr("data-id") || "";
+		const id: string = $(event.currentTarget).data("parent-ids") + $(event.currentTarget).data("item-id") || "";
 		//@ts-ignore
 		const item: ItemGURPS = await this.actor.getDeepItem(id);
 		if (["advantage", "advantage_container"].includes(item.type)) this.selection.active = "advantages";
@@ -132,13 +132,19 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		console.log(await this.actor.getDeepItem(id));
 	}
 
-	/** @override */
+	/**
+	 * TODO check why attributes and settings.attributes = null
+	 * @override
+	 * @param  {Partial<ActorSheet.Options>} options?
+	 * @returns any
+	 */
 	getData(options?: Partial<ActorSheet.Options>): any {
 		const actorData = this.actor.toObject(false);
 		const items = deepClone(
 			this.actor.items.map((item) => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
 		);
 		(actorData as any).items = items;
+		// console.log(actorData);
 		const [primary_attributes, secondary_attributes, pool_attributes] = this.prepareAttributes(
 			actorData.data as CharacterSystemData,
 		);
@@ -192,7 +198,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
-		// console.log(data.attributes, data.settings.attributes);
+		// console.log(data, data.attributes, data.settings.attributes);
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
 			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];

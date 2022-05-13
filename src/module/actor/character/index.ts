@@ -15,7 +15,6 @@ import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
-import { PASSWORD_SAFE_STRING } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
@@ -76,17 +75,6 @@ export class CharacterGURPS extends ActorGURPS {
 	/** @override */
 	prepareEmbeddedDocuments() {
 		super.prepareEmbeddedDocuments();
-	}
-
-	async getDeepItem(id: string) {
-		const ids = id.split(" ");
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
-		let parent: any = this;
-		for (let i = 0; i < ids.length; i++) {
-			if (i == 0) continue;
-			else if (i == ids.length - 1) return parent.getEmbeddedDocument("Item", ids[i]);
-			else parent = parent.getEmbeddedDocument("Item", ids[i]);
-		}
 	}
 
 	async importCharacter() {
@@ -329,15 +317,19 @@ export class CharacterGURPS extends ActorGURPS {
 
 	importItems(
 		list: Array<ItemSystemData>,
-		context: { container?: boolean; other_equipment?: boolean } = { container: false, other_equipment: false },
+		context: { container?: string | null; other_equipment?: boolean } = { container: null, other_equipment: false },
 	): Array<any> {
 		if (!list) return [];
 		// const items: Array<ItemGURPS> = []
 		// const containedItems: Array<any> = [];
 		const items: Array<any> = [];
 		for (const i of list) {
-			let data = {};
-			const flags: any = { gcsga: { contentsData: [] } };
+			let data: any = {};
+			// const id = this.getItemID(data);
+			const id = randomID();
+			console.log(id);
+			const flags: any = { gcsga: { contentsData: [], parents: [] } };
+			flags.gcsga.parents.push(this.id);
 			//@ts-ignore
 			const j = i as ItemSystemData;
 			switch (i.type) {
@@ -347,7 +339,7 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = flags.gcsga.contentsData
 						.concat
 						// this.importItems((j as AdvantageSystemData).modifiers as AdvantageModifierSystemData[], {
-						// 	container: true,
+						// 	container: id,
 						// }),
 						();
 					break;
@@ -357,12 +349,12 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = flags.gcsga.contentsData
 						.concat
 						// this.importItems((j as AdvantageContainerSystemData).modifiers, {
-						// 	container: true,
+						// 	container: id,
 						// }) as Array<ItemGURPS>,
 						();
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
 						this.importItems((j as AdvantageContainerSystemData).children, {
-							container: true,
+							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
@@ -380,7 +372,7 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = [];
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
 						this.importItems((j as SkillContainerSystemData).children, {
-							container: true,
+							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
@@ -395,7 +387,7 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = [];
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
 						this.importItems((j as SpellContainerSystemData).children, {
-							container: true,
+							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
@@ -419,12 +411,12 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = flags.gcsga.contentsData
 						.concat
 						// this.importItems((j as EquipmentContainerSystemData).modifiers, {
-						// 	container: true,
+						// 	container: id,
 						// }) as Array<ItemGURPS>,
 						();
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
 						this.importItems((j as EquipmentContainerSystemData).children, {
-							container: true,
+							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
@@ -439,12 +431,13 @@ export class CharacterGURPS extends ActorGURPS {
 					flags.gcsga.contentsData = [];
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
 						this.importItems((j as NoteContainerSystemData).children, {
-							container: true,
+							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
 			}
-			const id = this.getItemID(data);
+			if (context.container) flags.gcsga.parents.push(context.container);
+			//@ts-ignore
 			const item = new ItemGURPS({
 				name: i.name || "ERROR",
 				type: i.type,

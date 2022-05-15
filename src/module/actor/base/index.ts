@@ -50,6 +50,7 @@ class ActorGURPS extends Actor {
 		// console.log(ids);
 		if (!Array.isArray(ids)) ids = ids.split(" ");
 		// console.log(ids);
+		ids = ids.filter((e) => e);
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		let parent: any = this;
 		for (let i = 0; i < ids.length; i++) {
@@ -61,7 +62,6 @@ class ActorGURPS extends Actor {
 				// console.log(the_item);
 				return the_item;
 			} else parent = parent.getEmbeddedDocument("Item", ids[i]);
-			// else parent = parent.getEmbeddedDocument("Item", ids[i]);
 		}
 	}
 

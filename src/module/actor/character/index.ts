@@ -15,6 +15,8 @@ import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
+import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
@@ -75,6 +77,16 @@ export class CharacterGURPS extends ActorGURPS {
 	/** @override */
 	prepareEmbeddedDocuments() {
 		super.prepareEmbeddedDocuments();
+	}
+
+	/** @override */
+	updateEmbeddedDocuments(
+		embeddedName: string,
+		updates?: Record<string, unknown>[] | undefined,
+		context?: DocumentModificationContext | undefined,
+	): Promise<Document<any, this, Metadata<any>>[]> {
+		console.log(updates);
+		return super.updateEmbeddedDocuments(embeddedName, updates, context);
 	}
 
 	async importCharacter() {

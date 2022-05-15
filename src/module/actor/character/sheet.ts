@@ -336,7 +336,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 					const childData: ItemDataGURPS | BaseContainerData = this.parseContents(value);
 					children.push(childData);
 				});
-			(data as BaseContainerData).children = children;
+			//@ts-ignore
+			(data as BaseContainerData).children = children.sort((a, b) => a.sort - b.sort);
 		}
 		if (["advantage", "advantage_container", "equipment", "equipment_container"].includes(item.type)) {
 			const modifiers: Array<ItemDataGURPS> = [];
@@ -348,6 +349,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				});
 			data.modifiers = modifiers;
 		}
+		if (item.type == "advantage_container") console.log(item.name, data);
 		return data;
 	}
 

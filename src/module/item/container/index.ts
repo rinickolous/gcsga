@@ -36,11 +36,12 @@ export abstract class ContainerGURPS extends ItemGURPS {
 				currentItems.push(theData);
 				createdItems.push(theData);
 			}
-			if (this.parent)
+			if (this.parent) {
+				console.log("check", this.parent);
 				return this.parent.updateEmbeddedDocuments(embeddedName, [
 					{ _id: this.id, "flags.gcsga.contentsData": currentItems },
 				]);
-			else this.setCollection(this, currentItems);
+			} else this.setCollection(this, currentItems);
 		}
 	}
 
@@ -91,6 +92,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		updates?: Array<Record<string, unknown>>,
 		context?: DocumentModificationContext,
 	): Promise<Array<foundry.abstract.Document<any, any>>> {
+		console.log("updating for", this.name, updates);
 		if (embeddedName !== "Item") return super.updateEmbeddedDocuments(embeddedName, updates, context);
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
@@ -111,11 +113,12 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		});
 
 		if (updatedItems.length) {
-			if (this.parent)
+			if (this.parent) {
+				console.log("check", this.parent);
 				await this.parent.updateEmbeddedDocuments("Item", [
 					{ _id: this.id, "flags.gcsga.contentsData": newContainedItems },
 				]);
-			else await this.setCollection(this, newContainedItems);
+			} else await this.setCollection(this, newContainedItems);
 		}
 		return updatedItems;
 	}
@@ -165,7 +168,6 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		super.prepareEmbeddedDocuments();
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
 		const oldItems = this.items;
-		// this.items = new EmbeddedCollection(this.data, [], ItemGURPS);
 		this.items = new foundry.utils.Collection();
 		containedItems.forEach((itemData: ItemDataGURPS) => {
 			//@ts-ignore itemData._id
@@ -180,6 +182,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 				if (currentItem) {
 					setProperty(currentItem.data._source, "flags", itemData.flags);
 					setProperty(currentItem.data._source, "data", itemData.data);
+					setProperty(currentItem.data._source, "sort", itemData.sort);
 					currentItem.prepareData();
 					//@ts-ignore itemData._id
 					this.items?.set(itemData._id, currentItem);

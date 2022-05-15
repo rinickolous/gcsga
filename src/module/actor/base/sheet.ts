@@ -101,23 +101,32 @@ export class ActorSheetGURPS extends ActorSheet {
 		//@ts-ignore
 		const source = this.actor.getDeepItem(itemData.flags.gcsga.parents.concat(itemData._id));
 		console.log(source);
+		console.log(event.target);
 		//@ts-ignore
-		const siblings = this.actor.deepItems.filter((i) => {
-			return i.data.type === source.data.type && i.data._id !== source.data._id;
+		const dropTarget = event.target.closest("[data-item-id]");
+		//@ts-ignore
+		const target = this.actor.getDeepItem(
+			//@ts-ignore
+			dropTarget.dataset.parentIds.split(" ").concat(dropTarget.dataset.itemId),
+		);
+		//@ts-ignore
+		const siblings = target.parent.items.filter((i) => {
+			return source.sameSection(i) && i.data._id !== source.data._id;
 		});
 		console.log(siblings);
 
 		// Get the drop target
-		//@ts-ignore
-		const dropTarget = event.target.closest("[data-item-id]");
-		const targetId = dropTarget ? dropTarget.dataset.itemId : null;
-		const target = siblings.find((s: Item) => s.data._id === targetId);
+		// //@ts-ignore
+		// const targetId = dropTarget ? dropTarget.dataset.itemId : null;
+		// const target = siblings.find((s: Item) => s.data._id === targetId);
 
 		// Ensure we are only sorting like-types
-		if (target && source.data.type !== target.data.type) return;
+		// console.log(source, target);
+		if (target && !source.sameSection(target)) return;
 
 		// Perform the sort
 		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
+		console.log(sortUpdates);
 		const updateData = sortUpdates.map((u) => {
 			const update = u.update;
 			//@ts-ignore

@@ -143,6 +143,22 @@ export class ItemGURPS extends Item {
 			changed.data.categories = changed.data.categories.length ? changed.data.categories.split(/,\s*/) : [];
 		}
 	}
+
+	sameSection(compare: ItemGURPS): boolean {
+		const advantages = ["advantage", "advantage_container"];
+		const skills = ["skill", "technique", "skill_container"];
+		const spells = ["spell", "ritual_magic_spell", "spell_container"];
+		const equipment = ["equipment", "equipment_container"];
+		const notes = ["note", "note_container"];
+		const sections = [advantages, skills, spells, equipment, notes];
+		for (const i of sections) {
+			// console.log(i);
+			// console.log(this, compare, this.data.type, compare.data.type);
+			//@ts-ignore
+			if (i.includes(this.data.type) && i.includes(compare.data.type)) return true;
+		}
+		return false;
+	}
 }
 
 //@ts-ignore

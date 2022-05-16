@@ -13,7 +13,10 @@ import {
 	ConfiguredDocumentClass,
 	PropertiesToSource,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
-import { ItemDataBaseProperties, ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import {
+	ItemDataBaseProperties,
+	ItemDataConstructorData,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {

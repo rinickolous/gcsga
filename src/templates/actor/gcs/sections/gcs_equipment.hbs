@@ -12,11 +12,13 @@
 	{{this.name}}
 	{{>gcs_item_notes}}
 </div>
-<div class="uses">{{this.data.uses}}</div>
-<div class="value">{{this.calc.value}}</div>
-<div class="weight">{{this.calc.weight}}</div>
-<div class="value_total">{{this.calc.extended_value}}</div>
-<div class="weight_total">{{this.calc.extended_weight}}</div>
+<div class="uses align_right">{{this.data.uses}}</div>
+{{!-- <div class="value">{{this.data.calc.value}}</div>
+<div class="weight">{{this.data.calc.weight}}</div> --}}
+<div class="value align_right">{{this.data.value}}</div>
+<div class="weight align_right">{{this.data.weight}}</div>
+<div class="value_total align_right">{{this.data.calc.extended_value}}</div>
+<div class="weight_total align_right">{{this.data.calc.extended_weight}}</div>
 <div class="reference">{{this.data.reference}}</div>
 {{#if this.data.open}}
 	{{#each this.children}}

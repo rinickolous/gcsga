@@ -8,8 +8,11 @@ export class SkillContainerData extends BaseContainerData<SkillContainerGURPS> {
 export interface SkillContainerData extends Omit<SkillContainerSource, "effects" | "flags" | "items"> {
 	readonly type: SkillContainerSource["type"];
 	data: SkillContainerSystemData;
-
 	readonly _source: SkillContainerSource;
 }
 
-export type SkillContainerSystemData = BaseContainerSystemData;
+export interface SkillContainerSystemData extends BaseContainerSystemData {
+	calc: {
+		points: number;
+	};
+}

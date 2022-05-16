@@ -29,6 +29,7 @@ export interface SkillSystemData extends ItemSystemData {
 	calc: {
 		level: number;
 		rsl: string;
+		points: number;
 	};
 }
 

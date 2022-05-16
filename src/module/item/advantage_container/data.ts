@@ -15,6 +15,7 @@ export interface AdvantageContainerData extends Omit<AdvantageContainerSource, "
 
 export interface AdvantageContainerSystemData extends BaseContainerSystemData {
 	modifiers: Array<any>;
+	disabled: boolean;
 	container_type: AdvantageContainerType;
 	calc: {
 		points: number;

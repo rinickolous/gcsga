@@ -18,8 +18,9 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
+import { ItemData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
-import { i18n, i18n_f } from "@util";
+import { getPointTotal, i18n, i18n_f } from "@util";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { Attribute, AttributeSetting, CharacterData, CharacterSource, HitLocationTable, ImportedData } from "./data";
 
@@ -147,7 +148,7 @@ export class CharacterGURPS extends ActorGURPS {
 			return this.throwImportError(msg);
 		}
 
-		let commit = {};
+		let commit: any = {};
 		const imp = this.getData().import;
 		imp.name = filename || imp.name;
 		imp.path = filepath || imp.path;
@@ -169,6 +170,56 @@ export class CharacterGURPS extends ActorGURPS {
 			items = items.concat(this.importItems(r.other_equipment, { other_equipment: true }));
 			items = items.concat(this.importItems(r.notes));
 			commit = { ...commit, ...{ items: items } };
+
+			const point_totals = {
+				total: r.total_points,
+				attributes: commit["data.points.attributes"],
+				race: 0,
+				advantages: 0,
+				disadvantages: 0,
+				quirks: 0,
+				skills: 0,
+				spells: 0,
+				unspent: 0,
+			};
+			items.forEach((item) => {
+				//@ts-ignore
+				if (["advantage", "advantage_container"].includes(item.type) && !item.data.data.disabled) {
+					const itemData = item.data.data as AdvantageContainerSystemData;
+					if (itemData.container_type == "race") point_totals.race += itemData.calc.points;
+					else if (itemData.calc.points == -1) point_totals.quirks += itemData.calc.points;
+					else if (itemData.calc.points < 0) point_totals.disadvantages += itemData.calc.points;
+					else point_totals.advantages += itemData.calc.points;
+				} else if (["skill", "technique", "skill_container"].includes(item.type)) {
+					const itemData = item.data.data as SkillSystemData;
+					point_totals.skills += itemData.calc.points;
+				} else if (["spell", "ritual_magic_spell", "spell_container"].includes(item.type)) {
+					const itemData = item.data.data as SpellSystemData;
+					point_totals.spells += itemData.calc.points;
+				}
+			});
+			point_totals.unspent =
+				point_totals.total -
+				(point_totals.attributes +
+					point_totals.race +
+					point_totals.advantages +
+					point_totals.disadvantages +
+					point_totals.quirks +
+					point_totals.skills +
+					point_totals.spells);
+			commit = {
+				...commit,
+				...{
+					"data.points.total": point_totals.total,
+					"data.points.unspent": point_totals.unspent,
+					"data.points.race": point_totals.race,
+					"data.points.advantages": point_totals.advantages,
+					"data.points.disadvantages": point_totals.disadvantages,
+					"data.points.quirks": point_totals.quirks,
+					"data.points.skills": point_totals.skills,
+					"data.points.spells": point_totals.spells,
+				},
+			};
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			console.log(err.stack);
@@ -227,7 +278,6 @@ export class CharacterGURPS extends ActorGURPS {
 			"data.id": data.id,
 			"data.created_date": data.created_date,
 			"data.modified_date": data.modified_date,
-			"data.points.total": data.total_points,
 			"data.calc": data.calc,
 		};
 	}
@@ -302,11 +352,14 @@ export class CharacterGURPS extends ActorGURPS {
 
 	importAttributes(attributes: Array<Attribute>) {
 		const atts: any = {};
+		let points = 0;
 		for (const i of attributes) {
 			atts[i.attr_id] = i;
+			points += i.calc.points;
 		}
 		return {
 			"data.attributes": atts,
+			"data.points.attributes": points,
 		};
 	}
 
@@ -315,14 +368,10 @@ export class CharacterGURPS extends ActorGURPS {
 		context: { container?: string | null; other_equipment?: boolean } = { container: null, other_equipment: false },
 	): Array<any> {
 		if (!list) return [];
-		// const items: Array<ItemGURPS> = []
-		// const containedItems: Array<any> = [];
 		const items: Array<any> = [];
 		for (const i of list) {
 			let data: any = {};
-			// const id = this.getItemID(data);
 			const id = randomID();
-			// console.log(id);
 			const flags: any = { gcsga: { contentsData: [], parents: [] } };
 			flags.gcsga.parents.push(this.id);
 			//@ts-ignore
@@ -370,6 +419,8 @@ export class CharacterGURPS extends ActorGURPS {
 							container: id,
 						}) as Array<ItemGURPS>,
 					);
+					//@ts-ignore
+					data.calc.points = getPointTotal({ data: data }, flags.gcsga.contentsData);
 					break;
 				case "spell":
 					data = this.getSpellData(j as SpellSystemData);
@@ -385,6 +436,8 @@ export class CharacterGURPS extends ActorGURPS {
 							container: id,
 						}) as Array<ItemGURPS>,
 					);
+					//@ts-ignore
+					data.calc.points = getPointTotal({ data: data }, flags.gcsga.contentsData);
 					break;
 				case "equipment":
 					(i as any).name = (j as EquipmentSystemData).description;
@@ -506,6 +559,7 @@ export class CharacterGURPS extends ActorGURPS {
 		return {
 			id: data.id || "",
 			reference: data.reference || "",
+			disabled: data.disabled || false,
 			notes: data.notes || "",
 			categories: data.categories || [],
 			container_type: data.container_type || "group",
@@ -552,6 +606,7 @@ export class CharacterGURPS extends ActorGURPS {
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
+				points: data.points || 0,
 			},
 		};
 	}
@@ -574,6 +629,7 @@ export class CharacterGURPS extends ActorGURPS {
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
+				points: data.points || 0,
 			},
 		};
 	}
@@ -585,6 +641,9 @@ export class CharacterGURPS extends ActorGURPS {
 			notes: data.notes || "",
 			categories: data.categories || [],
 			open: data.open || false,
+			calc: {
+				points: 0,
+			},
 		};
 	}
 
@@ -610,6 +669,7 @@ export class CharacterGURPS extends ActorGURPS {
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
+				points: data.points || 0,
 			},
 		};
 	}
@@ -638,6 +698,7 @@ export class CharacterGURPS extends ActorGURPS {
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
+				points: data.points || 0,
 			},
 		};
 	}
@@ -649,6 +710,9 @@ export class CharacterGURPS extends ActorGURPS {
 			notes: data.notes || "",
 			categories: data.categories || [],
 			open: data.open || false,
+			calc: {
+				points: 0,
+			},
 		};
 	}
 

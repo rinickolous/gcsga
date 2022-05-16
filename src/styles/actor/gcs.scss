@@ -393,7 +393,9 @@
 		display: grid;
 		grid-auto-columns: 1fr 1fr;
 		gap: var(--section-gap);
-		.header {
+		.header,
+		.reference, .points, .level, .rsl, .uses,
+		.weight, .value, .weight_total, .value_total {
 			padding: 0 0.2em;
 		}
 		.toggle_open {

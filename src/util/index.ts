@@ -1,3 +1,5 @@
+import { ItemDataGURPS } from "@item/data";
+
 export function arrayBuffertoBase64(buffer: ArrayBuffer) {
 	console.log(buffer);
 	let binary = "";
@@ -47,6 +49,25 @@ export function signed(i: string | number) {
 	return i.toString();
 }
 
+export function getPointTotal(parent: ItemDataGURPS, children: Array<ItemDataGURPS>): number {
+	//@ts-ignore
+	let total = 0;
+	//@ts-ignore
+	if (parent.data?.calc.points) total += parent.data.points;
+	for (const i of children) {
+		//@ts-ignore
+		total += getPointTotal(i.data, i.flags.gcsga?.contentsData);
+	}
+	return total;
+}
+
+export function dollarFormat(i: number): string {
+	const formatter = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
+	});
+	return formatter.format(i);
+}
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =
 // 	| 'none'

@@ -4,6 +4,7 @@ import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";
 import { openPDF } from "@module/modules/pdfoundry";
+import { dollarFormat } from "@util";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
 
@@ -133,7 +134,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	/**
-	 * TODO check why attributes and settings.attributes = null
 	 * @override
 	 * @param  {Partial<ActorSheet.Options>} options?
 	 * @returns any
@@ -301,6 +301,17 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const ranged: RangedWeapon[] = [];
 		const reactions: any[] = [];
 		const conditional_modifiers: any[] = [];
+
+		let carried_weight = 0;
+		let carried_value = 0;
+		for (const i of equipment) {
+			carried_weight += parseFloat(i.data.calc.extended_weight);
+			carried_value += parseFloat(i.data.calc.extended_value);
+		}
+
+		data.carried_weight = `${carried_weight} lb`;
+		data.carried_value = dollarFormat(carried_value);
+
 		data.advantages = advantages;
 		data.skills = skills;
 		data.spells = spells;
@@ -324,6 +335,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	parseContents(item: ItemGURPS | ContainerGURPS) {
+		//TODO: check why error
+		//@ts-ignore
 		const data: ItemDataGURPS = deepClone(item.data);
 		if (!!(data as any).data.data) data.data = (data as any).data.data;
 		// console.log(data);

@@ -30,5 +30,6 @@ export interface SpellSystemData extends ItemSystemData {
 	calc: {
 		level: number;
 		rsl: string;
+		points: number;
 	};
 }

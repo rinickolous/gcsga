@@ -244,8 +244,8 @@ export class CharacterGURPS extends ActorGURPS {
 				.then((res) => res.blob())
 				.then((img_blob) => {
 					const file = new File([img_blob], filename);
-					//todo: stop broadcast
-					FilePicker.upload("data", path, file, {});
+					//@ts-ignore
+					FilePicker.upload("data", path, file, { notify: false });
 				});
 		}
 		return {

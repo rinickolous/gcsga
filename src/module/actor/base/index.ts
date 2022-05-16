@@ -47,36 +47,26 @@ class ActorGURPS extends Actor {
 	}
 
 	getDeepItem(ids: string | Array<string>) {
-		// console.log(ids);
 		if (!Array.isArray(ids)) ids = ids.split(" ");
-		// console.log(ids);
 		ids = ids.filter((e) => e);
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		let parent: any = this;
 		for (let i = 0; i < ids.length; i++) {
-			// console.log(parent);
 			if (i == 0) continue;
-			// else if (i == ids.length - 1) return parent.getEmbeddedDocument("Item", ids[i]);
 			else if (i == ids.length - 1) {
 				const the_item = parent.getEmbeddedDocument("Item", ids[i]);
-				// console.log(the_item);
 				return the_item;
 			} else parent = parent.getEmbeddedDocument("Item", ids[i]);
 		}
 	}
 
-	// //@ts-ignore
-	// async createEmbeddedDocuments(
-	// 	embeddedName: string,
-	// 	data: Record<string, unknown>[],
-	// 	context: DocumentModificationContext & { temporary: boolean },
-	// 	//@ts-ignore
-	// ): Promise<foundry.abstract.Document<any, this, Metadata<any>>[]> {
-	// 	if (embeddedName != "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
-	// 	console.log("CREATING", data, context);
-	// 	mergeObject(data, { flags: { gcsga: { parents: [this.id] } } });
-	// 	return super.createEmbeddedDocuments(embeddedName, data, context);
-	// }
+	/** @override */
+	prepareEmbeddedDocuments() {
+		super.prepareEmbeddedDocuments();
+		for (const item of this.items) {
+			item.setFlag("gcsga", "parents", [this.data._id]);
+		}
+	}
 }
 
 //@ts-ignore

@@ -22,7 +22,6 @@ import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { i18n, i18n_f } from "@util";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { Attribute, AttributeSetting, CharacterData, CharacterSource, HitLocationTable, ImportedData } from "./data";
-import { CHARACTER_DEFAULTS } from "./defaults";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
@@ -37,18 +36,6 @@ export class CharacterGURPS extends ActorGURPS {
 		}
 		super(data, context);
 	}
-
-	/**
-	 * Preform follow-up operations after a Document of this typ eis created. Post-creation operations occur for all clients after the creation is broadcast.
-	 * @param data The initial data object provided to the document creation request
-	 * @param options Additional options which modify the creation request
-	 * @param userId The id of the User requesting the document update
-	 */
-	// _preCreate(data: CharacterSource, options: any, userId: string) {
-	// 	super._onCreate(data, options, userId);
-	// 	console.log(CHARACTER_DEFAULTS);
-	// 	this.update(CHARACTER_DEFAULTS);
-	// }
 
 	/** @override */
 	update(
@@ -91,7 +78,6 @@ export class CharacterGURPS extends ActorGURPS {
 
 	async importCharacter() {
 		const importpath = this.getData().import.path;
-		// const importname = this.getData().import.name;
 		const importname = importpath.match(/.*[/\\]Data[/\\](.*)/);
 		if (!!importname) {
 			const file = importname[1].replace(/\\/g, "/");
@@ -101,7 +87,6 @@ export class CharacterGURPS extends ActorGURPS {
 			new Promise((resolve) => {
 				request.onload = () => {
 					if (request.status === 200) {
-						// const json = arrayBuffertoBase64(request.response);
 						const json = request.response;
 						this.importCharacterFromGCS(json, importname[1], importpath);
 					} else this._openImportDialog();
@@ -197,7 +182,6 @@ export class CharacterGURPS extends ActorGURPS {
 		}
 
 		try {
-			// console.log(commit);
 			await this.update(
 				{
 					"data.settings.attributes": null,

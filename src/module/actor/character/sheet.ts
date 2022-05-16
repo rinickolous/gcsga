@@ -198,7 +198,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
-		// console.log(data, data.attributes, data.settings.attributes);
+		console.log(data, data.attributes, data.settings.attributes);
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
 			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];
@@ -349,7 +349,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				});
 			data.modifiers = modifiers;
 		}
-		if (item.type == "advantage_container") console.log(item.name, data);
+		// if (item.type == "advantage_container") console.log(item.name, data);
 		return data;
 	}
 

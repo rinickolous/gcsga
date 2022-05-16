@@ -13,7 +13,7 @@ import {
 	ConfiguredDocumentClass,
 	PropertiesToSource,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
-import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { ItemDataBaseProperties, ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -28,27 +28,16 @@ export class ItemGURPS extends Item {
 
 	/** @override */
 	constructor(data: ItemDataGURPS, context: ItemConstructionContextGURPS = {}) {
-		// console.log("initializing item", data, context);
 		if (context.gcsga?.ready) {
 			//@ts-ignore
 			super(data, context);
 			this.initialized = true;
 		} else {
-			// console.log(context.parent);
-			// console.log(context.parent?.toObject(false));
-			// console.log(data.name, context.parent instanceof ActorGURPS);
-			// let parents: string | null = null;
-			// if (context.parent instanceof ItemGURPS)
-			// 	parents = context.parent.getFlag("gcsga", "parents") + " " + context.parent.id;
-			// else if (context.parent instanceof ActorGURPS) parents = "actor";
 			mergeObject(context, {
 				gcsga: {
 					ready: true,
 				},
 			});
-			// console.log(data, data.flags, context, context.gcsga);
-			// mergeObject(data, { flags: { gcsga: context.gcsga } });
-			// console.log(data, context);
 			//@ts-ignore
 			const ItemConstructor = CONFIG.GURPS.Item.documentClasses[data.type as ItemType];
 			return ItemConstructor ? new ItemConstructor(data, context) : new ItemGURPS(data, context);
@@ -79,11 +68,13 @@ export class ItemGURPS extends Item {
 	}
 
 	async delete(context?: DocumentModificationContext): Promise<this | undefined> {
-		// if (!(this.parent instanceof Item)) return super.delete(context);
 		//@ts-ignore
 		if (this.parent instanceof ContainerGURPS) return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
 		return super.delete(context);
-		// return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
+	}
+
+	prepareData(): void {
+		super.prepareData();
 	}
 
 	/** @override */
@@ -93,7 +84,6 @@ export class ItemGURPS extends Item {
 		//@ts-ignore
 		options?: FromDropDataOptions | undefined,
 	): Promise<InstanceType<ConfiguredDocumentClass<T>> | undefined> {
-		// console.log("precheck", data, options);
 		//@ts-ignore
 		if (data.type !== this.documentName) return null;
 		// @ts-ignore
@@ -128,7 +118,6 @@ export class ItemGURPS extends Item {
 			document.data.update({ "flags.core.sourceId": document.uuid });
 			document.prepareData();
 		}
-		// console.log("checkem", document);
 		return document;
 	}
 
@@ -137,8 +126,6 @@ export class ItemGURPS extends Item {
 	}
 
 	async _preUpdate(changed: any, options: object, user: documents.BaseUser) {
-		console.log(this);
-		console.log(changed);
 		if (!!changed.data?.categories && typeof changed?.data?.categories == "string") {
 			changed.data.categories = changed.data.categories.length ? changed.data.categories.split(/,\s*/) : [];
 		}
@@ -152,9 +139,6 @@ export class ItemGURPS extends Item {
 		const notes = ["note", "note_container"];
 		const sections = [advantages, skills, spells, equipment, notes];
 		for (const i of sections) {
-			// console.log(i);
-			// console.log(this, compare, this.data.type, compare.data.type);
-			//@ts-ignore
 			if (i.includes(this.data.type) && i.includes(compare.data.type)) return true;
 		}
 		return false;

@@ -24,7 +24,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		if (data.length) {
 			for (const itemData of data) {
 				let theData = itemData;
-				console.log("CONTAINED DATA", theData);
+				// console.log("CONTAINED DATA", theData);
 				theData._id = randomID();
 				//@ts-ignore
 				theData = new CONFIG.Item.documentClass(theData as ItemDataConstructorData, {
@@ -37,7 +37,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 				createdItems.push(theData);
 			}
 			if (this.parent) {
-				console.log("check", this.parent);
+				// console.log("check", this.parent);
 				return this.parent.updateEmbeddedDocuments(embeddedName, [
 					{ _id: this.id, "flags.gcsga.contentsData": currentItems },
 				]);
@@ -170,6 +170,8 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		const oldItems = this.items;
 		this.items = new foundry.utils.Collection();
 		containedItems.forEach((itemData: ItemDataGURPS) => {
+			//@ts-ignore
+			itemData.flags.gcsga.parents = this.data.flags.gcsga?.parents.concat(this.data._id);
 			//@ts-ignore itemData._id
 			if (!oldItems?.has(itemData._id)) {
 				//@ts-ignore

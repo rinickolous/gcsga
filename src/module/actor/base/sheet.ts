@@ -22,31 +22,18 @@ export class ActorSheetGURPS extends ActorSheet {
 	protected async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
 		if (!this.actor.isOwner) return false;
 
-		console.log(data);
-
 		//@ts-ignore
 		const item = await ItemGURPS.implementation.fromDropData(data);
-		// console.log(item);
 		const itemData = item.toObject();
-		// console.log(itemData);
 
 		//Handle item sorting within the same Actor
 		if (await this._isFromSameActor(data)) return this._onSortItem(event, itemData);
 
-		// console.log(event);
-		//@ts-ignore
-		// console.log(event.target, $(event.target).closest(".item").data("parent-ids"));
-
-		return super._onDropItem(event, data);
+		return this._onDropItemCreate(itemData);
 	}
 
 	/** @override */
 	protected _isFromSameActor(data: ActorSheet.DropData.Item): Promise<boolean> {
-		// let other;
-		// if (data.sceneId && data.tokenId) other = game.scenes.get(data.sceneId)?.tokens.get(data.tokenId)?this.actor;
-		// if (!other && data.actorId) {
-		// 	if (data.pack)
-		// }
 		return super._isFromSameActor(data);
 	}
 
@@ -93,15 +80,13 @@ export class ActorSheetGURPS extends ActorSheet {
 	}
 
 	/** @override */
-	protected _onSortItem(
+	//@ts-ignore
+	protected async _onSortItem(
 		event: DragEvent,
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
-	): Promise<Item[]> | undefined {
-		console.log(itemData);
+	): Promise<Item[] | undefined> {
 		//@ts-ignore
 		const source = this.actor.getDeepItem(itemData.flags.gcsga.parents.concat(itemData._id));
-		console.log(source);
-		console.log(event.target);
 		//@ts-ignore
 		const dropTarget = event.target.closest("[data-item-id]");
 		//@ts-ignore
@@ -113,26 +98,33 @@ export class ActorSheetGURPS extends ActorSheet {
 		const siblings = target.parent.items.filter((i) => {
 			return source.sameSection(i) && i.data._id !== source.data._id;
 		});
-		console.log(siblings);
-
-		// Get the drop target
-		// //@ts-ignore
-		// const targetId = dropTarget ? dropTarget.dataset.itemId : null;
-		// const target = siblings.find((s: Item) => s.data._id === targetId);
 
 		// Ensure we are only sorting like-types
-		// console.log(source, target);
 		if (target && !source.sameSection(target)) return;
 
 		// Perform the sort
 		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
-		console.log(sortUpdates);
 		const updateData = sortUpdates.map((u) => {
 			const update = u.update;
 			//@ts-ignore
 			update._id = u.target.data._id;
 			return update;
 		});
+		const parent = target.parent;
+		if (source.parent != target.parent) {
+			const sourceData = duplicate(source.data.toObject());
+			await source.parent.deleteEmbeddedDocuments("Item", [source.data._id], { render: false });
+			//@ts-ignore
+			return parent.createEmbeddedDocuments("Item", [
+				{
+					name: sourceData.name,
+					data: sourceData.data,
+					type: sourceData.type,
+					flags: sourceData.flags,
+					sort: updateData[0].sort,
+				},
+			]);
+		}
 
 		// Perform the update
 		//@ts-ignore
@@ -142,31 +134,4 @@ export class ActorSheetGURPS extends ActorSheet {
 		//@ts-ignore
 		return this.actor.updateEmbeddedDocuments("Item", updateData);
 	}
-
-	// protected override _onDragOver(event: DragEvent): void {
-	// 	//@ts-ignore
-	// 	const target = $(event.currentTarget);
-	// 	//@ts-ignore
-	// 	// console.log(target.parent());
-
-	// 	//@ts-ignore
-	// 	if (target.hasClass("item")) {
-	// 		//@ts-ignore
-	// 		target.addClass("redline");
-	// 	}
-	// }
-	// 	//@ts-ignore
-	// 	const $target = $(event.currentTarget);
-	// 	//@ts-ignore
-	// 	const $itemRef = $target.closest(".item");
-
-	// 	//@ts-ignore
-	// 	const targetElement = $target.get(0);
-	// 	const previewElement = $itemRef.get(0);
-	// 	if (previewElement && targetElement && targetElement !== previewElement) {
-	// 		event.dataTransfer?.setDragImage(previewElement, 0, 0);
-	// 		//@ts-ignore
-	// 		mergeObject(targetElement.dataset, previewElement.dataset);
-	// 	}
-	// }
 }

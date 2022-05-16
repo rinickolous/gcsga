@@ -144,9 +144,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			this.actor.items.map((item) => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
 		);
 		(actorData as any).items = items;
-		// console.log(actorData);
 		const [primary_attributes, secondary_attributes, pool_attributes] = this.prepareAttributes(
 			actorData.data as CharacterSystemData,
+			// this.actor.data.data as CharacterSystemData,
 		);
 		const [encumbrance, lifting] = this.prepareLifts(actorData.data as CharacterSystemData);
 
@@ -198,7 +198,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
-		console.log(data, data.attributes, data.settings.attributes);
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
 			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];

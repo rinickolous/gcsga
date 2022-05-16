@@ -188,7 +188,7 @@ export class CharacterGURPS extends ActorGURPS {
 					"data.settings.hit_locations": null,
 					"data.attributes": null,
 				},
-				{ diff: true, recursive: false },
+				{ diff: true, recursive: false, render: false },
 			);
 			await this.update(commit, { diff: false, recursive: false });
 		} catch (err: unknown) {
@@ -203,7 +203,6 @@ export class CharacterGURPS extends ActorGURPS {
 			return this.throwImportError(msg);
 		}
 
-		console.log(commit);
 		return true;
 	}
 
@@ -323,7 +322,7 @@ export class CharacterGURPS extends ActorGURPS {
 			let data: any = {};
 			// const id = this.getItemID(data);
 			const id = randomID();
-			console.log(id);
+			// console.log(id);
 			const flags: any = { gcsga: { contentsData: [], parents: [] } };
 			flags.gcsga.parents.push(this.id);
 			//@ts-ignore
@@ -504,7 +503,6 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	getAdvantageContainerData(data: AdvantageContainerSystemData) {
-		console.log(data);
 		return {
 			id: data.id || "",
 			reference: data.reference || "",

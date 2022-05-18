@@ -94,8 +94,7 @@
 				<div class="header points">{{localize "gcsga.sheet.advantages.points"}}</div>
 				<div class="header reference"><i class="fas fa-bookmark"></i></div>
 				{{#each advantages}}
-					{{>gcs_advantage indent=0 parents=../document.id selected=../selection.advantages}}
-					{{!-- {{>gcs_advantage indent=0 parents="" selected=../selection.advantages}} --}}
+					{{>gcs_advantage indent=0 selected=../selection.advantages}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -108,7 +107,7 @@
 				<div class="header points">{{localize "gcsga.sheet.skills.points"}}</div>
 				<div class="header reference"><i class="fas fa-bookmark"></i></div>
 				{{#each skills}}
-					{{>gcs_skill indent=0}}
+					{{>gcs_skill indent=0 selected=../selection.skills}}
 				{{/each}}
 			</div>
 			{{/if}}

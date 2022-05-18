@@ -1,68 +1,118 @@
 @import 'advantage_container';
+// @import 'advantage';
 
-.gcs_item {
+.gcs-item {
+	min-width: 600px;
 	.window-content {
-		height: 100%;
-		padding: 4px;
-		scroll-behavior: smooth;
+		padding: 0px;
 		background: var(--color-background);
-		#sheet {
-			.f-checkbox-reverse {
-				display: grid;
-				grid-template-columns: 0fr 0fr 0fr;
-				gap: 5px;
-				input[type="checkbox"] {
-					display: none;
-				}
-				.checked {
-					display: inline-block;
-				}
-				.unchecked {
-					display: none;
-				}
-				input[type="checkbox"]:checked~.checked {
-					display: none;
-				}
-				input[type="checkbox"]:checked~.unchecked {
-					display: inline-block;
-				}
+	}
+	#sheet {
+		background-color: var(--color-background);
+		color: var(--color-on-background);
+	}
+	.label {
+		font: var(--font-label);
+		transform: translateY(4px);
+	}
+	.field {
+		display: grid;
+		grid-auto-flow: dense column;
+		align-items: start;
+		column-gap: 9px;
+		&.no-stretch {
+			width: max-content;
+		}
+		input.input[type=text] {
+			font: var(--font-field);
+			height: 24px;
+			border-radius: 0px;
+			background-color: var(--color-editable);
+			color: var(--color-on-editable);
+			border: 1px solid var(--color-editable-border);
+			&:focus {
+				box-shadow: none;
+				border: 2px solid var(--color-focused-editable-border);
 			}
-			.field {
-				input[type="text"] {
-					border-radius: 0px;
-					border-color: var(--color-editable-border);
-					background-color: var(--color-editable);
-					color: var(--color-on-editable);
-					&:focus {
-						border-color: var(--color-focused-editable-border);
-						box-shadow: none;
-					}
-				}
-				select { // to do: change select inputs to custom css radio buttons to style properly (?)
-					border-radius: 8px;
-					height: 21px;
-					border: 1px solid var(--color-control-edge);
-					background: var(--color-control);
-					color: var(--color-on-control);
-					&:focus {
-						box-shadow: none;
-					}
-					option {
-						background-color: var(--color-control);
-						color: var(--color-on-control);
-					}
-					option:hover {
-						// background: var(--color-pressed-control);
-						background-color: red;
-						color: var(--color-on-pressed-control);
-						border-color: var(--color-control-edge);
-					}
-				}
-				select:focus > option:active {
-					background: red !important;
-				}
-				
+			&:disabled {
+				background-color: var(--color-background);
+				color: var(--color-on-editable);
+			}
+			&[data-dtype="Number"] {
+				width: 93px;
+			}
+			&.calc {
+				width: 67px;
 			}
 		}
+		.checkbox-label {
+			display: grid;
+			grid-template-columns: 1em auto;
+			gap: 4px;
+			height: 16px;
+			grid-row-gap: 0px;
+			font: var(--font-system);
+		}
+		input[type="checkbox"] {
+			appearance: none;
+			margin: 0;
+			background-color: var(--color-control);
+			font: inherit;
+			width: 14px;
+			height: 14px;
+			border: 2px solid var(--color-control-edge);
+			border-radius: 4px;
+			display: grid;
+			place-content: center;
+			filter: none;
+			// transform: translate(-2px, -3px);
+		}
+		input[type="checkbox"]::before {
+			content: "";
+			width: 160px;
+			height: 160px;
+			opacity: 0;
+			transform: scale(0.05);
+			background-color: var(--color-on-control);
+			clip-path: var(--shape-checkmark);
+		}
+		input[type="checkbox"]:checked::before {
+			opacity: 1;
+		}
+		.checkbox-label + .checkbox-label {
+			margin-top: 1em;
+		}
+		// input.input[type=checkbox] {
+		// 	appearance: none;
+		// 	height: 140px;
+		// 	width: 140px;
+		// 	background-color: var(--color-control);
+		// 	color: var(--color-on-control);
+		// 	border: 1px solid var(--color-control-edge);
+		// 	border-radius: 2px;
+		// 	&:before {
+		// 		content: " ";
+		// 		display: inline-block;
+		// 		height: 140px;
+		// 		width: 140px;
+		// 		background: #DDD;
+		// 	}
+		// }
+		// input.input:checked:before {
+		// 	background: url("../assets/checkmark.svg") #FF0000;
+		// 	background-color: #FF0000;
+		// }
+	}
+	#details {
+		display: grid;
+		grid-template: "label field";
+		grid-template-columns: max-content 1fr;
+		row-gap: 4px;
+		column-gap: 9px;
+		vertical-align: middle;
+		padding: 16px;
+	}
+	.align-right {
+		text-align: right;
 	}
 }

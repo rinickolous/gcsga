@@ -88,10 +88,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("selected", function (list: any[], item: string): string {
-		if (list.length)
-			for (let i = 0; i < list.length; i++) {
-				if (list[i][0] == item) return "selected";
-			}
+		if (list.includes(item)) return "selected";
 		return "";
 	});
 }

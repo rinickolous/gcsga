@@ -13,10 +13,7 @@ import {
 	ConfiguredDocumentClass,
 	PropertiesToSource,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
-import {
-	ItemDataBaseProperties,
-	ItemDataConstructorData,
-} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -52,7 +49,6 @@ export class ItemGURPS extends Item {
 		options: DocumentModificationOptions,
 		userId: string,
 	): void {
-		console.log(data, options, userId);
 		return super._onCreate(data, options, userId);
 	}
 
@@ -124,15 +120,11 @@ export class ItemGURPS extends Item {
 		return document;
 	}
 
-	getData() {
-		return this.data.data;
-	}
-
-	async _preUpdate(changed: any, options: object, user: documents.BaseUser) {
-		if (!!changed.data?.categories && typeof changed?.data?.categories == "string") {
-			changed.data.categories = changed.data.categories.length ? changed.data.categories.split(/,\s*/) : [];
-		}
-	}
+	// async _preUpdate(changed: any, options: object, user: documents.BaseUser) {
+	// 	if (!!changed.data?.categories && typeof changed?.data?.categories == "string") {
+	// 		changed.data.categories = changed.data.categories.length ? changed.data.categories.split(/,\s*/) : [];
+	// 	}
+	// }
 
 	sameSection(compare: ItemGURPS): boolean {
 		const advantages = ["advantage", "advantage_container"];
@@ -153,5 +145,3 @@ export interface ItemGURPS {
 	readonly data: ItemDataGURPS;
 	readonly parent: ActorGURPS | ContainerGURPS | null;
 }
-
-// export { ItemGURPS };

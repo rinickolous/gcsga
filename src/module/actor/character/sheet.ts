@@ -4,7 +4,7 @@ import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";
 import { openPDF } from "@module/modules/pdfoundry";
-import { dollarFormat } from "@util";
+import { dollarFormat, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
 
@@ -50,17 +50,17 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	async _onCollapseToggle(event: Event) {
 		event.preventDefault();
 		//@ts-ignore
-		const id: string = $(event.currentTarget).attr("data-id") || "";
+		const id: string = $(event.currentTarget).data("item-id");
 		//@ts-ignore
-		const open: boolean = $(event.currentTarget).attr("class")?.includes("fa-chevron-right") ? true : false; // change to icon agnostic later
-		console.log(id);
-		console.log(await this.actor.getEmbeddedDocument("Item", id));
-		return this.actor.updateEmbeddedDocuments("Item", [{ _id: id, "data.open": open }]);
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
+		//@ts-ignore
+		const item = this.actor.deepItems.get(id);
+		//@ts-ignore
+		return item.update({ _id: id, "data.open": open });
 	}
 
 	async _onEditToggle(event: Event) {
 		event.preventDefault();
-		// console.log(this.editing);
 		this.editing = !this.editing;
 		return this.render();
 	}
@@ -75,48 +75,66 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return this.actor.setAttributeValue(id, value);
 	}
 
+	//TODO: inactive-select children
 	async _onItemSelect(event: Event) {
 		event.preventDefault();
 		//@ts-ignore
-		const id: string = $(event.currentTarget).data("parent-ids") + $(event.currentTarget).data("item-id") || "";
+		const id: string = $(event.currentTarget).data("item-id") || "";
 		//@ts-ignore
-		const item: ItemGURPS = await this.actor.getDeepItem(id);
-		if (["advantage", "advantage_container"].includes(item.type)) this.selection.active = "advantages";
-		else if (["skill", "skill_container", "technique"].includes(item.type)) this.selection.active = "skills";
-		else if (["spell", "spell_container", "ritual_magic_spell"].includes(item.type))
-			this.selection.active = "spells";
-		else if (["equipment", "equipment_container"].includes(item.type)) {
-			//@ts-ignore
-			if (item.getData().other) this.selection.active = "other_equipment";
-			else this.selection.active = "equipment";
-		}
-		const s_id = id.split(" ");
-		const f_id = [s_id[s_id.length - 1], s_id];
-		let exists_index = -1;
-		//@ts-ignore
-		for (let i = 0; i < this.selection[this.selection.active].length; i++) {
-			//@ts-ignore
-			if (this.selection[this.selection.active][i][0] == f_id[0]) {
-				exists_index = i;
+		const item: ItemGURPS = this.actor.deepItems.get(id);
+		for (const type of ["advantages", "skills", "spells", "equipment", "other_equipment", "notes"])
+			if (sheetSection(item, type)) {
+				this.selection.active = type;
+				break;
 			}
-		}
 		//@ts-ignore
-		if (event.ctrlKey) {
-			//@ts-ignore
-			if (exists_index != -1) this.selection[this.selection.active].splice(exists_index, 1);
-			//@ts-ignore
-			else this.selection[this.selection.active].push(f_id);
-			//@ts-ignore
-		} else if (event.shiftKey) {
-			// note implemented yet
-			//@ts-ignore
-			this.selection[this.selection.active] = [f_id];
-		} else {
-			//@ts-ignore
-			this.selection[this.selection.active] = [f_id];
-		}
+		this.selection[this.selection.active].push(id);
+
 		this.render();
 	}
+
+	// async _onItemSelect(event: Event) {
+	// 	event.preventDefault();
+	// 	//@ts-ignore
+	// 	const id: string = $(event.currentTarget).data("item-id") || "";
+	// 	//@ts-ignore
+	// 	const item: ItemGURPS = this.actor.deepItems.get(id);
+	// 	if (["advantage", "advantage_container"].includes(item.type)) this.selection.active = "advantages";
+	// 	else if (["skill", "skill_container", "technique"].includes(item.type)) this.selection.active = "skills";
+	// 	else if (["spell", "spell_container", "ritual_magic_spell"].includes(item.type))
+	// 		this.selection.active = "spells";
+	// 	else if (["equipment", "equipment_container"].includes(item.type)) {
+	// 		//@ts-ignore
+	// 		if (item.getData().other) this.selection.active = "other_equipment";
+	// 		else this.selection.active = "equipment";
+	// 	}
+	// 	const s_id = id.split(" ");
+	// 	const f_id = [s_id[s_id.length - 1], s_id];
+	// 	let exists_index = -1;
+	// 	//@ts-ignore
+	// 	for (let i = 0; i < this.selection[this.selection.active].length; i++) {
+	// 		//@ts-ignore
+	// 		if (this.selection[this.selection.active][i][0] == f_id[0]) {
+	// 			exists_index = i;
+	// 		}
+	// 	}
+	// 	//@ts-ignore
+	// 	if (event.ctrlKey) {
+	// 		//@ts-ignore
+	// 		if (exists_index != -1) this.selection[this.selection.active].splice(exists_index, 1);
+	// 		//@ts-ignore
+	// 		else this.selection[this.selection.active].push(f_id);
+	// 		//@ts-ignore
+	// 	} else if (event.shiftKey) {
+	// 		// note implemented yet
+	// 		//@ts-ignore
+	// 		this.selection[this.selection.active] = [f_id];
+	// 	} else {
+	// 		//@ts-ignore
+	// 		this.selection[this.selection.active] = [f_id];
+	// 	}
+	// 	this.render();
+	// }
 
 	async _handlePDF(event: Event) {
 		event.preventDefault();
@@ -129,8 +147,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		//@ts-ignore
 		const id = $(event.currentTarget)?.attr("data-id") || "";
-		//@ts-ignore
-		console.log(await this.actor.getDeepItem(id));
 	}
 
 	/**
@@ -146,7 +162,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		(actorData as any).items = items;
 		const [primary_attributes, secondary_attributes, pool_attributes] = this.prepareAttributes(
 			actorData.data as CharacterSystemData,
-			// this.actor.data.data as CharacterSystemData,
 		);
 		const [encumbrance, lifting] = this.prepareLifts(actorData.data as CharacterSystemData);
 
@@ -199,7 +214,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			state: Record<string, unknown>;
 		}[] = [];
 		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
-			// console.log("k", k, "e", e, data.settings.attributes);
 			const f: AttributeSetting = data.settings.attributes[k];
 			if (f.type === "pool") {
 				let state = {};
@@ -281,7 +295,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	prepareItems(data: any) {
-		// console.log(data.items);
 		const [advantages, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
 			(arr: ItemDataGURPS[][], item: ItemGURPS | ContainerGURPS) => {
 				const itemData: ItemDataGURPS = this.parseContents(item);
@@ -338,8 +351,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		//TODO: check why error
 		//@ts-ignore
 		const data: ItemDataGURPS = deepClone(item.data);
-		if (!!(data as any).data.data) data.data = (data as any).data.data;
-		// console.log(data);
 		if (item.type.includes("_container")) {
 			const children: Array<ItemDataGURPS | BaseContainerData> = [];
 			(item as ContainerGURPS).items
@@ -361,7 +372,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				});
 			data.modifiers = modifiers;
 		}
-		// if (item.type == "advantage_container") console.log(item.name, data);
 		return data;
 	}
 

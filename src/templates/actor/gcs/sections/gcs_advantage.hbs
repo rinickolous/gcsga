@@ -1,19 +1,21 @@
-<div class="entry_parent {{selected selected this._id}}" readonly></div>
-<div class="desc item {{selected selected this._id}}" draggable="true" data-item-id="{{_id}}" data-parent-ids="{{#if parents}}{{parents}} {{/if}}" style="padding-left: {{indent}}.2em;">
+<div class="entry_parent {{selected selected _id}}" readonly></div>
+<div class="dropdown">
 	{{#if (eq this.type "advantage_container")}}
 	{{#if this.data.open}}
-	<i class="fas fa-chevron-down toggle_open" data-id={{this._id}}></i>
+	{{>gcs_dropdown_open _id=_id}}
 	{{else}}
-	<i class="fas fa-chevron-right toggle_open" data-id={{this._id}}></i>
+	{{>gcs_dropdown_closed _id=_id}}
 	{{/if}}
 	{{/if}}
+</div>
+<div class="desc item {{selected selected _id}}" draggable="true" data-item-id="{{_id}}" style="padding-left: {{indent}}.2em;">
 	{{this.name}}{{#unless (eq this.data.levels "0")}} {{this.data.levels}}{{/unless}}
 	{{>gcs_item_notes}}
 </div>
-<div class="points align_right {{selected selected this._id}}">{{this.data.calc.points}}</div>
-<div class="reference {{selected selected this._id}}">{{this.data.reference}}</div>
+<div class="points align_right {{selected selected _id}}">{{this.data.calc.points}}</div>
+<div class="reference {{selected selected _id}}">{{this.data.reference}}</div>
 {{#if this.data.open}}
 	{{#each this.children}}
-		{{>gcs_advantage indent=(sum indent 1) parents=(concat ../parents " " ../this._id) selected=../selected}}
+		{{>gcs_advantage indent=(sum indent 1) selected=../selected}}
 	{{/each}}
 {{/if}}

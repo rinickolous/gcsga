@@ -398,20 +398,23 @@
 		.weight, .value, .weight_total, .value_total {
 			padding: 0 0.2em;
 		}
-		.toggle_open {
-			opacity: 0.5;
-			&:hover {
-				opacity: 1;
-			}
-		}
+		// .toggle_open {
+		// 	opacity: 0.5;
+		// 	&:hover {
+		// 		opacity: 1;
+		// 	}
+		// }
 	}
 	#advantages {
-		grid-template-columns: min-content 1fr repeat(2, auto);
+		grid-template-columns: min-content 20px 1fr repeat(2, auto);
 		grid-area: advantages;
 		border: var(--standard-border);
 		.desc,
 		.points {
 			border-right: 1px solid var(--color-divider);
+		}
+		.desc.header {
+			grid-column: span 2;
 		}
 	}
 	#skills {
@@ -594,10 +597,11 @@
 	#encumbrance .dodge:nth-last-child(12n + 7),
 	#lifting .lift:nth-child(4n),
 	#lifting .label:nth-child(4n+1),
-	#advantages .entry_parent:nth-child(8n + 1),
-	#advantages .desc:nth-child(8n + 2),
-	#advantages .points:nth-child(8n + 3),
-	#advantages .reference:nth-child(8n + 4),
+	#advantages .entry_parent:nth-child(10n),
+	#advantages .dropdown:nth-child(10n + 1),
+	#advantages .desc:nth-child(10n + 2),
+	#advantages .points:nth-child(10n + 3),
+	#advantages .reference:nth-child(10n + 4),
 	#skills .entry_parent:nth-child(12n + 1),
 	#skills .desc:nth-child(12n + 2),
 	#skills .level:nth-child(12n + 3),
@@ -652,5 +656,24 @@
 
 	.edit_lock.fa-unlock {
 		color: var(--color-warning);
+	}
+	.dropdown {
+		.toggle_open {
+			padding: 0 6px;
+		}
+		#toggle-open, #toggle-closed {
+			vertical-align: top;
+			margin-top: 2px;
+			width: 8px;
+			height: 8px;
+			> path {
+				d: var(--shape-chevron-right);
+				fill: var(--color-on-content);
+				&.toggle-open {
+					transform: rotate(90deg);
+					transform-origin: center;
+				}
+			}
+		}
 	}
 }

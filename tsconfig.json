@@ -10,6 +10,7 @@
 		"sourceMap": true,
 		"baseUrl": ".",
 		"paths": {
+			"@assets/*": ["src/assets/*"],
 			"@actor": ["src/module/actor"],
 			"@actor/*": ["src/module/actor/*"],
 			"@item": ["src/module/item"],

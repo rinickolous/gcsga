@@ -1,3 +1,4 @@
+import { EquipmentGURPS, ItemGURPS } from "@item";
 import { ItemDataGURPS } from "@item/data";
 
 export function arrayBuffertoBase64(buffer: ArrayBuffer) {
@@ -67,6 +68,35 @@ export function dollarFormat(i: number): string {
 		currency: "USD",
 	});
 	return formatter.format(i);
+}
+
+export function sheetSection(item: ItemGURPS, type: string) {
+	let types: Array<string> = [];
+	switch (type) {
+		case "advantages":
+			types = ["advantage", "advantage_container"];
+			break;
+		case "skills":
+			types = ["skill", "technique", "skill_container"];
+			break;
+		case "spells":
+			types = ["spell", "ritual_magic_spell", "spell_container"];
+			break;
+		case "equipment":
+			types = ["equipment", "equipment_container"];
+			break;
+		case "other_equipment":
+			types = ["equipment", "other_equipment"];
+			break;
+		case "notes":
+			types = ["note", "note_container"];
+			break;
+	}
+	const eqp =
+		(type == "equipment" && !(item as EquipmentGURPS).data.data.other) ||
+		(type == "other_equipment" && (item as EquipmentGURPS).data.data.other) ||
+		!["equipment", "other_equipment"].includes(type);
+	return types.includes(item.type) && eqp;
 }
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =

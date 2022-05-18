@@ -1,6 +1,8 @@
 export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
 	const templatePaths: string[] = [
 		// Add paths to "systems/gcsga/templates"
+		"systems/gcsga/templates/actor/gcs/sections/gcs_dropdown_open.hbs",
+		"systems/gcsga/templates/actor/gcs/sections/gcs_dropdown_closed.hbs",
 		"systems/gcsga/templates/actor/gcs/sections/gcs_portrait.hbs",
 		"systems/gcsga/templates/actor/gcs/sections/gcs_identity.hbs",
 		"systems/gcsga/templates/actor/gcs/sections/gcs_miscellaneous.hbs",

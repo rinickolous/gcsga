@@ -1,0 +1,104 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet" class="gcs_advantage_sheet">
+		<div id="details">
+			<label class="label align-right"></label>
+			<div class="field">
+				<label class="checkbox-label">
+					<input class="input" type="checkbox" checked/>
+					{{localize "gcsga.advantage.enabled"}}
+				</label>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.name"}}</div>
+			<div class="field">
+				<input
+					name="name"
+					class="input"
+					type="text"
+					value="{{item.name}}"
+					{{!-- {{input_lock editing}} --}}
+				/>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.notes"}}</div>
+			<div class="field">
+				<input
+					name="data.notes"
+					class="input"
+					type="text"
+					value="{{data.notes}}"
+					{{!-- {{input_lock editing}} --}}
+				/>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.vtt_notes"}}</div>
+			<div class="field">
+				<input
+					name="data.vtt_notes"
+					class="input"
+					type="text"
+					value="{{data.vtt_notes}}"
+					{{!-- {{input_lock editing}} --}}
+				/>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.user_description"}}</div>
+			<div class="field">
+				<input
+					name="data.user_description"
+					class="input"
+					type="text"
+					value="{{data.user_description}}"
+					{{!-- {{input_lock editing}} --}}
+				/>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.categories"}}</div>
+			<div class="field">
+				<input
+					name="data.categories"
+					class="input"
+					type="text"
+					value="{{data.categories}}"
+					{{!-- {{input_lock editing}} --}}
+				/>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.point_cost"}}</div>
+			<div class="field no-stretch">
+				<input
+					name="data.point_cost"
+					class="input calc"
+					type="text"
+					value="{{data.notes}}"
+					disabled
+				/>
+				<label class="label checkbox-label">
+					<input class="input" type="checkbox" checked/>
+					{{localize "gcsga.advantage.round_down"}}
+				</label>
+			</div>
+			<div class="label align-right">{{localize "gcsga.advantage.base_cost"}}</div>
+			<div class="field no-stretch">
+				<input
+					name="data.base_cost"
+					class="input"
+					type="text"
+					data-dtype="Number"
+					value="{{data.base_cost}}"
+				/>
+				<div class="label align-right">{{localize "gcsga.advantage.cost_per_level"}}</div>
+				<input
+					name="data.cost_per_level"
+					class="input"
+					type="text"
+					data-dtype="Number"
+					value="{{data.cost_per_level}}"
+				/>
+				<div class="label align-right">{{localize "gcsga.advantage.levels"}}</div>
+				<input
+					name="data.levels"
+					class="input"
+					type="text"
+					data-dtype="Number"
+					value="{{data.levels}}"
+					disabled
+				/>
+			</div>
+		</div>
+	</div>
+</form>

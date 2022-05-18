@@ -18,7 +18,6 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
-import { ItemData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { getPointTotal, i18n, i18n_f } from "@util";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
@@ -43,7 +42,6 @@ export class CharacterGURPS extends ActorGURPS {
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
-		// console.log(data);
 		return super.update(data, context);
 	}
 
@@ -73,7 +71,6 @@ export class CharacterGURPS extends ActorGURPS {
 		updates?: Record<string, unknown>[] | undefined,
 		context?: DocumentModificationContext | undefined,
 	): Promise<Document<any, this, Metadata<any>>[]> {
-		console.log(updates);
 		return super.updateEmbeddedDocuments(embeddedName, updates, context);
 	}
 
@@ -222,7 +219,7 @@ export class CharacterGURPS extends ActorGURPS {
 			};
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
-			console.log(err.stack);
+			console.error(err.stack);
 			msg.push(
 				i18n_f("gcsga.actor.import.generic_error", {
 					name: r.profile.name,
@@ -244,7 +241,7 @@ export class CharacterGURPS extends ActorGURPS {
 			await this.update(commit, { diff: false, recursive: false });
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
-			console.log(err.stack);
+			console.error(err.stack);
 			msg.push(
 				i18n_f("gcsga.actor.import.generic_error", {
 					name: r.profile.name,
@@ -295,7 +292,7 @@ export class CharacterGURPS extends ActorGURPS {
 				.then((img_blob) => {
 					const file = new File([img_blob], filename);
 					//@ts-ignore
-					FilePicker.upload("data", path, file, { notify: false });
+					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
 		}
 		return {

@@ -23,6 +23,7 @@ import { CharacterSheetGURPS } from "@actor/character/sheet";
 import { registerHandlebarsHelpers } from "@util/HandlebarsHelpers";
 import { GURPSCONFIG } from "./config";
 import { SJG_links } from "./modules/pdfoundry";
+import { AdvantageSheet } from "@item/advantage/sheet";
 
 export const GURPS: any = {};
 //@ts-ignore
@@ -83,6 +84,11 @@ Hooks.once("init", async () => {
 	Items.unregisterSheet("core", ItemSheet);
 	Actors.unregisterSheet("core", ActorSheet);
 
+	Items.registerSheet("gcsga", AdvantageSheet, {
+		types: ["advantage"],
+		makeDefault: true,
+		label: "gcsga.item.sheet.advantage.name",
+	});
 	Items.registerSheet("gcsga", AdvantageContainerSheet, {
 		types: ["advantage_container"],
 		makeDefault: true,

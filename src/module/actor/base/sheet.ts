@@ -86,14 +86,11 @@ export class ActorSheetGURPS extends ActorSheet {
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
 	): Promise<Item[] | undefined> {
 		//@ts-ignore
-		const source = this.actor.getDeepItem(itemData.flags.gcsga.parents.concat(itemData._id));
+		const source = this.actor.deepItems.get(itemData._id);
 		//@ts-ignore
 		const dropTarget = event.target.closest("[data-item-id]");
 		//@ts-ignore
-		const target = this.actor.getDeepItem(
-			//@ts-ignore
-			dropTarget.dataset.parentIds.split(" ").concat(dropTarget.dataset.itemId),
-		);
+		const target = this.actor.deepItems.get(dropTarget.dataset.itemId);
 		//@ts-ignore
 		const siblings = target.parent.items.filter((i) => {
 			return source.sameSection(i) && i.data._id !== source.data._id;
@@ -127,11 +124,6 @@ export class ActorSheetGURPS extends ActorSheet {
 		}
 
 		// Perform the update
-		//@ts-ignore
-		if (itemData.flags.gcsga.parents.length > 1)
-			//@ts-ignore
-			return this.actor.getDeepItem(itemData.flags.gcsga.parents).updateEmbeddedDocuments("Item", updateData);
-		//@ts-ignore
-		return this.actor.updateEmbeddedDocuments("Item", updateData);
+		return parent.updateEmbeddedDocuments("Item", updateData);
 	}
 }

@@ -49,6 +49,8 @@ class ActorGURPS extends Actor {
 	getDeepItem(ids: string | Array<string>) {
 		if (!Array.isArray(ids)) ids = ids.split(" ");
 		ids = ids.filter((e) => e);
+		// console.log(ids);
+		if (ids.length == 1) return this;
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		let parent: any = this;
 		for (let i = 0; i < ids.length; i++) {
@@ -60,13 +62,13 @@ class ActorGURPS extends Actor {
 		}
 	}
 
-	/** @override */
-	prepareEmbeddedDocuments() {
-		super.prepareEmbeddedDocuments();
-		for (const item of this.items) {
-			item.setFlag("gcsga", "parents", [this.data._id]);
-		}
-	}
+	// /** @override */
+	// prepareEmbeddedDocuments() {
+	// 	super.prepareEmbeddedDocuments();
+	// 	for (const item of this.items) {
+	// 		item.setFlag("gcsga", "parents", [this.data._id]);
+	// 	}
+	// }
 }
 
 //@ts-ignore

@@ -1,0 +1,44 @@
+.gcs_advantage_sheet {
+	#sheet {
+		background-color: var(--color-background);
+		color: var(--color-on-background);
+	}
+	.field {
+		input.input[type=text] {
+			height: 24px;
+			border-radius: 0px;
+			background-color: var(--color-editable);
+			color: var(--color-on-editable);
+			border: 1px solid var(--color-editable-border);
+			&:focus {
+				box-shadow: none;
+				border: 2px solid var(--color-focused-editable-border);
+			}
+			&:disabled {
+				background-color: var(--color-background);
+				color: var(--color-on-editable);
+			}
+		}
+		input.input[type=checkbox] {
+			appearance: none;
+			height: 140px;
+			width: 140px;
+			background-color: var(--color-control);
+			color: var(--color-on-control);
+			border: 1px solid var(--color-control-edge);
+			border-radius: 2px;
+			&:before {
+				content: " ";
+				display: inline-block;
+				height: 140px;
+				width: 140px;
+				background: #DDD;
+			}
+		}
+		input.input:checked:before {
+			// background: url("systems/gcsga/assets/checkmark.svg") #FF0000;
+			background-color: #FF0000;
+			clip-path: var(--shape-checkmark) var(--color-on-control);
+		}
+	}
+}

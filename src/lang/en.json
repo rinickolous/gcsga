@@ -112,7 +112,18 @@
 				"9": "CR: 9 (Resist Fairly Often)",
 				"12": "CR: 12 (Resist Quite Often)",
 				"15": "CR: 15 (Resist Almost All The Time)"
-			}
+			},
+			"name": "Name",
+			"enabled": "Enabled",
+			"notes": "Notes",
+			"vtt_notes": "VTT Notes",
+			"user_description":"User Description",
+			"categories": "Tags",
+			"point_cost": "Point Cost",
+			"base_cost": "Base Cost",
+			"round_down": "Round Down",
+			"cost_per_level": "Per Level",
+			"levels": "Levels"
 		},
 		"advantage_container": {
 			"name": "Name",

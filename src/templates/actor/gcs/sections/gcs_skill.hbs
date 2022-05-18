@@ -1,5 +1,5 @@
 <div class="entry_parent" readonly></div>
-<div class="desc" style="padding-left: {{indent}}.2em">
+<div class="desc item {{selected selected this._id}}" draggable="true" data-item-id="{{_id}}" style="padding-left: {{indent}}.2em">
 	{{#if (eq this.type "skill_container")}}
 	{{#if this.data.open}}
 	<i class="fas fa-chevron-down toggle_open" data-id={{this._id}}></i>
@@ -12,5 +12,10 @@
 </div>
 <div class="level">{{this.data.calc.level}}</div>
 <div class="rsl">{{this.data.calc.rsl}}</div>
-<div class="points">{{this.data.points}}</div>
+<div class="points">{{#if (eq this.type "skill_container")}}{{this.data.calc.points}}{{else}}{{this.data.points}}{{/if}}</div>
 <div class="reference">{{this.data.reference}}</div>
+{{#if this.data.open}}
+	{{#each this.children}}
+		{{>gcs_skill indent=(sum indent 1) selected=../selected}}
+	{{/each}}
+{{/if}}

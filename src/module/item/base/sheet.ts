@@ -1,6 +1,6 @@
 export class ItemSheetGURPS extends ItemSheet {
 	/**
-	 * @override 
+	 * @override
 	 * @param {Partial<ItemSheet.Options>} options?
 	 * @returns any
 	 */

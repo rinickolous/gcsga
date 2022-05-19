@@ -79,6 +79,15 @@
 		input[type="checkbox"]:checked::before {
 			opacity: 1;
 		}
+		select {
+			font: var(--font-system);
+			// background-color: var(--color-control);
+			background: var(--shape-chevron-right) var(--color-control);
+			color: var(--color-on-control);
+			border: 1px solid var(--color-control-edge);
+			border-radius: 3px;
+			height: 21px;
+		}
 		.checkbox-label + .checkbox-label {
 			margin-top: 1em;
 		}

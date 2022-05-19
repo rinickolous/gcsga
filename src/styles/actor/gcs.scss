@@ -667,7 +667,7 @@
 			width: 8px;
 			height: 8px;
 			> path {
-				d: var(--shape-chevron-right);
+				d: var(--shape-chevron-right-circle);
 				fill: var(--color-on-content);
 				&.toggle-open {
 					transform: rotate(90deg);

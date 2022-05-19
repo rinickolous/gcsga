@@ -34,6 +34,8 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"systems/gcsga/templates/actor/import.hbs",
 		"systems/gcsga/templates/actor/gcs/sections/gcs_item_notes.hbs",
 
+		"systems/gcsga/templates/item/sections/input_text.hbs",
+
 		"systems/gcsga/templates/chat/import-character-error.hbs",
 	];
 	templatePaths.forEach((filename) => {

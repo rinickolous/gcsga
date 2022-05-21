@@ -13,7 +13,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		// 	{ dropSelector: ".item" },
 		// );
 		mergeObject(options, {
-			classes: ["gcsga"],
+			classes: ["gcsga", "actor"],
 		});
 		return options;
 	}
@@ -57,7 +57,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		//@ts-ignore
 		if (li.dataset.itemId) {
 			//@ts-ignore
-			const item = this.actor.getDeepItem(li.dataset.parentIds.concat(li.dataset.itemId));
+			const item = this.actor.deepItems.get(li.dataset.itemId);
 			//@ts-ignore
 			dragData.type = "Item";
 			//@ts-ignore

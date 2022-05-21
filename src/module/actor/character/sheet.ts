@@ -19,6 +19,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		other_equipment: [] as any[],
 		notes: [] as any[],
 	};
+	prevEvent: Event | undefined;
 
 	/** @override */
 	static get defaultOptions(): ActorSheet.Options {
@@ -26,14 +27,14 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		mergeObject(options, {
 			width: 749,
 			height: 800,
-			classes: ["gcs"],
+			classes: ["character"],
 		});
 		return options;
 	}
 
 	/** @override */
 	get template(): string {
-		return "/systems/gcsga/templates/actor/gcs/sheet.hbs";
+		return "/systems/gcsga/templates/actor/character/sheet.hbs";
 	}
 
 	/** @override */
@@ -42,9 +43,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".toggle_open").on("click", this._onCollapseToggle.bind(this));
 		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
-		html.find(".item").on("click", this._onItemSelect.bind(this));
 		html.find(".reference").on("click", this._handlePDF.bind(this));
-		html.find(".item").on("contextmenu", this._getItem.bind(this));
+		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
+		html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
 
 	async _onCollapseToggle(event: Event) {
@@ -62,6 +63,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	async _onEditToggle(event: Event) {
 		event.preventDefault();
 		this.editing = !this.editing;
+		//@ts-ignore
+		$(event.currentTarget).find("i").toggleClass("fa-unlock fa-lock");
+		// this._renderOuter();
 		return this.render();
 	}
 
@@ -78,6 +82,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	//TODO: inactive-select children
 	async _onItemSelect(event: Event) {
 		event.preventDefault();
+		console.log(event);
 		//@ts-ignore
 		const id: string = $(event.currentTarget).data("item-id") || "";
 		//@ts-ignore
@@ -89,8 +94,18 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			}
 		//@ts-ignore
 		this.selection[this.selection.active].push(id);
+		if (this.prevEvent && this.prevEvent.type == "click" && event.timeStamp - this.prevEvent?.timeStamp > 500)
+			this.render();
+		this.prevEvent = event;
+	}
 
-		this.render();
+	async _openItemSheet(event: Event) {
+		event.preventDefault();
+		//@ts-ignore
+		const id: string = $(event.currentTarget).data("item-id") || "";
+		//@ts-ignore
+		const item: ItemGURPS = this.actor.deepItems.get(id);
+		item.sheet?.render(true);
 	}
 
 	// async _onItemSelect(event: Event) {
@@ -382,7 +397,15 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	/** @override */
 	protected _getHeaderButtons(): Application.HeaderButton[] {
+		const edit_button = {
+			label: "",
+			class: "edit-toggle",
+			icon: `fas fa-${this.editing ? "un" : ""}lock`,
+			onclick: (event: any) => this._onEditToggle(event),
+		};
+		// if (this.editing) edit_button.icon = "fas fa-unlock";
 		const buttons: Application.HeaderButton[] = [
+			edit_button,
 			{
 				label: "Import",
 				class: "import",

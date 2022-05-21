@@ -46,21 +46,22 @@ class ActorGURPS extends Actor {
 		return deepMap;
 	}
 
-	getDeepItem(ids: string | Array<string>) {
-		if (!Array.isArray(ids)) ids = ids.split(" ");
-		ids = ids.filter((e) => e);
-		// console.log(ids);
-		if (ids.length == 1) return this;
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
-		let parent: any = this;
-		for (let i = 0; i < ids.length; i++) {
-			if (i == 0) continue;
-			else if (i == ids.length - 1) {
-				const the_item = parent.getEmbeddedDocument("Item", ids[i]);
-				return the_item;
-			} else parent = parent.getEmbeddedDocument("Item", ids[i]);
-		}
-	}
+	// UNUSED FUNCTION
+	// getDeepItem(ids: string | Array<string>) {
+	// 	if (!Array.isArray(ids)) ids = ids.split(" ");
+	// 	ids = ids.filter((e) => e);
+	// 	// console.log(ids);
+	// 	if (ids.length == 1) return this;
+	// 	// eslint-disable-next-line @typescript-eslint/no-this-alias
+	// 	let parent: any = this;
+	// 	for (let i = 0; i < ids.length; i++) {
+	// 		if (i == 0) continue;
+	// 		else if (i == ids.length - 1) {
+	// 			const the_item = parent.getEmbeddedDocument("Item", ids[i]);
+	// 			return the_item;
+	// 		} else parent = parent.getEmbeddedDocument("Item", ids[i]);
+	// 	}
+	// }
 
 	// /** @override */
 	// prepareEmbeddedDocuments() {

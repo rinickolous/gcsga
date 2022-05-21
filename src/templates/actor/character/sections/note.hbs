@@ -1,0 +1,13 @@
+<div class="entry-parent" readonly></div>
+<div class="dropdown"></div>
+{{#if (eq this.type "note_container")}}
+	{{#if this.data.open}}	
+		{{>dropdown-open}}
+	{{else}}
+		{{>dropdown-closed}}
+	{{/if}}
+{{/if}}
+<div class="desc item" data-item-id="{{_id}}">
+	{{this.name}}
+</div>
+<div class="reference">{{this.reference}}</div>

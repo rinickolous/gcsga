@@ -1,0 +1,25 @@
+<div class="entry-parent" readonly></div>
+<div class="dropdown"></div>
+{{#if (eq this.type "equipment_container")}}
+	{{#if this.data.open}}	
+		{{>dropdown-open}}
+	{{else}}
+		{{>dropdown-closed}}
+	{{/if}}
+{{/if}}
+<div class="quantity">{{this.data.quantity}}</div>
+<div class="desc item" data-item-id="{{_id}}">
+	{{this.name}}
+	{{>item-notes}}
+</div>
+<div class="uses">{{this.data.uses}}</div>
+<div class="weight">{{this.data.calc.weight}}</div>
+<div class="value">{{this.data.calc.value}}</div>
+<div class="extended-weight">{{this.data.calc.extended_weight}}</div>
+<div class="extended-value">{{this.data.calc.extended_value}}</div>
+<div class="reference">{{this.data.reference}}</div>
+{{#if this.data.open}}
+	{{#each this.children}}
+		{{>other-equipment}}
+	{{/each}}
+{{/if}}

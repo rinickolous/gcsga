@@ -1,0 +1,18 @@
+<div id="pool-attributes">
+	<div class="header">{{localize "gcsga.sheet.pool_attributes"}}</div>
+	<div class="fieldblock6">
+		{{#each pool_attributes}}
+			<div class="points">[{{this.points}}]</div>
+			{{>input-text label="gcsga.sheet.pool_atttribute_of" field="field rollable" name=(concat "data.attributes." this.id ".calc.current" data=this.current type="Number")}}
+			{{>input-text label=this.name field="field rollable" name=(concat "data.attributes." this.id ".calc.value" data=this.value type="Number" class=(input_lock editing))}}
+			<div class="label tooltip">
+				{{#if this.state.state}}
+					[{{this.state.state}}]
+					{{#if this.state.explanation}}
+						<span class="tooltiptext">{{{this.state.explanation}}}</span>
+					{{/if}}
+				{{/if}}
+			</div>
+		{{/each}}
+	</div>
+</div>

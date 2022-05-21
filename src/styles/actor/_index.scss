@@ -1,14 +1,30 @@
-@import 'gcs';
+.actor.sheet {
+	&.character {
+		@import "character";
+		// Header
+		background-image: linear-gradient(var(--color-focused-tab), var(--color-focused-tab));
+		color: var(--color-on-focused-tab);
+		border: 1px solid var(--color-header);
+		font: var(--font-system);
+		.window-title {
+			font: inherit;
+		}
 
-.actor-sheet.def-style {
-	display: grid;
-	grid:
-		'sidebar header' 75px
-		'sidebar nav' minmax(min-content, max-content)
-		'sidebar content' 1fr
-		/ 247px 1fr;
+		// Content Background
+		.window-content {
+			height: 100%;
+			padding: 5px;
+			// scroll-behavior: smooth;
+			background: var(--color-content);
 
-	font-family: var(--serif);
+			//Scrollbar
+			--color-border-highlight: var(--color-scroll-edge);
+		}
 
-	@import 'sidebar', 'header';
+		//Resize Handle
+		.window-resizable-handle {
+			background-color: var(--color-background);
+			color: var(--color-on-background);
+		}
+	}
 }

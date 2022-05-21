@@ -1,0 +1,20 @@
+<div class="entry-parent" readonly></div>
+<div class="dropdown"></div>
+{{#if (eq this.type "advantage_container")}}
+	{{#if this.data.open}}	
+		{{>dropdown-open}}
+	{{else}}
+		{{>dropdown-closed}}
+	{{/if}}
+{{/if}}
+<div class="desc item" data-item-id="{{_id}}">
+	{{this.name_formatted}}
+	{{>item-notes}}
+</div>
+<div class="points">{{this.data.calc.points}}</div>
+<div class="reference">{{this.data.reference}}</div>
+{{#if this.data.open}}
+	{{#each this.children}}
+		{{>advantage}}
+	{{/each}}
+{{/if}}

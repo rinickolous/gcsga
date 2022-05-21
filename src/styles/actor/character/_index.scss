@@ -1,0 +1,33 @@
+
+#sheet {
+	@import "personal", "stats", "hit-locations", "encumbrance-lifting", "embeds";
+	
+	// Sheet Layout
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: start;
+	gap: var(--section-gap);
+
+	// General Styles
+	.header {
+		background-color: var(--color-header);
+		color: var(--color-on-header);
+		justify-content: center;
+		text-align: center;
+		padding-bottom: 2px;
+	}
+
+	.fieldblock {
+		display: grid;
+		grid-template-columns: 0fr 1fr;
+		align-items: end;
+		// padding-bottom: 0.15em;
+		text-align: left;
+		padding-left: 2px;
+		padding-right: 2px;
+		white-space: nowrap;
+		align-self: stretch;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+	}
+}

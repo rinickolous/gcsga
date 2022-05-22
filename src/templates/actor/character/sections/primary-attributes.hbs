@@ -6,8 +6,5 @@
 			{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".calc.value") data=this.value type="Number" class=(input_lock editing)}}
 			<div class="label">{{#if this.full_name}}{{this.full_name}} ({{this.name}}){{else}}{{this.name}}{{/if}}</div>
 		{{/each}}
-		<hr>
-		{{>input-text label="gcsga.sheet.basic_thrust" field="field rollable" name="data.calc.thrust" data=data.calc.thrust class="disabled"}}
-		{{>input-text label="gcsga.sheet.basic_swing" field="field rollable" name="data.calc.swing" data=data.calc.swing class="disabled"}}
 	</div>
 </div>

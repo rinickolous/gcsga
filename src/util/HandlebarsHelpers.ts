@@ -87,8 +87,9 @@ export function registerHandlebarsHelpers() {
 		return a.join(j);
 	});
 
-	Handlebars.registerHelper("selected", function (list: any[], item: string): string {
-		if (list.includes(item)) return "selected";
-		return "";
-	});
+	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
+	// 	console.warn(list);
+	// 	if (list.includes(item)) return "selected";
+	// 	return "";
+	// });
 }

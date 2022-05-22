@@ -1,0 +1,44 @@
+#encumbrance-lifting {
+	grid-area: encumbrance-lifting;
+	display: grid;
+	grid-template:
+		"encumbrance"
+		"lifting";
+	gap: var(--section-gap);
+
+	#encumbrance {
+		grid-area: encumbrance;
+		display: grid;
+		grid-template:
+			"title title title title title title"
+			"encumbrance-marker level-number level max-load move dodge";
+		grid-template-columns: min-content min-content 1fr min-content min-content min-content;
+		grid-template-rows: 0fr 0fr;
+		white-space: nowrap;
+		
+		.title {
+			grid-area: title;
+		}
+		.encumbrance-marker {
+			// grid-area: encumbrance-marker;
+		}
+		.level-number {
+			// grid-area: level-number;
+		}
+		.level {
+			// grid-area: level;
+			&.header {
+				grid-column: 1 / span 3;
+			}
+		}
+		.max-load {
+			// grid-area: max-load;
+		}
+		.move {
+			// grid-area: move;
+		}
+		.dodge {
+			// grid-area: dodge;
+		}
+	}
+}

@@ -1,0 +1,9 @@
+#stats {
+	grid-area: stats;
+	display: grid;
+	grid-template:
+		"attributes hit-locations encumbrance-lifting";
+	gap: var(--section-gap);
+
+	@import "attributes", "hit_locations", "encumbrance_lifting";
+}

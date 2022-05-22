@@ -1,6 +1,6 @@
 
 #sheet {
-	@import "personal", "stats", "hit-locations", "encumbrance-lifting", "embeds";
+	@import "personal", "stats", "embeds";
 	
 	// Sheet Layout
 	display: flex;
@@ -10,11 +10,13 @@
 
 	// General Styles
 	.header {
+		grid-area: header;
 		background-color: var(--color-header);
 		color: var(--color-on-header);
 		justify-content: center;
 		text-align: center;
 		padding-bottom: 2px;
+		font: var(--font-page-primary-labels);
 	}
 
 	.fieldblock {
@@ -29,5 +31,13 @@
 		align-self: stretch;
 		background-color: var(--color-content);
 		color: var(--color-on-content);
+	}
+
+	.label {
+		font: var(--font-page-primary-labels);
+	}
+
+	.field {
+		font: var(--font-page-primary-fields);
 	}
 }

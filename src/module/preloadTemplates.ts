@@ -3,6 +3,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		// Add paths to "systems/gcsga/templates"
 
 		"systems/gcsga/templates/actor/character/sections/advantage.hbs",
+		"systems/gcsga/templates/actor/character/sections/basic-damage.hbs",
 		"systems/gcsga/templates/actor/character/sections/conditional-modifier.hbs",
 		"systems/gcsga/templates/actor/character/sections/description.hbs",
 		"systems/gcsga/templates/actor/character/sections/dropdown-closed.hbs",

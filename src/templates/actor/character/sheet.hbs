@@ -3,28 +3,31 @@
 		<div id="personal">
 			{{>portrait}}
 			{{>identity}}
-			{{miscellaneous}}
-			{{description}}
-			{{points}}
+			{{>miscellaneous}}
+			{{>description}}
+			{{>points}}
 		</div>
 		<div id="stats">
-			{{primary-attributes}}
-			{{secondary-attributes}}
-			{{pool-attributes}}
-		</div>
-		<div id="hit-locations">
-			<div class="header body-plan">{{data.settings.hit_locations.name}}</div>
-			<div class="header entry-parent" readonly></div>
-			<div class="header roll">{{localize "gcsga.sheet.hit_locations.roll"}}</div>
-			<div class="header location">{{localize "gcsga.sheet.hit_location.location"}}</div>
-			<div class="header dr">{{localize "gcsga.sheet.hit_lications.dr"}}</div>
-			{{#each data.settings.hit_lications.locations}}
-				{{hit-location tab=""}}
-			{{/each}}
-		</div>
-		<div id="encumbrnace-lifting">
-			{{encumbrance}}
-			{{lifting}}
+			<div id="attributes">
+				{{>primary-attributes}}
+				{{>basic-damage}}
+				{{>secondary-attributes}}
+				{{>pool-attributes}}
+			</div>
+			<div id="hit-locations">
+				<div class="header body-plan">{{data.settings.hit_locations.name}}</div>
+				<div class="header entry-parent" readonly></div>
+				<div class="header roll">{{localize "gcsga.sheet.hit_locations.roll"}}</div>
+				<div class="header location">{{localize "gcsga.sheet.hit_locations.location"}}</div>
+				<div class="header dr">{{localize "gcsga.sheet.hit_locations.dr"}}</div>
+				{{#each data.settings.hit_lications.locations}}
+					{{>hit-location tab=""}}
+				{{/each}}
+			</div>
+			<div id="encumbrance-lifting">
+				{{>encumbrance}}
+				{{>lifting}}
+			</div>
 		</div>
 	</div>
 	<div id="embeds" style="grid-template: {{blockLayout data.settings.block_layout blocks}};">
@@ -34,7 +37,7 @@
 			<div class="header modifier">{{localize "gcsga.sheet.reactions.modifier"}}</div>
 			<div class="header reaction">{{localize "gcsga.sheet.reactions.reaction"}}</div>
 			{{#each reactions}}
-				{{reaction}}
+				{{>reaction}}
 			{{/each}}
 		</div>
 		{{/if}}

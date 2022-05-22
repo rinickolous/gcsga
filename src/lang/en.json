@@ -17,7 +17,7 @@
 			"religion": "Religion",
 			"height": "Height",
 			"weight": "Weight",
-			"SM": "SM",
+			"sm": "SM",
 			"tech_level": "TL",
 			"hair": "Hair",
 			"eyes": "Eyes",
@@ -37,6 +37,7 @@
 			"primary_attributes": "Primary Attributes",
 			"secondary_attributes": "Secondary Attributes",
 			"pool_attributes": "Point Pools",
+			"basic_damage": "Basic Damage",
 			"basic_thrust": "Basic Thrust",
 			"basic_swing": "Basic Swing",
 			"pool_attribute_of": "of",
@@ -44,7 +45,7 @@
 				"roll": "Roll",
 				"location": "Location",
 				"penalty": "Penalty",
-				"DR": "DR"
+				"dr": "DR"
 			},
 			"encumbrance": {
 				"title": "Encumbrance, Move & Dodge",

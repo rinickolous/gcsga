@@ -24,10 +24,11 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	/** @override */
 	static get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
+		console.warn(options);
 		mergeObject(options, {
 			width: 749,
 			height: 800,
-			classes: ["character"],
+			classes: ["character", "actor", "gcsga"],
 		});
 		return options;
 	}

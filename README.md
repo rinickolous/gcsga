@@ -1,12 +1,15 @@
-# gcsga
+# GURPS Character Sheet Game Aid for FoundryVTT
 
-Please add your description here.
+This system aims to aid GMs and players in playing on FoundryVTT using the GURPS system.
+The system is closely tied with the [GURPS Character Sheet by Richard Wilkes]: https://gurpscharactersheet.com
 
 ## Installation
 
-Please add your installation instructions here.
+The system is currently under early development and its installation and use in play is not recommended.
 
 ## Development
+
+To Do...
 
 ### Prerequisites
 

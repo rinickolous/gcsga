@@ -1,7 +1,7 @@
 # GURPS Character Sheet Game Aid for FoundryVTT
 
 This system aims to aid GMs and players in playing on FoundryVTT using the GURPS system.
-The system is closely tied with the [GURPS Character Sheet by Richard Wilkes]: https://gurpscharactersheet.com
+The system is closely tied with the [GURPS Character Sheet by Richard Wilkes].
 
 ## Installation
 
@@ -93,6 +93,7 @@ Please add your licensing information here. Add your chosen license as
 `LICENSE` file to the project root and mention it here.  If you don't know which
 license to choose, take a look at [Choose an open source license].
 
+[GURPS Character Sheet by Richard Wilkes]: https://gurpscharactersheet.com/
 [League Basic JS Module Template]: https://github.com/League-of-Foundry-Developers/FoundryVTT-Module-Template
 [LIMITED LICENSE AGREEMENT FOR MODULE DEVELOPMENT]: https://foundryvtt.com/article/license/
 [Choose an open source license]: https://choosealicense.com/

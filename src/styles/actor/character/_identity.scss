@@ -7,4 +7,7 @@
 		"block";
 	grid-template-rows: 0fr 1fr;
 	border: var(--standard-border);
+	.label {
+		text-align: right;
+	}
 }

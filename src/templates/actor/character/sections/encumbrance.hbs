@@ -6,7 +6,7 @@
 	<div class="header dodge">{{localize "gcsga.sheet.encumbrance.dodge"}}</div>
 	{{#each encumbrance}}
 		{{#if this.active}}
-			<div class="encumbrance-marker active">{{>svg shapes=["--shape-weight"]}}</div>
+			<div class="encumbrance-marker active">{{>svg shapes=(arr "--shape-weight")}}</div>
 			<div class="level-number active">{{@index}}</div>
 			<div class="level active">{{localize this.level}}</div>
 			<div class="max-load active">{{this.max_load}}</div>

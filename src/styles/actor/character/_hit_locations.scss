@@ -1,3 +1,50 @@
 #hit-locations {
 	grid-area: hit-locations;
+	display: grid;
+	grid-template:
+		"title title title title title"
+		"entry-parent roll location penalty dr";
+	grid-template-columns: min-content min-content 1fr min-content min-content;
+	grid-template-rows: 0fr;
+	white-space: nowrap;
+	.header {
+		grid-area: auto;
+	}
+	.header.body-plan {
+		grid-area: title;
+	}
+	.header.location {
+		grid-column: span 2;
+	}
+
+	.penalty, .dr {
+		&:not(.header) {
+			color: var(--color-on-editable-faded);
+			font: var(--font-page-primary-fields);
+		}
+	}
+	.roll, .location {
+		&:not(.header) {
+			color: var(--color-on-content);
+			font: var(--font-page-primary-labels);
+		}
+	}
+
+	.dr, .roll {
+		text-align: center;
+	}
+
+	.roll, .penalty {
+		border-right: 1px solid var(--color-header);
+	}
+
+	.entry-parent:nth-child(10n+1),
+	.roll:nth-child(10n+2),
+	.location:nth-child(10n+3),
+	.penalty:nth-child(10n+4),
+	.dr:nth-child(10n+5) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+		}
+	}
 }

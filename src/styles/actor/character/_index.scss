@@ -25,10 +25,26 @@
 		align-items: end;
 		// padding-bottom: 0.15em;
 		text-align: left;
-		padding-left: 2px;
-		padding-right: 2px;
+		// padding-left: 2px;
+		// padding-right: 2px;
 		white-space: nowrap;
 		align-self: stretch;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+	}
+
+	.fieldblock3 {
+		display: grid;
+		grid-template-columns: 0fr 0fr 1fr;
+		white-space: nowrap;
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+	}
+
+	.fieldblock6 {
+		display: grid;
+		grid-template-columns: repeat(6, 0fr);
+		white-space: nowrap;
 		background-color: var(--color-content);
 		color: var(--color-on-content);
 	}
@@ -39,5 +55,39 @@
 
 	.field {
 		font: var(--font-page-primary-fields);
+		&.rollable:hover {
+			background-color: var(--color-link);
+			color: var(--color-on-link);
+			cursor: pointer;
+			input.input:disabled {
+				color: inherit;
+				cursor: inherit;
+			}
+		}
+	}
+
+	input.input { // Overwrite default input field
+		padding: 0;
+		border: none;
+		border-bottom: 1px solid var(--color-control-edge);
+		border-radius: 0;
+		color: var(--color-on-editable);
+		background: var(--color-editable);
+		height: 100%;
+		&:focus {
+			box-shadow: none;
+			border-bottom-color: var(--color-accent);
+		}
+		&:disabled {
+			border-bottom-color: transparent;
+			background-color: transparent;
+			color: var(--color-on-editable-faded);
+		}
+	}
+
+	#personal, #stats, #embeds {
+		> div:not(#attributes), #attributes > div {
+			border: var(--standard-border);
+		}
 	}
 }

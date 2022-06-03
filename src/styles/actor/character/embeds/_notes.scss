@@ -1,0 +1,33 @@
+#notes {
+	grid-area: notes;
+	grid-template-columns: min-content 20px 1fr auto;
+	.header {
+		grid-area: auto;
+	}
+	.header.desc {
+		grid-column: span 2;
+	}
+
+	.entry-parent:nth-child(8n),
+	.dropdown:nth-child(8n+1),
+	.desc:nth-child(8n+2),
+	.reference:nth-child(8n+3) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+			color: var(--color-on-banding);
+		}
+	}
+
+	.desc, .refrence {
+		&:not(.header) {
+			border-bottom: 1px solid var(--color-header);
+			border-right: 1px solid var(--color-header);
+			&.reference {
+				border-right: none;
+			}
+			&:nth-last-child(-n+2) {
+				border-bottom: none;
+			}
+		}
+	}
+}

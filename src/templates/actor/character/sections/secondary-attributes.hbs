@@ -3,7 +3,7 @@
 	<div class="fieldblock3">
 		{{#each secondary_attributes}}
 			<div class="points">[{{this.points}}]</div>
-			{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".calc.value") data=this.value type="Number" class=(input_lock editing)}}
+			{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".calc.value") data=this.value type="Number" class=(input_lock ../editing)}}
 			<div class="label">{{#if this.full_name}}{{this.full_name}} ({{this.name}}){{else}}{{this.name}}{{/if}}</div>
 		{{/each}}
 	</div>

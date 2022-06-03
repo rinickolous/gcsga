@@ -7,4 +7,16 @@
 		"block";
 	grid-template-rows: 0fr 1fr;
 	border: var(--standard-border);
+	.field {
+		text-align: right;
+	}
+	.fieldblock {
+		.field:nth-child(4n-1),
+		.label:nth-child(4n) {
+			background-color: var(--color-banding);
+			&.label {
+				color: var(--color-on-banding);
+			}
+		}
+	}
 }

@@ -4,7 +4,7 @@
 	grid-template: 
 		"portrait identity miscellaneous points"
 		"portrait description description points";
-	grid-template-columns: auto 1fr 0fr 0fr;
+	grid-template-columns: 86px auto auto 0fr;
 	gap: var(--section-gap);
 
 	@import "portrait", "identity", "miscellaneous", "description", "points";

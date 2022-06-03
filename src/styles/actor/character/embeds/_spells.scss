@@ -1,0 +1,42 @@
+#spells {
+	grid-area: spells;
+	grid-template-columns: min-content 20px 1fr repeat(10, auto);
+	.header {
+		grid-area: auto;
+	}
+	.header.desc {
+		grid-column: span 2;
+	}
+
+	.entry-parent:nth-child(26n),
+	.dropdown:nth-child(26n+1),
+	.desc:nth-child(26n+2),
+	.resist:nth-child(26n+3),
+	.class:nth-child(26n+4),
+	.casting-cost:nth-child(26n+5),
+	.maintenance-cost:nth-child(26n+6),
+	.casting-time:nth-child(26n+7),
+	.duration:nth-child(26n+8),
+	.level:nth-child(26n+9),
+	.rsl:nth-child(26n+10),
+	.points:nth-child(26n+11),
+	.reference:nth-child(26n+12) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+			color: var(--color-on-banding);
+		}
+	}
+
+	.dropdown, .desc, .resist, .class, .casting-cost, .maintenance-cost, .casting-time, .duration, .level, .rsl, .points, .reference {
+		&:not(.header) {
+			border-bottom: 1px solid var(--color-header);
+			border-right: 1px solid var(--color-header);
+			&.reference, &.dropdown {
+				border-right: none;
+			}
+			&:nth-last-child(-n+12) {
+				border-bottom: none;
+			}
+		}
+	}
+}

@@ -1,0 +1,32 @@
+#embeds {
+	@import "reactions", "conditional_modifiers", "melee", "ranged", "advantages", "skills", "spells", "equipment", "other_equipment", "notes";
+
+	display: grid;
+	grid-auto-columns: 1fr 1fr;
+	gap: var(--section-gap);
+
+	> div {
+		display: grid;
+		grid-template-rows: repeat(1000, auto) 1fr;
+	}
+
+	> div > :not(.header):not(svg) {
+		background-color: var(--color-content);
+		color: var(--color-on-content);
+		font: var(--font-page-primary-fields);
+	}
+	.item-notes {
+		font: var(--font-page-secondary-fields);
+		background-color: transparent;
+	}
+
+	.dropdown i {
+		background-color: inherit;
+		svg {
+			background-color: inherit;
+			fill: var(--color-on-content);
+			height: 8px;
+			width: 8px;
+		}
+	}
+}

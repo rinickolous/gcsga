@@ -94,10 +94,12 @@
 				"points": "Pts"
 			},
 			"equipment": {
+				"quantity": "#",
 				"desc": "Carried Equipment ({weight}; {value})",
 				"uses": "Uses"
 			},
 			"other_equipment": {
+				"quantity": "#",
 				"desc": "Other Equipment ({value})",
 				"uses": "Uses"
 			},

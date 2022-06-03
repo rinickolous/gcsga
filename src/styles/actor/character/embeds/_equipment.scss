@@ -1,0 +1,40 @@
+#equipment {
+	grid-area: equipment;
+	grid-template-columns: min-content auto auto 20px 1fr repeat(6, auto);
+	.header {
+		grid-area: auto;
+	}
+	.header.desc {
+		grid-column: span 2;
+	}
+
+	.entry-parent:nth-child(22n),
+	.equipped:nth-child(22n+1),
+	.quantity:nth-child(22n+2),
+	.dropdown:nth-child(22n+3),
+	.desc:nth-child(22n+4),
+	.uses:nth-child(22n+5),
+	.weight:nth-child(22n+6),
+	.value:nth-child(22n+7),
+	.extended-weight:nth-child(22n+8),
+	.extended-value:nth-child(22n+9),
+	.reference:nth-child(22n+10) {
+		&:not(.header) {
+			background-color: var(--color-banding);
+			color: var(--color-on-banding);
+		}
+	}
+
+	.equipped, .quantity, .dropdown, .desc, .uses, .weight, .value, .extended-weight, .extended-value, .reference {
+		&:not(.header) {
+			border-bottom: 1px solid var(--color-header);
+			border-right: 1px solid var(--color-header);
+			&.reference, &.dropdown {
+				border-right: none;
+			}
+			&:nth-last-child(-n+10) {
+				border-bottom: none;
+			}
+		}
+	}
+}

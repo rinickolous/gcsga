@@ -22,9 +22,24 @@
 
 	#basic-damage {
 		grid-area: basic-damage;
+		.fieldblock3 {
+			.label:nth-child(6n),
+			.field:nth-child(6n-1),
+			.points:nth-child(6n-2) {
+				background-color: var(--color-banding);
+			}
+		}
 	}
 
 	.points {
 		font: var(--font-page-secondary-fields);
+		color: var(--color-on-editable-faded);
+	}
+	.label {
+		font: var(--font-page-primary-labels);
+		color: var(--color-on-content)
+	}
+	.field input.input {
+		text-align: right;
 	}
 }

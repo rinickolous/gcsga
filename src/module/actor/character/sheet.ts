@@ -41,7 +41,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	/** @override */
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		html.find(".toggle_open").on("click", this._onCollapseToggle.bind(this));
+		html.find(".dropdown-toggle").on("click", this._onCollapseToggle.bind(this));
 		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
 		html.find(".reference").on("click", this._handlePDF.bind(this));

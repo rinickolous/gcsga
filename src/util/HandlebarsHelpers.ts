@@ -87,6 +87,15 @@ export function registerHandlebarsHelpers() {
 		return a.join(j);
 	});
 
+	Handlebars.registerHelper("arr", function (...args) {
+		const outArr: any[] = [];
+		args.forEach((arg) => {
+			if (arg && typeof arg != "object") outArr.push(arg);
+		});
+		console.warn(outArr);
+		return outArr;
+	});
+
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
 	// 	console.warn(list);
 	// 	if (list.includes(item)) return "selected";

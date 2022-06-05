@@ -71,12 +71,12 @@
 				"carry_on_back": "Carry On Back",
 				"shift_slightly": "Shift Slightly"
 			},
-			"advantages": {
-				"desc": "Advantages & Disadvantages",
+			"traits": {
+				"desc": "Trait",
 				"points": "Pts"
 			},
 			"skills": {
-				"desc": "Skills",
+				"desc": "Skill / Technique",
 				"level": "SL",
 				"rsl": "RSL",
 				"points": "Pts"
@@ -107,8 +107,9 @@
 				"desc": "Notes"
 			}
 		},
-		"advantage": {
-			"cr": {
+		"trait": {
+			"cr": "Self-Control Roll",
+			"cr_level": {
 				"-1": "None Requires",
 				"0": "CR: N/A (Cannot Resist)",
 				"6": "CR: 6 (Resist Rarely)",
@@ -128,7 +129,7 @@
 			"points_per_level": "Per Level",
 			"levels": "Levels"
 		},
-		"advantage_container": {
+		"trait_container": {
 			"name": "Name",
 			"disabled": "Enabled",
 			"notes": "Notes",

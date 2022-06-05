@@ -1,5 +1,5 @@
 <div class="entry-parent" readonly></div>
-<div class="dropdown"></div>
+<div class="dropdown">
 {{#if (eq this.type "skill_container")}}
 	{{#if this.data.open}}	
 		{{>dropdown-open}}
@@ -7,6 +7,7 @@
 		{{>dropdown-closed}}
 	{{/if}}
 {{/if}}
+</div>
 <div class="desc item" data-item-id="{{_id}}">
 	{{!-- {{this.name_formatted}} --}}
 	{{this.name}}

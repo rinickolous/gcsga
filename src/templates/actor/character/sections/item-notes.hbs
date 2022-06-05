@@ -1,8 +1,8 @@
 <div class="item-notes">
-	{{#if (or (eq this.type "advantage") (eq this.type "advantage_container"))}}
-		{{#unless (eq this.data.cr -1)}}{{localize (concat "gcsga.advantage.cr." this.data.cr)}}<br>{{/unless}}
+	{{#if (or (eq this.type "trait") (eq this.type "trait_container"))}}
+		{{#unless (eq this.data.cr -1)}}{{localize (concat "gcsga.trait.cr_level." this.data.cr)}}<br>{{/unless}}
 	{{/if}}
-	{{#if (or (eq this.type "advantage") (eq this.type "advantage_container") (eq this.type "equipment") (eq this.type "equipment_container"))}}
+	{{#if (or (eq this.type "trait") (eq this.type "trait_container") (eq this.type "equipment") (eq this.type "equipment_container"))}}
 		{{#each (enabledList this.modifiers)}}
 			{{#unless (eq @index 0)}}; {{/unless}}{{this.name}}{{#if this.data.notes}} ({{this.data.notes}}){{/if}}
 		{{/each}}

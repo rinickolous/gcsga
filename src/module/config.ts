@@ -1,7 +1,7 @@
 import { CharacterGURPS } from "@actor";
 import {
-	AdvantageGURPS,
-	AdvantageContainerGURPS,
+	TraitGURPS,
+	TraitContainerGURPS,
 	SkillGURPS,
 	TechniqueGURPS,
 	SkillContainerGURPS,
@@ -13,7 +13,7 @@ import {
 	EquipmentContainerGURPS,
 	NoteGURPS,
 	NoteContainerGURPS,
-	AdvantageModifierGURPS,
+	TraitModifierGURPS,
 } from "@item";
 
 export const GURPSCONFIG = {
@@ -21,9 +21,9 @@ export const GURPSCONFIG = {
 	portrait_path: "images/portraits/",
 	Item: {
 		documentClasses: {
-			advantage: AdvantageGURPS,
-			advantage_container: AdvantageContainerGURPS,
-			modifier: AdvantageModifierGURPS,
+			advantage: TraitGURPS,
+			advantage_container: TraitContainerGURPS,
+			modifier: TraitModifierGURPS,
 			skill: SkillGURPS,
 			technique: TechniqueGURPS,
 			skill_container: SkillContainerGURPS,
@@ -37,8 +37,8 @@ export const GURPSCONFIG = {
 			note_container: NoteContainerGURPS,
 		},
 		containerContents: {
-			advantage: ["modifier"],
-			advantage_container: ["advantage", "advantage_container", "modifier"],
+			trait: ["modifier"],
+			trait_container: ["trait", "trait_container", "modifier"],
 			skill_container: ["skill", "technique", "skill_container"],
 			spell_container: ["spell", "ritual_magic_spell", "spell_container"],
 			equipment: ["eqp_modifier"],

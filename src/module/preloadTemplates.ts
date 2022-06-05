@@ -2,7 +2,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 	const templatePaths: string[] = [
 		// Add paths to "systems/gcsga/templates"
 
-		"systems/gcsga/templates/actor/character/sections/advantage.hbs",
+		"systems/gcsga/templates/actor/character/sections/trait.hbs",
 		"systems/gcsga/templates/actor/character/sections/basic-damage.hbs",
 		"systems/gcsga/templates/actor/character/sections/conditional-modifier.hbs",
 		"systems/gcsga/templates/actor/character/sections/description.hbs",
@@ -47,7 +47,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_conditional_modifiers.hbs",
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_melee_attacks.hbs",
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_ranged_attacks.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_advantage.hbs",
+		// "systems/gcsga/templates/actor/gcs/sections/gcs_trait.hbs",
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_skill.hbs",
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_spell.hbs",
 		// "systems/gcsga/templates/actor/gcs/sections/gcs_equipment.hbs",

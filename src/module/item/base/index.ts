@@ -6,7 +6,6 @@ import {
 	DocumentModificationOptions,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemType } from "./data";
-import { documents } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/module.mjs";
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/foundry.js/clientDocumentMixin";
 import {
 	DocumentConstructor,
@@ -127,12 +126,12 @@ export class ItemGURPS extends Item {
 	// }
 
 	sameSection(compare: ItemGURPS): boolean {
-		const advantages = ["advantage", "advantage_container"];
+		const traits = ["trait", "trait_container"];
 		const skills = ["skill", "technique", "skill_container"];
 		const spells = ["spell", "ritual_magic_spell", "spell_container"];
 		const equipment = ["equipment", "equipment_container"];
 		const notes = ["note", "note_container"];
-		const sections = [advantages, skills, spells, equipment, notes];
+		const sections = [traits, skills, spells, equipment, notes];
 		for (const i of sections) {
 			if (i.includes(this.data.type) && i.includes(compare.data.type)) return true;
 		}

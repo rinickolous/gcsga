@@ -1,6 +1,6 @@
-import { AdvantageData, AdvantageSource } from "@item/advantage/data";
-import { AdvantageContainerData, AdvantageContainerSource } from "@item/advantage_container/data";
-import { AdvantageModifierData, AdvantageModifierSource } from "@item/advantage_modifier/data";
+import { TraitData, TraitSource } from "@item/trait/data";
+import { TraitContainerData, TraitContainerSource } from "@item/trait_container/data";
+import { TraitModifierData, TraitModifierSource } from "@item/modifier/data";
 import { EquipmentData, EquipmentSource } from "@item/equipment/data";
 import { EquipmentContainerData, EquipmentContainerSource } from "@item/equipment_container/data";
 import { EquipmentModifierData, EquipmentModifierSource } from "@item/equipment_modifier/data";
@@ -14,9 +14,9 @@ import { SpellContainerData, SpellContainerSource } from "@item/spell_container/
 import { TechniqueData, TechniqueSource } from "@item/technique/data";
 
 export type ItemDataGURPS =
-	| AdvantageData
-	| AdvantageContainerData
-	| AdvantageModifierData
+	| TraitData
+	| TraitContainerData
+	| TraitModifierData
 	| SkillData
 	| TechniqueData
 	| SkillContainerData
@@ -32,9 +32,9 @@ export type ItemDataGURPS =
 export type ItemSourceGURPS = ItemDataGURPS["_source"];
 
 export type {
-	AdvantageData,
-	AdvantageModifierData,
-	AdvantageContainerData,
+	TraitData,
+	TraitModifierData,
+	TraitContainerData,
 	SkillData,
 	TechniqueData,
 	SkillContainerData,
@@ -49,9 +49,9 @@ export type {
 };
 
 export {
-	AdvantageSource,
-	AdvantageModifierSource,
-	AdvantageContainerSource,
+	TraitSource,
+	TraitModifierSource,
+	TraitContainerSource,
 	SkillSource,
 	TechniqueSource,
 	SkillContainerSource,

@@ -1,10 +1,10 @@
 import { ContainerGURPS } from "../container";
-import { AdvantageData } from "./data";
+import { TraitData } from "./data";
 
 //@ts-ignore
-export class AdvantageGURPS extends ContainerGURPS {
-	static override get schema(): typeof AdvantageData {
-		return AdvantageData;
+export class TraitGURPS extends ContainerGURPS {
+	static override get schema(): typeof TraitData {
+		return TraitData;
 	}
 
 	isLeveled(): boolean {
@@ -19,6 +19,6 @@ export class AdvantageGURPS extends ContainerGURPS {
 	}
 }
 
-export interface AdvantageGURPS {
-	readonly data: AdvantageData;
+export interface TraitGURPS {
+	readonly data: TraitData;
 }

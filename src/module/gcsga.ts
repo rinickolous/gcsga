@@ -16,14 +16,14 @@ import { preloadTemplates } from "./preloadTemplates";
 import { ItemGURPS } from "@item";
 import { ActorGURPS } from "@actor";
 import { ItemSheetGURPS } from "@item/base/sheet";
-import { AdvantageContainerSheet } from "@item/advantage_container/sheet";
+import { TraitContainerSheet } from "@item/trait_container/sheet";
 import { ContainerSheetGURPS } from "@item/container/sheet";
 import { ActorSheetGURPS } from "@actor/base/sheet";
 import { CharacterSheetGURPS } from "@actor/character/sheet";
 import { registerHandlebarsHelpers } from "@util/HandlebarsHelpers";
 import { GURPSCONFIG } from "./config";
 import { SJG_links } from "./modules/pdfoundry";
-import { AdvantageSheet } from "@item/advantage/sheet";
+import { TraitSheet } from "@item/trait/sheet";
 
 export const GURPS: any = {};
 //@ts-ignore
@@ -51,9 +51,9 @@ Hooks.once("init", async () => {
 	// CONFIG.GURPS = {
 	// 	Item: {
 	// 		documentClasses: {
-	// 			advantage: AdvantageGURPS,
-	// 			advantage_container: AdvantageContainerGURPS,
-	// 			modifier: AdvantageModifierGURPS,
+	// 			trait: TraitGURPS,
+	// 			trait_container: TraitContainerGURPS,
+	// 			modifier: TraitModifierGURPS,
 	// 			skill: SkillGURPS,
 	// 			technique: TechniqueGURPS,
 	// 			skill_container: SkillContainerGURPS,
@@ -84,15 +84,15 @@ Hooks.once("init", async () => {
 	Items.unregisterSheet("core", ItemSheet);
 	Actors.unregisterSheet("core", ActorSheet);
 
-	Items.registerSheet("gcsga", AdvantageSheet, {
+	Items.registerSheet("gcsga", TraitSheet, {
 		types: ["advantage"],
 		makeDefault: true,
-		label: "gcsga.item.sheet.advantage.name",
+		label: "gcsga.item.sheet.trait.name",
 	});
-	Items.registerSheet("gcsga", AdvantageContainerSheet, {
+	Items.registerSheet("gcsga", TraitContainerSheet, {
 		types: ["advantage_container"],
 		makeDefault: true,
-		label: "gcsga.item.sheet.advantage_container.name",
+		label: "gcsga.item.sheet.trait_container.name",
 	});
 	Items.registerSheet("gcsga", ContainerSheetGURPS, {
 		types: ["skill_container", "spell_container", "equipment_container", "note_container"],

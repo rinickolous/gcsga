@@ -73,8 +73,8 @@ export function dollarFormat(i: number): string {
 export function sheetSection(item: ItemGURPS, type: string) {
 	let types: Array<string> = [];
 	switch (type) {
-		case "advantages":
-			types = ["advantage", "advantage_container"];
+		case "traits":
+			types = ["trait", "trait_container"];
 			break;
 		case "skills":
 			types = ["skill", "technique", "skill_container"];

@@ -92,7 +92,6 @@ export function registerHandlebarsHelpers() {
 		args.forEach((arg) => {
 			if (arg && typeof arg != "object") outArr.push(arg);
 		});
-		console.warn(outArr);
 		return outArr;
 	});
 

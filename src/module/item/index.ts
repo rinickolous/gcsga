@@ -1,9 +1,9 @@
 export { ItemGURPS } from "./base";
 export { ContainerGURPS } from "./container";
 
-export { AdvantageGURPS } from "./advantage";
-export { AdvantageModifierGURPS } from "./advantage_modifier";
-export { AdvantageContainerGURPS } from "./advantage_container";
+export { TraitGURPS } from "./trait";
+export { TraitModifierGURPS } from "./modifier";
+export { TraitContainerGURPS } from "./trait_container";
 
 export { SkillGURPS } from "./skill";
 export { TechniqueGURPS } from "./technique";

@@ -1,7 +1,7 @@
 import { ItemGURPS } from "@item";
-import { AdvantageSystemData } from "@item/advantage/data";
-import { AdvantageContainerSystemData } from "@item/advantage_container/data";
-import { AdvantageModifierSystemData } from "@item/advantage_modifier/data";
+import { TraitSystemData } from "@item/trait/data";
+import { TraitContainerSystemData } from "@item/trait_container/data";
+import { TraitModifierSystemData } from "@item/modifier/data";
 import { ItemSystemData, ItemType } from "@item/base/data";
 import { ContainerGURPS } from "@item/container";
 import { EquipmentSystemData } from "@item/equipment/data";
@@ -160,6 +160,7 @@ export class CharacterGURPS extends ActorGURPS {
 
 			// Item Import
 			let items: Array<ItemGURPS | ContainerGURPS> = [];
+			//@ts-ignore
 			items = items.concat(this.importItems(r.advantages));
 			items = items.concat(this.importItems(r.skills));
 			items = items.concat(this.importItems(r.spells));
@@ -181,8 +182,8 @@ export class CharacterGURPS extends ActorGURPS {
 			};
 			items.forEach((item) => {
 				//@ts-ignore
-				if (["advantage", "advantage_container"].includes(item.type) && !item.data.data.disabled) {
-					const itemData = item.data.data as AdvantageContainerSystemData;
+				if (["trait", "trait_container"].includes(item.type) && !item.data.data.disabled) {
+					const itemData = item.data.data as TraitContainerSystemData;
 					if (itemData.container_type == "race") point_totals.race += itemData.calc.points;
 					else if (itemData.calc.points == -1) point_totals.quirks += itemData.calc.points;
 					else if (itemData.calc.points < 0) point_totals.disadvantages += itemData.calc.points;
@@ -322,6 +323,7 @@ export class CharacterGURPS extends ActorGURPS {
 		for (const att of settings.attributes) {
 			attributes[att.id] = att;
 		}
+		console.log(settings);
 		return {
 			"data.settings.default_length_units": settings.default_length_units,
 			"data.settings.default_weight_units": settings.default_weight_units,
@@ -375,32 +377,32 @@ export class CharacterGURPS extends ActorGURPS {
 			const j = i as ItemSystemData;
 			switch (i.type) {
 				case "advantage":
-					data = this.getAdvantageData(j as AdvantageSystemData);
+					data = this.getTraitData(j as TraitSystemData);
 					flags.gcsga.contentsData = [];
 					flags.gcsga.contentsData = flags.gcsga.contentsData
 						.concat
-						// this.importItems((j as AdvantageSystemData).modifiers as AdvantageModifierSystemData[], {
+						// this.importItems((j as TraitSystemData).modifiers as TraitModifierSystemData[], {
 						// 	container: id,
 						// }),
 						();
 					break;
 				case "advantage_container":
-					data = this.getAdvantageContainerData(j as AdvantageContainerSystemData);
+					data = this.getTraitContainerData(j as TraitContainerSystemData);
 					flags.gcsga.contentsData = [];
 					flags.gcsga.contentsData = flags.gcsga.contentsData
 						.concat
-						// this.importItems((j as AdvantageContainerSystemData).modifiers, {
+						// this.importItems((j as TraitContainerSystemData).modifiers, {
 						// 	container: id,
 						// }) as Array<ItemGURPS>,
 						();
 					flags.gcsga.contentsData = flags.gcsga.contentsData.concat(
-						this.importItems((j as AdvantageContainerSystemData).children, {
+						this.importItems((j as TraitContainerSystemData).children, {
 							container: id,
 						}) as Array<ItemGURPS>,
 					);
 					break;
 				case "modifier":
-					data = this.getAdvantageModifierData(j as AdvantageModifierSystemData);
+					data = this.getTraitModifierData(j as TraitModifierSystemData);
 					break;
 				case "skill":
 					data = this.getSkillData(j as SkillSystemData);
@@ -524,7 +526,7 @@ export class CharacterGURPS extends ActorGURPS {
 		return randomID();
 	}
 
-	getAdvantageData(data: AdvantageSystemData) {
+	getTraitData(data: TraitSystemData) {
 		return {
 			id: data.id || "",
 			reference: data.reference || "",
@@ -552,7 +554,7 @@ export class CharacterGURPS extends ActorGURPS {
 		};
 	}
 
-	getAdvantageContainerData(data: AdvantageContainerSystemData) {
+	getTraitContainerData(data: TraitContainerSystemData) {
 		return {
 			id: data.id || "",
 			reference: data.reference || "",
@@ -569,7 +571,7 @@ export class CharacterGURPS extends ActorGURPS {
 		};
 	}
 
-	getAdvantageModifierData(data: AdvantageModifierSystemData) {
+	getTraitModifierData(data: TraitModifierSystemData) {
 		return {
 			id: data.id || "",
 			reference: data.reference || "",

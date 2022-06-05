@@ -12,7 +12,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	editing = false;
 	selection = {
 		active: "none",
-		advantages: [] as any[],
+		traits: [] as any[],
 		skills: [] as any[],
 		spells: [] as any[],
 		equipment: [] as any[],
@@ -24,7 +24,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	/** @override */
 	static get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
-		console.warn(options);
 		mergeObject(options, {
 			width: 749,
 			height: 800,
@@ -115,7 +114,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	// 	const id: string = $(event.currentTarget).data("item-id") || "";
 	// 	//@ts-ignore
 	// 	const item: ItemGURPS = this.actor.deepItems.get(id);
-	// 	if (["advantage", "advantage_container"].includes(item.type)) this.selection.active = "advantages";
+	// 	if (["trait", "trait_container"].includes(item.type)) this.selection.active = "traits";
 	// 	else if (["skill", "skill_container", "technique"].includes(item.type)) this.selection.active = "skills";
 	// 	else if (["spell", "spell_container", "ritual_magic_spell"].includes(item.type))
 	// 		this.selection.active = "spells";
@@ -311,7 +310,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	prepareItems(data: any) {
-		const [advantages, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
+		const [traits, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
 			(arr: ItemDataGURPS[][], item: ItemGURPS | ContainerGURPS) => {
 				const itemData: ItemDataGURPS = this.parseContents(item);
 				if (["advantage", "advantage_container"].includes(item.type)) arr[0].push(itemData);
@@ -341,7 +340,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		data.carried_weight = `${carried_weight} lb`;
 		data.carried_value = dollarFormat(carried_value);
 
-		data.advantages = advantages;
+		data.traits = traits;
 		data.skills = skills;
 		data.spells = spells;
 		data.equipment = equipment;
@@ -350,7 +349,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		data.melee = melee;
 		data.ranged = ranged;
 		data.blocks = {
-			advantages: advantages,
+			advantages: traits,
 			skills: skills,
 			spells: spells,
 			equipment: equipment,

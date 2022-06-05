@@ -1,0 +1,41 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet" class="gcs_trait_sheet">
+		<div id="details">
+			<label class="label align-right"></label>
+			<div class="field">
+				<label class="checkbox-label">
+					<input class="input" type="checkbox" checked/>
+					{{localize "gcsga.trait.enabled"}}
+				</label>
+			</div>
+			{{>input_text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
+			{{>input_text field="field" label="gcsga.trait.notes" name="data.notes" data=data.notes type="String"}}
+			{{>input_text field="field" label="gcsga.trait.vtt_notes" name="data.vtt_notes" data=data.vtt_notes type="String"}}
+			{{>input_text field="field" label="gcsga.trait.user_description" name="data.user_description" data=data.user_description type="String"}}
+			<div class="label align-right">{{localize "gcsga.trait.categories"}}</div>
+			{{>input_text field="field" name="data.categories" data=data.categories type="String"}}
+			<div class="label align-right">{{localize "gcsga.trait.point_cost"}}</div>
+			<div class="field no-stretch">
+				{{>input_text name="data.calc.points" data=data.calc.points type="Number" class="disabled"}}
+				<label class="label checkbox-label">
+					<input class="input" type="checkbox" checked/>
+					{{localize "gcsga.trait.round_down"}}
+				</label>
+			</div>
+			<div class="label align-right">{{localize "gcsga.trait.base_cost"}}</div>
+			<div class="field no-stretch">
+				{{>input_text name="data.base_points" data=data.base_points type="Number" class=""}}
+				{{>input_text label="gcsga.trait.points_per_level" name="data.points_per_level" data=data.points_per_level type="Number" class=""}}
+				{{>input_text label="gcsga.trait.levels" name="data.levels" data=data.levels type="Number"}}
+			</div>
+			<div class="label align-right">{{localize "gcsga.trait.cr"}}</div>
+			<div class="field">
+				<select name="data.cr" data-dtype="Number">
+					{{#select data.cr}}
+						<option value="-1">None Required</option>
+					{{/select}}
+				</select>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,7 +1,7 @@
 <form class="{{cssClass}} gcsga" autocomplete="off">
-    <div id="sheet" class="gcs_advantage_container_sheet">
+    <div id="sheet" class="gcs_trait_container_sheet">
         <div id="details">
-            <div class="label align_right">{{localize "gcsga.advantage_container.name"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.name"}}</div>
             <div id="name" class="field">
                 <input
                     name="name"
@@ -14,10 +14,10 @@
                     <input type="checkbox" name="data.disabled" {{checked data.disabled}}/>
                     <i class="far fa-check-circle checked"></i>
                     <i class="far fa-circle unchecked"></i>
-                    {{localize "gcsga.advantage_container.disabled"}}
+                    {{localize "gcsga.trait_container.disabled"}}
                 </label>
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.notes"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.notes"}}</div>
             <div class="field">
                 <input
                     name="data.notes"
@@ -27,7 +27,7 @@
                     {{input_lock editing}}
                 />
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.vtt_notes"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.vtt_notes"}}</div>
             <div class="field">
                 <input
                     name="data.vtt_notes"
@@ -37,7 +37,7 @@
                     {{input_lock editing}}
                 />
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.user_description"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.user_description"}}</div>
             <div class="field">
                 <input
                     name="data.user_description"
@@ -47,7 +47,7 @@
                     {{input_lock editing}}
                 />
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.categories"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.categories"}}</div>
             <div class="field">
                 <input
                     name="data.categories"
@@ -57,7 +57,7 @@
                     {{input_lock editing}}
                 />
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.cr"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.cr"}}</div>
             <div id="cr" class="field">
                 <select name="data.cr">
                     {{selectOptions options.cr selected=data.cr localize=true}}
@@ -66,12 +66,12 @@
                     {{selectOptions options.cr_adj selected=data.cr_adj localize=true}}
                 </select>
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.container_type"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.container_type"}}</div>
             <div id="container_type" class="field">
                 <select name="data.container_type">
                     {{selectOptions options.container_type selected=data.container_type localize=true}}
                 </select>
-                <div class="label align_right">{{localize "gcsga.advantage_container.reference"}}</div>
+                <div class="label align_right">{{localize "gcsga.trait_container.reference"}}</div>
                 <input
                     name="data.reference"
                     class="input"
@@ -80,7 +80,7 @@
                     {{input_lock editing}}
                 />
             </div>
-            <div class="label align_right">{{localize "gcsga.advantage_container.ancestry"}}</div>
+            <div class="label align_right">{{localize "gcsga.trait_container.ancestry"}}</div>
             <div class="field">
                 <select name="data.cr_adj">
                     {{selectOptions options.ancestry selected=data.ancestry localize=true}}

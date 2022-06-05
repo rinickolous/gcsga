@@ -1,6 +1,6 @@
 import { ActorFlagsGURPS, ActorSystemData, BaseActorDataGURPS, BaseActorSourceGURPS } from "@actor/base/data";
-import { AdvantageSystemData } from "@item/advantage/data";
-import { AdvantageContainerSystemData } from "@item/advantage_container/data";
+import { TraitSystemData } from "@item/trait/data";
+import { TraitContainerSystemData } from "@item/trait_container/data";
 import { EquipmentSystemData } from "@item/equipment/data";
 import { EquipmentContainerSystemData } from "@item/equipment_container/data";
 import { NoteSystemData } from "@item/note/data";
@@ -50,7 +50,7 @@ export interface ImportedData extends Omit<CharacterSystemData, "attributes" | "
 	total_points: number;
 	attributes: Array<Attribute>;
 	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<AttributeSetting> };
-	advantages: Array<AdvantageContainerSystemData | AdvantageSystemData>;
+	traits: Array<TraitContainerSystemData | TraitSystemData>;
 	skills: Array<SkillContainerSystemData | SkillSystemData | TechniqueSystemData>;
 	spells: Array<SpellContainerSystemData | SpellSystemData | RitualMagicSpellSystemData>;
 	equipment: Array<EquipmentContainerSystemData | EquipmentSystemData>;

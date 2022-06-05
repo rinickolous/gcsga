@@ -1,9 +1,9 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
 
-export class AdvantageContainerSheet extends ContainerSheetGURPS {
+export class TraitContainerSheet extends ContainerSheetGURPS {
 	/** @override */
 	get template(): string {
-		return "/systems/gcsga/templates/item/advantage_container/sheet.hbs";
+		return "/systems/gcsga/templates/item/trait_container/sheet.hbs";
 	}
 
 	/** @override */

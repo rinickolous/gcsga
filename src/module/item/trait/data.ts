@@ -1,18 +1,18 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CR, CRAdjustment, Feature, ObjArray, Prereq, Weapon } from "@module/data";
-import { AdvantageGURPS } from ".";
+import { TraitGURPS } from ".";
 
-export type AdvantageSource = BaseContainerSource<"advantage", AdvantageSystemData>;
+export type TraitSource = BaseContainerSource<"advantage", TraitSystemData>;
 
-export class AdvantageData extends BaseContainerData<AdvantageGURPS> {}
+export class TraitData extends BaseContainerData<TraitGURPS> {}
 
-export interface AdvantageData extends Omit<AdvantageSource, "effects" | "flags" | "items"> {
-	readonly type: AdvantageSource["type"];
-	data: AdvantageSystemData;
-	readonly _source: AdvantageSource;
+export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "items"> {
+	readonly type: TraitSource["type"];
+	data: TraitSystemData;
+	readonly _source: TraitSource;
 }
 
-export interface AdvantageSystemData extends Omit<BaseContainerSystemData, "open"> {
+export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
 	prereqs: Prereq;
 	round_down: boolean;
 	allow_half_levels: boolean;

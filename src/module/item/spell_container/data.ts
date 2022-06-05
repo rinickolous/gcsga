@@ -1,7 +1,7 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { SpellContainerGURPS } from ".";
 
-export type SpellContainerSource = BaseContainerSource<"advantage", SpellContainerSystemData>;
+export type SpellContainerSource = BaseContainerSource<"spell_container", SpellContainerSystemData>;
 
 export class SpellContainerData extends BaseContainerData<SpellContainerGURPS> {}
 

@@ -66,14 +66,14 @@
 				{{/each}}
 			</div>
 			{{/if}}
-			{{#if advantages.length}}
-			<div id="advantages" class="item-list">
+			{{#if traits.length}}
+			<div id="traits" class="item-list">
 				<div class="header entry-parent" readonly></div>
-				<div class="header desc">{{localize "gcsga.sheet.advantages.desc"}}</div>
-				<div class="header points">{{localize "gcsga.sheet.advantages.points"}}</div>
+				<div class="header desc">{{localize "gcsga.sheet.traits.desc"}}</div>
+				<div class="header points">{{localize "gcsga.sheet.traits.points"}}</div>
 				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
-				{{#each advantages}}
-					{{>advantage}}
+				{{#each traits}}
+					{{>trait}}
 				{{/each}}
 			</div>
 			{{/if}}

@@ -14,10 +14,17 @@
 		background-color: var(--color-content);
 		color: var(--color-on-content);
 		font: var(--font-page-primary-fields);
+		&:not(.entry-parent) {
+			padding: 0px 4px
+		}
 	}
 	.item-notes {
 		font: var(--font-page-secondary-fields);
 		background-color: transparent;
+	}
+	.reference:hover {
+		background-color: var(--color-link) !important;
+		color: var(--color-on-link) !important;
 	}
 
 	.dropdown i {

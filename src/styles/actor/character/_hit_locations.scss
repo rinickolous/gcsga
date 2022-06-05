@@ -37,6 +37,10 @@
 	.roll, .penalty {
 		border-right: 1px solid var(--color-header);
 	}
+	
+	:not(.header):not(.entry-parent) {
+		padding: var(--padding-standard);
+	}
 
 	.entry-parent:nth-child(10n+1),
 	.roll:nth-child(10n+2),

@@ -1,20 +1,22 @@
 <div class="entry-parent" readonly></div>
 <div class="equipped">{{#if this.data.equipped}}{{>svg shapes=(arr "--shape-checkmark")}}{{/if}}</div>
 <div class="quantity">{{this.data.quantity}}</div>
-<div class="dropdown">
-{{#if (eq this.type "equipment_container")}}
-	{{#if this.data.open}}	
-		{{>dropdown-open}}
-	{{else}}
-		{{>dropdown-closed}}
+<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+	<div class="dropdown">
+	{{#if (eq this.type "equipment_container")}}
+		{{#if this.data.open}}	
+			{{>dropdown-open}}
+		{{else}}
+			{{>dropdown-closed}}
+		{{/if}}
 	{{/if}}
-{{/if}}
-</div>
-<div class="desc item" data-item-id="{{_id}}">
+	</div>
 	{{this.name}}
 	{{>item-notes}}
 </div>
 <div class="uses">{{this.data.uses}}</div>
+<div class="tech-level">{{this.data.tech_level}}</div>
+<div class="legality-class">{{this.data.legality_class}}</div>
 {{!-- <div class="weight">{{this.data.calc.weight}}</div> --}}
 {{!-- <div class="value">{{this.data.calc.value}}</div> --}}
 <div class="weight">{{this.data.weight}}</div>

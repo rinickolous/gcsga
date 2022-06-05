@@ -109,10 +109,10 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: "gcsga.actor.sheet.character.name",
 	});
-	Actors.registerSheet("gcsga", ActorSheetGURPS, {
-		makeDefault: true,
-		label: "gcsga.actor.sheet.base.name",
-	});
+	// Actors.registerSheet("gcsga", ActorSheetGURPS, {
+	// 	makeDefault: true,
+	// 	label: "gcsga.actor.sheet.base.name",
+	// });
 });
 
 // Setup system

@@ -1,13 +1,13 @@
 <div class="entry-parent" readonly></div>
-<div class="dropdown">{{#if (eq this.type "note_container")}}
-	{{#if this.data.open}}	
-		{{>dropdown-open}}
-	{{else}}
-		{{>dropdown-closed}}
+<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+	<div class="dropdown">{{#if (eq this.type "note_container")}}
+		{{#if this.data.open}}	
+			{{>dropdown-open}}
+		{{else}}
+			{{>dropdown-closed}}
+		{{/if}}
 	{{/if}}
-{{/if}}
-</div>
-<div class="desc item" data-item-id="{{_id}}">
+	</div>
 	{{this.name}}
 </div>
 <div class="reference">{{this.reference}}</div>

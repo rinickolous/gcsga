@@ -10,12 +10,44 @@
 		grid-template-rows: repeat(1000, auto) 1fr;
 	}
 
+	> div > .desc {
+		display: grid;
+		grid-template:
+			"dropdown name"
+			"blank notes";
+		grid-template-columns: min-content auto;
+		.dropdown {
+			width: 8px;
+			margin-right: 6px;
+		}
+		.item-notes {
+			grid-area: notes;
+		}
+	}
+
+	> div > :not(.header):not(.entry-parent) {
+		min-width: 18px;
+		&.quantity {
+			min-width: 14px;
+		}
+	}
+	
+	.desc.header {
+		white-space: nowrap;
+	}
+
+	.points, .level, .quantity, .uses, .tech-level, .legality-class, .weight, .value, .extended-weight, .extended-value {
+		&:not(.header) {
+			text-align: right;
+		}
+	}
+
 	> div > :not(.header):not(svg) {
 		background-color: var(--color-content);
 		color: var(--color-on-content);
 		font: var(--font-page-primary-fields);
 		&:not(.entry-parent) {
-			padding: 0px 4px
+			padding: var(--padding-standard);
 		}
 	}
 	.item-notes {

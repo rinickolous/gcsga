@@ -83,8 +83,9 @@
 			},
 			"spells": {
 				"desc": "Spells",
+				"college": "College",
 				"resist": "Resist",
-				"class": "Class",
+				"spell_class": "Class",
 				"casting_cost": "Cost",
 				"maintenance_cost": "Maintain",
 				"casting_time": "Time",
@@ -96,12 +97,16 @@
 			"equipment": {
 				"quantity": "#",
 				"desc": "Carried Equipment ({weight}; {value})",
-				"uses": "Uses"
+				"uses": "Uses",
+				"tech_level": "TL",
+				"legality_class": "LC"
 			},
 			"other_equipment": {
 				"quantity": "#",
 				"desc": "Other Equipment ({value})",
-				"uses": "Uses"
+				"uses": "Uses",
+				"tech_level": "TL",
+				"legality_class": "LC"
 			},
 			"notes": {
 				"desc": "Notes"

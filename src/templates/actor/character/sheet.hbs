@@ -94,12 +94,13 @@
 			<div id="spells" class="item-list">
 				<div class="header entry-parent" readonly></div>
 				<div class="header desc">{{localize "gcsga.sheet.spells.desc"}}</div>
-				<div class="header resist">{{localize "gcsga.sheet.spells.resist"}}</div>
-				<div class="header class">{{localize "gcsga.sheet.spells.class"}}</div>
-				<div class="header casting_cost">{{localize "gcsga.sheet.spells.casting_cost"}}</div>
-				<div class="header maintenance_cost">{{localize "gcsga.sheet.spells.maintenance_cost"}}</div>
-				<div class="header casting_time">{{localize "gcsga.sheet.spells.casting_time"}}</div>
-				<div class="header duration">{{localize "gcsga.sheet.spells.duration"}}</div>
+				<div class="header college">{{localize "gcsga.sheet.spells.college"}}</div>
+				{{!-- <div class="header resist">{{localize "gcsga.sheet.spells.resist"}}</div> --}}
+				{{!-- <div class="header class">{{localize "gcsga.sheet.spells.class"}}</div> --}}
+				{{!-- <div class="header casting_cost">{{localize "gcsga.sheet.spells.casting_cost"}}</div> --}}
+				{{!-- <div class="header maintenance_cost">{{localize "gcsga.sheet.spells.maintenance_cost"}}</div> --}}
+				{{!-- <div class="header casting_time">{{localize "gcsga.sheet.spells.casting_time"}}</div> --}}
+				{{!-- <div class="header duration">{{localize "gcsga.sheet.spells.duration"}}</div> --}}
 				<div class="header level">{{localize "gcsga.sheet.spells.level"}}</div>
 				<div class="header rsl">{{localize "gcsga.sheet.spells.rsl"}}</div>
 				<div class="header points">{{localize "gcsga.sheet.spells.points"}}</div>
@@ -116,6 +117,8 @@
 				<div class="header quantity">{{localize "gcsga.sheet.equipment.quantity"}}</div>
 				<div class="header desc">{{localize "gcsga.sheet.equipment.desc" weight=carried_weight value=carried_value}}</div>
 				<div class="header uses">{{localize "gcsga.sheet.equipment.uses"}}</div>
+				<div class="header tech-level">{{localize "gcsga.sheet.equipment.tech_level"}}</div>
+				<div class="header legality-class">{{localize "gcsga.sheet.equipment.legality_class"}}</div>
 				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
 				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
 				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
@@ -132,6 +135,8 @@
 				<div class="header quantity">{{localize "gcsga.sheet.other_equipment.quantity"}}</div>
 				<div class="header desc">{{localize "gcsga.sheet.other_equipment.desc" value=other_value}}</div>
 				<div class="header uses">{{localize "gcsga.sheet.other_equipment.uses"}}</div>
+				<div class="header tech-level">{{localize "gcsga.sheet.other_equipment.tech_level"}}</div>
+				<div class="header legality-class">{{localize "gcsga.sheet.other_equipment.legality_class"}}</div>
 				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
 				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
 				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
@@ -152,6 +157,11 @@
 				{{/each}}
 			</div>
 			{{/if}}
+		</div>
+		<div id="footer">
+			<div class="left">GCS is copyrighted &copy; by Richard A. Wilkes<br>All rights reserved</div>
+			<div class="centre">{{actor.name}}</div>
+			<div class="right"><a href="https://gurpscharactersheet.com/">gurpscharactersheet.com</a></div>
 		</div>
 	</div>
 </form>

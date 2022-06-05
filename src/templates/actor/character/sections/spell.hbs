@@ -1,24 +1,25 @@
 <div class="entry-parent" readonly></div>
-<div class="dropdown">
-{{#if (eq this.type "spell_container")}}
-	{{#if this.data.open}}	
-		{{>dropdown-open}}
-	{{else}}
-		{{>dropdown-closed}}
+<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+	<div class="dropdown">
+	{{#if (eq this.type "spell_container")}}
+		{{#if this.data.open}}	
+			{{>dropdown-open}}
+		{{else}}
+			{{>dropdown-closed}}
+		{{/if}}
 	{{/if}}
-{{/if}}
-</div>
-<div class="desc item" data-item-id="{{_id}}">
+	</div>
 	{{!-- {{this.name_formatted}} --}}
 	{{this.name}}
 	{{>item-notes}}
 </div>
-<div class="resist">{{this.data.resist}}</div>
-<div class="class">{{this.data.class}}</div>
-<div class="casting-cost">{{this.data.casting_cost}}</div>
-<div class="maintenance-cost">{{this.data.maintenance_cost}}</div>
-<div class="casting-time">{{this.data.casting_time}}</div>
-<div class="duration">{{this.data.duration}}</div>
+<div class="college">{{this.data.college}}</div>
+{{!-- <div class="resist">{{this.data.resist}}</div> --}}
+{{!-- <div class="class">{{this.data.class}}</div> --}}
+{{!-- <div class="casting-cost">{{this.data.casting_cost}}</div> --}}
+{{!-- <div class="maintenance-cost">{{this.data.maintenance_cost}}</div> --}}
+{{!-- <div class="casting-time">{{this.data.casting_time}}</div> --}}
+{{!-- <div class="duration">{{this.data.duration}}</div> --}}
 <div class="level">{{this.data.calc.level}}</div>
 <div class="rsl">{{this.data.calc.rsl}}</div>
 <div class="points">{{this.data.calc.points}}</div>

@@ -1,3 +1,6 @@
+import { ItemDataGURPS, SpellData } from "@item/data";
+import { i18n } from "@util";
+
 export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("concat", function (...args) {
 		let outStr = "";
@@ -93,6 +96,27 @@ export function registerHandlebarsHelpers() {
 			if (arg && typeof arg != "object") outArr.push(arg);
 		});
 		return outArr;
+	});
+
+	Handlebars.registerHelper("indent", function (i: ItemDataGURPS): string {
+		const sum = -6 + 12 * (i?.flags?.gcsga?.parents?.length || 0);
+		return `style=\"padding-left: ${sum}px;\"`;
+	});
+
+	Handlebars.registerHelper("spellValues", function (i: SpellData): string {
+		const values = {
+			resist: i.data.resist,
+			spell_class: i.data.spell_class,
+			casting_cost: i.data.casting_cost,
+			maintenance_cost: i.data.maintenance_cost,
+			casting_time: i.data.casting_time,
+			duration: i.data.duration,
+		};
+		const list = [];
+		for (const [k, v] of Object.entries(values)) {
+			if (v) list.push(`${i18n("gcsga.sheet.spells." + k)}: ${v}`);
+		}
+		return list.join("; ");
 	});
 
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {

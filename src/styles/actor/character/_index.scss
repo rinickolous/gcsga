@@ -51,6 +51,7 @@
 
 	.label {
 		font: var(--font-page-primary-labels);
+		padding: var(--padding-standard);
 	}
 
 	.field {
@@ -88,6 +89,27 @@
 	#personal, #stats, #embeds {
 		> div:not(#attributes), #attributes > div {
 			border: var(--standard-border);
+		}
+	}
+	#footer {
+		font: var(--font-page-secondary-footer);
+		color: var(--color-on-page);
+		text-align: left;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		.centre {
+			font: var(--font-page-primary-footer);
+			text-align: center;
+		}
+		.right {
+			text-align: right;
+			a {
+				color: inherit;
+				text-decoration: inherit;
+				&:hover {
+					text-shadow: none;
+				}
+			}
 		}
 	}
 }

@@ -126,4 +126,15 @@ export class ActorSheetGURPS extends ActorSheet {
 		// Perform the update
 		return parent.updateEmbeddedDocuments("Item", updateData);
 	}
+
+	protected _getHeaderButtons(): Application.HeaderButton[] {
+		const buttons = super._getHeaderButtons();
+		const sheetButton = buttons.find((button) => button.class === "configure-sheet");
+		//@ts-ignore
+		const hasMultipleSheets = Object.keys(CONFIG.Actor.sheetClasses[this.actor.type]).length > 1;
+		if (!hasMultipleSheets && sheetButton) {
+			buttons.splice(buttons.indexOf(sheetButton), 1);
+		}
+		return buttons;
+	}
 }

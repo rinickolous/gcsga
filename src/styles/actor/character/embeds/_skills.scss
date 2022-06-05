@@ -1,23 +1,16 @@
 #skills {
 	grid-area: skills;
-	grid-template-columns: min-content 20px 1fr repeat(4, auto);
+	grid-template-columns: min-content 1fr repeat(4, auto);
 	.header {
 		grid-area: auto;
 	}
-	.header.desc {
-		grid-column: span 2;
-	}
-	.level, .points {
-		text-align: right;
-	}
 
-	.entry-parent:nth-child(14n),
-	.dropdown:nth-child(14n+1),
-	.desc:nth-child(14n+2),
-	.level:nth-child(14n+3),
-	.rsl:nth-child(14n+4),
-	.points:nth-child(14n+5),
-	.reference:nth-child(14n+6) {
+	.entry-parent:nth-child(12n+1),
+	.desc:nth-child(12n+2),
+	.level:nth-child(12n+3),
+	.rsl:nth-child(12n+4),
+	.points:nth-child(12n+5),
+	.reference:nth-child(12n+6) {
 		&:not(.header) {
 			background-color: var(--color-banding);
 			color: var(--color-on-banding);

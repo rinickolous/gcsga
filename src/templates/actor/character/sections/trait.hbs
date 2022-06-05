@@ -1,14 +1,14 @@
 <div class="entry-parent" readonly></div>
-<div class="dropdown">
-{{#if (eq this.type "trait_container")}}
-	{{#if this.data.open}}	
-		{{>dropdown-open}}
-	{{else}}
-		{{>dropdown-closed}}
+<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+	<div class="dropdown">
+	{{#if (eq this.type "advantage_container")}}
+		{{#if this.data.open}}	
+			{{>dropdown-open}}
+		{{else}}
+			{{>dropdown-closed}}
+		{{/if}}
 	{{/if}}
-{{/if}}
-</div>
-<div class="desc item" data-item-id="{{_id}}">
+	</div>
 	{{!-- {{this.name_formatted}} --}}
 	{{this.name}}
 	{{>item-notes}}

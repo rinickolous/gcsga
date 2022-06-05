@@ -1,15 +1,11 @@
 #notes {
 	grid-area: notes;
-	grid-template-columns: min-content 20px 1fr auto;
+	grid-template-columns: min-content 1fr auto;
 	.header {
 		grid-area: auto;
 	}
-	.header.desc {
-		grid-column: span 2;
-	}
 
-	.entry-parent:nth-child(8n),
-	.dropdown:nth-child(8n+1),
+	.entry-parent:nth-child(8n+1),
 	.desc:nth-child(8n+2),
 	.reference:nth-child(8n+3) {
 		&:not(.header) {

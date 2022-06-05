@@ -45,7 +45,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
 		html.find(".reference").on("click", this._handlePDF.bind(this));
 		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
-		html.find(".item").on("click", this._onItemSelect.bind(this));
+		// html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
 
 	async _onCollapseToggle(event: Event) {

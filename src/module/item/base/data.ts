@@ -6,6 +6,8 @@ import { ItemGURPS } from ".";
 export type ItemType =
 	| "advantage"
 	| "advantage_container"
+	| "trait"
+	| "trait_container"
 	| "modifier"
 	| "skill"
 	| "technique"
@@ -52,6 +54,6 @@ export interface ItemSystemData {
 	name?: string;
 	reference: string;
 	notes: string;
-	categories: Array<string>;
+	tags: Array<string>;
 	type: ItemType;
 }

@@ -6,13 +6,13 @@ import {
 	DocumentModificationOptions,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemType } from "./data";
-import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/foundry.js/clientDocumentMixin";
 import {
 	DocumentConstructor,
 	ConfiguredDocumentClass,
 	PropertiesToSource,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -27,6 +27,7 @@ export class ItemGURPS extends Item {
 
 	/** @override */
 	constructor(data: ItemDataGURPS, context: ItemConstructionContextGURPS = {}) {
+		console.log("CHECK", data);
 		if (context.gcsga?.ready) {
 			//@ts-ignore
 			super(data, context);

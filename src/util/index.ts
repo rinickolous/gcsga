@@ -1,5 +1,10 @@
-import { EquipmentGURPS, ItemGURPS } from "@item";
+import { ContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
+import { ItemSystemData } from "@item/base/data";
 import { ItemDataGURPS } from "@item/data";
+import { SkillSystemData } from "@item/skill/data";
+import { SkillContainerSystemData } from "@item/skill_container/data";
+import { SpellSystemData } from "@item/spell/data";
+import { SpellContainerSystemData } from "@item/spell_container/data";
 
 export function arrayBuffertoBase64(buffer: ArrayBuffer) {
 	console.log(buffer);
@@ -34,11 +39,9 @@ export function i18n(value: string, fallback?: string) {
 	return result;
 }
 
-export function i18n_f(value: string, data: object, fallback?: string) {
-	//@ts-ignore i18n
+export function i18n_f(value: string, data: Record<string, unknown>, fallback?: string) {
 	const template = game.i18n.has(value) ? value : fallback;
 	if (!template) return value;
-	//@ts-ignore i18n
 	const result = game.i18n.format(template, data);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
@@ -50,14 +53,16 @@ export function signed(i: string | number) {
 	return i.toString();
 }
 
-export function getPointTotal(parent: ItemDataGURPS, children: Array<ItemDataGURPS>): number {
-	//@ts-ignore
+export function getPointTotal(
+	parent: { data: SkillContainerSystemData | SpellContainerSystemData },
+	children?: Array<any>,
+): number {
 	let total = 0;
-	//@ts-ignore
-	if (parent.data?.calc.points) total += parent.data.points;
-	for (const i of children) {
-		//@ts-ignore
-		total += getPointTotal(i.data, i.flags.gcsga?.contentsData);
+	if (parent.data.calc.points) total += parent.data.calc.points;
+	if (children) {
+		for (const i of children) {
+			total += getPointTotal(i.data, i.data.flags.gcsga?.contentsData);
+		}
 	}
 	return total;
 }
@@ -70,11 +75,11 @@ export function dollarFormat(i: number): string {
 	return formatter.format(i);
 }
 
-export function sheetSection(item: ItemGURPS, type: string) {
+export function sheetSection(item: ItemGURPS | ContainerGURPS, type: string) {
 	let types: Array<string> = [];
 	switch (type) {
 		case "traits":
-			types = ["trait", "trait_container"];
+			types = ["advantage", "advantage_container", "trait", "trait_container"];
 			break;
 		case "skills":
 			types = ["skill", "technique", "skill_container"];

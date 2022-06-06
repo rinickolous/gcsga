@@ -6,6 +6,8 @@ import { ContainerGURPS } from ".";
 export type ContainerType =
 	| "advantage"
 	| "advantage_container"
+	| "trait"
+	| "trait_container"
 	| "skill_container"
 	| "spell_container"
 	| "equipment"

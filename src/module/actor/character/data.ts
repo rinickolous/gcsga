@@ -50,6 +50,8 @@ export interface ImportedData extends Omit<CharacterSystemData, "attributes" | "
 	total_points: number;
 	attributes: Array<Attribute>;
 	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<AttributeSetting> };
+	//TODO change redundancy
+	advantages: Array<TraitContainerSystemData | TraitSystemData>;
 	traits: Array<TraitContainerSystemData | TraitSystemData>;
 	skills: Array<SkillContainerSystemData | SkillSystemData | TechniqueSystemData>;
 	spells: Array<SpellContainerSystemData | SpellSystemData | RitualMagicSpellSystemData>;

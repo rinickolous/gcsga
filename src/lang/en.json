@@ -145,6 +145,24 @@
 			"container_type": "Container Type",
 			"reference": "Page Reference",
 			"ancestry": "Ancestry"
+		},
+		"settings": {
+			"basic_set_pdfs": {
+				"name": "Basic Set PDFs",
+				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFoundry. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDFoundry test.",
+				"choices": {
+					"combined": "Combined Basic Set (B)",
+					"separate": "Separate (Characters: B, Campaigns: BX)"
+				}
+			},
+			"portrait_path": {
+				"name": "Default Portait Path",
+				"hint": "Choose where character portraits are stored (in the global Foundry User Data directory, or the local world directory).",
+				"choices": {
+					"global": "Global ([Foundry User Data]/Data/images/portaits/",
+					"local": "Local ([Foundry User Data]/Data/worlds/[World]/images/portaits/)"
+				}
+			}
 		}
 	}
 }

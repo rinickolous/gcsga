@@ -9,6 +9,9 @@
 		.window-title {
 			font: inherit;
 		}
+		.header-button:hover {
+			text-shadow: none;
+		}
 
 		// Content Background
 		.window-content {
@@ -19,6 +22,12 @@
 
 			//Scrollbar
 			--color-border-highlight: var(--color-scroll-edge);
+			&::-webkit-scrollbar-thumb {
+				background: var(--color-scroll);
+				&:hover {
+					background: var(--color-scroll-rollover);
+				}
+			}
 		}
 
 		//Resize Handle

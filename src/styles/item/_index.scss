@@ -65,6 +65,9 @@
 			display: grid;
 			place-content: center;
 			filter: none;
+			&:active {
+				background-color: var(--color-pressed-control);
+			}
 			// transform: translate(-2px, -3px);
 		}
 		input[type="checkbox"]::before {

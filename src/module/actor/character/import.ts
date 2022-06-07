@@ -197,6 +197,8 @@ export class CharacterImporter {
 				.then((res) => res.blob())
 				.then((blob) => {
 					const file = new File([blob], filename);
+					// TODO remove when dep updates
+					//@ts-ignore
 					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
 			p.img = (path + "/" + filename).replace(" ", "_");

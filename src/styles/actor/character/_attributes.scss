@@ -23,6 +23,9 @@
 	#basic-damage {
 		grid-area: basic-damage;
 		.fieldblock3 {
+			.points {
+				color: transparent;
+			}
 			.label:nth-child(6n),
 			.field:nth-child(6n-1),
 			.points:nth-child(6n-2) {

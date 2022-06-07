@@ -21,6 +21,9 @@
 		background-color: rgba(var(--color-content), 1);
 		color: rgba(var(--color-on-editable), 0.6);
 		text-align: right;
+		.encumbrance-marker {
+			color: rgb(var(--color-on-content));
+		}
 		.level {
 			color: rgba(var(--color-on-content), 1);
 			font: var(--font-page-primary-labels);

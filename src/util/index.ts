@@ -34,15 +34,15 @@ export async function readTextFromFile(file: File) {
 
 export function i18n(value: string, fallback?: string) {
 	//@ts-ignore i18n
-	const result = game.i18n.localize(value);
+	const result = (game as Game).i18n.localize(value);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }
 
 export function i18n_f(value: string, data: Record<string, unknown>, fallback?: string) {
-	const template = game.i18n.has(value) ? value : fallback;
+	const template = (game as Game).i18n.has(value) ? value : fallback;
 	if (!template) return value;
-	const result = game.i18n.format(template, data);
+	const result = (game as Game).i18n.format(template, data);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }

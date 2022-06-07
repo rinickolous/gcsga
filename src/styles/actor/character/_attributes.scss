@@ -26,18 +26,18 @@
 			.label:nth-child(6n),
 			.field:nth-child(6n-1),
 			.points:nth-child(6n-2) {
-				background-color: var(--color-banding);
+				background-color: rgba(var(--color-banding), 1);
 			}
 		}
 	}
 
 	.points {
 		font: var(--font-page-secondary-fields);
-		color: var(--color-on-editable-faded);
+		color: rgba(var(--color-on-editable), 0.6);
 	}
 	.label {
 		font: var(--font-page-primary-labels);
-		color: var(--color-on-content)
+		color: rgba(var(--color-on-content), 1);
 	}
 	.field input.input {
 		text-align: right;

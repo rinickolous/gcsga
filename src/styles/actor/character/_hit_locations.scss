@@ -19,13 +19,13 @@
 
 	.penalty, .dr {
 		&:not(.header) {
-			color: var(--color-on-editable-faded);
+			color: rgba(var(--color-on-editable), 0.6);
 			font: var(--font-page-primary-fields);
 		}
 	}
 	.roll, .location {
 		&:not(.header) {
-			color: var(--color-on-content);
+			color: rgba(var(--color-on-content), 1);
 			font: var(--font-page-primary-labels);
 		}
 	}
@@ -35,7 +35,7 @@
 	}
 
 	.roll, .penalty {
-		border-right: 1px solid var(--color-header);
+		border-right: 1px solid rgba(var(--color-header), 1);
 	}
 	
 	:not(.header):not(.entry-parent) {
@@ -48,7 +48,7 @@
 	.penalty:nth-child(10n+4),
 	.dr:nth-child(10n+5) {
 		&:not(.header) {
-			background-color: var(--color-banding);
+			background-color: rgba(var(--color-banding), 1);
 		}
 	}
 }

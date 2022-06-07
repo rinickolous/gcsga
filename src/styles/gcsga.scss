@@ -33,11 +33,11 @@ input {
 	display: inline-block;
 	.tooltiptext {
 		visibility: hidden;
-		background-color: var(--color-tooltip);
-		color: var(--color-on-tooltip);
+		background-color: rgba(var(--color-tooltip), 1);
+		color: rgba(var(--color-on-tooltip), 1);
 		text-align: left;
 		padding: 5px 5px;
-		border: 1px solid var(--color-on-tooltip);
+		border: 1px solid rgba(var(--color-on-tooltip), 1);
 		position: absolute;
 		z-index: 1;
 		top: 1.4em;
@@ -51,34 +51,34 @@ input {
 
 // #controls {
 // 	ol.control-tools > li {
-// 		background-color: var(--color-current-tab);
-// 		color: var(--color-on-current-tab);
-// 		border-color: var(--color-header);
+// 		background-color: rgba(var(--color-current-tab), 1);
+// 		color: rgba(var(--color-on-current-tab), 1);
+// 		border-color: rgba(var(--color-header), 1);
 // 		box-shadow: none;
 // 		&.active {
-// 			background-color: var(--color-focused-tab);
-// 			color: var(--color-on-focused-tab);
-// 			box-shadow: 0 0 10px var(--color-focused-tab);
-// 			border-color: var(--color-header);
+// 			background-color: rgba(var(--color-focused-tab), 1);
+// 			color: rgba(var(--color-on-focused-tab), 1);
+// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
+// 			border-color: rgba(var(--color-header), 1);
 // 		}
 // 		&:hover {
-// 			background-color: var(--color-focused-tab);
-// 			color: var(--color-on-focused-tab);
-// 			box-shadow: 0 0 10px var(--color-focused-tab);
-// 			border-color: var(--color-header);
+// 			background-color: rgba(var(--color-focused-tab), 1);
+// 			color: rgba(var(--color-on-focused-tab), 1);
+// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
+// 			border-color: rgba(var(--color-header), 1);
 // 		}
 // 		&.toggle {
-// 			background-color: var(--color-inactive-selection);
-// 			color: var(--color-on-inactive-selection);
+// 			background-color: rgba(var(--color-inactive-selection), 1);
+// 			color: rgba(var(--color-on-inactive-selection), 1);
 // 			&.active {
-// 				box-shadow: 0 0 10px var(--color-selection);
-// 				background-color: var(--color-selection);
-// 				color: var(--color-on-selection);
+// 				box-shadow: 0 0 10px rgba(var(--color-selection), 1);
+// 				background-color: rgba(var(--color-selection), 1);
+// 				color: rgba(var(--color-on-selection), 1);
 // 			}
 // 			&:hover {
-// 				box-shadow: 0 0 10px var(--color-selection);
-// 				background-color: var(--color-selection);
-// 				color: var(--color-on-selection);
+// 				box-shadow: 0 0 10px rgba(var(--color-selection), 1);
+// 				background-color: rgba(var(--color-selection), 1);
+// 				color: rgba(var(--color-on-selection), 1);
 // 			}
 // 		}
 // 	}
@@ -86,22 +86,22 @@ input {
 
 // #navigation {
 // 	#nav-toggle {
-// 		background-color: var(--color-current-tab);
-// 		color: var(--color-on-current-tab);
+// 		background-color: rgba(var(--color-current-tab), 1);
+// 		color: rgba(var(--color-on-current-tab), 1);
 // 		&:hover {
-// 			background-color: var(--color-focused-tab);
-// 			color: var(--color-on-focused-tab);
+// 			background-color: rgba(var(--color-focused-tab), 1);
+// 			color: rgba(var(--color-on-focused-tab), 1);
 // 			text-shadow: none;
 // 		}
 // 	}
 // 	#scene-list .scene {
-// 		color: var(--color-on-current-tab);
-// 		background-color: var(--color-current-tab);
-// 		border-color: var(--color-header);
+// 		color: rgba(var(--color-on-current-tab), 1);
+// 		background-color: rgba(var(--color-current-tab), 1);
+// 		border-color: rgba(var(--color-header), 1);
 // 		&.view {
-// 			color: var(--color-on-focused-tab);
-// 			background-color: var(--color-focused-tab);
-// 			box-shadow: 0 0 10px var(--color-focused-tab);
+// 			color: rgba(var(--color-on-focused-tab), 1);
+// 			background-color: rgba(var(--color-focused-tab), 1);
+// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
 // 		}
 // 	}
 // }

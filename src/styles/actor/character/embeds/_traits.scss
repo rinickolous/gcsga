@@ -10,15 +10,15 @@
 	.points:nth-child(8n+3),
 	.reference:nth-child(8n+4) {
 		&:not(.header) {
-			background-color: var(--color-banding);
-			color: var(--color-on-banding);
+			background-color: rgba(var(--color-banding), 1);
+			color: rgba(var(--color-on-banding), 1);
 		}
 	}
 
 	.dropdown, .desc, .points, .reference {
 		&:not(.header) {
-			border-bottom: 1px solid var(--color-header);
-			border-right: 1px solid var(--color-header);
+			border-bottom: 1px solid rgba(var(--color-header), 1);
+			border-right: 1px solid rgba(var(--color-header), 1);
 			&.reference, &.dropdown {
 				border-right: none;
 			}

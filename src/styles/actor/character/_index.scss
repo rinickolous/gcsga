@@ -11,8 +11,8 @@
 	// General Styles
 	.header {
 		grid-area: header;
-		background-color: var(--color-header);
-		color: var(--color-on-header);
+		background-color: rgba(var(--color-header), 1);
+		color: rgba(var(--color-on-header), 1);
 		justify-content: center;
 		text-align: center;
 		padding-bottom: 2px;
@@ -29,24 +29,24 @@
 		// padding-right: 2px;
 		white-space: nowrap;
 		align-self: stretch;
-		background-color: var(--color-content);
-		color: var(--color-on-content);
+		background-color: rgba(var(--color-content), 1);
+		color: rgba(var(--color-on-content), 1);
 	}
 
 	.fieldblock3 {
 		display: grid;
 		grid-template-columns: 0fr 0fr 1fr;
 		white-space: nowrap;
-		background-color: var(--color-content);
-		color: var(--color-on-content);
+		background-color: rgba(var(--color-content), 1);
+		color: rgba(var(--color-on-content), 1);
 	}
 
 	.fieldblock6 {
 		display: grid;
 		grid-template-columns: repeat(6, 0fr);
 		white-space: nowrap;
-		background-color: var(--color-content);
-		color: var(--color-on-content);
+		background-color: rgba(var(--color-content), 1);
+		color: rgba(var(--color-on-content), 1);
 	}
 
 	.label {
@@ -57,8 +57,8 @@
 	.field {
 		font: var(--font-page-primary-fields);
 		&.rollable:hover {
-			background-color: var(--color-link);
-			color: var(--color-on-link);
+			background-color: rgba(var(--color-link), 1);
+			color: rgba(var(--color-on-link), 1);
 			cursor: pointer;
 			input.input:disabled {
 				color: inherit;
@@ -70,19 +70,19 @@
 	input.input { // Overwrite default input field
 		padding: 0;
 		border: none;
-		border-bottom: 1px solid var(--color-control-edge);
+		border-bottom: 1px solid rgba(var(--color-control-edge), 1);
 		border-radius: 0;
-		color: var(--color-on-editable);
-		background: var(--color-editable);
+		color: rgba(var(--color-on-editable), 1);
+		background: rgba(var(--color-editable), 1);
 		height: 100%;
 		&:focus {
 			box-shadow: none;
-			border-bottom-color: var(--color-accent);
+			border-bottom-color: rgba(var(--color-accent), 1);
 		}
 		&:disabled {
 			border-bottom-color: transparent;
 			background-color: transparent;
-			color: var(--color-on-editable-faded);
+			color: rgba(var(--color-on-editable), 0.6);
 		}
 	}
 
@@ -93,7 +93,7 @@
 	}
 	#footer {
 		font: var(--font-page-secondary-footer);
-		color: var(--color-on-page);
+		color: rgba(var(--color-on-page), 1);
 		text-align: left;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr); 

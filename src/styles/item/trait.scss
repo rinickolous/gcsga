@@ -1,31 +1,31 @@
 .gcs_trait_sheet {
 	#sheet {
-		background-color: var(--color-background);
-		color: var(--color-on-background);
+		background-color: rgba(var(--color-background), 1);
+		color: rgba(var(--color-on-background), 1);
 	}
 	.field {
 		input.input[type=text] {
 			height: 24px;
 			border-radius: 0px;
-			background-color: var(--color-editable);
-			color: var(--color-on-editable);
-			border: 1px solid var(--color-editable-border);
+			background-color: rgba(var(--color-editable), 1);
+			color: rgba(var(--color-on-editable), 1);
+			border: 1px solid rgba(var(--color-editable-border), 1);
 			&:focus {
 				box-shadow: none;
-				border: 2px solid var(--color-focused-editable-border);
+				border: 2px solid rgba(var(--color-focused-editable-border), 1);
 			}
 			&:disabled {
-				background-color: var(--color-background);
-				color: var(--color-on-editable);
+				background-color: rgba(var(--color-background), 1);
+				color: rgba(var(--color-on-editable), 1);
 			}
 		}
 		input.input[type=checkbox] {
 			appearance: none;
 			height: 140px;
 			width: 140px;
-			background-color: var(--color-control);
-			color: var(--color-on-control);
-			border: 1px solid var(--color-control-edge);
+			background-color: rgba(var(--color-control), 1);
+			color: rgba(var(--color-on-control), 1);
+			border: 1px solid rgba(var(--color-control-edge), 1);
 			border-radius: 2px;
 			&:before {
 				content: " ";
@@ -38,7 +38,7 @@
 		input.input:checked:before {
 			// background: url("systems/gcsga/assets/checkmark.svg") #FF0000;
 			background-color: #FF0000;
-			clip-path: var(--shape-checkmark) var(--color-on-control);
+			clip-path: var(--shape-checkmark) rgba(var(--color-on-control), 1);
 		}
 	}
 }

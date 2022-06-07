@@ -1,10 +1,8 @@
-- Fix import script
 - Item sheet
 - Item import
-- Fix sort
 - Item sheet styling universal
 - Foundry skin
 - Roll function
 - Roll chat template
 - Roll button and popup
-- Fix local portrait path
+- Give items sort values on charsheet initialization

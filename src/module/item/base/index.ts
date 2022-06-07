@@ -27,7 +27,7 @@ export class ItemGURPS extends Item {
 
 	/** @override */
 	constructor(data: ItemDataGURPS, context: ItemConstructionContextGURPS = {}) {
-		console.log("CHECK", data);
+		// console.log("CHECK", data);
 		if (context.gcsga?.ready) {
 			//@ts-ignore
 			super(data, context);
@@ -126,8 +126,9 @@ export class ItemGURPS extends Item {
 	// 	}
 	// }
 
+	// TODO get rid of advantage and advantage_container
 	sameSection(compare: ItemGURPS): boolean {
-		const traits = ["trait", "trait_container"];
+		const traits = ["advantage", "advantage_container", "trait", "trait_container"];
 		const skills = ["skill", "technique", "skill_container"];
 		const spells = ["spell", "ritual_magic_spell", "spell_container"];
 		const equipment = ["equipment", "equipment_container"];

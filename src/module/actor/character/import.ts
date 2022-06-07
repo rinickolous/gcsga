@@ -15,6 +15,7 @@ import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
 import { TraitSystemData } from "@item/trait/data";
 import { TraitContainerSystemData } from "@item/trait_container/data";
+import { PASSWORD_SAFE_STRING } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
@@ -159,23 +160,8 @@ export class CharacterImporter {
 
 	async importProfile(profile: ImportedData["profile"]) {
 		let img = "";
-		if (!!profile.portrait) {
-			//TODO ensure string type
-			//@ts-ignore
-			const path = this.getPortraitPath();
-			const filename = `${profile.name + this.document.id}_portrait.png`;
-			img = encodeURIComponent(`${path}${filename}`);
-			const url = `data:image/png;base64,${profile.portrait}`;
-			await fetch(url)
-				.then((res) => res.blob())
-				.then((blob) => {
-					const file = new File([blob], filename);
-					FilePicker.upload("data", path, file, {}, { notify: false });
-				});
-		}
-		return {
-			name: profile.name || this.document.name,
-			img: img,
+		const p: any = {
+			name: profile.name || this.document.name || "",
 			"data.profile.player_name": profile.player_name || "",
 			"data.profile.name": profile.name || this.document.name,
 			"data.profile.title": profile.title || "",
@@ -193,6 +179,32 @@ export class CharacterImporter {
 			"data.profile.tech_level": profile.tech_level || "",
 			"data.profile.religion": profile.religion || "",
 		};
+		if (!!profile.portrait) {
+			//TODO ensure string type
+			//@ts-ignore
+			const path = this.getPortraitPath();
+			let currentDir = "";
+			for (let i = 0; i < path.split("/").length; i++) {
+				try {
+					currentDir += path.split("/")[i] + "/";
+					await FilePicker.createDirectory("data", currentDir);
+				} catch (err) {
+					continue;
+				}
+				// FilePicker.createDirectory("data", path.split("/")[i]);
+			}
+			const filename = `${profile.name}_${this.document.id}_portrait.png`;
+			img = encodeURIComponent(`${path}${filename}`);
+			const url = `data:image/png;base64,${profile.portrait}`;
+			await fetch(url)
+				.then((res) => res.blob())
+				.then((blob) => {
+					const file = new File([blob], filename);
+					FilePicker.upload("data", path, file, {}, { notify: false });
+				});
+			p.img = path + "/" + filename;
+		}
+		return p;
 	}
 
 	getPortraitPath(): string {
@@ -285,7 +297,7 @@ export class CharacterImporter {
 					data = this.getSkillContainerData(j as SkillContainerSystemData);
 					flags.gcsga!.contentsData = [];
 					flags.gcsga!.contentsData = flags.gcsga?.contentsData.concat(
-						this.importItems((j as SkillContainerSystemData).children),
+						this.importItems((j as SkillContainerSystemData).children, { container: id }),
 					);
 					(data as SkillContainerSystemData).calc.points = getPointTotal(
 						{ data: data as SkillContainerSystemData },
@@ -336,7 +348,7 @@ export class CharacterImporter {
 					data = this.getNoteContainerData(j as NoteContainerSystemData);
 					flags.gcsga!.contentsData = [];
 					flags.gcsga!.contentsData = flags.gcsga?.contentsData.concat(
-						this.importItems((j as NoteContainerSystemData).children),
+						this.importItems((j as NoteContainerSystemData).children, { container: id }),
 					);
 					break;
 			}
@@ -354,7 +366,7 @@ export class CharacterImporter {
 				items.push({
 					name: item.name,
 					data: item.data,
-					effects: item.effects,
+					effects: [],
 					flags: flags,
 					folder: item.folder as Folder,
 					img: item.img || "",

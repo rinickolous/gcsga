@@ -13,7 +13,7 @@
 	{{this.name}}
 	{{>item-notes}}
 </div>
-<div class="uses">{{this.data.uses}}</div>
+<div class="uses">{{#if (and this.data.uses this.data.max_uses)}}{{this.data.uses}}{{/if}}</div>
 <div class="tech-level">{{this.data.tech_level}}</div>
 <div class="legality-class">{{this.data.legality_class}}</div>
 {{!-- <div class="weight">{{this.data.calc.weight}}</div> --}}

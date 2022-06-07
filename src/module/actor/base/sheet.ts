@@ -85,6 +85,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		event: DragEvent,
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
 	): Promise<Item[] | undefined> {
+		console.log(event, itemData);
 		//@ts-ignore
 		const source = this.actor.deepItems.get(itemData._id);
 		//@ts-ignore

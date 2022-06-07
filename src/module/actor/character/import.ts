@@ -199,7 +199,6 @@ export class CharacterImporter {
 					const file = new File([blob], filename);
 					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
-			// eslint-disable-next-line prettier/prettier
 			p.img = (path + "/" + filename).replace(" ", "_");
 		}
 		return p;

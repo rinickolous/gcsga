@@ -5,7 +5,7 @@ export const SETTING_BASIC_SET_PDF = "basicsetpdf";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
-	game.settings.register(SYSTEM_NAME, "basicsetpdf", {
+	(game as Game).settings.register(SYSTEM_NAME, "basicsetpdf", {
 		name: i18n("gcsga.settings.basic_set_pdfs.name"),
 		hint: i18n("gcsga.settings.basic_set_pdfs.hint"),
 		scope: "world",
@@ -19,7 +19,7 @@ export function registerSettings(): void {
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
 
-	game.settings.register(SYSTEM_NAME, "portrait_path", {
+	(game as Game).settings.register(SYSTEM_NAME, "portrait_path", {
 		name: i18n("gcsga.settings.portrait_path.name"),
 		hint: i18n("gcsga.settings.portrait_path.hint"),
 		scope: "world",

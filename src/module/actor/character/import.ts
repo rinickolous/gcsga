@@ -207,8 +207,8 @@ export class CharacterImporter {
 	}
 
 	getPortraitPath(): string {
-		if (game.settings.get(SYSTEM_NAME, "portrait_path") == "global") return "images/portraits/";
-		return `worlds/${game.world.id}/images/portraits`;
+		if ((game as Game).settings.get(SYSTEM_NAME, "portrait_path") == "global") return "images/portraits/";
+		return `worlds/${(game as Game).world.id}/images/portraits`;
 	}
 
 	importSettings(settings: ImportedData["settings"]) {
@@ -670,9 +670,9 @@ export class CharacterImporter {
 			content: await renderTemplate("systems/gcsga/templates/chat/character-import-error.hbs", {
 				lines: msg,
 			}),
-			user: game.user!.id,
+			user: (game as Game).user!.id,
 			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
-			whisper: [game.user!.id],
+			whisper: [(game as Game).user!.id],
 		});
 		return false;
 	}

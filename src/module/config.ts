@@ -21,8 +21,8 @@ export const GURPSCONFIG = {
 	portrait_path: "images/portraits/",
 	Item: {
 		documentClasses: {
-			advantage: TraitGURPS,
-			advantage_container: TraitContainerGURPS,
+			trait: TraitGURPS,
+			trait_container: TraitContainerGURPS,
 			modifier: TraitModifierGURPS,
 			skill: SkillGURPS,
 			technique: TechniqueGURPS,

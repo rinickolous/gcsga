@@ -85,12 +85,12 @@ Hooks.once("init", async () => {
 	Actors.unregisterSheet("core", ActorSheet);
 
 	Items.registerSheet("gcsga", TraitSheet, {
-		types: ["advantage"],
+		types: ["trait"],
 		makeDefault: true,
 		label: "gcsga.item.sheet.trait.name",
 	});
 	Items.registerSheet("gcsga", TraitContainerSheet, {
-		types: ["advantage_container"],
+		types: ["trait_container"],
 		makeDefault: true,
 		label: "gcsga.item.sheet.trait_container.name",
 	});

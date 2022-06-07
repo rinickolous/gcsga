@@ -79,7 +79,7 @@ export function sheetSection(item: ItemGURPS | ContainerGURPS, type: string) {
 	let types: Array<string> = [];
 	switch (type) {
 		case "traits":
-			types = ["advantage", "advantage_container", "trait", "trait_container"];
+			types = ["trait", "trait_container"];
 			break;
 		case "skills":
 			types = ["skill", "technique", "skill_container"];
@@ -116,7 +116,7 @@ export function sheetSection(item: ItemGURPS | ContainerGURPS, type: string) {
 // export type PrereqType =
 // 	| 'prereq_list'
 // 	| 'attribute_prereq'
-// 	| 'advantage_prereq'
+// 	| 'trait_prereq'
 // 	| 'skill_prereq'
 // 	| 'spell_prereq'
 // 	| 'contained_weight_prereq'

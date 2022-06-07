@@ -2,7 +2,7 @@ import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from 
 import { CR, CRAdjustment, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { TraitGURPS } from ".";
 
-export type TraitSource = BaseContainerSource<"advantage", TraitSystemData>;
+export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
 
 export class TraitData extends BaseContainerData<TraitGURPS> {}
 

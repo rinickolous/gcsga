@@ -4,8 +4,6 @@ import { ItemDataGURPS } from "@item/data";
 import { ContainerGURPS } from ".";
 
 export type ContainerType =
-	| "advantage"
-	| "advantage_container"
 	| "trait"
 	| "trait_container"
 	| "skill_container"

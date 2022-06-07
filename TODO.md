@@ -6,3 +6,4 @@
 - Roll chat template
 - Roll button and popup
 - Give items sort values on charsheet initialization
+- "unsatisfied prerequisite" warning

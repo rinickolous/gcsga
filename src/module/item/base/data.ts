@@ -4,8 +4,6 @@ import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/
 import { ItemGURPS } from ".";
 
 export type ItemType =
-	| "advantage"
-	| "advantage_container"
 	| "trait"
 	| "trait_container"
 	| "modifier"

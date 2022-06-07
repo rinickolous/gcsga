@@ -15,7 +15,6 @@ import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
 import { TraitSystemData } from "@item/trait/data";
 import { TraitContainerSystemData } from "@item/trait_container/data";
-import { PASSWORD_SAFE_STRING } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
@@ -68,7 +67,7 @@ export class CharacterImporter {
 
 			// Begin Item Import
 			const items: Array<ItemGURPS | ContainerGURPS> = [];
-			items.push(...this.importItems(r.advantages));
+			items.push(...this.importItems(r.traits));
 			items.push(...this.importItems(r.skills));
 			items.push(...this.importItems(r.spells));
 			items.push(...this.importItems(r.equipment));
@@ -229,7 +228,7 @@ export class CharacterImporter {
 			"data.settings.use_simple_metric_conversions": settings.use_simple_metric_conversions,
 			"data.settings.show_college_in_sheet_spells": settings.show_college_in_sheet_spells,
 			"data.settings.show_difficulty": settings.show_difficulty,
-			"data.settings.show_advantage_modifier_adj": settings.show_advantage_modifier_adj,
+			"data.settings.show_trait_modifier_adj": settings.show_trait_modifier_adj,
 			"data.settings.show_equipment_modifier_adj": settings.show_equipment_modifier_adj,
 			"data.settings.show_spell_adj": settings.show_spell_adj,
 			"data.settings.use_title_in_footer": settings.use_title_in_footer,
@@ -266,7 +265,6 @@ export class CharacterImporter {
 			flags.gcsga?.parents.push(this.document.id!);
 			const j = i as ItemSystemData;
 			switch (i.type) {
-				case "advantage":
 				case "trait":
 					data = this.getTraitData(j as TraitSystemData);
 					// flags.gcsga!.contentsData = [];
@@ -274,7 +272,6 @@ export class CharacterImporter {
 					// 	this.importItems((j as TraitSystemData).modifiers),
 					// );
 					break;
-				case "advantage_container":
 				case "trait_container":
 					data = this.getTraitContainerData(j as TraitContainerSystemData);
 					flags.gcsga!.contentsData = [];

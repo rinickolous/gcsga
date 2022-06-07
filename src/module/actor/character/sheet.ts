@@ -87,7 +87,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const id: string = $(event.currentTarget).data("item-id") || "";
 		//@ts-ignore
 		const item: ItemGURPS = this.actor.deepItems.get(id);
-		for (const type of ["advantages", "skills", "spells", "equipment", "other_equipment", "notes"])
+		for (const type of ["traits", "skills", "spells", "equipment", "other_equipment", "notes"])
 			if (sheetSection(item, type)) {
 				this.selection.active = type;
 				break;
@@ -313,7 +313,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const [traits, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
 			(arr: ItemDataGURPS[][], item: ItemGURPS | ContainerGURPS) => {
 				const itemData: ItemDataGURPS = this.parseContents(item);
-				if (["advantage", "advantage_container"].includes(item.type)) arr[0].push(itemData);
+				if (["trait", "trait_container"].includes(item.type)) arr[0].push(itemData);
 				else if (["skill", "technique", "skill_container"].includes(item.type)) arr[1].push(itemData);
 				else if (["spell", "ritual_magic_spell", "spell_container"].includes(item.type)) arr[2].push(itemData);
 				else if (["equipment", "equipment_container"].includes(item.type)) {
@@ -349,7 +349,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		data.melee = melee;
 		data.ranged = ranged;
 		data.blocks = {
-			advantages: traits,
+			traits: traits,
 			skills: skills,
 			spells: spells,
 			equipment: equipment,
@@ -377,7 +377,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			//@ts-ignore
 			(data as BaseContainerData).children = children.sort((a, b) => a.sort - b.sort);
 		}
-		if (["advantage", "advantage_container", "equipment", "equipment_container"].includes(item.type)) {
+		if (["trait", "trait_container", "equipment", "equipment_container"].includes(item.type)) {
 			const modifiers: Array<ItemDataGURPS> = [];
 			(item as ContainerGURPS).items
 				.filter((e: ItemGURPS) => e.type.includes("modifier"))

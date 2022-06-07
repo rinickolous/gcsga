@@ -70,7 +70,7 @@ export interface NumberCompare {
 export const PrereqType = [
 	"prereq_list",
 	"attribute_prereq",
-	"advantage_prereq",
+	"trait_prereq",
 	"skill_prereq",
 	"spell_prereq",
 	"contained_weight_prereq",
@@ -89,7 +89,7 @@ export interface AttributePrereq extends Prereq {
 	qualifier: NumberCompare;
 }
 
-export interface AdvantagePrereq extends Prereq {
+export interface TraitPrereq extends Prereq {
 	name?: StringCompare;
 	level?: NumberCompare;
 	notes?: StringCompare;

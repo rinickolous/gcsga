@@ -126,9 +126,8 @@ export class ItemGURPS extends Item {
 	// 	}
 	// }
 
-	// TODO get rid of advantage and advantage_container
 	sameSection(compare: ItemGURPS): boolean {
-		const traits = ["advantage", "advantage_container", "trait", "trait_container"];
+		const traits = ["trait", "trait_container"];
 		const skills = ["skill", "technique", "skill_container"];
 		const spells = ["spell", "ritual_magic_spell", "spell_container"];
 		const equipment = ["equipment", "equipment_container"];

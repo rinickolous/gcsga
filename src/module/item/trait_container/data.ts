@@ -1,9 +1,8 @@
-import { TraitModifierGURPS } from "@item";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CR, CRAdjustment } from "@module/data";
 import { TraitContainerGURPS } from ".";
 
-export type TraitContainerSource = BaseContainerSource<"advantage_container", TraitContainerSystemData>;
+export type TraitContainerSource = BaseContainerSource<"trait_container", TraitContainerSystemData>;
 
 export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
 

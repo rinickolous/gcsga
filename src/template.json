@@ -25,7 +25,7 @@
 				"use_simple_metric_conversion": true,
 				"show_college_in_sheet_spells": false,
 				"show_difficulty": false,
-				"show_advantage_modifier_adj": false,
+				"show_trait_modifier_adj": false,
 				"show_equipment_modifier_adj": false,
 				"show_spell_adj": false,
 				"use_title_in_footer": false,
@@ -98,8 +98,8 @@
 	},
 	"Item": {
 		"types": [
-			"advantage",
-			"advantage_container",
+			"trait",
+			"trait_container",
 			"modifier",
 			"skill",
 			"technique",
@@ -131,7 +131,7 @@
 				}
 			}
 		},
-		"advantage": {
+		"trait": {
 			"templates": ["common", "prereqs"],
 			"round_down": false,
 			"allow_half_levels": false,
@@ -152,7 +152,7 @@
 			"features": {},
 			"weapons": {}
 		},
-		"advantage_container": {
+		"trait_container": {
 			"templates": ["common"],
 			"disabled": false,
 			"container_type": "group",

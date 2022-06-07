@@ -17,4 +17,14 @@ export class ItemSheetGURPS extends ItemSheet {
 
 		return sheetData;
 	}
+
+	static get defaultOptions(): DocumentSheetOptions {
+		const options = super.defaultOptions;
+		mergeObject(options, {
+			width: 600,
+			min_width: 600,
+			classes: options.classes.concat(["item", "gcsga"]),
+		});
+		return options;
+	}
 }

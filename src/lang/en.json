@@ -127,24 +127,26 @@
 			"notes": "Notes",
 			"vtt_notes": "VTT Notes",
 			"user_description":"User Description",
-			"categories": "Tags",
+			"tags": "Tags",
 			"point_cost": "Point Cost",
 			"base_cost": "Base Cost",
 			"round_down": "Round Down",
 			"points_per_level": "Per Level",
-			"levels": "Levels"
+			"levels": "Levels",
+			"reference": "Page Reference"
 		},
 		"trait_container": {
 			"name": "Name",
-			"disabled": "Enabled",
+			"enabled": "Enabled",
 			"notes": "Notes",
 			"vtt_notes": "VTT Notes",
 			"user_description": "User Description",
-			"categories": "Categories",
+			"tags": "Tags",
 			"cr": "Self-Control Roll",
 			"container_type": "Container Type",
 			"reference": "Page Reference",
-			"ancestry": "Ancestry"
+			"ancestry": "Ancestry",
+			"reference": "Page Reference"
 		},
 		"settings": {
 			"basic_set_pdfs": {

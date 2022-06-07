@@ -10,7 +10,7 @@ export class TraitContainerSheet extends ContainerSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			classes: ["gcs_item"],
+			classes: options.classes.concat(["trait_container"]),
 		});
 		return options;
 	}

@@ -24,6 +24,7 @@ import { registerHandlebarsHelpers } from "@util/HandlebarsHelpers";
 import { GURPSCONFIG } from "./config";
 import { SJG_links } from "./modules/pdfoundry";
 import { TraitSheet } from "@item/trait/sheet";
+import { CharacterImporter } from "@actor/character/import";
 
 export const GURPS: any = {};
 //@ts-ignore
@@ -31,6 +32,7 @@ window.GURPS = GURPS;
 GURPS.DEBUG = true;
 GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Chris Normand/Nose66 and is released for free distribution, and not for resale, under the permissions granted by http://www.sjgames.com/general/online_policy.html`;
 GURPS.SJG_links = SJG_links;
+GURPS.CharacterImporter = CharacterImporter;
 
 // Initialize system
 Hooks.once("init", async () => {

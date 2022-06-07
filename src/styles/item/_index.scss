@@ -1,19 +1,15 @@
 @import 'trait_container';
-// @import 'trait';
 
-.gcs-item {
+.gcsga.item {
 	min-width: 600px;
-	.window-content {
-		padding: 0px;
-		background: rgba(var(--color-background), 1);
-	}
 	#sheet {
 		background-color: rgba(var(--color-background), 1);
-		color: rgba(var(--color-on-background), 1);
+		color: rgba(var(--color-on-background), 1)
 	}
 	.label {
 		font: var(--font-label);
 		transform: translateY(4px);
+		text-align: right;
 	}
 	.field {
 		display: grid;
@@ -26,17 +22,18 @@
 		input.input[type=text] {
 			font: var(--font-field);
 			height: 24px;
+			width: 100%;
 			border-radius: 0px;
 			background-color: rgba(var(--color-editable), 1);
 			color: rgba(var(--color-on-editable), 1);
-			border: 1px solid rgba(var(--color-editable-border), 1);
+			border: 1px solid rgba(var(--color-editable-border), );
 			&:focus {
 				box-shadow: none;
 				border: 2px solid rgba(var(--color-focused-editable-border), 1);
 			}
 			&:disabled {
 				background-color: rgba(var(--color-background), 1);
-				color: rgba(var(--color-on-editable), 1);
+				color: rgba(var(--color-on-editable), 0); // Invisible Text
 			}
 			&[data-dtype="Number"] {
 				width: 93px;
@@ -48,15 +45,16 @@
 		.checkbox-label {
 			display: grid;
 			grid-template-columns: 1em auto;
-			gap: 4px;
+			gap: 3px;
 			height: 16px;
 			grid-row-gap: 0px;
 			font: var(--font-system);
 		}
-		input[type="checkbox"] {
+		input.input[type=checkbox] {
 			appearance: none;
 			margin: 0;
 			background-color: rgba(var(--color-control), 1);
+			color: rgba(var(--color-on-control), 1); // Redundant?
 			font: inherit;
 			width: 14px;
 			height: 14px;
@@ -68,63 +66,43 @@
 			&:active {
 				background-color: rgba(var(--color-pressed-control), 1);
 			}
-			// transform: translate(-2px, -3px);
-		}
-		input[type="checkbox"]::before {
-			content: "";
-			width: 132px;
-			height: 127px;
-			opacity: 0;
-			transform: scale(calc(8/127), calc(7/132)) translate(0px, 18px);
-			background-color: rgba(var(--color-on-control), 1);
-			clip-path: var(--shape-checkmark-2);
-		}
-		input[type="checkbox"]:checked::before {
-			opacity: 1;
+			&::before {
+				content: "";
+				width: 512px;
+				height: 512px;
+				opacity: 0;
+				transform: scale(calc(8/512), calc(7/512)) translate(0px, 18px);
+				background-color: rgba(var(--color-on-control), 1);
+				clip-path: var(--shape-checkmark);
+			}
+			&:checked::before {
+				opacity: 1;
+			}
 		}
 		select {
 			font: var(--font-system);
-			// background-color: rgba(var(--color-control), 1);
-			background: var(--shape-chevron-right) rgba(var(--color-control), 1);
+			background-color: var(--shape-chevron-right) rgba(var(--color-contolr), 1);
 			color: rgba(var(--color-on-control), 1);
 			border: 1px solid rgba(var(--color-control-edge), 1);
 			border-radius: 3px;
 			height: 21px;
+			width: max-content;
+			&:focus {
+				box-shadow: none;
+			}
 		}
 		.checkbox-label + .checkbox-label {
 			margin-top: 1em;
 		}
-		// input.input[type=checkbox] {
-		// 	appearance: none;
-		// 	height: 140px;
-		// 	width: 140px;
-		// 	background-color: rgba(var(--color-control), 1);
-		// 	color: rgba(var(--color-on-control), 1);
-		// 	border: 1px solid rgba(var(--color-control-edge), 1);
-		// 	border-radius: 2px;
-		// 	&:before {
-		// 		content: " ";
-		// 		display: inline-block;
-		// 		height: 140px;
-		// 		width: 140px;
-		// 		background: #DDD;
-		// 	}
-		// }
-		// input.input:checked:before {
-		// 	background: url("../assets/checkmark.svg") #FF0000;
-		// 	background-color: #FF0000;
-		// }
 	}
 	#details {
 		display: grid;
-		grid-template: "label field";
+		grid-template:
+			"label field";
 		grid-template-columns: max-content 1fr;
 		row-gap: 4px;
 		column-gap: 9px;
 		vertical-align: middle;
-		padding: 16px;
-	}
-	.align-right {
-		text-align: right;
+		padding: 16px 2px 16px 16px;
 	}
 }

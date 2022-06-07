@@ -1,6 +1,15 @@
 
 #sheet {
 	@import "personal", "stats", "embeds";
+
+	div {
+		// background-color: rgba(var(--color-content), 1);
+	}
+	.dropdown {
+		// background-color: transparent;
+	}
+	
+	padding-right: 2px;
 	
 	// Sheet Layout
 	display: flex;

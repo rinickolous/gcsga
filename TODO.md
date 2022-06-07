@@ -1,6 +1,5 @@
 - Item sheet
 - Item import
-- Item sheet styling universal
 - Foundry skin
 - Roll function
 - Roll chat template

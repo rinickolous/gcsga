@@ -1,91 +1,28 @@
 <form class="{{cssClass}} gcsga" autocomplete="off">
     <div id="sheet" class="gcs_trait_container_sheet">
         <div id="details">
-            <div class="label align_right">{{localize "gcsga.trait_container.name"}}</div>
-            <div id="name" class="field">
-                <input
-                    name="name"
-                    class="input"
-                    type="text"
-                    value="{{item.name}}"
-                    {{input_lock editing}}
-                />
-                <label class="f-checkbox-reverse">
-                    <input type="checkbox" name="data.disabled" {{checked data.disabled}}/>
-                    <i class="far fa-check-circle checked"></i>
-                    <i class="far fa-circle unchecked"></i>
-                    {{localize "gcsga.trait_container.disabled"}}
-                </label>
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.notes"}}</div>
-            <div class="field">
-                <input
-                    name="data.notes"
-                    class="input"
-                    type="text"
-                    value="{{data.notes}}"
-                    {{input_lock editing}}
-                />
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.vtt_notes"}}</div>
-            <div class="field">
-                <input
-                    name="data.vtt_notes"
-                    class="input"
-                    type="text"
-                    value="{{data.vtt_notes}}"
-                    {{input_lock editing}}
-                />
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.user_description"}}</div>
-            <div class="field">
-                <input
-                    name="data.user_description"
-                    class="input"
-                    type="text"
-                    value="{{data.user_description}}"
-                    {{input_lock editing}}
-                />
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.categories"}}</div>
-            <div class="field">
-                <input
-                    name="data.categories"
-                    class="input"
-                    type="text"
-                    value="{{join data.categories ", "}}"
-                    {{input_lock editing}}
-                />
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.cr"}}</div>
-            <div id="cr" class="field">
-                <select name="data.cr">
-                    {{selectOptions options.cr selected=data.cr localize=true}}
-                </select>
-                <select name="data.cr_adj">
-                    {{selectOptions options.cr_adj selected=data.cr_adj localize=true}}
-                </select>
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.container_type"}}</div>
-            <div id="container_type" class="field">
-                <select name="data.container_type">
-                    {{selectOptions options.container_type selected=data.container_type localize=true}}
-                </select>
-                <div class="label align_right">{{localize "gcsga.trait_container.reference"}}</div>
-                <input
-                    name="data.reference"
-                    class="input"
-                    type="text"
-                    value="{{data.reference}}"
-                    {{input_lock editing}}
-                />
-            </div>
-            <div class="label align_right">{{localize "gcsga.trait_container.ancestry"}}</div>
-            <div class="field">
-                <select name="data.cr_adj">
-                    {{selectOptions options.ancestry selected=data.ancestry localize=true}}
-                </select>
-            </div>
+			<label class="label"></label>
+			<div class="field">
+				<label class="checkbox-label">
+					<input class="input" type="checkbox" checked/>
+					{{localize "gcsga.trait_container.enabled"}}
+				</label>
+			</div>
+			{{>input_text field="field" label="gcsga.trait_container.name" name="name" data=item.name type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.notes" name="data.notes" data=data.notes type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.vtt_notes" name="data.vtt_notes" data=data.vtt_notes type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.user_description" name="data.user_description" data=data.user_description type="String"}}
+			<div class="label">{{localize "gcsga.trait_container.tags"}}</div>
+			{{>input_text field="field" name="data.tags" data=data.tags type="String"}}
+			<div class="label">{{localize "gcsga.trait_container.cr"}}</div>
+			<div class="field">
+				<select name="data.cr" data-dtype="Number">
+					{{#select data.cr}}
+						<option value="-1">None Required</option>
+					{{/select}}
+				</select>
+			</div>
+			{{>input_text field="field" label="gcsga.trait_container.reference" name="data.reference" data=data.reference type="String"}}
         </div>
     </div>
 </form>

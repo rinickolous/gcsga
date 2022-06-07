@@ -1,1 +1,11 @@
-{{!-- TODO --}}
+<div class="gcsga chat-card import-error">
+	<div class="header">
+		{{localize "gcsga.message.error.header"}}</div>
+	<div class="content">
+		<ul>
+			{{#each lines}}
+				<li>{{{this}}}</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

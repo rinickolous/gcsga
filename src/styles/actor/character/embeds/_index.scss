@@ -49,6 +49,10 @@
 		}
 	}
 
+	> div > .header:not(.entry-parent) {
+		padding: var(--padding-header);
+	}
+
 	> div > :not(.header):not(svg) {
 		background-color: rgba(var(--color-content), 1);
 		color: rgba(var(--color-on-content), 1);

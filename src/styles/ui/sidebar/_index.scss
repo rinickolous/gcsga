@@ -1,0 +1,40 @@
+#sidebar {
+	#chat {
+		#chat-log {
+			.chat-message {
+				display: grid;
+				grid-template:
+					"header"
+					"content";
+				justify-content: normal;
+				padding: 0;
+				border-radius: 0;
+				font: var(--font-page-primary-labels);
+				.message-header {
+					grid-area: header;
+					background-color: rgb(var(--color-header));
+					color: rgb(var(--color-on-header));
+					padding: var(--padding-header);
+					.message-metadata {
+						font-size: var(--fontsize-7);
+					}
+				}
+				.message-content {
+					grid-area: content;
+					padding: var(--padding-standard);
+					.import-error {
+						display: grid;
+						grid-template:
+							"header"
+							"list";
+						.header {
+							background-color: rgb(var(--color-error));
+							color: rgb(var(--color-on-error));
+							font: var(--font-page-secondary-fields);
+						}
+					}
+				}
+			}
+		}
+	}
+}

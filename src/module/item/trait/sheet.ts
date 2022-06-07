@@ -9,9 +9,7 @@ export class TraitSheet extends ContainerSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			width: 600,
-			min_width: 600,
-			classes: ["gcs-item"],
+			classes: options.classes.concat(["trait"]),
 		});
 		return options;
 	}

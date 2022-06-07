@@ -1,39 +1,16 @@
 .gcsga.actor {
 	&.character {
 		@import "character";
-		// Header
-		background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
-		color: rgba(var(--color-on-focused-tab), 1);
-		border: 1px solid rgba(var(--color-header), 1);
-		font: var(--font-system);
-		.window-title {
-			font: inherit;
-		}
-		.header-button:hover {
-			text-shadow: none;
-		}
-
-		// Content Background
-		.window-content {
-			height: 100%;
-			padding: 5px;
-			// scroll-behavior: smooth;
-			background: rgba(var(--color-content), 1);
-
-			//Scrollbar
-			--color-border-highlight: rgba(var(--color-scroll-edge), 1);
-			&::-webkit-scrollbar-thumb {
-				background: rgba(var(--color-scroll), 1);
-				&:hover {
-					background: rgba(var(--color-scroll-rollover), 1);
-				}
-			}
-		}
-
-		//Resize Handle
-		.window-resizable-handle {
-			background-color: rgba(var(--color-background), 1);
-			color: rgba(var(--color-on-background), 1);
-		}
+	}
+	.error {
+		background-color: rgb(var(--color-error));
+		color: rgb(var(--color-on-error));
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: min-content;
+		gap: 3px;
+		padding: var(--padding-standard);
+		width: min-content;
+		white-space: nowrap;
 	}
 }

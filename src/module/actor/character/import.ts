@@ -159,7 +159,6 @@ export class CharacterImporter {
 	}
 
 	async importProfile(profile: ImportedData["profile"]) {
-		let img = "";
 		const p: any = {
 			name: profile.name || this.document.name || "",
 			"data.profile.player_name": profile.player_name || "",
@@ -193,8 +192,7 @@ export class CharacterImporter {
 				}
 				// FilePicker.createDirectory("data", path.split("/")[i]);
 			}
-			const filename = `${profile.name}_${this.document.id}_portrait.png`;
-			img = encodeURIComponent(`${path}${filename}`);
+			const filename = `${profile.name}_${this.document.id}_portrait.png`.replace(" ", "_");
 			const url = `data:image/png;base64,${profile.portrait}`;
 			await fetch(url)
 				.then((res) => res.blob())
@@ -202,7 +200,8 @@ export class CharacterImporter {
 					const file = new File([blob], filename);
 					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
-			p.img = path + "/" + filename;
+			// eslint-disable-next-line prettier/prettier
+			p.img = (path + "/" + filename).replace(" ", "_");
 		}
 		return p;
 	}

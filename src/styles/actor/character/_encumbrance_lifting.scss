@@ -56,6 +56,10 @@
 
 		.active {
 			background-color: var(--color-marker);
+			&.dodge:hover {
+				background-color: var(--color-link);
+				color: var(--color-on-link);
+			}
 		}
 	}
 

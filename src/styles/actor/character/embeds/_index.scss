@@ -2,7 +2,7 @@
 	@import "reactions", "conditional_modifiers", "melee", "ranged", "traits", "skills", "spells", "equipment", "other_equipment", "notes";
 
 	display: grid;
-	grid-auto-columns: auto auto;
+	grid-auto-columns: 1fr 1fr;
 	gap: var(--section-gap);
 
 	> div {

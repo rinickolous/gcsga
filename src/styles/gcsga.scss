@@ -32,14 +32,15 @@
 		padding: 0px;
 		scroll-behavior: smooth;
 		background: rgba(var(--color-background), 1);
-		border-right: 2px solid transparent;
+		// border-right: 2px solid transparent;
 
 		// Scrollbar
 		--color-border-highlight: rgba(var(--color-scroll-edge), 1);
 		scrollbar-gutter: stable;
-		&::-webkit-scrollbar {
-			width: 12px;
-		}
+		overflow-y: overlay;
+		// &::-webkit-scrollbar {
+		// 	width: 12px;
+		// }
 		&::-webkit-scrollbar-track {
 			box-shadow: none;
 		}

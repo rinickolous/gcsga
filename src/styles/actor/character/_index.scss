@@ -9,7 +9,8 @@
 		background-color: transparent;
 	}
 	
-	padding-right: 2px;
+	background-color: rgb(var(--color-content));
+	padding: var(--padding-header);
 	
 	// Sheet Layout
 	display: flex;

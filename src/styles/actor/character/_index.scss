@@ -5,11 +5,14 @@
 	div {
 		background-color: rgba(var(--color-content), 1);
 	}
+	> div {
+		background-color: rgb(var(--color-page));
+	}
 	.dropdown {
 		background-color: transparent;
 	}
 	
-	background-color: rgb(var(--color-content));
+	background-color: rgb(var(--color-page));
 	padding: var(--padding-header);
 	
 	// Sheet Layout
@@ -103,10 +106,14 @@
 	}
 	#footer {
 		font: var(--font-page-secondary-footer);
+		background-color: rgb(var(--color-page));
 		color: rgba(var(--color-on-page), 1);
 		text-align: left;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr); 
+		div {
+			background-color: inherit;
+		}
 		.centre {
 			font: var(--font-page-primary-footer);
 			text-align: center;

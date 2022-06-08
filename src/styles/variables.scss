@@ -1,6 +1,6 @@
 
 :root {
-	--section-gap: 2px;
+	--section-gap: 1px;
 	--header-font-size: 80%;
 	--padding-standard: 0px 4px;
 	--padding-header: 1px 8px;
@@ -14,12 +14,18 @@
 	--font-field: 400 var(--fontsize-10) 'Roboto', sans-serif;
 	--font-secondary-fields: 400 var(--fontsize-9) 'Roboto', sans-serif;
 	--font-keyboard: 500 var(--fontsize-10) 'Roboto', sans-serif;
-	--font-page-primary-fields: 500 var(--fontsize-7) 'Roboto', sans-serif;
-	--font-page-secondary-fields: 400 var(--fontsize-6) 'Roboto', sans-serif;
-	--font-page-primary-labels: 400 var(--fontsize-7) 'Roboto', sans-serif;
-	--font-page-secondary-lables: 400 var(--fontsize-6) 'Roboto', sans-serif;
-	--font-page-primary-footer: 500 var(--fontsize-6) 'Roboto', sans-serif;
-	--font-page-secondary-footer: 400 var(--fontsize-5) 'Roboto', sans-serif;
+	// --font-page-primary-fields: 500 var(--fontsize-7) 'Roboto', sans-serif;
+	// --font-page-secondary-fields: 400 var(--fontsize-6) 'Roboto', sans-serif;
+	// --font-page-primary-labels: 400 var(--fontsize-7) 'Roboto', sans-serif;
+	// --font-page-secondary-lables: 400 var(--fontsize-6) 'Roboto', sans-serif;
+	// --font-page-primary-footer: 500 var(--fontsize-6) 'Roboto', sans-serif;
+	// --font-page-secondary-footer: 400 var(--fontsize-5) 'Roboto', sans-serif;
+	--font-page-primary-fields: 500 var(--fontsize-10) 'Roboto', sans-serif;
+	--font-page-secondary-fields: 400 var(--fontsize-9) 'Roboto', sans-serif;
+	--font-page-primary-labels: 400 var(--fontsize-10) 'Roboto', sans-serif;
+	--font-page-secondary-lables: 400 var(--fontsize-9) 'Roboto', sans-serif;
+	--font-page-primary-footer: 500 var(--fontsize-9) 'Roboto', sans-serif;
+	--font-page-secondary-footer: 400 var(--fontsize-8) 'Roboto', sans-serif;
 
 
 	// --fontsize-10: 10px;
@@ -35,6 +41,15 @@
 	--fontsize-7: 9.8px;
 	--fontsize-6: 8.4px;
 	--fontsize-5: 7px;
+
+	// --fontsize-10: var(--font-size-20);
+	// --fontsize-9: var(--font-size-18);
+	// --fontsize-8: var(--font-size-16);
+	// --fontsize-7: var(--font-size-14);
+	// --fontsize-6: var(--font-size-12);
+	// --fontsize-5: var(--font-size-10);
+	
+	// --font-size-10: 0.625rem;
 	
 	
 	// --font-button: 900 var(--fontsize-larger) 'Roboto', sans-serif;
@@ -170,6 +185,8 @@
 		background-color: transparent;
 		width: 9px;
 		height: 9px;
+		// width: var(--fontsize-10);
+		// height: var(--fontsize-10);
 		.--shape-back { d: var(--shape-back); }
 		.--shape-bookmark { d: var(--shape-bookmark); }
 		.--shape-checkmark { d: var(--shape-checkmark); }

@@ -25,7 +25,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	static get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			width: 749,
+			width: 824,
 			height: 800,
 			classes: ["character", "actor", "gcsga"],
 		});

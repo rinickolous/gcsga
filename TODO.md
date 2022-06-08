@@ -5,4 +5,25 @@
 - Roll chat template
 - Roll button and popup
 - Give items sort values on charsheet initialization
-- "unsatisfied prerequisite" warning
+- "unsatisfied prerequisite" warning functionality
+- match font to foundry default
+- remove font height specific (px) styles
+- scale portrait based on height not width
+- svg icons for item and actor types
+- functional svg in ChatMessage
+- ChatMessage style
+- UI style
+- DragDrop red line preview
+- sort items on init
+- item sort alphabetically based on header
+- rollable style
+- modifier parsing
+- weapons
+- prereqs
+- attribute logic
+- feature functions
+- vehicles
+- Mass Combat elements
+- NPC sheet
+- conditions
+- damage calculator

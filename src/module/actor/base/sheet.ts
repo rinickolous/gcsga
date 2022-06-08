@@ -1,6 +1,7 @@
 import { ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
+import { ActorGURPS } from ".";
 
 export class ActorSheetGURPS extends ActorSheet {
 	/** @override */
@@ -44,7 +45,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		if (event.target.classList.contains("content-link")) return;
 
 		// Create drag data
-		const dragData = {
+		const dragData: any = {
 			actorId: this.actor.id,
 			//@ts-ignore
 			sceneId: this.actor.isToken ? canvas.scene?.id : null,
@@ -58,10 +59,17 @@ export class ActorSheetGURPS extends ActorSheet {
 		if (li.dataset.itemId) {
 			//@ts-ignore
 			const item = this.actor.deepItems.get(li.dataset.itemId);
-			//@ts-ignore
 			dragData.type = "Item";
-			//@ts-ignore
 			dragData.data = item.data;
+
+			// Create custom drag image
+			const drag_image = document.createElement("div");
+			drag_image.id = "drag-ghost";
+			drag_image.textContent = dragData.data.name;
+			drag_image.style.position = "absolute";
+			drag_image.style.top = "-1000px";
+			document.body.appendChild(drag_image);
+			event.dataTransfer?.setDragImage(drag_image, 0, 0);
 		}
 
 		// Active Effect
@@ -85,7 +93,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		event: DragEvent,
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
 	): Promise<Item[] | undefined> {
-		console.log(event, itemData);
+		// console.log(event, itemData);
 		//@ts-ignore
 		const source = this.actor.deepItems.get(itemData._id);
 		//@ts-ignore
@@ -110,9 +118,11 @@ export class ActorSheetGURPS extends ActorSheet {
 		});
 		const parent = target.parent;
 		if (source.parent != target.parent) {
+			if (target.data.flags.gcsga.parents.includes(source.id)) return;
 			const sourceData = duplicate(source.data.toObject());
 			await source.parent.deleteEmbeddedDocuments("Item", [source.data._id], { render: false });
 			//@ts-ignore
+			console.log("CREATE", sourceData);
 			return parent.createEmbeddedDocuments("Item", [
 				{
 					name: sourceData.name,

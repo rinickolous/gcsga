@@ -23,6 +23,7 @@ export interface ItemFlagsGURPS extends Record<string, unknown> {
 	gcsga?: {
 		contentsData?: Array<ItemGURPS>;
 		parents: Array<string>;
+		[key: string]: unknown;
 	};
 }
 

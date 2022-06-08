@@ -1,4 +1,7 @@
 .gcsga.actor {
+	.window-content {
+		background: rgb(var(--color-page));
+	}
 	&.character {
 		@import "character";
 	}

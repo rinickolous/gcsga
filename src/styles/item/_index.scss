@@ -2,6 +2,9 @@
 
 .gcsga.item {
 	min-width: 600px;
+	.window-content {
+		background-color: rgba(var(--color-background));
+	}
 	#sheet {
 		background-color: rgba(var(--color-background), 1);
 		color: rgba(var(--color-on-background), 1)

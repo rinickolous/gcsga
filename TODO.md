@@ -9,7 +9,6 @@
 - match font to foundry default
 - remove font height specific (px) styles
 - scale portrait based on height not width
-- svg icons for item and actor types
 - functional svg in ChatMessage
 - ChatMessage style
 - UI style

@@ -13,6 +13,22 @@
 // 	}
 // }
 
+#drag-ghost {
+	// width: calc();
+	// height: min-content;
+	height: 24px;
+	background-color: rgb(var(--color-selection));
+	color: rgb(var(--color-on-selection));
+	font: var(--font-system);
+	margin: 15px 15px;
+	border: 1px solid rgb(var(--color-on-selection));
+	border-radius: 12px;
+	text-align: center;
+	white-space: nowrap;
+	display: grid;
+	align-items: baseline;
+}
+
 .window-app.gcsga {
 	// Header
 	background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
@@ -31,7 +47,6 @@
 		height: 100%;
 		padding: 0px;
 		scroll-behavior: smooth;
-		background: rgba(var(--color-background), 1);
 		// border-right: 2px solid transparent;
 
 		// Scrollbar

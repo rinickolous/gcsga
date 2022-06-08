@@ -1,6 +1,12 @@
 import { ActorDataGURPS, ActorSourceGURPS } from "@actor/data";
 import { ContainerGURPS, ItemGURPS } from "@item";
-import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
+import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
+import { GURPS } from "@module/gcsga";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -28,6 +34,17 @@ class ActorGURPS extends Actor {
 		return this.data.data;
 	}
 
+	protected async _preCreate(
+		data: ActorDataConstructorData & ActorDataGURPS,
+		options: DocumentModificationOptions,
+		user: BaseUser,
+	): Promise<void> {
+		if (this.data._source.img === foundry.data.ActorData.DEFAULT_ICON) {
+			this.data._source.img = data.img = `systems/gcsga/assets/icons/${data.type}.svg`;
+		}
+		await super._preCreate(data, options, user);
+	}
+
 	get deepItems(): Collection<Item> {
 		const items = this.items;
 		const deepItems = [];
@@ -44,6 +61,21 @@ class ActorGURPS extends Actor {
 			}),
 		);
 		return deepMap;
+	}
+
+	prepareEmbeddedDocuments(): void {
+		super.prepareEmbeddedDocuments();
+		this.items.forEach((item) => {
+			//@ts-ignore
+			item.data.flags.gcsga.parents = [this.id];
+		});
+		let iterator = 0;
+		this.items.forEach((item) => {
+			if (item.data.sort == 0) {
+				iterator += 1;
+				item.data.sort = iterator * 1000;
+			}
+		});
 	}
 
 	// UNUSED FUNCTION

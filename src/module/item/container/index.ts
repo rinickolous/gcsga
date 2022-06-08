@@ -167,6 +167,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		containedItems.forEach((itemData: ItemDataGURPS) => {
 			//@ts-ignore
 			if (itemData.data.data) itemData.data = itemData.data.data;
+			console.log("hwat", itemData);
 			//@ts-ignore
 			itemData.flags.gcsga.parents = this.data.flags.gcsga?.parents.concat(this.data._id);
 			//@ts-ignore itemData._id

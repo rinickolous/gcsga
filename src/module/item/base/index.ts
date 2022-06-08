@@ -11,8 +11,12 @@ import {
 	ConfiguredDocumentClass,
 	PropertiesToSource,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
-import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import {
+	ItemDataBaseProperties,
+	ItemDataConstructorData,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document";
+import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -42,6 +46,28 @@ export class ItemGURPS extends Item {
 			const ItemConstructor = CONFIG.GURPS.Item.documentClasses[data.type as ItemType];
 			return ItemConstructor ? new ItemConstructor(data, context) : new ItemGURPS(data, context);
 		}
+	}
+
+	protected async _preCreate(
+		data: ItemDataConstructorData,
+		options: DocumentModificationOptions,
+		user: BaseUser,
+	): Promise<void> {
+		if (this.data._source.img === foundry.data.ItemData.DEFAULT_ICON) {
+			this.data._source.img = data.img = `systems/gcsga/assets/icons/${data.type}.svg`;
+		}
+		await super._preCreate(data, options, user);
+	}
+
+	prepareBaseData(): void {
+		super.prepareBaseData();
+
+		//@ts-ignore
+		this.data.flags.gcsga = mergeObject(this.data.flags.gcsga ?? {}, {});
+		//@ts-ignore
+		this.data.flags.gcsga.contentsData ??= [];
+		//@ts-ignore
+		this.data.flags.gcsga.parents ??= [];
 	}
 
 	protected _onCreate(

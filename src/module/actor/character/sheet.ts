@@ -1,5 +1,5 @@
 import { ActorSheetGURPS } from "@actor/base/sheet";
-import { ContainerGURPS, EquipmentContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
+import { ContainerGURPS, ItemGURPS } from "@item";
 import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";

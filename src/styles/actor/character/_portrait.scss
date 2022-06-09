@@ -6,6 +6,7 @@
 		"header"
 		"portrait";
 	grid-template-rows: 0fr auto;
+	width: fit-content;
 	border: var(--standard-border);
 
 	// Image displayed as background-image
@@ -13,14 +14,18 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
+		// height: 100%;
+		// TODO figure out how to set height without direct px value
+		height: 132px;
 		aspect-ratio: 3 / 4;
 
 		// Actual portait element (invisible)
 		.profile-img {
 			display: block;
-			height: 100%;
-			width: 100%;
 			opacity: 0;
+			width: 100%;
+			aspect-ratio: 3 / 4;
+			border: none;
 		}
 	}
 }

@@ -32,4 +32,13 @@ export function registerSettings(): void {
 		default: "global",
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
+
+	(game as Game).settings.register(SYSTEM_NAME, "portrait_overwrite", {
+		name: i18n("gcsga.settings.portrait_overwrite.name"),
+		hint: i18n("gcsga.settings.portrait_overwrite.hint"),
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+	});
 }

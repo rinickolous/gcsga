@@ -14,19 +14,25 @@
 // }
 
 #drag-ghost {
-	// width: calc();
-	// height: min-content;
-	height: 24px;
+	position: absolute;
+	top: -1000px;
 	background-color: rgb(var(--color-selection));
 	color: rgb(var(--color-on-selection));
 	font: var(--font-system);
-	margin: 15px 15px;
+	width: min-content;
+	display: grid;
+	grid-auto-flow: column;
+	// grid-template-columns: min-content;
+	padding: 4px 15px;
+	gap: 4px;
 	border: 1px solid rgb(var(--color-on-selection));
-	border-radius: 12px;
+	border-radius: 1000px;
 	text-align: center;
 	white-space: nowrap;
-	display: grid;
 	align-items: baseline;
+	svg {
+		height: 1em;
+	}
 }
 
 .window-app.gcsga {

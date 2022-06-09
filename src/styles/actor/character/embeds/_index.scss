@@ -17,7 +17,6 @@
 			"blank notes";
 		grid-template-columns: min-content auto;
 		.dropdown {
-			width: 8px;
 			margin-right: 6px;
 		}
 		.item-notes {
@@ -26,9 +25,8 @@
 	}
 
 	> div > :not(.header):not(.entry-parent) {
-		min-width: 27px;
 		&.quantity {
-			min-width: 14px;
+			min-width: 1em; //possibly unnecessary
 		}
 	}
 	
@@ -75,8 +73,7 @@
 		svg {
 			background-color: inherit;
 			fill: rgba(var(--color-on-content), 1);
-			height: 8px;
-			width: 8px;
+			width: 0.75em;
 		}
 	}
 }

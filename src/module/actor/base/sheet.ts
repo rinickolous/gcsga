@@ -1,7 +1,6 @@
 import { ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
-import { ActorGURPS } from ".";
 
 export class ActorSheetGURPS extends ActorSheet {
 	/** @override */
@@ -39,7 +38,7 @@ export class ActorSheetGURPS extends ActorSheet {
 	}
 
 	/** @override */
-	protected _onDragStart(event: DragEvent): void {
+	protected async _onDragStart(event: DragEvent): Promise<void> {
 		const li = event.currentTarget;
 		//@ts-ignore
 		if (event.target.classList.contains("content-link")) return;
@@ -64,12 +63,15 @@ export class ActorSheetGURPS extends ActorSheet {
 
 			// Create custom drag image
 			const drag_image = document.createElement("div");
+			drag_image.innerHTML = await renderTemplate("systems/gcsga/templates/actor/drag-image.hbs", {
+				name: `${dragData.data.name}`,
+				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replace("_", "-")}`,
+			});
 			drag_image.id = "drag-ghost";
-			drag_image.textContent = dragData.data.name;
-			drag_image.style.position = "absolute";
-			drag_image.style.top = "-1000px";
+			document.body.querySelectorAll("#drag-ghost").forEach((e) => e.remove());
 			document.body.appendChild(drag_image);
-			event.dataTransfer?.setDragImage(drag_image, 0, 0);
+			const height = (document.body.querySelector("#drag-ghost") as HTMLElement).offsetHeight;
+			event.dataTransfer?.setDragImage(drag_image, 0, height / 2);
 		}
 
 		// Active Effect

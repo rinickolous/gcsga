@@ -1,21 +1,24 @@
+
+#To Do
+## Sheets and Styling
 - Item sheet
 - Item import
 - Foundry skin
-- Roll function
+- DragDrop red line preview
 - Roll chat template
 - Roll button and popup
-- Give items sort values on charsheet initialization
-- "unsatisfied prerequisite" warning functionality
+- ChatMessage style
+- rollable style
+- NPC sheet
 - match font to foundry default
 - remove font height specific (px) styles
-- scale portrait based on height not width
-- functional svg in ChatMessage
-- ChatMessage style
-- UI style
-- DragDrop red line preview
-- sort items on init
+## Small Features 
+- Roll function
+- Give items sort values on charsheet initialization
+- "unsatisfied prerequisite" warning functionality
 - item sort alphabetically based on header
-- rollable style
+- overlay hex
+## Large Features
 - modifier parsing
 - weapons
 - prereqs
@@ -23,6 +26,10 @@
 - feature functions
 - vehicles
 - Mass Combat elements
-- NPC sheet
 - conditions
 - damage calculator
+- charsheet style menu
+## Fixes
+- scale portrait based on height not width
+- functional svg in ChatMessage
+- sort items on init (**done?**)

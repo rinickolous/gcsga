@@ -1,27 +1,8 @@
-import { ItemGURPS } from "@item";
-import { TraitSystemData } from "@item/trait/data";
-import { TraitContainerSystemData } from "@item/trait_container/data";
-import { TraitModifierSystemData } from "@item/modifier/data";
-import { ItemSystemData, ItemType } from "@item/base/data";
-import { ContainerGURPS } from "@item/container";
-import { EquipmentSystemData } from "@item/equipment/data";
-import { EquipmentContainerSystemData } from "@item/equipment_container/data";
-import { EquipmentModifierSystemData } from "@item/equipment_modifier/data";
-import { NoteSystemData } from "@item/note/data";
-import { NoteContainerSystemData } from "@item/note_container/data";
-import { RitualMagicSpellSystemData } from "@item/ritual_magic_spell/data";
-import { SkillSystemData } from "@item/skill/data";
-import { SkillContainerSystemData } from "@item/skill_container/data";
-import { SpellSystemData } from "@item/spell/data";
-import { SpellContainerSystemData } from "@item/spell_container/data";
-import { TechniqueSystemData } from "@item/technique/data";
 import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
-import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
-import { getPointTotal, i18n, i18n_f } from "@util";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
-import { Attribute, AttributeSetting, CharacterData, CharacterSource, HitLocationTable, ImportedData } from "./data";
+import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
 
 //@ts-ignore
@@ -74,28 +55,6 @@ export class CharacterGURPS extends ActorGURPS {
 	): Promise<Document<any, any, Metadata<any>>[]> {
 		return super.updateEmbeddedDocuments(embeddedName, updates, context);
 	}
-
-	// async importCharacter() {
-	// 	const importpath = this.getData().import.path;
-	// 	const importname = importpath.match(/.*[/\\]Data[/\\](.*)/);
-	// 	if (!!importname) {
-	// 		const file = importname[1].replace(/\\/g, "/");
-	// 		const request = new XMLHttpRequest();
-	// 		request.open("GET", file);
-
-	// 		new Promise((resolve) => {
-	// 			request.onload = () => {
-	// 				if (request.status === 200) {
-	// 					const json = request.response;
-	// 					CharacterImporter.import(this, json);
-	// 					// this.importCharacterFromGCS(json, importname[1], importpath);
-	// 				} else this._openImportDialog();
-	// 				resolve(this);
-	// 			};
-	// 		});
-	// 		request.send(null);
-	// 	} else this._openImportDialog();
-	// }
 
 	async importCharacter() {
 		const import_path = this.getData().import.path;

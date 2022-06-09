@@ -30,6 +30,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"systems/gcsga/templates/actor/character/sections/spell.hbs",
 
 		"systems/gcsga/templates/actor/character/sections/error.hbs",
+		"systems/gcsga/templates/actor/drag-image.hbs",
 
 		"systems/gcsga/templates/sections/svg.hbs",
 

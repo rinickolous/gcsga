@@ -164,6 +164,10 @@
 					"global": "Global ([Foundry User Data]/Data/images/portaits/",
 					"local": "Local ([Foundry User Data]/Data/worlds/[World]/images/portaits/)"
 				}
+			},
+			"portrait_overwrite": {
+      			"name": "Overwrite Portraits",
+      			"hint": "Choose whether character portraits are overwritten on import"
 			}
 		}
 	}

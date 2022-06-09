@@ -4,6 +4,7 @@ import { BaseContainerData } from "@item/container/data";
 import { EquipmentData, ItemDataGURPS } from "@item/data";
 import { MeleeWeapon, RangedWeapon } from "@module/data";
 import { openPDF } from "@module/modules/pdfoundry";
+import { SYSTEM_NAME } from "@module/settings";
 import { dollarFormat, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
@@ -34,7 +35,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	/** @override */
 	get template(): string {
-		return "/systems/gcsga/templates/actor/character/sheet.hbs";
+		return `/systems/${SYSTEM_NAME}/templates/actor/character/sheet.hbs`;
 	}
 
 	/** @override */

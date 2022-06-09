@@ -15,8 +15,10 @@ import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
 import { TraitSystemData } from "@item/trait/data";
 import { TraitContainerSystemData } from "@item/trait_container/data";
-import { Default, Feature, ObjArray, Prereq, Weapon } from "@module/data";
+// TODO change
+import { Default, Feature, ObjArray, Weapon } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
+import { Prereq } from "@module/prereq";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterData, HitLocationTable, ImportedData } from "./data";
@@ -384,8 +386,8 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			// prereqs: this.importPrereq(data.prereqs),
-			prereqs: {},
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			// prereqs: {},
 			round_down: data.round_down || false,
 			allow_half_levels: data.allow_half_levels || false,
 			disabled: data.disabled || false,
@@ -445,7 +447,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			specialization: data.specialization || "",
 			tech_level: data.tech_level || "",
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier || 0,
@@ -469,7 +471,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			specialization: data.specialization || "",
 			tech_level: data.tech_level || "",
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier || 0,
@@ -505,7 +507,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			difficulty: data.difficulty || "iq/h",
 			tech_level: data.tech_level || "",
 			college: data.college || [],
@@ -532,7 +534,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			difficulty: data.difficulty || "iq/h",
 			tech_level: data.tech_level || "",
 			college: data.college || [],
@@ -574,7 +576,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			equipped: data.equipped || false,
 			quantity: data.quantity || 0,
 			tech_level: data.tech_level || "",
@@ -616,7 +618,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: this.importPrereq(data.prereqs),
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
 			open: data.open || false,
 			equipped: data.equipped || false,
 			tech_level: data.tech_level || "",
@@ -657,9 +659,10 @@ export class CharacterImporter {
 			text: data.text || "",
 		};
 	}
-	importPrereq(prereqs: Prereq) {
+	importPrereq(prereq: Prereq) {
+		const p = new Prereq(prereq);
 		// throw new Error("Method not implemented.");
-		return {};
+		return p;
 	}
 
 	async throwImportError(msg: string[]) {
@@ -667,7 +670,7 @@ export class CharacterImporter {
 
 		//@ts-ignore ChatMessage.create
 		await ChatMessage.create({
-			content: await renderTemplate("systems/gcsga/templates/chat/character-import-error.hbs", {
+			content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/chat/character-import-error.hbs`, {
 				lines: msg,
 			}),
 			user: (game as Game).user!.id,

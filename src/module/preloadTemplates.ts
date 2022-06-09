@@ -1,84 +1,61 @@
+import { SYSTEM_NAME } from "./settings";
+
 export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
 	const templatePaths: string[] = [
 		// Add paths to "systems/gcsga/templates"
 
-		"systems/gcsga/templates/actor/character/sections/trait.hbs",
-		"systems/gcsga/templates/actor/character/sections/basic-damage.hbs",
-		"systems/gcsga/templates/actor/character/sections/conditional-modifier.hbs",
-		"systems/gcsga/templates/actor/character/sections/description.hbs",
-		"systems/gcsga/templates/actor/character/sections/dropdown-closed.hbs",
-		"systems/gcsga/templates/actor/character/sections/dropdown-open.hbs",
-		"systems/gcsga/templates/actor/character/sections/encumbrance.hbs",
-		"systems/gcsga/templates/actor/character/sections/equipment.hbs",
-		"systems/gcsga/templates/actor/character/sections/hit-location.hbs",
-		"systems/gcsga/templates/actor/character/sections/identity.hbs",
-		"systems/gcsga/templates/actor/character/sections/input-text.hbs",
-		"systems/gcsga/templates/actor/character/sections/item-notes.hbs",
-		"systems/gcsga/templates/actor/character/sections/lifting.hbs",
-		"systems/gcsga/templates/actor/character/sections/melee-attack.hbs",
-		"systems/gcsga/templates/actor/character/sections/miscellaneous.hbs",
-		"systems/gcsga/templates/actor/character/sections/note.hbs",
-		"systems/gcsga/templates/actor/character/sections/other-equipment.hbs",
-		"systems/gcsga/templates/actor/character/sections/points.hbs",
-		"systems/gcsga/templates/actor/character/sections/pool-attributes.hbs",
-		"systems/gcsga/templates/actor/character/sections/portrait.hbs",
-		"systems/gcsga/templates/actor/character/sections/primary-attributes.hbs",
-		"systems/gcsga/templates/actor/character/sections/ranged-attack.hbs",
-		"systems/gcsga/templates/actor/character/sections/reaction.hbs",
-		"systems/gcsga/templates/actor/character/sections/secondary-attributes.hbs",
-		"systems/gcsga/templates/actor/character/sections/skill.hbs",
-		"systems/gcsga/templates/actor/character/sections/spell.hbs",
+		"actor/character/sections/trait",
+		"actor/character/sections/basic-damage",
+		"actor/character/sections/conditional-modifier",
+		"actor/character/sections/description",
+		"actor/character/sections/dropdown-closed",
+		"actor/character/sections/dropdown-open",
+		"actor/character/sections/encumbrance",
+		"actor/character/sections/equipment",
+		"actor/character/sections/hit-location",
+		"actor/character/sections/identity",
+		"actor/character/sections/input-text",
+		"actor/character/sections/item-notes",
+		"actor/character/sections/lifting",
+		"actor/character/sections/melee-attack",
+		"actor/character/sections/miscellaneous",
+		"actor/character/sections/note",
+		"actor/character/sections/other-equipment",
+		"actor/character/sections/points",
+		"actor/character/sections/pool-attributes",
+		"actor/character/sections/portrait",
+		"actor/character/sections/primary-attributes",
+		"actor/character/sections/ranged-attack",
+		"actor/character/sections/reaction",
+		"actor/character/sections/secondary-attributes",
+		"actor/character/sections/skill",
+		"actor/character/sections/spell",
 
-		"systems/gcsga/templates/actor/character/sections/error.hbs",
-		"systems/gcsga/templates/actor/drag-image.hbs",
+		"actor/character/sections/error",
+		"actor/drag-image",
 
-		"systems/gcsga/templates/sections/svg.hbs",
+		"sections/svg",
 
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_dropdown_open.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_dropdown_closed.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_portrait.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_identity.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_miscellaneous.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_description.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_points.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_primary_attributes.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_secondary_attributes.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_pool_attributes.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_encumbrance.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_lifting.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_hit_location.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_reactions.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_conditional_modifiers.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_melee_attacks.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_ranged_attacks.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_trait.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_skill.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_spell.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_equipment.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_other_equipment.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_note.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_portrait.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_portrait.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_primary_attributes.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_secondary_attributes.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_pool_attributes.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_header.hbs",
-		// "systems/gcsga/templates/actor/default/sections/def_maneuver.hbs",
-		"systems/gcsga/templates/actor/import.hbs",
-		// "systems/gcsga/templates/actor/gcs/sections/gcs_item_notes.hbs",
+		"actor/import",
 
-		"systems/gcsga/templates/item/sections/input_text.hbs",
+		"item/sections/input_text",
+		"item/sections/prerequisites",
+		"item/sections/prereq",
 
-		"systems/gcsga/templates/chat/import-character-error.hbs",
+		"chat/import-character-error",
 	];
+	const formattedPaths: string[] = [];
 	templatePaths.forEach((filename) => {
+		filename = `systems/${SYSTEM_NAME}/templates/${filename}.hbs`;
+		console.log(filename);
 		const match = filename.match(`.*/(.*).hbs`);
 		const name = match ? match[1] : "";
 		fetch(filename)
 			.then((it) => it.text())
 			.then(async (text) => {
 				if (!!name) Handlebars.registerPartial(name, text);
+				formattedPaths.push(name);
 			});
 	});
-	return loadTemplates(templatePaths);
+	return loadTemplates(formattedPaths);
 }

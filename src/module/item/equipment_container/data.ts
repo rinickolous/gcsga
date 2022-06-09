@@ -1,6 +1,6 @@
-import { EquipmentModifierGURPS } from "@item";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { Prereq, ObjArray, Weapon, Feature } from "@module/data";
+import { ObjArray, Weapon, Feature } from "@module/data";
+import { Prereq } from "@module/prereq";
 import { EquipmentContainerGURPS } from ".";
 
 export type EquipmentContainerSource = BaseContainerSource<"equipment_container", EquipmentContainerSystemData>;

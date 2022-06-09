@@ -1,4 +1,4 @@
-import { GURPS } from "@module/gcsga";
+// import { GURPS } from "@module/gcsga";
 import { i18n } from "@util";
 import * as Settings from "@module/settings";
 
@@ -90,7 +90,8 @@ export function openPDF(pdfs: string) {
 		//@ts-ignore
 		const pdf = ui.PDFoundry.findPDFDataByCode(book);
 		if (pdf === undefined) {
-			let url = GURPS.SJG_links[book];
+			//@ts-ignore
+			let url = SJG_links[book];
 			if (!url) url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
 			window.open(url, "_blank");
 			//@ts-ignore

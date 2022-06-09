@@ -11,46 +11,53 @@
  */
 
 // Import TypeScript modules
-import { registerSettings } from "./settings";
+import { registerSettings, SYSTEM_NAME } from "./settings";
 import { preloadTemplates } from "./preloadTemplates";
 import { ItemGURPS } from "@item";
 import { ActorGURPS } from "@actor";
 import { ItemSheetGURPS } from "@item/base/sheet";
 import { TraitContainerSheet } from "@item/trait_container/sheet";
 import { ContainerSheetGURPS } from "@item/container/sheet";
-import { ActorSheetGURPS } from "@actor/base/sheet";
 import { CharacterSheetGURPS } from "@actor/character/sheet";
 import { registerHandlebarsHelpers } from "@util/HandlebarsHelpers";
 import { GURPSCONFIG } from "./config";
 import { SJG_links } from "./modules/pdfoundry";
 import { TraitSheet } from "@item/trait/sheet";
 import { CharacterImporter } from "@actor/character/import";
+import { Prereq } from "@module/prereq";
 
 export const GURPS: any = {};
 //@ts-ignore
 window.GURPS = GURPS;
 GURPS.DEBUG = true;
-GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Chris Normand/Nose66 and is released for free distribution, and not for resale, under the permissions granted by http://www.sjgames.com/general/online_policy.html`;
+GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
 GURPS.SJG_links = SJG_links;
 GURPS.CharacterImporter = CharacterImporter;
 GURPS.CONFIG = GURPSCONFIG;
+GURPS.Prereq = Prereq;
+GURPS.BANNER = `
+   __   ____   ____  ____    ____     _     __  
+  / /  / ___| / ___|/ ___|  / ___|   / \\    \\ \\ 
+ / /  | |  _ | |    \\___ \\ | |  _   / _ \\    \\ \\
+ \\ \\  | |_| || |___  ___) || |_| | / ___ \\   / /
+  \\_\\  \\____| \\____||____/  \\____|/_/   \\_\\ /_/ `;
 
 // Initialize system
 Hooks.once("init", async () => {
-	console.log("gcsga | Initializing gcsga");
+	console.log(`${SYSTEM_NAME} | Initializing gcsga`);
+	console.log(GURPS.BANNER);
+	console.log(GURPS.LEGAL);
 
-	const src = "systems/gcsga/assets/gcsga.webp";
+	const src = `systems/${SYSTEM_NAME}/assets/gcsga.webp`;
 	$("#logo").attr("src", src);
 	$("#logo").attr("height", "32px");
 
 	// Assign custom classes and constants here
 	//@ts-ignore
 	CONFIG.Item.documentClass = ItemGURPS;
-	//@ts-ignore
 	CONFIG.Actor.documentClass = ActorGURPS;
 
-	// @ts-ignore
-	CONFIG.GURPS = GURPSCONFIG;
+	(CONFIG as any).GURPS = GURPSCONFIG;
 	// CONFIG.GURPS = {
 	// 	Item: {
 	// 		documentClasses: {
@@ -127,6 +134,16 @@ Hooks.once("setup", async () => {
 // When ready
 Hooks.once("ready", async () => {
 	// Do anything once the system is ready
+	
+	// Create dummy drag image
+	// TODO find a way to not have to do this
+	const drag_image = document.createElement("div");
+	drag_image.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
+		name: "",
+		type: "",
+	});
+	drag_image.id = "drag-ghost";
+	document.body.appendChild(drag_image);
 });
 
 // Add any additional hooks if necessary

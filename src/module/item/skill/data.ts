@@ -1,5 +1,6 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { Prereq, ObjArray, Weapon, Default, Feature } from "@module/data";
+import { ObjArray, Weapon, Default, Feature } from "@module/data";
+import { Prereq } from "@module/prereq";
 import { SkillGURPS } from ".";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;

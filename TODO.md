@@ -2,7 +2,6 @@
 #To Do
 ## Sheets and Styling
 - Item sheet
-- Item import
 - Foundry skin
 - DragDrop red line preview
 - Roll chat template
@@ -19,6 +18,7 @@
 - item sort alphabetically based on header
 - overlay hex
 ## Large Features
+- Item import
 - modifier parsing
 - weapons
 - prereqs

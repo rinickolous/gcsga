@@ -1,6 +1,7 @@
 import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
+import { SYSTEM_NAME } from "@module/settings";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
@@ -82,7 +83,7 @@ export class CharacterGURPS extends ActorGURPS {
 			new Dialog(
 				{
 					title: `Import character data for: ${this.name}`,
-					content: await renderTemplate("systems/gcsga/templates/actor/import.hbs", {
+					content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/import.hbs`, {
 						name: `"${this.name}"`,
 					}),
 					buttons: {

@@ -1,5 +1,6 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { Prereq, ObjArray, Weapon } from "@module/data";
+import { ObjArray, Weapon } from "@module/data";
+import { Prereq } from "@module/prereq";
 import { RitualMagicSpellGURPS } from ".";
 
 export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", RitualMagicSpellSystemData>;

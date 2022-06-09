@@ -66,54 +66,54 @@ export interface NumberCompare {
 	qualifier: number;
 }
 
-// Prerequisite
-export const PrereqType = [
-	"prereq_list",
-	"attribute_prereq",
-	"trait_prereq",
-	"skill_prereq",
-	"spell_prereq",
-	"contained_weight_prereq",
-	"contained_quantity_prereq",
-] as const;
-export type PrereqType = typeof PrereqType[number];
+// // Prerequisite
+// export const PrereqType = [
+// 	"prereq_list",
+// 	"attribute_prereq",
+// 	"trait_prereq",
+// 	"skill_prereq",
+// 	"spell_prereq",
+// 	"contained_weight_prereq",
+// 	"contained_quantity_prereq",
+// ] as const;
+// export type PrereqType = typeof PrereqType[number];
 
-export interface Prereq {
-	type: PrereqType;
-	has: boolean;
-}
+// export interface Prereq {
+// 	type: PrereqType;
+// 	has: boolean;
+// }
 
-export interface AttributePrereq extends Prereq {
-	which: string;
-	combined_with?: string;
-	qualifier: NumberCompare;
-}
+// export interface AttributePrereq extends Prereq {
+// 	which: string;
+// 	combined_with?: string;
+// 	qualifier: NumberCompare;
+// }
 
-export interface TraitPrereq extends Prereq {
-	name?: StringCompare;
-	level?: NumberCompare;
-	notes?: StringCompare;
-}
+// export interface TraitPrereq extends Prereq {
+// 	name?: StringCompare;
+// 	level?: NumberCompare;
+// 	notes?: StringCompare;
+// }
 
-export interface SkillPrereq extends Prereq {
-	name?: StringCompare;
-	level?: NumberCompare;
-	specialization?: StringCompare;
-}
+// export interface SkillPrereq extends Prereq {
+// 	name?: StringCompare;
+// 	level?: NumberCompare;
+// 	specialization?: StringCompare;
+// }
 
-export interface SpellPrereq extends Prereq {
-	sub_type: SpellPrereqSubType;
-	qualifier?: StringCompare;
-	quantity?: NumberCompare;
-}
+// export interface SpellPrereq extends Prereq {
+// 	sub_type: SpellPrereqSubType;
+// 	qualifier?: StringCompare;
+// 	quantity?: NumberCompare;
+// }
 
-export interface ContainedWeightPrereq extends Prereq {
-	qualifier: StringCompare;
-}
+// export interface ContainedWeightPrereq extends Prereq {
+// 	qualifier: StringCompare;
+// }
 
-export interface ContainedQuantityPrereq extends Prereq {
-	qualifier: NumberCompare;
-}
+// export interface ContainedQuantityPrereq extends Prereq {
+// 	qualifier: NumberCompare;
+// }
 
 // Feature
 export const FeatureType = [

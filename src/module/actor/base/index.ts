@@ -6,7 +6,7 @@ import {
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
-import { GURPS } from "@module/gcsga";
+import { SYSTEM_NAME } from "@module/settings";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -40,7 +40,7 @@ class ActorGURPS extends Actor {
 		user: BaseUser,
 	): Promise<void> {
 		if (this.data._source.img === foundry.data.ActorData.DEFAULT_ICON) {
-			this.data._source.img = data.img = `systems/gcsga/assets/icons/${data.type}.svg`;
+			this.data._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		}
 		await super._preCreate(data, options, user);
 	}

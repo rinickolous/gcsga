@@ -1,6 +1,7 @@
 import { ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
+import { SYSTEM_NAME } from "@module/settings";
 
 export class ActorSheetGURPS extends ActorSheet {
 	/** @override */
@@ -63,7 +64,7 @@ export class ActorSheetGURPS extends ActorSheet {
 
 			// Create custom drag image
 			const drag_image = document.createElement("div");
-			drag_image.innerHTML = await renderTemplate("systems/gcsga/templates/actor/drag-image.hbs", {
+			drag_image.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
 				name: `${dragData.data.name}`,
 				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replace("_", "-")}`,
 			});

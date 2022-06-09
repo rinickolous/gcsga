@@ -1,9 +1,10 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
+import { SYSTEM_NAME } from "@module/settings";
 
 export class TraitSheet extends ContainerSheetGURPS {
 	/** @override */
 	get template(): string {
-		return "/systems/gcsga/templates/item/trait/sheet.hbs";
+		return `/systems/${SYSTEM_NAME}/templates/item/trait/sheet.hbs`;
 	}
 
 	static get defaultOptions(): DocumentSheetOptions {

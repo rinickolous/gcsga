@@ -1,6 +1,5 @@
 import { ItemDataGURPS } from "@item/data";
 import { ActorGURPS } from "@actor";
-import { ContainerGURPS } from "@item";
 import {
 	Context,
 	DocumentModificationOptions,
@@ -17,6 +16,7 @@ import {
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
+import { SYSTEM_NAME } from "@module/settings";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -54,7 +54,7 @@ export class ItemGURPS extends Item {
 		user: BaseUser,
 	): Promise<void> {
 		if (this.data._source.img === foundry.data.ItemData.DEFAULT_ICON) {
-			this.data._source.img = data.img = `systems/gcsga/assets/icons/${data.type}.svg`;
+			this.data._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type.replace("_container", "")}.svg`;
 		}
 		await super._preCreate(data, options, user);
 	}
@@ -94,7 +94,7 @@ export class ItemGURPS extends Item {
 
 	async delete(context?: DocumentModificationContext): Promise<this | undefined> {
 		//@ts-ignore
-		if (this.parent instanceof ContainerGURPS) return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
+		if (this.parent instanceof ItemGURPS) return this.parent.deleteEmbeddedDocuments("Item", [this.id]);
 		return super.delete(context);
 	}
 
@@ -169,5 +169,5 @@ export class ItemGURPS extends Item {
 //@ts-ignore
 export interface ItemGURPS {
 	readonly data: ItemDataGURPS;
-	readonly parent: ActorGURPS | ContainerGURPS | null;
+	readonly parent: ActorGURPS | ItemGURPS | null;
 }

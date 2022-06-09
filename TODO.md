@@ -3,7 +3,6 @@
 ## Sheets and Styling
 - Item sheet
 - Foundry skin
-- DragDrop red line preview
 - Roll chat template
 - Roll button and popup
 - ChatMessage style

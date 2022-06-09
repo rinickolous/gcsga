@@ -16,6 +16,7 @@
 			"dropdown name"
 			"blank notes";
 		grid-template-columns: min-content auto;
+		box-sizing: border-box;
 		.dropdown {
 			margin-right: 6px;
 		}
@@ -27,6 +28,9 @@
 	> div > :not(.header):not(.entry-parent) {
 		&.quantity {
 			min-width: 1em; //possibly unnecessary
+		}
+		&.drop-over {
+			border-top: 2px dashed rgb(var(--color-drop-area));
 		}
 	}
 	

@@ -46,6 +46,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
 		html.find(".reference").on("click", this._handlePDF.bind(this));
 		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
+		html.find(".item").on("dragleave", this._onDragLeave.bind(this));
+		html.find(".item").on("dragenter", this._onDragEnter.bind(this));
+		
 		// html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
 
@@ -107,6 +110,25 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		//@ts-ignore
 		const item: ItemGURPS = this.actor.deepItems.get(id);
 		item.sheet?.render(true);
+	}
+
+	async _onDragEnter(event: Event) {
+		event.preventDefault();
+		// console.log(event, (event as DragEvent).dataTransfer);
+		// (event.currentTarget as HTMLElement).parentElement?.classList.add("drop-in");
+		const siblings = Array.prototype.slice.call((event.currentTarget as HTMLElement).parentElement?.children);
+		siblings.forEach((e) => e.classList.remove("drop-over") );
+		const item = (event.currentTarget as HTMLElement).closest(".item.desc");
+		const selection = Array.prototype.slice.call($(item!).nextUntil(".entry-parent"));
+		selection.unshift(item);
+		selection.forEach((e) => e.classList.add("drop-over"));
+		// (event.currentTarget as HTMLElement).closest(".ite")?.classList.add("redline");
+	}
+
+	async _onDragLeave(event: Event) {
+		event.preventDefault();
+		// (event.currentTarget as HTMLElement).classList.remove("redline");
+		// (event.currentTarget as HTMLElement).closest(".item.desc")?.classList.remove("redline");
 	}
 
 	// async _onItemSelect(event: Event) {

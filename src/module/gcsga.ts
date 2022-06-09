@@ -1,13 +1,31 @@
 /**
- * This is your TypeScript entry file for Foundry VTT.
- * Register custom settings, sheets, and constants using the Foundry API.
- * Change this heading to be more descriptive to your system, or remove it.
- * Author: [your name]
- * Content License: [copyright and-or license] If using an existing system
- * 					you may want to put a (link to a) license or copyright
- * 					notice here (e.g. the OGL).
- * Software License: [your license] Put your desired license here, which
- * 					 determines how others may use and modify your system.
+ * MIT License
+ *
+ * Copyright (c) 2022 Mikolaj Tomczynski
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.
+ * All rights are reserved by Steve Jackson Games.
+ * This game aid is the original creation of Mikolaj Tomczynski and is released for free distribution,
+ * and not for resale, under the permissions granted by
+ * http://www.sjgames.com/general/online_policy.html
  */
 
 // Import TypeScript modules
@@ -24,7 +42,8 @@ import { GURPSCONFIG } from "./config";
 import { SJG_links } from "./modules/pdfoundry";
 import { TraitSheet } from "@item/trait/sheet";
 import { CharacterImporter } from "@actor/character/import";
-import { Prereq } from "@module/prereq";
+import { BasePrereq } from "@module/prereq";
+import { BaseFeature } from "@module/feature";
 
 export const GURPS: any = {};
 //@ts-ignore
@@ -34,7 +53,8 @@ GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and ar
 GURPS.SJG_links = SJG_links;
 GURPS.CharacterImporter = CharacterImporter;
 GURPS.CONFIG = GURPSCONFIG;
-GURPS.Prereq = Prereq;
+GURPS.Feature = BaseFeature
+GURPS.Prereq = BasePrereq;
 GURPS.BANNER = `
    __   ____   ____  ____    ____     _     __  
   / /  / ___| / ___|/ ___|  / ___|   / \\    \\ \\ 

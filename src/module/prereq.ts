@@ -11,90 +11,71 @@ export interface PrereqConstructionContext {
 	ready?: boolean;
 }
 
-export type PrereqData =
-	| PrereqListData
-	| TraitPrereqData
-	| AttributePrereqData
-	| ContainedWeightPrereqData
-	| ContainedQuantityPrereqData
-	| SkillPrereqData
-	| SpellPrereqData;
+export type Prereq =
+	| PrereqList
+	| TraitPrereq
+	| AttributePrereq
+	| ContainedWeightPrereq
+	| ContainedQuantityPrereq
+	| SkillPrereq
+	| SpellPrereq;
 
-export interface BasePrereqData {
-	type: PrereqType;
-	has?: boolean;
-}
-
-export interface PrereqListData extends BasePrereqData {
-	all: boolean;
-	prereqs: Prereq[];
-}
-
-export interface TraitPrereqData extends BasePrereqData {}
-export interface AttributePrereqData extends BasePrereqData {}
-export interface ContainedWeightPrereqData extends BasePrereqData {}
-export interface ContainedQuantityPrereqData extends BasePrereqData {}
-export interface SkillPrereqData extends BasePrereqData {}
-export interface SpellPrereqData extends BasePrereqData {}
-
-export class Prereq {
+export class BasePrereq {
 	type: PrereqType;
 	has?: boolean;
 
-	constructor(data: PrereqData, context: PrereqConstructionContext = {}) {
-		if (context.ready) {
-			this.type = data.type;
-		} else {
-			this.type = data.type;
+	constructor(data: Prereq, context: PrereqConstructionContext = {}) {
+		this.type = data.type;
+		if (!context.ready) {
 			mergeObject(context, {
 				ready: true,
 			});
 			const PrereqConstructor = classes[data.type as PrereqType];
-			return PrereqConstructor ? new PrereqConstructor(data, context) : new Prereq(data, context);
+			return PrereqConstructor ? new PrereqConstructor(data, context) : new BasePrereq(data, context);
 		}
 	}
 
 	static get default() {
-		return new Prereq({type: "prereq_list", has: true})
+		return new BasePrereq({ type: "prereq_list", has: true })
 	}
 }
 
-export class PrereqList extends Prereq {
+export class PrereqList extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
 
-	constructor(data: PrereqData, context: PrereqConstructionContext = {}) {
+	constructor(data: Prereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
 		this.has = true;
-		this.all = (data as PrereqListData).all ?? true;
+		this.all = (data as PrereqList).all ?? true;
 		this.prereqs = [];
-		if (!!(data as PrereqListData).prereqs) (data as PrereqListData).prereqs.forEach((e: Prereq) => {
-			this.prereqs.push(new Prereq(e));
+		if (!!(data as PrereqList).prereqs) (data as PrereqList).prereqs.forEach((e: Prereq) => {
+			this.prereqs.push(new BasePrereq(e));
 		});
 	}
 }
 
-export class TraitPrereq extends Prereq { }
-export class AttributePrereq extends Prereq { }
-export class ContainedWeightPrereq extends Prereq { }
-export class ContainedQuantityPrereq extends Prereq { }
-export class SkillPrereq extends Prereq { }
-export class SpellPrereq extends Prereq { }
+export class TraitPrereq extends BasePrereq { }
+export class AttributePrereq extends BasePrereq { }
+export class ContainedWeightPrereq extends BasePrereq { }
+export class ContainedQuantityPrereq extends BasePrereq { }
+export class SkillPrereq extends BasePrereq { }
+export class SpellPrereq extends BasePrereq { }
 
-export interface Prereq {
+export interface BasePrereq {
 	type: PrereqType;
 	has?: boolean;
 }
 
-export interface TraitPrereq extends Prereq {
+export interface TraitPrereq extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
 }
-export interface AttributePrereq extends Prereq { }
-export interface ContainedWeightPrereq extends Prereq { }
-export interface ContainedQuantityPrereq extends Prereq { }
-export interface SkillPrereq extends Prereq { }
-export interface SpellPrereq extends Prereq { }
+export interface AttributePrereq extends BasePrereq { }
+export interface ContainedWeightPrereq extends BasePrereq { }
+export interface ContainedQuantityPrereq extends BasePrereq { }
+export interface SkillPrereq extends BasePrereq { }
+export interface SpellPrereq extends BasePrereq { }
 
 
 const classes = {

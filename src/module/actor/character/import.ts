@@ -16,12 +16,13 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { TraitSystemData } from "@item/trait/data";
 import { TraitContainerSystemData } from "@item/trait_container/data";
 // TODO change
-import { Default, Feature, ObjArray, Weapon } from "@module/data";
+import { Default, ObjArray, Weapon } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
-import { Prereq } from "@module/prereq";
+import { Prereq, BasePrereq } from "@module/prereq";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
 import { Attribute, AttributeSetting, CharacterData, HitLocationTable, ImportedData } from "./data";
+import { Feature, BaseFeature } from "@module/feature";
 
 export class CharacterImporter {
 	version: number;
@@ -386,8 +387,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
-			// prereqs: {},
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			round_down: data.round_down || false,
 			allow_half_levels: data.allow_half_levels || false,
 			disabled: data.disabled || false,
@@ -404,6 +404,7 @@ export class CharacterImporter {
 			},
 			cr: !!data.cr ? data.cr : -1,
 			cr_adj: data.cr_adj || "none",
+			features: this.importFeatures(data.features ?? []),
 			// features: new ObjArray<Feature>((data.features as Feature[]) || []),
 			// weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 		};
@@ -437,7 +438,7 @@ export class CharacterImporter {
 			cost: data.cost || 0,
 			levels: data.levels || 0,
 			affects: data.affects || "total",
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 		};
 	}
 
@@ -447,7 +448,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			specialization: data.specialization || "",
 			tech_level: data.tech_level || "",
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier || 0,
@@ -456,7 +457,7 @@ export class CharacterImporter {
 			defaulted_from: data.defaulted_from || {},
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 			defaults: new ObjArray<Default>((data.defaults as Default[]) || []),
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
@@ -471,7 +472,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			specialization: data.specialization || "",
 			tech_level: data.tech_level || "",
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier || 0,
@@ -479,7 +480,7 @@ export class CharacterImporter {
 			points: data.points || 0,
 			default: data.default || {},
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
@@ -507,7 +508,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			difficulty: data.difficulty || "iq/h",
 			tech_level: data.tech_level || "",
 			college: data.college || [],
@@ -534,7 +535,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			difficulty: data.difficulty || "iq/h",
 			tech_level: data.tech_level || "",
 			college: data.college || [],
@@ -576,7 +577,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			equipped: data.equipped || false,
 			quantity: data.quantity || 0,
 			tech_level: data.tech_level || "",
@@ -587,7 +588,7 @@ export class CharacterImporter {
 			uses: data.uses || 0,
 			max_uses: data.max_uses || 0,
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 			calc: {
 				extended_value: data.calc?.extended_value || "",
 				extended_weight: data.calc?.extended_weight || "",
@@ -608,7 +609,7 @@ export class CharacterImporter {
 			weight_type: data.weight_type || "",
 			weight: data.weight || "",
 			tech_level: data.tech_level || "",
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 		};
 	}
 
@@ -618,7 +619,7 @@ export class CharacterImporter {
 			reference: data.reference || "",
 			notes: data.notes || "",
 			tags: data.tags || [],
-			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : Prereq.default,
+			prereqs: data.prereqs ? this.importPrereq(data.prereqs) : BasePrereq.default,
 			open: data.open || false,
 			equipped: data.equipped || false,
 			tech_level: data.tech_level || "",
@@ -629,7 +630,7 @@ export class CharacterImporter {
 			uses: data.uses || 0,
 			max_uses: data.max_uses || 0,
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: new ObjArray<Feature>((data.features as Feature[]) || []),
+			features: this.importFeatures(data.features ?? []),
 			calc: {
 				extended_value: data.calc?.extended_value || "",
 				extended_weight: data.calc?.extended_weight || "",
@@ -659,10 +660,18 @@ export class CharacterImporter {
 			text: data.text || "",
 		};
 	}
+
 	importPrereq(prereq: Prereq) {
-		const p = new Prereq(prereq);
-		// throw new Error("Method not implemented.");
+		const p = new BasePrereq(prereq);
 		return p;
+	}
+
+	importFeatures(features: Feature[]) {
+		const list: Feature[] = [];
+		features.forEach((f) => {
+			list.push(new BaseFeature(f)); 
+		});
+		return list;
 	}
 
 	async throwImportError(msg: string[]) {

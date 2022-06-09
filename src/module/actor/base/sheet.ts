@@ -93,7 +93,6 @@ export class ActorSheetGURPS extends ActorSheet {
 		event: DragEvent,
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
 	): Promise<Item[] | undefined> {
-		// console.log(event, itemData);
 		//@ts-ignore
 		const source = this.actor.deepItems.get(itemData._id);
 		//@ts-ignore
@@ -119,16 +118,13 @@ export class ActorSheetGURPS extends ActorSheet {
 		const parent = target.parent;
 		if (source.parent != target.parent) {
 			if (target.data.flags.gcsga.parents.includes(source.id)) return;
-			const sourceData = duplicate(source.data.toObject());
 			await source.parent.deleteEmbeddedDocuments("Item", [source.data._id], { render: false });
-			//@ts-ignore
-			console.log("CREATE", sourceData);
 			return parent.createEmbeddedDocuments("Item", [
 				{
-					name: sourceData.name,
-					data: sourceData.data,
-					type: sourceData.type,
-					flags: sourceData.flags,
+					name: source.data.name,
+					data: source.data.data,
+					type: source.data.type,
+					flags: source.data.flags,
 					sort: updateData[0].sort,
 				},
 			]);

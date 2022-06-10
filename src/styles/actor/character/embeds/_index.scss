@@ -18,6 +18,7 @@
 		grid-template-columns: min-content auto;
 		box-sizing: border-box;
 		.dropdown {
+			min-width: 0.75em;
 			margin-right: 6px;
 		}
 		.item-notes {

@@ -20,7 +20,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.
  * All rights are reserved by Steve Jackson Games.
  * This game aid is the original creation of Mikolaj Tomczynski and is released for free distribution,
@@ -53,7 +53,7 @@ GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and ar
 GURPS.SJG_links = SJG_links;
 GURPS.CharacterImporter = CharacterImporter;
 GURPS.CONFIG = GURPSCONFIG;
-GURPS.Feature = BaseFeature
+GURPS.Feature = BaseFeature;
 GURPS.Prereq = BasePrereq;
 GURPS.BANNER = `
    __   ____   ____  ____    ____     _     __  
@@ -154,7 +154,7 @@ Hooks.once("setup", async () => {
 // When ready
 Hooks.once("ready", async () => {
 	// Do anything once the system is ready
-	
+
 	// Create dummy drag image
 	// TODO find a way to not have to do this
 	const drag_image = document.createElement("div");

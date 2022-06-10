@@ -33,7 +33,7 @@ export class BaseFeature {
 	amount?: 0;
 
 	constructor(data: Feature, context: FeatureConstructionContext = {}) {
-		this.type = data.type
+		this.type = data.type;
 		if (!context.ready) {
 			mergeObject(context, {
 				ready: true,
@@ -48,17 +48,17 @@ export class BaseFeature {
 	}
 }
 
-export class AttributeBonus extends BaseFeature { }
-export class ConditionalModifier extends BaseFeature { }
-export class DRBonus extends BaseFeature { }
-export class ReactionBonus extends BaseFeature { }
-export class SkillBonus extends BaseFeature { }
-export class SkillPointBonus extends BaseFeature { }
-export class SpellBonus extends BaseFeature { }
-export class SpellPointBonus extends BaseFeature { }
-export class WeaponBonus extends BaseFeature { }
-export class CostReduction extends BaseFeature { }
-export class ContainedWeightReduction extends BaseFeature { }
+export class AttributeBonus extends BaseFeature {}
+export class ConditionalModifier extends BaseFeature {}
+export class DRBonus extends BaseFeature {}
+export class ReactionBonus extends BaseFeature {}
+export class SkillBonus extends BaseFeature {}
+export class SkillPointBonus extends BaseFeature {}
+export class SpellBonus extends BaseFeature {}
+export class SpellPointBonus extends BaseFeature {}
+export class WeaponBonus extends BaseFeature {}
+export class CostReduction extends BaseFeature {}
+export class ContainedWeightReduction extends BaseFeature {}
 
 export interface AttributeBonus extends BaseFeature {
 	attribute: string;
@@ -128,7 +128,7 @@ export type StringComparison =
 
 export interface NumberCompare {
 	compare: NumberComparison;
-	qualifier: Number;
+	qualifier: number;
 }
 
 export type NumberComparison =
@@ -137,22 +137,11 @@ export type NumberComparison =
 	| "at_least"
 	| "at_most";
 
+export type SkillBonusSelection = "skills_with_name" | "weapons_with_name" | "this_weapon";
 
-export type SkillBonusSelection =
-	| "skills_with_name"
-	| "weapons_with_name"
-	| "this_weapon";
+export type SpellBonusMatch = "all_colleges" | "college_name" | "spell_name" | "power_source_name";
 
-export type SpellBonusMatch =
-	| "all_colleges"
-	| "college_name"
-	| "spell_name"
-	| "power_source_name";
-
-export type WeaponBonusSelectionType =
-	| "weapons_with_required_skill"
-	| "weapons_with_name"
-	| "this_weapon";
+export type WeaponBonusSelectionType = "weapons_with_required_skill" | "weapons_with_name" | "this_weapon";
 
 const classes = {
 	attribute_bonus: AttributeBonus,

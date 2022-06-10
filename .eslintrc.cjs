@@ -3,7 +3,9 @@ module.exports = {
 
 	parserOptions: {
 		ecmaVersion: 2020,
+		extraFileExtensions: [".cjs", ".mjs"],
 		sourceType: "module",
+		project: "./tsconfig.eslint.json",
 	},
 
 	env: {
@@ -21,7 +23,7 @@ module.exports = {
 
 	overrides: [
 		{
-			files: ["./*.js"],
+			files: ["./*.cjs"],
 			rules: {
 				"@typescript-eslint/no-var-requires": "off",
 			},

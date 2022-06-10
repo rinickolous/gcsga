@@ -48,7 +48,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
 		html.find(".item").on("dragleave", this._onDragLeave.bind(this));
 		html.find(".item").on("dragenter", this._onDragEnter.bind(this));
-		
+
 		// html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
 
@@ -117,7 +117,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		// console.log(event, (event as DragEvent).dataTransfer);
 		// (event.currentTarget as HTMLElement).parentElement?.classList.add("drop-in");
 		const siblings = Array.prototype.slice.call((event.currentTarget as HTMLElement).parentElement?.children);
-		siblings.forEach((e) => e.classList.remove("drop-over") );
+		siblings.forEach((e) => e.classList.remove("drop-over"));
 		const item = (event.currentTarget as HTMLElement).closest(".item.desc");
 		const selection = Array.prototype.slice.call($(item!).nextUntil(".entry-parent"));
 		selection.unshift(item);

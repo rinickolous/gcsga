@@ -36,7 +36,7 @@ export class BasePrereq {
 	}
 
 	static get default() {
-		return new BasePrereq({ type: "prereq_list", has: true })
+		return new BasePrereq({ type: "prereq_list", has: true });
 	}
 }
 
@@ -49,18 +49,19 @@ export class PrereqList extends BasePrereq {
 		this.has = true;
 		this.all = (data as PrereqList).all ?? true;
 		this.prereqs = [];
-		if (!!(data as PrereqList).prereqs) (data as PrereqList).prereqs.forEach((e: Prereq) => {
-			this.prereqs.push(new BasePrereq(e));
-		});
+		if (!!(data as PrereqList).prereqs)
+			(data as PrereqList).prereqs.forEach((e: Prereq) => {
+				this.prereqs.push(new BasePrereq(e));
+			});
 	}
 }
 
-export class TraitPrereq extends BasePrereq { }
-export class AttributePrereq extends BasePrereq { }
-export class ContainedWeightPrereq extends BasePrereq { }
-export class ContainedQuantityPrereq extends BasePrereq { }
-export class SkillPrereq extends BasePrereq { }
-export class SpellPrereq extends BasePrereq { }
+export class TraitPrereq extends BasePrereq {}
+export class AttributePrereq extends BasePrereq {}
+export class ContainedWeightPrereq extends BasePrereq {}
+export class ContainedQuantityPrereq extends BasePrereq {}
+export class SkillPrereq extends BasePrereq {}
+export class SpellPrereq extends BasePrereq {}
 
 export interface BasePrereq {
 	type: PrereqType;
@@ -71,12 +72,11 @@ export interface TraitPrereq extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
 }
-export interface AttributePrereq extends BasePrereq { }
-export interface ContainedWeightPrereq extends BasePrereq { }
-export interface ContainedQuantityPrereq extends BasePrereq { }
-export interface SkillPrereq extends BasePrereq { }
-export interface SpellPrereq extends BasePrereq { }
-
+export type AttributePrereq = BasePrereq;
+export type ContainedWeightPrereq = BasePrereq;
+export type ContainedQuantityPrereq = BasePrereq;
+export type SkillPrereq = BasePrereq;
+export type SpellPrereq = BasePrereq;
 
 const classes = {
 	prereq_list: PrereqList,
@@ -86,4 +86,4 @@ const classes = {
 	contained_weight_prereq: ContainedWeightPrereq,
 	skill_prereq: SkillPrereq,
 	spell_prereq: SpellPrereq,
-}; 
+};

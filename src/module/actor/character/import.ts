@@ -669,7 +669,7 @@ export class CharacterImporter {
 	importFeatures(features: Feature[]) {
 		const list: Feature[] = [];
 		features.forEach((f) => {
-			list.push(new BaseFeature(f)); 
+			list.push(new BaseFeature(f));
 		});
 		return list;
 	}

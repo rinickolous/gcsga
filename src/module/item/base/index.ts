@@ -54,7 +54,10 @@ export class ItemGURPS extends Item {
 		user: BaseUser,
 	): Promise<void> {
 		if (this.data._source.img === foundry.data.ItemData.DEFAULT_ICON) {
-			this.data._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type.replace("_container", "")}.svg`;
+			this.data._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type.replace(
+				"_container",
+				"",
+			)}.svg`;
 		}
 		await super._preCreate(data, options, user);
 	}

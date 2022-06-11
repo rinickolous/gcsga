@@ -1,8 +1,6 @@
 <div id="prerequisites">
 	<div class="header">{{localize "gcsga.sheet.item.prerequisites.header"}}</div>
 	<div class="content">
-		{{#each this.prereqs}}
-			{{>prereq}}
-		{{/each}}
+		{{>prereq data.prereqs name="data.prereqs" config=config}}
 	</div>
 </div>

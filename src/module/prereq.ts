@@ -72,11 +72,6 @@ export interface TraitPrereq extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
 }
-export type AttributePrereq = BasePrereq;
-export type ContainedWeightPrereq = BasePrereq;
-export type ContainedQuantityPrereq = BasePrereq;
-export type SkillPrereq = BasePrereq;
-export type SpellPrereq = BasePrereq;
 
 const classes = {
 	prereq_list: PrereqList,

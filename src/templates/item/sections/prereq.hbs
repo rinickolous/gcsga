@@ -2,5 +2,12 @@
 	{{#if (eq this.type "prereq_list")}}
 	<i class="add-child">{{>svg shapes=(arr "--shape-circle-add")}}</i>
 	<i class="add-list">{{>svg shapes=(arr "--shape-circle-vertical-ellipsis")}}</i>
+	<select name="{{name}}.when_tl.compare" data-dtype="String">
+		{{selectOptions config.select.prereqs.when_tl selected=this.when_tl.compare localize=true}}
+	</select>
+	{{>input_text field="field" name=(concat name ".when_tl.qualifier") data=this.when_tl.qualifier type="Number" class=(disabled (eq this.when_tl.compare "none"))}}
 	{{/if}}
+	<select name="{{name}}.all" data-dtype="Boolean">
+		{{selectOptions config.select.prereqs.all selected=this.all localize=true}}
+	</select>
 </div>

@@ -126,7 +126,7 @@
 			"enabled": "Enabled",
 			"notes": "Notes",
 			"vtt_notes": "VTT Notes",
-			"user_description":"User Description",
+			"user_description": "User Description",
 			"tags": "Tags",
 			"point_cost": "Point Cost",
 			"base_cost": "Base Cost",
@@ -166,8 +166,23 @@
 				}
 			},
 			"portrait_overwrite": {
-      			"name": "Overwrite Portraits",
-      			"hint": "Choose whether character portraits are overwritten on import"
+				"name": "Overwrite Portraits",
+				"hint": "Choose whether character portraits are overwritten on import"
+			}
+		},
+		"select": {
+			"prereqs": {
+				"when_tl": {
+					"none": "When the Tech Level is anything",
+					"is": "When the Tech Level is",
+					"is_not": "When the Tech Level is not",
+					"at_least": "When the Tech Level is at least",
+					"at_most": "When the Tech Level is at most"
+				},
+				"all": {
+					"true": "requires all of:",
+					"false": "requires at least one of:"
+				}
 			}
 		}
 	}

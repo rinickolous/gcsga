@@ -119,6 +119,12 @@ export function registerHandlebarsHelpers() {
 		return list.join("; ");
 	});
 
+	Handlebars.registerHelper("disabled", function (a: boolean): string {
+		console.log(a);
+		if (a) return "disabled";
+		return "";
+	});
+
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
 	// 	console.warn(list);
 	// 	if (list.includes(item)) return "selected";

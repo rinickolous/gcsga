@@ -87,4 +87,19 @@ export const GURPSCONFIG = {
 			},
 		},
 	},
+	select: {
+		prereqs: {
+			when_tl: {
+				none: "gcsga.select.prereqs.when_tl.none",
+				is: "gcsga.select.prereqs.when_tl.is",
+				is_not: "gcsga.select.prereqs.when_tl.is_not",
+				at_least: "gcsga.select.prereqs.when_tl.at_least",
+				at_most: "gcsga.select.prereqs.when_tl.at_most",
+			},
+			all: {
+				true: "gcsga.select.prereqs.all.true",
+				false: "gcsga.select.prereqs.all.false",
+			},
+		},
+	},
 };

@@ -307,12 +307,13 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		for (let i = 0; i <= 4; i++) {
 			enc.push({
 				active: this.isActiveEncumbrance(data, bl * enc_multiplier[i]),
-				level: `gcsga.sheet.encumbrance.levels.${i}`,
+				level: `gcsga.actor.encumbrance.levels.${i}`,
 				max_load: `${bl * enc_multiplier[i]} ${unit}`,
 				move: data.calc.move[i],
 				dodge: data.calc.dodge[i],
 			});
 		}
+
 		const lifts = {
 			basic_lift: `${bl * lifts_multiplier[0]} ${unit}`,
 			one_handed_lift: `${bl * lifts_multiplier[1]} ${unit}`,

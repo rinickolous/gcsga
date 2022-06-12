@@ -1,9 +1,9 @@
 <div id="encumbrance">
-	<div class="header title">{{localize "gcsga.sheet.encumbrance.title"}}</div>
-	<div class="header level">{{localize "gcsga.sheet.encumbrance.level"}}</div>
-	<div class="header max-load">{{localize "gcsga.sheet.encumbrance.max_load"}}</div>
-	<div class="header move">{{localize "gcsga.sheet.encumbrance.move"}}</div>
-	<div class="header dodge">{{localize "gcsga.sheet.encumbrance.dodge"}}</div>
+	<div class="header title">{{localize "gcsga.actor.encumbrance.title"}}</div>
+	<div class="header level">{{localize "gcsga.actor.encumbrance.level"}}</div>
+	<div class="header max-load">{{localize "gcsga.actor.encumbrance.max_load"}}</div>
+	<div class="header move">{{localize "gcsga.actor.encumbrance.move"}}</div>
+	<div class="header dodge">{{localize "gcsga.actor.encumbrance.dodge"}}</div>
 	{{#each encumbrance}}
 		{{#if this.active}}
 			<div class="encumbrance-marker active">{{>svg shapes=(arr "--shape-weight")}}</div>

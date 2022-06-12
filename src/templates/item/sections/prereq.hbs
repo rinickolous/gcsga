@@ -1,13 +1,37 @@
 <div class="prereq">
 	{{#if (eq this.type "prereq_list")}}
-	<i class="add-child">{{>svg shapes=(arr "--shape-circle-add")}}</i>
-	<i class="add-list">{{>svg shapes=(arr "--shape-circle-vertical-ellipsis")}}</i>
-	<select name="{{name}}.when_tl.compare" data-dtype="String">
-		{{selectOptions config.select.prereqs.when_tl selected=this.when_tl.compare localize=true}}
-	</select>
-	{{>input_text field="field" name=(concat name ".when_tl.qualifier") data=this.when_tl.qualifier type="Number" class=(disabled (eq this.when_tl.compare "none"))}}
+		<i class="add-child">{{>svg shapes=(arr "--shape-circle-add")}}</i>
+		<i class="add-list">{{>svg shapes=(arr "--shape-circle-vertical-ellipsis")}}</i>
+		<select name="{{name}}.when_tl.compare" data-dtype="String">
+			{{selectOptions config.select.prereqs.when_tl selected=this.when_tl.compare localize=true}}
+		</select>
+		{{>input_text field="field" name=(concat name ".when_tl.qualifier") data=this.when_tl.qualifier type="Number" class=(disabled (eq this.when_tl.compare "none"))}}
+		<select name="{{name}}.all" data-dtype="Boolean">
+			{{selectOptions config.select.prereqs.all selected=this.all localize=true}}
+		</select>
+	{{else}}
+		<h3>{{name}}</h3>
+		<i class="remove">{{>svg shapes=(arr "--shape-trash")}}</i>
+		<select name="{{name}}.has" data-dtype="Boolean">
+			{{selectOptions config.select.prereqs.has selected=this.has localize=true}}
+		</select>
+		{{#unless (eq this.type "spell_prereq")}}
+			<select name="{{name}}.type">
+				{{selectOptions config.select.prereqs.type selected=this.type localize=true}}
+			</select>	
+		{{else}}
+			<select name="{{name}}.quantity.qualifier">
+				{{selectOptions config.select.prereqs.quantity selected=this.quantity.qualifier localize=true}}
+			</select>
+			{{>input_text field="field" name=(concat name ".quantity.qualifier") type="Number"}}
+			<select name="{{name}}.type">
+				{{selectOptions config.select.prereqs.type selected=this.type localize=true}}
+			</select>	
+		{{/unless}}
 	{{/if}}
-	<select name="{{name}}.all" data-dtype="Boolean">
-		{{selectOptions config.select.prereqs.all selected=this.all localize=true}}
-	</select>
 </div>
+{{#if (eq this.type "prereq_list")}}
+	{{#each this.prereqs}}
+		{{>prereq this name=(concat ../name ".prereqs." @index) config=../config}}
+	{{/each}}
+{{/if}}

@@ -1,3 +1,5 @@
+import { StringCompare, NumberCompare } from "./data";
+
 export type FeatureType =
 	| "attribute_bonus"
 	| "conditional_modifier"
@@ -109,33 +111,6 @@ export interface CostReduction extends BaseFeature {
 export interface ContainedWeightReduction extends BaseFeature {
 	percentage: number;
 }
-
-export interface StringCompare {
-	compare: StringComparison;
-	qualifier: string;
-}
-
-export type StringComparison =
-	| "none" // maybe not needed
-	| "is"
-	| "is_not"
-	| "contains"
-	| "does_not_contain"
-	| "starts_with"
-	| "does_not_start_with"
-	| "ends_with"
-	| "does_not_end_with";
-
-export interface NumberCompare {
-	compare: NumberComparison;
-	qualifier: number;
-}
-
-export type NumberComparison =
-	| "none" // maybe not needed
-	| "is"
-	| "at_least"
-	| "at_most";
 
 export type SkillBonusSelection = "skills_with_name" | "weapons_with_name" | "this_weapon";
 

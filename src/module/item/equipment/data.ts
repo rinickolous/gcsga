@@ -1,6 +1,6 @@
-import { EquipmentModifierGURPS } from "@item";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { Feature, ObjArray, Weapon } from "@module/data";
+import { ObjArray, Weapon } from "@module/data";
+import { Feature } from "@module/feature";
 import { Prereq } from "@module/prereq";
 import { EquipmentGURPS } from ".";
 
@@ -28,7 +28,7 @@ export interface EquipmentSystemData extends Omit<BaseContainerSystemData, "open
 	uses: number;
 	max_uses: number;
 	weapons: ObjArray<Weapon>;
-	features: ObjArray<Feature>;
+	features: Feature[];
 	calc: {
 		extended_value: string;
 		extended_weight: string;

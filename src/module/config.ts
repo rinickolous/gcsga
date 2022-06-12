@@ -100,6 +100,23 @@ export const GURPSCONFIG = {
 				true: "gcsga.select.prereqs.all.true",
 				false: "gcsga.select.prereqs.all.false",
 			},
+			has: {
+				true: "gcsga.select.prereqs.has.true",
+				false: "gcsga.select.prereqs.has.false",
+			},
+			quantity: {
+				is: "gcsga.select.prereqs.quantity.is",
+				at_least: "gcsga.select.prererqs.quantity.at_leat",
+				at_most: "gcsga.select.prereqs.quantity.at_most",
+			},
+			type: {
+				trait_prereq: "gcsga.select.prereqs.type.trait_prereq",
+				attribute_prereq: "gcsga.select.prereqs.type.attribute_prereq",
+				contained_quantity_prereq: "gcsga.select.prereqs.type.contained_quantity_prereq",
+				contained_weight_prereq: "gcsga.select.prereqs.type.contained_weight_prereq",
+				skill_prereq: "gcsga.select.prereqs.type.skill_prereq",
+				spell_prereq: "gcsga.select.prereqs.type.spell_prereq",
+			},
 		},
 	},
 };

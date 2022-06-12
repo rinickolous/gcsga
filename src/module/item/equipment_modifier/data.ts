@@ -1,5 +1,5 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { ObjArray, Feature } from "@module/data";
+import { Feature } from "@module/feature";
 import { EquipmentModifierGURPS } from ".";
 
 export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", EquipmentModifierSystemData>;
@@ -19,7 +19,7 @@ export interface EquipmentModifierSystemData extends ItemSystemData {
 	weight_type: EquipmentWeightType;
 	weight: string;
 	tech_level: string;
-	features: ObjArray<Feature>;
+	features: Feature[];
 }
 
 export type EquipmentCostType = "to_original_cost" | "to_base_cost" | "to_final_base_cost" | "to_final_cost";

@@ -38,151 +38,32 @@ export interface ObjArray<T> extends Array<T> {
 	length: number;
 	at(index: number): T | undefined;
 }
-
-// String Compare
-export const StringComparison = [
-	"is",
-	"is_not",
-	"contains",
-	"does_not_contain",
-	"starts_with",
-	"does_not_start_with",
-	"ends_with",
-	"does_not_end_with",
-] as const;
-export type StringComparison = typeof StringComparison[number];
-
 export interface StringCompare {
 	compare: StringComparison;
 	qualifier: string;
 }
 
-// Number Compare
-export const NumberComparison = ["is", "at_least", "at_most"] as const;
-export type NumberComparison = typeof NumberComparison[number];
+export type StringComparison =
+	| "none" // maybe not needed
+	| "is"
+	| "is_not"
+	| "contains"
+	| "does_not_contain"
+	| "starts_with"
+	| "does_not_start_with"
+	| "ends_with"
+	| "does_not_end_with";
 
 export interface NumberCompare {
 	compare: NumberComparison;
 	qualifier: number;
 }
 
-// // Prerequisite
-// export const PrereqType = [
-// 	"prereq_list",
-// 	"attribute_prereq",
-// 	"trait_prereq",
-// 	"skill_prereq",
-// 	"spell_prereq",
-// 	"contained_weight_prereq",
-// 	"contained_quantity_prereq",
-// ] as const;
-// export type PrereqType = typeof PrereqType[number];
-
-// export interface Prereq {
-// 	type: PrereqType;
-// 	has: boolean;
-// }
-
-// export interface AttributePrereq extends Prereq {
-// 	which: string;
-// 	combined_with?: string;
-// 	qualifier: NumberCompare;
-// }
-
-// export interface TraitPrereq extends Prereq {
-// 	name?: StringCompare;
-// 	level?: NumberCompare;
-// 	notes?: StringCompare;
-// }
-
-// export interface SkillPrereq extends Prereq {
-// 	name?: StringCompare;
-// 	level?: NumberCompare;
-// 	specialization?: StringCompare;
-// }
-
-// export interface SpellPrereq extends Prereq {
-// 	sub_type: SpellPrereqSubType;
-// 	qualifier?: StringCompare;
-// 	quantity?: NumberCompare;
-// }
-
-// export interface ContainedWeightPrereq extends Prereq {
-// 	qualifier: StringCompare;
-// }
-
-// export interface ContainedQuantityPrereq extends Prereq {
-// 	qualifier: NumberCompare;
-// }
-
-// Feature
-export const FeatureType = [
-	"attribute_bonus",
-	"dr_bonus",
-	"reaction_bonus",
-	"conditional_modifier",
-	"skill_bonus",
-	"skill_point_bonus",
-	"spell_bonus",
-	"spell_point_bonus",
-	"weapon_bonus",
-] as const;
-export type FeatureType = typeof FeatureType[number];
-
-export interface Feature {
-	type: FeatureType;
-	per_level: boolean;
-}
-
-export interface AttributeBonus extends Feature {
-	attribute: string;
-	limitation?: StrengthBonusLimitation;
-}
-
-export interface DRBonus extends Feature {
-	location: string;
-	specialization?: string;
-}
-
-export interface ReactionBonus extends Feature {
-	situation: string;
-}
-
-export interface ConditionalModifier extends Feature {
-	situation: string;
-}
-
-export interface SkillBonus extends Feature {
-	selection_type: SkillBonusSelectionType;
-	name?: StringCompare;
-	specialization?: StringCompare;
-	category?: StringCompare;
-}
-
-export interface SkillPointBonus extends Feature {
-	name?: StringCompare;
-	specialization?: StringCompare;
-	category?: StringCompare;
-}
-
-export interface SpellBonus extends Feature {
-	match: SpellBonusMatch;
-	name?: StringCompare;
-	category?: StringCompare;
-}
-
-export interface SpellPointBonus extends Feature {
-	match: SpellBonusMatch;
-	name?: StringCompare;
-	category?: StringCompare;
-}
-
-export interface WeaponBonus extends Feature {
-	selection_type: WeaponBonusSelectionType;
-	name?: StringCompare;
-	specialization?: StringCompare;
-	level?: NumberCompare;
-}
+export type NumberComparison =
+	| "none" // maybe not needed
+	| "is"
+	| "at_least"
+	| "at_most";
 
 // Weapon
 export const WeaponType = ["melee_weapon", "ranged_weapon"] as const;

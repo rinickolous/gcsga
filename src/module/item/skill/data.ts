@@ -1,5 +1,6 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { ObjArray, Weapon, Default, Feature } from "@module/data";
+import { ObjArray, Weapon, Default } from "@module/data";
+import { Feature } from "@module/feature";
 import { Prereq } from "@module/prereq";
 import { SkillGURPS } from ".";
 
@@ -26,7 +27,7 @@ export interface SkillSystemData extends ItemSystemData {
 	defaulted_from: any;
 	weapons: ObjArray<Weapon>;
 	defaults: ObjArray<Default>;
-	features: ObjArray<Feature>;
+	features: Feature[];
 	calc: {
 		level: number;
 		rsl: string;

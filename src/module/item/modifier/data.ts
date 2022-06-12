@@ -1,5 +1,5 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { Feature, ObjArray } from "@module/data";
+import { Feature } from "@module/feature";
 import { TraitModifierGURPS } from ".";
 
 export type TraitModifierSource = BaseItemSourceGURPS<"modifier", TraitModifierSystemData>;
@@ -19,5 +19,5 @@ export interface TraitModifierSystemData extends ItemSystemData {
 	cost: number;
 	levels: number;
 	affects: string;
-	features: ObjArray<Feature>;
+	features: Feature[];
 }

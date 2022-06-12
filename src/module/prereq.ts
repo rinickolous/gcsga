@@ -1,3 +1,5 @@
+import { NumberCompare, SpellPrereqSubType, StringCompare } from "./data";
+
 export type PrereqType =
 	| "prereq_list"
 	| "trait_prereq"
@@ -31,7 +33,7 @@ export class BasePrereq {
 				ready: true,
 			});
 			const PrereqConstructor = classes[data.type as PrereqType];
-			return PrereqConstructor ? new PrereqConstructor(data, context) : new BasePrereq(data, context);
+			return PrereqConstructor ? new PrereqConstructor(data as any, context) : new BasePrereq(data, context);
 		}
 	}
 
@@ -46,7 +48,6 @@ export class PrereqList extends BasePrereq {
 
 	constructor(data: Prereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
-		this.has = true;
 		this.all = (data as PrereqList).all ?? true;
 		this.prereqs = [];
 		if (!!(data as PrereqList).prereqs)
@@ -56,8 +57,24 @@ export class PrereqList extends BasePrereq {
 	}
 }
 
-export class TraitPrereq extends BasePrereq {}
-export class AttributePrereq extends BasePrereq {}
+export class TraitPrereq extends BasePrereq {
+	constructor(data: TraitPrereq, context: PrereqConstructionContext = {}) {
+		super(data, context);
+		this.has = data.has ?? true;
+		this.name = data.name ?? { compare: "is", qualifier: "" };
+		this.levels = data.levels ?? { compare: "none", qualifier: 0 };
+		this.notes = data.notes ?? { compare: "none", qualifier: "" };
+	}
+}
+export class AttributePrereq extends BasePrereq {
+	constructor(data: AttributePrereq, context: PrereqConstructionContext = {}) {
+		super(data, context);
+		this.has = data.has ?? true;
+		this.which = data.which ?? "";
+		this.combined_with = data.combined_with ?? "";
+		this.qualifier = data.qualifier ?? { compare: "at_least", qualifier: 10 };
+	}
+}
 export class ContainedWeightPrereq extends BasePrereq {}
 export class ContainedQuantityPrereq extends BasePrereq {}
 export class SkillPrereq extends BasePrereq {}
@@ -68,9 +85,36 @@ export interface BasePrereq {
 	has?: boolean;
 }
 
-export interface TraitPrereq extends BasePrereq {
+export interface PrereqList extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
+}
+
+export interface TraitPrereq extends BasePrereq {
+	name?: StringCompare;
+	levels?: NumberCompare;
+	notes?: StringCompare;
+}
+export interface AttributePrereq extends BasePrereq {
+	which?: string;
+	combined_with?: string;
+	qualifier?: NumberCompare;
+}
+export interface ContainedWeightPrereq extends BasePrereq {
+	quantity?: NumberCompare;
+}
+export interface ContainedQuantityPrereq extends BasePrereq {
+	quantity?: NumberCompare;
+}
+export interface SkillPrereq extends BasePrereq {
+	name?: StringCompare;
+	specialization?: StringCompare;
+	level?: NumberCompare;
+}
+export interface SpellPrereq extends BasePrereq {
+	quantity?: NumberCompare;
+	sub_type?: SpellPrereqSubType;
+	qualifier?: StringCompare;
 }
 
 const classes = {

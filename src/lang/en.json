@@ -1,6 +1,6 @@
 {
 	"gcsga": {
-		"sheet": {
+		"actor": {
 			"portrait": "Portrait",
 			"identity": "Identity",
 			"name": "Name",
@@ -144,7 +144,6 @@
 			"tags": "Tags",
 			"cr": "Self-Control Roll",
 			"container_type": "Container Type",
-			"reference": "Page Reference",
 			"ancestry": "Ancestry",
 			"reference": "Page Reference"
 		},
@@ -182,8 +181,14 @@
 				"all": {
 					"true": "requires all of:",
 					"false": "requires at least one of:"
+				},
+				"quantity": {
+					"is": "exactly",
+					"at_least": "at least",
+					"at_most": "at_most"
 				}
 			}
+	
 		}
 	}
 }

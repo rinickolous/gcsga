@@ -1,5 +1,6 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { CR, CRAdjustment, Feature, ObjArray, Weapon } from "@module/data";
+import { CR, CRAdjustment, ObjArray, Weapon } from "@module/data";
+import { Feature } from "@module/feature";
 import { Prereq } from "@module/prereq";
 import { TraitGURPS } from ".";
 
@@ -31,7 +32,7 @@ export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
 	};
 	cr: CR;
 	cr_adj: CRAdjustment;
-	features: ObjArray<Feature>;
+	features: Feature[];
 	weapons: ObjArray<Weapon>;
 	modifiers: Array<any>;
 }

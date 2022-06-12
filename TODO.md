@@ -32,3 +32,4 @@
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)
+- fix ObjArrays

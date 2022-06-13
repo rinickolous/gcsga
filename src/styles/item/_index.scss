@@ -1,4 +1,4 @@
-@import 'trait_container';
+@import "trait_container";
 
 .gcsga.item {
 	min-width: 600px;
@@ -7,7 +7,7 @@
 	}
 	#sheet {
 		background-color: rgb(var(--color-background));
-		color: rgb(var(--color-on-background))
+		color: rgb(var(--color-on-background));
 	}
 
 	// General Styles
@@ -33,14 +33,14 @@
 		&.no-stretch {
 			width: max-content;
 		}
-		input.input[type=text] {
+		input.input[type="text"] {
 			font: var(--font-field);
 			height: 24px;
 			width: 100%;
 			border-radius: 0px;
 			background-color: rgb(var(--color-editable));
 			color: rgb(var(--color-on-editable));
-			border: 1px solid rgba(var(--color-editable-border), );
+			border: 1px solid rgba(var(--color-editable-border));
 			&:focus {
 				box-shadow: none;
 				border: 2px solid rgb(var(--color-focused-editable-border));
@@ -64,7 +64,7 @@
 			grid-row-gap: 0px;
 			font: var(--font-system);
 		}
-		input.input[type=checkbox] {
+		input.input[type="checkbox"] {
 			appearance: none;
 			margin: 0;
 			background-color: rgb(var(--color-control));
@@ -85,7 +85,7 @@
 				width: 512px;
 				height: 512px;
 				opacity: 0;
-				transform: scale(calc(8/512), calc(7/512)) translate(0px, 18px);
+				transform: scale(calc(8 / 512), calc(7 / 512)) translate(0px, 18px);
 				background-color: rgb(var(--color-on-control));
 				clip-path: var(--shape-checkmark);
 			}
@@ -112,8 +112,7 @@
 
 	#details {
 		display: grid;
-		grid-template:
-			"label field";
+		grid-template: "label field";
 		grid-template-columns: max-content 1fr;
 		row-gap: 4px;
 		column-gap: 9px;

@@ -5,26 +5,32 @@
 		grid-area: auto;
 	}
 
-	.entry-parent:nth-child(12n+1),
-	.desc:nth-child(12n+2),
-	.level:nth-child(12n+3),
-	.rsl:nth-child(12n+4),
-	.points:nth-child(12n+5),
-	.reference:nth-child(12n+6) {
+	.entry-parent:nth-child(12n + 1),
+	.desc:nth-child(12n + 2),
+	.level:nth-child(12n + 3),
+	.rsl:nth-child(12n + 4),
+	.points:nth-child(12n + 5),
+	.reference:nth-child(12n + 6) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);
 		}
 	}
 
-	.dropdown, .desc, .level, .rsl, .points, .reference {
+	.dropdown,
+	.desc,
+	.level,
+	.rsl,
+	.points,
+	.reference {
 		&:not(.header) {
 			border-bottom: 1px solid rgba(var(--color-header), 1);
 			border-right: 1px solid rgba(var(--color-header), 1);
-			&.reference, &.dropdown {
+			&.reference,
+			&.dropdown {
 				border-right: none;
 			}
-			&:nth-last-child(-n+6) {
+			&:nth-last-child(-n + 6) {
 				border-bottom: none;
 			}
 		}

@@ -5,31 +5,42 @@
 		grid-area: auto;
 	}
 
-	.entry-parent:nth-child(22n+1),
-	.quantity:nth-child(22n+2),
-	.desc:nth-child(22n+3),
-	.uses:nth-child(22n+4),
-	.tech-level:nth-child(22n+5),
-	.legality-class:nth-child(22n+6),
-	.weight:nth-child(22n+7),
-	.value:nth-child(22n+8),
-	.extended-weight:nth-child(22n+9),
-	.extended-value:nth-child(22n+10),
-	.reference:nth-child(22n+11) {
+	.entry-parent:nth-child(22n + 1),
+	.quantity:nth-child(22n + 2),
+	.desc:nth-child(22n + 3),
+	.uses:nth-child(22n + 4),
+	.tech-level:nth-child(22n + 5),
+	.legality-class:nth-child(22n + 6),
+	.weight:nth-child(22n + 7),
+	.value:nth-child(22n + 8),
+	.extended-weight:nth-child(22n + 9),
+	.extended-value:nth-child(22n + 10),
+	.reference:nth-child(22n + 11) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);
 		}
 	}
 
-	.quantity, .dropdown, .desc, .uses, .tech-level, .legality-class, .weight, .value, .extended-weight, .extended-value, .reference {
+	.quantity,
+	.dropdown,
+	.desc,
+	.uses,
+	.tech-level,
+	.legality-class,
+	.weight,
+	.value,
+	.extended-weight,
+	.extended-value,
+	.reference {
 		&:not(.header) {
 			border-bottom: 1px solid rgba(var(--color-header), 1);
 			border-right: 1px solid rgba(var(--color-header), 1);
-			&.reference, &.dropdown {
+			&.reference,
+			&.dropdown {
 				border-right: none;
 			}
-			&:nth-last-child(-n+10) {
+			&:nth-last-child(-n + 10) {
 				border-bottom: none;
 			}
 		}

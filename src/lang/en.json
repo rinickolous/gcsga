@@ -1,7 +1,7 @@
 {
 	"gcsga": {
 		"actor": {
-			"portrait": "Portrait",
+			"portrait": "Portrato",
 			"identity": "Identity",
 			"name": "Name",
 			"title": "Title",
@@ -186,9 +186,20 @@
 					"is": "exactly",
 					"at_least": "at least",
 					"at_most": "at_most"
+				},
+				"has": {
+					"false": "doesn't have",
+					"true": "has"
+				},
+				"type": {
+					"trait_prereq": "a trait",
+					"attribute_prereq": "the attribute",
+					"contained_quantity_prereq": "a contained quantity of",
+					"contained_weight_prereq": "a contained weight",
+					"skill_prereq": "a skill",
+					"spell_prereq": "spell(b)"
 				}
 			}
-	
 		}
 	}
 }

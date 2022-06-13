@@ -1,7 +1,7 @@
 #personal {
 	grid-area: personal;
 	display: grid;
-	grid-template: 
+	grid-template:
 		"portrait identity miscellaneous points"
 		"portrait description description points";
 	grid-template-rows: 0fr;

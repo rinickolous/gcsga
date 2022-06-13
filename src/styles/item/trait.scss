@@ -4,7 +4,7 @@
 		color: rgba(var(--color-on-background), 1);
 	}
 	.field {
-		input.input[type=text] {
+		input.input[type="text"] {
 			height: 24px;
 			border-radius: 0px;
 			background-color: rgba(var(--color-editable), 1);
@@ -19,7 +19,7 @@
 				color: rgba(var(--color-on-editable), 1);
 			}
 		}
-		input.input[type=checkbox] {
+		input.input[type="checkbox"] {
 			appearance: none;
 			height: 140px;
 			width: 140px;
@@ -32,12 +32,12 @@
 				display: inline-block;
 				height: 140px;
 				width: 140px;
-				background: #DDD;
+				background: #ddd;
 			}
 		}
 		input.input:checked:before {
 			// background: url("systems/gcsga/assets/checkmark.svg") #FF0000;
-			background-color: #FF0000;
+			background-color: #ff0000;
 			clip-path: var(--shape-checkmark) rgba(var(--color-on-control), 1);
 		}
 	}

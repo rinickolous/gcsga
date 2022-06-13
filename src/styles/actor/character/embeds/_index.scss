@@ -1,5 +1,6 @@
 #embeds {
-	@import "reactions", "conditional_modifiers", "melee", "ranged", "traits", "skills", "spells", "equipment", "other_equipment", "notes";
+	@import "reactions", "conditional_modifiers", "melee", "ranged", "traits", "skills", "spells", "equipment",
+		"other_equipment", "notes";
 
 	display: grid;
 	grid-auto-columns: 1fr 1fr;
@@ -34,19 +35,33 @@
 			border-top: 2px dashed rgb(var(--color-drop-area));
 		}
 	}
-	
+
 	.desc.header {
 		white-space: nowrap;
 	}
 
-	.equipped, .header.reference, .header.weight, .header.value, .header.extended-weight, .header.extended-value {
+	.equipped,
+	.header.reference,
+	.header.weight,
+	.header.value,
+	.header.extended-weight,
+	.header.extended-value {
 		display: grid;
 		align-items: center;
 		grid-auto-flow: column;
 		gap: 1px;
 	}
 
-	.points, .level, .quantity, .uses, .tech-level, .legality-class, .weight, .value, .extended-weight, .extended-value {
+	.points,
+	.level,
+	.quantity,
+	.uses,
+	.tech-level,
+	.legality-class,
+	.weight,
+	.value,
+	.extended-weight,
+	.extended-value {
 		&:not(.header) {
 			text-align: right;
 		}

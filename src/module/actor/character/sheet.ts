@@ -48,6 +48,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
 		html.find(".item").on("dragleave", this._onDragLeave.bind(this));
 		html.find(".item").on("dragenter", this._onDragEnter.bind(this));
+		html.find(".item-list").on("dragenter", this._onDragListEnter.bind(this));
 
 		// html.find(".item").on("click", this._onItemSelect.bind(this));
 	}
@@ -114,7 +115,10 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	async _onDragEnter(event: Event) {
 		event.preventDefault();
-		// console.log(event, (event as DragEvent).dataTransfer);
+		console.log(event);
+		//@ts-ignore
+		const data = TextEditor.getDragEventData((event as any).originalEvent);
+		console.log(data);
 		// (event.currentTarget as HTMLElement).parentElement?.classList.add("drop-in");
 		const siblings = Array.prototype.slice.call((event.currentTarget as HTMLElement).parentElement?.children);
 		siblings.forEach((e) => e.classList.remove("drop-over"));
@@ -129,6 +133,10 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		// (event.currentTarget as HTMLElement).classList.remove("redline");
 		// (event.currentTarget as HTMLElement).closest(".item.desc")?.classList.remove("redline");
+	}
+
+	async _onDragListEnter(event: Event) {
+		event.preventDefault();
 	}
 
 	// async _onItemSelect(event: Event) {

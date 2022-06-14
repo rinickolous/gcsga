@@ -22,7 +22,6 @@ export class ActorSheetGURPS extends ActorSheet {
 	/** @override */
 	protected async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
 		if (!this.actor.isOwner) return false;
-
 		//@ts-ignore
 		const item = await ItemGURPS.implementation.fromDropData(data);
 		const itemData = item.toObject();

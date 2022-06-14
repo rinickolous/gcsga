@@ -10,7 +10,6 @@
 			{{selectOptions config.select.prereqs.all selected=this.all localize=true}}
 		</select>
 	{{else}}
-		<h3>{{name}}</h3>
 		<i class="remove">{{>svg shapes=(arr "--shape-trash")}}</i>
 		<select name="{{name}}.has" data-dtype="Boolean">
 			{{selectOptions config.select.prereqs.has selected=this.has localize=true}}

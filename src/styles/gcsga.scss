@@ -3,7 +3,7 @@
 /* This is your Sass entry file */
 /* ---------------------------- */
 
-@import 'fonts', 'actor', 'ui', 'packs', 'item', 'scene', 'settings', 'system', 'variables';
+@import "fonts", "actor", "ui", "packs", "item", "scene", "settings", "system", "variables";
 
 // form.container {
 // 	.items {
@@ -30,6 +30,9 @@
 	text-align: center;
 	white-space: nowrap;
 	align-items: baseline;
+	opacity: 1;
+	mask-image: none;
+	-webkit-mask-image: none;
 	svg {
 		height: 1em;
 	}
@@ -79,98 +82,4 @@
 			color: rgba(var(--color-on-background), 1);
 		}
 	}
-
 }
-
-input {
-	background: transparent;
-	border: none;
-}
-
-.name {
-	font-family: 'New Aster';
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 2.5em;
-	.first-letter {
-		font-size: 1.25em;
-	}
-}
-
-.tooltip {
-	position: relative;
-	display: inline-block;
-	.tooltiptext {
-		visibility: hidden;
-		background-color: rgba(var(--color-tooltip), 1);
-		color: rgba(var(--color-on-tooltip), 1);
-		text-align: left;
-		padding: 5px 5px;
-		border: 1px solid rgba(var(--color-on-tooltip), 1);
-		position: absolute;
-		z-index: 1;
-		top: 1.4em;
-		left: 100%;
-		margin-left: -120px;
-	}
-	&:hover .tooltiptext {
-		visibility: visible;
-	}
-}
-
-// #controls {
-// 	ol.control-tools > li {
-// 		background-color: rgba(var(--color-current-tab), 1);
-// 		color: rgba(var(--color-on-current-tab), 1);
-// 		border-color: rgba(var(--color-header), 1);
-// 		box-shadow: none;
-// 		&.active {
-// 			background-color: rgba(var(--color-focused-tab), 1);
-// 			color: rgba(var(--color-on-focused-tab), 1);
-// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
-// 			border-color: rgba(var(--color-header), 1);
-// 		}
-// 		&:hover {
-// 			background-color: rgba(var(--color-focused-tab), 1);
-// 			color: rgba(var(--color-on-focused-tab), 1);
-// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
-// 			border-color: rgba(var(--color-header), 1);
-// 		}
-// 		&.toggle {
-// 			background-color: rgba(var(--color-inactive-selection), 1);
-// 			color: rgba(var(--color-on-inactive-selection), 1);
-// 			&.active {
-// 				box-shadow: 0 0 10px rgba(var(--color-selection), 1);
-// 				background-color: rgba(var(--color-selection), 1);
-// 				color: rgba(var(--color-on-selection), 1);
-// 			}
-// 			&:hover {
-// 				box-shadow: 0 0 10px rgba(var(--color-selection), 1);
-// 				background-color: rgba(var(--color-selection), 1);
-// 				color: rgba(var(--color-on-selection), 1);
-// 			}
-// 		}
-// 	}
-// }
-
-// #navigation {
-// 	#nav-toggle {
-// 		background-color: rgba(var(--color-current-tab), 1);
-// 		color: rgba(var(--color-on-current-tab), 1);
-// 		&:hover {
-// 			background-color: rgba(var(--color-focused-tab), 1);
-// 			color: rgba(var(--color-on-focused-tab), 1);
-// 			text-shadow: none;
-// 		}
-// 	}
-// 	#scene-list .scene {
-// 		color: rgba(var(--color-on-current-tab), 1);
-// 		background-color: rgba(var(--color-current-tab), 1);
-// 		border-color: rgba(var(--color-header), 1);
-// 		&.view {
-// 			color: rgba(var(--color-on-focused-tab), 1);
-// 			background-color: rgba(var(--color-focused-tab), 1);
-// 			box-shadow: 0 0 10px rgba(var(--color-focused-tab), 1);
-// 		}
-// 	}
-// }

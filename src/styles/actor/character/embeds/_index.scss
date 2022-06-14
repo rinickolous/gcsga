@@ -17,10 +17,15 @@
 			"dropdown name"
 			"blank notes";
 		grid-template-columns: min-content auto;
-		box-sizing: border-box;
 		.dropdown {
 			min-width: 0.75em;
 			margin-right: 6px;
+		}
+		.name {
+			font: inherit;
+			background: transparent;
+			color: inherit;
+			grid-area: name;
 		}
 		.item-notes {
 			grid-area: notes;
@@ -32,6 +37,12 @@
 			min-width: 1em; //possibly unnecessary
 		}
 		&.drop-over {
+			&.desc {
+				border-top: none;
+				.name {
+					border-top: 2px dashed rgb(var(--color-drop-area));
+				}
+			}
 			border-top: 2px dashed rgb(var(--color-drop-area));
 		}
 	}

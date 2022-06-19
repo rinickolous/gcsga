@@ -28,6 +28,7 @@
 - conditions
 - damage calculator
 - charsheet style menu
+- mook generator with autocomplete from compendium
 ## Fixes
 - scale portrait based on height not width
 - functional svg in ChatMessage

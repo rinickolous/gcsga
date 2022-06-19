@@ -13,6 +13,7 @@ import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
 import { DisplayMode, Height, LengthUnits, ObjArray, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
 import { CharacterGURPS } from ".";
+import { Attribute, AttributeSetting } from "./attribute";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
@@ -147,42 +148,6 @@ export type DamageProgression =
 	| "thrust_equals_swing_minus_2"
 	| "swing_equals_thrust_plus_2"
 	| "phoenix_flame_d3";
-
-// ATTRIBUTES
-export interface Attribute {
-	attr_id: string;
-	adj: number;
-	damage?: number;
-	calc: {
-		value: number;
-		current?: number;
-		points: number;
-	};
-}
-
-export interface AttributeSetting {
-	id: string;
-	type: AttributeType;
-	name: string;
-	full_name: string;
-	attribute_base: string;
-	cost_per_point: number;
-	cost_adj_percent_per_sm: number;
-	thresholds?: Array<AttributeThreshold>;
-}
-
-export type AttributeType = "integer" | "decimal" | "pool";
-
-export interface AttributeThreshold {
-	state: string;
-	explanation: string;
-	multiplier: number;
-	divisor: number;
-	addition: number;
-	ops: Array<AttributeThresholdOperation>;
-}
-
-export type AttributeThresholdOperation = "halve_move" | "halve_dodge" | "halve_st";
 
 export class HitLocationTable {
 	constructor(data: HitLocationTable) {

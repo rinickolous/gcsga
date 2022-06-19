@@ -21,7 +21,8 @@ import { SYSTEM_NAME } from "@module/settings";
 import { Prereq, BasePrereq } from "@module/prereq";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
-import { Attribute, AttributeSetting, CharacterData, HitLocationTable, ImportedData } from "./data";
+import { CharacterData, HitLocationTable, ImportedData } from "./data";
+import { Attribute, AttributeSetting } from "./attribute";
 import { Feature, BaseFeature } from "@module/feature";
 
 export class CharacterImporter {
@@ -246,10 +247,10 @@ export class CharacterImporter {
 	importAttributes(attributes: Array<Attribute>) {
 		const atts: Record<string, Attribute> = {};
 		let points = 0;
-		for (const i of attributes) {
-			atts[i.attr_id] = i;
-			points += i.calc.points;
-		}
+		attributes.forEach((a) => {
+			atts[a.attr_id] = new Attribute(a);
+			points += a.calc.points;
+		});
 		return {
 			"data.attributes": atts,
 			"data.points.attributes": points,

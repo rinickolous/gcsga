@@ -2,12 +2,15 @@ import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/fo
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { SYSTEM_NAME } from "@module/settings";
+import { gid } from "@module/gid";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
+import { Attribute } from "./attribute";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
+	variableResolverExclusions: Map<string, boolean> = new Map();
 	static get schema(): typeof CharacterData {
 		return CharacterData;
 	}
@@ -119,6 +122,45 @@ export class CharacterGURPS extends ActorGURPS {
 				},
 			).render(true);
 		}, 200);
+	}
+
+	resolveVariable(variableName: string): string {
+		if (this.variableResolverExclusions.get(variableName)) {
+			console.warn(`Attempt to resolve variable via itself: $${variableName}`);
+			return "";
+		}
+		if (!this.variableResolverExclusions) this.variableResolverExclusions = new Map();
+		this.variableResolverExclusions.set(variableName, true);
+		if (gid.SizeModifier == variableName) return this.getData().profile.SM.signedString();
+		const parts = variableName.split("."); // TODO check
+		const attr = this.getData().attributes[parts[0]];
+		if (!attr) {
+			console.warn(`No such variable: $${variableName}`);
+			return "";
+		}
+		const def = this.getData().settings.attributes[attr.attr_id];
+		if (!def) {
+			console.warn(`No such variable definition: $${variableName}`);
+			return "";
+		}
+		if (def.type == "pool" && parts.length > 1) {
+			switch (parts[1]) {
+				case "current":
+					return attr.calc.current!.toString();
+				case "maximum":
+					return attr.calc.value.toString();
+				default:
+					console.warn(`No such variable: $${variableName}`);
+					return "";
+			}
+		}
+		this.variableResolverExclusions = new Map();
+		return attr.calc.value!.toString();
+	}
+
+	resolveAttributeDef(attrID: string): any {
+		if (this.getData().attributes[attrID]) this.variableResolverExclusions = new Map();
+		return new Attribute(this.getData().settings.attributes[attrID] as Attribute).BaseValue(this);
 	}
 }
 

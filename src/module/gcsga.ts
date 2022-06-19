@@ -44,6 +44,7 @@ import { TraitSheet } from "@item/trait/sheet";
 import { CharacterImporter } from "@actor/character/import";
 import { BasePrereq } from "@module/prereq";
 import { BaseFeature } from "@module/feature";
+import { Attribute } from "@actor/character/attribute";
 
 export const GURPS: any = {};
 //@ts-ignore
@@ -52,9 +53,10 @@ GURPS.DEBUG = true;
 GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
 GURPS.SJG_links = SJG_links;
 GURPS.CharacterImporter = CharacterImporter;
-GURPS.CONFIG = GURPSCONFIG;
+// GURPS.CONFIG = GURPSCONFIG;
 GURPS.Feature = BaseFeature;
 GURPS.Prereq = BasePrereq;
+GURPS.Attribute = Attribute;
 GURPS.BANNER = `
    __   ____   ____  ____    ____     _     __  
   / /  / ___| / ___|/ ___|  / ___|   / \\    \\ \\ 
@@ -72,12 +74,14 @@ Hooks.once("init", async () => {
 	$("#logo").attr("src", src);
 	$("#logo").attr("height", "32px");
 
+	//@ts-ignore
+	CONFIG.GURPS = GURPSCONFIG;
 	// Assign custom classes and constants here
 	//@ts-ignore
 	CONFIG.Item.documentClass = ItemGURPS;
 	CONFIG.Actor.documentClass = ActorGURPS;
 
-	(CONFIG as any).GURPS = GURPSCONFIG;
+	// (CONFIG as any).GURPS = GURPSCONFIG;
 	// CONFIG.GURPS = {
 	// 	Item: {
 	// 		documentClasses: {

@@ -1,4 +1,4 @@
-import { VariableResolver } from "@module/variable_resolver";
+import { VariableResolver, evaluateToNumber } from "@module/evaluator";
 
 export class Attribute {
 	id: string;
@@ -23,15 +23,36 @@ export class Attribute {
 		this.order = data.order;
 	}
 
-
 	get priamry() {
 		return this.attribute_base == parseFloat(this.attribute_base).toString();
 	}
 
-	get BaseValue() {
-		const vr = new VariableResolver();
-		return vr.evaluateToNumber(this.attribute_base);
+	BaseValue(k: any): number {
+		const vr = new VariableResolver(k);
+		console.log(this.attribute_base);
+		return evaluateToNumber(this.attribute_base, vr);
 	}
+}
+export interface Attribute {
+	attr_id: string;
+	adj: number;
+	damage?: number;
+	calc: {
+		value: number;
+		current?: number;
+		points: number;
+	};
+}
+
+export interface AttributeSetting {
+	id: string;
+	type: AttributeType;
+	name: string;
+	full_name: string;
+	attribute_base: string;
+	cost_per_point: number;
+	cost_adj_percent_per_sm: number;
+	thresholds?: Array<PoolThreshold>;
 }
 
 export type AttributeType = "integer" | "decimal" | "pool";

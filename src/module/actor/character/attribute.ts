@@ -23,9 +23,9 @@ export class Attribute {
 		this.order = data.order;
 	}
 
+
 	get priamry() {
-		//@ts-ignore
-		return this.attribute_base == parseFloat(this.attribute_base);
+		return this.attribute_base == parseFloat(this.attribute_base).toString();
 	}
 
 	get BaseValue() {

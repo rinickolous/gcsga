@@ -33,9 +33,8 @@ export class Operator {
 			start > 1 &&
 			expression.substring(start - 1, start) == "e"
 		) {
-			const ch = expression.split("").at(start - 2);
-			//@ts-ignore
-			if (!isNaN(ch) && !isNaN(parseFloat(ch))) return false;
+			const ch = expression.split("")[start - 2];
+			if (!isNaN(parseFloat(ch))) return false;
 		}
 		return matches;
 	}

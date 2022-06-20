@@ -6,7 +6,7 @@ import { gid } from "@module/gid";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
-import { Attribute } from "./attribute";
+import { Attribute, AttributeDef, AttributeSettingDef } from "./attribute";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
@@ -21,6 +21,42 @@ export class CharacterGURPS extends ActorGURPS {
 			// mergeObject(context, { gcsga: { initialized: true } });
 		}
 		super(data, context);
+	}
+
+	// Get Items
+	get traits() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "traits");
+	}
+
+	get skills() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "skills");
+	}
+
+	get spells() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "spells");
+	}
+
+	get equipment() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "equipment");
+	}
+
+	get carried_equipment() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "equipment" && !i.data.data.other);
+	}
+
+	get other_equipment() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "equipment" && i.data.data.other);
+	}
+
+	get notes() {
+		//@ts-ignore
+		return this.deepItems.filter((i) => i.section == "notes");
 	}
 
 	/** @override */
@@ -160,7 +196,9 @@ export class CharacterGURPS extends ActorGURPS {
 
 	resolveAttributeDef(attrID: string): any {
 		if (this.getData().attributes[attrID]) this.variableResolverExclusions = new Map();
-		return new Attribute(this.getData().settings.attributes[attrID] as Attribute).BaseValue(this);
+		return new Attribute(
+			this.getData().settings.attributes[attrID] as AttributeDef & AttributeSettingDef,
+		).BaseValue(this);
 	}
 }
 

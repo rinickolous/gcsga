@@ -8,10 +8,9 @@ export class Attribute {
 	attribute_base: string;
 	cost_per_point: number;
 	cost_adj_percent_per_sm: number;
-	thresholds: PoolThreshold[];
-	order: number;
+	thresholds?: PoolThreshold[];
 
-	constructor(data: Attribute) {
+	constructor(data: AttributeDef & AttributeSettingDef) {
 		this.id = data.id;
 		this.type = data.type;
 		this.name = data.name;
@@ -20,7 +19,6 @@ export class Attribute {
 		this.cost_per_point = data.cost_per_point;
 		this.cost_adj_percent_per_sm = data.cost_adj_percent_per_sm;
 		this.thresholds = data.thresholds;
-		this.order = data.order;
 	}
 
 	get priamry() {
@@ -29,11 +27,10 @@ export class Attribute {
 
 	BaseValue(k: any): number {
 		const vr = new VariableResolver(k);
-		console.log(this.attribute_base);
 		return evaluateToNumber(this.attribute_base, vr);
 	}
 }
-export interface Attribute {
+export interface AttributeDef {
 	attr_id: string;
 	adj: number;
 	damage?: number;
@@ -44,7 +41,7 @@ export interface Attribute {
 	};
 }
 
-export interface AttributeSetting {
+export interface AttributeSettingDef {
 	id: string;
 	type: AttributeType;
 	name: string;

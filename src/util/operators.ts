@@ -19,7 +19,6 @@ import {
 	power,
 	subtract,
 } from "@module/operator";
-import { fixedNum } from "@util/fixedNum";
 
 export function fixedOperators(dbzrz: boolean): Operator[] {
 	let eDivide: opFunction;
@@ -131,7 +130,6 @@ function fixedLessThanOrEqual(left: any, right: any): [any, Error | null] {
 }
 
 function fixedAdd(left: any, right: any): [any, Error | null] {
-	console.log(left, right);
 	let r = 0;
 	let [l, err] = fixedFrom(left);
 	if (!err) [r, err] = fixedFrom(right);
@@ -225,7 +223,7 @@ function fixedFrom(arg: any): [number, Error | null] {
 		case "number":
 			return [arg, null];
 		case "string":
-			return fixedNum.fromString(arg);
+			return [parseFloat(arg), null];
 		default:
 			return [0, new Error(`Not a number: ${arg}`)];
 	}

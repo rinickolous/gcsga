@@ -7,7 +7,8 @@ import { openPDF } from "@module/modules/pdfoundry";
 import { SYSTEM_NAME } from "@module/settings";
 import { dollarFormat, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
-import { Attribute, AttributeSetting, CharacterSystemData } from "./data";
+import { CharacterSystemData } from "./data";
+import { AttributeDef, AttributeSettingDef } from "./attribute";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
 	editing = false;
@@ -39,21 +40,19 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	/** @override */
-	activateListeners(html: JQuery<HTMLElement>): void {
-		super.activateListeners(html);
-		html.find(".dropdown-toggle").on("click", this._onCollapseToggle.bind(this));
-		html.find(".edit_lock").on("click", this._onEditToggle.bind(this));
-		html.find(".input.attr").on("change", this._onAttributeEdit.bind(this));
-		html.find(".reference").on("click", this._handlePDF.bind(this));
-		html.find(".item").on("dblclick", this._openItemSheet.bind(this));
-		html.find(".item").on("dragleave", this._onDragLeave.bind(this));
-		html.find(".item").on("dragenter", this._onDragEnter.bind(this));
-		html.find(".item-list").on("dragenter", this._onDragListEnter.bind(this));
-
-		// html.find(".item").on("click", this._onItemSelect.bind(this));
+	activateListeners($html: JQuery): void {
+		super.activateListeners($html);
+		$html.find(".dropdown-toggle").on("click", (event) => this._onCollapseToggle(event));
+		$html.find(".edit_lock").on("click", (event) => this._onEditToggle(event));
+		$html.find(".input.attr").on("change", (event) => this._onAttributeEdit(event));
+		$html.find(".reference").on("click", (event) => this._handlePDF(event));
+		$html.find(".item").on("dblclick", (event) => this._openItemSheet(event));
+		$html.find(".item").on("dragleave", (event) => this._onDragLeave(event));
+		$html.find(".item").on("dragenter", (event) => this._onDragEnter(event));
+		$html.find(".item-list").on("dragenter", (event) => this._onDragListEnter(event));
 	}
 
-	async _onCollapseToggle(event: Event) {
+	async _onCollapseToggle(event: JQuery.ClickEvent) {
 		event.preventDefault();
 		//@ts-ignore
 		const id: string = $(event.currentTarget).data("item-id");
@@ -65,7 +64,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return item.update({ _id: id, "data.open": open });
 	}
 
-	async _onEditToggle(event: Event) {
+	async _onEditToggle(event: JQuery.ClickEvent) {
 		event.preventDefault();
 		this.editing = !this.editing;
 		//@ts-ignore
@@ -74,7 +73,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return this.render();
 	}
 
-	async _onAttributeEdit(event: Event) {
+	async _onAttributeEdit(event: JQuery.ChangeEvent) {
 		event.preventDefault();
 		// @ts-ignore
 		const id = $(event.currentTarget).attr("data-id") || "";
@@ -87,7 +86,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	//TODO: inactive-select children
 	async _onItemSelect(event: Event) {
 		event.preventDefault();
-		console.log(event);
 		//@ts-ignore
 		const id: string = $(event.currentTarget).data("item-id") || "";
 		//@ts-ignore
@@ -104,7 +102,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		this.prevEvent = event;
 	}
 
-	async _openItemSheet(event: Event) {
+	async _openItemSheet(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
 		//@ts-ignore
 		const id: string = $(event.currentTarget).data("item-id") || "";
@@ -113,12 +111,10 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		item.sheet?.render(true);
 	}
 
-	async _onDragEnter(event: Event) {
+	async _onDragEnter(event: JQuery.DragEnterEvent) {
 		event.preventDefault();
-		console.log(event);
 		//@ts-ignore
 		const data = TextEditor.getDragEventData((event as any).originalEvent);
-		console.log(data);
 		// (event.currentTarget as HTMLElement).parentElement?.classList.add("drop-in");
 		const siblings = Array.prototype.slice.call((event.currentTarget as HTMLElement).parentElement?.children);
 		siblings.forEach((e) => e.classList.remove("drop-over"));
@@ -129,13 +125,13 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		// (event.currentTarget as HTMLElement).closest(".ite")?.classList.add("redline");
 	}
 
-	async _onDragLeave(event: Event) {
+	async _onDragLeave(event: JQuery.DragLeaveEvent) {
 		event.preventDefault();
 		// (event.currentTarget as HTMLElement).classList.remove("redline");
 		// (event.currentTarget as HTMLElement).closest(".item.desc")?.classList.remove("redline");
 	}
 
-	async _onDragListEnter(event: Event) {
+	async _onDragListEnter(event: JQuery.DragEnterEvent) {
 		event.preventDefault();
 	}
 
@@ -182,17 +178,11 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	// 	this.render();
 	// }
 
-	async _handlePDF(event: Event) {
+	async _handlePDF(event: JQuery.ClickEvent) {
 		event.preventDefault();
 		//@ts-ignore
 		const pdf = $(event.currentTarget).text();
 		if (!!pdf) return openPDF(pdf);
-	}
-
-	async _getItem(event: Event) {
-		event.preventDefault();
-		//@ts-ignore
-		const id = $(event.currentTarget)?.attr("data-id") || "";
 	}
 
 	/**
@@ -259,8 +249,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			current: number | undefined;
 			state: Record<string, unknown>;
 		}[] = [];
-		Object.entries(data.attributes).forEach(([k, e]: [string, Attribute]) => {
-			const f: AttributeSetting = data.settings.attributes[k];
+		Object.entries(data.attributes).forEach(([k, e]: [string, AttributeDef]) => {
+			const f: AttributeSettingDef = data.settings.attributes[k];
 			if (f.type === "pool") {
 				let state = {};
 				if (f.thresholds?.length) {

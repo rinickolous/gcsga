@@ -1,5 +1,4 @@
 import { Evaluator } from "@module/evaluator";
-import { fixedNum } from "@util/fixedNum";
 
 type eFunction = (evaluator: Evaluator | null, options: string) => [any, Error];
 
@@ -151,7 +150,7 @@ function fixedFrom(arg: any): [number, Error | null] {
 		case "number":
 			return [arg, null];
 		case "string":
-			return fixedNum.fromString(arg);
+			return [parseFloat(arg), null];
 		default:
 			return [0, new Error(`Not a number: ${arg}`)];
 	}

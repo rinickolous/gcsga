@@ -22,7 +22,7 @@ import { Prereq, BasePrereq } from "@module/prereq";
 import { getPointTotal, i18n, i18n_f, sheetSection } from "@util";
 import { CharacterGURPS } from ".";
 import { CharacterData, HitLocationTable, ImportedData } from "./data";
-import { Attribute, AttributeSetting } from "./attribute";
+import { AttributeDef, AttributeSettingDef } from "./attribute";
 import { Feature, BaseFeature } from "@module/feature";
 
 export class CharacterImporter {
@@ -44,7 +44,7 @@ export class CharacterImporter {
 		let r: ImportedData;
 		const msg: string[] = [];
 		try {
-			r = JSON.parse(await json);
+			r = JSON.parse(json);
 		} catch (err) {
 			msg.push(i18n("gcsga.actor.import.no_json_detected"));
 			return this.throwImportError(msg);
@@ -216,7 +216,7 @@ export class CharacterImporter {
 	}
 
 	importSettings(settings: ImportedData["settings"]) {
-		const attributes: Record<string, AttributeSetting> = {};
+		const attributes: Record<string, AttributeSettingDef> = {};
 		for (const att of settings.attributes) {
 			attributes[att.id] = att;
 		}
@@ -244,11 +244,11 @@ export class CharacterImporter {
 		};
 	}
 
-	importAttributes(attributes: Array<Attribute>) {
-		const atts: Record<string, Attribute> = {};
+	importAttributes(attributes: Array<AttributeDef>) {
+		const atts: Record<string, AttributeDef> = {};
 		let points = 0;
 		attributes.forEach((a) => {
-			atts[a.attr_id] = new Attribute(a);
+			atts[a.attr_id] = a as AttributeDef;
 			points += a.calc.points;
 		});
 		return {

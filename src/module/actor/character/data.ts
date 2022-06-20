@@ -13,7 +13,7 @@ import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
 import { DisplayMode, Height, LengthUnits, ObjArray, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
 import { CharacterGURPS } from ".";
-import { Attribute, AttributeSetting } from "./attribute";
+import { AttributeDef, AttributeSettingDef } from "./attribute";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
@@ -42,15 +42,15 @@ export interface CharacterSystemData extends ActorSystemData {
 	created_date: string;
 	modified_date: string;
 	profile: CharacterProfile;
-	attributes: Record<string, Attribute>;
+	attributes: Record<string, AttributeDef>;
 	points: CharacterPoints;
 	calc: CharacterCalc;
 }
 
 export interface ImportedData extends Omit<CharacterSystemData, "attributes" | "settings"> {
 	total_points: number;
-	attributes: Array<Attribute>;
-	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<AttributeSetting> };
+	attributes: Array<AttributeDef>;
+	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<AttributeSettingDef> };
 	traits: Array<TraitContainerSystemData | TraitSystemData>;
 	skills: Array<SkillContainerSystemData | SkillSystemData | TechniqueSystemData>;
 	spells: Array<SpellContainerSystemData | SpellSystemData | RitualMagicSpellSystemData>;
@@ -91,7 +91,7 @@ export interface CharacterSettings {
 		orientation: string;
 	};
 	block_layout: Array<string>;
-	attributes: Record<string, AttributeSetting>;
+	attributes: Record<string, AttributeSettingDef>;
 	hit_locations: HitLocationTable;
 }
 

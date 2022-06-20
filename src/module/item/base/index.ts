@@ -155,6 +155,20 @@ export class ItemGURPS extends Item {
 	// 	}
 	// }
 
+	get section(): string {
+		const sections = {
+			traits: ["trait", "trait_container"],
+			skills: ["skill", "technique", "skill_container"],
+			spells: ["spell", "ritual_magic_spell", "spell_container"],
+			equipment: ["equipment", "equipment_container"],
+			notes: ["note", "note_container"],
+		};
+		for (const [k, v] of Object.entries(sections)) {
+			if (v.includes(this.type)) return k;
+		}
+		return "error";
+	}
+
 	sameSection(compare: ItemGURPS): boolean {
 		const traits = ["trait", "trait_container"];
 		const skills = ["skill", "technique", "skill_container"];

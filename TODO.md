@@ -16,12 +16,13 @@
 - "unsatisfied prerequisite" warning functionality
 - item sort alphabetically based on header
 - overlay hex
+- de-golangify evaluator
 ## Large Features
 - Item import
 - modifier parsing
 - weapons
 - prereqs
-- attribute logic
+- attribute logic (base done)
 - feature functions
 - vehicles
 - Mass Combat elements

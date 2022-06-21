@@ -11,7 +11,7 @@ import { CharacterSystemData } from "./data";
 import { AttributeDef, AttributeSettingDef } from "./attribute";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
-	editing = false;
+	editing = true;
 	selection = {
 		active: "none",
 		traits: [] as any[],
@@ -306,20 +306,20 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			enc.push({
 				active: this.isActiveEncumbrance(data, bl * enc_multiplier[i]),
 				level: `gcsga.actor.encumbrance.levels.${i}`,
-				max_load: `${bl * enc_multiplier[i]} ${unit}`,
+				max_load: `${Math.round(bl * enc_multiplier[i] * 10) / 10} ${unit}`,
 				move: data.calc.move[i],
 				dodge: data.calc.dodge[i],
 			});
 		}
 
 		const lifts = {
-			basic_lift: `${bl * lifts_multiplier[0]} ${unit}`,
-			one_handed_lift: `${bl * lifts_multiplier[1]} ${unit}`,
-			two_handed_lift: `${bl * lifts_multiplier[2]} ${unit}`,
-			shove: `${bl * lifts_multiplier[3]} ${unit}`,
-			running_shove: `${bl * lifts_multiplier[4]} ${unit}`,
-			carry_on_back: `${bl * lifts_multiplier[5]} ${unit}`,
-			shift_slightly: `${bl * lifts_multiplier[6]} ${unit}`,
+			basic_lift: `${Math.round(bl * lifts_multiplier[0] * 10) / 10} ${unit}`,
+			one_handed_lift: `${Math.round(bl * lifts_multiplier[1] * 10) / 10} ${unit}`,
+			two_handed_lift: `${Math.round(bl * lifts_multiplier[2] * 10) / 10} ${unit}`,
+			shove: `${Math.round(bl * lifts_multiplier[3] * 10) / 10} ${unit}`,
+			running_shove: `${Math.round(bl * lifts_multiplier[4] * 10) / 10} ${unit}`,
+			carry_on_back: `${Math.round(bl * lifts_multiplier[5] * 10) / 10} ${unit}`,
+			shift_slightly: `${Math.round(bl * lifts_multiplier[6] * 10) / 10} ${unit}`,
 		};
 
 		return [enc, lifts];

@@ -1,4 +1,7 @@
-import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	DocumentModificationOptions,
+	Metadata,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { SYSTEM_NAME } from "@module/settings";
@@ -7,6 +10,7 @@ import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
 import { Attribute, AttributeDef, AttributeSettingDef } from "./attribute";
+import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
@@ -21,6 +25,18 @@ export class CharacterGURPS extends ActorGURPS {
 			// mergeObject(context, { gcsga: { initialized: true } });
 		}
 		super(data, context);
+	}
+
+	get settings() {
+		return this.data.data.settings;
+	}
+
+	get attributes() {
+		return this.data.data.attributes;
+	}
+
+	get calc() {
+		return this.data.data.calc;
 	}
 
 	// Get Items
@@ -60,6 +76,21 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	/** @override */
+	protected _preUpdate(
+		changed: DeepPartial<ActorDataConstructorData>,
+		options: DocumentModificationOptions,
+		user: BaseUser,
+	): Promise<void> {
+		console.log(changed, options);
+		if ((changed.data as any).attributes)
+			for (let [k, v] of Object.entries((changed.data as any).attributes)) {
+				(v as any).adj = (v as any).calc.value - this.resolveAttributeDef(k);
+				console.log(v);
+			}
+		return super._preUpdate(changed, options, user);
+	}
+
+	/** @override */
 	update(
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
@@ -80,6 +111,14 @@ export class CharacterGURPS extends ActorGURPS {
 	/** @override */
 	prepareDerivedData() {
 		super.prepareDerivedData();
+		console.log(this.traits);
+		if (this.attributes)
+			for (const [k, a] of Object.entries(this.attributes)) {
+				a.calc.value = this.resolveAttributeDef(k) + a.adj;
+				a.calc.points = a.adj * this.settings.attributes[k].cost_per_point;
+			}
+		const st = this.attributes.st.calc.value;
+		this.calc.basic_lift = `${st >= Math.sqrt(50) ? Math.round(st ** 2 / 5) : st ** 2 / 5} lb`;
 	}
 
 	/** @override */
@@ -195,10 +234,11 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	resolveAttributeDef(attrID: string): any {
-		if (this.getData().attributes[attrID]) this.variableResolverExclusions = new Map();
-		return new Attribute(
-			this.getData().settings.attributes[attrID] as AttributeDef & AttributeSettingDef,
-		).BaseValue(this);
+		const systemData = this.data.data;
+		if (systemData.attributes[attrID]) this.variableResolverExclusions = new Map();
+		return new Attribute(systemData.settings.attributes[attrID] as AttributeDef & AttributeSettingDef).BaseValue(
+			this,
+		);
 	}
 }
 

@@ -23,6 +23,8 @@
 - prereqs
 - attribute logic (base done)
 - feature functions
+	- callable feature stack
+	- function to filter feature stack by feature type and details (e.g. attribute name)
 - vehicles
 - Mass Combat elements
 - conditions

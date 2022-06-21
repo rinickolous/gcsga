@@ -66,7 +66,7 @@ interface expressionTreeDef {
 	unaryOp?: Operator | null;
 }
 
-type eFunction = (evaluator: Evaluator | null, options: string) => [any, Error];
+type eFunction = (evaluator: Evaluator | null, options: string) => any;
 
 class parsedFunction {
 	constructor(data?: parsedFunctionDef) {
@@ -103,8 +103,10 @@ export class VariableResolver {
 }
 
 export function evaluateToNumber(expression: string, resolver: VariableResolver): number {
-	const [result, err] = new Evaluator({ resolver: resolver }).evaluate(expression);
-	if (err) {
+	let result = 0;
+	try {
+		result = new Evaluator({ resolver: resolver }).evaluate(expression);
+	} catch (err) {
 		console.error(err, `Unable to resolve ${expression}`);
 		return 0;
 	}
@@ -139,9 +141,8 @@ export class Evaluator {
 		return this;
 	}
 
-	evaluate(expression: string): [any, Error | null] {
-		const err = this.parse(expression);
-		if (err) return [null, err];
+	evaluate(expression: string): any {
+		this.parse(expression);
 		while (this.operatorStack.length != 0) {
 			this.processTree();
 		}
@@ -149,7 +150,7 @@ export class Evaluator {
 		return this.evaluateOperand(this.operandStack[this.operandStack.length - 1]);
 	}
 
-	evaluateNew(expression: string): [any, Error | null] {
+	evaluateNew(expression: string): any {
 		const other = new Evaluator({
 			resolver: this.resolver,
 			operators: this.operators,
@@ -158,7 +159,7 @@ export class Evaluator {
 		return other.evaluate(expression);
 	}
 
-	parse(expression: string): Error | null {
+	parse(expression: string): void {
 		let unaryOp: Operator | null = null;
 		let haveOperand = false;
 		let haveOperator = false;
@@ -173,9 +174,7 @@ export class Evaluator {
 			}
 			const [opIndex, op] = this.nextOperator(expression, i, null);
 			if (opIndex > i || opIndex == -1) {
-				let err: Error | null;
-				[i, err] = this.processOperand(expression, i, opIndex, unaryOp);
-				if (err) return err;
+				i = this.processOperand(expression, i, opIndex, unaryOp);
 				haveOperand = true;
 				haveOperator = false;
 				unaryOp = null;
@@ -183,12 +182,10 @@ export class Evaluator {
 			if (opIndex == i) {
 				if (op && op.evaluateUnary && (haveOperator || i == 0)) {
 					i = opIndex + op.symbol.length;
-					if (!unaryOp) return new Error(`Consecutive unary operators are not allowed at index ${i}`);
+					if (!unaryOp) throw new Error(`Consecutive unary operators are not allowed at index ${i}`);
 					unaryOp = op;
 				} else {
-					let err: Error | null;
-					[i, err] = this.processOperator(expression, opIndex, op, haveOperand, unaryOp);
-					if (err) return err;
+					i = this.processOperator(expression, opIndex, op, haveOperand, unaryOp);
 					unaryOp = null;
 				}
 				if (!op || op.symbol != ")") {
@@ -197,7 +194,6 @@ export class Evaluator {
 				}
 			}
 		}
-		return null;
 	}
 
 	nextOperator(expression: string, start: number, match: Operator | null): [number, Operator | null] {
@@ -213,22 +209,17 @@ export class Evaluator {
 		return [-1, null];
 	}
 
-	processOperand(
-		expression: string,
-		start: number,
-		opIndex: number,
-		unaryOp: Operator | null,
-	): [number, Error | null] {
+	processOperand(expression: string, start: number, opIndex: number, unaryOp: Operator | null): number {
 		if (opIndex == -1) {
 			const text = expression.substring(start).trim();
-			if (text == "") return [-1, new Error(`Expression is invalid at index ${start}`)];
+			if (text == "") throw new Error(`Expression is invalid at index ${start}`);
 			this.operandStack.push(new expressionOperand({ value: text, unaryOp: unaryOp }));
-			return [expression.length, null];
+			return expression.length;
 		}
 		const text = expression.substring(start, opIndex).trim();
-		if (text == "") return [-1, new Error(`Expression is invalid at index ${start}`)];
+		if (text == "") throw new Error(`Expression is invalid at index ${start}`);
 		this.operandStack.push(new expressionOperand({ value: text, unaryOp: unaryOp }));
-		return [opIndex, null];
+		return opIndex;
 	}
 
 	processOperator(
@@ -237,15 +228,13 @@ export class Evaluator {
 		op: Operator | null,
 		haveOperand: boolean,
 		unaryOp: Operator | null,
-	): [number, Error | null] {
+	): number {
 		if (haveOperand && op && op.symbol == "(") {
-			let err: Error | null;
-			[index, op, err] = this.processFunction(expression, index);
-			if (err) return [-1, err];
+			[index, op] = this.processFunction(expression, index);
 			index += op?.symbol.length || 0;
 			let tmp: number;
 			[tmp, op] = this.nextOperator(expression, index, null);
-			if (!op) return [index, null];
+			if (!op) return index;
 			index = tmp;
 		}
 		let stackOp: expressionOperator | null = null;
@@ -260,9 +249,9 @@ export class Evaluator {
 					if (this.operatorStack.length > 0) stackOp = this.operatorStack[this.operatorStack.length - 1];
 					else stackOp = null;
 				}
-				if (this.operatorStack.length == 0) return [-1, new Error(`Invalid expression at index ${index}`)];
+				if (this.operatorStack.length == 0) throw new Error(`Invalid expression at index ${index}`);
 				stackOp = this.operatorStack[this.operatorStack.length - 1];
-				if (stackOp.op?.symbol != "(") return [-1, new Error(`Invalid expression at index ${index}`)];
+				if (stackOp.op?.symbol != "(") throw new Error(`Invalid expression at index ${index}`);
 				this.operatorStack.pop();
 				if (!stackOp?.unaryOp) {
 					const left = this.operandStack[this.operandStack.length - 1];
@@ -287,16 +276,16 @@ export class Evaluator {
 				}
 				this.operatorStack.push(new expressionOperator({ op: op, unaryOp: unaryOp }));
 		}
-		return [index + op!.symbol.length, null];
+		return index + op!.symbol.length;
 	}
 
-	processFunction(expression: string, opIndex: number): [number, Operator | null, Error | null] {
+	processFunction(expression: string, opIndex: number): [number, Operator | null] {
 		let op: Operator | null = null;
 		let parens = 1;
 		let next = opIndex;
 		while (parens > 0) {
 			[next, op] = this.nextOperator(expression, next + 1, null);
-			if (!op) return [-1, null, new Error(`Function not closed at index ${opIndex}`)];
+			if (!op) throw new Error(`Function not closed at index ${opIndex}`);
 			switch (op.symbol) {
 				case "(":
 					parens++;
@@ -306,12 +295,12 @@ export class Evaluator {
 					break;
 			}
 		}
-		if (this.operandStack.length == 0) return [-1, null, new Error(`Invalid stack at index ${next}`)];
+		if (this.operandStack.length == 0) throw new Error(`Invalid stack at index ${next}`);
 		const operand = this.operandStack[this.operandStack.length - 1] as expressionOperand;
-		if (!operand) return [-1, null, new Error(`Unexpected operand stack value at index ${next}`)];
+		if (!operand) throw new Error(`Unexpected operand stack value at index ${next}`);
 		this.operandStack.pop();
 		const f = this.functions.get(operand.value);
-		if (!f) return [-1, null, new Error(`Function not defined: ${operand.value}`)];
+		if (!f) throw new Error(`Function not defined: ${operand.value}`);
 		this.operandStack.push(
 			new parsedFunction({
 				function: f,
@@ -319,7 +308,7 @@ export class Evaluator {
 				unaryOp: operand.unaryOp,
 			}),
 		);
-		return [next, op, null];
+		return [next, op];
 	}
 
 	processTree() {
@@ -337,54 +326,61 @@ export class Evaluator {
 		);
 	}
 
-	evaluateOperand(operand: any): [any, Error | null] {
+	evaluateOperand(operand: any): any {
 		if (operand instanceof expressionTree) {
-			let [left, err] = operand.evaluator?.evaluateOperand(operand.left);
-			if (err) return [null, err];
-			let right: any;
-			[right, err] = operand.evaluator?.evaluateOperand(operand.right);
-			if (err) return [null, err];
+			let left, right;
+			try {
+				left = operand.evaluator?.evaluateOperand(operand.left);
+				right = operand.evaluator?.evaluateOperand(operand.right);
+			} catch (err) {
+				console.error(err);
+				return null;
+			}
 			if (operand.left && operand.right) {
-				if (!operand.op?.evaluate) return [null, new Error(`Operator does ot have Evaluate function defined`)];
+				if (!operand.op?.evaluate) throw new Error(`Operator does ot have Evaluate function defined`);
 				let v: any;
-				[v, err] = operand.op.evaluate(left, right);
-				if (err) return [null, err];
+				try {
+					v = operand.op.evaluate(left, right);
+				} catch (err) {
+					console.error(err);
+					return null;
+				}
 				if (operand.unaryOp && operand.unaryOp.evaluateUnary) return operand.unaryOp.evaluateUnary(v);
-				return [v, null];
+				return v;
 			}
 			let v: any;
 			if (!operand.right) v = left;
 			else v = right;
 			if (v) {
-				if (operand.unaryOp && operand.unaryOp.evaluateUnary) [v, err] = operand.unaryOp.evaluateUnary(v);
-				else if (operand.op && operand.op.evaluateUnary) [v, err] = operand.op.evaluateUnary(v);
-				if (err) return [null, err];
+				try {
+					if (operand.unaryOp && operand.unaryOp.evaluateUnary) v = operand.unaryOp.evaluateUnary(v);
+					else if (operand.op && operand.op.evaluateUnary) v = operand.op.evaluateUnary(v);
+				} catch (err) {
+					console.error(err);
+					return null;
+				}
 			}
-			if (!v) return [null, new Error(`Expression is invalid`)];
-			return [v, null];
+			if (!v) throw new Error(`Expression is invalid`);
+			return v;
 		} else if (operand instanceof expressionOperand) {
-			const [v, err] = this.replaceVariables(operand.value);
-			if (err) return [null, err];
+			const v = this.replaceVariables(operand.value);
 			if (operand.unaryOp && operand.unaryOp.evaluateUnary) return operand.unaryOp.evaluateUnary(v);
-			return [v, null];
+			return v;
 		} else if (operand instanceof parsedFunction) {
-			let [s, err] = this.replaceVariables(operand.args);
-			if (err) return [null, err];
-			let v: any;
-			[v, err] = operand.function(this, s);
-			if (err) return [null, err];
+			const s = this.replaceVariables(operand.args);
+			const v = operand.function(this, s);
 			if (operand.unaryOp && operand.unaryOp.evaluateUnary) return operand.unaryOp.evaluateUnary(v);
-			return [v, null];
+			return v;
 		} else {
-			if (operand) return [null, new Error(`Invalid expression`)];
-			return [null, null];
+			if (operand) throw new Error(`Invalid expression`);
+			return null;
 		}
 	}
 
-	replaceVariables(expression: string): [string, Error | null] {
+	replaceVariables(expression: string): string {
 		let dollar = expression.indexOf("$");
-		if (dollar == -1) return [expression, null];
-		if (!this.resolver) return ["", new Error(`No variable resolver, yet variables present at index ${dollar}`)];
+		if (dollar == -1) return expression;
+		if (!this.resolver) throw new Error(`No variable resolver, yet variables present at index ${dollar}`);
 		while (dollar >= 0) {
 			let last = dollar;
 			for (let i = 0; i < expression.substring(dollar + 1).split("").length; i++) {
@@ -392,10 +388,10 @@ export class Evaluator {
 				if (ch.match("[a-zA-Z.#_]") || (i != 0 && ch.match("[0-9]"))) last = dollar + 1 + i;
 				else break;
 			}
-			if (dollar == last) return ["", new Error(`Invalid variable at index ${dollar}`)];
+			if (dollar == last) throw new Error(`Invalid variable at index ${dollar}`);
 			const name = expression.substring(dollar + 1, last + 1);
 			const v = this.resolver.resolveVariable(name);
-			if (v.trim() == "") return ["", new Error(`Unable to resolve variable $${name}`)];
+			if (v.trim() == "") throw new Error(`Unable to resolve variable $${name}`);
 			let buffer = "";
 			if (dollar > 0) buffer += expression.substring(0, dollar);
 			buffer += v;
@@ -403,6 +399,6 @@ export class Evaluator {
 			expression = buffer;
 			dollar = expression.indexOf("$");
 		}
-		return [expression, null];
+		return expression;
 	}
 }

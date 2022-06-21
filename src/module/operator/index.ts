@@ -1,6 +1,6 @@
-export type opFunction = (left: any, right: any) => [any, Error | null];
+export type opFunction = (left: any, right: any) => any;
 
-export type unaryOpFunction = (arg: any) => [any, Error | null];
+export type unaryOpFunction = (arg: any) => any;
 
 export interface OperatorDef {
 	symbol: string;

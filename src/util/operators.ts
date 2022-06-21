@@ -52,179 +52,187 @@ export function fixedOperators(dbzrz: boolean): Operator[] {
 	];
 }
 
-function fixedNot(arg: any): [any, Error | null] {
+function fixedNot(arg: any): any {
 	const b = Boolean(arg);
-	if (typeof b == "boolean") return [!b, null];
-	const [v, err] = fixedFrom(arg);
-	if (err) return [null, err];
-	if (v == 0) return [true, null];
-	return [false, null];
+	if (typeof b == "boolean") return !b;
+	const v = fixedFrom(arg);
+	if (v == 0) return true;
+	return false;
 }
 
-function fixedLogicalOr(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
-	if (l != 0) return [true, null];
+function fixedLogicalOr(left: any, right: any): any {
+	let l = fixedFrom(left);
+	if (l != 0) return true;
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	return [r != 0, null];
+	r = fixedFrom(right);
+	return r != 0;
 }
 
-function fixedLogicalAnd(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
-	if (l == 0) return [false, null];
+function fixedLogicalAnd(left: any, right: any): any {
+	let l = fixedFrom(left);
+	if (l == 0) return false;
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	return [r != 0, null];
+	r = fixedFrom(right);
+	return r != 0;
 }
 
-function fixedEqual(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() == r.toString(), null];
-	return [l == r, null];
+function fixedEqual(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() == right.toString();
+	}
+	return l == r;
 }
 
-function fixedNotEqual(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() != r.toString(), null];
-	return [l != r, null];
+function fixedNotEqual(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() != right.toString();
+	}
+	return l != r;
 }
 
-function fixedGreaterThan(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() > r.toString(), null];
-	return [l > r, null];
+function fixedGreaterThan(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() > right.toString();
+	}
+	return l > r;
 }
 
-function fixedGreaterThanOrEqual(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() >= r.toString(), null];
-	return [l >= r, null];
+function fixedGreaterThanOrEqual(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() >= right.toString();
+	}
+	return l >= r;
 }
 
-function fixedLessThan(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() < r.toString(), null];
-	return [l < r, null];
+function fixedLessThan(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() < right.toString();
+	}
+	return l < r;
 }
 
-function fixedLessThanOrEqual(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() <= r.toString(), null];
-	return [l <= r, null];
+function fixedLessThanOrEqual(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() <= right.toString();
+	}
+	return l <= r;
 }
 
-function fixedAdd(left: any, right: any): [any, Error | null] {
-	let r = 0;
-	let [l, err] = fixedFrom(left);
-	if (!err) [r, err] = fixedFrom(right);
-	if (err) return [l.toString() + r.toString(), null];
-	return [l + r, null];
+function fixedAdd(left: any, right: any): any {
+	let l, r;
+	try {
+		l = fixedFrom(left);
+		r = fixedFrom(right);
+	} catch (err) {
+		console.error(err);
+		return left.toString() + right.toString();
+	}
+	return l + r;
 }
 
-function fixedAddUnary(arg: any): [any, Error | null] {
+function fixedAddUnary(arg: any): any {
 	return fixedFrom(arg);
 }
 
-function fixedSubtract(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedSubtract(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	return [l - r, null];
+	r = fixedFrom(right);
+	return l - r;
 }
 
-function fixedSubtractUnary(arg: any): [any, Error | null] {
-	const [v, err] = fixedFrom(arg);
-	if (err) return [null, err];
-	return [-v, null];
+function fixedSubtractUnary(arg: any): any {
+	const v = fixedFrom(arg);
+	return -v;
 }
 
-function fixedMultiply(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedMultiply(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	return [l * r, null];
+	r = fixedFrom(right);
+	return l * r;
 }
 
-function fixedDivide(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedDivide(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	if (r == 0) return [null, new Error("Divide by zero")];
-	return [l / r, null];
+	r = fixedFrom(right);
+	if (r == 0) throw new Error("Divide by zero");
+	return l / r;
 }
 
-function fixedDivideAllowDivideByZero(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedDivideAllowDivideByZero(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	if (r == 0) return [r, null];
-	return [l / r, null];
+	r = fixedFrom(right);
+	if (r == 0) return r;
+	return l / r;
 }
 
-function fixedModulo(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedModulo(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	if (r == 0) return [null, new Error("Divide by zero")];
-	return [l % r, null];
+	r = fixedFrom(right);
+	if (r == 0) throw new Error("Divide by zero");
+	return l % r;
 }
 
-function fixedModuloAllowDivideByZero(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedModuloAllowDivideByZero(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	if (r == 0) return [r, null];
-	return [l % r, null];
+	r = fixedFrom(right);
+	if (r == 0) return r;
+	return l % r;
 }
 
-function fixedPower(left: any, right: any): [any, Error | null] {
-	let [l, err] = fixedFrom(left);
-	if (err) return [null, err];
+function fixedPower(left: any, right: any): any {
+	let l = fixedFrom(left);
 	let r = 0;
-	[r, err] = fixedFrom(right);
-	if (err) return [null, err];
-	return [Math.pow(l, r), null];
+	r = fixedFrom(right);
+	return Math.pow(l, r);
 }
 
-function fixedFrom(arg: any): [number, Error | null] {
+function fixedFrom(arg: any): number {
 	const a = typeof arg;
 	switch (a) {
 		case "boolean":
-			if (arg) return [1, null];
-			return [0, null];
+			if (arg) return 1;
+			return 0;
 		case "number":
-			return [arg, null];
+			return arg;
 		case "string":
-			return [parseFloat(arg), null];
+			return parseFloat(arg);
 		default:
-			return [0, new Error(`Not a number: ${arg}`)];
+			throw new Error(`Not a number: ${arg}`);
 	}
 }

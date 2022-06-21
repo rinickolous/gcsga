@@ -16,7 +16,6 @@
 - "unsatisfied prerequisite" warning functionality
 - item sort alphabetically based on header
 - overlay hex
-- de-golangify evaluator
 ## Large Features
 - Item import
 - modifier parsing

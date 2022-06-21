@@ -21,59 +21,41 @@ export function fixedFunctions(): Map<string, eFunction> {
 	return m;
 }
 
-function fixedAbsolute(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.abs(value), null];
+function fixedAbsolute(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.abs(value);
 }
 
-function fixedCubeRoot(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.cbrt(value), null];
+function fixedCubeRoot(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.cbrt(value);
 }
 
-function fixedCeiling(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.ceil(value), null];
+function fixedCeiling(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.ceil(value);
 }
 
-function fixedBaseEExpontential(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.exp(value), null];
+function fixedBaseEExpontential(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.exp(value);
 }
 
-function fixedBase2Expontential(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [2 ** value, null];
+function fixedBase2Expontential(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return 2 ** value;
 }
 
-function fixedFloor(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.floor(value), null];
+function fixedFloor(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.floor(value);
 }
 
-function fixedIf(e: Evaluator, args: string): [any, Error | null] {
+function fixedIf(e: Evaluator, args: string): any {
 	let arg: string;
 	[arg, args] = nextArg(args);
-	let [evaluated, err]: [any, Error | null] = [null, null];
-	[evaluated, err] = e.evaluateNew(arg);
-	if (err) return [null, err];
-	let value: number;
-	[value, err] = fixedFrom(evaluated);
-	if (err) {
-		if (typeof evaluated == "string") {
-			if (evaluated && evaluated == "false") {
-				value = value;
-			}
-		} else {
-			return [null, err];
-		}
-	}
+	let evaluated = e.evaluateNew(arg);
+	let value = fixedFrom(evaluated);
 	if (value == 0) {
 		[, args] = nextArg(args);
 	}
@@ -81,78 +63,70 @@ function fixedIf(e: Evaluator, args: string): [any, Error | null] {
 	return e.evaluateNew(arg);
 }
 
-function fixedMaximum(e: Evaluator, args: string): [any, Error | null] {
+function fixedMaximum(e: Evaluator, args: string): any {
 	let max: number = Math.max();
 	while (args) {
 		let arg: string;
 		[arg, args] = nextArg(args);
-		const [value, err] = evalToFixed(e, arg);
-		if (err) return [null, err];
+		const value = evalToFixed(e, arg);
 		max = Math.max(max, value);
 	}
-	return [max, null];
+	return max;
 }
 
-function fixedMinimum(e: Evaluator, args: string): [any, Error | null] {
+function fixedMinimum(e: Evaluator, args: string): any {
 	let min: number = Math.min();
 	while (args) {
 		let arg: string;
 		[arg, args] = nextArg(args);
-		const [value, err] = evalToFixed(e, arg);
-		if (err) return [null, err];
+		const value = evalToFixed(e, arg);
 		min = Math.min(min, value);
 	}
-	return [min, null];
+	return min;
 }
 
-function fixedNaturalLog(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.log(value), null];
+function fixedNaturalLog(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.log(value);
 }
 
-function fixedNaturalLogSum(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.log1p(value), null];
+function fixedNaturalLogSum(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.log1p(value);
 }
 
-function fixedDecimalLog(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.log10(value), null];
+function fixedDecimalLog(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.log10(value);
 }
 
-function fixedRound(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.round(value), null];
+function fixedRound(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.round(value);
 }
 
-function fixedSqrt(e: Evaluator, args: string): [any, Error | null] {
-	const [value, err] = evalToFixed(e, args);
-	if (err) return [null, err];
-	return [Math.sqrt(value), null];
+function fixedSqrt(e: Evaluator, args: string): any {
+	const value = evalToFixed(e, args);
+	return Math.sqrt(value);
 }
 
-function evalToFixed(e: Evaluator, arg: string): [number, Error | null] {
-	const [evaluated, err] = e.evaluateNew(arg);
-	if (err) return [0, err];
+function evalToFixed(e: Evaluator, arg: string): number {
+	const evaluated = e.evaluateNew(arg);
 	return fixedFrom(evaluated);
 }
 
-function fixedFrom(arg: any): [number, Error | null] {
+function fixedFrom(arg: any): number {
 	const a = typeof arg;
 	switch (a) {
 		case "boolean":
-			if (arg) return [1, null];
-			return [0, null];
+			if (arg) return 1;
+			return 0;
 		case "number":
-			return [arg, null];
+			return arg;
 		case "string":
-			return [parseFloat(arg), null];
+			return parseFloat(arg);
 		default:
-			return [0, new Error(`Not a number: ${arg}`)];
+			throw new Error(`Not a number: ${arg}`);
 	}
 }
 

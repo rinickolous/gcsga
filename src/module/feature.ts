@@ -32,7 +32,9 @@ export type Feature =
 
 export class BaseFeature {
 	type: FeatureType;
-	amount?: 0;
+	amount = 1;
+	per_level = false;
+	levels?: number;
 
 	constructor(data: Feature, context: FeatureConstructionContext = {}) {
 		this.type = data.type;
@@ -48,7 +50,7 @@ export class BaseFeature {
 	}
 
 	static get default() {
-		return new BaseFeature({ type: "attribute_bonus" });
+		return new AttributeBonus({ type: "attribute_bonus", attribute: "st", amount: 1, per_level: false });
 	}
 }
 
@@ -66,7 +68,6 @@ export class ContainedWeightReduction extends BaseFeature {}
 
 export interface AttributeBonus extends BaseFeature {
 	attribute: string;
-	per_level: boolean;
 }
 export interface ConditionalModifier extends BaseFeature {
 	situation: string;

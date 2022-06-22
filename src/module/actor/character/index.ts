@@ -11,7 +11,7 @@ import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
 import { Attribute, AttributeDef, AttributeSettingDef } from "./attribute";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
-import { Feature } from "@module/feature";
+import { Feature, DRBonus, AttributeBonus, CostReduction } from "@module/feature";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
@@ -91,7 +91,7 @@ export class CharacterGURPS extends ActorGURPS {
 		return new Collection(
 			//@ts-ignore
 			this.deepItems
-				.filter((i) => i.section == "equipment" && !i.data.data.other)
+				.filter((i) => i.section == "equipment" && !(i as any).data.data.other)
 				.map((e) => {
 					return [e.id!, e];
 				}),
@@ -102,7 +102,7 @@ export class CharacterGURPS extends ActorGURPS {
 		return new Collection(
 			//@ts-ignore
 			this.deepItems
-				.filter((i) => i.section == "equipment" && i.data.data.other)
+				.filter((i) => i.section == "equipment" && (i as any).data.data.other)
 				.map((e) => {
 					return [e.id!, e];
 				}),
@@ -126,12 +126,13 @@ export class CharacterGURPS extends ActorGURPS {
 		options: DocumentModificationOptions,
 		user: BaseUser,
 	): Promise<void> {
-		// console.log(changed, options);
-		// if ((changed.data as any).attributes)
-		// 	for (let [k, v] of Object.entries((changed.data as any).attributes)) {
-		// 		(v as any).adj = Math.round(((v as any).calc.value - this.resolveAttributeDef(k))*10000)/10000;
-		// 		console.log(v);
-		// 	}
+		console.log(changed, options);
+		if ((changed.data as any).attributes)
+			for (let [k, v] of Object.entries((changed.data as any).attributes)) {
+				(v as any).adj =
+					Math.round(((v as any).calc.value - this.resolveAttributeDef(k) - this.getAttBonus(k)) * 10000) /
+					10000;
+			}
 		return super._preUpdate(changed, options, user);
 	}
 
@@ -156,10 +157,62 @@ export class CharacterGURPS extends ActorGURPS {
 	/** @override */
 	prepareEmbeddedDocuments() {
 		super.prepareEmbeddedDocuments();
+		this.featureStack = [];
 		this.deepItems.forEach((item) => {
-			if (!this.featureStack) this.featureStack = [];
-			if (item.features.length && item.enabled) item.features.forEach((f) => this.featureStack?.push(f));
+			if (item.features.length && item.enabled)
+				item.features.forEach((f) => {
+					if (f.per_level && ["trait", "modifier"].includes(item.type)) f.levels = (item as any).levels;
+					this.featureStack?.push(f);
+				});
 		});
+		this.prepareAttributes();
+		this.prepareDR();
+	}
+
+	prepareAttributes() {
+		const attributes = this.data.data.attributes;
+		if (!attributes) return;
+		const defs = this.settings.attributes;
+		for (let [k, att] of Object.entries(attributes)) {
+			att.calc.value = this.resolveAttributeDef(k) + att.adj;
+			att.calc.value += this.getAttBonus(k);
+			const cost_multiplier = 1 - this.getAttCostReduction(k) * Math.max(this.data.data.profile.SM, 0);
+			att.calc.points = att.adj * (defs[k].cost_per_point * cost_multiplier);
+		}
+	}
+
+	getAttBonus(att: string): number {
+		let bonus = 0;
+		for (const feature of this.featureStack.filter((f) => f.type == "attribute_bonus") as AttributeBonus[]) {
+			if (feature.attribute == att) bonus += feature.amount * (feature.per_level ? feature.levels || 0 : 1);
+		}
+		return bonus;
+	}
+
+	getAttCostReduction(att: string): number {
+		let reduction = 0;
+		reduction += this.settings.attributes[att].cost_adj_percent_per_sm ?? 0;
+		for (const feature of this.featureStack.filter((f) => f.type == "cost_reduction") as CostReduction[]) {
+			if (feature.attribute == att) reduction += feature.amount * (feature.per_level ? feature.levels || 0 : 1);
+		}
+		reduction *= 0.01;
+		return Math.min(reduction, 0.8);
+	}
+
+	prepareDR() {
+		const hit_locations = this.data.data.settings.hit_locations;
+		if (!hit_locations) return;
+		for (const location of hit_locations.locations) {
+			location.calc.dr = { all: location.dr_bonus };
+		}
+		for (const feature of this.featureStack.filter((f) => f.type == "dr_bonus") as DRBonus[]) {
+			for (const location of hit_locations.locations.filter((e) => e.id == feature.location)) {
+				const spec = feature.specialization ?? "all";
+				if (!location.calc.dr[spec]) location.calc.dr[spec] = 0;
+				location.calc.dr[spec] += feature.amount * (feature.per_level ? feature.levels || 0 : 1);
+			}
+		}
+		console.log("done", this.data.data.settings.hit_locations, hit_locations);
 	}
 
 	/** @override */

@@ -1,8 +1,6 @@
 {
 	"Actor": {
-		"types": [
-			"character"
-		],
+		"types": ["character"],
 		"templates": {
 			"common": {}
 		},
@@ -159,33 +157,21 @@
 								"state": "Unconscious",
 								"multiplier": -1,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge",
-									"halve_st"
-								]
+								"ops": ["halve_move", "halve_dodge", "halve_st"]
 							},
 							{
 								"state": "Collapse",
 								"explanation": "Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
 								"multiplier": 0,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge",
-									"halve_st"
-								]
+								"ops": ["halve_move", "halve_dodge", "halve_st"]
 							},
 							{
 								"state": "Tired",
 								"explanation": "Move, Dodge and ST are halved (B426)",
 								"multiplier": 1,
 								"divisor": 3,
-								"ops": [
-									"halve_move",
-									"halve_dodge",
-									"halve_st"
-								]
+								"ops": ["halve_move", "halve_dodge", "halve_st"]
 							},
 							{
 								"state": "Tiring",
@@ -213,70 +199,49 @@
 								"state": "Dead",
 								"multiplier": -5,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Dying #4",
 								"explanation": "Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 								"multiplier": -4,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Dying #3",
 								"explanation": "Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 								"multiplier": -3,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Dying #2",
 								"explanation": "Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 								"multiplier": -2,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Dying #1",
 								"explanation": "Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 								"multiplier": -1,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Collapse",
 								"explanation": "Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 								"multiplier": 0,
 								"divisor": 1,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Reeling",
 								"explanation": "Move and Dodge are halved (B419)",
 								"multiplier": 1,
 								"divisor": 3,
-								"ops": [
-									"halve_move",
-									"halve_dodge"
-								]
+								"ops": ["halve_move", "halve_dodge"]
 							},
 							{
 								"state": "Wounded",
@@ -655,20 +620,8 @@
 				"lifting_st_bonus": 0,
 				"striking_st_bonus": 0,
 				"throwing_st_bonus": 0,
-				"move": [
-					5,
-					4,
-					3,
-					2,
-					1
-				],
-				"dodge": [
-					8,
-					7,
-					6,
-					5,
-					4
-				],
+				"move": [5, 4, 3, 2, 1],
+				"dodge": [8, 7, 6, 5, 4],
 				"dodge_bonus": 0,
 				"block_bonus": 0,
 				"parry_bonus": 0
@@ -711,10 +664,7 @@
 			}
 		},
 		"trait": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"round_down": false,
 			"allow_half_levels": false,
 			"disabled": false,
@@ -735,9 +685,7 @@
 			"weapons": {}
 		},
 		"trait_container": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"disabled": false,
 			"container_type": "group",
 			"calc": {
@@ -747,9 +695,7 @@
 			"cr_adj": "none"
 		},
 		"modifier": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"disabled": false,
 			"cost_type": "percentage",
 			"cost": 0,
@@ -758,10 +704,7 @@
 			"features": {}
 		},
 		"skill": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"specialization": "",
 			"tech_level": "",
 			"encumbrance_penalty_multiplier": 0,
@@ -777,10 +720,7 @@
 			}
 		},
 		"technique": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"specialization": "",
 			"tech_level": "",
 			"encumbrance_penalty_multiplier": 0,
@@ -795,16 +735,11 @@
 			}
 		},
 		"skill_container": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"open": false
 		},
 		"spell": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"difficulty": "iq/h",
 			"tech_level": "",
 			"college": [],
@@ -823,10 +758,7 @@
 			}
 		},
 		"ritual_magic_spell": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"difficulty": "iq/h",
 			"tech_level": "",
 			"college": [],
@@ -847,16 +779,11 @@
 			}
 		},
 		"spell_container": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"open": false
 		},
 		"equipment": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"equipped": true,
 			"quantity": 1,
 			"tech_level": "",
@@ -875,9 +802,7 @@
 			}
 		},
 		"eqp_modifier": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"cost_type": "to_original_cost",
 			"cost": "",
 			"weight_type": "to_original_weight",
@@ -886,10 +811,7 @@
 			"features": {}
 		},
 		"equipment_container": {
-			"templates": [
-				"common",
-				"prereqs"
-			],
+			"templates": ["common", "prereqs"],
 			"equipped": true,
 			"tech_level": "",
 			"legality_class": "",
@@ -908,15 +830,11 @@
 			"open": false
 		},
 		"note": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"text": ""
 		},
 		"note_container": {
-			"templates": [
-				"common"
-			],
+			"templates": ["common"],
 			"text": "",
 			"open": false
 		}

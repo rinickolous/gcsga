@@ -8,17 +8,6 @@ export class TraitGURPS extends ContainerGURPS {
 		return TraitData;
 	}
 
-	isLeveled(): boolean {
-		//@ts-ignore
-		const levels = this.getData().levels;
-		return levels >= 0 && levels != "";
-	}
-
-	getLevels(): number {
-		//@ts-ignore
-		return parseFloat(this.getData().levels);
-	}
-
 	get enabled(): boolean {
 		if (this.data.data.disabled) return false;
 		let enabled = !this.data.data.disabled;
@@ -28,6 +17,10 @@ export class TraitGURPS extends ContainerGURPS {
 
 	set enabled(enabled: boolean) {
 		this.data.data.disabled = !enabled;
+	}
+
+	get levels(): number {
+		return parseFloat(this.data.data.levels);
 	}
 }
 

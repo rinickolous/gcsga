@@ -131,7 +131,7 @@ export class CharacterImporter {
 			await this.document.update(
 				{
 					"data.settings.attributes": null,
-					"data.settings.hit_locations": null,
+					// "data.settings.hit_locations": null,
 					"data.attributes": null,
 				},
 				{ diff: true, recursive: false, render: false },

@@ -32,6 +32,9 @@ export class ObjArray<T> {
 	constructor(a: Array<T>) {
 		return Object.assign(this, a);
 	}
+	splice(start?: number, end?: number): T[] {
+		return Array.prototype.splice(start ?? 0, end ?? this.length - 1);
+	}
 }
 
 export interface ObjArray<T> extends Array<T> {

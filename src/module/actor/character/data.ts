@@ -167,7 +167,8 @@ export class HitLocationTable {
 			if (!!i.sub_table) j.sub_table = new HitLocationTable(i.sub_table);
 			list.push(j);
 		}
-		return new ObjArray<HitLocation>(list);
+		// return new ObjArray<HitLocation>(list);
+		return list;
 	}
 }
 

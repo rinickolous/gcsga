@@ -36,7 +36,9 @@ export class BaseFeature {
 
 	constructor(data: Feature, context: FeatureConstructionContext = {}) {
 		this.type = data.type;
-		if (!context.ready) {
+		if (context.ready) {
+			Object.assign(this, data);
+		} else {
 			mergeObject(context, {
 				ready: true,
 			});

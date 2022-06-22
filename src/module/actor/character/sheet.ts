@@ -50,6 +50,14 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		$html.find(".item").on("dragleave", (event) => this._onDragLeave(event));
 		$html.find(".item").on("dragenter", (event) => this._onDragEnter(event));
 		$html.find(".item-list").on("dragenter", (event) => this._onDragListEnter(event));
+		$html.find(".equipped").on("click", (event) => this._onEquippedToggle(event));
+	}
+	private _onEquippedToggle(event: JQuery.ClickEvent): any {
+		event.preventDefault();
+		const id: string = $(event.currentTarget).data("item-id");
+		//@ts-ignore
+		const item = this.actor.deepItems.get(id);
+		return item.update({ "data.equipped": !item.equipped });
 	}
 
 	async _onCollapseToggle(event: JQuery.ClickEvent) {
@@ -114,15 +122,13 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	async _onDragEnter(event: JQuery.DragEnterEvent) {
 		event.preventDefault();
 		//@ts-ignore
-		const data = TextEditor.getDragEventData((event as any).originalEvent);
-		// (event.currentTarget as HTMLElement).parentElement?.classList.add("drop-in");
+		const data = TextEditor.getDragEventData(event.originalEvent);
 		const siblings = Array.prototype.slice.call((event.currentTarget as HTMLElement).parentElement?.children);
 		siblings.forEach((e) => e.classList.remove("drop-over"));
-		const item = (event.currentTarget as HTMLElement).closest(".item.desc");
+		const item = event.currentTarget.closest(".item.desc");
 		const selection = Array.prototype.slice.call($(item!).nextUntil(".entry-parent"));
 		selection.unshift(item);
 		selection.forEach((e) => e.classList.add("drop-over"));
-		// (event.currentTarget as HTMLElement).closest(".ite")?.classList.add("redline");
 	}
 
 	async _onDragLeave(event: JQuery.DragLeaveEvent) {
@@ -333,6 +339,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	prepareItems(data: any) {
 		const [traits, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
+			//TODO replace using Item.section
 			(arr: ItemDataGURPS[][], item: ItemGURPS | ContainerGURPS) => {
 				const itemData: ItemDataGURPS = this.parseContents(item);
 				if (["trait", "trait_container"].includes(item.type)) arr[0].push(itemData);
@@ -358,6 +365,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			carried_weight += parseFloat(i.data.calc.extended_weight);
 			carried_value += parseFloat(i.data.calc.extended_value);
 		}
+
+		console.log(traits);
 
 		data.carried_weight = `${carried_weight} lb`;
 		data.carried_value = dollarFormat(carried_value);
@@ -409,6 +418,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				});
 			data.modifiers = modifiers;
 		}
+		data.enabled = item.enabled;
 		return data;
 	}
 

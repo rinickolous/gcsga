@@ -667,7 +667,7 @@ export class CharacterImporter {
 		return p;
 	}
 
-	importFeatures(features: Feature[]) {
+	importFeatures(features: BaseFeature[]): Feature[] {
 		const list: Feature[] = [];
 		features.forEach((f) => {
 			list.push(new BaseFeature(f));

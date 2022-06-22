@@ -22,7 +22,9 @@
 - weapons
 - prereqs
 - attribute logic (base done)
+	- read modifiers from feature stack
 - feature functions
+	- import properly
 	- callable feature stack
 	- function to filter feature stack by feature type and details (e.g. attribute name)
 - vehicles
@@ -35,4 +37,4 @@
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)
-- fix ObjArrays
+- fix ObjArrays (remove?)

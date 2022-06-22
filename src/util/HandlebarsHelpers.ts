@@ -120,7 +120,6 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("disabled", function (a: boolean): string {
-		console.log(a);
 		if (a) return "disabled";
 		return "";
 	});

@@ -17,6 +17,7 @@ import {
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
+import { BaseFeature } from "@module/feature";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -46,6 +47,22 @@ export class ItemGURPS extends Item {
 			const ItemConstructor = CONFIG.GURPS.Item.documentClasses[data.type as ItemType];
 			return ItemConstructor ? new ItemConstructor(data, context) : new ItemGURPS(data, context);
 		}
+	}
+
+	get features() {
+		if (!this.data.data.hasOwnProperty("features")) return [];
+		else {
+			const features = [];
+			//@ts-ignore
+			for (let i of this.data.data.features) {
+				features.push(new BaseFeature(i));
+			}
+			return features;
+		}
+	}
+
+	get enabled() {
+		return true;
 	}
 
 	protected async _preCreate(

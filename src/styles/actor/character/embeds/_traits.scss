@@ -12,6 +12,14 @@
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);
+			&.disabled {
+				.name,
+				.item-notes,
+				&.points,
+				&.reference {
+					color: rgba(var(--color-on-banding), 0.3);
+				}
+			}
 		}
 	}
 
@@ -29,6 +37,18 @@
 			&:nth-last-child(-n + 4) {
 				border-bottom: none;
 			}
+		}
+	}
+
+	.disabled {
+		.name {
+			text-decoration: line-through;
+		}
+		.name,
+		.item-notes,
+		&.points,
+		&.reference {
+			color: rgba(var(--color-on-content), 0.3);
 		}
 	}
 }

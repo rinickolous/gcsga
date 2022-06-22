@@ -4,7 +4,7 @@
 			<label class="label"></label>
 			<div class="field">
 				<label class="checkbox-label">
-					<input class="input" type="checkbox" checked/>
+					<input class="input enabled" type="checkbox" {{checked (not data.disabled)}}/>
 					{{localize "gcsga.trait_container.enabled"}}
 				</label>
 			</div>

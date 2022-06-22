@@ -14,12 +14,15 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { DisplayMode, Height, LengthUnits, ObjArray, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
 import { CharacterGURPS } from ".";
 import { AttributeDef, AttributeSettingDef } from "./attribute";
+import { Feature } from "@module/feature";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
 
-export class CharacterData extends BaseActorDataGURPS<CharacterGURPS> {}
+export class CharacterData extends BaseActorDataGURPS<CharacterGURPS> {
+	featureStack: Feature[] = [];
+}
 
 export interface CharacterData extends Omit<CharacterSource, "effects" | "flags" | "items" | "token"> {
 	readonly type: CharacterSource["type"];

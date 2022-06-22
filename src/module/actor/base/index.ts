@@ -7,6 +7,7 @@ import {
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
+import { Feature } from "@module/feature";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -16,12 +17,9 @@ export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 
 //@ts-ignore
 class ActorGURPS extends Actor {
-	private initialized: boolean | undefined;
-
 	constructor(data: ActorSourceGURPS, context: ActorConstructorContextGURPS = {}) {
 		if (context.gcsga?.ready) {
 			super(data, context);
-			this.initialized = true;
 		} else {
 			mergeObject(context, { gcsga: { ready: true } });
 			//@ts-ignore
@@ -45,11 +43,11 @@ class ActorGURPS extends Actor {
 		await super._preCreate(data, options, user);
 	}
 
-	get deepItems(): Collection<Item> {
+	get deepItems(): Collection<ItemGURPS> {
 		const items = this.items;
-		const deepItems = [];
+		const deepItems: ItemGURPS[] = [];
 		for (const i of items) {
-			deepItems.push(i);
+			deepItems.push(i as ItemGURPS);
 			if (i instanceof ContainerGURPS)
 				i.deepItems.forEach((e: ItemGURPS) => {
 					return deepItems.push(e);
@@ -77,31 +75,6 @@ class ActorGURPS extends Actor {
 			}
 		});
 	}
-
-	// UNUSED FUNCTION
-	// getDeepItem(ids: string | Array<string>) {
-	// 	if (!Array.isArray(ids)) ids = ids.split(" ");
-	// 	ids = ids.filter((e) => e);
-	// 	// console.log(ids);
-	// 	if (ids.length == 1) return this;
-	// 	// eslint-disable-next-line @typescript-eslint/no-this-alias
-	// 	let parent: any = this;
-	// 	for (let i = 0; i < ids.length; i++) {
-	// 		if (i == 0) continue;
-	// 		else if (i == ids.length - 1) {
-	// 			const the_item = parent.getEmbeddedDocument("Item", ids[i]);
-	// 			return the_item;
-	// 		} else parent = parent.getEmbeddedDocument("Item", ids[i]);
-	// 	}
-	// }
-
-	// /** @override */
-	// prepareEmbeddedDocuments() {
-	// 	super.prepareEmbeddedDocuments();
-	// 	for (const item of this.items) {
-	// 		item.setFlag("gcsga", "parents", [this.data._id]);
-	// 	}
-	// }
 }
 
 //@ts-ignore

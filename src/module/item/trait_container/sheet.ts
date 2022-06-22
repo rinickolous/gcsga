@@ -1,5 +1,6 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
 import { SYSTEM_NAME } from "@module/settings";
+import { TraitContainerGURPS } from "@item/trait_container";
 
 export class TraitContainerSheet extends ContainerSheetGURPS {
 	/** @override */
@@ -14,6 +15,15 @@ export class TraitContainerSheet extends ContainerSheetGURPS {
 			classes: options.classes.concat(["trait_container"]),
 		});
 		return options;
+	}
+
+	activateListeners(html: JQuery<HTMLElement>): void {
+		super.activateListeners(html);
+		html.find(".input.enabled").on("click", (event) => this._toggleEnabled(event));
+	}
+	private _toggleEnabled(event: JQuery.ClickEvent): any {
+		event.preventDefault();
+		return this.item.update({ "data.disabled": !(this.item as TraitContainerGURPS).data.data.disabled });
 	}
 
 	/** @override */

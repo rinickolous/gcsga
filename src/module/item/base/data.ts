@@ -34,7 +34,9 @@ export interface BaseItemSourceGURPS<
 	flags: DeepPartial<ItemFlagsGURPS>;
 }
 
-export abstract class BaseItemDataGURPS<TItem extends ItemGURPS = ItemGURPS> extends foundry.data.ItemData {}
+export abstract class BaseItemDataGURPS<TItem extends ItemGURPS = ItemGURPS> extends foundry.data.ItemData {
+	enabled?: boolean;
+}
 
 export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects"> {
 	type: ItemType;

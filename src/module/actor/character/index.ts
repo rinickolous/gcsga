@@ -11,10 +11,13 @@ import { CharacterData, CharacterSource } from "./data";
 import { CharacterImporter } from "./import";
 import { Attribute, AttributeDef, AttributeSettingDef } from "./attribute";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
+import { Feature } from "@module/feature";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
 	variableResolverExclusions: Map<string, boolean> = new Map();
+	featureStack!: Feature[];
+
 	static get schema(): typeof CharacterData {
 		return CharacterData;
 	}
@@ -41,38 +44,80 @@ export class CharacterGURPS extends ActorGURPS {
 
 	// Get Items
 	get traits() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "traits");
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "traits")
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get skills() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "skills");
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "skills")
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get spells() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "spells");
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "spells")
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get equipment() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "equipment");
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "equipment")
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get carried_equipment() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "equipment" && !i.data.data.other);
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "equipment" && !i.data.data.other)
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get other_equipment() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "equipment" && i.data.data.other);
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "equipment" && i.data.data.other)
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	get notes() {
-		//@ts-ignore
-		return this.deepItems.filter((i) => i.section == "notes");
+		return new Collection(
+			//@ts-ignore
+			this.deepItems
+				.filter((i) => i.section == "notes")
+				.map((e) => {
+					return [e.id!, e];
+				}),
+		);
 	}
 
 	/** @override */
@@ -81,12 +126,12 @@ export class CharacterGURPS extends ActorGURPS {
 		options: DocumentModificationOptions,
 		user: BaseUser,
 	): Promise<void> {
-		console.log(changed, options);
-		if ((changed.data as any).attributes)
-			for (let [k, v] of Object.entries((changed.data as any).attributes)) {
-				(v as any).adj = (v as any).calc.value - this.resolveAttributeDef(k);
-				console.log(v);
-			}
+		// console.log(changed, options);
+		// if ((changed.data as any).attributes)
+		// 	for (let [k, v] of Object.entries((changed.data as any).attributes)) {
+		// 		(v as any).adj = Math.round(((v as any).calc.value - this.resolveAttributeDef(k))*10000)/10000;
+		// 		console.log(v);
+		// 	}
 		return super._preUpdate(changed, options, user);
 	}
 
@@ -109,21 +154,25 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	/** @override */
-	prepareDerivedData() {
-		super.prepareDerivedData();
-		console.log(this.traits);
-		if (this.attributes)
-			for (const [k, a] of Object.entries(this.attributes)) {
-				a.calc.value = this.resolveAttributeDef(k) + a.adj;
-				a.calc.points = a.adj * this.settings.attributes[k].cost_per_point;
-			}
-		const st = this.attributes.st.calc.value;
-		this.calc.basic_lift = `${st >= Math.sqrt(50) ? Math.round(st ** 2 / 5) : st ** 2 / 5} lb`;
+	prepareEmbeddedDocuments() {
+		super.prepareEmbeddedDocuments();
+		this.deepItems.forEach((item) => {
+			if (!this.featureStack) this.featureStack = [];
+			if (item.features.length && item.enabled) item.features.forEach((f) => this.featureStack?.push(f));
+		});
 	}
 
 	/** @override */
-	prepareEmbeddedDocuments() {
-		super.prepareEmbeddedDocuments();
+	prepareDerivedData() {
+		super.prepareDerivedData();
+		// console.log(this.traits);
+		// if (this.attributes)
+		// 	for (const [k, a] of Object.entries(this.attributes)) {
+		// 		a.calc.value = this.resolveAttributeDef(k) + a.adj;
+		// 		a.calc.points = Math.ceil(a.adj * this.settings.attributes[k].cost_per_point);
+		// 	}
+		// const st = this.attributes.st.calc.value;
+		// this.calc.basic_lift = `${st >= Math.sqrt(50) ? Math.round(st ** 2 / 5) : st ** 2 / 5} lb`;
 	}
 
 	/** @override */

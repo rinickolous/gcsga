@@ -1,5 +1,5 @@
 <div class="entry-parent" readonly></div>
-<div class="equipped">{{#if this.data.equipped}}{{>svg shapes=(arr "--shape-checkmark")}}{{/if}}</div>
+<div class="equipped" data-item-id="{{_id}}" >{{#if this.data.equipped}}{{>svg shapes=(arr "--shape-checkmark")}}{{/if}}</div>
 <div class="quantity">{{this.data.quantity}}</div>
 <div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
 	<div class="dropdown">

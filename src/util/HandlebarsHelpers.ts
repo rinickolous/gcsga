@@ -114,7 +114,7 @@ export function registerHandlebarsHelpers() {
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
-			if (v) list.push(`${i18n("gcsga.sheet.spells." + k)}: ${v}`);
+			if (v) list.push(`${i18n("gcsga.actor.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});

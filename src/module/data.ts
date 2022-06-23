@@ -133,10 +133,32 @@ export interface RangedWeapon {
 
 // Default
 export interface Default {
-	type: string;
+	type: SkillDefaultType;
 	modifier: number;
 	name?: string;
 	specialization?: string;
+}
+
+export type SkillDefaultType =
+	| "block"
+	| "parry"
+	| "skill"
+	| "10"
+	| string;
+
+export interface DefaultedFrom {
+	type: SkillDefaultType;
+	modifier: number;
+	level: number;
+	adjusted_level: number;
+	points: number;
+	name?: string;
+	specialization?: string;
+}
+
+export interface Bonus {
+	name: string;
+	amount: number;
 }
 
 export const CR = [-1, 0, 6, 9, 12, 15] as const;

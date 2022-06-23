@@ -200,6 +200,7 @@
 					"spell_prereq": "spell(b)"
 				}
 			}
-		}
+		},
+		"encumbrance": "Encumbrance",
 	}
 }

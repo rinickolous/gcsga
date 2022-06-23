@@ -1,5 +1,6 @@
 
 #To Do
+- Complete reformat to match GCS5
 ## Sheets and Styling
 - Item sheet
 - Foundry skin

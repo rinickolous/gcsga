@@ -55,7 +55,7 @@ export class ItemGURPS extends Item {
 			const features = [];
 			//@ts-ignore
 			for (let i of this.data.data.features) {
-				features.push(new BaseFeature(i));
+				features.push(new BaseFeature({...i, ...{item: this.name}}));
 			}
 			return features;
 		}

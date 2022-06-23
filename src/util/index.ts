@@ -1,10 +1,7 @@
 import { ContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
-import { ItemSystemData } from "@item/base/data";
-import { ItemDataGURPS } from "@item/data";
-import { SkillSystemData } from "@item/skill/data";
 import { SkillContainerSystemData } from "@item/skill_container/data";
-import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
+import { StringCompare } from "@module/data";
 
 export function arrayBuffertoBase64(buffer: ArrayBuffer) {
 	console.log(buffer);
@@ -102,6 +99,37 @@ export function sheetSection(item: ItemGURPS | ContainerGURPS, type: string) {
 		(type == "other_equipment" && (item as EquipmentGURPS).data.data.other) ||
 		!["equipment", "other_equipment"].includes(type);
 	return types.includes(item.type) && eqp;
+}
+
+export function stringCompare(value: string | string[] | null, base?: StringCompare): boolean {
+	if (!base) return true;
+	if (typeof value == "string") value = [value];
+	switch (base.compare) {
+		case "none":
+			return true;
+		case "is":
+			return value.includes(base.qualifier);
+		case "is_not":
+			return !value.includes(base.qualifier);
+		case "contains":
+			for (const v of value) if (v.includes(base.qualifier)) return true;
+			return false;
+		case "does_not_contain":
+			for (const v of value) if (v.includes(base.qualifier)) return false;
+			return true;
+		case "starts_with":
+			for (const v of value) if (v.startsWith(base.qualifier)) return true;
+			return false;
+		case "does_not_start_with":
+			for (const v of value) if (v.startsWith(base.qualifier)) return false;
+			return true;
+		case "ends_with":
+			for (const v of value) if (v.endsWith(base.qualifier)) return true;
+			return false;
+		case "does_not_end_with":
+			for (const v of value) if (v.endsWith(base.qualifier)) return false;
+			return true;
+	}
 }
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =

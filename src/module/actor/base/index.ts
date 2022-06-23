@@ -12,6 +12,7 @@ import { Feature } from "@module/feature";
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
 		ready?: boolean;
+		imported?: boolean;
 	};
 }
 

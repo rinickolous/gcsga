@@ -32,11 +32,12 @@ export type Feature =
 
 export class BaseFeature {
 	type: FeatureType;
+	item?: string;
 	amount = 1;
 	per_level = false;
 	levels?: number;
 
-	constructor(data: Feature, context: FeatureConstructionContext = {}) {
+	constructor(data: Feature | any, context: FeatureConstructionContext = {}) {
 		this.type = data.type;
 		if (context.ready) {
 			Object.assign(this, data);
@@ -51,6 +52,10 @@ export class BaseFeature {
 
 	static get default() {
 		return new AttributeBonus({ type: "attribute_bonus", attribute: "st", amount: 1, per_level: false });
+	}
+
+	get calc_amount(): number {
+		return this.amount * (this.per_level ? this.levels || 0 : 1);
 	}
 }
 

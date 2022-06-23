@@ -405,7 +405,7 @@ export class CharacterImporter {
 			},
 			cr: !!data.cr ? data.cr : -1,
 			cr_adj: data.cr_adj || "none",
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(`${data.name}${data.levels ? " "+data.levels : ""}`, data.features ?? []),
 			// features: new ObjArray<Feature>((data.features as Feature[]) || []),
 			// weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 		};
@@ -439,7 +439,7 @@ export class CharacterImporter {
 			cost: data.cost || 0,
 			levels: data.levels || 0,
 			affects: data.affects || "total",
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(data.name!, data.features ?? []),
 		};
 	}
 
@@ -458,7 +458,7 @@ export class CharacterImporter {
 			defaulted_from: data.defaulted_from || {},
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 			defaults: new ObjArray<Default>((data.defaults as Default[]) || []),
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(`${data.name}${data.specialization ? " ("+data.specialization+")":""}`, data.features ?? []),
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
@@ -481,7 +481,7 @@ export class CharacterImporter {
 			points: data.points || 0,
 			default: data.default || {},
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(data.name!, data.features ?? []),
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
@@ -589,7 +589,7 @@ export class CharacterImporter {
 			uses: data.uses || 0,
 			max_uses: data.max_uses || 0,
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(data.description, data.features ?? []),
 			calc: {
 				extended_value: data.calc?.extended_value || "",
 				extended_weight: data.calc?.extended_weight || "",
@@ -610,7 +610,7 @@ export class CharacterImporter {
 			weight_type: data.weight_type || "",
 			weight: data.weight || "",
 			tech_level: data.tech_level || "",
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(data.name!, data.features ?? []),
 		};
 	}
 
@@ -631,7 +631,7 @@ export class CharacterImporter {
 			uses: data.uses || 0,
 			max_uses: data.max_uses || 0,
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
-			features: this.importFeatures(data.features ?? []),
+			features: this.importFeatures(data.description, data.features ?? []),
 			calc: {
 				extended_value: data.calc?.extended_value || "",
 				extended_weight: data.calc?.extended_weight || "",
@@ -667,10 +667,10 @@ export class CharacterImporter {
 		return p;
 	}
 
-	importFeatures(features: BaseFeature[]): Feature[] {
+	importFeatures(item: string, features: BaseFeature[]): Feature[] {
 		const list: Feature[] = [];
 		features.forEach((f) => {
-			list.push(new BaseFeature(f));
+			list.push(new BaseFeature({...f, ...{item: item}}));
 		});
 		return list;
 	}

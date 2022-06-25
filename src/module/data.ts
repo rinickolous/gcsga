@@ -13,6 +13,10 @@ export type Height = string;
 export type Weight = string;
 
 export class RollGURPS extends String {
+	constructor(s: string) {
+		super();
+	}
+
 	roll() {
 		const multiplier = this.match(/([\d]+)d/);
 		const dice = this.match(/d([\d]*)/);

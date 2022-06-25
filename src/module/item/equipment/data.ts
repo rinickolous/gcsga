@@ -22,7 +22,7 @@ export interface EquipmentSystemData extends Omit<BaseContainerSystemData, "open
 	quantity: number;
 	tech_level: string;
 	legality_class: string;
-	value: string;
+	value: number;
 	ignore_weight_for_skills: boolean;
 	weight: string;
 	uses: number;

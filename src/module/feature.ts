@@ -1,3 +1,4 @@
+import { i18n_f, signed } from "@util";
 import { StringCompare, NumberCompare } from "./data";
 
 export type FeatureType =
@@ -31,11 +32,12 @@ export type Feature =
 	| ContainedWeightReduction;
 
 export class BaseFeature {
+	parent = "";
 	type: FeatureType;
 	item?: string;
 	amount = 1;
 	per_level = false;
-	levels?: number;
+	levels = 0;
 
 	constructor(data: Feature | any, context: FeatureConstructionContext = {}) {
 		this.type = data.type;
@@ -56,6 +58,31 @@ export class BaseFeature {
 
 	get calc_amount(): number {
 		return this.amount * (this.per_level ? this.levels || 0 : 1);
+	}
+
+	static get attrID_prefix(): string {
+		return "$";
+	}
+
+	get adjusted_amount(): number {
+		if (this.per_level) {
+			if (this.levels < 0) return 0;
+			return this.amount * this.levels!;
+		}
+		return this.amount;
+	}
+
+	formatWithLevel(): string {
+		let what = i18n("gcsga.tooltip.level");
+		let str = signed(this.amount);
+		if (this.per_level)
+			return i18n_f("gcsga.tooltip.adj_with_level", {la: signed(this.adjusted_amount), a: str, w: what})
+		return str;
+	}
+
+	addToTooltip(tooltip: string) {
+		tooltip += `\n${this.parent} \[${this.formatWithLevel()}]`;
+		return tooltip;
 	}
 }
 

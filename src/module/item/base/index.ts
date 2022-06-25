@@ -18,6 +18,18 @@ import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/fo
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
 import { BaseFeature } from "@module/feature";
+import { TraitGURPS } from "@item/trait";
+import { TraitContainerGURPS } from "@item/trait_container";
+import { SkillGURPS } from "@item/skill";
+import { TechniqueGURPS } from "@item/technique";
+import { SkillContainerGURPS } from "@item/skill_container";
+import { SpellGURPS } from "@item/spell";
+import { RitualMagicSpellGURPS } from "@item/ritual_magic_spell";
+import { SpellContainerGURPS } from "@item/spell_container";
+import { EquipmentGURPS } from "@item/equipment";
+import { EquipmentModifierGURPS } from "@item/equipment_modifier";
+import { NoteGURPS } from "@item/note";
+import { NoteContainerGURPS } from "@item/note_container";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -174,14 +186,16 @@ export class ItemGURPS extends Item {
 
 	get section(): string {
 		const sections = {
-			traits: ["trait", "trait_container"],
-			skills: ["skill", "technique", "skill_container"],
-			spells: ["spell", "ritual_magic_spell", "spell_container"],
-			equipment: ["equipment", "equipment_container"],
-			notes: ["note", "note_container"],
+			traits: [TraitGURPS, TraitContainerGURPS],
+			skills: [SkillGURPS, TechniqueGURPS, SkillContainerGURPS],
+			spells: [SpellGURPS, RitualMagicSpellGURPS, SpellContainerGURPS],
+			equipment: [EquipmentGURPS, EquipmentModifierGURPS],
+			notes: [NoteGURPS, NoteContainerGURPS],
 		};
 		for (const [k, v] of Object.entries(sections)) {
-			if (v.includes(this.type)) return k;
+			for (const t of v) {
+				if (this instanceof t) return k;
+			}	
 		}
 		return "error";
 	}

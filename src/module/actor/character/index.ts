@@ -1,25 +1,27 @@
-import {
-	DocumentModificationOptions,
-	Metadata,
-} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
-import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
-import { SYSTEM_NAME } from "@module/settings";
+// import {
+// 	DocumentModificationOptions,
+// 	Metadata,
+// } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+// import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
+// import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
+// import { SYSTEM_NAME } from "@module/settings";
 import { gid } from "@module/gid";
 import { ActorConstructorContextGURPS, ActorGURPS } from "../base";
 import { CharacterData, CharacterSource } from "./data";
-import { CharacterImporter } from "./import";
-import { Attribute, AttributeDef, AttributeSettingDef } from "./attribute";
-import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
-import { Feature, DRBonus, AttributeBonus, CostReduction, SkillPointBonus, SkillBonus } from "@module/feature";
-import { EquipmentModifierGURPS, RitualMagicSpellGURPS, SkillContainerGURPS, SkillGURPS, SpellContainerGURPS, TechniqueGURPS, TraitContainerGURPS, TraitGURPS, TraitModifierGURPS } from "@item";
-import { i18n, stringCompare } from "@util";
-import { Bonus, Default, DefaultedFrom } from "@module/data";
+// import { CharacterImporter } from "./import";
+import { Attribute } from "@module/attribute";
+// import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
+import { Feature, BaseFeature, SkillBonus, CostReduction } from "@module/feature";
+import { EquipmentContainerGURPS, EquipmentGURPS, NoteContainerGURPS, NoteGURPS, RitualMagicSpellGURPS, SkillContainerGURPS, SkillGURPS, SpellContainerGURPS, SpellGURPS, TechniqueGURPS, TraitContainerGURPS, TraitGURPS } from "@item";
+import { i18n, newUUID, getCurrentTime, damageProgression } from "@util";
+// import { Bonus, Default, DefaultedFrom } from "@module/data";
+import { settingsProvider } from "@module/settings_temp";
+import { CRAdjustment } from "@module/data";
 
 //@ts-ignore
 export class CharacterGURPS extends ActorGURPS {
 	variableResolverExclusions: Map<string, boolean> = new Map();
-	featureStack: Map<string, Feature> = new Map();
+	featureStack: Map<string, Feature[]> = new Map();
 
 	static get schema(): typeof CharacterData {
 		return CharacterData;
@@ -33,13 +35,13 @@ export class CharacterGURPS extends ActorGURPS {
 				this.data.data.created_date = getCurrentTime();
 				this.data.data.modified_date = this.data.data.created_date;
 			}
-			if (!this.data.data.points.total) this.data.data.points.total = settingsProvider.general_settings.initial_points;
+			if (!this.data.data.total_points) this.data.data.total_points = settingsProvider.general.initial_points;
 			if (!this.data.data.settings) {
-				this.data.data.settings = settingsProvider.sheet_settings;
-				this.data.data.attributes = newAttributes(this);
+				this.data.data.settings = settingsProvider.sheet;
+				this.data.data.attributes = this.newAttributes();
 			}
-			if (settingsProvider.auto_fill_profile) {
-				this.autoFillProfile();
+			if (settingsProvider.general.auto_fill) {
+				this.data.data.profile = settingsProvider.general.auto_fill;
 			}
 		}
 	}
@@ -63,26 +65,28 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	// Get Items
-	get traits() {
-		return new Collection(
-			//@ts-ignore
+	get traits(): Collection<TraitGURPS | TraitContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<TraitGURPS | TraitContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "traits")
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
-	get skills() {
-		return new Collection(
-			//@ts-ignore
+	get skills(): Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "skills")
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
 	get spells() {
@@ -96,50 +100,175 @@ export class CharacterGURPS extends ActorGURPS {
 		);
 	}
 
-	get equipment() {
-		return new Collection(
-			//@ts-ignore
+	get equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<EquipmentContainerGURPS | EquipmentContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "equipment")
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
-	get carried_equipment() {
-		return new Collection(
-			//@ts-ignore
+	get carried_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "equipment" && !(i as any).data.data.other)
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
-	get other_equipment() {
-		return new Collection(
-			//@ts-ignore
+	get other_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "equipment" && (i as any).data.data.other)
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
-	get notes() {
-		return new Collection(
-			//@ts-ignore
+	get notes(): Collection<NoteGURPS | NoteContainerGURPS> {
+		//@ts-ignore
+		const c: Collection<NoteGURPS | NoteContainerGURPS> = new Collection(
 			this.deepItems
 				.filter((i) => i.section == "notes")
 				.map((e) => {
 					return [e.id!, e];
 				}),
 		);
+		return c;
 	}
 
+	// points
+	get total_points(): number {
+		return this.data.data.total_points;
+	}
+	set total_points(v: number) {
+		this.data.data.total_points = v;
+	}
+
+	get spent_points(): number {
+		let total = this.attribute_points;
+		const [ad, disad, race, quirk] = this.trait_points;
+		total += ad + disad + race + quirk;
+		total += this.skill_points;
+		total += this.spell_points;
+		return total;
+	}
+
+	get unspent_points(): number {
+		return this.total_points - this.spent_points;
+	}
+	set unspent_points(v: number) {
+		if (v != this.unspent_points) this.total_points = v - this.spent_points;
+	}
+
+	get attribute_points(): number {
+		let total = 0;
+		this.attributes.forEach((a: Attribute) => {
+			total += a.points;
+		});
+		return total;
+	}
+
+	get trait_points(): [number, number, number, number] {
+		let [ad, disad, race, quirk] = [0, 0, 0, 0];
+		for (const t of this.traits) {
+			let [a, d, r, q] = calculateSingleTraitPoints(t);
+			ad += a;
+			disad += d;
+			race += r;
+			quirk += q;
+		}
+		return [ad, disad, race, quirk];
+	}
+
+	get skill_points(): number {
+		let total = 0;
+		for (const s of this.skills.filter(e => e instanceof SkillGURPS || e instanceof TechniqueGURPS) as Array<SkillGURPS | TechniqueGURPS>) {
+			total += s.points ?? 0;
+		}
+		return total;
+
+	}
+
+	get spell_points(): number {
+		let total = 0;
+		for (const s of this.spells.filter(e => e instanceof SpellGURPS || e instanceof RitualMagicSpellGURPS) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
+			total += s.points ?? 0;
+		}
+		return total;
+	}
+
+	// Wealth
+	get wealth_carried(): number {
+		let value = 0;
+		for (const e of this.carried_equipment.filter(e => e.parent == this)) {
+			value += e.extended_value;
+		}
+		return value;
+	}
+
+	get wealth_not_carried(): number {
+		let value = 0;
+		for (const e of this.other_equipment.filter(e => e.parent == this)) {
+			value += e.extended_value;
+		}
+		return value;
+	}
+
+	// strength
+	get st_or_zero(): number {
+		return Math.max(this.resolveAttributeCurrent(gid.Strength), 0);
+	}
+
+	get striking_st_bonus(): number {
+		return this.data.data.calc.striking_st_bonus;
+	}
+	set striking_st_bonus(v: number) {
+		this.data.data.calc.striking_st_bonus = v;
+	}
+
+	get lifting_st_bonus(): number {
+		return this.data.data.calc.lifting_st_bonus;
+	}
+	set lifting_st_bonus(v: number) {
+		this.data.data.calc.lifting_st_bonus = v;
+	}
+
+	get throwing_st_bonus(): number {
+		return this.data.data.calc.throwing_st_bonus;
+	}
+	set throwing_st_bonus(v: number) {
+		this.data.data.calc.throwing_st_bonus = v;
+	}
+
+	get thrust(): any {
+		return this.thrustFor(this.st_or_zero + this.striking_st_bonus);
+	}
+
+	thrustFor(st: number) {
+		return damageProgression.thrustFor(this.settings.damage_progression, st);
+	}
+
+	get swing(): any {
+		return this.swingFor(this.st_or_zero + this.striking_st_bonus);
+	}
+
+	swingFor(st: number) {
+		return damageProgression.swingFor(this.settings.damage_progression, st);
+	}
+
+	// Update Functions
 	prepareEmbeddedDocuments(): void {
 		this.updateSkills();
 		this.updateSpells();
@@ -153,15 +282,15 @@ export class CharacterGURPS extends ActorGURPS {
 	}
 
 	processFeatures() {
-		const featureStack: Map<string, Feature> = new Map();
-		for (const t of this.traits.filter(e => !(e instanceof TraitModifierGURPS))) {
+		const featureStack: Map<string, Feature[]> = new Map();
+		for (const t of this.traits) {
 			if (t instanceof TraitGURPS) {
 				for (const f of t.features) {
 					processFeature(t, featureStack, f, Math.max(t.levels, 0));
 				}
 			}
-			for (const f of t.cr_adj.features(t.cr)) {
-				this.processFeature(t, featureStack, f, Math.max(t.levels, 0));
+			for (const f of CR_Features(t.cr_adj, t.cr)) {
+				processFeature(t, featureStack, f, Math.max(t.levels, 0));
 			}
 			for (const m of t.modifiers) {
 				for (const f of m.features) {
@@ -174,24 +303,24 @@ export class CharacterGURPS extends ActorGURPS {
 				processFeature(s, featureStack, f, 0);
 			}
 		}
-		for (const e of this.equipment.filter(e => !(e instanceof EquipmentModifierGURPS))) {
-			for (const f of t.features) {
-				processFeature(t, featureStack, f, Math.max(e.levels, 0));
+		for (const e of this.equipment) {
+			for (const f of e.features) {
+				processFeature(e, featureStack, f, 0);
 			}
 			for (const m of e.modifiers) {
 				for (const f of m.features) {
-					processFeature(e, featureStack, f, m.levels);
+					processFeature(e, featureStack, f, 0);
 				}
 			}
 		}
 		this.featureStack = featureStack;
-		this.lifting_st_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.strength}.${Attribute.lifting_only}`, null);
-		this.striking_st_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.strength}.${Attribute.striking_only}`, null);
-		this.throwing_st_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.strength}.${Attribute.throwing_only}`, null);
-		for (const attr of this.attributes) {
-			const def = attr.attributeDef();
+		this.lifting_st_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Strength}.lifting_only`, null);
+		this.striking_st_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Strength}.striking_only`, null);
+		this.throwing_st_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Strength}.throwing_only`, null);
+		this.attributes.forEach(attr => {
+			const def = attr.attribute_def;
 			if (def) {
-				const attrID = Feature.attrID_prefix + attr.attr_id;
+				const attrID = BaseFeature.attrID_prefix + attr.attr_id;
 				attr.bonus = this.bonusFor(attrID, null);
 				if (def.type != "decimal") attr.bonus = Math.floor(attr.bonus);
 				attr.cost_reduction = this.costReductionFor(attrID);
@@ -199,21 +328,25 @@ export class CharacterGURPS extends ActorGURPS {
 				attr.bonus = 0;
 				attr.cost_reduction = 0;
 			}
-		}
+		});
 		this.updateProfile();
-		this.dodge_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.dodge}`, null);
-		this.parry_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.parry}`, null);
-		this.block_bonus = this.bonusFor(`${Feature.attrID_prefix}${GID.block}`, null);
+		this.calc.dodge_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Dodge}`, null);
+		this.calc.parry_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Parry}`, null);
+		this.calc.block_bonus = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.Block}`, null);
+	}
+
+	updateProfile(): void {
+		this.data.data.profile.SM = this.bonusFor(`${BaseFeature.attrID_prefix}${gid.SizeModifier}`, null);
 	}
 
 	processPrereqs(): void {
 		const prefix = "\n● "
-		const  not_met = i18n("gcsga.prerqs.not_met");
-		for (const t of this.traits.filter(e => e instanceof TraitMGURPS) {
+		const not_met = i18n("gcsga.prerqs.not_met");
+		for (const t of this.traits.filter(e => e instanceof TraitGURPS)) {
 			t.unsatisfied_reason = "";
 			if (!t.prereqsEmpty) {
 				const tooltip = new TooltipGURPS();
-				if (!t.prereqsSatisfied(this, toolip, prefix)) {
+				if (!t.prereqsSatisfied(this, tooltip, prefix)) {
 					t.unsatisfied_reason = not_met + tooltip.toString();
 				}
 			}
@@ -236,7 +369,7 @@ export class CharacterGURPS extends ActorGURPS {
 			if (satisfied && b instanceof RitualMagicSpellGURPS) satisfied = b.ritualMagicSatisfied(tooltip, prefix);
 			if (!satisfied) b.unsatisfied_reason = not_met + tooltip.toString();
 		}
-		for (const e of this.equipment.filter(e => !(e instanceof EquipmentModifierGURPS))) {
+		for (const e of this.equipment) {
 			e.unsatisfied_reason = "";
 			if (!e.prereqsEmpty) {
 				const tooltip = new TooltipGURPS();
@@ -262,6 +395,42 @@ export class CharacterGURPS extends ActorGURPS {
 		}
 		return changed;
 	}
+
+	newAttributes():Map<string, Attribute> {
+		const a: Map<string, Attribute> = new Map();
+		let i = 0;
+		for (let attr_id of this.settings.attributes.keys()) {
+			a.set(attr_id, new Attribute(this, attr_id, i));
+			i++;
+		}
+		return a;
+	}
+
+	resolveAttributeCurrent(attr_id: string): number {
+		const att = this.attributes.get(attr_id)?.current;
+		if (att) return att;
+		return Math.max();
+	}
+
+	bonusFor(id: string, tooltip: TooltipGURPS | null): number {
+		let total = 0;
+		this.featureStack.get(id)?.forEach(f => {
+			total += f.adjusted_amount;
+			tooltip = f.addToTooltip(tooltip);
+		});
+		return total;
+	}
+
+	costReductionFor(id: string): number {
+		let total = 0;
+		this.featureStack.get(id)?.forEach(f => {
+			if (f instanceof CostReduction) total += f.percentage;
+		});
+		if (total > 80) total = 80;
+		return Math.max(total, 0);
+	}
+
+
 
 	// /** @override */
 	// protected _preUpdate(
@@ -596,6 +765,43 @@ export function processFeature(parent: any, m: Map<string, Feature[]>, f: Featur
 	}
 	list!.push(f);
 	m.set(key, list!);
+}
+
+function calculateSingleTraitPoints(t: TraitGURPS | TraitContainerGURPS): [number, number, number, number] {
+	let [ad, disad, race, quirk] = [0, 0, 0, 0]
+	if (t instanceof TraitContainerGURPS) {
+		switch (t.container_type) {
+			case "group":
+				for (const child of t.children) {
+						const [a, d, r, q] = calculateSingleTraitPoints(child);
+						ad += a;
+						disad += d;
+						race += r;
+						quirk += q;
+				}
+				return [ad, disad, race, quirk];
+			case "race": {
+				return [0, 0, t.adjusted_points, 0]
+			}
+
+		}
+	}
+	let pts = t.adjusted_points;
+	if (pts == -1) quirk += pts;
+	else if (pts > 0) ad += pts;
+	else if (pts < 0) disad += pts;
+	return [ad, disad, race, quirk];
+}
+
+function CR_Features(cr_adj: CRAdjustment, cr: number): Feature[] {
+	if (cr_adj != "major_cost_of_living_increase") return [];
+	const f = new SkillBonus({
+		selection_type: "skills_with_name",
+		name: {compare: "is", qualifier: "Merchant"},
+		amount: cr - 5 // why 5?
+		}, {ready: true}
+	);
+	return [f];
 }
 
 export interface CharacterGURPS {

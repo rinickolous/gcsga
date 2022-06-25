@@ -19,9 +19,10 @@ export interface EquipmentContainerSystemData extends BaseContainerSystemData {
 	description: string;
 	prereqs: Prereq;
 	equipped: boolean;
+	quantity: number;
 	tech_level: string;
 	legality_class: string;
-	value: string;
+	value: number;
 	ignore_weight_for_skills: boolean;
 	weight: string;
 	uses: number;

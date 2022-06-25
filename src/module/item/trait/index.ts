@@ -1,4 +1,5 @@
-import { ItemGURPS } from "@item";
+import { ItemGURPS, TraitModifierGURPS } from "@item";
+import { CRAdjustment } from "@module/data";
 import { ContainerGURPS } from "../container";
 import { TraitData } from "./data";
 
@@ -21,6 +22,23 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get levels(): number {
 		return parseFloat(this.data.data.levels);
+	}
+
+	get cr(): number {
+		return this.data.data.cr;
+	}
+
+	get cr_adj(): CRAdjustment {
+		return this.data.data.cr_adj;
+	}
+
+	get modifiers(): Collection<TraitModifierGURPS> {
+		let m = this.items.filter(e => e instanceof TraitModifierGURPS) as TraitModifierGURPS[];
+		return new Collection<TraitModifierGURPS>(
+			m.map((e) => {
+				return [e.id!, e];
+			}),
+		);
 	}
 }
 

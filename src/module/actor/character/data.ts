@@ -11,9 +11,9 @@ import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellSystemData } from "@item/spell/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { TechniqueSystemData } from "@item/technique/data";
-import { DisplayMode, Height, LengthUnits, ObjArray, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
+import { DisplayMode, Height, LengthUnits, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
 import { CharacterGURPS } from ".";
-import { AttributeDef, AttributeSettingDef } from "./attribute";
+import { Attribute, AttributeDef, AttributeSettingDef } from "@module/attribute";
 import { Feature } from "@module/feature";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
@@ -45,8 +45,8 @@ export interface CharacterSystemData extends ActorSystemData {
 	created_date: string;
 	modified_date: string;
 	profile: CharacterProfile;
-	attributes: Record<string, AttributeDef>;
-	points: CharacterPoints;
+	attributes: Map<string, Attribute>;
+	total_points: number;
 	calc: CharacterCalc;
 }
 
@@ -79,7 +79,6 @@ export interface CharacterSettings {
 	use_modifying_dice_plus_adds: boolean;
 	damage_progression: DamageProgression;
 	use_simple_metric_conversions: boolean;
-	show_college_in_sheet_spells: boolean;
 	show_difficulty: boolean;
 	show_trait_modifier_adj: boolean;
 	show_equipment_modifier_adj: boolean;
@@ -94,7 +93,7 @@ export interface CharacterSettings {
 		orientation: string;
 	};
 	block_layout: Array<string>;
-	attributes: Record<string, AttributeSettingDef>;
+	attributes: Record<string, Attribute | AttributeDef>;
 	hit_locations: HitLocationTable;
 }
 
@@ -116,18 +115,6 @@ export interface CharacterProfile {
 	tech_level: string;
 	religion: string;
 	portrait: string;
-}
-
-export interface CharacterPoints {
-	total: number;
-	unspent: number;
-	race: number;
-	attributes: number;
-	advantages: number;
-	disadvantages: number;
-	quirks: number;
-	skills: number;
-	spells: number;
 }
 
 export interface CharacterCalc {
@@ -154,13 +141,15 @@ export type DamageProgression =
 
 export class HitLocationTable {
 	constructor(data: HitLocationTable) {
-		this.id = data.id;
+		// this.id = data.id;
 		this.name = data.name;
 		this.roll = data.roll;
-		this.locations = this.recursiveLocations(data.locations);
+		this.locations = recursiveLocations(data.locations);
 	}
 
-	recursiveLocations(locations: Array<HitLocation>) {
+}
+
+function recursiveLocations(locations: Array<HitLocation>) {
 		const list: Array<HitLocation> = [];
 		for (const i of locations) {
 			const j = i;
@@ -170,10 +159,9 @@ export class HitLocationTable {
 		// return new ObjArray<HitLocation>(list);
 		return list;
 	}
-}
 
 export interface HitLocationTable {
-	id: string;
+	// id: string;
 	name: string;
 	roll: RollGURPS;
 	locations: Array<HitLocation>;
@@ -187,7 +175,7 @@ export interface HitLocation {
 	hit_penalty: number;
 	dr_bonus: number;
 	description: string;
-	sub_table: HitLocationTable;
+	sub_table?: HitLocationTable;
 	calc: {
 		roll_range: RollRange;
 		dr: Record<string, number>;

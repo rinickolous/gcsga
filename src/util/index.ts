@@ -1,7 +1,21 @@
+import { DamageProgression } from "@actor/character/data";
 import { ContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
 import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
 import { StringCompare } from "@module/data";
+import { DiceGURPS } from "@module/dice";
+import { v4 as uuidv4 } from "uuid";
+import { thrustFor, swingFor } from "./damage_progression";
+
+export class damageProgression {
+	static thrustFor(p: DamageProgression, st: number): DiceGURPS {
+		return thrustFor(p, st);
+	}
+
+	static swingFor(p: DamageProgression, st: number): DiceGURPS {
+		return swingFor(p, st);
+	}
+}
 
 export function arrayBuffertoBase64(buffer: ArrayBuffer) {
 	console.log(buffer);
@@ -130,6 +144,39 @@ export function stringCompare(value: string | string[] | null, base?: StringComp
 			for (const v of value) if (v.endsWith(base.qualifier)) return false;
 			return true;
 	}
+}
+
+export function sanitize(id: string, permit_leading_digits: boolean, reserved: string[]): string {
+	const buffer: string[] = [];
+	for (let ch of id.split("")) {
+		if (ch.match("[A-Z]")) ch = ch.toLowerCase();
+		if (ch == "_" || ch.match("[a-z]") || (ch.match("[0-9]") && (permit_leading_digits || buffer.length > 0)))
+			buffer.push(ch);
+	}
+	if (buffer.length == 0) buffer.push("_");
+	let ok = true;
+	while (ok) {
+		ok = true;
+		id = buffer.join("");
+		for (const r of reserved) {
+			if (r == id) {
+				buffer.push("_");
+				ok = false;
+				break;
+			}
+		}
+		if (ok) return id;
+	}
+	// cannot reach
+	return "";
+}
+
+export function newUUID(): string {
+	return uuidv4();
+}
+
+export function getCurrentTime(): string {
+	return new Date().toISOString();
 }
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =

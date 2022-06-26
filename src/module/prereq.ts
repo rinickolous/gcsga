@@ -1,3 +1,5 @@
+import { CharacterGURPS } from "@actor";
+import { extractTechLevel } from "@util";
 import { NumberCompare, SpellPrereqSubType, StringCompare } from "./data";
 
 export type PrereqType =
@@ -45,6 +47,7 @@ export class BasePrereq {
 export class PrereqList extends BasePrereq {
 	prereqs: Prereq[];
 	all: boolean;
+	when_tl?: NumberCompare;
 
 	constructor(data: Prereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
@@ -54,6 +57,14 @@ export class PrereqList extends BasePrereq {
 			(data as PrereqList).prereqs.forEach((e: Prereq) => {
 				this.prereqs.push(new BasePrereq(e));
 			});
+	}
+
+	satisfied(character: CharacterGURPS, exclude: any, buffer: TooltipGURPS, prefix: string): boolean {
+		if (this.when_tl?.compare != "none") {
+			let tl = extractTechLevel(character.profile.tech_level);
+			if (tl < 0) tl = 0;
+			if (!)
+		}
 	}
 }
 

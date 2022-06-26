@@ -178,6 +178,10 @@ export function newUUID(): string {
 export function getCurrentTime(): string {
 	return new Date().toISOString();
 }
+
+export function extractTechLevel(str: string): number {
+	return Math.min(Math.max(0, parseInt(str)), 12);
+}
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =
 // 	| 'none'

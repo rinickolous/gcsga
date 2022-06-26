@@ -1,10 +1,13 @@
 import { ItemGURPS, TraitModifierGURPS } from "@item";
 import { CRAdjustment } from "@module/data";
+import { PrereqList } from "@module/prereq";
 import { ContainerGURPS } from "../container";
 import { TraitData } from "./data";
 
 //@ts-ignore
 export class TraitGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof TraitData {
 		return TraitData;
 	}
@@ -32,6 +35,10 @@ export class TraitGURPS extends ContainerGURPS {
 		return this.data.data.cr_adj;
 	}
 
+	get prereqs(): PrereqList {
+		return this.data.data.prereqs;
+	}
+
 	get modifiers(): Collection<TraitModifierGURPS> {
 		let m = this.items.filter(e => e instanceof TraitModifierGURPS) as TraitModifierGURPS[];
 		return new Collection<TraitModifierGURPS>(
@@ -39,6 +46,11 @@ export class TraitGURPS extends ContainerGURPS {
 				return [e.id!, e];
 			}),
 		);
+	}
+
+	get prereqsEmpty(): boolean {
+		const p = this.prereqs.prereqs.length;
+		return p == 0;
 	}
 }
 

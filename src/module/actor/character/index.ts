@@ -46,6 +46,10 @@ export class CharacterGURPS extends ActorGURPS {
 		}
 	}
 
+	get profile() {
+		return this.data.data.profile;
+	}
+
 	get settings() {
 		return this.data.data.settings;
 	}
@@ -344,7 +348,7 @@ export class CharacterGURPS extends ActorGURPS {
 		const not_met = i18n("gcsga.prerqs.not_met");
 		for (const t of this.traits.filter(e => e instanceof TraitGURPS)) {
 			t.unsatisfied_reason = "";
-			if (!t.prereqsEmpty) {
+			if (t instanceof TraitGURPS && !t.prereqsEmpty) {
 				const tooltip = new TooltipGURPS();
 				if (!t.prereqsSatisfied(this, tooltip, prefix)) {
 					t.unsatisfied_reason = not_met + tooltip.toString();

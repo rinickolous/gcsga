@@ -5,6 +5,8 @@ import { TraitContainerData } from "./data";
 
 //@ts-ignore
 export class TraitContainerGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof TraitContainerData {
 		return TraitContainerData;
 	}

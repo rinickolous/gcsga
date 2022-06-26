@@ -1,7 +1,7 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CR, CRAdjustment, ObjArray, Weapon } from "@module/data";
 import { Feature } from "@module/feature";
-import { Prereq } from "@module/prereq";
+import { Prereq, PrereqList } from "@module/prereq";
 import { TraitGURPS } from ".";
 
 export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
@@ -15,7 +15,7 @@ export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "item
 }
 
 export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	round_down: boolean;
 	allow_half_levels: boolean;
 	disabled: boolean;

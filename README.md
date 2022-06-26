@@ -89,11 +89,12 @@ instructions given there.
 This project is being developed under the terms of the
 [LIMITED LICENSE AGREEMENT FOR MODULE DEVELOPMENT] for Foundry Virtual Tabletop.
 
-Please add your licensing information here. Add your chosen license as
-`LICENSE` file to the project root and mention it here.  If you don't know which
-license to choose, take a look at [Choose an open source license].
+GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted in the [Steve Jackson Games Online Policy].
+
+This project is under an [MIT License].
 
 [GURPS Character Sheet by Richard Wilkes]: https://gurpscharactersheet.com/
 [League Basic JS Module Template]: https://github.com/League-of-Foundry-Developers/FoundryVTT-Module-Template
 [LIMITED LICENSE AGREEMENT FOR MODULE DEVELOPMENT]: https://foundryvtt.com/article/license/
-[Choose an open source license]: https://choosealicense.com/
+[Steve Jackson Games Online Policy]: http://www.sjgames.com/general/online_policy.html
+[MIT License]: https://choosealicense.com/

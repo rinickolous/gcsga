@@ -1,12 +1,15 @@
 import { CharacterGURPS } from "@actor";
-import { Default, DefaultedFrom } from "@module/data";
+import { PrereqList } from "@module/prereq";
+import { TooltipGURPS } from "@module/tooltip";
 import { ItemGURPS } from "../base";
 import { SkillData, SkillLevel } from "./data";
+import { SkillDefault } from "./skill_default";
 
 //@ts-ignore
 export class SkillGURPS extends ItemGURPS {
-	points?: number;
-	level?: SkillLevel;
+	points: number = 1;
+	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+	unsatisfied_reason = "";
 
 	static get schema(): typeof SkillData {
 		return SkillData;
@@ -27,6 +30,10 @@ export class SkillGURPS extends ItemGURPS {
 		}
 	}
 
+	get tech_level(): string {
+		return this.data.data.tech_level;
+	}
+
 	get attribute(): string {
 		return this.data.data.difficulty.split("/")[0] ?? "dx";
 	}
@@ -39,41 +46,79 @@ export class SkillGURPS extends ItemGURPS {
 		return this.data.data.specialization ?? "";
 	}
 
-	get defaulted_from(): DefaultedFrom {
+	get prereqs(): PrereqList {
+		return this.data.data.prereqs;
+	}
+
+	get defaulted_from(): SkillDefault {
 		return this.data.data.defaulted_from;
+	}
+	set defaulted_from(v: SkillDefault | null) {
+		this.data.data.defaulted_from = v;
 	}
 
 	get encumbrance_penalty_multiplier(): number {
 		return this.data.data.encumbrance_penalty_multiplier;
 	}
 
-	bestDefaultWithPoints(character: CharacterGURPS, excluded: Default): DefaultedFrom | null {
-		let best = this.bestDefault(character, excluded);
+	get calculateLevel(): SkillLevel {
+		const points = this.adjustedPoints(null);
+		if (!this.character) return {level: Math.max(), relative_level: Math.max(), tooltip: ""};
+		return this.character.calculateSkillLevel(this, points);
+	}
+
+
+	adjustedPoints(tooltip: TooltipGURPS | null): number {
+		let points = this.points;
+		if (this.character) {
+			points += this.character.skillPointComparedBonusFor("skill.points", this.name!, this.specialization, this.tags, tooltip);
+			points += this.character.bonusFor(`skills.points/${this.name}`, tooltip);
+			points = Math.max(points, 0);
+		}
+		return points;
+	}
+
+	bestDefaultWithPoints(excluded: SkillDefault | null): SkillDefault | null {
+		if (!this.character) return null;
+		let best = this.bestDefault(excluded);
 		if (best) {
-			const baseline = character.attributes[this.attribute].calc.value + SkillGURPS.baseRelativeLevel(this.difficulty);
+			const baseline = this.character.resolveAttributeCurrent(this.attribute) + SkillGURPS.baseRelativeLevel(this.difficulty);
 			let level = best.level;
 			best.adjusted_level = level;
 			if (level == baseline) best.points = 1;
 			else if (level == baseline + 1) best.points = 2;
-			else if (level > baseline + 1) best.points = 4*(level - (baseline + 1));
+			else if (level > baseline + 1) best.points = 4 * (level - (baseline + 1));
 			else best.points = -Math.max(level, 0);
 		}
 		return best;
 	}
 
-	bestDefault(character: CharacterGURPS, excluded: Default): DefaultedFrom | null {
-		if (!character || this.data.data.defaults.length == 0) return null;
+	bestDefault(excluded: SkillDefault | null): SkillDefault | null {
+		if (!this.character || this.data.data.defaults.length == 0) return null;
 		const excludes = new Map();
 		excludes.set(this.name!, true);
-		let bestDef: Default;
+		let bestDef = new SkillDefault();
 		let best = Math.max();
 		for (const def of this.data.data.defaults) {
-			if (this.equivalent(def, excluded) || this.inDefaultChain(character, def, new Map())) continue;
-			let level = def.
+			if (this.equivalent(def, excluded) || this.inDefaultChain(this.character, def, new Map())) continue;
+			let level = def.skillLevel(this.character, true, excludes, this.type.startsWith("skill"));
+			if (def.type == "skill") {
+				let other = this.character.bestSkillNamed(def.name, def.specialization, true, excludes);
+				if (other) {
+					level -= this.character.skillComparedBonusFor("skill.name", def.name, def.specialization, this.tags, null);
+					level -= this.character.bonusFor(`skill.name/${def.name.toLowerCase()}`, null);
+				}
+			}
+			if (best < level) {
+				best = level;
+				bestDef = def.noLevelOrPoints;
+				bestDef.level = level;
+			}
 		}
+		return bestDef;
 	}
 
-	equivalent(def: Default, other: Default): boolean {
+	equivalent(def: SkillDefault, other: SkillDefault | null): boolean {
 		return other != null &&
 			def.type == other.type &&
 			def.modifier == other.modifier &&
@@ -81,7 +126,7 @@ export class SkillGURPS extends ItemGURPS {
 			def.specialization == other.specialization;
 	}
 
-	inDefaultChain(character: CharacterGURPS, def: Default, lookedAt: Map<string, boolean>): boolean {
+	inDefaultChain(character: CharacterGURPS, def: SkillDefault, lookedAt: Map<string, boolean>): boolean {
 		if (!character || !def || !def.name) return false;
 		let hadOne = false;
 		for (const one of (character.skills as Collection<SkillGURPS>).filter(s => s.name == def.name && s.specialization == def.specialization)) {
@@ -95,7 +140,12 @@ export class SkillGURPS extends ItemGURPS {
 		return !hadOne;
 	}
 
-
+	updateLevel(): boolean {
+		const saved = this.level;
+		this.defaulted_from = this.bestDefaultWithPoints(null);
+		this.level = this.calculateLevel;
+		return saved != this.level;
+	}
 }
 
 export interface SkillGURPS {

@@ -1,6 +1,6 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { ObjArray, Weapon } from "@module/data";
-import { Prereq } from "@module/prereq";
+import { PrereqList } from "@module/prereq";
 import { RitualMagicSpellGURPS } from ".";
 
 export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", RitualMagicSpellSystemData>;
@@ -15,7 +15,7 @@ export interface RitualMagicSpellData extends Omit<RitualMagicSpellSource, "effe
 }
 
 export interface RitualMagicSpellSystemData extends ItemSystemData {
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	difficulty: string;
 	tech_level: string;
 	college: Array<string>;

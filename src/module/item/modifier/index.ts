@@ -10,6 +10,18 @@ export class TraitModifierGURPS extends ItemGURPS {
 	get levels(): number {
 		return this.data.data.levels;
 	}
+
+	get cost_description() {
+		return this.data.data.cost;
+	}
+
+	get full_description(): string {
+		let d = "";
+		d += this.name;
+		if (this.notes) d += ` (${this.notes})`;
+		if (this.character && this.character.settings.show_trait_modifier_adj) d += ` [${this.cost_description}]`;
+		return d;
+	}
 }
 
 export interface TraitModifierGURPS {

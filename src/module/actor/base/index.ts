@@ -7,7 +7,6 @@ import {
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import { Feature } from "@module/feature";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {

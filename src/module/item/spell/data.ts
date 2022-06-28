@@ -1,6 +1,6 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { ObjArray, Weapon } from "@module/data";
-import { Prereq } from "@module/prereq";
+import { PrereqList } from "@module/prereq";
 import { SpellGURPS } from ".";
 
 export type SpellSource = BaseItemSourceGURPS<"spell", SpellSystemData>;
@@ -15,7 +15,7 @@ export interface SpellData extends Omit<SpellSource, "effects" | "flags"> {
 }
 
 export interface SpellSystemData extends ItemSystemData {
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	difficulty: string;
 	tech_level: string;
 	college: Array<string>;

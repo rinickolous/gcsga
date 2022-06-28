@@ -1,7 +1,7 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { ObjArray, Weapon } from "@module/data";
 import { Feature } from "@module/feature";
-import { Prereq } from "@module/prereq";
+import { PrereqList } from "@module/prereq";
 import { EquipmentContainerGURPS } from ".";
 
 export type EquipmentContainerSource = BaseContainerSource<"equipment_container", EquipmentContainerSystemData>;
@@ -17,7 +17,7 @@ export interface EquipmentContainerData extends Omit<EquipmentContainerSource, "
 
 export interface EquipmentContainerSystemData extends BaseContainerSystemData {
 	description: string;
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	equipped: boolean;
 	quantity: number;
 	tech_level: string;

@@ -1,7 +1,8 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { Default, ObjArray, Weapon } from "@module/data";
+import { SkillDefault } from "@item/skill/skill_default";
+import { Weapon } from "@module/data";
 import { Feature } from "@module/feature";
-import { Prereq } from "@module/prereq";
+import { PrereqList } from "@module/prereq";
 import { TechniqueGURPS } from ".";
 
 export type TechniqueSource = BaseItemSourceGURPS<"technique", TechniqueSystemData>;
@@ -16,7 +17,7 @@ export interface TechniqueData extends Omit<TechniqueSource, "effects" | "flags"
 }
 
 export interface TechniqueSystemData extends ItemSystemData {
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	specialization: string;
 	tech_level: string;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;
@@ -25,14 +26,15 @@ export interface TechniqueSystemData extends ItemSystemData {
 	points: number;
 	// to change later
 	defaulted_from: any;
-	weapons: ObjArray<Weapon>;
-	defaults: ObjArray<Default>;
+	weapons: Weapon;
+	defaults: SkillDefault[];
 	features: Feature[];
 	calc: {
 		level: number;
 		rsl: string;
 	};
-	default: any;
+	default: SkillDefault;
+	limit: number;
 }
 
 export type EncumbrancePenaltyMultiplier = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;

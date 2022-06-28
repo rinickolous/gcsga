@@ -1,4 +1,3 @@
-
 export class DiceGURPS {
 	count = 3;
 	sides = 6;

@@ -1,11 +1,21 @@
 import { EquipmentModifierGURPS } from "@item";
 import { ContainerGURPS } from "@item/container";
-import { determineModCostValueTypeFromString, EquipmentGURPS, extractValue } from "@item/equipment";
+import {
+	determineModCostValueTypeFromString,
+	EquipmentGURPS,
+	extendedWeightAdjustForMods,
+	extractValue,
+	weightAdjustedForMods,
+} from "@item/equipment";
 import { EquipmentCostType } from "@item/equipment_modifier/data";
+import { WeightUnits } from "@module/data";
+import { PrereqList } from "@module/prereq";
 import { EquipmentContainerData } from "./data";
 
 //@ts-ignore
 export class EquipmentContainerGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof EquipmentContainerData {
 		return EquipmentContainerData;
 	}
@@ -23,6 +33,32 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 	set equipped(enabled: boolean) {
 		this.data.data.equipped = enabled;
+	}
+
+	get base_weight(): number {
+		return parseFloat(this.data.data.weight);
+	}
+
+	get prereqs(): PrereqList {
+		return this.data.data.prereqs;
+	}
+
+	adjusted_weight(for_skills: boolean, units: WeightUnits): number {
+		if (for_skills && this.data.data.ignore_weight_for_skills) return 0;
+		return weightAdjustedForMods(this.base_weight, this.modifiers, units);
+	}
+
+	extended_weight(for_skills: boolean, units: WeightUnits): number {
+		return extendedWeightAdjustForMods(
+			units,
+			this.quantity,
+			this.base_weight,
+			this.modifiers,
+			this.features,
+			null,
+			for_skills,
+			this.data.data.ignore_weight_for_skills,
+		);
 	}
 
 	get base_value(): number {
@@ -62,9 +98,11 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		}
 		return value * this.quantity;
 	}
-	
+
 	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
-		let m = this.items.filter(e => !(e instanceof EquipmentModifierGURPS)) as Array<EquipmentGURPS | EquipmentContainerGURPS>;
+		let m = this.items.filter((e) => !(e instanceof EquipmentModifierGURPS)) as Array<
+			EquipmentGURPS | EquipmentContainerGURPS
+		>;
 		return new Collection<EquipmentGURPS | EquipmentContainerGURPS>(
 			m.map((e) => {
 				return [e.id!, e];
@@ -73,7 +111,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get modifiers(): Collection<EquipmentModifierGURPS> {
-		let m = this.items.filter(e => e instanceof EquipmentModifierGURPS) as EquipmentModifierGURPS[];
+		let m = this.items.filter((e) => e instanceof EquipmentModifierGURPS) as EquipmentModifierGURPS[];
 		return new Collection<EquipmentModifierGURPS>(
 			m.map((e) => {
 				return [e.id!, e];
@@ -81,11 +119,15 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		);
 	}
 
-	processNonCFStep(cost_type: EquipmentCostType, value: number, modifiers: Collection<EquipmentModifierGURPS>): number {
+	processNonCFStep(
+		cost_type: EquipmentCostType,
+		value: number,
+		modifiers: Collection<EquipmentModifierGURPS>,
+	): number {
 		let cost = value;
 		let percentages = 0;
 		let additions = 0;
-		modifiers.forEach(mod => {
+		modifiers.forEach((mod) => {
 			if (mod.cost_type == cost_type) {
 				let t = determineModCostValueTypeFromString(mod.cost_amount);
 				let amt = extractValue(mod.cost_amount);
@@ -95,11 +137,10 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 			}
 		});
 		cost += additions;
-		if (percentages != 0) cost += value * percentages / 100;
+		if (percentages != 0) cost += (value * percentages) / 100;
 
 		return cost;
 	}
-
 }
 
 export interface EquipmentContainerGURPS {

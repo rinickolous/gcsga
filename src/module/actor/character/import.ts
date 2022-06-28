@@ -405,7 +405,7 @@ export class CharacterImporter {
 			},
 			cr: !!data.cr ? data.cr : -1,
 			cr_adj: data.cr_adj || "none",
-			features: this.importFeatures(`${data.name}${data.levels ? " "+data.levels : ""}`, data.features ?? []),
+			features: this.importFeatures(`${data.name}${data.levels ? " " + data.levels : ""}`, data.features ?? []),
 			// features: new ObjArray<Feature>((data.features as Feature[]) || []),
 			// weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 		};
@@ -458,7 +458,10 @@ export class CharacterImporter {
 			defaulted_from: data.defaulted_from || {},
 			weapons: new ObjArray<Weapon>((data.weapons as Weapon[]) || []),
 			defaults: new ObjArray<Default>((data.defaults as Default[]) || []),
-			features: this.importFeatures(`${data.name}${data.specialization ? " ("+data.specialization+")":""}`, data.features ?? []),
+			features: this.importFeatures(
+				`${data.name}${data.specialization ? " (" + data.specialization + ")" : ""}`,
+				data.features ?? [],
+			),
 			calc: {
 				level: data.calc?.level || 0,
 				rsl: data.calc?.rsl || "",
@@ -670,7 +673,7 @@ export class CharacterImporter {
 	importFeatures(item: string, features: BaseFeature[]): Feature[] {
 		const list: Feature[] = [];
 		features.forEach((f) => {
-			list.push(new BaseFeature({...f, ...{item: item}}));
+			list.push(new BaseFeature({ ...f, ...{ item: item } }));
 		});
 		return list;
 	}

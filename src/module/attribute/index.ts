@@ -1,39 +1,24 @@
-import { CharacterGURPS } from "@actor"; import { PoolThreshold, PoolThresholdDef } from "./pool_threshold";
-import { gid } from "@module/gid"
-import { AttributeType } from "./attribute_def";
+import { CharacterGURPS } from "@actor";
+import { PoolThreshold } from "./pool_threshold";
+import { gid } from "@module/gid";
+import { AttributeDef, AttributeType } from "./attribute_def";
+import { sanitize } from "@util";
 
-const reserved_ids: string[] = [
-	gid.Skill,
-	gid.Parry,
-	gid.Block,
-	gid.Dodge,
-	gid.SizeModifier,
-	gid.Ten
-];
+const reserved_ids: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
-export interface AttributeDef {
-	id: string;
-	type: AttributeType;
-	name: string;
-	full_name?: string;
-	attribute_base: string;
-	cost_per_point: number;
-	cost_adj_percent_per_sm?: number;
-	// TODO change later
-	thresholds?: PoolThreshold[] | PoolThresholdDef[];
-}
+export { AttributeDef, AttributeSettingDef } from "./attribute_def";
 
 export class Attribute {
 	character: CharacterGURPS;
-	bonus: number = 0;
-	cost_reduction: number = 0;
+	bonus = 0;
+	cost_reduction = 0;
 	order: number;
 	attr_id: string;
-	adj: number = 0;
+	adj = 0;
 	damage?: number;
 
 	constructor(character: CharacterGURPS, attr_id: string, order: number, data?: any) {
-		if (data) Object.assign(this, data); 
+		if (data) Object.assign(this, data);
 		this.character = character;
 		this.attr_id = attr_id;
 		this.order = order;
@@ -43,17 +28,17 @@ export class Attribute {
 		return this.attr_id;
 	}
 	set id(v: string) {
-		this.attr_id = sanitize(v, reserved_ids);
+		this.attr_id = sanitize(v, false, reserved_ids);
 	}
 
 	get attribute_def(): AttributeDef {
-		return this.character?.settings.attributes.get(this.attr_id);
+		return this.character?.settings.attributes[this.attr_id];
 	}
 
 	get max(): number {
 		const def = this.attribute_def;
 		if (!def) return 0;
-		let max = def.base_value(this.character) + this.adj + this.bonus;
+		let max = def.baseValue(this.character) + this.adj + this.bonus;
 		if (def.type != "decimal") {
 			max = Math.floor(max);
 		}
@@ -62,7 +47,7 @@ export class Attribute {
 	set max(v: number) {
 		if (this.max == v) return;
 		const def = this.attribute_def;
-		if (def) this.adj = v - (def.base_value(this.character) + this.bonus);
+		if (def) this.adj = v - (def.baseValue(this.character) + this.bonus);
 	}
 
 	get current(): number {
@@ -73,13 +58,13 @@ export class Attribute {
 		}
 		return max - (this.damage ?? 0);
 	}
-	
+
 	get current_threshold(): PoolThreshold | null {
 		const def = this.attribute_def;
-		if (def) return null;
+		if (!def) return null;
 		const max = this.max;
 		const cur = this.current;
-		for (const t of def.thresholds) {
+		if (def.thresholds) for (const t of def.thresholds) {
 			if (cur <= t.threshold(max)) return t;
 		}
 		return null;
@@ -89,9 +74,15 @@ export class Attribute {
 		const def = this.attribute_def;
 		if (!def) return 0;
 		let sm = 0;
-		if (this.character) sm = this.character.prrofile.adjusted_size_modifier;
+		if (this.character) sm = this.character.adjusted_size_modifier;
 		return def.computeCost(this.character, this.adj, this.cost_reduction, sm);
 	}
+}
+
+export function resolveAttributeName(character: CharacterGURPS, attribute: string): string {
+	const def = character.settings.attributes[attribute];
+	if (def) return def.name;
+	return attribute;
 }
 
 // export class Attribute {

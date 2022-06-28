@@ -1,5 +1,6 @@
-import { i18n_f, signed } from "@util";
+import { i18n, i18n_f, signed } from "@util";
 import { StringCompare, NumberCompare } from "./data";
+import { TooltipGURPS } from "./tooltip";
 
 export type FeatureType =
 	| "attribute_bonus"
@@ -76,12 +77,13 @@ export class BaseFeature {
 		let what = i18n("gcsga.tooltip.level");
 		let str = signed(this.amount);
 		if (this.per_level)
-			return i18n_f("gcsga.tooltip.adj_with_level", {la: signed(this.adjusted_amount), a: str, w: what})
+			return i18n_f("gcsga.tooltip.adj_with_level", { la: signed(this.adjusted_amount), a: str, w: what });
 		return str;
 	}
 
-	addToTooltip(tooltip: string) {
-		tooltip += `\n${this.parent} \[${this.formatWithLevel()}]`;
+	addToTooltip(tooltip: TooltipGURPS | null) {
+		if (!tooltip) tooltip = new TooltipGURPS();
+		tooltip.push(`\n${this.parent} \[${this.formatWithLevel()}]`);
 		return tooltip;
 	}
 }
@@ -96,7 +98,11 @@ export class SpellBonus extends BaseFeature {}
 export class SpellPointBonus extends BaseFeature {}
 export class WeaponBonus extends BaseFeature {}
 export class CostReduction extends BaseFeature {}
-export class ContainedWeightReduction extends BaseFeature {}
+export class ContainedWeightReduction extends BaseFeature {
+	get is_percentage_reduction(): boolean {
+		return this.reduction.endsWith("%");
+	}
+}
 
 export interface AttributeBonus extends BaseFeature {
 	attribute: string;
@@ -144,7 +150,7 @@ export interface CostReduction extends BaseFeature {
 	percentage: number;
 }
 export interface ContainedWeightReduction extends BaseFeature {
-	percentage: number;
+	reduction: string;
 }
 
 export type SkillBonusSelection = "skills_with_name" | "weapons_with_name" | "this_weapon";

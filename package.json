@@ -39,6 +39,7 @@
 		"@rollup/plugin-typescript": "^8.3.2",
 		"@rollup/stream": "^2.0.0",
 		"@types/jest": "^28.1.1",
+		"@types/uuid": "^8.3.4",
 		"@typescript-eslint/eslint-plugin": "^5.27.1",
 		"@typescript-eslint/parser": "^5.27.1",
 		"eslint": "^8.17.0",

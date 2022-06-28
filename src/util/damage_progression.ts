@@ -3,24 +3,25 @@ import { DiceGURPS } from "@module/dice";
 
 export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 	if (p == "basic_set") {
-		if (st < 19) return new DiceGURPS({
-			count: 1,
-			sides: 6,
-			modifier: -(6 - (st-1)/2),
-			multiplier: 1
-		});
+		if (st < 19)
+			return new DiceGURPS({
+				count: 1,
+				sides: 6,
+				modifier: -(6 - (st - 1) / 2),
+				multiplier: 1,
+			});
 		let value = st - 11;
 		if (st > 50) {
 			value--;
 			if (st > 79) {
-				value -= 1 + (st-80)/5;
+				value -= 1 + (st - 80) / 5;
 			}
 		}
 		return new DiceGURPS({
-			count: value/8 + 1,
+			count: value / 8 + 1,
 			sides: 6,
-			modifier: value%8/2 - 1,
-			multiplier: 1
+			modifier: (value % 8) / 2 - 1,
+			multiplier: 1,
 		});
 	} else if (p == "knowing_your_own_strength") {
 		if (st < 12) {
@@ -28,13 +29,13 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 				count: 1,
 				sides: 6,
 				modifier: st - 12,
-				multiplier: 1
+				multiplier: 1,
 			});
 		}
 		return new DiceGURPS({
-			count: (st-7) / 4,
+			count: (st - 7) / 4,
 			sides: 6,
-			modifier: (st+1)%4 - 1,
+			modifier: ((st + 1) % 4) - 1,
 			multiplier: 1,
 		});
 	} else if (p == "no_school_grognard_damage") {
@@ -43,14 +44,14 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 				count: 1,
 				sides: 6,
 				modifier: -(14 - st) / 2,
-				multiplier: 1
+				multiplier: 1,
 			});
 		}
 		st -= 11;
 		return new DiceGURPS({
-			count: st/8 + 1,
+			count: st / 8 + 1,
 			sides: 6,
-			modifier: (st%8)/2 - 1,
+			modifier: (st % 8) / 2 - 1,
 			multiplier: 1,
 		});
 	} else if (p == "thrust_equals_swing_minus_2") {
@@ -65,14 +66,14 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 			return new DiceGURPS({
 				count: 1,
 				sides: 6,
-				modifier: ((st+1)/2) - 7,
+				modifier: (st + 1) / 2 - 7,
 				multiplier: 1,
 			});
 		} else if (st < 10) {
 			return new DiceGURPS({
 				count: 1,
 				sides: 3,
-				modifier: ((st+1)/2) - 5,
+				modifier: (st + 1) / 2 - 5,
 				multiplier: 1,
 			});
 		}
@@ -81,7 +82,7 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 			count: st / 2,
 			sides: 3,
 			modifier: st % 2,
-			multiplier: 1
+			multiplier: 1,
 		});
 	} else {
 		return thrustFor("basic_set", st);
@@ -90,30 +91,31 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 
 export function swingFor(p: DamageProgression, st: number): DiceGURPS {
 	if (p == "basic_set") {
-		if (st < 10) return new DiceGURPS({
-			count: 1,
-			sides: 6,
-			modifier: -(5 - (st-1)/2),
-			multiplier: 1
-		});
+		if (st < 10)
+			return new DiceGURPS({
+				count: 1,
+				sides: 6,
+				modifier: -(5 - (st - 1) / 2),
+				multiplier: 1,
+			});
 		else if (st < 28) {
 			st -= 9;
 			return new DiceGURPS({
-				count: st/4 + 1,
+				count: st / 4 + 1,
 				sides: 6,
-				modifier: st % 4 - 1,
-				multiplier: 1
+				modifier: (st % 4) - 1,
+				multiplier: 1,
 			});
 		}
 		let value = st;
 		if (st > 40) value -= (st - 40) / 5;
 		if (st > 59) value++;
-		value +=9;
+		value += 9;
 		return new DiceGURPS({
-			count: value/8 + 1,
+			count: value / 8 + 1,
 			sides: 6,
-			modifier: value%8/2 - 1,
-			multiplier: 1
+			modifier: (value % 8) / 2 - 1,
+			multiplier: 1,
 		});
 	} else if (p == "knowing_your_own_strength") {
 		if (st < 12) {
@@ -121,13 +123,13 @@ export function swingFor(p: DamageProgression, st: number): DiceGURPS {
 				count: 1,
 				sides: 6,
 				modifier: st - 10,
-				multiplier: 1
+				multiplier: 1,
 			});
 		}
 		return new DiceGURPS({
-			count: (st-5) / 4,
+			count: (st - 5) / 4,
 			sides: 6,
-			modifier: (st+1)%4 - 1,
+			modifier: ((st + 1) % 4) - 1,
 			multiplier: 1,
 		});
 	} else if (p == "no_school_grognard_damage") {

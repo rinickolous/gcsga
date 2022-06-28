@@ -1,5 +1,5 @@
 import { ItemGURPS } from "@item/base";
-import { EquipmentCostType, EquipmentModifierData } from "./data";
+import { EquipmentCostType, EquipmentModifierData, EquipmentWeightType } from "./data";
 
 //@ts-ignore
 export class EquipmentModifierGURPS extends ItemGURPS {
@@ -13,6 +13,14 @@ export class EquipmentModifierGURPS extends ItemGURPS {
 
 	get cost_amount(): string {
 		return this.data.data.cost;
+	}
+
+	get weight_type(): EquipmentWeightType {
+		return this.data.data.weight_type;
+	}
+
+	get weight_amount(): string {
+		return this.data.data.weight;
 	}
 }
 

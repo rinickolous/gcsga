@@ -1,5 +1,5 @@
 import { ItemDataGURPS } from "@item/data";
-import { ActorGURPS } from "@actor";
+import { ActorGURPS, CharacterGURPS } from "@actor";
 import {
 	Context,
 	DocumentModificationOptions,
@@ -17,7 +17,7 @@ import {
 import { DropData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import { BaseFeature } from "@module/feature";
+import { BaseFeature, Feature } from "@module/feature";
 import { TraitGURPS } from "@item/trait";
 import { TraitContainerGURPS } from "@item/trait_container";
 import { SkillGURPS } from "@item/skill";
@@ -61,20 +61,41 @@ export class ItemGURPS extends Item {
 		}
 	}
 
-	get features() {
+	get features(): Feature[] {
 		if (!this.data.data.hasOwnProperty("features")) return [];
 		else {
 			const features = [];
 			//@ts-ignore
 			for (let i of this.data.data.features) {
-				features.push(new BaseFeature({...i, ...{item: this.name}}));
+				features.push(new BaseFeature({ ...i, ...{ item: this.name } }));
 			}
 			return features;
 		}
 	}
 
-	get enabled() {
+	get enabled(): boolean {
 		return true;
+	}
+
+	get tags(): string[] {
+		return this.data.data.tags;
+	}
+
+	get notes() {
+		return this.data.data.notes;
+	}
+
+	get prereqsEmpty(): boolean {
+		if (!this.hasOwnProperty("prereqs")) return false;
+		const p = (this as any).prereqs.prereqs.length;
+		return p == 0;
+	}
+
+	get character(): CharacterGURPS | null {
+		let parent = this.parent;
+		if (parent instanceof ItemGURPS) parent = parent.character;
+		if (parent instanceof CharacterGURPS) return parent;
+		return null;
 	}
 
 	protected async _preCreate(
@@ -195,7 +216,7 @@ export class ItemGURPS extends Item {
 		for (const [k, v] of Object.entries(sections)) {
 			for (const t of v) {
 				if (this instanceof t) return k;
-			}	
+			}
 		}
 		return "error";
 	}
@@ -215,7 +236,7 @@ export class ItemGURPS extends Item {
 }
 
 //@ts-ignore
-export interface ItemGURPS {
+export interface ItemGURPS extends Item {
 	readonly data: ItemDataGURPS;
 	readonly parent: ActorGURPS | ItemGURPS | null;
 }

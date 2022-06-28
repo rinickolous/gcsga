@@ -1,3 +1,5 @@
+import { SkillDefault } from "@item/skill/skill_default";
+
 export class RollRange extends String {
 	roll() {
 		const match = this.match(/([\d]*)-([\d]*)/);
@@ -13,7 +15,7 @@ export type Height = string;
 export type Weight = string;
 
 export class RollGURPS extends String {
-	constructor(s: string) {
+	constructor(_: string) {
 		super();
 	}
 
@@ -30,7 +32,7 @@ export class ObjArray<T> {
 	push(...items: T[]): number {
 		return Array.prototype.push(this, ...items);
 	}
-	forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): void {
+	forEach(callbackfn: (value: T, index: number, array: T[]) => void, _?: any): void {
 		return Array.prototype.forEach(callbackfn);
 	}
 	constructor(a: Array<T>) {
@@ -69,6 +71,7 @@ export interface NumberCompare {
 export type NumberComparison =
 	| "none" // maybe not needed
 	| "is"
+	| "is_not"
 	| "at_least"
 	| "at_most";
 
@@ -94,7 +97,7 @@ export interface Weapon {
 		level: number;
 		damage: string;
 	};
-	defaults: ObjArray<Default>;
+	defaults: SkillDefault[];
 }
 
 export interface MeleeWeapon extends Weapon {
@@ -135,31 +138,6 @@ export interface RangedWeapon {
 	};
 }
 
-// Default
-export interface Default {
-	type: SkillDefaultType;
-	modifier: number;
-	name?: string;
-	specialization?: string;
-}
-
-export type SkillDefaultType =
-	| "block"
-	| "parry"
-	| "skill"
-	| "10"
-	| string;
-
-export interface DefaultedFrom {
-	type: SkillDefaultType;
-	modifier: number;
-	level: number;
-	adjusted_level: number;
-	points: number;
-	name?: string;
-	specialization?: string;
-}
-
 export interface Bonus {
 	name: string;
 	amount: number;
@@ -179,7 +157,7 @@ export const CRAdjustment = [
 ] as const;
 export type CRAdjustment = typeof CRAdjustment[number];
 
-export const SpellPrereqSubType = ["name", "any", "college", "college_count", "category"] as const;
+export const SpellPrereqSubType = ["name", "any", "college", "college_count", "tag"] as const;
 export type SpellPrereqSubType = typeof SpellPrereqSubType[number];
 
 export const StrengthBonusLimitation = ["striking_only", "lifting_only", "throwing_only"] as const;

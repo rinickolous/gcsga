@@ -1,7 +1,7 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { ObjArray, Weapon, Default, DefaultedFrom } from "@module/data";
 import { Feature } from "@module/feature";
-import { Prereq } from "@module/prereq";
+import { PrereqList } from "@module/prereq";
 import { SkillGURPS } from ".";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
@@ -16,7 +16,7 @@ export interface SkillData extends Omit<SkillSource, "effects" | "flags"> {
 }
 
 export interface SkillSystemData extends ItemSystemData {
-	prereqs: Prereq;
+	prereqs: PrereqList;
 	specialization: string;
 	tech_level: string;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;

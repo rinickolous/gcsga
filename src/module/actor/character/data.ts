@@ -53,7 +53,7 @@ export interface CharacterSystemData extends ActorSystemData {
 export interface ImportedData extends Omit<CharacterSystemData, "attributes" | "settings"> {
 	total_points: number;
 	attributes: Array<AttributeDef>;
-	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<AttributeSettingDef> };
+	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<Attribute> };
 	traits: Array<TraitContainerSystemData | TraitSystemData>;
 	skills: Array<SkillContainerSystemData | SkillSystemData | TechniqueSystemData>;
 	spells: Array<SpellContainerSystemData | SpellSystemData | RitualMagicSpellSystemData>;
@@ -93,7 +93,7 @@ export interface CharacterSettings {
 		orientation: string;
 	};
 	block_layout: Array<string>;
-	attributes: Record<string, Attribute | AttributeDef>;
+	attributes: Record<string, AttributeSettingDef>;
 	hit_locations: HitLocationTable;
 }
 
@@ -146,19 +146,18 @@ export class HitLocationTable {
 		this.roll = data.roll;
 		this.locations = recursiveLocations(data.locations);
 	}
-
 }
 
 function recursiveLocations(locations: Array<HitLocation>) {
-		const list: Array<HitLocation> = [];
-		for (const i of locations) {
-			const j = i;
-			if (!!i.sub_table) j.sub_table = new HitLocationTable(i.sub_table);
-			list.push(j);
-		}
-		// return new ObjArray<HitLocation>(list);
-		return list;
+	const list: Array<HitLocation> = [];
+	for (const i of locations) {
+		const j = i;
+		if (!!i.sub_table) j.sub_table = new HitLocationTable(i.sub_table);
+		list.push(j);
 	}
+	// return new ObjArray<HitLocation>(list);
+	return list;
+}
 
 export interface HitLocationTable {
 	// id: string;

@@ -2,10 +2,12 @@ import { DamageProgression } from "@actor/character/data";
 import { ContainerGURPS, EquipmentGURPS, ItemGURPS } from "@item";
 import { SkillContainerSystemData } from "@item/skill_container/data";
 import { SpellContainerSystemData } from "@item/spell_container/data";
-import { StringCompare } from "@module/data";
+import { NumberCompare, StringCompare } from "@module/data";
 import { DiceGURPS } from "@module/dice";
 import { v4 as uuidv4 } from "uuid";
 import { thrustFor, swingFor } from "./damage_progression";
+
+export { CalculateSkillLevel, CalculateTechniqueLevel, CalculateSpellLevel, CalculateRitualMagicSpellLevel } from "./skill";
 
 export class damageProgression {
 	static thrustFor(p: DamageProgression, st: number): DiceGURPS {
@@ -115,8 +117,9 @@ export function sheetSection(item: ItemGURPS | ContainerGURPS, type: string) {
 	return types.includes(item.type) && eqp;
 }
 
-export function stringCompare(value: string | string[] | null, base?: StringCompare): boolean {
+export function stringCompare(value?: string | string[] | null, base?: StringCompare): boolean {
 	if (!base) return true;
+	if (!value) return false;
 	if (typeof value == "string") value = [value];
 	switch (base.compare) {
 		case "none":
@@ -143,6 +146,22 @@ export function stringCompare(value: string | string[] | null, base?: StringComp
 		case "does_not_end_with":
 			for (const v of value) if (v.endsWith(base.qualifier)) return false;
 			return true;
+	}
+}
+
+export function numberCompare(value: number, base?: NumberCompare): boolean {
+	if (!base) return true;
+	switch (base.compare) {
+		case "none":
+			return true;
+		case "is":
+			return value == base.qualifier;
+		case "is_not":
+			return value != base.qualifier;
+		case "at_most":
+			return value <= base.qualifier;
+		case "at_least":
+			return value >= base.qualifier;
 	}
 }
 
@@ -182,6 +201,18 @@ export function getCurrentTime(): string {
 export function extractTechLevel(str: string): number {
 	return Math.min(Math.max(0, parseInt(str)), 12);
 }
+
+export function CR_Multiplier(cr: number): number {
+	switch (cr) {
+		case -1: return 1;
+		case 6: return 2;
+		case 9: return 1.5;
+		case 12: return 1;
+		case 15: return 0.5;
+		default: return CR_Multiplier(-1);
+	}
+}
+
 // export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 // export type CRAdjustment =
 // 	| 'none'

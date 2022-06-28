@@ -15,8 +15,8 @@ export class PoolThreshold {
 	multiplier = 0;
 	divisor = 1;
 	addition = 0;
-	ops: ThresholdOp[];
-	
+	ops: ThresholdOp[] = [];
+
 	constructor(data: PoolThresholdDef) {
 		Object.assign(this, data);
 	}
@@ -24,6 +24,6 @@ export class PoolThreshold {
 	threshold(max: number): number {
 		let divisor = this.divisor;
 		if (divisor == 0) divisor = 1;
-		return Math.round(max * this.multiplier / this.divisor + this.addition);
+		return Math.round((max * this.multiplier) / this.divisor + this.addition);
 	}
 }

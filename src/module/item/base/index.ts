@@ -2,7 +2,7 @@ import { GURPSCONFIG as CONFIG } from "@module/config";
 import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemType } from "@item/data";
 import { ActorGURPS, CharacterGURPS } from "@actor";
-import { ContainerGURPS } from "@item";
+import { ContainerGURPS } from "@item/container";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -41,6 +41,16 @@ class BaseItemGURPS extends Item {
 
 	get notes(): string {
 		return this.data.data.notes;
+	}
+
+	get parentCount(): number {
+		let i = 0;
+		let p: any = this.parent;
+		while (p) {
+			i++;
+			p = p.parent;
+		}
+		return i;
 	}
 }
 

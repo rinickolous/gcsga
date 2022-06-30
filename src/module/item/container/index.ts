@@ -23,7 +23,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		}
 		return new Collection(
 			deepItems.map((e) => {
-				return [e.id!, e];
+				return [e.id!, e]; // should never be null
 			}),
 		);
 	}
@@ -58,11 +58,12 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return [];
 	}
 
+	//@ts-ignore
 	override getEmbeddedDocument(
 		embeddedName: string,
 		id: string,
 		options?: { strict?: boolean },
-	): foundry.abstract.Document<any, any> | undefined {
+	): foundry.abstract.Document<any, any> | ItemGURPS | undefined {
 		if (embeddedName !== "Item") return super.getEmbeddedDocument(embeddedName, id, options);
 		return this.items.get(id);
 	}
@@ -100,15 +101,16 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return updatedItems;
 	}
 
+	//@ts-ignore
 	override async deleteEmbeddedDocuments(
 		embeddedName: string,
 		ids: string[],
 		context?: DocumentModificationContext | undefined,
-	): Promise<Document<any, any, Metadata<any>>[]> {
+	): Promise<Document<any, any, Metadata<any>>[] | ItemGURPS[]> {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
-		const newContainedItems = containedItems.filter((itemData: ItemDataGURPS) => !ids.includes(itemData._id));
-		const deletedItems = this.items.filter((itemData: ItemDataGURPS) => ids.includes(itemData._id));
+		const newContainedItems = containedItems.filter((itemData: ItemDataGURPS) => !ids.includes(itemData._id!));
+		const deletedItems = this.items.filter((itemData: ItemGURPS) => ids.includes(itemData.data._id!));
 		if (this.parent)
 			await this.parent.updateEmbeddedDocuments("Item", [
 				{ _id: this.data._id, "flags.gcsga.contentsData": newContainedItems },
@@ -123,13 +125,15 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		const oldItems = this.items;
 		this.items = new foundry.utils.Collection();
 		containedItems.forEach((itemData: ItemDataGURPS) => {
-			if (!oldItems?.has(itemData._id)) {
+			if (!oldItems?.has(itemData._id!)) {
 				// "this as any" used to ignore parent type incompatibility
-				const theItem = new CONFIG.Item.documentClass(itemData, { parent: this as any });
+				const theItem = new CONFIG.Item.documentClass(itemData as any as ItemDataConstructorData, {
+					parent: this as any,
+				});
 				theItem.prepareData();
-				this.items.set(itemData._id, theItem as ItemGURPS);
+				this.items.set(itemData._id!, theItem as ItemGURPS);
 			} else {
-				const currentItem = oldItems.get(itemData._id);
+				const currentItem = oldItems.get(itemData._id!);
 				if (currentItem) {
 					setProperty(currentItem.data._source, "name", itemData.name);
 					setProperty(currentItem.data._source, "flags", itemData.flags);
@@ -137,7 +141,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 					// commented out because may not be necessary
 					// setProperty(currentItem.data._source, "sort", itemData.sort);
 					currentItem.prepareData();
-					this.items.set(itemData._id, currentItem);
+					this.items.set(itemData._id!, currentItem);
 				}
 			}
 		});

@@ -1,4 +1,5 @@
 import { CharacterGURPS } from "@actor";
+import { SkillContainerGURPS, SkillGURPS, TechniqueGURPS } from "@item";
 import { NumberCompare, StringCompare } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
@@ -17,7 +18,7 @@ export class SkillPrereq extends BasePrereq {
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
 		let satisfied = false;
 		let tech_level = "";
-		if (exclude instanceof SkillGURPS) tech_level = exclude.tech_level;
+		if (exclude instanceof SkillGURPS) tech_level = exclude.techLevel;
 		character.skills.forEach((sk) => {
 			if (sk instanceof SkillContainerGURPS) return;
 			sk = sk as SkillGURPS | TechniqueGURPS;
@@ -28,7 +29,7 @@ export class SkillPrereq extends BasePrereq {
 			)
 				return false;
 			satisfied = numberCompare(sk.level.level, this.level);
-			if (satisfied && tech_level) satisfied = !sk.tech_level || tech_level == sk.tech_level;
+			if (satisfied && tech_level) satisfied = !sk.techLevel || tech_level == sk.techLevel;
 		});
 		if (!this.has) satisfied = !satisfied;
 		if (!satisfied) {
@@ -36,11 +37,11 @@ export class SkillPrereq extends BasePrereq {
 			tooltip.push(i18n(`gcsga.prereqs.has.${this.has}`));
 			tooltip.push(i18n(`gcsga.prereqs.skill.name`));
 			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.name?.compare}`));
-			tooltip.push(this.name?.qualifier);
+			tooltip.push(this.name.qualifier!);
 			if (this.specialization.compare != "none") {
 				tooltip.push(i18n(`gcsga.prereqs.skill.specialization`));
 				tooltip.push(i18n(`gcsga.prereqs.criteria.${this.specialization.compare}`));
-				tooltip.push(this.specialization.qualifier);
+				tooltip.push(this.specialization.qualifier!);
 				tooltip.push(",");
 			}
 			if (!tech_level) {

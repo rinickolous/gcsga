@@ -129,3 +129,10 @@ export type CRAdjustment =
 	| "fright_check_bonus"
 	| "minor_cost_of_living_increase"
 	| "major_cost_of_living_increase";
+
+export const Difficulty = {
+	Easy: "e",
+	Average: "a",
+	Hard: "h",
+	Wildcard: "w",
+};

@@ -1,5 +1,9 @@
+import { ContainedWeightReduction } from "@feature";
 import { EquipmentGURPS, EquipmentModifierGURPS } from "@item";
 import { ContainerGURPS } from "@item/container";
+import { processMultiplyAddWeightStep } from "@item/equipment";
+import { WeightUnits } from "@module/data";
+import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentContainerData } from "./data";
 
 export class EquipmentContainerGURPS extends ContainerGURPS {
@@ -10,6 +14,14 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	// Getters
 	get other(): boolean {
 		return this.data.data.other;
+	}
+
+	get quantity(): number {
+		return this.data.data.quantity;
+	}
+
+	get weight(): number {
+		return parseFloat(this.data.data.weight);
 	}
 
 	get features() {
@@ -28,22 +40,91 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
 		//@ts-ignore
 		return new Collection(
-			this.deepItems
+			this.items
 				.filter((item) => item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
 	get modifiers(): Collection<EquipmentModifierGURPS> {
 		//@ts-ignore
 		return new Collection(
-			this.deepItems
+			this.items
 				.filter((item) => item instanceof EquipmentModifierGURPS)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
+	}
+
+	// Value Calculator
+	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
+		if (for_skills && this.data.data.ignore_weight_for_skills) return 0;
+		return this.weightAdjustedForMods(units);
+	}
+
+	weightAdjustedForMods(units: WeightUnits): number {
+		let percentages = 0;
+		let w = this.weight;
+
+		this.modifiers.forEach((mod) => {
+			if (mod.weightType == "to_original_weight") {
+				const t = determineModWeightValueTypeFromString(mod.weightAmount);
+				const f = extractFraction(mod.weightAmount);
+				const amt = f.numerator / f.denominator;
+				if (t == "weight_addition") {
+					w = w + amt;
+				} else {
+					percentages += amt;
+				}
+			}
+		});
+		if (percentages != 0) w += (this.weight * percentages) / 100;
+
+		w = processMultiplyAddWeightStep("to_base_weight", w, units, this.modifiers);
+
+		w = processMultiplyAddWeightStep("to_final_base_weight", w, units, this.modifiers);
+
+		w = processMultiplyAddWeightStep("to_final_weight", w, units, this.modifiers);
+
+		return w;
+	}
+
+	extendedWeight(for_skills: boolean, units: WeightUnits): number {
+		return this.extendedWeightAdjustForMods(units, for_skills);
+	}
+
+	extendedWeightAdjustForMods(units: WeightUnits, for_skills: boolean): number {
+		if (this.quantity <= 0) return 0;
+		let base = 0;
+		if (!for_skills || !this.data.data.ignore_weight_for_skills) base = this.weightAdjustedForMods(units);
+		if (this.children && this.children.entries.length != 0) {
+			let contained = 0;
+			this.children?.forEach((ch) => {
+				contained += ch.extendedWeight(for_skills, units);
+			});
+			let percentage = 0;
+			let reduction = 0;
+			for (const f of this.features) {
+				if (f instanceof ContainedWeightReduction) {
+					if (f.is_percentage_reduction) percentage += parseFloat(f.reduction);
+					else reduction += parseFloat(f.reduction);
+				}
+			}
+			this.modifiers.forEach((mod) => {
+				for (const f of mod.features) {
+					if (f instanceof ContainedWeightReduction) {
+						if (f.is_percentage_reduction) percentage += parseFloat(f.reduction);
+						else reduction += parseFloat(f.reduction);
+					}
+				}
+			});
+			if (percentage >= 100) contained = 0;
+			else if (percentage > 0) contained -= (contained * percentage) / 100;
+			base += Math.max(contained - reduction, 0);
+		}
+		return base * this.quantity;
 	}
 }
 

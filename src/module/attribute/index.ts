@@ -29,7 +29,7 @@ export class Attribute {
 		this.attr_id = sanitize(v, false, reservedIds);
 	}
 
-	get attribute_def(): AttributeDef {
+	get attribute_def(): AttributeDef | any {
 		return this.actor?.settings.attributes[this.attr_id];
 	}
 
@@ -76,4 +76,15 @@ export class Attribute {
 		if (this.actor) sm = this.actor.adjustedSizeModifier;
 		return def.computeCost(this.actor, this.adj, this.cost_reduction, sm);
 	}
+}
+
+export interface Attribute {
+	actor: CharacterGURPS;
+	bonus: number;
+	cost_reduction: number;
+	order: number;
+	attr_id: string;
+	adj: number;
+	damage?: number;
+	attribute_def: AttributeDef | any; // temporary any
 }

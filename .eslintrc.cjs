@@ -19,8 +19,8 @@ module.exports = {
 	rules: {
 		// Specify any specific ESLint rules.
 		"@typescript-eslint/ban-ts-comment": "warn",
-		// "@typescript-eslint/no-explicit-any": "off",
-		// "@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
 		// "prefer-const": "off",
 	},
 

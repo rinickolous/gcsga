@@ -1,4 +1,5 @@
 import { CharacterGURPS } from "@actor";
+import { EquipmentContainerGURPS, EquipmentGURPS } from "@item";
 import { NumberCompare } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
@@ -23,7 +24,7 @@ export class ContainedWeightPrereq extends BasePrereq {
 			satisfied = !(eqp instanceof EquipmentContainerGURPS);
 			if (!satisfied) {
 				const units = character.settings.default_weight_units;
-				const weight = eqp.extended_weight(false, units) - eqp.adjusted_weight(false, units);
+				const weight = eqp.extendedWeight(false, units) - eqp.adjustedWeight(false, units);
 				satisfied = numberCompare(weight, this.qualifier);
 			}
 		}

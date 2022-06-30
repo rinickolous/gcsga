@@ -1,0 +1,15 @@
+<div class="gcsga chat-card import-error">
+	<div class="header">
+		{{localize "gcsga.message.error.header"}}
+		<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+			<path class="--shape-bookmark"/>
+		</svg>
+	</div>
+	<div class="content">
+		<ul>
+			{{#each lines}}
+				<li>{{{this}}}</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

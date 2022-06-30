@@ -7,7 +7,6 @@ import {
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import Collection from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/collection.mjs";
 import { ContainerGURPS, ItemGURPS } from "@item";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
@@ -40,7 +39,7 @@ class BaseActorGURPS extends Actor {
 
 	get deepItems(): Collection<ItemGURPS> {
 		const deepItems: ItemGURPS[] = [];
-		for (const item of this.items.entries) {
+		for (const item of this.items as any as Collection<ItemGURPS>) {
 			deepItems.push(item);
 			if (item instanceof ContainerGURPS)
 				item.deepItems.forEach((item: ItemGURPS) => {

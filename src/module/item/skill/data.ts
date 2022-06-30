@@ -1,6 +1,9 @@
 import { Feature } from "@feature";
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
+import { Difficulty } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
+import { TooltipGURPS } from "@module/tooltip";
+import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 import { SkillGURPS } from ".";
 
@@ -40,20 +43,20 @@ export type EncumbrancePenaltyMultiplier = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 export interface SkillLevel {
 	level: number;
 	relative_level: number;
-	tooltip: string;
+	tooltip: TooltipGURPS | string;
 }
 
 export function baseRelativeLevel(d: string): number {
 	switch (d) {
-		case "e":
+		case Difficulty.Easy:
 			return 0;
-		case "a":
+		case Difficulty.Average:
 			return -1;
-		case "h":
+		case Difficulty.Hard:
 			return -2;
-		case "w":
+		case Difficulty.Wildcard:
 			return -3;
 		default:
-			return baseRelativeLevel("e");
+			return baseRelativeLevel(Difficulty.Easy);
 	}
 }

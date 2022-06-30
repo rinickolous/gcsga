@@ -19,7 +19,7 @@ export class TraitPrereq extends BasePrereq {
 		actor.traits.forEach((t) => {
 			if (exclude == t || !stringCompare(t.name, this.name)) return false;
 			let notes = t.notes;
-			const mod_notes = t.modifier_notes;
+			const mod_notes = t.modifierNotes;
 			if (mod_notes) notes += "\n" + mod_notes;
 			if (!stringCompare(notes, this.notes)) return false;
 			satisfied = numberCompare(Math.max(0, t.levels), this.levels);
@@ -31,11 +31,11 @@ export class TraitPrereq extends BasePrereq {
 			tooltip.push(i18n(`gcsga.prereqs.has.${this.has}`));
 			tooltip.push(i18n(`gcsga.prereqs.trait.name`));
 			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.name?.compare}`));
-			if (this.name?.compare != "none") tooltip.push(this.name!.qualifier);
+			if (this.name?.compare != "none") tooltip.push(this.name!.qualifier!);
 			if (this.notes?.compare != "none") {
 				tooltip.push(i18n(`gcsga.prereqs.trait.notes`));
 				tooltip.push(i18n(`gcsga.prereqs.criteria.${this.notes?.compare}`));
-				tooltip.push(this.notes!.qualifier);
+				tooltip.push(this.notes!.qualifier!);
 				tooltip.push(",");
 			}
 			tooltip.push(i18n(`gcsga.prereqs.trait.level`));

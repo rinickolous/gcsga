@@ -1,0 +1,161 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet">
+		<div id="personal">
+			{{>portrait}}
+			{{>identity}}
+			{{>miscellaneous}}
+			{{>description}}
+			{{>points}}
+		</div>
+		<div id="stats">
+			<div id="attributes">
+				{{>primary-attributes}}
+				{{>basic-damage}}
+				{{>secondary-attributes}}
+				{{>pool-attributes}}
+			</div>
+			<div id="hit-locations">
+				<div class="header body-plan">{{data.settings.hit_locations.name}}</div>
+				<div class="header entry-parent" readonly></div>
+				<div class="header roll">{{localize "gcsga.actor.hit_locations.roll"}}</div>
+				<div class="header location">{{localize "gcsga.actor.hit_locations.location"}}</div>
+				<div class="header dr">{{localize "gcsga.actor.hit_locations.dr"}}</div>
+				{{#each data.settings.hit_locations.locations}}
+					{{>hit-location tab=""}}
+				{{/each}}
+			</div>
+			<div id="encumbrance-lifting">
+				{{>encumbrance}}
+				{{>lifting}}
+			</div>
+		</div>
+		<div id="embeds" style="grid-template: {{blockLayout settings.block_layout blocks}};">
+			{{#if reactions.length}}
+			<div id="reactions">
+				<div class="header entry-parent" readonly></div>
+				<div class="header modifier">{{localize "gcsga.actor.reactions.modifier"}}</div>
+				<div class="header reaction">{{localize "gcsga.actor.reactions.reaction"}}</div>
+				{{#each reactions}}
+					{{>reaction}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if conditional_modifiers.length}}
+				<div id="conditional_modifiers">
+					<div class="header entry-parent" readonly></div>
+					<div class="header modifier">{{localize "gcsga.actor.conditional_modifiers.modifier"}}</div>
+					<div class="header condition">{{localize "gcsga.actor.conditional_modifiers.reaction"}}</div>
+					{{#each conditional_modifiers}}
+						{{>conditional-modifiers}}
+					{{/each}}
+				</div>
+			{{/if}}
+			{{#if melee_attacks.length}}
+			<div id="melee-attacks">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.actor.melee_attacks.desc"}}</div>
+				<div class="header usage">{{localize "gcsga.actor.melee_attacks.usage"}}</div>
+				<div class="header level">{{localize "gcsga.actor.melee_attacks.level"}}</div>
+				<div class="header parry">{{localize "gcsga.actor.melee_attacks.parry"}}</div>
+				<div class="header block">{{localize "gcsga.actor.melee_attacks.block"}}</div>
+				<div class="header damage">{{localize "gcsga.actor.melee_attacks.damage"}}</div>
+				<div class="header reach">{{localize "gcsga.actor.melee_attacks.reach"}}</div>
+				<div class="header st">{{localize "gcsga.actor.melee_attacks.st"}}</div>
+				{{#each melee_attacks}}
+					{{>melee-attack}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if traits.length}}
+			<div id="traits" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.actor.traits.desc"}}</div>
+				<div class="header points">{{localize "gcsga.actor.traits.points"}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each traits}}
+					{{>trait}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if skills.length}}
+			<div id="skills" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.actor.skills.desc"}}</div>
+				<div class="header level">{{localize "gcsga.actor.skills.level"}}</div>
+				<div class="header rsl">{{localize "gcsga.actor.skills.rsl"}}</div>
+				<div class="header points">{{localize "gcsga.actor.skills.points"}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each skills}}
+					{{>skill}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if spells.length}}
+			<div id="spells" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.actor.spells.desc"}}</div>
+				<div class="header college">{{localize "gcsga.actor.spells.college"}}</div>
+				<div class="header level">{{localize "gcsga.actor.spells.level"}}</div>
+				<div class="header rsl">{{localize "gcsga.actor.spells.rsl"}}</div>
+				<div class="header points">{{localize "gcsga.actor.spells.points"}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each spells}}
+					{{>spell}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if equipment.length}}
+			<div id="equipment" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header equipped">{{>svg shapes=(arr "--shape-checkmark")}}</div>
+				<div class="header quantity">{{localize "gcsga.actor.equipment.quantity"}}</div>
+				<div class="header desc">{{localize "gcsga.actor.equipment.desc" weight=carried_weight value=carried_value}}</div>
+				<div class="header uses">{{localize "gcsga.actor.equipment.uses"}}</div>
+				<div class="header tech-level">{{localize "gcsga.actor.equipment.tech_level"}}</div>
+				<div class="header legality-class">{{localize "gcsga.actor.equipment.legality_class"}}</div>
+				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
+				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
+				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
+				<div class="header extended-weight">{{>svg shapes=(arr "--shape-stack" "--shape-weight")}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each equipment}}
+					{{>equipment}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if other_equipment.length}}
+			<div id="other-equipment" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header quantity">{{localize "gcsga.actor.other_equipment.quantity"}}</div>
+				<div class="header desc">{{localize "gcsga.actor.other_equipment.desc" value=other_value}}</div>
+				<div class="header uses">{{localize "gcsga.actor.other_equipment.uses"}}</div>
+				<div class="header tech-level">{{localize "gcsga.actor.other_equipment.tech_level"}}</div>
+				<div class="header legality-class">{{localize "gcsga.actor.other_equipment.legality_class"}}</div>
+				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
+				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
+				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
+				<div class="header extended-weight">{{>svg shapes=(arr "--shape-stack" "--shape-weight")}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each other_equipment}}
+					{{>other-equipment}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if notes.length}}
+			<div id="notes" class="item-list">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.actor.notes.desc"}}</div>
+				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				{{#each notes}}
+					{{>note}}
+				{{/each}}
+			</div>
+			{{/if}}
+		</div>
+		<div id="footer">
+			<div class="left">GCS is copyrighted &copy; by Richard A. Wilkes<br>All rights reserved</div>
+			<div class="centre">{{actor.name}}</div>
+			<div class="right"><a href="https://gurpscharactersheet.com/">gurpscharactersheet.com</a></div>
+		</div>
+	</div>
+</form>

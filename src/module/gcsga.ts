@@ -31,7 +31,9 @@
 // Import TypeScript modules
 import { registerSettings, SYSTEM_NAME } from "./settings";
 import { preloadTemplates } from "./preload-templates";
-import { GURPSCONFIG } from "./config";
+import { i18n, registerHandlebarsHelpers } from "@util";
+import { CharacterSheetGURPS } from "@actor/sheet";
+import { BaseActorGURPS } from "@actor";
 
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
@@ -55,15 +57,16 @@ Hooks.once("init", async () => {
 	$("#logo").attr("height", "32px");
 
 	// Assign custom classes and constants here
-	Object.assign(CONFIG, GURPSCONFIG);
+	// Object.assign(CONFIG, GURPSCONFIG);
 	// CONFIG.Item.documentClass = ItemGURPS;
-	// CONFIG.Actor.documentClass = ActorGURPS;
+	CONFIG.Actor.documentClass = BaseActorGURPS;
 
 	// Register custom system settings
 	registerSettings();
 
 	// Preload Handlebars templates
 	await preloadTemplates();
+	registerHandlebarsHelpers();
 
 	// Register custom sheets (if any)
 	Items.unregisterSheet("core", ItemSheet);
@@ -75,11 +78,11 @@ Hooks.once("init", async () => {
 	// 	label: i18n("gcsga.system.sheet.trait"),
 	// })
 
-	// Actors.registerSheet(SYSTEM_NAME, CharacterSheet, {
-	// 	types: ["character"],
-	// 	makeDefault: true,
-	// 	label: i18n("gcsga.system.sheet.character");
-	// })
+	Actors.registerSheet(SYSTEM_NAME, CharacterSheetGURPS, {
+		types: ["character"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.character"),
+	});
 });
 
 // Setup system
@@ -93,7 +96,7 @@ Hooks.once("ready", async () => {
 
 	// Enable drag image
 	const DRAG_IMAGE = document.createElement("div");
-	DRAG_IMAGE.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/drag-image.hbs`, {
+	DRAG_IMAGE.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
 		name: "",
 		type: "",
 	});

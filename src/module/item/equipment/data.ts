@@ -1,5 +1,6 @@
 import { Feature } from "@feature";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 import { EquipmentGURPS } from ".";
 

@@ -1,0 +1,110 @@
+#embeds {
+	@import "reactions", "conditional_modifiers", "melee", "ranged", "traits", "skills", "spells", "equipment",
+		"other_equipment", "notes";
+
+	display: grid;
+	grid-auto-columns: 1fr 1fr;
+	gap: var(--section-gap);
+
+	> div {
+		display: grid;
+		grid-template-rows: repeat(1000, auto) 1fr;
+	}
+
+	> div > .desc {
+		display: grid;
+		grid-template:
+			"dropdown name"
+			"blank notes";
+		grid-template-columns: min-content auto;
+		.dropdown {
+			min-width: 0.75em;
+			margin-right: 6px;
+		}
+		.name {
+			font: inherit;
+			background: transparent;
+			color: inherit;
+			grid-area: name;
+		}
+		.item-notes {
+			grid-area: notes;
+		}
+	}
+
+	> div > :not(.header):not(.entry-parent) {
+		&.quantity {
+			min-width: 1em; //possibly unnecessary
+		}
+		&.drop-over {
+			&.desc {
+				border-top: none;
+				.name {
+					border-top: 2px dashed rgb(var(--color-drop-area));
+				}
+			}
+			border-top: 2px dashed rgb(var(--color-drop-area));
+		}
+	}
+
+	.desc.header {
+		white-space: nowrap;
+	}
+
+	.equipped,
+	.header.reference,
+	.header.weight,
+	.header.value,
+	.header.extended-weight,
+	.header.extended-value {
+		display: grid;
+		align-items: center;
+		grid-auto-flow: column;
+		gap: 1px;
+	}
+
+	.points,
+	.level,
+	.quantity,
+	.uses,
+	.tech-level,
+	.legality-class,
+	.weight,
+	.value,
+	.extended-weight,
+	.extended-value {
+		&:not(.header) {
+			text-align: right;
+		}
+	}
+
+	> div > .header:not(.entry-parent) {
+		padding: var(--padding-header);
+	}
+
+	> div > :not(.header):not(svg) {
+		background-color: rgba(var(--color-content), 1);
+		color: rgba(var(--color-on-content), 1);
+		font: var(--font-page-primary-fields);
+		&:not(.entry-parent) {
+			padding: var(--padding-standard);
+		}
+	}
+	.item-notes {
+		font: var(--font-page-secondary-fields);
+		background-color: transparent;
+	}
+	.reference:not(.header):hover {
+		background-color: rgba(var(--color-link), 1) !important;
+		color: rgba(var(--color-on-link), 1) !important;
+	}
+
+	.dropdown i {
+		background-color: inherit;
+		svg {
+			background-color: inherit;
+			fill: rgba(var(--color-on-content), 1);
+			width: 0.75em;
+		}
+	}
+}

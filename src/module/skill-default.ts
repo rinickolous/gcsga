@@ -22,7 +22,12 @@ export class SkillDefault {
 		if (data) Object.assign(this, data);
 	}
 
-	get skill_based(): boolean {
+	// for the sake of naming consistency
+	get adjustedLevel(): number {
+		return this.adjusted_level;
+	}
+
+	get skillBased(): boolean {
 		return skill_based_default_types.get(this.type) ?? false;
 	}
 
@@ -37,7 +42,7 @@ export class SkillDefault {
 	}
 
 	fullName(actor: CharacterGURPS): string {
-		if (this.skill_based) {
+		if (this.skillBased) {
 			let buffer = "";
 			buffer += this.name;
 			if (this.specialization) buffer += ` (${this.specialization})`;
@@ -75,7 +80,7 @@ export class SkillDefault {
 	best(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean>): number {
 		let best = Math.max();
 		actor.skillNamed(this.name!, this.specialization || "", require_points, excludes).forEach((s) => {
-			const level = s.calculateLevel.level;
+			const level = s.calculateLevel().level;
 			if (best < level) best = level;
 		});
 		return best;
@@ -84,7 +89,7 @@ export class SkillDefault {
 	skillLevelFast(
 		actor: CharacterGURPS,
 		require_points: boolean,
-		excludes: Map<string, boolean> = new Map(),
+		excludes: Map<string, boolean> | null = new Map(),
 		rule_of_20: boolean,
 	): number {
 		let level = 0;
@@ -111,7 +116,7 @@ export class SkillDefault {
 		}
 	}
 
-	bestFast(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean>): number {
+	bestFast(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean> | null): number {
 		let best = Math.max();
 		actor.skillNamed(this.name!, this.specialization || "", require_points, excludes).forEach((sk) => {
 			sk = sk as SkillGURPS | TechniqueGURPS;

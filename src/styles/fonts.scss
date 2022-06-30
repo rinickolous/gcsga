@@ -1,0 +1,27 @@
+@font-face {
+	font-family: "New Aster";
+	font-style: normal;
+	font-weight: bold;
+	src: local("NewAsterBlack", serif), format("ttf");
+}
+
+@font-face {
+	font-family: "New Aster";
+	font-style: normal;
+	font-weight: normal;
+	src: local("NewAsterRoman", serif), format("ttf");
+}
+
+@font-face {
+	font-family: "GCS";
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/gcs.woff2") format("woff2");
+}
+
+:root {
+	--body-serif: "New Aster", Times, serif;
+	--title-serif: "New Aster", Times, serif;
+	--serif: "New Aster", Times, serif;
+	--symbols: "GCS", "Roboto", sans-serif;
+}

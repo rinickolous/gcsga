@@ -1,0 +1,39 @@
+<form class="actor-sheet def-style {{cssClass}}" autocomplete="off">
+    {{!-- Sidebar --}}
+    <aside>
+        {{!-- <button id="toggle_edit">Edit Lock: {{locked}}</button> --}}
+        {{!-- {{>def_portrait}} --}}
+        <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+            {{!-- <div class="name">{{{camelcase actor.name}}}</div> --}}
+            {{>def_pool_attributes}}
+            {{!-- {{>def_primary_attributes}} --}}
+            {{!-- {{>def_secondary_attributes}} --}}
+            {{!-- {{>def_maneuver}} --}}
+        </div>
+    </aside>
+    {{!-- Header --}}
+    {{!-- {{>def_header}} --}}
+    {{!-- <header class="sheet-header">
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
+        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+    </header> --}}
+
+    {{!-- <section class="items">
+        <h3>Owned Items</h3>
+        <ol class="actor-items">
+        {{#each actor.items as |item id|}}
+            <li class="actor-item" data-item-id="{{id}}">
+                <div class="item-name">
+                  <img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/>
+                    <h4>{{item.name}}</h4>
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+        {{/each}}
+        </ol>
+    </section> --}}
+</form>
+

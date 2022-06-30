@@ -1,4 +1,5 @@
 import { CharacterGURPS } from "@actor";
+import { RitualMagicSpellGURPS, SpellContainerGURPS, SpellGURPS } from "@item";
 import { NumberCompare, StringCompare } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
@@ -24,14 +25,14 @@ export class SpellPrereq extends BasePrereq {
 
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
 		let tech_level = "";
-		if (exclude instanceof SpellGURPS || exclude instanceof RitualMagicSpellGURPS) tech_level = exclude.tech_level;
+		if (exclude instanceof SpellGURPS || exclude instanceof RitualMagicSpellGURPS) tech_level = exclude.techLevel;
 		let count = 0;
 		const colleges: Map<string, boolean> = new Map();
 		character.spells.forEach((sp) => {
 			if (sp instanceof SpellContainerGURPS) return;
 			sp = sp as SpellGURPS | RitualMagicSpellGURPS;
 			if (exclude == sp || sp.points == 0) return;
-			if (tech_level && sp.tech_level && tech_level != sp.tech_level) return false;
+			if (tech_level && sp.techLevel && tech_level != sp.techLevel) return false;
 			switch (this.sub_type) {
 				case "name":
 					if (stringCompare(sp.name, this.qualifier)) count++;
@@ -72,7 +73,7 @@ export class SpellPrereq extends BasePrereq {
 					else if (this.sub_type == "tag") tooltip.push(`gcsga.prereqs.spell.tag`);
 					else if (this.sub_type == "college") tooltip.push(`gcsga.prereqs.spell.college`);
 					tooltip.push(`gcsga.prereqs.criteria.${this.qualifier.compare}`);
-					tooltip.push(this.qualifier.qualifier);
+					tooltip.push(this.qualifier.qualifier!);
 				}
 			}
 		}

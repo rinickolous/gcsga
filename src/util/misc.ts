@@ -1,18 +1,16 @@
 import { NumberCompare, StringCompare } from "@module/data";
 import { v4 as uuidv4 } from "uuid";
 
-let game: any;
-
 export function i18n(value: string, fallback?: string): string {
-	const result = game.i18n.localize(value);
+	const result = (game as Game).i18n.localize(value);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }
 
 export function i18n_f(value: string, data: Record<string, unknown>, fallback?: string): string {
-	const template = game.i18n.has(value) ? value : fallback;
+	const template = (game as Game).i18n.has(value) ? value : fallback;
 	if (!template) return value;
-	const result = game.i18n.format(template, data);
+	const result = (game as Game).i18n.format(template, data);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }
@@ -64,26 +62,26 @@ export function stringCompare(value?: string | string[] | null, base?: StringCom
 		case "none":
 			return true;
 		case "is":
-			return value.includes(base.qualifier);
+			return !!base.qualifier && value.includes(base.qualifier);
 		case "is_not":
-			return !value.includes(base.qualifier);
+			return !!base.qualifier && !value.includes(base.qualifier);
 		case "contains":
-			for (const v of value) if (v.includes(base.qualifier)) return true;
+			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return true;
 			return false;
 		case "does_not_contain":
-			for (const v of value) if (v.includes(base.qualifier)) return false;
+			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return false;
 			return true;
 		case "starts_with":
-			for (const v of value) if (v.startsWith(base.qualifier)) return true;
+			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return true;
 			return false;
 		case "does_not_start_with":
-			for (const v of value) if (v.startsWith(base.qualifier)) return false;
+			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return false;
 			return true;
 		case "ends_with":
-			for (const v of value) if (v.endsWith(base.qualifier)) return true;
+			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return true;
 			return false;
 		case "does_not_end_with":
-			for (const v of value) if (v.endsWith(base.qualifier)) return false;
+			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return false;
 			return true;
 	}
 }
@@ -106,4 +104,46 @@ export function numberCompare(value: number, base?: NumberCompare): boolean {
 
 export function extractTechLevel(str: string): number {
 	return Math.min(Math.max(0, parseInt(str)), 12);
+}
+
+type WeightValueType =
+	| "weight_addition"
+	| "weight_percentage_addition"
+	| "weight_percentage_multiplier"
+	| "weight_multiplier";
+
+export function determineModWeightValueTypeFromString(s: string): WeightValueType {
+	s = s.toLowerCase().trim();
+	if (s.endsWith("%")) {
+		if (s.startsWith("x")) return "weight_percentage_multiplier";
+		return "weight_percentage_addition";
+	} else if (s.endsWith("x") || s.startsWith("x")) return "weight_multiplier";
+	return "weight_addition";
+}
+
+export interface Fraction {
+	numerator: number;
+	denominator: number;
+}
+
+export function extractFraction(s: string): Fraction {
+	let v = s.trim();
+	while (v.length > 0 && v[-1].match("[0-9]")) {
+		v = v.substring(0, v.length - 1);
+	}
+	const f = v.split("/");
+	const fraction: Fraction = { numerator: parseInt(f[0]) || 0, denominator: parseInt(f[1]) || 1 };
+	const revised = determineModWeightValueTypeFromString(s);
+	if (revised == "weight_percentage_multiplier") {
+		if (fraction.numerator <= 0) {
+			fraction.numerator = 100;
+			fraction.denominator = 1;
+		}
+	} else if (revised == "weight_multiplier") {
+		if (fraction.numerator <= 0) {
+			fraction.numerator = 1;
+			fraction.denominator = 1;
+		}
+	}
+	return fraction;
 }

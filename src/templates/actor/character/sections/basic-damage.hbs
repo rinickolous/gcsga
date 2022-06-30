@@ -1,0 +1,11 @@
+
+<div id="basic-damage">
+	<div class="header">{{localize "gcsga.actor.basic_damage"}}</div>
+	<div class="fieldblock3">
+		{{!-- TODO change to longest point value for primary_attributes --}}
+		<div class="points" readonly>[{{primary_attributes.0.points}}]</div>
+		{{>input-text after="gcsga.actor.basic_thrust" field="field rollable" name="data.calc.thrust" data=data.calc.thrust class="disabled"}}
+		<div class="points" readonly></div>
+		{{>input-text after="gcsga.actor.basic_swing" field="field rollable" name="data.calc.swing" data=data.calc.swing class="disabled"}}
+	</div>
+</div>

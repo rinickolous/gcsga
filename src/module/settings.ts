@@ -96,7 +96,7 @@ export const SETTINGS_TEMP: provider = {
 			"notes",
 		],
 		attributes: {
-			st: {
+			st: new AttributeDef({
 				id: "st",
 				type: "integer",
 				name: "ST",
@@ -104,96 +104,96 @@ export const SETTINGS_TEMP: provider = {
 				attribute_base: "10",
 				cost_per_point: 10,
 				cost_adj_percent_per_sm: 10,
-			},
-			dx: {
+			}),
+			dx: new AttributeDef({
 				id: "dx",
 				type: "integer",
 				name: "DX",
 				full_name: "Dexterity",
 				attribute_base: "10",
 				cost_per_point: 20,
-			},
-			iq: {
+			}),
+			iq: new AttributeDef({
 				id: "iq",
 				type: "integer",
 				name: "IQ",
 				full_name: "Intelligence",
 				attribute_base: "10",
 				cost_per_point: 20,
-			},
-			ht: {
+			}),
+			ht: new AttributeDef({
 				id: "ht",
 				type: "integer",
 				name: "HT",
 				full_name: "Health",
 				attribute_base: "10",
 				cost_per_point: 10,
-			},
-			will: {
+			}),
+			will: new AttributeDef({
 				id: "will",
 				type: "integer",
 				name: "Will",
 				attribute_base: "$iq",
 				cost_per_point: 5,
-			},
-			fright_check: {
+			}),
+			fright_check: new AttributeDef({
 				id: "fright_check",
 				type: "integer",
 				name: "Fright Check",
 				attribute_base: "$will",
 				cost_per_point: 2,
-			},
-			per: {
+			}),
+			per: new AttributeDef({
 				id: "per",
 				type: "integer",
 				name: "Per",
 				full_name: "Perception",
 				attribute_base: "$iq",
 				cost_per_point: 5,
-			},
-			vision: {
+			}),
+			vision: new AttributeDef({
 				id: "vision",
 				type: "integer",
 				name: "Vision",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			},
-			hearing: {
+			}),
+			hearing: new AttributeDef({
 				id: "hearing",
 				type: "integer",
 				name: "Hearing",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			},
-			taste_smell: {
+			}),
+			taste_smell: new AttributeDef({
 				id: "taste_smell",
 				type: "integer",
 				name: "Taste \u0026 Smell",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			},
-			touch: {
+			}),
+			touch: new AttributeDef({
 				id: "touch",
 				type: "integer",
 				name: "Touch",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			},
-			basic_speed: {
+			}),
+			basic_speed: new AttributeDef({
 				id: "basic_speed",
 				type: "decimal",
 				name: "Basic Speed",
 				attribute_base: "($dx+$ht)/4",
 				cost_per_point: 20,
-			},
-			basic_move: {
+			}),
+			basic_move: new AttributeDef({
 				id: "basic_move",
 				type: "integer",
 				name: "Basic Move",
 				attribute_base: "floor($basic_speed)",
 				cost_per_point: 5,
-			},
-			fp: {
+			}),
+			fp: new AttributeDef({
 				id: "fp",
 				type: "pool",
 				name: "FP",
@@ -234,8 +234,8 @@ export const SETTINGS_TEMP: provider = {
 						divisor: 1,
 					},
 				],
-			},
-			hp: {
+			}),
+			hp: new AttributeDef({
 				id: "hp",
 				type: "pool",
 				name: "HP",
@@ -309,7 +309,7 @@ export const SETTINGS_TEMP: provider = {
 						divisor: 1,
 					},
 				],
-			},
+			}),
 		},
 		hit_locations: {
 			name: "Humanoid",

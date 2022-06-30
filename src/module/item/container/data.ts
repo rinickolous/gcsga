@@ -1,4 +1,5 @@
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ContainerType, ItemSystemData } from "@item/data";
+import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
+import { ContainerType } from "@item/data";
 import { ContainerGURPS } from ".";
 
 export type BaseContainerSource<

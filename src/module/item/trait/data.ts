@@ -2,6 +2,7 @@ import { Feature } from "@feature";
 import { SkillBonus } from "@feature/skill_bonus";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CR, CRAdjustment } from "@module/data";
+import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 import { TraitGURPS } from ".";
 

@@ -102,3 +102,10 @@ export interface CharacterCalc {
 	block_bonus: number;
 	parry_bonus: number;
 }
+
+export interface Encumbrance {
+	level: number;
+	maximum_carry: number;
+	penalty: number;
+	name: string;
+}

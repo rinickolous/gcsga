@@ -1,0 +1,8 @@
+<div id="identity">
+	<div class="header">{{localize "gcsga.actor.identity"}}</div>
+	<div class="fieldblock">
+		{{>input-text label="gcsga.actor.name" field="field" name="name" type="String" data=actor.name class=(input_lock editing)}}
+		{{>input-text label="gcsga.actor.title" field="field" name="data.profile.title" type="String" data=data.profile.title class=(input_lock editing)}}
+		{{>input-text label="gcsga.actor.organization" field="field" name="data.profile.organization" type="String" data=data.profile.organization class=(input_lock editing)}}
+	</div>
+</div>

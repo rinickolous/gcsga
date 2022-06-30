@@ -1,6 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { TooltipGURPS } from "@module/tooltip";
-import { Prereq, PrereqType } from "@prereq";
+import { Prereq, prereqClasses, PrereqType, TraitPrereq } from "@prereq";
 
 export interface PrereqConstructionContext {
 	ready?: boolean;

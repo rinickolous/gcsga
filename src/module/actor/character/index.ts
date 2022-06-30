@@ -1,7 +1,6 @@
 import { BaseActorGURPS } from "@actor";
 import { ActorConstructorContextGURPS } from "@actor/base";
-import { Feature, SkillBonus, SkillPointBonus } from "@feature";
-import { CostReduction } from "@feature/cost_reduction";
+import { CostReduction, Feature, SkillBonus, SkillPointBonus, SpellBonus } from "@feature";
 import {
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
@@ -19,12 +18,13 @@ import {
 import { CR_Features } from "@item/trait/data";
 import { Attribute } from "@module/attribute";
 import { AttributeDef } from "@module/attribute/attribute_def";
+import { ThresholdOp } from "@module/attribute/pool_threshold";
 import { attrPrefix, gid } from "@module/data";
 import { SETTINGS_TEMP } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { getCurrentTime, i18n, newUUID, stringCompare } from "@util";
-import { CharacterDataGURPS, CharacterSource } from "./data";
+import { CharacterDataGURPS, CharacterSource, Encumbrance } from "./data";
 
 class CharacterGURPS extends BaseActorGURPS {
 	variableResolverExclusions: Map<string, boolean> = new Map();
@@ -46,6 +46,20 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (SETTINGS_TEMP.general.auto_fill) {
 				this.data.data.profile = SETTINGS_TEMP.general.auto_fill;
 			}
+			if (!this.data.data.calc)
+				this.data.data.calc = {
+					swing: "",
+					thrust: "",
+					basic_lift: "0 lb",
+					lifting_st_bonus: 0,
+					striking_st_bonus: 0,
+					throwing_st_bonus: 0,
+					move: [0, 0, 0, 0, 0],
+					dodge: [0, 0, 0, 0, 0],
+					dodge_bonus: 0,
+					block_bonus: 0,
+					parry_bonus: 0,
+				};
 		}
 	}
 
@@ -56,6 +70,28 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get attributes() {
 		return this.data.data.attributes;
+	}
+
+	get currentDodge() {
+		return this.dodge(this.encumbranceLevel(true));
+	}
+
+	dodge(enc: Encumbrance): number {
+		let dodge = 3 + this.calc.dodge_bonus + this.resolveAttributeCurrent(gid.BasicSpeed);
+		const divisor = 2 * Math.min(this.countThresholdOpMet("halve_dodge", this.attributes), 2);
+		if (divisor > 0) {
+			dodge = Math.ceil(dodge / divisor);
+		}
+		return dodge + Math.max(enc.penalty, 1);
+	}
+
+	countThresholdOpMet(op: ThresholdOp, attributes: Map<string, Attribute>) {
+		let total = 0;
+		attributes.forEach((a) => {
+			const threshold = a.current_threshold;
+			if (threshold && threshold.ops.includes(op)) total++;
+		});
+		return total;
 	}
 
 	get settings() {
@@ -78,6 +114,38 @@ class CharacterGURPS extends BaseActorGURPS {
 		return this.data.data.created_date;
 	}
 
+	get basicLift(): number {
+		return (this.resolveAttributeCurrent(attrPrefix + gid.Strength) + this.lifting_st_bonus) ** 2 / 5;
+	}
+
+	encumbranceLevel(for_skills = true): Encumbrance {
+		const carried = this.wealthCarried(for_skills);
+		for (const e of this.allEncumbrance) {
+			if (carried <= e.maximum_carry) return e;
+		}
+		return this.allEncumbrance[this.allEncumbrance.length - 1];
+	}
+
+	wealthCarried(for_skills: boolean): number {
+		let total = 0;
+		this.carried_equipment.forEach((e) => {
+			if (e.parent == this) total += e.extendedWeight(for_skills, this.settings.default_weight_units);
+		});
+		return total;
+	}
+
+	get allEncumbrance(): Encumbrance[] {
+		const bl = this.basicLift;
+		const ae: Encumbrance[] = [
+			{ level: 0, maximum_carry: bl * 1, penalty: 0, name: i18n("gcsga.encumbrance.0") },
+			{ level: 1, maximum_carry: bl * 2, penalty: -1, name: i18n("gcsga.encumbrance.1") },
+			{ level: 2, maximum_carry: bl * 3, penalty: -2, name: i18n("gcsga.encumbrance.2") },
+			{ level: 3, maximum_carry: bl * 6, penalty: -3, name: i18n("gcsga.encumbrance.3") },
+			{ level: 4, maximum_carry: bl * 10, penalty: -4, name: i18n("gcsga.encumbrance.4") },
+		];
+		return ae;
+	}
+
 	// Bonuses
 	get size_modifier_bonus(): number {
 		return this.bonusFor(attrPrefix + gid.SizeModifier, null);
@@ -91,10 +159,10 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get lifting_st_bonus(): number {
-		return this.data.data.calc.lifting_st_bonus;
+		return this.calc.lifting_st_bonus;
 	}
 	set lifting_st_bonus(v: number) {
-		this.data.data.calc.lifting_st_bonus = v;
+		this.calc.lifting_st_bonus = v;
 	}
 
 	get throwing_st_bonus(): number {
@@ -111,7 +179,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.deepItems
 				.filter((item) => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -127,7 +195,7 @@ class CharacterGURPS extends BaseActorGURPS {
 						item instanceof SkillContainerGURPS,
 				)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -143,7 +211,7 @@ class CharacterGURPS extends BaseActorGURPS {
 						item instanceof SpellContainerGURPS,
 				)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -154,7 +222,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.deepItems
 				.filter((item) => item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -164,7 +232,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.equipment
 				.filter((item) => !item.other)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -174,7 +242,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.equipment
 				.filter((item) => item.other)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
 	}
@@ -185,9 +253,18 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.deepItems
 				.filter((item) => item instanceof NoteGURPS || item instanceof NoteContainerGURPS)
 				.map((item) => {
-					return [item.data._id, item];
+					return [item.data._id!, item];
 				}),
 		);
+	}
+
+	//TODO changed
+	get reactions(): Collection<any> {
+		return new Collection();
+	}
+
+	get conditional_modifiers(): Collection<any> {
+		return new Collection();
 	}
 
 	newAttributes(): Map<string, Attribute> {
@@ -214,7 +291,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	updateProfile(): void {
-		this.profile.SM = this.bonusFor(`${attrPrefix}${gid.SizeModifier}`, null);
+		if (this.profile) this.profile.SM = this.bonusFor(`${attrPrefix}${gid.SizeModifier}`, null);
 	}
 
 	processFeatures() {
@@ -225,7 +302,7 @@ class CharacterGURPS extends BaseActorGURPS {
 					processFeature(t, featureMap, f, Math.max(t.levels, 0));
 				}
 			}
-			for (const f of CR_Features.get(t.cr_adj)) {
+			for (const f of CR_Features.get(t.crAdj)) {
 				processFeature(t, featureMap, f, Math.max(t.levels, 0));
 			}
 			for (const m of t.modifiers) {
@@ -251,25 +328,26 @@ class CharacterGURPS extends BaseActorGURPS {
 			}
 		}
 		this.featureMap = featureMap;
-		this.lifting_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.lifting_only`, null);
-		this.striking_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.striking_only`, null);
-		this.throwing_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.throwing_only`, null);
-		this.attributes.forEach((attr) => {
-			const def = attr.attribute_def;
-			if (def) {
-				const attrID = attrPrefix + attr.attr_id;
-				attr.bonus = this.bonusFor(attrID, null);
-				if (def.type != "decimal") attr.bonus = Math.floor(attr.bonus);
-				attr.cost_reduction = this.costReductionFor(attrID);
-			} else {
-				attr.bonus = 0;
-				attr.cost_reduction = 0;
-			}
-		});
+		// this.lifting_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.lifting_only`, null);
+		// this.striking_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.striking_only`, null);
+		// this.throwing_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.throwing_only`, null);
+		if (this.attributes)
+			this.attributes.forEach((attr) => {
+				const def = attr.attribute_def;
+				if (def) {
+					const attrID = attrPrefix + attr.attr_id;
+					attr.bonus = this.bonusFor(attrID, null);
+					if (def.type != "decimal") attr.bonus = Math.floor(attr.bonus);
+					attr.cost_reduction = this.costReductionFor(attrID);
+				} else {
+					attr.bonus = 0;
+					attr.cost_reduction = 0;
+				}
+			});
 		this.updateProfile();
-		this.calc.dodge_bonus = this.bonusFor(`${attrPrefix}${gid.Dodge}`, null);
-		this.calc.parry_bonus = this.bonusFor(`${attrPrefix}${gid.Parry}`, null);
-		this.calc.block_bonus = this.bonusFor(`${attrPrefix}${gid.Block}`, null);
+		if (this.calc) this.calc.dodge_bonus = this.bonusFor(`${attrPrefix}${gid.Dodge}`, null);
+		if (this.calc) this.calc.parry_bonus = this.bonusFor(`${attrPrefix}${gid.Parry}`, null);
+		if (this.calc) this.calc.block_bonus = this.bonusFor(`${attrPrefix}${gid.Block}`, null);
 	}
 
 	processPrereqs(): void {
@@ -337,7 +415,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	// Directed Skill Getters
 	baseSkill(def: SkillDefault, require_points: boolean): SkillGURPS | TechniqueGURPS | null {
-		if (!def.skill_based) return null;
+		if (!def.skillBased) return null;
 		return this.bestSkillNamed(def.name ?? "", def.specialization ?? "", require_points, null);
 	}
 
@@ -350,7 +428,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		let best: SkillGURPS | TechniqueGURPS | null = null;
 		let level = Math.max();
 		this.skillNamed(name, specialization, require_points, excludes).forEach((sk) => {
-			const skill_level = sk.calculateLevel.level;
+			const skill_level = sk.calculateLevel().level;
 			if (best || level < skill_level) {
 				best = sk;
 				level = skill_level;
@@ -439,6 +517,69 @@ class CharacterGURPS extends BaseActorGURPS {
 		return total;
 	}
 
+	spellBonusesFor(featureID: string, qualifier: string, tags: string[], tooltip: TooltipGURPS | null): number {
+		let level = this.bonusFor(featureID, tooltip);
+		level += this.bonusFor(featureID + "/" + qualifier.toLowerCase(), tooltip);
+		level += this.spellComparedBonusFor(featureID + "*", qualifier, tags, tooltip);
+		return level;
+	}
+
+	spellPointBonusesFor(featureID: string, qualifier: string, tags: string[], tooltip: TooltipGURPS | null): number {
+		let level = this.bonusFor(featureID, tooltip);
+		level += this.bonusFor(featureID + "/" + qualifier.toLowerCase(), tooltip);
+		level += this.spellComparedBonusFor(featureID + "*", qualifier, tags, tooltip);
+		return level;
+	}
+
+	spellComparedBonusFor(featureID: string, name: string, tags: string[], tooltip: TooltipGURPS | null): number {
+		let total = 0;
+		this.featureMap.get(featureID.toLowerCase())?.forEach((feature) => {
+			if (
+				feature instanceof SpellBonus &&
+				stringCompare(name, feature.name) &&
+				stringCompare(tags, feature.tags)
+			) {
+				total += feature.adjustedAmount;
+				feature.addToTooltip(tooltip);
+			}
+		});
+		return total;
+	}
+
+	bestCollegeSpellBonus(colleges: string[], tags: string[], tooltip: TooltipGURPS | null): number {
+		let best = Math.max();
+		let bestTooltip = "";
+		for (const c of colleges) {
+			const buffer = new TooltipGURPS();
+			if (!tooltip) tooltip = new TooltipGURPS();
+			const points = this.spellPointBonusesFor("spell.college.points", c, tags, buffer);
+			if (best < points) {
+				best = points;
+				if (buffer) bestTooltip = buffer.toString();
+			}
+		}
+		if (tooltip) tooltip.push(bestTooltip);
+		if (best == Math.max()) best = 0;
+		return best;
+	}
+
+	bestCollegeSpellPointBonus(colleges: string[], tags: string[], tooltip: TooltipGURPS | null): number {
+		let best = Math.max();
+		let bestTooltip = "";
+		for (const c of colleges) {
+			const buffer = new TooltipGURPS();
+			if (!tooltip) tooltip = new TooltipGURPS();
+			const points = this.spellBonusesFor("spell.college", c, tags, buffer);
+			if (best < points) {
+				best = points;
+				if (buffer) bestTooltip = buffer.toString();
+			}
+		}
+		if (tooltip) tooltip.push(bestTooltip);
+		if (best == Math.max()) best = 0;
+		return best;
+	}
+
 	costReductionFor(featureID: string): number {
 		let total = 0;
 		this.featureMap.get(featureID.toLowerCase())?.forEach((feature) => {
@@ -451,60 +592,60 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	// Calculate Levels
-	calculateSkillLevel(skill: SkillGURPS | TechniqueGURPS | SpellGURPS, points?: number): SkillGURPS["level"] {
-		const tooltip = new TooltipGURPS();
-		const def = skill.defaultedFrom;
-		if (!points) points = skill.points ?? 0;
-		let relative_level = SkillGURPS.baseRelativeLevel(skill.difficulty);
-		let level = this.resolveAttributeCurrent(skill.attribute);
-		if (level != Math.max()) {
-			if (skill.difficulty == "w") {
-				points /= 3;
-			} else if (def && def.points > 0) {
-				points += def.points;
-			}
-			points = Math.floor(points);
-			if (points == 1) {
-				// relative_level is preset to this point value
-			} else if (points > 1 && points < 4) {
-				relative_level += 1;
-			} else if (points > 4) {
-				relative_level += 1 + Math.floor(points / 4);
-			} else if (skill.difficulty != "w" && !!def && def.points < 0) {
-				relative_level = def.adjustedLevel - level;
-			} else {
-				level = Math.max();
-				relative_level = 0;
-			}
-		}
-		if (level != Math.max()) {
-			level += relative_level;
-			if (skill.difficulty != "w" && !!def && level < def.adjustedLevel) {
-				level = def.adjustedLevel;
-			}
-			let bonus = this.skillComparedBonusFor(
-				"skill_bonus",
-				skill.name ?? "",
-				skill.specialization,
-				skill.tags,
-				tooltip,
-			);
-			level += bonus;
-			relative_level += bonus;
-			bonus = this.encumbrancePenalty * skill.encumbrancePenaltyMultiplier;
-			level += bonus;
-			relative_level += bonus;
-			if (bonus != 0) {
-				tooltip.push("TO DO");
-			}
-		}
-		return {
-			level: level,
-			relative_level: relative_level,
-			tooltip: tooltip.toString(),
-		};
-	}
-
+	// calculateSkillLevel(skill: SkillGURPS | TechniqueGURPS | SpellGURPS, points?: number): SkillGURPS["level"] {
+	// 	const tooltip = new TooltipGURPS();
+	// 	const def = skill.defaultedFrom;
+	// 	if (!points) points = skill.points ?? 0;
+	// 	let relative_level = SkillGURPS.baseRelativeLevel(skill.difficulty);
+	// 	let level = this.resolveAttributeCurrent(skill.attribute);
+	// 	if (level != Math.max()) {
+	// 		if (skill.difficulty == "w") {
+	// 			points /= 3;
+	// 		} else if (def && def.points > 0) {
+	// 			points += def.points;
+	// 		}
+	// 		points = Math.floor(points);
+	// 		if (points == 1) {
+	// 			// relative_level is preset to this point value
+	// 		} else if (points > 1 && points < 4) {
+	// 			relative_level += 1;
+	// 		} else if (points > 4) {
+	// 			relative_level += 1 + Math.floor(points / 4);
+	// 		} else if (skill.difficulty != "w" && !!def && def.points < 0) {
+	// 			relative_level = def.adjustedLevel - level;
+	// 		} else {
+	// 			level = Math.max();
+	// 			relative_level = 0;
+	// 		}
+	// 	}
+	// 	if (level != Math.max()) {
+	// 		level += relative_level;
+	// 		if (skill.difficulty != "w" && !!def && level < def.adjustedLevel) {
+	// 			level = def.adjustedLevel;
+	// 		}
+	// 		let bonus = this.skillComparedBonusFor(
+	// 			"skill_bonus",
+	// 			skill.name ?? "",
+	// 			skill.specialization,
+	// 			skill.tags,
+	// 			tooltip,
+	// 		);
+	// 		level += bonus;
+	// 		relative_level += bonus;
+	// 		bonus = this.encumbrancePenalty * skill.encumbrancePenaltyMultiplier;
+	// 		level += bonus;
+	// 		relative_level += bonus;
+	// 		if (bonus != 0) {
+	// 			tooltip.push("TO DO");
+	// 		}
+	// 	}
+	// 	return {
+	// 		level: level,
+	// 		relative_level: relative_level,
+	// 		tooltip: tooltip.toString(),
+	// 	};
+	// }
+	//
 	// Resolve attributes
 	resolveAttributeCurrent(attr_id: string): number {
 		const att = this.attributes.get(attr_id)?.current;
@@ -531,7 +672,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		}
 		if (!this.variableResolverExclusions) this.variableResolverExclusions = new Map();
 		this.variableResolverExclusions.set(variableName, true);
-		if (gid.SizeModifier == variableName) return this.getData().profile.SM.signedString();
+		if (gid.SizeModifier == variableName) return this.profile.SM.signedString();
 		const parts = variableName.split("."); // TODO check
 		const attr = this.attributes.get(parts[0]);
 		if (!attr) {
@@ -555,15 +696,16 @@ class CharacterGURPS extends BaseActorGURPS {
 			}
 		}
 		this.variableResolverExclusions = new Map();
-		return attr.calc.value!.toString();
+		return attr?.current.toString();
 	}
 }
 
 export function processFeature(parent: any, m: Map<string, Feature[]>, f: Feature, levels: number): void {
 	const key = f.type;
 	const list = m.get(key);
-	f.setParent(parent);
-	f.setLevel(levels);
+	// f.setParent(parent);
+	// f.setLevel(levels);
+	f.levels = levels; // ?
 	list!.push(f);
 	m.set(key, list!);
 }

@@ -1,5 +1,5 @@
-import { CharacterData, CharacterSource } from "@actor/character/data";
+import { CharacterDataGURPS } from "@actor/character/data";
 
-export type ActorDataGURPS = CharacterData;
+export type ActorDataGURPS = CharacterDataGURPS;
 
 export type ActorSourceGURPS = ActorDataGURPS["_source"];

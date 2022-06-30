@@ -1,6 +1,7 @@
 import { CharacterGURPS } from "@actor";
 import { Feature } from "@feature";
 import { BaseItemGURPS } from "@item/base";
+import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { PrereqList } from "@prereq";
@@ -18,16 +19,16 @@ export class SkillGURPS extends BaseItemGURPS {
 		return this.data.data.points;
 	}
 
-	get tech_level(): string {
+	get techLevel(): string {
 		return this.data.data.tech_level;
 	}
 
 	get attribute(): string {
-		return this.data.data.difficulty.split("/")[0] ?? "dx";
+		return this.data.data.difficulty.split("/")[0] ?? gid.Dexterity;
 	}
 
 	get difficulty(): string {
-		return this.data.data.difficulty.split("/")[1] ?? "a";
+		return this.data.data.difficulty.split("/")[1] ?? Difficulty.Average;
 	}
 
 	get specialization(): string {
@@ -53,11 +54,65 @@ export class SkillGURPS extends BaseItemGURPS {
 		return this.prereqs.prereqs.length == 0;
 	}
 
+	get encumbrancePenaltyMultiplier(): number {
+		return this.data.data.encumbrance_penalty_multiplier;
+	}
+
 	// Point & Level Manipulation
-	get calculateLevel(): SkillLevel {
-		const points = this.adjustedPoints(null);
-		if (!this.actor) return { level: Math.max(), relative_level: Math.max(), tooltip: "" };
-		return this.actor.calculateSkillLevel(this, points);
+	calculateLevel(): SkillLevel {
+		if (!this.actor) return { level: Math.max(), relative_level: 0, tooltip: "" };
+		const tooltip = new TooltipGURPS();
+		let points = this.adjustedPoints(tooltip);
+		const def = this.defaultedFrom;
+		if (!points) points = this.points ?? 0;
+		let relative_level = baseRelativeLevel(this.difficulty);
+		let level = this.actor.resolveAttributeCurrent(this.attribute);
+		if (level != Math.max()) {
+			if (this.difficulty == "w") {
+				points /= 3;
+			} else if (def && def.points > 0) {
+				points += def.points;
+			}
+			points = Math.floor(points);
+			if (points == 1) {
+				// relative_level is preset to this point value
+			} else if (points > 1 && points < 4) {
+				relative_level += 1;
+			} else if (points > 4) {
+				relative_level += 1 + Math.floor(points / 4);
+			} else if (this.difficulty != "w" && !!def && def.points < 0) {
+				relative_level = def.adjustedLevel - level;
+			} else {
+				level = Math.max();
+				relative_level = 0;
+			}
+		}
+		if (level != Math.max()) {
+			level += relative_level;
+			if (this.difficulty != "w" && !!def && level < def.adjustedLevel) {
+				level = def.adjustedLevel;
+			}
+			let bonus = this.actor.skillComparedBonusFor(
+				"skill_bonus",
+				this.name ?? "",
+				this.specialization,
+				this.tags,
+				tooltip,
+			);
+			level += bonus;
+			relative_level += bonus;
+			bonus = this.actor.encumbranceLevel(true).penalty * this.encumbrancePenaltyMultiplier;
+			level += bonus;
+			relative_level += bonus;
+			if (bonus != 0) {
+				tooltip.push("TO DO");
+			}
+		}
+		return {
+			level: level,
+			relative_level: relative_level,
+			tooltip: tooltip.toString(),
+		};
 	}
 
 	adjustedPoints(tooltip: TooltipGURPS | null): number {
@@ -79,7 +134,7 @@ export class SkillGURPS extends BaseItemGURPS {
 	updateLevel(): boolean {
 		const saved = this.level;
 		this.defaultedFrom = this.bestDefaultWithPoints(null);
-		this.level = this.calculateLevel;
+		this.level = this.calculateLevel();
 		return saved != this.level;
 	}
 

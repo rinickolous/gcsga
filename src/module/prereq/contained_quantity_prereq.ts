@@ -1,4 +1,5 @@
 import { CharacterGURPS } from "@actor";
+import { EquipmentContainerGURPS, EquipmentGURPS } from "@item";
 import { NumberCompare } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";

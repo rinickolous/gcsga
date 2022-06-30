@@ -1,7 +1,8 @@
+import { Feature } from "@feature";
+import { SkillBonus } from "@feature/skill_bonus";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { CR, CRAdjustment, ObjArray, Weapon } from "@module/data";
-import { Feature } from "@module/feature";
-import { Prereq, PrereqList } from "@module/prereq";
+import { CR, CRAdjustment } from "@module/data";
+import { PrereqList } from "@prereq";
 import { TraitGURPS } from ".";
 
 export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
@@ -17,14 +18,13 @@ export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "item
 export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
 	prereqs: PrereqList;
 	round_down: boolean;
-	allow_half_levels: boolean;
 	disabled: boolean;
 	mental: boolean;
 	physical: boolean;
 	social: boolean;
 	exotic: boolean;
 	supernatural: boolean;
-	levels: string;
+	levels: number;
 	base_points: number;
 	points_per_level: number;
 	calc: {
@@ -33,6 +33,20 @@ export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
 	cr: CR;
 	cr_adj: CRAdjustment;
 	features: Feature[];
-	weapons: ObjArray<Weapon>;
+	weapons: Weapon[];
 	modifiers: Array<any>;
 }
+
+export const CR_Features = new Map();
+
+CR_Features.set("major_cost_of_living_increase", [
+	new SkillBonus(
+		{
+			selection_type: "skills_with_name",
+			name: { compare: "is", qualifier: "Merchant" },
+			specialization: { compare: "none" },
+			tags: { compare: "none" },
+		},
+		{ ready: true },
+	),
+]);

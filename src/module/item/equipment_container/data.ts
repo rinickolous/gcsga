@@ -1,7 +1,6 @@
+import { Feature } from "@feature";
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { ObjArray, Weapon } from "@module/data";
-import { Feature } from "@module/feature";
-import { PrereqList } from "@module/prereq";
+import { PrereqList } from "@prereq";
 import { EquipmentContainerGURPS } from ".";
 
 export type EquipmentContainerSource = BaseContainerSource<"equipment_container", EquipmentContainerSystemData>;
@@ -27,7 +26,7 @@ export interface EquipmentContainerSystemData extends BaseContainerSystemData {
 	weight: string;
 	uses: number;
 	max_uses: number;
-	weapons: ObjArray<Weapon>;
+	weapons: Weapon[];
 	features: Feature[];
 	calc: {
 		extended_value: string;

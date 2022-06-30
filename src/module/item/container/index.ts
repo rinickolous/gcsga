@@ -1,99 +1,81 @@
+import { BaseItemGURPS, ItemGURPS } from "@item";
 import { ItemDataGURPS } from "@item/data";
+import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { ItemGURPS } from "@item/base";
 import { BaseContainerData } from "./data";
 
-export abstract class ContainerGURPS extends ItemGURPS {
+export abstract class ContainerGURPS extends BaseItemGURPS {
 	items: foundry.utils.Collection<ItemGURPS> = new foundry.utils.Collection();
 
-	/**
-	 * @override
-	 * @param embeddedName The name of the embedded Document type
-	 * @param data An array of data objects used to create multiple documents
-	 * @param context Additional context which customizes the creation workflow
-	 * @returns null      */
+	static override get schema(): typeof BaseContainerData {
+		return BaseContainerData;
+	}
+
+	get deepItems(): Collection<ItemGURPS> {
+		const deepItems: ItemGURPS[] = [];
+		for (const item of this.items) {
+			deepItems.push(item);
+			if (item instanceof ContainerGURPS)
+				item.deepItems.forEach((item: ItemGURPS) => {
+					return deepItems.push(item);
+				});
+		}
+		return new Collection(
+			deepItems.map((e) => {
+				return [e.id!, e];
+			}),
+		);
+	}
+
 	//@ts-ignore
-	async createEmbeddedDocuments(
+	override async createEmbeddedDocuments(
 		embeddedName: string,
-		data: Array<Record<string, unknown>>,
-		context: DocumentModificationContext = {},
-	): Promise<Array<foundry.abstract.Document<any, any>> | undefined> {
+		data: Record<string, unknown>[],
+		context: DocumentModificationContext & { temporary: false },
+	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (!Array.isArray(data)) data = [data];
-		const currentItems = duplicate(getProperty(this, "data.flags.gcsga.contentsData") ?? []);
+		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
+		const currentItems = duplicate(getProperty(this, "data.flags.gcsga.contentsData")) ?? [];
 		const createdItems = [];
-		if (data.length) {
+		if (data.length > 0) {
 			for (const itemData of data) {
 				let theData = itemData;
 				theData._id = randomID();
-				//@ts-ignore
-				theData = new CONFIG.Item.documentClass(theData as ItemDataConstructorData, {
-					//@ts-ignore
-					parent: this,
-					//@ts-ignore
+				// dumb hack to get this to stop
+				theData = new CONFIG.Item.documentClass(theData as unknown as ItemDataConstructorData, {
+					parent: this as any,
 				}).toJSON();
 				currentItems.push(theData);
 				createdItems.push(theData);
 			}
-			if (this.parent) {
+			if (this.parent)
 				return this.parent.updateEmbeddedDocuments(embeddedName, [
 					{ _id: this.id, "flags.gcsga.contentsData": currentItems },
 				]);
-			} else this.setCollection(this, currentItems);
+			else this.setCollection(this, currentItems);
 		}
+		return [];
 	}
 
-	/**
-	 * @override
-	 * @param embeddedName The name of the embedded Document type
-	 * @param id The id of the child document to retrieve
-	 * @param options Additional options which modify hoe wmbedded documents are retrieved
-	 * @param strict Throw an Error if the requested id does not exist. @see {Collection.get}
-	 *               (default: "false")
-	 * @returns the retrieved embedded Document instance, or undefined
-	 */
-	getEmbeddedDocument(
+	override getEmbeddedDocument(
 		embeddedName: string,
 		id: string,
-		options: { strict?: boolean | undefined } | undefined,
+		options?: { strict?: boolean },
 	): foundry.abstract.Document<any, any> | undefined {
 		if (embeddedName !== "Item") return super.getEmbeddedDocument(embeddedName, id, options);
 		return this.items.get(id);
 	}
 
-	get deepItems(): Collection<ItemGURPS> {
-		const items = this.items;
-		const deepItems = [];
-		for (const i of items) {
-			deepItems.push(i);
-			if (i instanceof ContainerGURPS)
-				i.deepItems.forEach((e: ItemGURPS) => {
-					return deepItems.push(e);
-				});
-		}
-		const deepMap = new Collection(
-			deepItems.map((e) => {
-				return [e.id!, e];
-			}),
-		);
-		return deepMap;
-	}
-
-	/**
-	 * @override
-	 * @param embeddedName The name of the embedded Document type
-	 * @param updates An array of differential data objects, each used to update a single Document
-	 * @param context Additional context which customized the update workflow
-	 */
-	async updateEmbeddedDocuments(
+	override async updateEmbeddedDocuments(
 		embeddedName: string,
-		updates?: Array<Record<string, unknown>>,
-		context?: DocumentModificationContext,
-	): Promise<Array<foundry.abstract.Document<any, any>>> {
-		//@ts-ignore
+		updates?: Record<string, unknown>[] | undefined,
+		context?: DocumentModificationContext | undefined,
+	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.updateEmbeddedDocuments(embeddedName, updates, context);
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
-		const updatedItems: Array<any> = [];
+		const updatedItems: any[] = [];
 		const newContainedItems = containedItems.map((existing: { _id: string }) => {
 			const theUpdate = updates?.find((update) => update._id === existing._id);
 			if (theUpdate) {
@@ -108,7 +90,7 @@ export abstract class ContainerGURPS extends ItemGURPS {
 			}
 			return existing;
 		});
-		if (updatedItems.length) {
+		if (updatedItems.length > 0) {
 			if (this.parent) {
 				await this.parent.updateEmbeddedDocuments("Item", [
 					{ _id: this.id, "flags.gcsga.contentsData": newContainedItems },
@@ -118,117 +100,56 @@ export abstract class ContainerGURPS extends ItemGURPS {
 		return updatedItems;
 	}
 
-	/**
-	 * @override
-	 * @param embeddedName The name of the embedded Document type
-	 * @param ids An array of string ids for each Document to be deleted
-	 * @param context Additional context which customized the deletion workflor
-	 * @returns An array of deleted Document instances
-	 */
-	async deleteEmbeddedDocuments(
+	override async deleteEmbeddedDocuments(
 		embeddedName: string,
-		ids: Array<string>,
-		context?: DocumentModificationContext,
-	): Promise<Array<foundry.abstract.Document<any, any>>> {
+		ids: string[],
+		context?: DocumentModificationContext | undefined,
+	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
-		//@ts-ignore itemData._id
 		const newContainedItems = containedItems.filter((itemData: ItemDataGURPS) => !ids.includes(itemData._id));
-		const deletedItems = this.items.filter((item: ItemGURPS) => !!item.id && ids.includes(item.id));
+		const deletedItems = this.items.filter((itemData: ItemDataGURPS) => ids.includes(itemData._id));
 		if (this.parent)
 			await this.parent.updateEmbeddedDocuments("Item", [
-				{ _id: this.id, "flags.gcsga.contentsData": newContainedItems },
+				{ _id: this.data._id, "flags.gcsga.contentsData": newContainedItems },
 			]);
 		else await this.setCollection(this, newContainedItems);
 		return deletedItems;
 	}
 
-	/**
-	 *
-	 * @param embeddedName The name of the embedded Document type
-	 * @returns The Collection instance of embedded Documents of the requested type
-	 */
-	getEmbeddedCollection(
-		embeddedName: string,
-		// ): EmbeddedCollection<DocumentConstructor, AnyDocumentData> {
-	): any {
-		if (embeddedName === "Item") return this.items;
-		return super.getEmbeddedCollection(embeddedName);
-	}
-
-	/**
-	 * Prepare all embedded Document instances which exist within this primary Document
-	 */
-	prepareEmbeddedDocuments(): void {
+	override prepareEmbeddedDocuments(): void {
 		super.prepareEmbeddedDocuments();
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
 		const oldItems = this.items;
 		this.items = new foundry.utils.Collection();
 		containedItems.forEach((itemData: ItemDataGURPS) => {
-			//@ts-ignore
-			if (itemData.data.data) itemData.data = itemData.data.data;
-			//@ts-ignore
-			itemData.flags.gcsga.parents = this.data.flags.gcsga?.parents.concat(this.data._id);
-			//@ts-ignore itemData._id
 			if (!oldItems?.has(itemData._id)) {
-				//@ts-ignore
-				const theItem = new CONFIG.Item.documentClass(itemData, { parent: this });
+				// "this as any" used to ignore parent type incompatibility
+				const theItem = new CONFIG.Item.documentClass(itemData, { parent: this as any });
 				theItem.prepareData();
-				//@ts-ignore
-				this.items?.set(itemData._id, theItem);
+				this.items.set(itemData._id, theItem as ItemGURPS);
 			} else {
-				//@ts-ignore itemData._id
 				const currentItem = oldItems.get(itemData._id);
 				if (currentItem) {
 					setProperty(currentItem.data._source, "name", itemData.name);
 					setProperty(currentItem.data._source, "flags", itemData.flags);
 					setProperty(currentItem.data._source, "data", itemData.data);
-					setProperty(currentItem.data._source, "sort", itemData.sort);
+					// commented out because may not be necessary
+					// setProperty(currentItem.data._source, "sort", itemData.sort);
 					currentItem.prepareData();
-					//@ts-ignore itemData._id
-					this.items?.set(itemData._id, currentItem);
+					this.items.set(itemData._id, currentItem);
 				}
 			}
 		});
 	}
 
-	/**
-	 * Hack to get Active Effects working properly with nested items
-	 * Currently breaks something, will get back to this if need be
-	 * @override
-	 * @param items Array of nested Items
-	 * @param context Additional context
-	 */
-	async _onCreateDocuments(items: Array<ItemGURPS>, context: DocumentModificationContext) {
-		// const toCreate = [];
-		// for (const item of items) {
-		// 	for (const e of item.effects) {
-		// 		if (!e.data.transfer) continue;
-		// 		const effectData = e.toJSON();
-		// 		effectData.origin = item.uuid;
-		// 		toCreate.push(effectData);
-		// 	}
-		// }
-		// if (!toCreate.length) return [];
-		// const cls = getDocumentClass('ActiveEffect');
-		// return cls.createDocuments(toCreate, context);
-	}
-
-	async setCollection(item: ContainerGURPS, contents: Array<ItemDataGURPS>) {
-		item.update({ "flags.gcsga.conentsData": duplicate(contents) });
-	}
-
-	//@ts-ignore
-	update(
-		data: Record<string, unknown>,
-		context?: DocumentModificationContext | undefined,
-	): Promise<this | undefined> {
-		return super.update(data, context);
+	async setCollection(item: ContainerGURPS, contents: Array<ItemDataGURPS>): Promise<ContainerGURPS | undefined> {
+		return item.update({ "flags.gcsga.contentsData": duplicate(contents) });
 	}
 }
 
 //@ts-ignore
-export interface ContainerGURPS extends ItemGURPS {
+export interface ContainerGURPS extends BaseItemGURPS {
 	readonly data: BaseContainerData;
 	items: foundry.utils.Collection<ItemGURPS>;
 }

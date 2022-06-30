@@ -1,215 +1,24 @@
 {
 	"gcsga": {
-		"actor": {
-			"portrait": "Portrato",
-			"identity": "Identity",
-			"name": "Name",
-			"title": "Title",
-			"organization": "Organization",
-			"miscellaneous": "Miscellaneous",
-			"created_date": "Created",
-			"modified_date": "Modified",
-			"player_name": "Player",
-			"description": "Description",
-			"gender": "Gender",
-			"age": "Age",
-			"birthday": "Birthday",
-			"religion": "Religion",
-			"height": "Height",
-			"weight": "Weight",
-			"sm": "SM",
-			"tech_level": "TL",
-			"hair": "Hair",
-			"eyes": "Eyes",
-			"skin": "Skin",
-			"handedness": "Hand",
-			"points": {
-				"title": "Points",
-				"unspent": "Unspent",
-				"race": "Race",
-				"attributes": "Attributes",
-				"advantages": "Advantages",
-				"disadvantages": "Disadvantages",
-				"quirks": "Quirks",
-				"skills": "Skills",
-				"spells": "Spells"
-			},
-			"primary_attributes": "Primary Attributes",
-			"secondary_attributes": "Secondary Attributes",
-			"pool_attributes": "Point Pools",
-			"basic_damage": "Basic Damage",
-			"basic_thrust": "Basic Thrust",
-			"basic_swing": "Basic Swing",
-			"pool_attribute_of": "of",
-			"hit_locations": {
-				"roll": "Roll",
-				"location": "Location",
-				"penalty": "Penalty",
-				"dr": "DR"
-			},
-			"encumbrance": {
-				"title": "Encumbrance, Move & Dodge",
-				"level": "Level",
-				"max_load": "Max Load",
-				"move": "Move",
-				"dodge": "Dodge",
-				"levels": {
-					"0": "None",
-					"1": "Light",
-					"2": "Medium",
-					"3": "Heavy",
-					"4": "X-Heavy"
-				}
-			},
-			"lifting": {
-				"title": "Lifting & Moving Things",
-				"basic_lift": "Basic Lift",
-				"one_handed_lift": "One-Handed Lift",
-				"two_handed_lift": "Two-Handed Lift",
-				"shove": "Shove & Knock Over",
-				"running_shove": "Running Shove & Knock Over",
-				"carry_on_back": "Carry On Back",
-				"shift_slightly": "Shift Slightly"
-			},
-			"traits": {
-				"desc": "Trait",
-				"points": "Pts"
-			},
-			"skills": {
-				"desc": "Skill / Technique",
-				"level": "SL",
-				"rsl": "RSL",
-				"points": "Pts"
-			},
-			"spells": {
-				"desc": "Spells",
-				"college": "College",
-				"resist": "Resist",
-				"spell_class": "Class",
-				"casting_cost": "Cost",
-				"maintenance_cost": "Maintain",
-				"casting_time": "Time",
-				"duration": "Duration",
-				"level": "SL",
-				"rsl": "RSL",
-				"points": "Pts"
-			},
-			"equipment": {
-				"quantity": "#",
-				"desc": "Carried Equipment ({weight}; {value})",
-				"uses": "Uses",
-				"tech_level": "TL",
-				"legality_class": "LC"
-			},
-			"other_equipment": {
-				"quantity": "#",
-				"desc": "Other Equipment ({value})",
-				"uses": "Uses",
-				"tech_level": "TL",
-				"legality_class": "LC"
-			},
-			"notes": {
-				"desc": "Notes"
+		"character": {},
+		"trait": {},
+		"trait_container": {},
+		"trait_modifier": {},
+		"skill": {},
+		"technique": {},
+		"skill_container": {},
+		"spell": {},
+		"ritual_magic_spell": {},
+		"spell_container": {},
+		"equipment": {},
+		"equipment_modifier": {},
+		"equipment_container": {},
+		"settings": {},
+		"select": {},
+		"system": {
+			"sheet": {
+				"trait": "Trait Sheet"
 			}
-		},
-		"trait": {
-			"cr": "Self-Control Roll",
-			"cr_level": {
-				"-1": "None Requires",
-				"0": "CR: N/A (Cannot Resist)",
-				"6": "CR: 6 (Resist Rarely)",
-				"9": "CR: 9 (Resist Fairly Often)",
-				"12": "CR: 12 (Resist Quite Often)",
-				"15": "CR: 15 (Resist Almost All The Time)"
-			},
-			"cr_adj": {
-				"none": "",
-				"action_penalty": "{penalty} Action Penalty",
-				"reaction_penalty": "{penalty} Reaction Penalty",
-				"fright_check_penalty": "{penalty} Fright Check Penalty",
-				"fright_check_bonus": "{penalty} Fright Check Bonus",
-				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
-				"major_cost_of_living_increase": "{penalty} Cost of Living Increase",
-			}
-			"name": "Name",
-			"enabled": "Enabled",
-			"notes": "Notes",
-			"vtt_notes": "VTT Notes",
-			"user_description": "User Description",
-			"tags": "Tags",
-			"point_cost": "Point Cost",
-			"base_cost": "Base Cost",
-			"round_down": "Round Down",
-			"points_per_level": "Per Level",
-			"levels": "Levels",
-			"reference": "Page Reference"
-		},
-		"trait_container": {
-			"name": "Name",
-			"enabled": "Enabled",
-			"notes": "Notes",
-			"vtt_notes": "VTT Notes",
-			"user_description": "User Description",
-			"tags": "Tags",
-			"cr": "Self-Control Roll",
-			"container_type": "Container Type",
-			"ancestry": "Ancestry",
-			"reference": "Page Reference"
-		},
-		"settings": {
-			"basic_set_pdfs": {
-				"name": "Basic Set PDFs",
-				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFoundry. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDFoundry test.",
-				"choices": {
-					"combined": "Combined Basic Set (B)",
-					"separate": "Separate (Characters: B, Campaigns: BX)"
-				}
-			},
-			"portrait_path": {
-				"name": "Default Portait Path",
-				"hint": "Choose where character portraits are stored (in the global Foundry User Data directory, or the local world directory).",
-				"choices": {
-					"global": "Global ([Foundry User Data]/Data/images/portaits/",
-					"local": "Local ([Foundry User Data]/Data/worlds/[World]/images/portaits/)"
-				}
-			},
-			"portrait_overwrite": {
-				"name": "Overwrite Portraits",
-				"hint": "Choose whether character portraits are overwritten on import"
-			}
-		},
-		"select": {
-			"prereqs": {
-				"when_tl": {
-					"none": "When the Tech Level is anything",
-					"is": "When the Tech Level is",
-					"is_not": "When the Tech Level is not",
-					"at_least": "When the Tech Level is at least",
-					"at_most": "When the Tech Level is at most"
-				},
-				"all": {
-					"true": "requires all of:",
-					"false": "requires at least one of:"
-				},
-				"quantity": {
-					"is": "exactly",
-					"at_least": "at least",
-					"at_most": "at_most"
-				},
-				"has": {
-					"false": "doesn't have",
-					"true": "has"
-				},
-				"type": {
-					"trait_prereq": "a trait",
-					"attribute_prereq": "the attribute",
-					"contained_quantity_prereq": "a contained quantity of",
-					"contained_weight_prereq": "a contained weight",
-					"skill_prereq": "a skill",
-					"spell_prereq": "spell(b)"
-				}
-			}
-		},
-		"encumbrance": "Encumbrance",
+		}
 	}
 }

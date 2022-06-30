@@ -1,6 +1,5 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { ObjArray, Weapon } from "@module/data";
-import { PrereqList } from "@module/prereq";
+import { PrereqList } from "@prereq";
 import { RitualMagicSpellGURPS } from ".";
 
 export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", RitualMagicSpellSystemData>;
@@ -27,7 +26,7 @@ export interface RitualMagicSpellSystemData extends ItemSystemData {
 	casting_time: string;
 	duration: string;
 	points: number;
-	weapons: ObjArray<Weapon>;
+	weapons: Weapon[];
 	calc: {
 		level: number;
 		rsl: string;

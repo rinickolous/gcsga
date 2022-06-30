@@ -1,36 +1,21 @@
+import { DamageProgression, DisplayMode, Height, LengthUnits, Weight, WeightUnits } from "@module/data";
 import { ActorFlagsGURPS, ActorSystemData, BaseActorDataGURPS, BaseActorSourceGURPS } from "@actor/base/data";
-import { TraitSystemData } from "@item/trait/data";
-import { TraitContainerSystemData } from "@item/trait_container/data";
-import { EquipmentSystemData } from "@item/equipment/data";
-import { EquipmentContainerSystemData } from "@item/equipment_container/data";
-import { NoteSystemData } from "@item/note/data";
-import { NoteContainerSystemData } from "@item/note_container/data";
-import { RitualMagicSpellSystemData } from "@item/ritual_magic_spell/data";
-import { SkillSystemData } from "@item/skill/data";
-import { SkillContainerSystemData } from "@item/skill_container/data";
-import { SpellSystemData } from "@item/spell/data";
-import { SpellContainerSystemData } from "@item/spell_container/data";
-import { TechniqueSystemData } from "@item/technique/data";
-import { DisplayMode, Height, LengthUnits, RollGURPS, RollRange, Weight, WeightUnits } from "@module/data";
 import { CharacterGURPS } from ".";
-import { Attribute, AttributeDef, AttributeSettingDef } from "@module/attribute";
-import { Feature } from "@module/feature";
+import { AttributeDef } from "@module/attribute/attribute_def";
+import { Attribute } from "@module/attribute";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
-
-export class CharacterData extends BaseActorDataGURPS<CharacterGURPS> {
-	featureStack: Feature[] = [];
-}
-
-export interface CharacterData extends Omit<CharacterSource, "effects" | "flags" | "items" | "token"> {
+export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "flags" | "items" | "token"> {
 	readonly type: CharacterSource["type"];
 	data: CharacterSystemData;
 	flags: CharacterFlags;
 
 	readonly _source: CharacterSource;
 }
+
+export class CharacterDataGURPS extends BaseActorDataGURPS<CharacterGURPS> {}
 
 type CharacterFlags = ActorFlagsGURPS & {
 	gcsga: {
@@ -40,7 +25,8 @@ type CharacterFlags = ActorFlagsGURPS & {
 
 export interface CharacterSystemData extends ActorSystemData {
 	version: number;
-	import: CharacterImportData;
+	// import: CharacterImportData;
+	import: unknown;
 	settings: CharacterSettings;
 	created_date: string;
 	modified_date: string;
@@ -48,24 +34,6 @@ export interface CharacterSystemData extends ActorSystemData {
 	attributes: Map<string, Attribute>;
 	total_points: number;
 	calc: CharacterCalc;
-}
-
-export interface ImportedData extends Omit<CharacterSystemData, "attributes" | "settings"> {
-	total_points: number;
-	attributes: Array<AttributeDef>;
-	settings: Omit<CharacterSystemData["settings"], "attributes"> & { attributes: Array<Attribute> };
-	traits: Array<TraitContainerSystemData | TraitSystemData>;
-	skills: Array<SkillContainerSystemData | SkillSystemData | TechniqueSystemData>;
-	spells: Array<SpellContainerSystemData | SpellSystemData | RitualMagicSpellSystemData>;
-	equipment: Array<EquipmentContainerSystemData | EquipmentSystemData>;
-	other_equipment: Array<EquipmentContainerSystemData | EquipmentSystemData>;
-	notes: Array<NoteContainerSystemData | NoteSystemData>;
-}
-
-export interface CharacterImportData {
-	name: string;
-	path: string;
-	last_import: string;
 }
 
 export interface CharacterSettings {
@@ -93,8 +61,10 @@ export interface CharacterSettings {
 		orientation: string;
 	};
 	block_layout: Array<string>;
-	attributes: Record<string, AttributeSettingDef>;
-	hit_locations: HitLocationTable;
+	// attributes: Record<string, AttributeSettingDef>;
+	// hit_locations: HitLocationTable;
+	attributes: Record<string, AttributeDef>;
+	hit_locations: unknown;
 }
 
 export interface CharacterProfile {
@@ -118,8 +88,10 @@ export interface CharacterProfile {
 }
 
 export interface CharacterCalc {
-	swing: RollGURPS;
-	thrust: RollGURPS;
+	// swing: RollGURPS;
+	// thrust: RollGURPS;
+	swing: string;
+	thrust: string;
 	basic_lift: Weight;
 	lifting_st_bonus: number;
 	striking_st_bonus: number;
@@ -129,54 +101,4 @@ export interface CharacterCalc {
 	dodge_bonus: number;
 	block_bonus: number;
 	parry_bonus: number;
-}
-
-export type DamageProgression =
-	| "basic_set"
-	| "knowing_your_own_strength"
-	| "no_school_grognard_damage"
-	| "thrust_equals_swing_minus_2"
-	| "swing_equals_thrust_plus_2"
-	| "phoenix_flame_d3";
-
-export class HitLocationTable {
-	constructor(data: HitLocationTable) {
-		// this.id = data.id;
-		this.name = data.name;
-		this.roll = data.roll;
-		this.locations = recursiveLocations(data.locations);
-	}
-}
-
-function recursiveLocations(locations: Array<HitLocation>) {
-	const list: Array<HitLocation> = [];
-	for (const i of locations) {
-		const j = i;
-		if (!!i.sub_table) j.sub_table = new HitLocationTable(i.sub_table);
-		list.push(j);
-	}
-	// return new ObjArray<HitLocation>(list);
-	return list;
-}
-
-export interface HitLocationTable {
-	// id: string;
-	name: string;
-	roll: RollGURPS;
-	locations: Array<HitLocation>;
-}
-
-export interface HitLocation {
-	id: string;
-	choice_name: string;
-	table_name: string;
-	slots: number;
-	hit_penalty: number;
-	dr_bonus: number;
-	description: string;
-	sub_table?: HitLocationTable;
-	calc: {
-		roll_range: RollRange;
-		dr: Record<string, number>;
-	};
 }

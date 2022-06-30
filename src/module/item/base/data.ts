@@ -1,29 +1,6 @@
+import { ItemFlagsGURPS, ItemType } from "@item/data";
 import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { ItemGURPS } from ".";
-
-export type ItemType =
-	| "trait"
-	| "trait_container"
-	| "modifier"
-	| "skill"
-	| "technique"
-	| "skill_container"
-	| "spell"
-	| "ritual_magic_spell"
-	| "spell_container"
-	| "equipment"
-	| "eqp_modifier"
-	| "equipment_container"
-	| "note"
-	| "note_container";
-
-export interface ItemFlagsGURPS extends Record<string, unknown> {
-	gcsga?: {
-		contentsData?: Array<ItemGURPS>;
-		parents: Array<string>;
-		[key: string]: unknown;
-	};
-}
+import { BaseItemGURPS } from ".";
 
 export interface BaseItemSourceGURPS<
 	TItemType extends ItemType = ItemType,
@@ -34,7 +11,7 @@ export interface BaseItemSourceGURPS<
 	flags: DeepPartial<ItemFlagsGURPS>;
 }
 
-export abstract class BaseItemDataGURPS<TItem extends ItemGURPS = ItemGURPS> extends foundry.data.ItemData {
+export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {
 	enabled?: boolean;
 }
 

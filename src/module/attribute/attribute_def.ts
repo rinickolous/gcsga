@@ -1,8 +1,6 @@
-import { gid } from "@module/gid";
 import { PoolThreshold, PoolThresholdDef } from "./pool_threshold";
-import { CharacterGURPS } from "@actor";
-import { VariableResolver, evaluateToNumber } from "@module/evaluator";
-import { sanitize } from "@util";
+import { gid } from "@module/data";
+import { VariableResolver, evaluateToNumber } from "@util";
 
 export type AttributeType = "integer" | "decimal" | "pool";
 
@@ -11,7 +9,7 @@ export const reserved_ids: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodg
 export class AttributeDef {
 	def_id = "";
 	type: AttributeType = "integer";
-	name= "";
+	name = "";
 	full_name = "";
 	attribute_base = "10";
 	cost_per_point = 10;

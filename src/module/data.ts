@@ -1,11 +1,4 @@
-import { SkillDefault } from "@item/skill/skill_default";
-
-export class RollRange extends String {
-	roll() {
-		const match = this.match(/([\d]*)-([\d]*)/);
-		if (match) return [!!match[1] ? parseInt(match[1]) : 0, !!match[2] ? parseInt(match[2]) : 0];
-	}
-}
+import { i18n, i18n_f, signed } from "@util";
 
 export type LengthUnits = "pt" | "in" | "ft" | "ft_in" | "yd" | "mi" | "mm" | "cm" | "km" | "m";
 export type WeightUnits = "oz" | "lb" | "tn" | "lt" | "t" | "kg" | "g";
@@ -14,42 +7,54 @@ export type DisplayMode = "not_shown" | "inline" | "tooltip" | "inline_and_toolt
 export type Height = string;
 export type Weight = string;
 
-export class RollGURPS extends String {
-	constructor(_: string) {
-		super();
+export type DamageProgression =
+	| "basic_set"
+	| "knowing_your_own_strength"
+	| "no_school_grognard_damage"
+	| "thrust_equals_swing_minus_2"
+	| "swing_equals_thrust_plus_2"
+	| "phoenix_flame_d3";
+
+export class LeveledAmount {
+	level = 0;
+	amount = 1;
+	per_level = false;
+
+	constructor(data?: { level: number; amount: number; per_level: boolean }) {
+		if (data) Object.assign(this, data);
 	}
 
-	roll() {
-		const multiplier = this.match(/([\d]+)d/);
-		const dice = this.match(/d([\d]*)/);
-		const addition = this.match(/([-\d]+)(?!d.*)/);
-		return [multiplier ? parseInt(multiplier[1]) : 0, dice ? parseInt(dice[1]) : 6, addition ? addition[1] : 0];
+	get formatWithLevel(): string {
+		return this.format(i18n("gcsga.feature.level"));
+	}
+
+	format(what: string): string {
+		const per_level = signed(this.amount);
+		if (this.per_level)
+			return i18n_f("gcsga.feature.format", { total: signed(this.adjustedAmount), per_level, what });
+		return per_level;
+	}
+
+	get adjustedAmount(): number {
+		if (this.per_level) {
+			if (this.level < 0) return 0;
+			return this.amount * this.level;
+		}
+		return this.amount;
 	}
 }
 
-// Object Array
-export class ObjArray<T> {
-	push(...items: T[]): number {
-		return Array.prototype.push(this, ...items);
-	}
-	forEach(callbackfn: (value: T, index: number, array: T[]) => void, _?: any): void {
-		return Array.prototype.forEach(callbackfn);
-	}
-	constructor(a: Array<T>) {
-		return Object.assign(this, a);
-	}
-	splice(start?: number, end?: number): T[] {
-		return Array.prototype.splice(start ?? 0, end ?? this.length - 1);
-	}
+export interface LeveledAmount {
+	level: number;
+	amount: number;
+	per_level: boolean;
+
+	formatWithLevel: string;
 }
 
-export interface ObjArray<T> extends Array<T> {
-	length: number;
-	at(index: number): T | undefined;
-}
 export interface StringCompare {
 	compare: StringComparison;
-	qualifier: string;
+	qualifier?: string;
 }
 
 export type StringComparison =
@@ -75,102 +80,52 @@ export type NumberComparison =
 	| "at_least"
 	| "at_most";
 
-// Weapon
-export const WeaponType = ["melee_weapon", "ranged_weapon"] as const;
-export type WeaponType = typeof WeaponType[number];
+// standard attribute related ids
+export const gid = {
+	All: "all",
+	BasicMove: "basic_move",
+	BasicSpeed: "basic_speed",
+	Block: "block",
+	ConditionalModifier: "conditional_modifier",
+	Dexterity: "dx",
+	Dodge: "dodge",
+	Equipment: "equipment",
+	EquipmentModifier: "equipment_modifier",
+	FatiguePoints: "fp",
+	FrightCheck: "fright_check",
+	Health: "ht",
+	Hearing: "hearing",
+	HitPoints: "hp",
+	Intelligence: "iq",
+	Note: "note",
+	Parry: "parry",
+	Perception: "per",
+	ReactionModifier: "reaction_modifier",
+	RitualMagicSpell: "ritual_magic_spell",
+	SizeModifier: "sm",
+	Skill: "skill",
+	Spell: "spell",
+	Strength: "st",
+	TasteSmell: "taste_smell",
+	Technique: "technique",
+	Ten: "10",
+	Torso: "torso",
+	Touch: "touch",
+	Trait: "trait",
+	TraitModifier: "trait_modifier",
+	Vision: "vision",
+	Will: "will",
+};
 
-export interface Weapon {
-	type: WeaponType;
-	damage: {
-		type: string;
-		st: WeaponST;
-		//change to dice parser later
-		base: string;
-		armor_divisor: number;
-		modifier_per_die: number;
-	};
-	//change to minimum ST parser
-	strength: string;
-	usage: string;
-	usage_notes: string;
-	calc: {
-		level: number;
-		damage: string;
-	};
-	defaults: SkillDefault[];
-}
+export const attrPrefix = "$";
 
-export interface MeleeWeapon extends Weapon {
-	reach: string;
-	//change to number parser?
-	parry: string;
-	block: string;
-	calc: {
-		level: number;
-		parry: string;
-		block: string;
-		damage: string;
-	};
-}
+export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 
-export interface RangedWeapon {
-	damage: {
-		type: string;
-		st: WeaponST;
-		//change to dice parser later
-		base: string;
-		armor_divisor: number;
-		fragmentation: string;
-		fragmentation_armor_divisor: number;
-		fragmentation_type: string;
-		modifier_per_die: number;
-	};
-	accuracy: string;
-	range: string;
-	rate_of_fire: string;
-	shots: string;
-	bulk: string;
-	recoil: string;
-	calc: {
-		level: number;
-		range: string;
-		damage: string;
-	};
-}
-
-export interface Bonus {
-	name: string;
-	amount: number;
-}
-
-export const CR = [-1, 0, 6, 9, 12, 15] as const;
-export type CR = typeof CR[number];
-
-export const CRAdjustment = [
-	"none",
-	"action_penalty",
-	"reaction_penalty",
-	"fright_check_penalty",
-	"fright_check_bonus",
-	"minor_cost_of_living_increase",
-	"major_cost_of_living_increase",
-] as const;
-export type CRAdjustment = typeof CRAdjustment[number];
-
-export const SpellPrereqSubType = ["name", "any", "college", "college_count", "tag"] as const;
-export type SpellPrereqSubType = typeof SpellPrereqSubType[number];
-
-export const StrengthBonusLimitation = ["striking_only", "lifting_only", "throwing_only"] as const;
-export type StrengthBonusLimitation = typeof StrengthBonusLimitation[number];
-
-export const SkillBonusSelectionType = ["skills_with_name", "weapons_with_name", "this_weapon"] as const;
-export type SkillBonusSelectionType = typeof SkillBonusSelectionType[number];
-
-export const SpellBonusMatch = ["all_colleges", "college_name", "spell_name", "power_source_name"] as const;
-export type SpellBonusMatch = typeof SpellBonusMatch[number];
-
-export const WeaponBonusSelectionType = ["weapons_with_required_skill", "weapons_with_name", "this_weapon"] as const;
-export type WeaponBonusSelectionType = typeof WeaponBonusSelectionType[number];
-
-export const WeaponST = ["none", "thr", "sw", "thr_leveled", "sw_leveled"] as const;
-export type WeaponST = typeof WeaponST[number];
+export type CRAdjustment =
+	| "none"
+	| "action_penalty"
+	| "reaction_penalty"
+	| "fright_check_penalty"
+	| "fright_check_bonus"
+	| "minor_cost_of_living_increase"
+	| "major_cost_of_living_increase";

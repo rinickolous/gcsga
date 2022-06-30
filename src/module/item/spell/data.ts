@@ -1,6 +1,5 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { ObjArray, Weapon } from "@module/data";
-import { PrereqList } from "@module/prereq";
+import { PrereqList } from "@prereq";
 import { SpellGURPS } from ".";
 
 export type SpellSource = BaseItemSourceGURPS<"spell", SpellSystemData>;
@@ -27,7 +26,7 @@ export interface SpellSystemData extends ItemSystemData {
 	casting_time: string;
 	duration: string;
 	points: number;
-	weapons: ObjArray<Weapon>;
+	weapons: Weapon[];
 	calc: {
 		level: number;
 		rsl: string;

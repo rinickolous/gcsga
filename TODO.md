@@ -1,7 +1,6 @@
-
-#To Do
-- Complete reformat to match GCS5
+# TO DO
 ## Sheets and Styling
+- Redo sheets to match new property gets
 - Item sheet
 - Foundry skin
 - Roll chat template
@@ -11,31 +10,22 @@
 - NPC sheet
 - match font to foundry default
 - remove font height specific (px) styles
-## Small Features 
+## Small Features
 - Roll function
-- Give items sort values on charsheet initialization
-- "unsatisfied prerequisite" warning functionality
-- item sort alphabetically based on header
-- overlay hex
+- Sort items on import
+- overlay hex on tokens
 ## Large Features
-- Item import
-- modifier parsing
-- weapons
-- prereqs
-- attribute logic (base done)
-	- read modifiers from feature stack
-- feature functions
-	- import properly
-	- callable feature stack
-	- function to filter feature stack by feature type and details (e.g. attribute name)
+- redo item and character import
 - vehicles
-- Mass Combat elements
+- mass combat elements
 - conditions
 - damage calculator
 - charsheet style menu
+- default attributes and hit locations settings
 - mook generator with autocomplete from compendium
+- weapons
 ## Fixes
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)
-- fix ObjArrays (remove?)
+

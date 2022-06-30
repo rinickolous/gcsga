@@ -1,7 +1,7 @@
+import { Feature } from "@feature";
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { ObjArray, Weapon, Default, DefaultedFrom } from "@module/data";
-import { Feature } from "@module/feature";
-import { PrereqList } from "@module/prereq";
+import { SkillDefault } from "@module/skill-default";
+import { PrereqList } from "@prereq";
 import { SkillGURPS } from ".";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
@@ -24,9 +24,9 @@ export interface SkillSystemData extends ItemSystemData {
 	difficulty: string;
 	points: number;
 	// to change later
-	defaulted_from: DefaultedFrom;
-	weapons: ObjArray<Weapon>;
-	defaults: ObjArray<Default>;
+	defaulted_from: SkillDefault | null;
+	weapons: Weapon[];
+	defaults: SkillDefault[];
 	features: Feature[];
 	calc: {
 		level: number;
@@ -41,4 +41,19 @@ export interface SkillLevel {
 	level: number;
 	relative_level: number;
 	tooltip: string;
+}
+
+export function baseRelativeLevel(d: string): number {
+	switch (d) {
+		case "e":
+			return 0;
+		case "a":
+			return -1;
+		case "h":
+			return -2;
+		case "w":
+			return -3;
+		default:
+			return baseRelativeLevel("e");
+	}
 }

@@ -1,8 +1,7 @@
-import { ItemGURPS } from "@item/base";
+import { BaseItemGURPS } from "@item/base";
 import { NoteData } from "./data";
 
-//@ts-ignore
-export class NoteGURPS extends ItemGURPS {
+export class NoteGURPS extends BaseItemGURPS {
 	static get schema(): typeof NoteData {
 		return NoteData;
 	}

@@ -1,18 +1,18 @@
 {
 	"name": "gcsga",
-	"title": "gcsga",
+	"title": "GURPS Character Sheet Game Aid",
 	"description": "",
-	"version": "0.0.1",
-	"author": "neck",
+	"version": "",
+	"author": "Mikolaj Tomczynski",
 	"authors": [
 		{
-			"name": "Mateusz Sasiedny",
-			"email": "rinickolous@gmail.com",
+			"name": "Mikolaj Tomczynski",
+			"email": "mikolajtomczynski@gmail.com",
 			"discord": "neck#0001"
 		}
 	],
 	"minimumCoreVersion": "9",
-	"compatibleCoreVersion": "9.269",
+	"compatibleCoreVersion": "9",
 	"scripts": [],
 	"esmodules": ["module/gcsga.js"],
 	"styles": ["styles/gcsga.css"],
@@ -28,7 +28,7 @@
 	"socket": false,
 	"url": "",
 	"manifest": "",
-	"download": "https://host/path/to/0.0.0.zip",
+	"download": "",
 	"license": "",
 	"readme": "",
 	"bugs": "",

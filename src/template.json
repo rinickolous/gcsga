@@ -12,278 +12,13 @@
 				"path": "",
 				"last_import": ""
 			},
-			"settings": {
-				"default_length_units": "ft_in",
-				"default_weight_units": "lb",
-				"user_description_display": "tooltip",
-				"modifiers_display": "inline",
-				"notes_display": "inline",
-				"skill_level_adj_display": "tooltip",
-				"use_multiplicative_modifiers": false,
-				"use_modifying_dice_plus_adds": false,
-				"damage_progression": "basic_set",
-				"use_simple_metric_conversion": true,
-				"show_college_in_sheet_spells": false,
-				"show_difficulty": false,
-				"show_trait_modifier_adj": false,
-				"show_equipment_modifier_adj": false,
-				"show_spell_adj": false,
-				"use_title_in_footer": false,
-				"page": {
-					"paper_size": "na-letter",
-					"top_margin": "0 in",
-					"left_margin": "0.25 in",
-					"bottom_margin": "0.25 in",
-					"right_margin": "0.25 in",
-					"orientation": "portrait"
-				},
-				"block_layout": [
-					"reactions conditional_modifiers",
-					"melee",
-					"ranged",
-					"traits skills",
-					"spells",
-					"equipment",
-					"other_equipment",
-					"notes"
-				],
-				"attributes": [],
-				"hit_locations": {
-					"name": "Humanoid",
-					"roll": "3d",
-					"locations": [
-						{
-							"id": "eye",
-							"choice_name": "Eyes",
-							"table_name": "Eyes",
-							"slots": 0,
-							"hit_penalty": -9,
-							"dr_bonus": 0,
-							"description": "An attack that misses by 1 hits the torso instead. Only impaling (imp), piercing (pi-, pi, pi+, pi++), and tight-beam burning (burn) attacks can target the eye – and only from the front or sides. Injury over HP÷10 blinds the eye. Otherwise, treat as skull, but without the extra DR!",
-							"calc": {
-								"roll_range": "-",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "skull",
-							"choice_name": "Skull",
-							"table_name": "Skull",
-							"slots": 2,
-							"hit_penalty": -7,
-							"dr_bonus": 2,
-							"description": "An attack that misses by 1 hits the torso instead. Wounding modifier is x4. Knockdown rolls are at -10. Critical hits use the Critical Head Blow Table (B556). Exception: These special effects do not apply to toxic (tox) damage.",
-							"calc": {
-								"roll_range": "3-4",
-								"dr": {
-									"all": 2
-								}
-							}
-						},
-						{
-							"id": "face",
-							"choice_name": "Face",
-							"table_name": "Face",
-							"slots": 1,
-							"hit_penalty": -5,
-							"dr_bonus": 0,
-							"description": "An attack that misses by 1 hits the torso instead. Jaw, cheeks, nose, ears, etc. If the target has an open-faced helmet, ignore its DR. Knockdown rolls are at -5. Critical hits use the Critical Head Blow Table (B556). Corrosion (cor) damage gets a x1½ wounding modifier, and if it inflicts a major wound, it also blinds one eye (both eyes on damage over full HP). Random attacks from behind hit the skull instead.",
-							"calc": {
-								"roll_range": "5",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "leg",
-							"choice_name": "Leg",
-							"table_name": "Right Leg",
-							"slots": 2,
-							"hit_penalty": -2,
-							"dr_bonus": 0,
-							"description": "Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ½ HP from one blow) cripples the limb. Damage beyond that threshold is lost.",
-							"calc": {
-								"roll_range": "6-7",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "arm",
-							"choice_name": "Arm",
-							"table_name": "Right Arm",
-							"slots": 1,
-							"hit_penalty": -2,
-							"dr_bonus": 0,
-							"description": "Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ½ HP from one blow) cripples the limb. Damage beyond that threshold is lost. If holding a shield, double the penalty to hit: -4 for shield arm instead of -2.",
-							"calc": {
-								"roll_range": "8",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "torso",
-							"choice_name": "Torso",
-							"table_name": "Torso",
-							"slots": 2,
-							"hit_penalty": 0,
-							"dr_bonus": 0,
-							"description": "",
-							"calc": {
-								"roll_range": "9-10",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "groin",
-							"choice_name": "Groin",
-							"table_name": "Groin",
-							"slots": 1,
-							"hit_penalty": -3,
-							"dr_bonus": 0,
-							"description": "An attack that misses by 1 hits the torso instead. Human males and the males of similar species suffer double shock from crushing (cr) damage, and get -5 to knockdown rolls. Otherwise, treat as a torso hit.",
-							"calc": {
-								"roll_range": "11",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "arm",
-							"choice_name": "Arm",
-							"table_name": "Left Arm",
-							"slots": 1,
-							"hit_penalty": -2,
-							"dr_bonus": 0,
-							"description": "Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ½ HP from one blow) cripples the limb. Damage beyond that threshold is lost. If holding a shield, double the penalty to hit: -4 for shield arm instead of -2.",
-							"calc": {
-								"roll_range": "12",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "leg",
-							"choice_name": "Leg",
-							"table_name": "Left Leg",
-							"slots": 2,
-							"hit_penalty": -2,
-							"dr_bonus": 0,
-							"description": "Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ½ HP from one blow) cripples the limb. Damage beyond that threshold is lost.",
-							"calc": {
-								"roll_range": "13-14",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "hand",
-							"choice_name": "Hand",
-							"table_name": "Hand",
-							"slots": 1,
-							"hit_penalty": -4,
-							"dr_bonus": 0,
-							"description": "If holding a shield, double the penalty to hit: -8 for shield hand instead of -4. Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ⅓ HP from one blow) cripples the extremity. Damage beyond that threshold is lost.",
-							"calc": {
-								"roll_range": "15",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "foot",
-							"choice_name": "Foot",
-							"table_name": "Foot",
-							"slots": 1,
-							"hit_penalty": -4,
-							"dr_bonus": 0,
-							"description": "Reduce the wounding multiplier of large piercing (pi+), huge piercing (pi++), and impaling (imp) damage to x1. Any major wound (loss of over ⅓ HP from one blow) cripples the extremity. Damage beyond that threshold is lost.",
-							"calc": {
-								"roll_range": "16",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "neck",
-							"choice_name": "Neck",
-							"table_name": "Neck",
-							"slots": 2,
-							"hit_penalty": -5,
-							"dr_bonus": 0,
-							"description": "An attack that misses by 1 hits the torso instead. Neck and throat. Increase the wounding multiplier of crushing (cr) and corrosion (cor) attacks to x1½, and that of cutting (cut) damage to x2. At the GM’s option, anyone killed by a cutting (cut) blow to the neck is decapitated!",
-							"calc": {
-								"roll_range": "17-18",
-								"dr": {
-									"all": 0
-								}
-							}
-						},
-						{
-							"id": "vitals",
-							"choice_name": "Vitals",
-							"table_name": "Vitals",
-							"slots": 0,
-							"hit_penalty": -3,
-							"dr_bonus": 0,
-							"description": "An attack that misses by 1 hits the torso instead. Heart, lungs, kidneys, etc. Increase the wounding modifier for an impaling (imp) or any piercing (pi-, pi, pi+, pi++) attack to x3. Increase the wounding modifier for a tight-beam burning (burn) attack to x2. Other attacks cannot target the vitals.",
-							"calc": {
-								"roll_range": "-",
-								"dr": {
-									"all": 0
-								}
-							}
-						}
-					]
-				}
-			},
-			"created_date": "Jan 1, 1986, 0:00 AM",
-			"modified_date": "Jan 1, 1986, 0:00 AM",
+			"settings": {},
 			"attributes": [],
-			"profile": {
-				"player_name": "",
-				"name": "",
-				"age": "",
-				"birthday": "",
-				"eyes": "",
-				"hair": "",
-				"skin": "",
-				"handedness": "",
-				"height": "",
-				"weight": "",
-				"SM": 0,
-				"gender": "",
-				"tech_level": "",
-				"religion": "",
-				"appearance": ""
-			},
+			"created_date": "2004-08-01T00:00:00.000Z",
+			"modified_date": "2004-08-01T00:00:00.000Z",
+			"profile": {},
 			"total_points": 100,
-			"calc": {
-				"swing": "1d",
-				"thrust": "1d-2",
-				"basic_lift": "20 lb",
-				"lifting_st_bonus": 0,
-				"striking_st_bonus": 0,
-				"throwing_st_bonus": 0,
-				"move": [5, 4, 3, 2, 1],
-				"dodge": [8, 7, 6, 5, 4],
-				"dodge_bonus": 0,
-				"block_bonus": 0,
-				"parry_bonus": 0
-			}
+			"calc": {}
 		}
 	},
 	"Item": {
@@ -323,74 +58,25 @@
 		},
 		"trait": {
 			"templates": ["common", "prereqs"],
-			"round_down": false,
-			"allow_half_levels": false,
-			"disabled": false,
-			"mental": false,
-			"physical": true,
-			"social": false,
-			"exotic": false,
-			"supernatural": false,
-			"levels": "",
-			"base_points": 0,
-			"points_per_level": 0,
-			"calc": {
-				"points": 0
-			},
-			"cr": -1,
-			"cr_adj": "none",
-			"features": {},
-			"weapons": {}
+			"features": [],
+			"weapons": []
 		},
 		"trait_container": {
-			"templates": ["common"],
-			"disabled": false,
-			"container_type": "group",
-			"calc": {
-				"points": 0
-			},
-			"cr": -1,
-			"cr_adj": "none"
+			"templates": ["common"]
 		},
 		"modifier": {
 			"templates": ["common"],
-			"disabled": false,
-			"cost_type": "percentage",
-			"cost": 0,
-			"levels": 0,
-			"affects": "total",
-			"features": {}
+			"features": []
 		},
 		"skill": {
 			"templates": ["common", "prereqs"],
-			"specialization": "",
-			"tech_level": "",
-			"encumbrance_penalty_multiplier": 0,
-			"difficulty": "dx/a",
-			"points": 1,
-			"defaulted_from": {},
-			"weapons": {},
-			"defaults": {},
-			"features": {},
-			"calc": {
-				"level": 0,
-				"rsl": ""
-			}
+			"features": [],
+			"weapons": []
 		},
 		"technique": {
 			"templates": ["common", "prereqs"],
-			"specialization": "",
-			"tech_level": "",
-			"encumbrance_penalty_multiplier": 0,
-			"difficulty": "a",
-			"points": 1,
-			"default": {},
-			"weapons": {},
-			"features": {},
-			"calc": {
-				"level": 0,
-				"rsl": ""
-			}
+			"features": [],
+			"weapons": []
 		},
 		"skill_container": {
 			"templates": ["common"],
@@ -398,43 +84,11 @@
 		},
 		"spell": {
 			"templates": ["common", "prereqs"],
-			"difficulty": "iq/h",
-			"tech_level": "",
-			"college": [],
-			"power_source": "Arcane",
-			"spell_class": "Regular",
-			"resist": "",
-			"casting_cost": "",
-			"maintenance_cost": "",
-			"casting_time": "",
-			"duration": "",
-			"points": 1,
-			"weapons": {},
-			"calc": {
-				"level": 0,
-				"rsl": ""
-			}
+			"weapons": []
 		},
 		"ritual_magic_spell": {
 			"templates": ["common", "prereqs"],
-			"difficulty": "iq/h",
-			"tech_level": "",
-			"college": [],
-			"power_source": "Arcane",
-			"spell_class": "Regular",
-			"resist": "",
-			"casting_cost": "",
-			"maintenance_cost": "",
-			"casting_time": "",
-			"duration": "",
-			"points": 1,
-			"base_skill": "Ritual Magic",
-			"prereq_count": 0,
-			"weapons": {},
-			"calc": {
-				"level": 0,
-				"rsl": ""
-			}
+			"weapons": []
 		},
 		"spell_container": {
 			"templates": ["common"],
@@ -442,58 +96,24 @@
 		},
 		"equipment": {
 			"templates": ["common", "prereqs"],
-			"equipped": true,
-			"quantity": 1,
-			"tech_level": "",
-			"legality_class": "",
-			"value": "",
-			"ignore_weight_for_skills": false,
-			"weight": "",
-			"uses": 0,
-			"max_uses": 0,
-			"weapons": {},
-			"features": {},
-			"calc": {
-				"extended_value": "",
-				"extended_weight": "",
-				"extended_weight_for_skills": ""
-			}
+			"features": [],
+			"weapons": []
 		},
 		"eqp_modifier": {
 			"templates": ["common"],
-			"cost_type": "to_original_cost",
-			"cost": "",
-			"weight_type": "to_original_weight",
-			"weight": "",
-			"tech_level": "",
-			"features": {}
+			"features": []
 		},
 		"equipment_container": {
 			"templates": ["common", "prereqs"],
-			"equipped": true,
-			"tech_level": "",
-			"legality_class": "",
-			"value": "",
-			"ignore_weight_for_skills": false,
-			"weight": "",
-			"uses": 0,
-			"max_uses": 0,
-			"weapons": {},
-			"features": {},
-			"calc": {
-				"extended_value": "",
-				"extended_weight": "",
-				"extended_weight_for_skills": ""
-			},
+			"features": [],
+			"weapons": [],
 			"open": false
 		},
 		"note": {
-			"templates": ["common"],
-			"text": ""
+			"templates": ["common"]
 		},
 		"note_container": {
 			"templates": ["common"],
-			"text": "",
 			"open": false
 		}
 	}

@@ -18,8 +18,16 @@ export class AttributeDef {
 	thresholds?: PoolThreshold[];
 	order = 0;
 
-	constructor(data?: AttributeSettingDef) {
-		if (data) Object.assign(this, data);
+	constructor(data?: AttributeDefObj) {
+		if (data) {
+			const thr: PoolThreshold[] = [];
+			if (data.thresholds)
+				for (const t of data.thresholds) {
+					thr.push(new PoolThreshold(t));
+				}
+			(data as any).thresholds = thr;
+			Object.assign(this, data);
+		}
 	}
 
 	get id(): string {
@@ -64,7 +72,7 @@ export class AttributeDef {
 	}
 }
 
-export interface AttributeSettingDef {
+export interface AttributeDefObj {
 	id: string;
 	type: AttributeType;
 	name: string;

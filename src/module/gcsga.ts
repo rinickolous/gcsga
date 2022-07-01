@@ -34,6 +34,7 @@ import { preloadTemplates } from "./preload-templates";
 import { i18n, registerHandlebarsHelpers } from "@util";
 import { CharacterSheetGURPS } from "@actor/sheet";
 import { BaseActorGURPS } from "@actor";
+import { BaseItemGURPS } from "@item";
 
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
@@ -56,9 +57,9 @@ Hooks.once("init", async () => {
 	$("#logo").attr("src", src);
 	$("#logo").attr("height", "32px");
 
-	// Assign custom classes and constants here
-	// Object.assign(CONFIG, GURPSCONFIG);
-	// CONFIG.Item.documentClass = ItemGURPS;
+	// Assign custom classes and constants hereby
+	//@ts-ignore
+	CONFIG.Item.documentClass = BaseItemGURPS;
 	CONFIG.Actor.documentClass = BaseActorGURPS;
 
 	// Register custom system settings

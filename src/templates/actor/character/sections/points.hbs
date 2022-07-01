@@ -1,7 +1,7 @@
 <div id="points">
 	<div class="header">{{actor.totalPoints}} {{localize "gcsga.character.points.title"}}</div>
 	<div class="fieldblock">
-		{{>input-text after="gcsga.character.points.unspent" field="field" name="" data=actor.unspentPoints type="Number" class=(input_lock editing)}}
+		{{>input-text after="gcsga.character.points.unspent" field="field" name="actor.unspentPoints" data=actor.unspentPoints type="Number" class=(input_lock editing)}}
 		{{>input-text after="gcsga.character.points.race" field="field" data=actor.traitPoints.[2] class="disabled"}}
 		{{>input-text after="gcsga.character.points.attributes" field="field" data=actor.attributePoints class="disabled"}}
 		{{>input-text after="gcsga.character.points.advantages" field="field" data=actor.traitPoints.[0] class="disabled"}}

@@ -36,6 +36,6 @@
 	"initiative": "",
 	"gridDistance": 1,
 	"gridUnits": "yd",
-	"primaryTokenAttribute": "",
-	"secondaryTokenAttribute": ""
+	"primaryTokenAttribute": "attributes.hp.current",
+	"secondaryTokenAttribute": "attributes.fp.current"
 }

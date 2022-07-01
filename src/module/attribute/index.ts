@@ -13,7 +13,7 @@ export interface AttributeObj {
 	attr_id: string;
 	adj: number;
 	damage?: number;
-	attribute_def: AttributeDef;
+	attribute_def?: AttributeDef;
 }
 
 export class Attribute {
@@ -40,7 +40,7 @@ export class Attribute {
 	}
 
 	get attribute_def(): AttributeDef {
-		return this.actor?.settings.attributes[this.attr_id];
+		return (this.actor?.settings.attributes as Record<string, AttributeDef>)[this.attr_id];
 	}
 
 	get max(): number {
@@ -88,6 +88,18 @@ export class Attribute {
 		let sm = 0;
 		if (this.actor) sm = this.actor.adjustedSizeModifier;
 		return def.computeCost(this.actor, this.adj, this.cost_reduction, sm);
+	}
+
+	toObj(): AttributeObj {
+		const obj: AttributeObj = {
+			bonus: this.bonus,
+			cost_reduction: this.cost_reduction,
+			order: this.order,
+			attr_id: this.attr_id,
+			adj: this.adj,
+		};
+		if (!!this.damage) obj.damage = this.damage;
+		return obj;
 	}
 }
 

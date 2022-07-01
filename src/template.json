@@ -12,7 +12,24 @@
 				"path": "",
 				"last_import": ""
 			},
-			"total_points": 100
+			"total_points": 100,
+			"settings": {
+				"attributes": {}
+			},
+			"attributes": {},
+			"calc": {
+				"swing": "",
+				"thrust": "",
+				"basic_lift": "",
+				"lifting_st_bonus": 0,
+				"striking_st_bonus": 0,
+				"throwing_st_bonus": 0,
+				"move": [],
+				"dodge": [],
+				"dodge_bonus": 0,
+				"block_bonus": 0,
+				"parry_bonus": 0
+			}
 		}
 	},
 	"Item": {

@@ -67,6 +67,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("blockLayout", function (a: Array<string>, items: any) {
+		if (!a) return "";
 		let outStr = ``;
 		let line_length = 2;
 		for (const value of a) {

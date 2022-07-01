@@ -65,12 +65,13 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const primary_attributes: Attribute[] = [];
 		const secondary_attributes: Attribute[] = [];
 		const point_pools: Attribute[] = [];
-		if (attributes)
+		if (attributes) {
 			attributes.forEach((a) => {
-				if (a.attribute_def.type == "pool") point_pools.push(a);
-				else if (a.attribute_def.isPrimary) primary_attributes.push(a);
+				if (a.attribute_def?.type == "pool") point_pools.push(a);
+				else if (a.attribute_def?.isPrimary) primary_attributes.push(a);
 				else secondary_attributes.push(a);
 			});
+		}
 		return [primary_attributes, secondary_attributes, point_pools];
 	}
 

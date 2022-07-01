@@ -1,6 +1,5 @@
 import { CharacterProfile } from "@actor/character/data";
-import { AttributeDef } from "./attribute/attribute_def";
-import { PoolThreshold } from "./attribute/pool_threshold";
+import { AttributeDefObj } from "./attribute/attribute_def";
 import { DamageProgression, DisplayMode, LengthUnits, WeightUnits } from "./data";
 
 export const SYSTEM_NAME = "gcsga";
@@ -52,7 +51,7 @@ interface provider {
 			orientation: string;
 		};
 		block_layout: Array<string>;
-		attributes: Record<string, AttributeDef>;
+		attributes: Record<string, AttributeDefObj>;
 		hit_locations: unknown;
 	};
 	general: {
@@ -97,7 +96,7 @@ export const SETTINGS_TEMP: provider = {
 			"notes",
 		],
 		attributes: {
-			st: new AttributeDef({
+			st: {
 				id: "st",
 				type: "integer",
 				name: "ST",
@@ -105,96 +104,96 @@ export const SETTINGS_TEMP: provider = {
 				attribute_base: "10",
 				cost_per_point: 10,
 				cost_adj_percent_per_sm: 10,
-			}),
-			dx: new AttributeDef({
+			},
+			dx: {
 				id: "dx",
 				type: "integer",
 				name: "DX",
 				full_name: "Dexterity",
 				attribute_base: "10",
 				cost_per_point: 20,
-			}),
-			iq: new AttributeDef({
+			},
+			iq: {
 				id: "iq",
 				type: "integer",
 				name: "IQ",
 				full_name: "Intelligence",
 				attribute_base: "10",
 				cost_per_point: 20,
-			}),
-			ht: new AttributeDef({
+			},
+			ht: {
 				id: "ht",
 				type: "integer",
 				name: "HT",
 				full_name: "Health",
 				attribute_base: "10",
 				cost_per_point: 10,
-			}),
-			will: new AttributeDef({
+			},
+			will: {
 				id: "will",
 				type: "integer",
 				name: "Will",
 				attribute_base: "$iq",
 				cost_per_point: 5,
-			}),
-			fright_check: new AttributeDef({
+			},
+			fright_check: {
 				id: "fright_check",
 				type: "integer",
 				name: "Fright Check",
 				attribute_base: "$will",
 				cost_per_point: 2,
-			}),
-			per: new AttributeDef({
+			},
+			per: {
 				id: "per",
 				type: "integer",
 				name: "Per",
 				full_name: "Perception",
 				attribute_base: "$iq",
 				cost_per_point: 5,
-			}),
-			vision: new AttributeDef({
+			},
+			vision: {
 				id: "vision",
 				type: "integer",
 				name: "Vision",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			}),
-			hearing: new AttributeDef({
+			},
+			hearing: {
 				id: "hearing",
 				type: "integer",
 				name: "Hearing",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			}),
-			taste_smell: new AttributeDef({
+			},
+			taste_smell: {
 				id: "taste_smell",
 				type: "integer",
 				name: "Taste \u0026 Smell",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			}),
-			touch: new AttributeDef({
+			},
+			touch: {
 				id: "touch",
 				type: "integer",
 				name: "Touch",
 				attribute_base: "$per",
 				cost_per_point: 2,
-			}),
-			basic_speed: new AttributeDef({
+			},
+			basic_speed: {
 				id: "basic_speed",
 				type: "decimal",
 				name: "Basic Speed",
 				attribute_base: "($dx+$ht)/4",
 				cost_per_point: 20,
-			}),
-			basic_move: new AttributeDef({
+			},
+			basic_move: {
 				id: "basic_move",
 				type: "integer",
 				name: "Basic Move",
 				attribute_base: "floor($basic_speed)",
 				cost_per_point: 5,
-			}),
-			fp: new AttributeDef({
+			},
+			fp: {
 				id: "fp",
 				type: "pool",
 				name: "FP",
@@ -202,41 +201,41 @@ export const SETTINGS_TEMP: provider = {
 				attribute_base: "$ht",
 				cost_per_point: 3,
 				thresholds: [
-					new PoolThreshold({
+					{
 						state: "Unconscious",
 						multiplier: -1,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge", "halve_st"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Collapse",
 						explanation:
 							"Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
 						multiplier: 0,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge", "halve_st"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Tired",
 						explanation: "Move, Dodge and ST are halved (B426)",
 						multiplier: 1,
 						divisor: 3,
 						ops: ["halve_move", "halve_dodge", "halve_st"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Tiring",
 						multiplier: 1,
 						divisor: 1,
 						addition: -1,
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Rested",
 						multiplier: 1,
 						divisor: 1,
-					}),
+					},
 				],
-			}),
-			hp: new AttributeDef({
+			},
+			hp: {
 				id: "hp",
 				type: "pool",
 				name: "HP",
@@ -245,72 +244,72 @@ export const SETTINGS_TEMP: provider = {
 				cost_per_point: 2,
 				cost_adj_percent_per_sm: 10,
 				thresholds: [
-					new PoolThreshold({
+					{
 						state: "Dead",
 						multiplier: -5,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Dying #4",
 						explanation:
 							"Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						multiplier: -4,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Dying #3",
 						explanation:
 							"Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						multiplier: -3,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Dying #2",
 						explanation:
 							"Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						multiplier: -2,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Dying #1",
 						explanation:
 							"Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						multiplier: -1,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Collapse",
 						explanation:
 							"Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						multiplier: 0,
 						divisor: 1,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Reeling",
 						explanation: "Move and Dodge are halved (B419)",
 						multiplier: 1,
 						divisor: 3,
 						ops: ["halve_move", "halve_dodge"],
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Wounded",
 						multiplier: 1,
 						divisor: 1,
 						addition: -1,
-					}),
-					new PoolThreshold({
+					},
+					{
 						state: "Healthy",
 						multiplier: 1,
 						divisor: 1,
-					}),
+					},
 				],
-			}),
+			},
 		},
 		hit_locations: {
 			name: "Humanoid",

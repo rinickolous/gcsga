@@ -21,7 +21,7 @@ module.exports = {
 		"@typescript-eslint/ban-ts-comment": "warn",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-non-null-assertion": "off",
-		// "prefer-const": "off",
+		"prefer-const": "off",
 	},
 
 	overrides: [

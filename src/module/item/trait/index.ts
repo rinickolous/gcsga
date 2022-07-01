@@ -23,6 +23,14 @@ export class TraitGURPS extends ContainerGURPS {
 		return this.data.data.levels;
 	}
 
+	get basePoints(): number {
+		return this.data.data.base_points;
+	}
+
+	get pointsPerLevel(): number {
+		return this.data.data.points_per_level;
+	}
+
 	get cr(): CR {
 		return this.data.data.cr;
 	}
@@ -43,6 +51,10 @@ export class TraitGURPS extends ContainerGURPS {
 		return this.prereqs.prereqs.length == 0;
 	}
 
+	get roundCostDown(): boolean {
+		return this.data.data.round_down;
+	}
+
 	get modifierNotes(): string {
 		let n = "";
 		if (this.cr != -1) {
@@ -53,9 +65,70 @@ export class TraitGURPS extends ContainerGURPS {
 		}
 		this.modifiers.forEach((m) => {
 			if (n.length) n += ";";
-			n += m.full_description;
+			n += m.fullDescription;
 		});
 		return n;
+	}
+
+	get adjustedPoints(): number {
+		if (!this.enabled) return 0;
+		let baseEnh = 0;
+		let levelEnh = 0;
+		let baseLim = 0;
+		let levelLim = 0;
+		let basePoints = this.basePoints;
+		let pointsPerLevel = this.pointsPerLevel;
+		let multiplier = this.crMultiplier(this.cr);
+		this.modifiers.forEach((mod) => {
+			const modifier = mod.costModifier;
+			switch (mod.costType) {
+				case "percentage":
+					switch (mod.affects) {
+						case "total":
+							baseLim += modifier;
+							levelLim += modifier;
+							return;
+						case "base_only":
+							baseLim += modifier;
+							return;
+						case "levels_only":
+							levelLim += modifier;
+							return;
+					}
+				case "points":
+					if (mod.affects == "levels_only") pointsPerLevel += modifier;
+					else basePoints += modifier;
+					return;
+				case "multiplier":
+					multiplier *= modifier;
+			}
+		});
+		let modifiedBasePoints = basePoints;
+		let leveledPoints = pointsPerLevel * this.levels;
+		if (baseEnh != 0 || baseLim != 0 || levelEnh != 0 || levelLim != 0) {
+			if (this.actor?.settings.use_multiplicative_modifiers) {
+				if (baseEnh == levelEnh && baseLim == levelLim)
+					modifiedBasePoints = modifyPoints(
+						modifyPoints(modifiedBasePoints + leveledPoints, baseEnh),
+						Math.max(-80, baseLim),
+					);
+				else
+					modifiedBasePoints =
+						modifyPoints(modifyPoints(modifiedBasePoints, baseEnh), Math.max(-80, baseLim)) +
+						modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
+			} else {
+				let baseMod = Math.max(-80, baseEnh + baseLim);
+				let levelMod = Math.max(-80, levelEnh + levelLim);
+				if (baseMod == levelMod) modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
+				else
+					modifiedBasePoints =
+						modifyPoints(modifiedBasePoints, baseMod) + modifyPoints(leveledPoints, levelMod);
+			}
+		} else {
+			modifiedBasePoints += leveledPoints;
+		}
+		if (this.roundCostDown) return Math.floor(modifiedBasePoints * multiplier);
+		else return Math.ceil(modifiedBasePoints * multiplier);
 	}
 
 	// Embedded Items
@@ -69,6 +142,40 @@ export class TraitGURPS extends ContainerGURPS {
 				}),
 		);
 	}
+
+	calculatePoints(): [number, number, number, number] {
+		let [ad, disad, race, quirk] = [0, 0, 0, 0];
+		let pts = this.adjustedPoints;
+		if (pts == -1) quirk += pts;
+		else if (pts > 0) ad += pts;
+		else if (pts < 0) disad += pts;
+		return [ad, disad, race, quirk];
+	}
+
+	crMultiplier(cr: number): number {
+		switch (cr) {
+			case -1:
+				return 1;
+			case 6:
+				return 2;
+			case 9:
+				return 1.5;
+			case 12:
+				return 1;
+			case 15:
+				return 0.5;
+			default:
+				return this.crMultiplier(-1);
+		}
+	}
+}
+
+export function modifyPoints(points: number, modifier: number): number {
+	return points + calculateModifierPoints(points, modifier);
+}
+
+export function calculateModifierPoints(points: number, modifier: number): number {
+	return (points * modifier) / 100;
 }
 
 export interface TraitGURPS {

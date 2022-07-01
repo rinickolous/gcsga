@@ -6,6 +6,16 @@ import { PoolThreshold } from "./pool_threshold";
 
 const reservedIds: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
+export interface AttributeObj {
+	bonus: number;
+	cost_reduction: number;
+	order: number;
+	attr_id: string;
+	adj: number;
+	damage?: number;
+	attribute_def: AttributeDef;
+}
+
 export class Attribute {
 	actor: CharacterGURPS;
 	bonus = 0;
@@ -29,7 +39,7 @@ export class Attribute {
 		this.attr_id = sanitize(v, false, reservedIds);
 	}
 
-	get attribute_def(): AttributeDef | any {
+	get attribute_def(): AttributeDef {
 		return this.actor?.settings.attributes[this.attr_id];
 	}
 
@@ -56,8 +66,11 @@ export class Attribute {
 		}
 		return max - (this.damage ?? 0);
 	}
+	set current(v: number) {
+		this.max = v;
+	}
 
-	get current_threshold(): PoolThreshold | null {
+	get currentThreshold(): PoolThreshold | null {
 		const def = this.attribute_def;
 		if (!def) return null;
 		const max = this.max;
@@ -86,5 +99,5 @@ export interface Attribute {
 	attr_id: string;
 	adj: number;
 	damage?: number;
-	attribute_def: AttributeDef | any; // temporary any
+	attribute_def: AttributeDef;
 }

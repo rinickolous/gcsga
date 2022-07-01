@@ -113,7 +113,7 @@
 		color: rgba(var(--color-on-page), 1);
 		text-align: left;
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		div {
 			background-color: inherit;
 		}

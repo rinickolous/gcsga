@@ -38,7 +38,6 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 
 		"actor/import",
 
-		"item/sections/input-text",
 		"item/sections/prerequisites",
 		"item/sections/prereq",
 

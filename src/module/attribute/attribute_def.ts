@@ -34,13 +34,13 @@ export class AttributeDef {
 		return this.full_name;
 	}
 
-	get combined_name(): string {
+	get combinedName(): string {
 		if (!this.full_name) return this.name;
 		if (!this.name || this.name == this.full_name) return this.full_name;
 		return `${this.full_name} (${this.name})`;
 	}
 
-	get primary(): boolean {
+	get isPrimary(): boolean {
 		return !isNaN(parseInt(this.attribute_base));
 	}
 

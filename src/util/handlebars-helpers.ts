@@ -1,5 +1,8 @@
+import { CharacterGURPS } from "@actor";
+import { Encumbrance } from "@actor/character/data";
 import { BaseItemGURPS } from "@item";
 import { ItemDataGURPS, SpellData } from "@item/data";
+import { Options } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/dice/roll";
 import { i18n } from "@util";
 
 export function registerHandlebarsHelpers() {
@@ -66,8 +69,6 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("blockLayout", function (a: Array<string>, items: any) {
 		let outStr = ``;
 		let line_length = 2;
-		console.log(a, items);
-		return;
 		for (const value of a) {
 			let line = value.split(" ");
 			if (line.length > line_length) line_length = line.length;
@@ -125,6 +126,21 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("disabled", function (a: boolean): string {
 		if (a) return "disabled";
 		return "";
+	});
+
+	Handlebars.registerHelper("getMove", function (c: CharacterGURPS, level: Encumbrance): number {
+		return c.move(level);
+	});
+
+	Handlebars.registerHelper("getDodge", function (c: CharacterGURPS, level: Encumbrance): number {
+		return c.dodge(level);
+	});
+
+	Handlebars.registerHelper("date", function (str: string): string {
+		const date = new Date(str);
+		const options: any = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+		options.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		return date.toLocaleString("en-US", options);
 	});
 
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {

@@ -2,7 +2,7 @@ import { DamageProgression, DisplayMode, Height, LengthUnits, Weight, WeightUnit
 import { ActorFlagsGURPS, ActorSystemData, BaseActorDataGURPS, BaseActorSourceGURPS } from "@actor/base/data";
 import { CharacterGURPS } from ".";
 import { AttributeDef } from "@module/attribute/attribute_def";
-import { Attribute } from "@module/attribute";
+import { Attribute, AttributeObj } from "@module/attribute";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
@@ -31,7 +31,7 @@ export interface CharacterSystemData extends ActorSystemData {
 	created_date: string;
 	modified_date: string;
 	profile: CharacterProfile;
-	attributes: Map<string, Attribute>;
+	attributes: Record<string, AttributeObj>;
 	total_points: number;
 	calc: CharacterCalc;
 }
@@ -63,7 +63,7 @@ export interface CharacterSettings {
 	block_layout: Array<string>;
 	// attributes: Record<string, AttributeSettingDef>;
 	// hit_locations: HitLocationTable;
-	attributes: Record<string, AttributeDef>;
+	attributes: Record<string, AttributeDef>; // AttributeObj represents the attribute as an object
 	hit_locations: unknown;
 }
 

@@ -1,6 +1,140 @@
 {
 	"gcsga": {
-		"character": {},
+		"character": {
+			"portrait": "Portrait",
+			"identity": "Identity",
+			"name": "Name",
+			"title": "Title",
+			"organization": "Organization",
+			"miscellaneous": "Miscellaneous",
+			"created_date": "Created",
+			"modified_date": "Modified",
+			"player_name": "Player",
+			"description": "Description",
+			"gender": "Gender",
+			"age": "Age",
+			"birthday": "Birthday",
+			"religion": "Religion",
+			"height": "Height",
+			"weight": "Weight",
+			"sm": "Size",
+			"tech_level": "TL",
+			"hair": "Hair",
+			"eyes": "Eyes",
+			"skin": "Skin",
+			"handedness": "Handedness",
+			"primary_attributes": "Primary Attributes",
+			"basic_damage": "Basic Damage",
+			"basic_thrust": "Basic Thrust",
+			"basic_swing": "Basic Swing",
+			"secondary_attributes": "Secondary Attributes",
+			"point_pools": "Point Pools",
+			"pool_of": "of",
+			"copyright": "GCS is copyrighted ©1998-{current_year} by Richard A. Wilkes. All rights reserved",
+			"points": {
+				"title": "Points",
+				"unspent": "Unspent",
+				"race": "Race",
+				"attributes": "Attributes",
+				"advantages": "Advantages",
+				"disadvantages": "Disadvantages",
+				"quirks": "Quirks",
+				"skills": "Skills",
+				"spells": "Spells"
+			},
+			"hit_locations": {
+				"roll": "Roll",
+				"location": "Location",
+				"dr": "DR"
+			},
+			"encumbrance": {
+				"title": "Encumbrance, Move & Dodge",
+				"level": "Level",
+				"max_load": "Max Load",
+				"move": "Move",
+				"dodge": "Dodge",
+				"0": "None",
+				"1": "Light",
+				"2": "Medium",
+				"3": "Heavy",
+				"4": "X-Heavy"
+			},
+			"lifting": {
+				"title": "Lifting & Moving Things",
+				"basic_lift": "Basic Lift",
+				"one_handed_lift": "One-Handed Lift",
+				"two_handed_lift": "Two-Handed Lift",
+				"shove": "Shvoe & Knock Over",
+				"running_shove": "Running Shove & Knock Over",
+				"carry_on_back": "Carry on Back",
+				"shift_slightly": "Shift Slightly"
+			},
+			"reactions": {
+				"modifier": "±",
+				"reaction": "Reaction"
+			},
+			"conditional_modifiers": {
+				"modifier": "±",
+				"reaction": "Condition"
+			},
+			"melee_attacks": {
+				"desc": "Melee Weapon",
+				"usage": "Usage",
+				"level": "SL",
+				"parry": "Parry",
+				"block": "Block",
+				"damage": "Damage",
+				"reach": "Reach",
+				"st": "ST"
+			},
+			"ranged_attacks": {
+				"desc": "Ranged Weapon",
+				"usage": "Usage",
+				"level": "SL",
+				"accuracy": "Acc",
+				"damage": "Damage",
+				"range": "Range",
+				"rate_of_fire": "RoF",
+				"shots": "Shots",
+				"bulk": "Bulk",
+				"recoil": "Recoil",
+				"st": "ST"
+			},
+			"traits": {
+				"desc": "Trait",
+				"points": "Pts"
+			},
+			"skills": {
+				"desc": "Skill / Technique",
+				"level": "SL",
+				"rsl": "RSL",
+				"points": "Pts"
+			},
+			"spells": {
+				"desc": "Spell",
+				"college": "College",
+				"level": "SL",
+				"rsl": "RSL",
+				"points": "Pts"
+			},
+			"equipment": {
+				"quantity": "#",
+				"desc": "Carried Equipment ({weight; {value})",
+				"uses": "Uses",
+				"tech_level": "TL",
+				"legality_class": "LC"
+			},
+			"other_equipment": {
+				"quantity": "#",
+				"desc": "Other Equipment ({value})",
+				"uses": "Uses",
+				"tech_level": "TL",
+				"legality_class": "LC"
+			},
+			"notes": {
+				"desc": "Note"
+			}
+		},
 		"trait": {},
 		"trait_container": {},
 		"trait_modifier": {},

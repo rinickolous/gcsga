@@ -147,3 +147,11 @@ export function extractFraction(s: string): Fraction {
 	}
 	return fraction;
 }
+
+export function dollarFormat(i: number): string {
+	const formatter = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
+	});
+	return formatter.format(i);
+}

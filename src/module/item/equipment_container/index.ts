@@ -1,7 +1,7 @@
 import { ContainedWeightReduction } from "@feature";
 import { EquipmentGURPS, EquipmentModifierGURPS } from "@item";
 import { ContainerGURPS } from "@item/container";
-import { processMultiplyAddWeightStep } from "@item/equipment";
+import { processMultiplyAddWeightStep, valueAdjustedForModifiers } from "@item/equipment";
 import { WeightUnits } from "@module/data";
 import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentContainerData } from "./data";
@@ -18,6 +18,10 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 
 	get quantity(): number {
 		return this.data.data.quantity;
+	}
+
+	get value(): number {
+		return this.data.data.value;
 	}
 
 	get weight(): number {
@@ -58,7 +62,20 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		);
 	}
 
+	get adjustedValue(): number {
+		return valueAdjustedForModifiers(this.value, this.modifiers);
+	}
+
 	// Value Calculator
+	extendedValue(): number {
+		if (this.quantity <= 0) return 0;
+		let value = this.adjustedValue;
+		this.children.forEach((ch) => {
+			value += ch.extendedValue();
+		});
+		return value * this.quantity;
+	}
+
 	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
 		if (for_skills && this.data.data.ignore_weight_for_skills) return 0;
 		return this.weightAdjustedForMods(units);

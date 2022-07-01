@@ -15,9 +15,12 @@ export interface TraitModifierData extends Omit<TraitModifierSource, "effects" |
 
 export interface TraitModifierSystemData extends ItemSystemData {
 	disabled: boolean;
-	cost_type: string;
+	cost_type: TraitModifierCostType;
 	cost: number;
 	levels: number;
-	affects: string;
+	affects: TraitModifierAffects;
 	features: Feature[];
 }
+
+export type TraitModifierCostType = "percentage" | "points" | "multiplier";
+export type TraitModifierAffects = "total" | "base_only" | "levels_only";

@@ -17,6 +17,10 @@
 		grid-column: span 2;
 	}
 
+	.penalty {
+		text-align: right;
+	}
+
 	.penalty,
 	.dr {
 		&:not(.header) {

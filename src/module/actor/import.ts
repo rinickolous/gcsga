@@ -160,6 +160,7 @@ export class ActorImporter {
 				.then(res => res.blob())
 				.then(blob => {
 					const file = new File([blob], filename);
+					//@ts-ignore
 					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
 			p.img = (path + filename).replaceAll(" ", "_");

@@ -1,9 +1,14 @@
-import { ContainerGURPS, TraitContainerGURPS, TraitModifierGURPS } from "@item";
+import { ContainerGURPS } from "@item/container";
+import { TraitContainerGURPS } from "@item/trait_container";
+import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
+import { PrereqList } from "@prereq";
 import { i18n, i18n_f } from "@util";
 import { TraitData } from "./data";
 
 export class TraitGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof TraitData {
 		return TraitData;
 	}
@@ -44,7 +49,7 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {

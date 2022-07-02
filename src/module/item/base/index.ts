@@ -1,4 +1,3 @@
-import { GURPSCONFIG as CONFIG } from "@module/config";
 import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemType } from "@item/data";
 import { ActorGURPS, CharacterGURPS } from "@actor";
@@ -12,20 +11,20 @@ export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 
 class BaseItemGURPS extends Item {
 	//@ts-ignore
-	parent: ActorGURPS | ContainerGURPS | null = null;
-	unsatisfied_reason = ""; // temporary
+	parent: ActorGURPS | ContainerGURPS | null;
+	unsatisfied_reason: string;
 
-	constructor(data: ItemDataGURPS, context: ItemConstructionContextGURPS = {}) {
-		if (!context.gcsga?.ready) {
-			//@ts-ignore
+	constructor(data: ItemDataGURPS | any, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
+		if (context.gcsga?.ready) {
 			super(data, context);
+			this.unsatisfied_reason = "";
 		} else {
 			mergeObject(context, {
 				gcsga: {
 					ready: true,
 				},
 			});
-			const ItemConstructor = CONFIG.GURPS.Item.documentClasses[data.type as ItemType];
+			const ItemConstructor = (CONFIG as any).GURPS.Item.documentClasses[data.type as ItemType];
 			return ItemConstructor ? new ItemConstructor(data, context) : new BaseItemGURPS(data, context);
 		}
 	}
@@ -43,6 +42,10 @@ class BaseItemGURPS extends Item {
 		return this.data.data.notes;
 	}
 
+	get reference(): string {
+		return this.data.data.reference;
+	}
+
 	get parentCount(): number {
 		let i = 0;
 		let p: any = this.parent;
@@ -57,6 +60,7 @@ class BaseItemGURPS extends Item {
 //@ts-ignore
 interface BaseItemGURPS extends Item {
 	parent: ActorGURPS | ContainerGURPS | null;
+	unsatisfied_reason: string;
 	readonly data: ItemDataGURPS;
 }
 

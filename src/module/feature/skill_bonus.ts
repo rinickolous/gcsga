@@ -1,6 +1,5 @@
-import { FeatureType } from "@feature";
 import { StringCompare } from "@module/data";
-import { BaseFeature } from "./base";
+import { BaseFeature, FeatureType } from "./base";
 
 export class SkillBonus extends BaseFeature {
 	type: FeatureType = "skill_bonus";

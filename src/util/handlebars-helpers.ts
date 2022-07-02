@@ -1,9 +1,8 @@
 import { CharacterGURPS } from "@actor";
 import { Encumbrance } from "@actor/character/data";
-import { BaseItemGURPS } from "@item";
-import { ItemDataGURPS, SpellData } from "@item/data";
-import { Options } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/dice/roll";
-import { i18n } from "@util";
+import { BaseItemGURPS, SpellGURPS } from "@item";
+import { ItemGURPS, SpellData } from "@item/data";
+import { i18n } from "./misc";
 
 export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("concat", function (...args) {
@@ -103,23 +102,23 @@ export function registerHandlebarsHelpers() {
 		return outArr;
 	});
 
-	Handlebars.registerHelper("indent", function (i: ItemDataGURPS): string {
-		const sum = -6 + 12 * ((i.document as BaseItemGURPS).parentCount || 0);
+	Handlebars.registerHelper("indent", function (i: ItemGURPS): string {
+		const sum = -6 + 12 * (i.parentCount ?? 0);
 		return `style=\"padding-left: ${sum}px;\"`;
 	});
 
-	Handlebars.registerHelper("spellValues", function (i: SpellData): string {
+	Handlebars.registerHelper("spellValues", function (i: SpellGURPS): string {
 		const values = {
-			resist: i.data.resist,
-			spell_class: i.data.spell_class,
-			casting_cost: i.data.casting_cost,
-			maintenance_cost: i.data.maintenance_cost,
-			casting_time: i.data.casting_time,
-			duration: i.data.duration,
+			resist: i.data.data.resist,
+			spell_class: i.data.data.spell_class,
+			casting_cost: i.data.data.casting_cost,
+			maintenance_cost: i.data.data.maintenance_cost,
+			casting_time: i.data.data.casting_time,
+			duration: i.data.data.duration,
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
-			if (v) list.push(`${i18n("gcsga.actor.spells." + k)}: ${v}`);
+			if (v && v != "-") list.push(`${i18n("gcsga.character.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});

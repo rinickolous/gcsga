@@ -1,4 +1,5 @@
 import { CharacterProfile } from "@actor/character/data";
+import { i18n } from "@util";
 import { AttributeDefObj } from "./attribute/attribute_def";
 import { DamageProgression, DisplayMode, LengthUnits, WeightUnits } from "./data";
 
@@ -6,6 +7,28 @@ export const SYSTEM_NAME = "gcsga";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
+	(game as Game).settings.register(SYSTEM_NAME, "portrait_path", {
+		name: i18n("gcsga.settings.portrait_path.name"),
+		hint: i18n("gcsga.settings.portrait_path.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		choices: {
+			global: i18n("gcsga.settings.portrait_path.choices.global"),
+			local: i18n("gcsga.settings.portrait_path.choices.local"),
+		},
+		default: "global",
+		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
+	});
+
+	(game as Game).settings.register(SYSTEM_NAME, "portrait_overwrite", {
+		name: i18n("gcsga.settings.portrait_overwrite.name"),
+		hint: i18n("gcsga.settings.portrait_overwrite.hint"),
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+	});
 }
 
 function autoFillProfile(): CharacterProfile {

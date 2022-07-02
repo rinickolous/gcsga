@@ -1,9 +1,13 @@
-import { ContainerGURPS, TraitGURPS, TraitModifierGURPS } from "@item";
+import { ContainerGURPS } from "@item/container";
+import { TraitGURPS } from "@item/trait";
+import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
 import { i18n, i18n_f } from "@util";
 import { TraitContainerData, TraitContainerType } from "./data";
 
 export class TraitContainerGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof TraitContainerData {
 		return TraitContainerData;
 	}

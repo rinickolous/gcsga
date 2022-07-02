@@ -9,6 +9,10 @@ class BaseWeapon {
 	usage = "";
 	usage_notes = "";
 	defaults: SkillDefault[] = [];
+
+	constructor(data?: BaseWeapon | any) {
+		if (data) Object.assign(this, data);
+	}
 }
 
 interface BaseWeapon {

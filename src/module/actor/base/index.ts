@@ -1,4 +1,3 @@
-import { GURPSCONFIG as CONFIG } from "@module/config";
 import { ActorDataGURPS, ActorSourceGURPS } from "@actor/data";
 import {
 	Context,
@@ -22,7 +21,7 @@ class BaseActorGURPS extends Actor {
 			super(data, context);
 		} else {
 			mergeObject(context, { gcsga: { ready: true } });
-			const ActorConstructor = CONFIG.Actor.documentClasses[data.type];
+			const ActorConstructor = (CONFIG as any).GURPS.Actor.documentClasses[data.type];
 			return ActorConstructor ? new ActorConstructor(data, context) : new BaseActorGURPS(data, context);
 		}
 	}
@@ -43,7 +42,7 @@ class BaseActorGURPS extends Actor {
 			deepItems.push(item);
 			if (item instanceof ContainerGURPS)
 				item.deepItems.forEach((item: ItemGURPS) => {
-					return deepItems.push(item);
+					deepItems.push(item);
 				});
 		}
 		return new Collection(

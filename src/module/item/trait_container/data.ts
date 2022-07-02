@@ -13,12 +13,12 @@ export interface TraitContainerData extends Omit<TraitContainerSource, "effects"
 }
 
 export interface TraitContainerSystemData extends BaseContainerSystemData {
-	modifiers: Array<any>;
+	// modifiers: Array<any>;
 	disabled: boolean;
 	container_type: TraitContainerType;
-	calc: {
-		points: number;
-	};
+	// calc: {
+	// 	points: number;
+	// };
 	cr: CR;
 	cr_adj: CRAdjustment;
 }

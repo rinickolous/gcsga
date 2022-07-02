@@ -1,6 +1,11 @@
 import { BaseActorGURPS } from "@actor";
 import { ActorConstructorContextGURPS } from "@actor/base";
-import { CostReduction, Feature, SkillBonus, SkillPointBonus, SpellBonus } from "@feature";
+import { ActorImporter } from "@actor/import";
+import { Feature } from "@feature";
+import { CostReduction } from "@feature/cost_reduction";
+import { SkillBonus } from "@feature/skill_bonus";
+import { SkillPointBonus } from "@feature/skill_point_bonus";
+import { SpellBonus } from "@feature/spell_bonus";
 import {
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
@@ -22,7 +27,7 @@ import { Attribute, AttributeObj } from "@module/attribute";
 import { AttributeDef } from "@module/attribute/attribute_def";
 import { ThresholdOp } from "@module/attribute/pool_threshold";
 import { attrPrefix, gid } from "@module/data";
-import { SETTINGS_TEMP } from "@module/settings";
+import { SETTINGS_TEMP, SYSTEM_NAME } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { getCurrentTime, i18n, newUUID, stringCompare } from "@util";
@@ -71,11 +76,17 @@ class CharacterGURPS extends BaseActorGURPS {
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
-		console.log("update");
-		console.log(data);
 		data = this.updateAttributes(data);
-		console.log(data);
+		data = this.checkImport(data);
 		return super.update(data, context);
+	}
+
+	checkImport(data?: any) {
+		for (const i in data) {
+			if (i.includes("data.import")) return data;
+		}
+		data["data.modified_date"] = new Date().toISOString();
+		return data;
 	}
 
 	updateAttributes(
@@ -87,7 +98,6 @@ class CharacterGURPS extends BaseActorGURPS {
 				const att = this.attributes.get(i.split("attributes.")[1].split(".")[0]);
 				const type = i.split("attributes.")[1].split(".")[1];
 				if (att) {
-					console.log(i, type);
 					if (type == "adj") (data as any)[i] -= att.max - att.adj;
 					else if (type == "damage") (data as any)[i] -= att.current - (att.damage ?? 0);
 				}
@@ -101,24 +111,9 @@ class CharacterGURPS extends BaseActorGURPS {
 		return this.data.data.profile;
 	}
 
-	// get attributes() {
-	// 	const a: Map<string, Attribute> = new Map()
-	// 	let i = 0
-	// 	for (const attr_id in this.data.data.attributes) {
-	// 		a.set(attr_id, new Attribute(this, attr_id, i))
-	// 		i++
-	// 	}
-	// 	return a
-	// }
-	// set attributes(v: this["data"]["data"]["attributes"]) {
-	// 	const a: Map<string, Attribute> = new Map()
-	// 	let i = 0
-	// 	for (const attr_id in v) {
-	// 		a.set(attr_id, new Attribute(this, attr_id, i))
-	// 		i++
-	// 	}
-	// 	this.attributes = a;
-	// }
+	get importData(): this["data"]["data"]["import"] {
+		return this.data.data.import;
+	}
 
 	get calc() {
 		return this.data.data.calc;
@@ -209,7 +204,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	dodge(enc: Encumbrance): number {
-		let dodge = 3 + this.calc.dodge_bonus + Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
+		let dodge = 3 + this.calc?.dodge_bonus + Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
 		const divisor = 2 * Math.min(this.countThresholdOpMet("halve_dodge", this.attributes), 2);
 		if (divisor > 0) {
 			dodge = Math.ceil(dodge / divisor);
@@ -248,7 +243,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get basicLift(): number {
-		return (this.resolveAttributeCurrent(gid.Strength) + this.lifting_st_bonus) ** 2 / 5;
+		return (this.resolveAttributeCurrent(gid.Strength) + this.calc?.lifting_st_bonus) ** 2 / 5;
 	}
 
 	encumbranceLevel(for_skills = true): Encumbrance {
@@ -270,7 +265,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	wealthCarried(): number {
 		let value = 0;
 		this.carried_equipment.forEach((e) => {
-			if (e.parent == this) value += e.extendedValue();
+			if (e.parent == this) value += e.extendedValue;
 		});
 		return value;
 	}
@@ -427,7 +422,6 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	getAttributes(): Map<string, Attribute> {
-		console.log(this.data.data.attributes);
 		const a: Map<string, Attribute> = new Map();
 		let i = 0;
 		for (const attr_id in this.data.data.attributes) {
@@ -445,8 +439,10 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	override prepareBaseData(): void {
 		super.prepareBaseData();
-		if (Object.keys(this.data.data.attributes).length == 0) this.data.data.attributes = this.newAttributes();
-		this.attributes = this.getAttributes();
+		if (this.data?.data?.attributes && Object.keys(this.data.data.attributes).length == 0) {
+			this.data.data.attributes = this.newAttributes();
+			this.attributes = this.getAttributes();
+		}
 	}
 
 	override prepareEmbeddedDocuments(): void {
@@ -470,13 +466,15 @@ class CharacterGURPS extends BaseActorGURPS {
 		const featureMap: Map<string, Feature[]> = new Map();
 		for (const t of this.traits) {
 			if (t instanceof TraitGURPS) {
-				for (const f of t.features) {
+				if (t.features)
+					for (const f of t.features) {
+						processFeature(t, featureMap, f, Math.max(t.levels, 0));
+					}
+			}
+			if (CR_Features.has(t.crAdj))
+				for (const f of CR_Features?.get(t.crAdj)) {
 					processFeature(t, featureMap, f, Math.max(t.levels, 0));
 				}
-			}
-			for (const f of CR_Features.get(t.crAdj)) {
-				processFeature(t, featureMap, f, Math.max(t.levels, 0));
-			}
 			for (const m of t.modifiers) {
 				for (const f of m.features) {
 					processFeature(t, featureMap, f, m.levels);
@@ -602,7 +600,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		let best: SkillGURPS | TechniqueGURPS | null = null;
 		let level = Math.max();
 		this.skillNamed(name, specialization, require_points, excludes).forEach((sk) => {
-			const skill_level = sk.calculateLevel().level;
+			const skill_level = sk.calculateLevel.level;
 			if (best || level < skill_level) {
 				best = sk;
 				level = skill_level;
@@ -638,7 +636,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	// Feature Processing
 	bonusFor(featureID: string, tooltip: TooltipGURPS | null): number {
 		let total = 0;
-		this.featureMap.get(featureID.toLowerCase())?.forEach((feature) => {
+		this.featureMap?.get(featureID.toLowerCase())?.forEach((feature) => {
 			if (feature.type == featureID) {
 				total += feature.adjustedAmount;
 				feature.addToTooltip(tooltip);
@@ -677,7 +675,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		tooltip: TooltipGURPS | null,
 	): number {
 		let total = 0;
-		this.featureMap.get(featureID)?.forEach((f) => {
+		this.featureMap?.get(featureID)?.forEach((f) => {
 			if (!(f instanceof SkillPointBonus)) return;
 			if (
 				stringCompare(name, f.name) &&
@@ -767,7 +765,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	// Resolve attributes
 	resolveAttributeCurrent(attr_id: string): number {
-		const att = this.attributes.get(attr_id)?.current;
+		const att = this.attributes?.get(attr_id)?.current;
 		if (att) return att;
 		return Math.max();
 	}
@@ -785,7 +783,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	resolveVariable(variableName: string): string {
-		if (this.variableResolverExclusions.get(variableName)) {
+		if (this.variableResolverExclusions?.has(variableName)) {
 			console.warn(`Attempt to resolve variable via itself: $${variableName}`);
 			return "";
 		}
@@ -817,15 +815,80 @@ class CharacterGURPS extends BaseActorGURPS {
 		this.variableResolverExclusions = new Map();
 		return attr?.current.toString();
 	}
+
+	// Import from GCS
+	async importCharacter() {
+		const import_path = this.importData.path;
+		const import_name = import_path.match(/.*[/\\]Data[/\\](.*)/);
+		if (!!import_name) {
+			const file_path = import_name[1].replace(/\\/g, "/");
+			const request = new XMLHttpRequest();
+			request.open("GET", file_path);
+
+			new Promise((resolve) => {
+				request.onload = () => {
+					if (request.status === 200) {
+						const text = request.response;
+						ActorImporter.import(this, { text: text, name: import_name[1], path: import_path });
+					} else this._openImportDialog();
+					resolve(this);
+				};
+			});
+			request.send(null);
+		} else this._openImportDialog();
+	}
+
+	_openImportDialog() {
+		setTimeout(async () => {
+			new Dialog(
+				{
+					title: `Import character data for: ${this.name}`,
+					content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/import.hbs`, {
+						name: `"${this.name}"`,
+					}),
+					buttons: {
+						import: {
+							icon: `<i class="fas fa-file-import"></i>`,
+							label: `Import`,
+							callback: (html) => {
+								const form = $(html).find("form")[0];
+								const files = form.data.files;
+								if (!files.length) {
+									return ui.notifications?.error("You did not upload a data file!");
+								} else {
+									const file = files[0];
+									readTextFromFile(file).then((text) =>
+										ActorImporter.import(this, {
+											text: text,
+											name: file.name,
+											path: file.path,
+										}),
+									);
+								}
+							},
+						},
+						no: {
+							icon: `<i class="fas fa-times"></i>`,
+							label: `Cancel`,
+						},
+					},
+					default: "import",
+				},
+				{
+					width: 400,
+				},
+			).render(true);
+		}, 200);
+	}
 }
 
 export function processFeature(parent: any, m: Map<string, Feature[]>, f: Feature, levels: number): void {
 	const key = f.type;
-	const list = m.get(key);
+	const list = m.get(key) ?? [];
 	// f.setParent(parent);
 	// f.setLevel(levels);
 	f.levels = levels; // ?
-	list!.push(f);
+	list.push(f);
 	m.set(key, list!);
 }
 

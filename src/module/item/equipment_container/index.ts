@@ -1,8 +1,9 @@
-import { ContainedWeightReduction } from "@feature";
-import { EquipmentGURPS, EquipmentModifierGURPS } from "@item";
+import { ContainedWeightReduction } from "@feature/contained_weight_reduction";
 import { ContainerGURPS } from "@item/container";
-import { processMultiplyAddWeightStep, valueAdjustedForModifiers } from "@item/equipment";
+import { EquipmentGURPS, processMultiplyAddWeightStep, valueAdjustedForModifiers } from "@item/equipment";
+import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { WeightUnits } from "@module/data";
+import { PrereqList } from "@prereq/prereq_list";
 import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentContainerData } from "./data";
 
@@ -33,11 +34,31 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
 		return this.prereqs.prereqs.length == 0;
+	}
+
+	get equipped(): boolean {
+		return this.data.data.equipped;
+	}
+
+	get techLevel(): string {
+		return this.data.data.tech_level;
+	}
+
+	get legalityClass(): string {
+		return this.data.data.legality_class;
+	}
+
+	get uses(): number {
+		return this.data.data.uses;
+	}
+
+	get maxUses(): number {
+		return this.data.data.max_uses;
 	}
 
 	// Embedded Items
@@ -67,11 +88,11 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	// Value Calculator
-	extendedValue(): number {
+	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
 		this.children.forEach((ch) => {
-			value += ch.extendedValue();
+			value += ch.extendedValue;
 		});
 		return value * this.quantity;
 	}
@@ -79,6 +100,10 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
 		if (for_skills && this.data.data.ignore_weight_for_skills) return 0;
 		return this.weightAdjustedForMods(units);
+	}
+
+	get adjustedWeightFast(): string {
+		return this.adjustedWeight(false, "lb").toString() + " lb";
 	}
 
 	weightAdjustedForMods(units: WeightUnits): number {
@@ -110,6 +135,10 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 
 	extendedWeight(for_skills: boolean, units: WeightUnits): number {
 		return this.extendedWeightAdjustForMods(units, for_skills);
+	}
+
+	get extendedWeightFast(): string {
+		return this.extendedWeight(false, "lb").toString() + " lb";
 	}
 
 	extendedWeightAdjustForMods(units: WeightUnits, for_skills: boolean): number {

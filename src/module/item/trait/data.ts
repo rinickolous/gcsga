@@ -20,25 +20,24 @@ export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
 	prereqs: PrereqList;
 	round_down: boolean;
 	disabled: boolean;
-	mental: boolean;
-	physical: boolean;
-	social: boolean;
-	exotic: boolean;
-	supernatural: boolean;
+	// mental: boolean;
+	// physical: boolean;
+	// social: boolean;
+	// exotic: boolean;
+	// supernatural: boolean;
 	levels: number;
 	base_points: number;
 	points_per_level: number;
-	calc: {
-		points: number;
-	};
+	// calc: {
+	// 	points: number;
+	// };
 	cr: CR;
 	cr_adj: CRAdjustment;
-	features: Feature[];
-	weapons: Weapon[];
-	modifiers: Array<any>;
+	features?: Feature[];
+	weapons?: Weapon[];
 }
 
-export const CR_Features = new Map();
+const CR_Features = new Map();
 
 CR_Features.set("major_cost_of_living_increase", [
 	new SkillBonus(
@@ -51,3 +50,5 @@ CR_Features.set("major_cost_of_living_increase", [
 		{ ready: true },
 	),
 ]);
+
+export { CR_Features };

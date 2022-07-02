@@ -27,15 +27,15 @@ export interface SkillSystemData extends ItemSystemData {
 	difficulty: string;
 	points: number;
 	// to change later
-	defaulted_from: SkillDefault | null;
+	defaulted_from?: SkillDefault;
 	weapons: Weapon[];
 	defaults: SkillDefault[];
 	features: Feature[];
-	calc: {
-		level: number;
-		rsl: string;
-		points: number;
-	};
+	// calc: {
+	// 	level: number;
+	// 	rsl: string;
+	// 	points: number;
+	// };
 }
 
 export type EncumbrancePenaltyMultiplier = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;

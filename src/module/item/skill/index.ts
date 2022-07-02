@@ -5,10 +5,12 @@ import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { PrereqList } from "@prereq";
+import { signed } from "@util";
 import { baseRelativeLevel, SkillData, SkillLevel } from "./data";
 
 export class SkillGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+	unsatisfied_reason = "";
 
 	static get schema(): typeof SkillData {
 		return SkillData;
@@ -24,22 +26,30 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	get attribute(): string {
-		return this.data.data.difficulty.split("/")[0] ?? gid.Dexterity;
+		return this.data?.data?.difficulty?.split("/")[0] ?? gid.Dexterity;
 	}
 
 	get difficulty(): string {
-		return this.data.data.difficulty.split("/")[1] ?? Difficulty.Average;
+		return this.data?.data?.difficulty?.split("/")[1] ?? Difficulty.Average;
 	}
 
 	get specialization(): string {
 		return this.data.data.specialization;
 	}
 
-	get defaultedFrom(): SkillDefault | null {
+	get defaultedFrom(): SkillDefault | undefined {
 		return this.data.data.defaulted_from;
 	}
-	set defaultedFrom(v: SkillDefault | null) {
+	set defaultedFrom(v: SkillDefault | undefined) {
 		this.data.data.defaulted_from = v;
+	}
+
+	get defaults(): SkillDefault[] {
+		const defs: SkillDefault[] = [];
+		for (const d of this.data.data.defaults) {
+			defs.push(new SkillDefault(d));
+		}
+		return defs;
 	}
 
 	get features(): Feature[] {
@@ -47,7 +57,7 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	get prereqs(): PrereqList {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -59,7 +69,7 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	// Point & Level Manipulation
-	calculateLevel(): SkillLevel {
+	get calculateLevel(): SkillLevel {
 		if (!this.actor) return { level: Math.max(), relative_level: 0, tooltip: "" };
 		const tooltip = new TooltipGURPS();
 		let points = this.adjustedPoints(tooltip);
@@ -78,7 +88,7 @@ export class SkillGURPS extends BaseItemGURPS {
 				// relative_level is preset to this point value
 			} else if (points > 1 && points < 4) {
 				relative_level += 1;
-			} else if (points > 4) {
+			} else if (points >= 4) {
 				relative_level += 1 + Math.floor(points / 4);
 			} else if (this.difficulty != "w" && !!def && def.points < 0) {
 				relative_level = def.adjustedLevel - level;
@@ -131,15 +141,28 @@ export class SkillGURPS extends BaseItemGURPS {
 		return points;
 	}
 
+	get skillLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return this.calculateLevel.level.toString();
+	}
+
+	get relativeLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
+			signed(this.calculateLevel.relative_level)
+		);
+	}
+
 	updateLevel(): boolean {
 		const saved = this.level;
 		this.defaultedFrom = this.bestDefaultWithPoints(null);
-		this.level = this.calculateLevel();
+		this.level = this.calculateLevel;
 		return saved != this.level;
 	}
 
-	bestDefaultWithPoints(excluded: SkillDefault | null): SkillDefault | null {
-		if (!this.actor) return null;
+	bestDefaultWithPoints(excluded: SkillDefault | null): SkillDefault | undefined {
+		if (!this.actor) return;
 		const best = this.bestDefault(excluded);
 		if (best) {
 			const baseline = this.actor.resolveAttributeCurrent(this.attribute) + baseRelativeLevel(this.difficulty);
@@ -153,13 +176,13 @@ export class SkillGURPS extends BaseItemGURPS {
 		return best;
 	}
 
-	bestDefault(excluded: SkillDefault | null): SkillDefault | null {
-		if (!this.actor || this.data.data.defaults.length == 0) return null;
+	bestDefault(excluded: SkillDefault | null): SkillDefault | undefined {
+		if (!this.actor || !this.defaults) return;
 		const excludes = new Map();
 		excludes.set(this.name!, true);
 		let bestDef = new SkillDefault();
 		let best = Math.max();
-		for (const def of this.data.data.defaults) {
+		for (const def of this.defaults) {
 			if (this.equivalent(def, excluded) || this.inDefaultChain(this.actor, def, new Map())) continue;
 			let level = def.skillLevel(this.actor, true, excludes, this.type.startsWith("skill"));
 			if (def.type == "skill") {
@@ -194,7 +217,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		);
 	}
 
-	inDefaultChain(actor: CharacterGURPS, def: SkillDefault | null, lookedAt: Map<string, boolean>): boolean {
+	inDefaultChain(actor: CharacterGURPS, def: SkillDefault | undefined, lookedAt: Map<string, boolean>): boolean {
 		if (!actor || !def || !def.name) return false;
 		let hadOne = false;
 		for (const one of (actor.skills as Collection<SkillGURPS>).filter(

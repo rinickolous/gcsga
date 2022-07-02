@@ -25,13 +25,13 @@ export type Prereq =
 	| SpellPrereq;
 
 export const prereqClasses = {
-	prereq_list: PrereqList,
-	trait_prereq: TraitPrereq,
-	attribute_prereq: AttributePrereq,
-	contained_quantity_prereq: ContainedQuantityPrereq,
-	contained_weight_prereq: ContainedWeightPrereq,
-	skill_prereq: SkillPrereq,
-	spell_prereq: SpellPrereq,
+	// prereq_list: PrereqList,
+	// trait_prereq: TraitPrereq,
+	// attribute_prereq: AttributePrereq,
+	// contained_quantity_prereq: ContainedQuantityPrereq,
+	// contained_weight_prereq: ContainedWeightPrereq,
+	// skill_prereq: SkillPrereq,
+	// spell_prereq: SpellPrereq,
 };
 
 export { BasePrereq } from "./base";

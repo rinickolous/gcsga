@@ -12,6 +12,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return BaseContainerData;
 	}
 
+	// Getters
 	get deepItems(): Collection<ItemGURPS> {
 		const deepItems: ItemGURPS[] = [];
 		for (const item of this.items) {
@@ -26,6 +27,10 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				return [e.id!, e]; // should never be null
 			}),
 		);
+	}
+
+	get open(): boolean {
+		return (this.data.data as any).open;
 	}
 
 	//@ts-ignore

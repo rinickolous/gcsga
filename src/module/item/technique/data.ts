@@ -25,14 +25,14 @@ export interface TechniqueSystemData extends ItemSystemData {
 	difficulty: string;
 	points: number;
 	// to change later
-	defaulted_from: any;
+	defaulted_from?: SkillDefault;
 	weapons: Weapon[];
 	defaults: SkillDefault[];
 	features: Feature[];
-	calc: {
-		level: number;
-		rsl: string;
-	};
+	// calc: {
+	// 	level: number;
+	// 	rsl: string;
+	// };
 	default: SkillDefault;
 	limit: number;
 }

@@ -2,7 +2,7 @@
 <div class="desc item {{disabled (not this.enabled)}}" data-item-id="{{_id}}" {{{indent this}}}>
 	<div class="dropdown">
 	{{#if (eq this.type "trait_container")}}
-		{{#if this.data.open}}	
+		{{#if this.open}}	
 			{{>dropdown-open}}
 		{{else}}
 			{{>dropdown-closed}}
@@ -15,9 +15,9 @@
 	</div>
 	{{>item-notes}}
 </div>
-<div class="points {{disabled (not this.enabled)}}">{{this.data.calc.points}}</div>
-<div class="reference {{disabled (not this.enabled)}}">{{this.data.reference}}</div>
-{{#if this.data.open}}
+<div class="points {{disabled (not this.enabled)}}">{{this.adjustedPoints}}</div>
+<div class="reference {{disabled (not this.enabled)}}">{{this.reference}}</div>
+{{#if this.open}}
 	{{#each this.children}}
 		{{>trait}}
 	{{/each}}

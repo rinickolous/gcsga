@@ -3,10 +3,13 @@ import { SkillLevel } from "@item/skill/data";
 import { gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
+import { PrereqList } from "@prereq/prereq_list";
+import { signed } from "@util";
 import { TechniqueData } from "./data";
 
 export class TechniqueGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+	unsatisfied_reason = "";
 
 	static get schema(): typeof TechniqueData {
 		return TechniqueData;
@@ -33,15 +36,15 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return this.data.data.difficulty;
 	}
 
-	get defaultedFrom(): SkillDefault | null {
+	get defaultedFrom(): SkillDefault | undefined {
 		return this.data.data.defaulted_from;
 	}
-	set defaultedFrom(v: SkillDefault | null) {
+	set defaultedFrom(v: SkillDefault | undefined) {
 		this.data.data.defaulted_from = v;
 	}
 
 	get default(): SkillDefault {
-		return this.data.data.default;
+		return new SkillDefault(this.data.data.default);
 	}
 
 	get features() {
@@ -49,7 +52,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -79,30 +82,39 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return satisfied;
 	}
 
+	get skillLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return this.calculateLevel.level.toString();
+	}
+
+	get relativeLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return signed(this.calculateLevel.relative_level);
+	}
+
 	// Point & Level Manipulation
 	updateLevel(): boolean {
 		const saved = this.level;
-		this.defaultedFrom = null;
-		this.level = this.calculateLevel();
+		this.defaultedFrom = undefined;
+		this.level = this.calculateLevel;
 		return saved != this.level;
 	}
 
-	calculateLevel(): SkillLevel {
+	get calculateLevel(): SkillLevel {
 		const tooltip = new TooltipGURPS();
 		let relative_level = 0;
 		let points = this.adjustedPoints(null);
 		let level = Math.max();
 		if (this.actor) {
-			if (this.defaultedFrom?.type == gid.Skill) {
-				const sk = this.actor.baseSkill(this.defaultedFrom!, true);
-				if (sk) level = sk.calculateLevel().level;
-			} else if (this.defaultedFrom) {
-				level =
-					this.defaultedFrom?.skillLevelFast(this.actor, true, null, false) - this.defaultedFrom?.modifier;
+			if (this.default?.type == gid.Skill) {
+				const sk = this.actor.baseSkill(this.default!, true);
+				if (sk) level = sk.calculateLevel.level;
+			} else if (this.default) {
+				level = this.default?.skillLevelFast(this.actor, true, null, false) - this.default?.modifier;
 			}
 			if (level != Math.max()) {
 				const base_level = level;
-				level += this.defaultedFrom!.modifier; // ?
+				level += this.default.modifier;
 				if (this.difficulty == "h") points -= 1;
 				if (points > 0) relative_level = points;
 				if (level != Math.max()) {

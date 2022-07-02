@@ -2,10 +2,13 @@ import { BaseItemGURPS } from "@item/base";
 import { baseRelativeLevel, SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
+import { PrereqList } from "@prereq/prereq_list";
+import { signed } from "@util";
 import { SpellData } from "./data";
 
 export class SpellGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+	unsatisfied_reason = "";
 
 	static get schema(): typeof SpellData {
 		return SpellData;
@@ -36,7 +39,7 @@ export class SpellGURPS extends BaseItemGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -63,14 +66,27 @@ export class SpellGURPS extends BaseItemGURPS {
 		return points;
 	}
 
+	get skillLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return this.calculateLevel.level.toString();
+	}
+
+	get relativeLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
+			signed(this.calculateLevel.relative_level)
+		);
+	}
+
 	// Point & Level Manipulation
 	updateLevel(): boolean {
 		const saved = this.level;
-		this.level = this.calculateLevel();
+		this.level = this.calculateLevel;
 		return saved != this.level;
 	}
 
-	calculateLevel(): SkillLevel {
+	get calculateLevel(): SkillLevel {
 		const tooltip = new TooltipGURPS();
 		let relative_level = baseRelativeLevel(this.difficulty);
 		let level = Math.max();

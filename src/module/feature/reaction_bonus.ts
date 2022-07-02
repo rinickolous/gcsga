@@ -1,5 +1,4 @@
-import { FeatureType } from "@feature";
-import { BaseFeature } from "./base";
+import { BaseFeature, FeatureType } from "./base";
 
 export class ReactionBonus extends BaseFeature {
 	type: FeatureType = "reaction_bonus";

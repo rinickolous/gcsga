@@ -12,8 +12,4 @@ export interface SpellContainerData extends Omit<SpellContainerSource, "effects"
 	readonly _source: SpellContainerSource;
 }
 
-export interface SpellContainerSystemData extends BaseContainerSystemData {
-	calc: {
-		points: number;
-	};
-}
+export type SpellContainerSystemData = BaseContainerSystemData;

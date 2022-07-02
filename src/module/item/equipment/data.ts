@@ -29,11 +29,11 @@ export interface EquipmentSystemData extends Omit<BaseContainerSystemData, "open
 	max_uses: number;
 	weapons: Weapon[];
 	features: Feature[];
-	calc: {
-		extended_value: string;
-		extended_weight: string;
-		extended_weight_for_skills: string;
-	};
-	modifiers: Array<any>;
+	// calc: {
+	// 	extended_value: string;
+	// 	extended_weight: string;
+	// 	extended_weight_for_skills: string;
+	// };
+	// modifiers: Array<any>;
 	other: boolean;
 }

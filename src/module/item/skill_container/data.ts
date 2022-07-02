@@ -11,8 +11,4 @@ export interface SkillContainerData extends Omit<SkillContainerSource, "effects"
 	readonly _source: SkillContainerSource;
 }
 
-export interface SkillContainerSystemData extends BaseContainerSystemData {
-	calc: {
-		points: number;
-	};
-}
+export type SkillContainerSystemData = BaseContainerSystemData;

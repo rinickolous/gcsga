@@ -28,9 +28,9 @@ export interface SpellSystemData extends ItemSystemData {
 	duration: string;
 	points: number;
 	weapons: Weapon[];
-	calc: {
-		level: number;
-		rsl: string;
-		points: number;
-	};
+	// calc: {
+	// 	level: number;
+	// 	rsl: string;
+	// 	points: number;
+	// };
 }

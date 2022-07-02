@@ -3,6 +3,8 @@ import { SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
+import { PrereqList } from "@prereq/prereq_list";
+import { signed } from "@util";
 import { RitualMagicSpellData } from "./data";
 
 export class RitualMagicSpellGURPS extends BaseItemGURPS {
@@ -42,7 +44,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -93,14 +95,26 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		return false;
 	}
 
+	get skillLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return this.calculateLevel.level.toString();
+	}
+
+	get relativeLevel(): string {
+		if (this.calculateLevel.level == -Infinity) return "-";
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
+			signed(this.calculateLevel.relative_level)
+		);
+	}
 	// Point & Level Manipulation
 	updateLevel(): boolean {
 		const saved = this.level;
-		this.level = this.calculateLevel();
+		this.level = this.calculateLevel;
 		return saved != this.level;
 	}
 
-	calculateLevel(): SkillLevel {
+	get calculateLevel(): SkillLevel {
 		let skillLevel = { level: Math.max(), relative_level: 0, tooltip: new TooltipGURPS() as TooltipGURPS | string };
 		if (this.college.length == 0) skillLevel = this.determineLevelForCollege("");
 		else {
@@ -154,7 +168,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		if (this.actor) {
 			if (def?.type == gid.Skill) {
 				const sk = this.actor.baseSkill(def!, true);
-				if (sk) level = sk.calculateLevel().level;
+				if (sk) level = sk.calculateLevel.level;
 			} else if (def) {
 				level = def?.skillLevelFast(this.actor, true, null, false) - def?.modifier;
 			}

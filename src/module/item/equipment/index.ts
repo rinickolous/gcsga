@@ -1,7 +1,8 @@
-import { EquipmentModifierGURPS } from "@item";
 import { ContainerGURPS } from "@item/container";
+import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
 import { WeightUnits } from "@module/data";
+import { PrereqList } from "@prereq/prereq_list";
 import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentData } from "./data";
 
@@ -34,11 +35,31 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	get prereqs() {
-		return this.data.data.prereqs;
+		return new PrereqList(this.data.data.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
 		return this.prereqs.prereqs.length == 0;
+	}
+
+	get equipped(): boolean {
+		return this.data.data.equipped;
+	}
+
+	get techLevel(): string {
+		return this.data.data.tech_level;
+	}
+
+	get legalityClass(): string {
+		return this.data.data.legality_class;
+	}
+
+	get uses(): number {
+		return this.data.data.uses;
+	}
+
+	get maxUses(): number {
+		return this.data.data.max_uses;
 	}
 
 	// Embedded Items
@@ -58,10 +79,14 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	// Value Calculator
-	extendedValue(): number {
+	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
 		return value * this.quantity;
+	}
+
+	get adjustedWeightFast(): string {
+		return this.adjustedWeight(false, "lb").toString() + " lb";
 	}
 
 	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
@@ -71,6 +96,10 @@ export class EquipmentGURPS extends ContainerGURPS {
 
 	extendedWeight(for_skills: boolean, units: WeightUnits): number {
 		return this.adjustedWeight(for_skills, units);
+	}
+
+	get extendedWeightFast(): string {
+		return this.extendedWeight(false, "lb").toString() + " lb";
 	}
 
 	weightAdjustedForMods(units: WeightUnits): number {

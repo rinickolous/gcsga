@@ -1,5 +1,4 @@
-import { BaseFeature } from "./base";
-import { FeatureType } from "@feature";
+import { BaseFeature, FeatureType } from "./base";
 import { NumberCompare, StringCompare } from "@module/data";
 
 export class WeaponBonus extends BaseFeature {

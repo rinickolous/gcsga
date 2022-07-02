@@ -2,7 +2,7 @@
 <div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
 	<div class="dropdown">
 	{{#if (eq this.type "skill_container")}}
-		{{#if this.data.open}}	
+		{{#if this.open}}	
 			{{>dropdown-open}}
 		{{else}}
 			{{>dropdown-closed}}
@@ -15,11 +15,11 @@
 	</div>
 	{{>item-notes}}
 </div>
-<div class="level">{{this.data.calc.level}}</div>
-<div class="rsl">{{this.data.calc.rsl}}</div>
-<div class="points">{{this.data.calc.points}}</div>
-<div class="reference">{{this.data.reference}}</div>
-{{#if this.data.open}}
+<div class="level">{{this.skillLevel}}</div>
+<div class="rsl">{{this.relativeLevel}}</div>
+<div class="points">{{this.points}}</div>
+<div class="reference">{{this.reference}}</div>
+{{#if this.open}}
 	{{#each this.children}}
 		{{>skill}}
 	{{/each}}

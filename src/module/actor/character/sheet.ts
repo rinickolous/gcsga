@@ -94,7 +94,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				else if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS) {
 					if (item.other) arr[4].push(item);
 					else arr[3].push(item);
-				} else if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) arr[4].push(item);
+				} else if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) arr[5].push(item);
 				return arr;
 			},
 			[[], [], [], [], [], []],
@@ -131,6 +131,41 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			reactions: reactions,
 			conditional_modifiers: conditional_modifiers,
 		};
+	}
+
+	// Events
+	async _onEditToggle(event: JQuery.ClickEvent) {
+		event.preventDefault();
+		this.editing = !this.editing;
+		//@ts-ignore
+		$(event.currentTarget).find("i").toggleClass("fa-unlock fa-lock");
+		// this._renderOuter();
+		return this.render();
+	}
+
+	protected override _getHeaderButtons(): Application.HeaderButton[] {
+		const edit_button = {
+			label: "",
+			class: "edit-toggle",
+			icon: `fas fa-${this.editing ? "un" : ""}lock`,
+			onclick: (event: any) => this._onEditToggle(event),
+		};
+		// if (this.editing) edit_button.icon = "fas fa-unlock";
+		const buttons: Application.HeaderButton[] = [
+			edit_button,
+			{
+				label: "Import",
+				class: "import",
+				icon: "fas fa-file-import",
+				onclick: (event) => this._onFileImport(event),
+			},
+		];
+		return buttons.concat(super._getHeaderButtons());
+	}
+
+	async _onFileImport(event: any) {
+		event.preventDefault();
+		this.actor.importCharacter();
 	}
 }
 

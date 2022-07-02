@@ -1,17 +1,18 @@
 import { ItemGURPS } from "@item";
-import { EquipmentData } from "./equipment/data";
-import { EquipmentContainerData } from "./equipment_container/data";
-import { EquipmentModifierData } from "./equipment_modifier/data";
-import { NoteData } from "./note/data";
-import { NoteContainerData } from "./note_container/data";
-import { RitualMagicSpellData } from "./ritual_magic_spell/data";
-import { SkillData } from "./skill/data";
-import { SkillContainerData } from "./skill_container/data";
-import { SpellData } from "./spell/data";
-import { TechniqueData } from "./technique/data";
-import { TraitData } from "./trait/data";
-import { TraitContainerData } from "./trait_container/data";
-import { TraitModifierData } from "./trait_modifier/data";
+import { EquipmentData, EquipmentSystemData } from "./equipment/data";
+import { EquipmentContainerData, EquipmentContainerSystemData } from "./equipment_container/data";
+import { EquipmentModifierData, EquipmentModifierSystemData } from "./equipment_modifier/data";
+import { NoteData, NoteSystemData } from "./note/data";
+import { NoteContainerData, NoteContainerSystemData } from "./note_container/data";
+import { RitualMagicSpellData, RitualMagicSpellSystemData } from "./ritual_magic_spell/data";
+import { SkillData, SkillSystemData } from "./skill/data";
+import { SkillContainerData, SkillContainerSystemData } from "./skill_container/data";
+import { SpellData, SpellSystemData } from "./spell/data";
+import { SpellContainerSystemData } from "./spell_container/data";
+import { TechniqueData, TechniqueSystemData } from "./technique/data";
+import { TraitData, TraitSystemData } from "./trait/data";
+import { TraitContainerData, TraitContainerSystemData } from "./trait_container/data";
+import { TraitModifierData, TraitModifierSystemData } from "./trait_modifier/data";
 
 export type ItemDataGURPS =
 	| TraitData
@@ -28,6 +29,22 @@ export type ItemDataGURPS =
 	| EquipmentContainerData
 	| NoteData
 	| NoteContainerData;
+
+export type ItemSystemDataGURPS =
+	| TraitSystemData
+	| TraitContainerSystemData
+	| TraitModifierSystemData
+	| SkillSystemData
+	| TechniqueSystemData
+	| SkillContainerSystemData
+	| SpellSystemData
+	| RitualMagicSpellSystemData
+	| SpellContainerSystemData
+	| EquipmentSystemData
+	| EquipmentModifierSystemData
+	| EquipmentContainerSystemData
+	| NoteSystemData
+	| NoteContainerSystemData;
 
 export type ItemType =
 	| "trait"

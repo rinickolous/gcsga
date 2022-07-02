@@ -1,5 +1,4 @@
-import { FeatureType } from "@feature";
-import { BaseFeature } from "./base";
+import { BaseFeature, FeatureType } from "./base";
 import { StringCompare } from "@module/data";
 import { SpellBonusMatch } from "./spell_bonus";
 

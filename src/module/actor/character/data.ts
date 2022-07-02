@@ -3,6 +3,7 @@ import { ActorFlagsGURPS, ActorSystemData, BaseActorDataGURPS, BaseActorSourceGU
 import { CharacterGURPS } from ".";
 import { AttributeDef, AttributeDefObj } from "@module/attribute/attribute_def";
 import { Attribute, AttributeObj } from "@module/attribute";
+import { DiceGURPS } from "@module/dice";
 
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
@@ -26,7 +27,7 @@ type CharacterFlags = ActorFlagsGURPS & {
 export interface CharacterSystemData extends ActorSystemData {
 	version: number;
 	// import: CharacterImportData;
-	import: unknown;
+	import: { name: string; path: string; last_import: string };
 	settings: CharacterSettings;
 	created_date: string;
 	modified_date: string;
@@ -62,9 +63,8 @@ export interface CharacterSettings {
 	};
 	block_layout: Array<string>;
 	// attributes: Record<string, AttributeSettingDef>;
-	// hit_locations: HitLocationTable;
+	hit_locations: HitLocationTable;
 	attributes: Record<string, AttributeDef | AttributeDefObj>; // AttributeObj represents the attribute as an object
-	hit_locations: unknown;
 }
 
 export interface CharacterProfile {
@@ -108,4 +108,21 @@ export interface Encumbrance {
 	maximum_carry: number;
 	penalty: number;
 	name: string;
+}
+
+export interface HitLocationTable {
+	name: string;
+	roll: DiceGURPS;
+	locations: HitLocation[];
+}
+
+export interface HitLocation {
+	id: string;
+	choice_name: string;
+	table_name: string;
+	slots: number;
+	hit_penalty: number;
+	dr_bonus: number;
+	description: string;
+	sub_table?: HitLocationTable;
 }

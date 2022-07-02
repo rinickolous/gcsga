@@ -93,6 +93,7 @@
 	.item-notes {
 		font: var(--font-page-secondary-fields);
 		background-color: transparent;
+		overflow-x: hidden;
 	}
 	.reference:not(.header):hover {
 		background-color: rgba(var(--color-link), 1) !important;

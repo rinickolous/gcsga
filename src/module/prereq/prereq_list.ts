@@ -1,7 +1,7 @@
 import { CharacterGURPS } from "@actor";
 import { NumberCompare } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
-import { BasePrereq, Prereq, prereqClasses, PrereqType } from "@prereq";
+import { BasePrereq, Prereq, PrereqType } from "@prereq";
 import { extractTechLevel, i18n, numberCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
@@ -10,16 +10,23 @@ export interface PrereqList extends Omit<BasePrereq, "has"> {
 	all: boolean;
 }
 
+export interface PrereqListObj {
+	type: PrereqType;
+	prereqs: Prereq[];
+	all: boolean;
+	when_tl?: NumberCompare;
+}
+
 export class PrereqList extends BasePrereq {
 	prereqs: Prereq[] = [];
 	all = true;
 	when_tl?: NumberCompare = { compare: "none", qualifier: 0 };
 
-	constructor(data: PrereqList, context: PrereqConstructionContext = {}) {
+	constructor(data: PrereqListObj, context: PrereqConstructionContext = {}) {
 		super(data, context);
 		if (!!(data as PrereqList).prereqs)
 			(data as PrereqList).prereqs.forEach((e: Prereq) => {
-				this.prereqs.push(new prereqClasses[e?.type as PrereqType](e as any, context));
+				this.prereqs.push(new (CONFIG as any).GURPS.Prereq.classes[e?.type as PrereqType](e as any, context));
 			});
 	}
 

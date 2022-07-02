@@ -28,10 +28,10 @@ export interface RitualMagicSpellSystemData extends ItemSystemData {
 	duration: string;
 	points: number;
 	weapons: Weapon[];
-	calc: {
-		level: number;
-		rsl: string;
-	};
+	// calc: {
+	// 	level: number;
+	// 	rsl: string;
+	// };
 	base_skill: string;
 	prereq_count: number;
 }

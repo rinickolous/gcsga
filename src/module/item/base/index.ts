@@ -1,7 +1,7 @@
 import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemType } from "@item/data";
-import { ActorGURPS, CharacterGURPS } from "@actor";
 import { ContainerGURPS } from "@item/container";
+import { CharacterGURPS } from "@actor/character";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -11,13 +11,11 @@ export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 
 class BaseItemGURPS extends Item {
 	//@ts-ignore
-	parent: ActorGURPS | ContainerGURPS | null;
-	unsatisfied_reason: string;
+	parent: CharacterGURPS | ContainerGURPS | null;
 
 	constructor(data: ItemDataGURPS | any, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
 		if (context.gcsga?.ready) {
 			super(data, context);
-			this.unsatisfied_reason = "";
 		} else {
 			mergeObject(context, {
 				gcsga: {
@@ -59,8 +57,7 @@ class BaseItemGURPS extends Item {
 
 //@ts-ignore
 interface BaseItemGURPS extends Item {
-	parent: ActorGURPS | ContainerGURPS | null;
-	unsatisfied_reason: string;
+	parent: CharacterGURPS | ContainerGURPS | null;
 	readonly data: ItemDataGURPS;
 }
 

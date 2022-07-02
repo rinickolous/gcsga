@@ -15,6 +15,7 @@ export class ActorSheetGURPS extends ActorSheet {
 	protected override async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
 		if (!this.actor.isOwner) return false;
 
+		// TODO get rid of ts-ignore somehow
 		//@ts-ignore
 		const item = await BaseItemGURPS.implementation.fromDropData(data);
 		const itemData = item.toObject();
@@ -49,7 +50,7 @@ export class ActorSheetGURPS extends ActorSheet {
 				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replace("_", "-")}`,
 			});
 			dragImage.id = "drag-ghost";
-			document.body.querySelectorAll("#drag-ghost").forEach((e) => e.remove());
+			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
 			document.body.appendChild(dragImage);
 			const height = (document.body.querySelector("#drag-ghost") as HTMLElement).offsetHeight;
 			event.dataTransfer?.setDragImage(dragImage, 0, height / 2);

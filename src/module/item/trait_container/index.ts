@@ -1,5 +1,5 @@
 import { ContainerGURPS } from "@item/container";
-import { TraitGURPS } from "@item/trait";
+import { calculateModifierPoints, TraitGURPS } from "@item/trait";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
 import { i18n, i18n_f } from "@util";
@@ -52,7 +52,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
 			}
 		}
-		this.modifiers.forEach((m) => {
+		this.modifiers.forEach(m => {
 			if (n.length) n += ";";
 			n += m.fullDescription;
 		});
@@ -64,8 +64,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		//@ts-ignore
 		return new Collection(
 			this.items
-				.filter((item) => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
-				.map((item) => {
+				.filter(item => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
+				.map(item => {
 					return [item.data._id!, item];
 				}),
 		);
@@ -74,8 +74,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		//@ts-ignore
 		return new Collection(
 			this.items
-				.filter((item) => item instanceof TraitModifierGURPS)
-				.map((item) => {
+				.filter(item => item instanceof TraitModifierGURPS)
+				.map(item => {
 					return [item.data._id!, item];
 				}),
 		);
@@ -86,7 +86,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		let points = 0;
 		if (this.containerType == "alternative_abilities") {
 			let values: number[] = [];
-			this.children.forEach((child) => {
+			this.children.forEach(child => {
 				values.push(child.adjustedPoints);
 				if (values[values.length - 1] > points) points = values[values.length - 1];
 			});
@@ -100,7 +100,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				}
 			}
 		} else {
-			this.children.forEach((child) => {
+			this.children.forEach(child => {
 				points == child.adjustedPoints;
 			});
 		}
@@ -133,7 +133,4 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 export interface TraitContainerGURPS {
 	readonly data: TraitContainerData;
-}
-function calculateModifierPoints(v: number, arg1: number): number {
-	throw new Error("Function not implemented.");
 }

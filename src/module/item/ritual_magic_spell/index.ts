@@ -9,6 +9,7 @@ import { RitualMagicSpellData } from "./data";
 
 export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+	unsatisfied_reason = "";
 
 	static get schema(): typeof RitualMagicSpellData {
 		return RitualMagicSpellData;

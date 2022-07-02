@@ -8,6 +8,8 @@ import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentContainerData } from "./data";
 
 export class EquipmentContainerGURPS extends ContainerGURPS {
+	unsatisfied_reason = "";
+
 	static override get schema(): typeof EquipmentContainerData {
 		return EquipmentContainerData;
 	}
@@ -63,24 +65,19 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.items
-				.filter((item) => item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const children: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection();
+		this.items.forEach(item => {
+			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
+				children.set(item.data._id!, item);
+		});
+		return children;
 	}
 	get modifiers(): Collection<EquipmentModifierGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.items
-				.filter((item) => item instanceof EquipmentModifierGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const modifiers: Collection<EquipmentModifierGURPS> = new Collection();
+		this.items.forEach(item => {
+			if (item instanceof EquipmentModifierGURPS) modifiers.set(item.data._id!, item);
+		});
+		return modifiers;
 	}
 
 	get adjustedValue(): number {
@@ -91,7 +88,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
-		this.children.forEach((ch) => {
+		this.children.forEach(ch => {
 			value += ch.extendedValue;
 		});
 		return value * this.quantity;
@@ -110,7 +107,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		let percentages = 0;
 		let w = this.weight;
 
-		this.modifiers.forEach((mod) => {
+		this.modifiers.forEach(mod => {
 			if (mod.weightType == "to_original_weight") {
 				const t = determineModWeightValueTypeFromString(mod.weightAmount);
 				const f = extractFraction(mod.weightAmount);
@@ -147,7 +144,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		if (!for_skills || !this.data.data.ignore_weight_for_skills) base = this.weightAdjustedForMods(units);
 		if (this.children && this.children.entries.length != 0) {
 			let contained = 0;
-			this.children?.forEach((ch) => {
+			this.children?.forEach(ch => {
 				contained += ch.extendedWeight(for_skills, units);
 			});
 			let percentage = 0;
@@ -158,7 +155,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 					else reduction += parseFloat(f.reduction);
 				}
 			}
-			this.modifiers.forEach((mod) => {
+			this.modifiers.forEach(mod => {
 				for (const f of mod.features) {
 					if (f instanceof ContainedWeightReduction) {
 						if (f.is_percentage_reduction) percentage += parseFloat(f.reduction);

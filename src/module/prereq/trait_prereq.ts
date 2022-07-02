@@ -16,7 +16,7 @@ export class TraitPrereq extends BasePrereq {
 
 	override satisfied(actor: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
 		let satisfied = false;
-		actor.traits.forEach((t) => {
+		actor.traits.forEach(t => {
 			if (exclude == t || !stringCompare(t.name, this.name)) return false;
 			let notes = t.notes;
 			const mod_notes = t.modifierNotes;

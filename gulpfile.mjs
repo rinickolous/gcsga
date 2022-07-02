@@ -35,7 +35,7 @@ let cache;
  */
 function buildCode() {
 	return rollupStream({ ...rollupConfig(), cache })
-		.on("bundle", (bundle) => {
+		.on("bundle", bundle => {
 			cache = bundle;
 		})
 		.pipe(source(`${name}.js`))
@@ -73,7 +73,7 @@ export function watch() {
 	gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
 	gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
 	gulp.watch(
-		staticFiles.map((file) => `${sourceDirectory}/${file}`),
+		staticFiles.map(file => `${sourceDirectory}/${file}`),
 		{ ignoreInitial: false },
 		copyFiles,
 	);

@@ -157,8 +157,8 @@ export class ActorImporter {
 			const filename = `${profile.name}_${this.document.id}_portrait.png`.replaceAll(" ", "_");
 			const url = `data:image/png;base64,${profile.portrait}`;
 			await fetch(url)
-				.then((res) => res.blob())
-				.then((blob) => {
+				.then(res => res.blob())
+				.then(blob => {
 					const file = new File([blob], filename);
 					FilePicker.upload("data", path, file, {}, { notify: false });
 				});
@@ -202,7 +202,7 @@ export class ActorImporter {
 
 	importAttributes(attributes: AttributeObj[]) {
 		const atts: Record<string, AttributeObj> = {};
-		attributes.forEach((a) => {
+		attributes.forEach(a => {
 			atts[a.attr_id] = a;
 		});
 		return {
@@ -559,7 +559,7 @@ export class ActorImporter {
 
 	importFeatures(features: Feature[]): Feature[] {
 		const list: Feature[] = [];
-		features.forEach((f) => {
+		features.forEach(f => {
 			list.push(new BaseFeature(f, {}));
 		});
 		return list;
@@ -567,7 +567,7 @@ export class ActorImporter {
 
 	importWeapons(features: Weapon[]): Weapon[] {
 		const list: Weapon[] = [];
-		features.forEach((w) => {
+		features.forEach(w => {
 			list.push(new BaseWeapon(w));
 		});
 		return list;
@@ -575,7 +575,7 @@ export class ActorImporter {
 
 	importDefaults(features: SkillDefault[]): SkillDefault[] {
 		const list: SkillDefault[] = [];
-		features.forEach((d) => {
+		features.forEach(d => {
 			list.push(new SkillDefault(d));
 		});
 		return list;

@@ -64,14 +64,11 @@ export class EquipmentGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get modifiers(): Collection<EquipmentModifierGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.items
-				.filter((item) => item instanceof EquipmentModifierGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const modifiers: Collection<EquipmentModifierGURPS> = new Collection();
+		this.items.forEach(item => {
+			if (item instanceof EquipmentModifierGURPS) modifiers.set(item.data._id!, item);
+		});
+		return modifiers;
 	}
 
 	get adjustedValue(): number {
@@ -106,7 +103,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 		let percentages = 0;
 		let w = this.weight;
 
-		this.modifiers.forEach((mod) => {
+		this.modifiers.forEach(mod => {
 			if (mod.weightType == "to_original_weight") {
 				const t = determineModWeightValueTypeFromString(mod.weightAmount);
 				const f = extractFraction(mod.weightAmount);
@@ -134,7 +131,7 @@ export function valueAdjustedForModifiers(value: number, modifiers: Collection<E
 	let cost = processNonCFStep("to_original_cost", value, modifiers);
 
 	let cf = 0;
-	modifiers.forEach((mod) => {
+	modifiers.forEach(mod => {
 		if (mod.costType == "to_base_cost") {
 			let t = determineModCostValueTypeFromString(mod.costAmount);
 			cf += extractValue(mod.costAmount);
@@ -159,7 +156,7 @@ export function processNonCFStep(
 	let cost = value;
 	let percentages = 0;
 	let additions = 0;
-	modifiers.forEach((mod) => {
+	modifiers.forEach(mod => {
 		if (mod.costType == costType) {
 			let t = determineModCostValueTypeFromString(mod.costAmount);
 			let amt = extractValue(mod.costAmount);
@@ -219,7 +216,7 @@ export function processMultiplyAddWeightStep(
 	modifiers: Collection<EquipmentModifierGURPS>,
 ): number {
 	let sum = 0;
-	modifiers.forEach((mod) => {
+	modifiers.forEach(mod => {
 		if (mod.weightType == type) {
 			const t = determineModWeightValueTypeFromString(mod.weightAmount);
 			const f = extractFraction(mod.weightAmount);

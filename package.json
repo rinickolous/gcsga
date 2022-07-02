@@ -34,7 +34,7 @@
 		"postinstall": "husky install"
 	},
 	"devDependencies": {
-		"@league-of-foundry-developers/foundry-vtt-types": "^9.269.0",
+		"@league-of-foundry-developers/foundry-vtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types",
 		"@rollup/plugin-node-resolve": "^13.3.0",
 		"@rollup/plugin-typescript": "^8.3.3",
 		"@rollup/stream": "^2.0.0",

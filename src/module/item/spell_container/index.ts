@@ -10,19 +10,16 @@ export class SpellContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.items
-				.filter(
-					(item) =>
-						item instanceof SpellGURPS ||
-						item instanceof RitualMagicSpellGURPS ||
-						item instanceof SpellContainerGURPS,
-				)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const children: Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> = new Collection();
+		this.items.forEach(item => {
+			if (
+				item instanceof SpellGURPS ||
+				item instanceof RitualMagicSpellGURPS ||
+				item instanceof SpellContainerGURPS
+			)
+				children.set(item.data._id!, item);
+		});
+		return children;
 	}
 }
 

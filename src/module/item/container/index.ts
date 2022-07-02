@@ -23,7 +23,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				});
 		}
 		return new Collection(
-			deepItems.map((e) => {
+			deepItems.map(e => {
 				return [e.id!, e]; // should never be null
 			}),
 		);
@@ -33,12 +33,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return (this.data.data as any).open;
 	}
 
-	//@ts-ignore
 	override async createEmbeddedDocuments(
 		embeddedName: string,
 		data: Record<string, unknown>[],
 		context: DocumentModificationContext & { temporary: false },
-	): Promise<Document<any, any, Metadata<any>>[]> {
+	): Promise<any> {
 		if (!Array.isArray(data)) data = [data];
 		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
 		const currentItems = duplicate(getProperty(this, "data.flags.gcsga.contentsData")) ?? [];
@@ -63,12 +62,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return [];
 	}
 
-	//@ts-ignore
-	override getEmbeddedDocument(
-		embeddedName: string,
-		id: string,
-		options?: { strict?: boolean },
-	): foundry.abstract.Document<any, any> | ItemGURPS | undefined {
+	override getEmbeddedDocument(embeddedName: string, id: string, options?: { strict?: boolean }): any {
 		if (embeddedName !== "Item") return super.getEmbeddedDocument(embeddedName, id, options);
 		return this.items.get(id);
 	}
@@ -83,7 +77,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
 		const updatedItems: any[] = [];
 		const newContainedItems = containedItems.map((existing: { _id: string }) => {
-			const theUpdate = updates?.find((update) => update._id === existing._id);
+			const theUpdate = updates?.find(update => update._id === existing._id);
 			if (theUpdate) {
 				const newData = mergeObject(theUpdate, existing, {
 					overwrite: false,
@@ -106,12 +100,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return updatedItems;
 	}
 
-	//@ts-ignore
 	override async deleteEmbeddedDocuments(
 		embeddedName: string,
 		ids: string[],
 		context?: DocumentModificationContext | undefined,
-	): Promise<Document<any, any, Metadata<any>>[] | ItemGURPS[]> {
+	): Promise<any[]> {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
 		const newContainedItems = containedItems.filter((itemData: ItemDataGURPS) => !ids.includes(itemData._id!));

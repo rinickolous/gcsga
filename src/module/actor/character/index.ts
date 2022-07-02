@@ -1,4 +1,4 @@
-import { BaseActorGURPS } from "@actor";
+import { BaseActorGURPS } from "@actor/base";
 import { ActorConstructorContextGURPS } from "@actor/base";
 import { ActorImporter } from "@actor/import";
 import { Feature } from "@feature";
@@ -165,7 +165,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get skillPoints(): number {
 		let total = 0;
-		for (const s of this.skills.filter((e) => e instanceof SkillGURPS || e instanceof TechniqueGURPS) as Array<
+		for (const s of this.skills.filter(e => e instanceof SkillGURPS || e instanceof TechniqueGURPS) as Array<
 			SkillGURPS | TechniqueGURPS
 		>) {
 			total += s.points ?? 0;
@@ -175,9 +175,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get spellPoints(): number {
 		let total = 0;
-		for (const s of this.spells.filter(
-			(e) => e instanceof SpellGURPS || e instanceof RitualMagicSpellGURPS,
-		) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
+		for (const s of this.spells.filter(e => e instanceof SpellGURPS || e instanceof RitualMagicSpellGURPS) as Array<
+			SpellGURPS | RitualMagicSpellGURPS
+		>) {
 			total += s.points ?? 0;
 		}
 		return total;
@@ -213,7 +213,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 	countThresholdOpMet(op: ThresholdOp, attributes: Map<string, Attribute>) {
 		let total = 0;
-		attributes.forEach((a) => {
+		attributes.forEach(a => {
 			const threshold = a.currentThreshold;
 			if (threshold && threshold.ops.includes(op)) total++;
 		});
@@ -256,7 +256,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	weightCarried(for_skills: boolean): number {
 		let total = 0;
-		this.carried_equipment.forEach((e) => {
+		this.carried_equipment.forEach(e => {
 			if (e.parent == this) total += e.extendedWeight(for_skills, this.settings.default_weight_units);
 		});
 		return total;
@@ -264,7 +264,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	wealthCarried(): number {
 		let value = 0;
-		this.carried_equipment.forEach((e) => {
+		this.carried_equipment.forEach(e => {
 			if (e.parent == this) value += e.extendedValue;
 		});
 		return value;
@@ -310,64 +310,49 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	// Item Types
 	get traits(): Collection<TraitGURPS | TraitContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.deepItems
-				.filter((item) => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const traits: Collection<TraitGURPS | TraitContainerGURPS> = new Collection();
+		this.deepItems.forEach(item => {
+			if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) traits.set(item.data._id!, item);
+		});
+		return traits;
 	}
 
 	get skills(): Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.deepItems
-				.filter(
-					(item) =>
-						item instanceof SkillGURPS ||
-						item instanceof TechniqueGURPS ||
-						item instanceof SkillContainerGURPS,
-				)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const skills: Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> = new Collection();
+		this.deepItems.forEach(item => {
+			if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS)
+				skills.set(item.data._id!, item);
+		});
+		return skills;
 	}
 
 	get spells(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.deepItems
-				.filter(
-					(item) =>
-						item instanceof SpellGURPS ||
-						item instanceof RitualMagicSpellGURPS ||
-						item instanceof SpellContainerGURPS,
-				)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const spells: Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> = new Collection();
+		this.deepItems.forEach(item => {
+			if (
+				item instanceof SpellGURPS ||
+				item instanceof RitualMagicSpellGURPS ||
+				item instanceof SpellContainerGURPS
+			)
+				spells.set(item.data._id!, item);
+		});
+		return spells;
 	}
 
 	get equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.deepItems
-				.filter((item) => item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const equipment: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection();
+		this.deepItems.forEach(item => {
+			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
+				equipment.set(item.data._id!, item);
+		});
+		return equipment;
 	}
 
 	get carried_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
 		return new Collection(
 			this.equipment
-				.filter((item) => !item.other)
-				.map((item) => {
+				.filter(item => !item.other)
+				.map(item => {
 					return [item.data._id!, item];
 				}),
 		);
@@ -376,22 +361,19 @@ class CharacterGURPS extends BaseActorGURPS {
 	get other_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
 		return new Collection(
 			this.equipment
-				.filter((item) => item.other)
-				.map((item) => {
+				.filter(item => item.other)
+				.map(item => {
 					return [item.data._id!, item];
 				}),
 		);
 	}
 
 	get notes(): Collection<NoteGURPS | NoteContainerGURPS> {
-		//@ts-ignore
-		return new Collection(
-			this.deepItems
-				.filter((item) => item instanceof NoteGURPS || item instanceof NoteContainerGURPS)
-				.map((item) => {
-					return [item.data._id!, item];
-				}),
-		);
+		const notes: Collection<NoteGURPS | NoteContainerGURPS> = new Collection();
+		this.deepItems.forEach(item => {
+			if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) notes.set(item.data._id!, item);
+		});
+		return notes;
 	}
 
 	//TODO changed
@@ -502,7 +484,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		if (this.calc) this.striking_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.striking_only`, null);
 		if (this.calc) this.throwing_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.throwing_only`, null);
 		if (this.attributes) {
-			this.attributes.forEach((attr) => {
+			this.attributes.forEach(attr => {
 				const def = attr.attribute_def;
 				if (def) {
 					const attrID = attrPrefix + attr.attr_id;
@@ -525,7 +507,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	processPrereqs(): void {
 		const prefix = "\n● ";
 		const not_met = i18n("gcsga.prerqs.not_met");
-		for (const t of this.traits.filter((e) => e instanceof TraitGURPS)) {
+		for (const t of this.traits.filter(e => e instanceof TraitGURPS)) {
 			t.unsatisfied_reason = "";
 			if (t instanceof TraitGURPS && !t.prereqsEmpty) {
 				const tooltip = new TooltipGURPS();
@@ -534,7 +516,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				}
 			}
 		}
-		for (let k of this.skills.filter((e) => !(e instanceof SkillContainerGURPS))) {
+		for (let k of this.skills.filter(e => !(e instanceof SkillContainerGURPS))) {
 			k = k as SkillGURPS | TechniqueGURPS;
 			k.unsatisfied_reason = "";
 			const tooltip = new TooltipGURPS();
@@ -545,7 +527,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				k.unsatisfied_reason = not_met + tooltip.toString();
 			}
 		}
-		for (let b of this.spells.filter((e) => !(e instanceof SpellContainerGURPS))) {
+		for (let b of this.spells.filter(e => !(e instanceof SpellContainerGURPS))) {
 			b = b as SpellGURPS | RitualMagicSpellGURPS;
 			b.unsatisfied_reason = "";
 			const tooltip = new TooltipGURPS();
@@ -567,7 +549,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	updateSkills(): boolean {
 		let changed = false;
-		for (const k of this.skills.filter((e) => !(e instanceof SkillContainerGURPS)) as Array<
+		for (const k of this.skills.filter(e => !(e instanceof SkillContainerGURPS)) as Array<
 			SkillGURPS | TechniqueGURPS
 		>) {
 			if (k.updateLevel()) changed = true;
@@ -577,7 +559,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	updateSpells(): boolean {
 		let changed = false;
-		for (const b of this.spells.filter((e) => !(e instanceof SpellContainerGURPS)) as Array<
+		for (const b of this.spells.filter(e => !(e instanceof SpellContainerGURPS)) as Array<
 			SpellGURPS | RitualMagicSpellGURPS
 		>) {
 			if (b.updateLevel()) changed = true;
@@ -599,7 +581,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	): SkillGURPS | TechniqueGURPS | null {
 		let best: SkillGURPS | TechniqueGURPS | null = null;
 		let level = Math.max();
-		this.skillNamed(name, specialization, require_points, excludes).forEach((sk) => {
+		this.skillNamed(name, specialization, require_points, excludes).forEach(sk => {
 			const skill_level = sk.calculateLevel.level;
 			if (best || level < skill_level) {
 				best = sk;
@@ -615,28 +597,24 @@ class CharacterGURPS extends BaseActorGURPS {
 		require_points: boolean,
 		excludes: Map<string, boolean> | null,
 	): Collection<SkillGURPS | TechniqueGURPS> {
-		//@ts-ignore
-		const a: Collection<SkillGURPS | TechniqueGURPS> = new Collection(
-			this.skills
-				.filter(
-					(s) =>
-						(!excludes || !excludes.get(s.name!)) &&
-						!(s instanceof SkillContainerGURPS) &&
-						s.name == name &&
-						(!require_points || s instanceof TechniqueGURPS || s.adjustedPoints(null) > 0) &&
-						(specialization == "" || specialization == s.specialization),
-				)
-				.map((e) => {
-					return [e.id!, e];
-				}),
-		);
-		return a;
+		const skills: Collection<SkillGURPS | TechniqueGURPS> = new Collection();
+		this.skills.forEach(item => {
+			if (
+				(!excludes || !excludes.get(item.name!)) &&
+				(item instanceof SkillGURPS || item instanceof TechniqueGURPS) &&
+				item.name == name &&
+				(!require_points || item instanceof TechniqueGURPS || item.adjustedPoints(null) > 0) &&
+				(specialization == "" || specialization == item.specialization)
+			)
+				skills.set(item.data._id!, item);
+		});
+		return skills;
 	}
 
 	// Feature Processing
 	bonusFor(featureID: string, tooltip: TooltipGURPS | null): number {
 		let total = 0;
-		this.featureMap?.get(featureID.toLowerCase())?.forEach((feature) => {
+		this.featureMap?.get(featureID.toLowerCase())?.forEach(feature => {
 			if (feature.type == featureID) {
 				total += feature.adjustedAmount;
 				feature.addToTooltip(tooltip);
@@ -653,7 +631,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		tooltip: TooltipGURPS | null,
 	): number {
 		let total = 0;
-		this.featureMap.get(featureID)?.forEach((f) => {
+		this.featureMap.get(featureID)?.forEach(f => {
 			if (!(f instanceof SkillBonus)) return;
 			if (
 				stringCompare(name, f.name) &&
@@ -675,7 +653,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		tooltip: TooltipGURPS | null,
 	): number {
 		let total = 0;
-		this.featureMap?.get(featureID)?.forEach((f) => {
+		this.featureMap?.get(featureID)?.forEach(f => {
 			if (!(f instanceof SkillPointBonus)) return;
 			if (
 				stringCompare(name, f.name) &&
@@ -705,7 +683,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	spellComparedBonusFor(featureID: string, name: string, tags: string[], tooltip: TooltipGURPS | null): number {
 		let total = 0;
-		this.featureMap.get(featureID.toLowerCase())?.forEach((feature) => {
+		this.featureMap.get(featureID.toLowerCase())?.forEach(feature => {
 			if (
 				feature instanceof SpellBonus &&
 				stringCompare(name, feature.name) &&
@@ -754,7 +732,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	costReductionFor(featureID: string): number {
 		let total = 0;
-		this.featureMap.get(featureID.toLowerCase())?.forEach((feature) => {
+		this.featureMap.get(featureID.toLowerCase())?.forEach(feature => {
 			if (feature instanceof CostReduction) {
 				total += feature.percentage;
 			}
@@ -825,7 +803,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			const request = new XMLHttpRequest();
 			request.open("GET", file_path);
 
-			new Promise((resolve) => {
+			new Promise(resolve => {
 				request.onload = () => {
 					if (request.status === 200) {
 						const text = request.response;
@@ -850,14 +828,14 @@ class CharacterGURPS extends BaseActorGURPS {
 						import: {
 							icon: `<i class="fas fa-file-import"></i>`,
 							label: `Import`,
-							callback: (html) => {
+							callback: html => {
 								const form = $(html).find("form")[0];
 								const files = form.data.files;
 								if (!files.length) {
 									return ui.notifications?.error("You did not upload a data file!");
 								} else {
 									const file = files[0];
-									readTextFromFile(file).then((text) =>
+									readTextFromFile(file).then(text =>
 										ActorImporter.import(this, {
 											text: text,
 											name: file.name,

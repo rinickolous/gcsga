@@ -221,7 +221,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		if (!actor || !def || !def.name) return false;
 		let hadOne = false;
 		for (const one of (actor.skills as Collection<SkillGURPS>).filter(
-			(s) => s.name == def.name && s.specialization == def.specialization,
+			s => s.name == def.name && s.specialization == def.specialization,
 		)) {
 			if (one == this) return true;
 			if (typeof one.id == "string" && lookedAt.get(one.id)) {

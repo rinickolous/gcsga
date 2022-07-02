@@ -1,13 +1,13 @@
 import { CharacterGURPS } from "@actor";
 import { Encumbrance } from "@actor/character/data";
-import { BaseItemGURPS, SpellGURPS } from "@item";
-import { ItemGURPS, SpellData } from "@item/data";
+import { SpellGURPS } from "@item";
+import { ItemGURPS } from "@item/data";
 import { i18n } from "./misc";
 
 export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("concat", function (...args) {
 		let outStr = "";
-		args.forEach((arg) => {
+		args.forEach(arg => {
 			if (typeof arg != "object") outStr += arg;
 		});
 		return outStr;
@@ -31,7 +31,7 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("or", function (...args) {
 		let val = false;
-		args.forEach((arg) => {
+		args.forEach(arg => {
 			if (arg && typeof arg != "object") val = true;
 		});
 		return val;
@@ -39,7 +39,7 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("and", function (...args) {
 		let val = true;
-		args.forEach((arg) => {
+		args.forEach(arg => {
 			if (!arg && typeof arg != "object") val = false;
 		});
 		return val;
@@ -58,7 +58,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("enabledList", function (a: any[]) {
-		return a.filter((e) => !e.data.disabled);
+		return a.filter(e => !e.data.disabled);
 	});
 
 	Handlebars.registerHelper("notEmpty", function (a: any[]) {
@@ -96,7 +96,7 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("arr", function (...args) {
 		const outArr: any[] = [];
-		args.forEach((arg) => {
+		args.forEach(arg => {
 			if (arg && typeof arg != "object") outArr.push(arg);
 		});
 		return outArr;

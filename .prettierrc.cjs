@@ -7,4 +7,5 @@ module.exports = {
 	useTabs: true,
 	bracketSpacing: true,
 	endOfLine: "auto",
+	arrowParens: "avoid",
 };

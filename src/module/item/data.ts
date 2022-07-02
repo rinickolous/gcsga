@@ -62,14 +62,14 @@ export type ItemType =
 	| "note"
 	| "note_container";
 
-export type ContainerType =
-	| "trait"
-	| "trait_container"
-	| "skill_container"
-	| "spell_container"
-	| "equipment"
-	| "equipment_container"
-	| "note_container";
+// export type ContainerType =
+// 	| "trait"
+// 	| "trait_container"
+// 	| "skill_container"
+// 	| "spell_container"
+// 	| "equipment"
+// 	| "equipment_container"
+// 	| "note_container";
 
 export interface ItemFlagsGURPS extends Record<string, unknown> {
 	gcsga?: {

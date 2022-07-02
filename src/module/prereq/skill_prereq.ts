@@ -19,7 +19,7 @@ export class SkillPrereq extends BasePrereq {
 		let satisfied = false;
 		let tech_level = "";
 		if (exclude instanceof SkillGURPS) tech_level = exclude.techLevel;
-		character.skills.forEach((sk) => {
+		character.skills.forEach(sk => {
 			if (sk instanceof SkillContainerGURPS) return;
 			sk = sk as SkillGURPS | TechniqueGURPS;
 			if (

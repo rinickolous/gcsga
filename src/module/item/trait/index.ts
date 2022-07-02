@@ -68,7 +68,7 @@ export class TraitGURPS extends ContainerGURPS {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
 			}
 		}
-		this.modifiers.forEach((m) => {
+		this.modifiers.forEach(m => {
 			if (n.length) n += ";";
 			n += m.fullDescription;
 		});
@@ -84,7 +84,7 @@ export class TraitGURPS extends ContainerGURPS {
 		let basePoints = this.basePoints;
 		let pointsPerLevel = this.pointsPerLevel;
 		let multiplier = this.crMultiplier(this.cr);
-		this.modifiers.forEach((mod) => {
+		this.modifiers.forEach(mod => {
 			const modifier = mod.costModifier;
 			switch (mod.costType) {
 				case "percentage":
@@ -141,8 +141,8 @@ export class TraitGURPS extends ContainerGURPS {
 		//@ts-ignore
 		return new Collection(
 			this.items
-				.filter((item) => item instanceof TraitModifierGURPS)
-				.map((item) => {
+				.filter(item => item instanceof TraitModifierGURPS)
+				.map(item => {
 					return [item.data._id!, item];
 				}),
 		);

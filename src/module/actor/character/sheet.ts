@@ -39,7 +39,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {
 		const actorData = this.actor.toObject(false);
 		const items = deepClone(
-			this.actor.items.map((item) => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
+			this.actor.items.map(item => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
 		);
 		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
 		const encumbrance = this.actor.allEncumbrance;
@@ -66,7 +66,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const secondary_attributes: Attribute[] = [];
 		const point_pools: Attribute[] = [];
 		if (attributes) {
-			attributes.forEach((a) => {
+			attributes.forEach(a => {
 				if (a.attribute_def?.type == "pool") point_pools.push(a);
 				else if (a.attribute_def?.isPrimary) primary_attributes.push(a);
 				else secondary_attributes.push(a);
@@ -157,7 +157,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				label: "Import",
 				class: "import",
 				icon: "fas fa-file-import",
-				onclick: (event) => this._onFileImport(event),
+				onclick: event => this._onFileImport(event),
 			},
 		];
 		return buttons.concat(super._getHeaderButtons());

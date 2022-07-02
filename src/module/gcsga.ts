@@ -60,8 +60,7 @@ Hooks.once("init", async () => {
 
 	// Assign custom classes and constants hereby
 	(CONFIG as any).GURPS = GURPSCONFIG;
-	//@ts-ignore
-	CONFIG.Item.documentClass = BaseItemGURPS;
+	(CONFIG.Item.documentClass as any) = BaseItemGURPS;
 	CONFIG.Actor.documentClass = BaseActorGURPS;
 
 	// Register custom system settings

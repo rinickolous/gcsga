@@ -28,7 +28,7 @@ export class SpellPrereq extends BasePrereq {
 		if (exclude instanceof SpellGURPS || exclude instanceof RitualMagicSpellGURPS) tech_level = exclude.techLevel;
 		let count = 0;
 		const colleges: Map<string, boolean> = new Map();
-		character.spells.forEach((sp) => {
+		character.spells.forEach(sp => {
 			if (sp instanceof SpellContainerGURPS) return;
 			sp = sp as SpellGURPS | RitualMagicSpellGURPS;
 			if (exclude == sp || sp.points == 0) return;

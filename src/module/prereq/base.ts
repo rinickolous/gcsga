@@ -1,3 +1,5 @@
+import { CharacterGURPS } from "@actor";
+import { TooltipGURPS } from "@module/tooltip";
 import { Prereq, PrereqList, PrereqType, TraitPrereq } from "@prereq";
 
 export interface PrereqConstructionContext {
@@ -43,9 +45,8 @@ export class BasePrereq {
 			prereqs: [],
 		});
 	}
+}
 
-	satisfied(...arr: any[]): boolean {
-		console.error("Cannot satisfy BasePrereq");
-		return false;
-	}
+export interface BasePrereq {
+	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean;
 }

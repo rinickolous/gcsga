@@ -1,5 +1,5 @@
 <div class="entry-parent" readonly></div>
-<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+<div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
 	<div class="dropdown">{{#if (eq this.type "note_container")}}
 		{{#if this.data.open}}	
 			{{>dropdown-open}}

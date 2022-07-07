@@ -97,6 +97,16 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		const saved = this.level;
 		this.defaultedFrom = undefined;
 		this.level = this.calculateLevel;
+		if (this.defaultedFrom) {
+			const def = this.defaultedFrom;
+			const previous = this.level;
+			this.defaultedFrom = undefined;
+			this.level = this.calculateLevel;
+			if (this.level.level < previous.level) {
+				this.defaultedFrom = def;
+				this.level = previous;
+			}
+		}
 		return saved != this.level;
 	}
 
@@ -104,7 +114,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		const tooltip = new TooltipGURPS();
 		let relative_level = 0;
 		let points = this.adjustedPoints(null);
-		let level = Math.max();
+		let level = -Infinity;
 		if (this.actor) {
 			if (this.default?.type == gid.Skill) {
 				const sk = this.actor.baseSkill(this.default!, true);
@@ -112,12 +122,12 @@ export class TechniqueGURPS extends BaseItemGURPS {
 			} else if (this.default) {
 				level = this.default?.skillLevelFast(this.actor, true, null, false) - this.default?.modifier;
 			}
-			if (level != Math.max()) {
+			if (level != -Infinity) {
 				const base_level = level;
 				level += this.default.modifier;
 				if (this.difficulty == "h") points -= 1;
 				if (points > 0) relative_level = points;
-				if (level != Math.max()) {
+				if (level != -Infinity) {
 					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
 					relative_level += this.actor.skillComparedBonusFor(
 						"skill.name*",

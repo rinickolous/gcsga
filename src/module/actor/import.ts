@@ -121,6 +121,7 @@ export class ActorImporter {
 			"data.id": data.id,
 			"data.created_date": data.created_date,
 			"data.modified_date": data.modified_date,
+			"data.total_points": data.total_points,
 		};
 	}
 

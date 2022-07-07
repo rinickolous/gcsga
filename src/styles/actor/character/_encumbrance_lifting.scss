@@ -60,10 +60,10 @@
 		}
 
 		.active {
-			background-color: rgba(var(--color-marker), 1);
+			background-color: rgba(var(--color-marker), 1) !important;
 			&.dodge:hover {
-				background-color: rgba(var(--color-link), 1);
-				color: rgba(var(--color-on-link), 1);
+				background-color: rgba(var(--color-link), 1) !important;
+				color: rgba(var(--color-on-link), 1) !important;
 			}
 		}
 	}

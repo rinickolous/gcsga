@@ -187,6 +187,9 @@
 				"format_old": "File format is too old. Please save your file in the most up to date version of GCS",
 				"format_new": "File format it too new, and is not yet supported.",
 				"generic": "Import Error for {name}:\n{message}"
+			},
+			"modules": {
+				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"
 			}
 		}
 	}

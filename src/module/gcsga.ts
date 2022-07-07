@@ -36,6 +36,7 @@ import { CharacterSheetGURPS } from "@actor/sheet";
 import { BaseActorGURPS } from "@actor/base";
 import { BaseItemGURPS } from "@item";
 import { GURPSCONFIG } from "./config";
+import { TraitSheet } from "@item/trait/sheet";
 
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
@@ -74,11 +75,11 @@ Hooks.once("init", async () => {
 	Items.unregisterSheet("core", ItemSheet);
 	Actors.unregisterSheet("core", ActorSheet);
 
-	// Items.registerSheet(SYSTEM_NAME, TraitSheet, {
-	// 	types: ["trait"],
-	// 	makeDefault: true,
-	// 	label: i18n("gcsga.system.sheet.trait"),
-	// })
+	Items.registerSheet(SYSTEM_NAME, TraitSheet, {
+		types: ["trait"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.trait"),
+	});
 
 	Actors.registerSheet(SYSTEM_NAME, CharacterSheetGURPS, {
 		types: ["character"],

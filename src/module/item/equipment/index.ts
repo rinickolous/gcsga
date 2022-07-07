@@ -123,7 +123,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 
 		w = processMultiplyAddWeightStep("to_final_weight", w, units, this.modifiers);
 
-		return w;
+		return w * this.quantity;
 	}
 }
 

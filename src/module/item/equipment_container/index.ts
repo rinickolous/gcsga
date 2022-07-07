@@ -142,7 +142,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		if (this.quantity <= 0) return 0;
 		let base = 0;
 		if (!for_skills || !this.data.data.ignore_weight_for_skills) base = this.weightAdjustedForMods(units);
-		if (this.children && this.children.entries.length != 0) {
+		if (this.children) {
 			let contained = 0;
 			this.children?.forEach(ch => {
 				contained += ch.extendedWeight(for_skills, units);

@@ -1,6 +1,6 @@
 <div class="entry-parent" readonly></div>
 <div class="quantity">{{this.quantity}}</div>
-<div class="desc item" data-item-id="{{_id}}" {{{indent this}}}>
+<div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
 	<div class="dropdown">
 	{{#if (eq this.type "equipment_container")}}
 		{{#if this.open}}	
@@ -18,10 +18,10 @@
 <div class="uses">{{#if (and this.uses this.maxUses)}}{{this.uses}}{{/if}}</div>
 <div class="tech-level">{{this.techLevel}}</div>
 <div class="legality-class">{{this.legalityClass}}</div>
-<div class="weight">{{this.adjustedWeightFast}}</div>
 <div class="value">{{this.adjustedValue}}</div>
-<div class="extended-weight">{{this.extendedWeightFast}}</div>
+<div class="weight">{{this.adjustedWeightFast}}</div>
 <div class="extended-value">{{this.extendedValue}}</div>
+<div class="extended-weight">{{this.extendedWeightFast}}</div>
 <div class="reference">{{this.reference}}</div>
 {{#if this.open}}
 	{{#each this.children}}

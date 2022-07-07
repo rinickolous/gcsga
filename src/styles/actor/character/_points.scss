@@ -9,6 +9,10 @@
 	border: var(--standard-border);
 	.field {
 		text-align: right;
+		padding: var(--padding-standard);
+		.input {
+			min-width: 2em;
+		}
 	}
 	.fieldblock {
 		.field:nth-child(4n-1),

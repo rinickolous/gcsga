@@ -77,7 +77,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		if (!points) points = this.points ?? 0;
 		let relative_level = baseRelativeLevel(this.difficulty);
 		let level = this.actor.resolveAttributeCurrent(this.attribute);
-		if (level != Math.max()) {
+		if (level != -Infinity) {
 			if (this.difficulty == "w") {
 				points /= 3;
 			} else if (def && def.points > 0) {
@@ -93,11 +93,11 @@ export class SkillGURPS extends BaseItemGURPS {
 			} else if (this.difficulty != "w" && !!def && def.points < 0) {
 				relative_level = def.adjustedLevel - level;
 			} else {
-				level = Math.max();
+				level = -Infinity;
 				relative_level = 0;
 			}
 		}
-		if (level != Math.max()) {
+		if (level != -Infinity) {
 			level += relative_level;
 			if (this.difficulty != "w" && !!def && level < def.adjustedLevel) {
 				level = def.adjustedLevel;
@@ -158,6 +158,16 @@ export class SkillGURPS extends BaseItemGURPS {
 		const saved = this.level;
 		this.defaultedFrom = this.bestDefaultWithPoints(null);
 		this.level = this.calculateLevel;
+		if (this.defaultedFrom) {
+			const def = this.defaultedFrom;
+			const previous = this.level;
+			this.defaultedFrom = undefined;
+			this.level = this.calculateLevel;
+			if (this.level.level < previous.level) {
+				this.defaultedFrom = def;
+				this.level = previous;
+			}
+		}
 		return saved != this.level;
 	}
 
@@ -181,7 +191,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		const excludes = new Map();
 		excludes.set(this.name!, true);
 		let bestDef = new SkillDefault();
-		let best = Math.max();
+		let best = -Infinity;
 		for (const def of this.defaults) {
 			if (this.equivalent(def, excluded) || this.inDefaultChain(this.actor, def, new Map())) continue;
 			let level = def.skillLevel(this.actor, true, excludes, this.type.startsWith("skill"));

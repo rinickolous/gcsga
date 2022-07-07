@@ -76,8 +76,10 @@ class CharacterGURPS extends BaseActorGURPS {
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
+		console.log(data);
 		data = this.updateAttributes(data);
 		data = this.checkImport(data);
+		data = this.unspentToTotal(data);
 		return super.update(data, context);
 	}
 
@@ -86,6 +88,18 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (i.includes("data.import")) return data;
 		}
 		data["data.modified_date"] = new Date().toISOString();
+		return data;
+	}
+
+	unspentToTotal(data?: any) {
+		for (const i in data) {
+			if (i.includes("data.import")) return data;
+		}
+		for (const i in data) {
+			if (i.includes("actor.unspentPoints")) {
+				data["data.total_points"] = data[i] + this.spentPoints;
+			}
+		}
 		return data;
 	}
 
@@ -140,7 +154,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		return this.totalPoints - this.spentPoints;
 	}
 	set unspentPoints(v: number) {
-		if (v != this.unspentPoints) this.totalPoints = v - this.spentPoints;
+		if (v != this.unspentPoints) this.totalPoints = v + this.spentPoints;
 	}
 
 	get attributePoints(): number {
@@ -204,7 +218,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	dodge(enc: Encumbrance): number {
-		let dodge = 3 + this.calc?.dodge_bonus + Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
+		let dodge = 3 + (this.calc?.dodge_bonus ?? 0) + Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
 		const divisor = 2 * Math.min(this.countThresholdOpMet("halve_dodge", this.attributes), 2);
 		if (divisor > 0) {
 			dodge = Math.ceil(dodge / divisor);
@@ -243,7 +257,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get basicLift(): number {
-		return (this.resolveAttributeCurrent(gid.Strength) + this.calc?.lifting_st_bonus) ** 2 / 5;
+		return (this.resolveAttributeCurrent(gid.Strength) + (this.calc?.lifting_st_bonus ?? 0)) ** 2 / 5;
 	}
 
 	encumbranceLevel(for_skills = true): Encumbrance {
@@ -755,7 +769,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	resolveAttributeDef(attr_id: string): AttributeDef | null {
-		const a = this.attributes.get(attr_id);
+		const a = this.attributes?.get(attr_id);
 		if (a) return a.attribute_def;
 		return null;
 	}
@@ -791,7 +805,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			}
 		}
 		this.variableResolverExclusions = new Map();
-		return attr?.current.toString();
+		return attr?.max.toString();
 	}
 
 	// Import from GCS
@@ -860,7 +874,12 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 }
 
-export function processFeature(parent: any, m: Map<string, Feature[]>, f: Feature, levels: number): void {
+export async function processFeature(
+	parent: any,
+	m: Map<string, Feature[]>,
+	f: Feature,
+	levels: number,
+): Promise<void> {
 	const key = f.type;
 	const list = m.get(key) ?? [];
 	// f.setParent(parent);

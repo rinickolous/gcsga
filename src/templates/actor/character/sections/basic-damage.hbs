@@ -3,7 +3,7 @@
 	<div class="header">{{localize "gcsga.character.basic_damage"}}</div>
 	<div class="fieldblock3">
 		{{!-- TODO change to longest point value for primary_attributes --}}
-		<div class="points" readonly>[{{primary_attributes.0.points}}]</div>
+		<div class="points" style="min-width: calc(2ch + {{length primary_attributes.0.points primary_attributes.1.points primary_attributes.2.points primary_attributes.3.points }}ch)" readonly></div>
 		{{>input-text after="gcsga.character.basic_thrust" field="field rollable" name="data.calc.thrust" data=data.calc.thrust class="disabled"}}
 		<div class="points" readonly></div>
 		{{>input-text after="gcsga.character.basic_swing" field="field rollable" name="data.calc.swing" data=data.calc.swing class="disabled"}}

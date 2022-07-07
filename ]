@@ -20,6 +20,8 @@ import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon, RangedWeapon } from "@module/weapon";
 import { dollarFormat } from "@util";
 
+
+
 export class CharacterSheetGURPS extends ActorSheetGURPS {
 	editing = true;
 
@@ -39,18 +41,15 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	override activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		html.find(".input").on("change", event => this._resizeInput(event));
+		html.find(".input").on("input", event => function(event: any) {
+			event.preventDefault();
+			const field = event.currentTarget;
+			field.style["min-width"] = field.value.length + "ch";
+		})
 		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
 		html.find(".reference").on("click", event => this._handlePDF(event));
 		html.find(".item").on("dblclick", event => this._openItemSheet(event));
 		html.find(".equipped").on("click", event => this._onEquippedToggle(event));
-	}
-
-	protected _resizeInput(event: JQuery.ChangeEvent) {
-		event.preventDefault();
-		console.log("check");
-		const field = event.currentTarget;
-		$(field).css("min-width", field.value.length + "ch");
 	}
 
 	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
@@ -126,7 +125,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const encumbrance = [...this.actor.allEncumbrance];
 		encumbrance.forEach(e => {
 			if (e.level == this.actor.encumbranceLevel().level) (e as any).active = true;
-		});
+		})
 		return encumbrance;
 	}
 

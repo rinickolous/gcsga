@@ -134,5 +134,6 @@ export const Difficulty = {
 	Easy: "e",
 	Average: "a",
 	Hard: "h",
+	VeryHard: "vh",
 	Wildcard: "w",
 };

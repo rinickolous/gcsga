@@ -143,6 +143,14 @@ export function registerHandlebarsHelpers() {
 		return date.toLocaleString("en-US", options);
 	});
 
+	Handlebars.registerHelper("length", function (...args: any[]): number {
+		let length = 0;
+		for (const a of args) {
+			if ((typeof a == "number" || typeof a == "string") && `${a}`.length > length) length = `${a}`.length;
+		}
+		return length;
+	});
+
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
 	// 	console.warn(list);
 	// 	if (list.includes(item)) return "selected";

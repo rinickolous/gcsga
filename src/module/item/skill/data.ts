@@ -54,6 +54,7 @@ export function baseRelativeLevel(d: string): number {
 			return -1;
 		case Difficulty.Hard:
 			return -2;
+		case Difficulty.VeryHard:
 		case Difficulty.Wildcard:
 			return -3;
 		default:

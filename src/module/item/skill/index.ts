@@ -1,5 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { Feature } from "@feature";
+import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS } from "@item/base";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
@@ -52,8 +53,12 @@ export class SkillGURPS extends BaseItemGURPS {
 		return defs;
 	}
 
-	get features(): Feature[] {
-		return this.data.data.features;
+	get features() {
+		const features: Feature[] = [];
+		for (const f of this.data.data.features ?? []) {
+			features.push(new BaseFeature(f));
+		}
+		return features;
 	}
 
 	get prereqs(): PrereqList {
@@ -70,7 +75,7 @@ export class SkillGURPS extends BaseItemGURPS {
 
 	// Point & Level Manipulation
 	get calculateLevel(): SkillLevel {
-		if (!this.actor) return { level: Math.max(), relative_level: 0, tooltip: "" };
+		if (!this.actor) return { level: -Infinity, relative_level: 0, tooltip: "" };
 		const tooltip = new TooltipGURPS();
 		let points = this.adjustedPoints(tooltip);
 		const def = this.defaultedFrom;
@@ -78,7 +83,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		let relative_level = baseRelativeLevel(this.difficulty);
 		let level = this.actor.resolveAttributeCurrent(this.attribute);
 		if (level != -Infinity) {
-			if (this.difficulty == "w") {
+			if (this.difficulty == Difficulty.Wildcard) {
 				points /= 3;
 			} else if (def && def.points > 0) {
 				points += def.points;

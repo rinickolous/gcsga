@@ -1,3 +1,5 @@
+import { Feature } from "@feature";
+import { BaseFeature } from "@feature/base";
 import { ContainedWeightReduction } from "@feature/contained_weight_reduction";
 import { ContainerGURPS } from "@item/container";
 import { EquipmentGURPS, processMultiplyAddWeightStep, valueAdjustedForModifiers } from "@item/equipment";
@@ -32,7 +34,11 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get features() {
-		return this.data.data.features;
+		const features: Feature[] = [];
+		for (const f of this.data.data.features ?? []) {
+			features.push(new BaseFeature(f));
+		}
+		return features;
 	}
 
 	get prereqs() {

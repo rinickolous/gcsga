@@ -1,3 +1,5 @@
+import { Feature } from "@feature";
+import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS } from "@item/base";
 import { SkillLevel } from "@item/skill/data";
 import { gid } from "@module/data";
@@ -47,8 +49,15 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return new SkillDefault(this.data.data.default);
 	}
 
+	// get features() {
+	// 	return this.data.data.features;
+	// }
 	get features() {
-		return this.data.data.features;
+		const features: Feature[] = [];
+		for (const f of this.data.data.features ?? []) {
+			features.push(new BaseFeature(f));
+		}
+		return features;
 	}
 
 	get prereqs() {

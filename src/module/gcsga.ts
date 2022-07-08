@@ -37,6 +37,7 @@ import { BaseActorGURPS } from "@actor/base";
 import { BaseItemGURPS } from "@item";
 import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
+import { ActorGURPS } from "@actor";
 
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
@@ -105,6 +106,11 @@ Hooks.once("ready", async () => {
 	});
 	DRAG_IMAGE.id = "drag-ghost";
 	document.body.appendChild(DRAG_IMAGE);
+	await Promise.all(
+		(game as Game).actors!.map(async actor => {
+			actor.prepareData();
+		}),
+	);
 });
 
 // Add any additional hooks if necessary

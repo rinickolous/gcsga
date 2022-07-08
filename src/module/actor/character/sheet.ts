@@ -48,7 +48,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected _resizeInput(event: JQuery.ChangeEvent) {
 		event.preventDefault();
-		console.log("check");
 		const field = event.currentTarget;
 		$(field).css("min-width", field.value.length + "ch");
 	}
@@ -71,7 +70,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		const id = $(event.currentTarget).data("item-id");
 		const item = this.actor.deepItems.get(id);
-		console.log("check", id, item, item?.sheet);
 		item?.sheet?.render(true);
 	}
 

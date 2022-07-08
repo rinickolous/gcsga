@@ -117,7 +117,7 @@ export const gid = {
 	Will: "will",
 };
 
-export const attrPrefix = "$";
+export const attrPrefix = "attr.";
 
 export type CR = -1 | 0 | 6 | 9 | 12 | 15;
 

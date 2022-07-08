@@ -58,6 +58,9 @@ export function stringCompare(value?: string | string[] | null, base?: StringCom
 	if (!base) return true;
 	if (!value) return false;
 	if (typeof value == "string") value = [value];
+	value = value.map(e => {
+		return e.toLowerCase();
+	});
 	switch (base.compare) {
 		case "none":
 			return true;

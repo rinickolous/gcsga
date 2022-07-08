@@ -6,6 +6,7 @@ import { CostReduction } from "@feature/cost_reduction";
 import { SkillBonus } from "@feature/skill_bonus";
 import { SkillPointBonus } from "@feature/skill_point_bonus";
 import { SpellBonus } from "@feature/spell_bonus";
+import { WeaponBonus } from "@feature/weapon_damage_bonus";
 import {
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
@@ -36,11 +37,13 @@ import { CharacterDataGURPS, CharacterSource, CharacterSystemData, Encumbrance }
 class CharacterGURPS extends BaseActorGURPS {
 	attributes: Map<string, Attribute> = new Map();
 	variableResolverExclusions: Map<string, boolean> = new Map();
-	featureMap: Map<string, Feature[]> = new Map();
+	// featureMap: Map<string, Feature[]> = new Map();
+	featureMap: Map<string, Feature[]>;
 
 	constructor(data: CharacterSource, context: ActorConstructorContextGURPS = {}) {
 		super(data, context);
 		if (this.data.data.attributes) this.attributes = this.getAttributes();
+		this.featureMap = new Map();
 	}
 
 	protected _onCreate(data: any, options: DocumentModificationOptions, userId: string): void {
@@ -257,7 +260,9 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get basicLift(): number {
-		return (this.resolveAttributeCurrent(gid.Strength) + (this.calc?.lifting_st_bonus ?? 0)) ** 2 / 5;
+		const basicLift = (this.resolveAttributeCurrent(gid.Strength) + (this.calc?.lifting_st_bonus ?? 0)) ** 2 / 5;
+		if (basicLift >= 10) return Math.round(basicLift);
+		return basicLift;
 	}
 
 	encumbranceLevel(for_skills = true): Encumbrance {
@@ -459,45 +464,46 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	processFeatures() {
-		const featureMap: Map<string, Feature[]> = new Map();
+		// const featureMap: Map<string, Feature[]> = new Map();
+		this.featureMap = new Map();
 		for (const t of this.traits) {
 			if (t instanceof TraitGURPS) {
 				if (t.features)
 					for (const f of t.features) {
-						processFeature(t, featureMap, f, Math.max(t.levels, 0));
+						processFeature(t, this.featureMap, f, Math.max(t.levels, 0));
 					}
 			}
 			if (CR_Features.has(t.crAdj))
 				for (const f of CR_Features?.get(t.crAdj)) {
-					processFeature(t, featureMap, f, Math.max(t.levels, 0));
+					processFeature(t, this.featureMap, f, Math.max(t.levels, 0));
 				}
 			for (const m of t.modifiers) {
 				for (const f of m.features) {
-					processFeature(t, featureMap, f, m.levels);
+					processFeature(t, this.featureMap, f, m.levels);
 				}
 			}
 		}
 		for (const s of this.skills) {
 			if (!(s instanceof SkillContainerGURPS))
 				for (const f of s.features) {
-					processFeature(s, featureMap, f, 0);
+					processFeature(s, this.featureMap, f, 0);
 				}
 		}
 		for (const e of this.equipment) {
 			for (const f of e.features) {
-				processFeature(e, featureMap, f, 0);
+				processFeature(e, this.featureMap, f, 0);
 			}
 			for (const m of e.modifiers) {
 				for (const f of m.features) {
-					processFeature(e, featureMap, f, 0);
+					processFeature(e, this.featureMap, f, 0);
 				}
 			}
 		}
-		this.featureMap = featureMap;
+		// this.featureMap = featureMap;
 		if (this.calc) this.lifting_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.lifting_only`, null);
 		if (this.calc) this.striking_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.striking_only`, null);
 		if (this.calc) this.throwing_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.throwing_only`, null);
-		if (this.attributes) {
+		if (this.attributes)
 			this.attributes.forEach(attr => {
 				const def = attr.attribute_def;
 				if (def) {
@@ -510,7 +516,6 @@ class CharacterGURPS extends BaseActorGURPS {
 					this.data.data.attributes[attr.attr_id].cost_reduction = 0;
 				}
 			});
-		}
 		this.attributes = this.getAttributes();
 		this.updateProfile();
 		if (this.calc) this.calc.dodge_bonus = this.bonusFor(`${attrPrefix}${gid.Dodge}`, null);
@@ -629,7 +634,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	bonusFor(featureID: string, tooltip: TooltipGURPS | null): number {
 		let total = 0;
 		this.featureMap?.get(featureID.toLowerCase())?.forEach(feature => {
-			if (feature.type == featureID) {
+			if (!(feature instanceof WeaponBonus)) {
 				total += feature.adjustedAmount;
 				feature.addToTooltip(tooltip);
 			}
@@ -874,13 +879,9 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 }
 
-export async function processFeature(
-	parent: any,
-	m: Map<string, Feature[]>,
-	f: Feature,
-	levels: number,
-): Promise<void> {
-	const key = f.type;
+export function processFeature(parent: any, m: Map<string, Feature[]>, f: Feature, levels: number): void {
+	// const key = f.type;
+	const key = f.featureMapKey.toLowerCase();
 	const list = m.get(key) ?? [];
 	// f.setParent(parent);
 	// f.setLevel(levels);

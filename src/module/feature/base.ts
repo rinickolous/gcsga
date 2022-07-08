@@ -27,9 +27,9 @@ export class BaseFeature {
 	per_level = false;
 	levels = 0;
 
-	constructor(data: Feature | any, context: FeatureConstructionContext) {
+	constructor(data: Feature | any, context: FeatureConstructionContext = {}) {
 		this.type = data.type; // needed?
-		if (context.ready) {
+		if (context?.ready) {
 			Object.assign(this, data);
 		} else {
 			mergeObject(context, { ready: true });
@@ -48,6 +48,10 @@ export class BaseFeature {
 
 	get adjustedAmount(): number {
 		return this.amount * (this.per_level ? this.levels || 0 : 1);
+	}
+
+	get featureMapKey(): string {
+		return "null";
 	}
 
 	addToTooltip(buffer: TooltipGURPS | null): void {

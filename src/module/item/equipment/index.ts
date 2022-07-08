@@ -1,3 +1,5 @@
+import { Feature } from "@feature";
+import { BaseFeature } from "@feature/base";
 import { ContainerGURPS } from "@item/container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
@@ -31,7 +33,11 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	get features() {
-		return this.data.data.features;
+		const features: Feature[] = [];
+		for (const f of this.data.data.features ?? []) {
+			features.push(new BaseFeature(f));
+		}
+		return features;
 	}
 
 	get prereqs() {

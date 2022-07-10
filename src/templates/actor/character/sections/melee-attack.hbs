@@ -1,12 +1,14 @@
 <div class="entry-parent" readonly></div>
 <div class="desc">
-	{{this.name}}
+	<div class="name">
+		{{this.name}}
+	</div>
 	{{>item-notes}}
 </div>
 <div class="usage">{{this.usage}}</div>
 <div class="level">{{this.level}}</div>
-<div class="parry">{{this.parry}}</div>
-<div class="block">{{this.block}}</div>
-<div class="damage">{{this.damage}}</div>
+<div class="parry">{{this.fastResolvedParry}}</div>
+<div class="block">{{this.fastResolvedBlock}}</div>
+<div class="damage">{{this.fastResolvedDamage}}</div>
 <div class="reach">{{this.reach}}</div>
 <div class="st">{{this.st}}</div>

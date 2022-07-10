@@ -7,6 +7,7 @@ import { i18n, i18n_f } from "@util";
 import { TraitData } from "./data";
 import { Feature } from "@module/feature";
 import { BaseFeature } from "@feature/base";
+import { BaseWeapon, Weapon } from "@module/weapon";
 
 export class TraitGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
@@ -24,6 +25,10 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 	set enabled(enabled: boolean) {
 		this.data.data.disabled = !enabled;
+	}
+
+	get isLeveled(): boolean {
+		return this.pointsPerLevel != 0;
 	}
 
 	get levels(): number {
@@ -52,6 +57,14 @@ export class TraitGURPS extends ContainerGURPS {
 			features.push(new BaseFeature(f));
 		}
 		return features;
+	}
+
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
 	}
 
 	get prereqs() {

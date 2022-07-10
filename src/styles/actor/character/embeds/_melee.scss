@@ -1,0 +1,39 @@
+#melee {
+	grid-area: melee;
+	grid-template-columns: min-content 1fr repeat(7, auto);
+	.header {
+		grid-area: auto;
+	}
+
+	.entry-parent:nth-child(18n + 1),
+	.desc:nth-child(18n + 2),
+	.usage:nth-child(18n + 3),
+	.level:nth-child(18n + 4),
+	.parry:nth-child(18n + 5),
+	.block:nth-child(18n + 6),
+	.damage:nth-child(18n + 7),
+	.reach:nth-child(18n + 8),
+	.st:nth-child(18n + 9) {
+		&:not(.header) {
+			background-color: rgb(var(--color-banding));
+			color: rgb(var(--color-on-banding));
+		}
+	}
+}
+
+.desc,
+.usage,
+.level,
+.parry,
+.block,
+.damage,
+.reach,
+.st {
+	border-bottom: 1px solid rgb(var(--color-header));
+	&:not(.st) {
+		border-right: 1px solid rgb(var(--color-header));
+	}
+	&:nth-last-child(-n + 9) {
+		border-bottom: none;
+	}
+}

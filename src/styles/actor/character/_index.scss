@@ -69,8 +69,8 @@
 	.field {
 		font: var(--font-page-primary-fields);
 		&.rollable:hover {
-			background-color: rgba(var(--color-link), 1);
-			color: rgba(var(--color-on-link), 1);
+			background-color: rgba(var(--color-link), 1) !important;
+			color: rgba(var(--color-on-link), 1) !important;
 			cursor: pointer;
 			input.input:disabled {
 				color: inherit;

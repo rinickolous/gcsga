@@ -3,6 +3,7 @@ import { SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { RitualMagicSpellData } from "./data";
@@ -44,6 +45,14 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		return this.data.data.base_skill;
 	}
 
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
+	}
+
 	get prereqs() {
 		return new PrereqList(this.data.data.prereqs);
 	}
@@ -56,7 +65,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		return this.data.data.prereq_count;
 	}
 
-	adjustedPoints(tooltip: TooltipGURPS | null): number {
+	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);
@@ -164,7 +173,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	calculateLevelAsTechnique(def: SkillDefault, college: string, limit: number): SkillLevel {
 		const tooltip = new TooltipGURPS();
 		let relative_level = 0;
-		let points = this.adjustedPoints(null);
+		let points = this.adjustedPoints();
 		let level = Math.max();
 		if (this.actor) {
 			if (def?.type == gid.Skill) {

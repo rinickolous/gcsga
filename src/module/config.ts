@@ -33,6 +33,7 @@ import { PrereqList } from "@prereq/prereq_list";
 import { SkillPrereq } from "@prereq/skill_prereq";
 import { SpellPrereq } from "@prereq/spell_prereq";
 import { TraitPrereq } from "@prereq/trait_prereq";
+import { MeleeWeapon, RangedWeapon } from "./weapon";
 
 // const GURPSCONFIG: any = CONFIG;
 const GURPSCONFIG: any = {
@@ -83,6 +84,12 @@ const GURPSCONFIG: any = {
 			contained_weight_prereq: ContainedWeightPrereq,
 			skill_prereq: SkillPrereq,
 			spell_prereq: SpellPrereq,
+		},
+	},
+	Weapon: {
+		classes: {
+			melee_weapon: MeleeWeapon,
+			ranged_weapon: RangedWeapon,
 		},
 	},
 };

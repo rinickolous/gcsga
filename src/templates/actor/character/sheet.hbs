@@ -50,19 +50,38 @@
 					{{/each}}
 				</div>
 			{{/if}}
-			{{#if melee_attacks.length}}
-			<div id="melee-attacks">
+			{{#if melee.length}}
+			<div id="melee">
 				<div class="header entry-parent" readonly></div>
-				<div class="header desc">{{localize "gcsga.character.melee_attacks.desc"}}</div>
-				<div class="header usage">{{localize "gcsga.character.melee_attacks.usage"}}</div>
-				<div class="header level">{{localize "gcsga.character.melee_attacks.level"}}</div>
-				<div class="header parry">{{localize "gcsga.character.melee_attacks.parry"}}</div>
-				<div class="header block">{{localize "gcsga.character.melee_attacks.block"}}</div>
-				<div class="header damage">{{localize "gcsga.character.melee_attacks.damage"}}</div>
-				<div class="header reach">{{localize "gcsga.character.melee_attacks.reach"}}</div>
-				<div class="header st">{{localize "gcsga.character.melee_attacks.st"}}</div>
-				{{#each melee_attacks}}
+				<div class="header desc">{{localize "gcsga.character.melee.desc"}}</div>
+				<div class="header usage">{{localize "gcsga.character.melee.usage"}}</div>
+				<div class="header level">{{localize "gcsga.character.melee.level"}}</div>
+				<div class="header parry">{{localize "gcsga.character.melee.parry"}}</div>
+				<div class="header block">{{localize "gcsga.character.melee.block"}}</div>
+				<div class="header damage">{{localize "gcsga.character.melee.damage"}}</div>
+				<div class="header reach">{{localize "gcsga.character.melee.reach"}}</div>
+				<div class="header st">{{localize "gcsga.character.melee.st"}}</div>
+				{{#each melee}}
 					{{>melee-attack}}
+				{{/each}}
+			</div>
+			{{/if}}
+			{{#if ranged.length}}
+			<div id="ranged">
+				<div class="header entry-parent" readonly></div>
+				<div class="header desc">{{localize "gcsga.character.ranged.desc"}}</div>
+				<div class="header usage">{{localize "gcsga.character.ranged.usage"}}</div>
+				<div class="header level">{{localize "gcsga.character.ranged.level"}}</div>
+				<div class="header accuracy">{{localize "gcsga.character.ranged.accuracy"}}</div>
+				<div class="header damage">{{localize "gcsga.character.ranged.damage"}}</div>
+				<div class="header range">{{localize "gcsga.character.ranged.range"}}</div>
+				<div class="header rate-of-fire">{{localize "gcsga.character.ranged.rate_of_fire"}}</div>
+				<div class="header shots">{{localize "gcsga.character.ranged.shots"}}</div>
+				<div class="header bulk">{{localize "gcsga.character.ranged.bulk"}}</div>
+				<div class="header recoil">{{localize "gcsga.character.ranged.recoil"}}</div>
+				<div class="header st">{{localize "gcsga.character.ranged.st"}}</div>
+				{{#each ranged}}
+					{{>ranged-attack}}
 				{{/each}}
 			</div>
 			{{/if}}

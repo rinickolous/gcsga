@@ -54,7 +54,7 @@ export class BaseFeature {
 		return "null";
 	}
 
-	addToTooltip(buffer: TooltipGURPS | null): void {
+	addToTooltip(buffer?: TooltipGURPS): void {
 		if (buffer) {
 			buffer.push("\n");
 			buffer.push(this.parent);
@@ -73,6 +73,6 @@ export interface BaseFeature {
 	type: FeatureType;
 	item?: string;
 	amount: number;
-	per_leveL: boolean;
+	per_level: boolean;
 	levels: number;
 }

@@ -3,6 +3,7 @@ import { NumberCompare, StringCompare } from "@module/data";
 
 export class WeaponBonus extends BaseFeature {
 	type: FeatureType = "weapon_bonus";
+	percent = false;
 
 	get featureMapKey(): string {
 		switch (this.selection_type) {
@@ -31,6 +32,7 @@ export interface WeaponBonus extends BaseFeature {
 	specialization?: StringCompare;
 	tags?: StringCompare;
 	level?: NumberCompare;
+	percent: boolean;
 }
 
 export type WeaponBonusSelectionType = "weapons_with_required_skill" | "weapons_with_name" | "this_weapon";

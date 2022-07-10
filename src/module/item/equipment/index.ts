@@ -4,6 +4,7 @@ import { ContainerGURPS } from "@item/container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
 import { WeightUnits } from "@module/data";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentData } from "./data";
@@ -38,6 +39,14 @@ export class EquipmentGURPS extends ContainerGURPS {
 			features.push(new BaseFeature(f));
 		}
 		return features;
+	}
+
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
 	}
 
 	get prereqs() {

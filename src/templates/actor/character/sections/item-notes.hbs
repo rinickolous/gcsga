@@ -8,7 +8,7 @@
 		{{/each}}
 	{{/if}}
 	{{this.notes}}
-	{{#if (or (eq this.type "spell") (or this.type "ritual_magic_spell"))}}
+	{{#if (or (eq this.type "spell") (eq this.type "ritual_magic_spell"))}}
 		{{#if (and this.notes (spellValues this))}}<br>{{/if}}
 		{{{spellValues this}}}
 	{{/if}}

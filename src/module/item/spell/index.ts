@@ -2,6 +2,7 @@ import { BaseItemGURPS } from "@item/base";
 import { baseRelativeLevel, SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { SpellData } from "./data";
@@ -42,6 +43,14 @@ export class SpellGURPS extends BaseItemGURPS {
 		return new PrereqList(this.data.data.prereqs);
 	}
 
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
+	}
+
 	get prereqsEmpty(): boolean {
 		return this.prereqs.prereqs.length == 0;
 	}
@@ -50,7 +59,7 @@ export class SpellGURPS extends BaseItemGURPS {
 		return null;
 	}
 
-	adjustedPoints(tooltip: TooltipGURPS | null): number {
+	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);

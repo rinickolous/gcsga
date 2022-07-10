@@ -77,7 +77,7 @@
 				"modifier": "±",
 				"reaction": "Condition"
 			},
-			"melee_attacks": {
+			"melee": {
 				"desc": "Melee Weapon",
 				"usage": "Usage",
 				"level": "SL",
@@ -87,7 +87,7 @@
 				"reach": "Reach",
 				"st": "ST"
 			},
-			"ranged_attacks": {
+			"ranged": {
 				"desc": "Ranged Weapon",
 				"usage": "Usage",
 				"level": "SL",
@@ -152,6 +152,7 @@
 		"equipment": {},
 		"equipment_modifier": {},
 		"equipment_container": {},
+		"tooltip": {},
 		"settings": {
 			"basic_set_pdfs": {
 				"name": "Basic Set PDFs",

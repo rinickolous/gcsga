@@ -5,6 +5,7 @@ import { SkillLevel } from "@item/skill/data";
 import { gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { TechniqueData } from "./data";
@@ -49,15 +50,20 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return new SkillDefault(this.data.data.default);
 	}
 
-	// get features() {
-	// 	return this.data.data.features;
-	// }
 	get features() {
 		const features: Feature[] = [];
 		for (const f of this.data.data.features ?? []) {
 			features.push(new BaseFeature(f));
 		}
 		return features;
+	}
+
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
 	}
 
 	get prereqs() {
@@ -68,7 +74,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return this.prereqs.prereqs.length == 0;
 	}
 
-	adjustedPoints(tooltip: TooltipGURPS | null): number {
+	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.skillPointComparedBonusFor("skill.points", this.name!, "", this.tags, tooltip);
@@ -122,7 +128,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	get calculateLevel(): SkillLevel {
 		const tooltip = new TooltipGURPS();
 		let relative_level = 0;
-		let points = this.adjustedPoints(null);
+		let points = this.adjustedPoints();
 		let level = -Infinity;
 		if (this.actor) {
 			if (this.default?.type == gid.Skill) {

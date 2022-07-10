@@ -153,8 +153,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			[[], [], [], [], [], []],
 		);
 
-		const melee: MeleeWeapon[] = [];
-		const ranged: RangedWeapon[] = [];
+		const melee: MeleeWeapon[] = this.actor.meleeWeapons;
+		const ranged: RangedWeapon[] = this.actor.rangedWeapons;
 		const reactions: any[] = [];
 		const conditional_modifiers: any[] = [];
 

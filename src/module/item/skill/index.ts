@@ -5,6 +5,7 @@ import { BaseItemGURPS } from "@item/base";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 import { signed } from "@util";
 import { baseRelativeLevel, SkillData, SkillLevel } from "./data";
@@ -59,6 +60,14 @@ export class SkillGURPS extends BaseItemGURPS {
 			features.push(new BaseFeature(f));
 		}
 		return features;
+	}
+
+	get weapons(): Weapon[] {
+		const weapons: Weapon[] = [];
+		for (const w of this.data.data.weapons ?? []) {
+			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
+		}
+		return weapons;
 	}
 
 	get prereqs(): PrereqList {
@@ -130,7 +139,7 @@ export class SkillGURPS extends BaseItemGURPS {
 		};
 	}
 
-	adjustedPoints(tooltip: TooltipGURPS | null): number {
+	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.skillPointComparedBonusFor(
@@ -208,9 +217,9 @@ export class SkillGURPS extends BaseItemGURPS {
 						def.name ?? "",
 						def.specialization ?? "",
 						this.tags,
-						null,
+						undefined,
 					);
-					level -= this.actor.bonusFor(`skill.name/${def.name?.toLowerCase()}`, null);
+					level -= this.actor.bonusFor(`skill.name/${def.name?.toLowerCase()}`, undefined);
 				}
 			}
 			if (best < level) {

@@ -2,6 +2,8 @@ import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/fou
 import { ItemDataGURPS, ItemType } from "@item/data";
 import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
+import { Weapon } from "@module/weapon";
+import { Feature } from "@feature";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -42,6 +44,14 @@ class BaseItemGURPS extends Item {
 
 	get reference(): string {
 		return this.data.data.reference;
+	}
+
+	get features(): Feature[] {
+		return [];
+	}
+
+	get weapons(): Weapon[] {
+		return [];
 	}
 
 	get parentCount(): number {

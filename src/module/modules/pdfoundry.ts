@@ -68,7 +68,7 @@ export function openPDF(pdfs: string) {
 			page = parseInt(link.substring(colonIndex + 1));
 		} else {
 			book = link.replaceAll(/\d/g, "").trim();
-			page = parseInt(link); // link.replaceAll(/\D/g, "");
+			page = parseInt(link.replaceAll(/\D/g, ""));
 		}
 
 		if (book === "B") {
@@ -86,6 +86,6 @@ export function openPDF(pdfs: string) {
 			let url = (SJG_links as any)[book];
 			if (!url) url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
 			window.open(url, "_blank");
-		} else (ui as any).PDFoundry?.openPDF(pdf, { page });
+		} else (ui as any).PDFoundry?.openPDF(pdf, { page: page });
 	});
 }

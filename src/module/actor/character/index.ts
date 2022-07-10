@@ -270,6 +270,38 @@ class CharacterGURPS extends BaseActorGURPS {
 		return basicLift;
 	}
 
+	get oneHandedLift(): number {
+		return this.basicLift * 2;
+	}
+
+	get twoHandedLift(): number {
+		return this.basicLift * 8;
+	}
+
+	get shove(): number {
+		return this.basicLift * 12;
+	}
+
+	get runningShove(): number {
+		return this.basicLift * 24;
+	}
+
+	get carryOnBack(): number {
+		return this.basicLift * 15;
+	}
+
+	get shiftSlightly(): number {
+		return this.basicLift * 50;
+	}
+
+	get fastWealthCarried(): string {
+		return `$${this.wealthCarried()}`;
+	}
+
+	get fastWeightCarried(): string {
+		return `${this.weightCarried(false)} ${this.settings.default_weight_units}`;
+	}
+
 	encumbranceLevel(for_skills = true): Encumbrance {
 		const carried = this.weightCarried(for_skills);
 		for (const e of this.allEncumbrance) {
@@ -461,7 +493,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			for (const w of sp.weapons) if (w.type == type) weaponList.push(w);
 		});
 		this.carried_equipment.forEach(e => {
-			for (const w of e.weapons) if (w.type == type) weaponList.push(w);
+			if (e.equipped) for (const w of e.weapons) if (w.type == type) weaponList.push(w);
 		});
 		weaponList.sort((a, b) => (a.usage > b.usage ? 1 : b.usage > a.usage ? -1 : 0));
 		return weaponList;

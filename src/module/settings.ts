@@ -7,6 +7,20 @@ export const SYSTEM_NAME = "gcsga";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
+	(game as Game).settings.register(SYSTEM_NAME, "basic_set_pdf", {
+		name: i18n("gcsga.settings.basic_set_pdfs.name"),
+		hint: i18n("gcsga.settings.basic_set_pdfs.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		choices: {
+			combined: i18n("gcsga.settings.basic_set_pdfs.choices.combined"),
+			separate: i18n("gcsga.settings.basic_set_pdfs.choices.separate"),
+		},
+		default: "combined",
+		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
+	});
+
 	(game as Game).settings.register(SYSTEM_NAME, "portrait_path", {
 		name: i18n("gcsga.settings.portrait_path.name"),
 		hint: i18n("gcsga.settings.portrait_path.hint"),

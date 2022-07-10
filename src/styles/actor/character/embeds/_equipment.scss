@@ -12,10 +12,10 @@
 	.uses:nth-child(24n + 5),
 	.tech-level:nth-child(24n + 6),
 	.legality-class:nth-child(24n + 7),
-	.weight:nth-child(24n + 8),
-	.value:nth-child(24n + 9),
-	.extended-weight:nth-child(24n + 10),
-	.extended-value:nth-child(24n + 11),
+	.value:nth-child(24n + 8),
+	.weight:nth-child(24n + 9),
+	.extended-value:nth-child(24n + 10),
+	.extended-weight:nth-child(24n + 11),
 	.reference:nth-child(24n + 12) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);

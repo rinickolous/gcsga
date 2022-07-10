@@ -51,6 +51,9 @@
 		white-space: nowrap;
 		background-color: rgba(var(--color-content), 1);
 		color: rgba(var(--color-on-content), 1);
+		> * {
+			padding: var(--padding-standard);
+		}
 	}
 
 	.fieldblock6 {
@@ -68,14 +71,15 @@
 
 	.field {
 		font: var(--font-page-primary-fields);
-		&.rollable:hover {
-			background-color: rgba(var(--color-link), 1) !important;
-			color: rgba(var(--color-on-link), 1) !important;
-			cursor: pointer;
-			input.input:disabled {
-				color: inherit;
-				cursor: inherit;
-			}
+	}
+
+	.rollable.hover {
+		background-color: rgba(var(--color-link), 1) !important;
+		color: rgba(var(--color-on-link), 1) !important;
+		cursor: pointer;
+		input.input:disabled {
+			color: inherit;
+			cursor: inherit;
 		}
 	}
 

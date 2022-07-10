@@ -19,21 +19,21 @@
 			color: rgb(var(--color-on-banding));
 		}
 	}
-}
 
-.desc,
-.usage,
-.level,
-.parry,
-.block,
-.damage,
-.reach,
-.st {
-	border-bottom: 1px solid rgb(var(--color-header));
-	&:not(.st) {
-		border-right: 1px solid rgb(var(--color-header));
-	}
-	&:nth-last-child(-n + 9) {
-		border-bottom: none;
+	.desc,
+	.usage,
+	.level,
+	.parry,
+	.block,
+	.damage,
+	.reach,
+	.st {
+		border-bottom: 1px solid rgb(var(--color-header));
+		&:not(.st) {
+			border-right: 1px solid rgb(var(--color-header));
+		}
+		&:nth-last-child(-n + 9) {
+			border-bottom: none;
+		}
 	}
 }

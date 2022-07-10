@@ -11,10 +11,10 @@
 	.uses:nth-child(22n + 4),
 	.tech-level:nth-child(22n + 5),
 	.legality-class:nth-child(22n + 6),
-	.weight:nth-child(22n + 7),
-	.value:nth-child(22n + 8),
-	.extended-weight:nth-child(22n + 9),
-	.extended-value:nth-child(22n + 10),
+	.value:nth-child(22n + 7),
+	.weight:nth-child(22n + 8),
+	.extended-value:nth-child(22n + 9),
+	.extended-weight:nth-child(22n + 10),
 	.reference:nth-child(22n + 11) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);

@@ -222,7 +222,6 @@ export class ActorImporter {
 				item,
 				context,
 			);
-			// console.log(item.name, itemData);
 			const newItem = new BaseItemGURPS({
 				name: item.name ?? "ERROR",
 				type: item.type,

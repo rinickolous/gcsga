@@ -43,8 +43,7 @@ export const GURPS: any = {};
 (window as any).GURPS = GURPS;
 GURPS.DEBUG = true;
 GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
-GURPS.BANNER = `
-   __   ____   ____  ____    ____     _     __  
+GURPS.BANNER = `   __   ____   ____  ____    ____     _     __  
   / /  / ___| / ___|/ ___|  / ___|   / \\    \\ \\ 
  / /  | |  _ | |    \\___ \\ | |  _   / _ \\    \\ \\
  \\ \\  | |_| || |___  ___) || |_| | / ___ \\   / /
@@ -53,8 +52,8 @@ GURPS.BANNER = `
 // Initialize system
 Hooks.once("init", async () => {
 	console.log(`${SYSTEM_NAME} | Initializing ${SYSTEM_NAME}`);
-	console.log(GURPS.BANNER);
-	console.log(GURPS.LEGAL);
+	console.log("%c" + GURPS.BANNER, "color:green");
+	console.log("%c" + GURPS.LEGAL, "color:yellow");
 
 	const src = `systems/${SYSTEM_NAME}/assets/gcsga.webp`;
 	$("#logo").attr("src", src);

@@ -44,7 +44,6 @@ class BaseWeapon {
 
 	// Getters
 	get name(): string {
-		console.log(this.parent);
 		return this.parent.name ?? "";
 	}
 

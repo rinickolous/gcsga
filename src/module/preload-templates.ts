@@ -46,7 +46,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 	const formattedPaths: string[] = [];
 	templatePaths.forEach(filename => {
 		filename = `systems/${SYSTEM_NAME}/templates/${filename}.hbs`;
-		console.log(filename);
+		// console.log(filename);
 		const match = filename.match(`.*/(.*).hbs`);
 		const name = match ? match[1] : "";
 		fetch(filename)

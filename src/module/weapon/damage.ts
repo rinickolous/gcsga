@@ -70,21 +70,15 @@ export class WeaponDamage {
 	}
 
 	resolvedDamage(tooltip?: TooltipGURPS): string {
-		// console.log("resolving damage", tooltip);
 		const parent = this.parent;
-		// console.log("parent:", parent);
 		if (!parent) return this.toString();
 		const actor = this.parent.actor;
-		// console.log("actor:", actor);
 		if (!actor) return this.toString();
 		const maxST = this.parent.resolvedMinimumStrength * 3;
 		let st = actor.strengthOrZero + actor.striking_st_bonus;
 		if (maxST > 0 && maxST < st) st = maxST;
-		// console.log("maxST:", maxST, "st:", st);
 		let base = new DiceGURPS({ sides: 6, multiplier: 1 });
-		// console.log("base:", base);
 		if (this.base) base = this.base;
-		// console.log("this.base:", this.base);
 		const t = this.parent.parent;
 		if (t instanceof TraitGURPS && t.isLeveled) {
 			multiplyDice(t.levels, base);
@@ -92,7 +86,6 @@ export class WeaponDamage {
 		let intST = Math.trunc(st);
 		switch (this.st) {
 			case "thr":
-				// console.log("thr");
 				base = addDice(base, actor.thrustFor(intST));
 				break;
 			case "thr_leveled":
@@ -108,7 +101,6 @@ export class WeaponDamage {
 				if (t instanceof TraitGURPS && t.isLeveled) multiplyDice(Math.trunc(t.levels), swing);
 				base = addDice(base, swing);
 		}
-		// console.log("base:", base);
 		let bestDefault: SkillDefault | null = null;
 		let best = -Infinity;
 		for (const d of this.parent.defaults) {

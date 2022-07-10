@@ -124,7 +124,7 @@
 			},
 			"equipment": {
 				"quantity": "#",
-				"desc": "Carried Equipment ({weight; {value})",
+				"desc": "Carried Equipment ({weight}; {value})",
 				"uses": "Uses",
 				"tech_level": "TL",
 				"legality_class": "LC"

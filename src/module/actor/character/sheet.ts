@@ -26,7 +26,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	static override get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			width: 820,
+			width: 700,
 			height: 800,
 			classes: super.defaultOptions.classes.concat(["character"]),
 		});
@@ -44,6 +44,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".reference").on("click", event => this._handlePDF(event));
 		html.find(".item").on("dblclick", event => this._openItemSheet(event));
 		html.find(".equipped").on("click", event => this._onEquippedToggle(event));
+		html.find(".rollable").on("mouseover", event => this._onRollableHover(event, true));
+		html.find(".rollable").on("mouseout", event => this._onRollableHover(event, false));
 	}
 
 	protected _resizeInput(event: JQuery.ChangeEvent) {
@@ -80,14 +82,24 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return item?.update({ "data.equipped": !(item as EquipmentGURPS).equipped });
 	}
 
+	protected async _onRollableHover(event: JQuery.MouseOverEvent | JQuery.MouseOutEvent, hover: boolean) {
+		event.preventDefault();
+		if (this.editing) {
+			event.currentTarget.classList.remove("hover");
+			return;
+		}
+		if (hover) event.currentTarget.classList.add("hover");
+		else event.currentTarget.classList.remove("hover");
+	}
+
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {
 		const actorData = this.actor.toObject(false);
 		const items = deepClone(
 			this.actor.items.map(item => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
 		);
 		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
-		// const encumbrance = this.actor.allEncumbrance;
 		const encumbrance = this.prepareEncumbrance();
+		const lifts = this.prepareLifts();
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -99,6 +111,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				secondary_attributes: secondary_attributes,
 				point_pools: point_pools,
 				encumbrance: encumbrance,
+				lifting: lifts,
 				current_year: new Date().getFullYear(),
 			},
 		};
@@ -126,6 +139,19 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			if (e.level == this.actor.encumbranceLevel().level) (e as any).active = true;
 		});
 		return encumbrance;
+	}
+
+	prepareLifts() {
+		const lifts = {
+			basic_lift: `${this.actor.basicLift} ${this.actor.settings.default_weight_units}`,
+			one_handed_lift: `${this.actor.oneHandedLift} ${this.actor.settings.default_weight_units}`,
+			two_handed_lift: `${this.actor.twoHandedLift} ${this.actor.settings.default_weight_units}`,
+			shove: `${this.actor.shove} ${this.actor.settings.default_weight_units}`,
+			running_shove: `${this.actor.runningShove} ${this.actor.settings.default_weight_units}`,
+			carry_on_back: `${this.actor.carryOnBack} ${this.actor.settings.default_weight_units}`,
+			shift_slightly: `${this.actor.shiftSlightly} ${this.actor.settings.default_weight_units}`,
+		};
+		return lifts;
 	}
 
 	prepareItems(data: any) {

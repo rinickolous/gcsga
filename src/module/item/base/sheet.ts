@@ -7,8 +7,7 @@ export class ItemSheetGURPS extends ItemSheet {
 				document: this.item,
 				item: itemData,
 				data: itemData.data,
-				//@ts-ignore
-				config: CONFIG.GURPS,
+				config: (CONFIG as any).GURPS,
 			},
 		};
 

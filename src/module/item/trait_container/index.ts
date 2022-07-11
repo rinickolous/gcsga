@@ -71,24 +71,22 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<TraitGURPS | TraitContainerGURPS> {
-		//@ts-ignore
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
 				.map(item => {
 					return [item.data._id!, item];
 				}),
-		);
+		) as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
 	get modifiers(): Collection<TraitModifierGURPS> {
-		//@ts-ignore
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
 				.map(item => {
 					return [item.data._id!, item];
 				}),
-		);
+		) as Collection<TraitModifierGURPS>;
 	}
 
 	get adjustedPoints(): number {

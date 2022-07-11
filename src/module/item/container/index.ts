@@ -150,7 +150,6 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 	}
 }
 
-//@ts-ignore
 export interface ContainerGURPS extends BaseItemGURPS {
 	readonly data: BaseContainerData;
 	items: foundry.utils.Collection<ItemGURPS>;

@@ -17,9 +17,7 @@ export class ActorSheetGURPS extends ActorSheet {
 	protected override async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
 		if (!this.actor.isOwner) return false;
 
-		// TODO get rid of ts-ignore somehow
-		//@ts-ignore
-		const item = await BaseItemGURPS.implementation.fromDropData(data);
+		const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
 		const itemData = item.toObject();
 
 		//Handle item sorting within the same Actor
@@ -69,11 +67,10 @@ export class ActorSheetGURPS extends ActorSheet {
 		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
 	}
 
-	//@ts-ignore incorrect return type
 	protected override async _onSortItem(
 		event: DragEvent,
 		itemData: PropertiesToSource<ItemDataBaseProperties>,
-	): Promise<Item[]> | undefined {
+	): Promise<Item[]> {
 		const source = this.actor.deepItems.get(itemData._id!);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
 		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
@@ -81,7 +78,7 @@ export class ActorSheetGURPS extends ActorSheet {
 			i => i.data._id !== source!.data._id && source!.sameSection(i),
 		);
 
-		if (target && !source?.sameSection(target)) return;
+		if (target && !source?.sameSection(target)) return [];
 
 		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
 		const updateData = sortUpdates.map(u => {
@@ -92,7 +89,7 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		const parent = target!.parent;
 		if (source && target && source.parent != target.parent) {
-			if (source instanceof ContainerGURPS && target.parents.includes(source)) return;
+			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
 			await source!.parent!.deleteEmbeddedDocuments("Item", [source!.data._id!], { render: false });
 			return parent?.createEmbeddedDocuments(
 				"Item",

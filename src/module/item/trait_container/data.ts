@@ -1,5 +1,5 @@
 import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { CR, CRAdjustment } from "@module/data";
+import { CRAdjustment } from "@module/data";
 import { TraitContainerGURPS } from ".";
 
 export type TraitContainerSource = BaseContainerSource<"trait_container", TraitContainerSystemData>;

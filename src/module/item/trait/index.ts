@@ -167,14 +167,13 @@ export class TraitGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get modifiers(): Collection<TraitModifierGURPS> {
-		//@ts-ignore
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
 				.map(item => {
 					return [item.data._id!, item];
 				}),
-		);
+		) as Collection<TraitModifierGURPS>;
 	}
 
 	calculatePoints(): [number, number, number, number] {

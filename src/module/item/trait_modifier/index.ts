@@ -19,6 +19,10 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 		return this.data.data.cost;
 	}
 
+	get enabled(): boolean {
+		return !this.data.data.disabled;
+	}
+
 	get costType(): TraitModifierCostType {
 		return this.data.data.cost_type;
 	}
@@ -44,7 +48,6 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 		return d;
 	}
 }
-
 export interface TraitModifierGURPS {
 	readonly data: TraitModifierData;
 }

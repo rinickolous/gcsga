@@ -1,13 +1,12 @@
 #notes {
 	grid-area: notes;
-	grid-template-columns: min-content 1fr auto;
+	grid-template-columns: 1fr auto;
 	.header {
 		grid-area: auto;
 	}
 
-	.entry-parent:nth-child(8n + 1),
-	.desc:nth-child(8n + 2),
-	.reference:nth-child(8n + 3) {
+	.desc:nth-child(4n + 1),
+	.reference:nth-child(4n + 2) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);

@@ -2,9 +2,9 @@
 	grid-area: hit-locations;
 	display: grid;
 	grid-template:
-		"title title title title title"
-		"entry-parent roll location penalty dr";
-	grid-template-columns: min-content min-content 1fr min-content min-content;
+		"title title title title"
+		"roll location penalty dr";
+	grid-template-columns: 1fr min-content min-content;
 	grid-template-rows: 0fr;
 	white-space: nowrap;
 	.header {
@@ -46,15 +46,14 @@
 		border-right: 1px solid rgba(var(--color-header), 1);
 	}
 
-	:not(.header):not(.entry-parent) {
+	:not(.header) {
 		padding: var(--padding-standard);
 	}
 
-	.entry-parent:nth-child(10n + 1),
-	.roll:nth-child(10n + 2),
-	.location:nth-child(10n + 3),
-	.penalty:nth-child(10n + 4),
-	.dr:nth-child(10n + 5) {
+	.roll:nth-child(8n + 1),
+	.location:nth-child(8n + 2),
+	.penalty:nth-child(8n + 3),
+	.dr:nth-child(8n + 4) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 		}

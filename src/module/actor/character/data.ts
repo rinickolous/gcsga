@@ -35,6 +35,8 @@ export interface CharacterSystemData extends ActorSystemData {
 	attributes: Record<string, Attribute | AttributeObj>;
 	total_points: number;
 	calc: CharacterCalc;
+	editing: boolean;
+	pools: any;
 }
 
 export interface CharacterSettings {

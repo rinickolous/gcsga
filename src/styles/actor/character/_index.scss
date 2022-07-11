@@ -62,6 +62,9 @@
 		white-space: nowrap;
 		background-color: rgba(var(--color-content), 1);
 		color: rgba(var(--color-on-content), 1);
+		> * {
+			padding: var(--padding-standard);
+		}
 	}
 
 	.label {

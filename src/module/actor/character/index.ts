@@ -2,7 +2,9 @@ import { BaseActorGURPS } from "@actor/base";
 import { ActorConstructorContextGURPS } from "@actor/base";
 import { ActorImporter } from "@actor/import";
 import { Feature } from "@feature";
+import { ConditionalModifier } from "@feature/conditional_modifier";
 import { CostReduction } from "@feature/cost_reduction";
+import { ReactionBonus } from "@feature/reaction_bonus";
 import { SkillBonus } from "@feature/skill_bonus";
 import { SkillPointBonus } from "@feature/skill_point_bonus";
 import { SpellBonus } from "@feature/spell_bonus";
@@ -27,13 +29,23 @@ import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-
 import { Attribute, AttributeObj } from "@module/attribute";
 import { AttributeDef } from "@module/attribute/attribute_def";
 import { ThresholdOp } from "@module/attribute/pool_threshold";
+import { CondMod } from "@module/conditional-modifier";
 import { attrPrefix, gid } from "@module/data";
 import { DiceGURPS } from "@module/dice";
 import { SETTINGS_TEMP, SYSTEM_NAME } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { MeleeWeapon, RangedWeapon, Weapon, WeaponType } from "@module/weapon";
-import { damageProgression, getCurrentTime, i18n, newUUID, numberCompare, stringCompare } from "@util";
+import {
+	damageProgression,
+	getCurrentTime,
+	i18n,
+	i18n_f,
+	newUUID,
+	numberCompare,
+	SelfControl,
+	stringCompare,
+} from "@util";
 import { CharacterDataGURPS, CharacterSource, CharacterSystemData, Encumbrance } from "./data";
 
 class CharacterGURPS extends BaseActorGURPS {
@@ -54,6 +66,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			created_date: getCurrentTime(),
 			total_points: SETTINGS_TEMP.general.initial_points,
 			settings: SETTINGS_TEMP.sheet,
+			editing: true,
 			calc: {
 				swing: "",
 				thrust: "",
@@ -118,7 +131,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				const type = i.split("attributes.")[1].split(".")[1];
 				if (att) {
 					if (type == "adj") (data as any)[i] -= att.max - att.adj;
-					else if (type == "damage") (data as any)[i] -= att.current - (att.damage ?? 0);
+					else if (type == "damage") (data as any)[i] = Math.max(att.max - (data as any)[i], 0);
 				}
 			}
 		}
@@ -126,6 +139,10 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	// Getters
+	get editing() {
+		return this.data.data.editing;
+	}
+
 	get profile() {
 		return this.data.data.profile;
 	}
@@ -139,6 +156,13 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 	set calc(v: any) {
 		this.data.data.calc = v;
+	}
+
+	get pools() {
+		return this.data.data.pools;
+	}
+	set pools(v: any) {
+		this.data.data.pools = v;
 	}
 
 	// Points
@@ -500,12 +524,85 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	//TODO changed
-	get reactions(): Collection<any> {
-		return new Collection();
+	// get reactions(): Collection<any> {
+	// 	return new Collection();
+	// }
+	get reactions(): CondMod[] {
+		let reactionMap: Map<string, CondMod> = new Map();
+		this.traits.forEach(t => {
+			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
+			this.reactionsFromFeatureList(source, t.features, reactionMap);
+			t.modifiers.forEach(mod => {
+				this.reactionsFromFeatureList(source, mod.features, reactionMap);
+			});
+			if (t.cr != -1 && t.crAdj == "reaction_penalty") {
+				let amount = SelfControl.adjustment(t.cr, t.crAdj);
+				let situation = i18n_f("gcsga.reaction.cr", { trait: t.name ?? "" });
+				if (reactionMap.has(situation)) reactionMap.get(situation)!.add(source, amount);
+				else reactionMap.set(situation, new CondMod(source, situation, amount));
+			}
+		});
+		this.carried_equipment.forEach(e => {
+			if (e.equipped && e.quantity > 0) {
+				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
+				this.reactionsFromFeatureList(source, e.features, reactionMap);
+				e.modifiers.forEach(mod => {
+					this.reactionsFromFeatureList(source, mod.features, reactionMap);
+				});
+			}
+		});
+		this.skills.forEach(sk => {
+			let source = i18n("gcsga.reaction.from_skill") + (sk.name ?? "");
+			if (sk instanceof TechniqueGURPS) source = i18n("gcsga.reaction.from_technique") + (sk.name ?? "");
+			this.reactionsFromFeatureList(source, sk.features, reactionMap);
+		});
+		let reactionList = Array.from(reactionMap.values());
+		return reactionList;
 	}
 
-	get conditional_modifiers(): Collection<any> {
-		return new Collection();
+	reactionsFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
+		for (const f of features)
+			if (f instanceof ReactionBonus) {
+				let amount = f.adjustedAmount;
+				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
+				else m.set(f.situation, new CondMod(source, f.situation, amount));
+			}
+	}
+
+	get conditionalModifiers(): CondMod[] {
+		let reactionMap: Map<string, CondMod> = new Map();
+		this.traits.forEach(t => {
+			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
+			this.conditionalModifiersFromFeatureList(source, t.features, reactionMap);
+			t.modifiers.forEach(mod => {
+				this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
+			});
+		});
+		this.carried_equipment.forEach(e => {
+			if (e.equipped && e.quantity > 0) {
+				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
+				this.conditionalModifiersFromFeatureList(source, e.features, reactionMap);
+				e.modifiers.forEach(mod => {
+					this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
+				});
+			}
+		});
+		this.skills.forEach(sk => {
+			let source = i18n("gcsga.reaction.from_skill") + (sk.name ?? "");
+			if (sk instanceof TechniqueGURPS) source = i18n("gcsga.reaction.from_technique") + (sk.name ?? "");
+			this.conditionalModifiersFromFeatureList(source, sk.features, reactionMap);
+		});
+		let reactionList = Array.from(reactionMap.values());
+		return reactionList;
+	}
+
+	conditionalModifiersFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
+		for (const f of features)
+			if (f instanceof ConditionalModifier) {
+				let amount = f.adjustedAmount;
+				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
+				else m.set(f.situation, new CondMod(source, f.situation, amount));
+			}
 	}
 
 	newAttributes(): Record<string, AttributeObj> {
@@ -561,6 +658,10 @@ class CharacterGURPS extends BaseActorGURPS {
 			let spellsChanged = this.updateSpells();
 			if (!skillsChanged && !spellsChanged) break;
 		}
+		this.pools = {};
+		this.attributes.forEach(a => {
+			if (a.attribute_def.type == "pool") this.pools[a.attribute_def.name] = { max: a.max, value: a.current };
+		});
 	}
 
 	updateProfile(): void {

@@ -19,7 +19,7 @@ export interface TraitContainerSystemData extends BaseContainerSystemData {
 	// calc: {
 	// 	points: number;
 	// };
-	cr: CR;
+	cr: number;
 	cr_adj: CRAdjustment;
 }
 

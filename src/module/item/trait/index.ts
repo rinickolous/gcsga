@@ -3,7 +3,7 @@ import { TraitContainerGURPS } from "@item/trait_container";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
 import { PrereqList } from "@prereq";
-import { i18n, i18n_f } from "@util";
+import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitData } from "./data";
 import { Feature } from "@module/feature";
 import { BaseFeature } from "@feature/base";
@@ -43,12 +43,22 @@ export class TraitGURPS extends ContainerGURPS {
 		return this.data.data.points_per_level;
 	}
 
-	get cr(): CR {
+	get cr(): number {
 		return this.data.data.cr;
 	}
 
 	get crAdj(): CRAdjustment {
 		return this.data.data.cr_adj;
+	}
+
+	get formattedCR(): string {
+		let cr = "";
+		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
+		if (this.crAdj != "none")
+			cr +=
+				", " +
+				i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		return cr;
 	}
 
 	get features() {

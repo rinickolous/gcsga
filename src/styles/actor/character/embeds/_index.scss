@@ -32,7 +32,8 @@
 		}
 	}
 
-	> div > :not(.header):not(.entry-parent) {
+	> div > :not(.header) {
+		padding: var(--padding-standard);
 		&.quantity {
 			min-width: 1em; //possibly unnecessary
 		}
@@ -78,7 +79,7 @@
 		}
 	}
 
-	> div > .header:not(.entry-parent) {
+	> div > .header {
 		padding: var(--padding-header);
 	}
 
@@ -86,9 +87,6 @@
 		background-color: rgba(var(--color-content), 1);
 		color: rgba(var(--color-on-content), 1);
 		font: var(--font-page-primary-fields);
-		&:not(.entry-parent) {
-			padding: var(--padding-standard);
-		}
 	}
 	.item-notes {
 		font: var(--font-page-secondary-fields);
@@ -98,6 +96,7 @@
 	.reference:not(.header):hover {
 		background-color: rgba(var(--color-link), 1) !important;
 		color: rgba(var(--color-on-link), 1) !important;
+		cursor: pointer;
 	}
 
 	.dropdown i {

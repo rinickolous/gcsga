@@ -37,7 +37,7 @@ import { BaseActorGURPS } from "@actor/base";
 import { BaseItemGURPS } from "@item";
 import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
-import { ActorGURPS } from "@actor";
+import { ModifierBucket } from "./app/bucket";
 
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
@@ -63,6 +63,10 @@ Hooks.once("init", async () => {
 	(CONFIG as any).GURPS = GURPSCONFIG;
 	(CONFIG.Item.documentClass as any) = BaseItemGURPS;
 	CONFIG.Actor.documentClass = BaseActorGURPS;
+
+	// Modifier Bucket Test
+	GURPS.ModifierBucket = new ModifierBucket();
+	GURPS.ModifierBucket.render(true);
 
 	// Register custom system settings
 	registerSettings();

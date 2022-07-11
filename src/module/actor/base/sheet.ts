@@ -1,5 +1,7 @@
 import { ActorGURPS } from "@actor";
-import { BaseItemGURPS } from "@item";
+import { BaseItemGURPS, ContainerGURPS, ItemGURPS } from "@item";
+import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";
 
 export class ActorSheetGURPS extends ActorSheet {
@@ -65,6 +67,48 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		// Set data transfer
 		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
+	}
+
+	//@ts-ignore incorrect return type
+	protected override async _onSortItem(
+		event: DragEvent,
+		itemData: PropertiesToSource<ItemDataBaseProperties>,
+	): Promise<Item[]> | undefined {
+		const source = this.actor.deepItems.get(itemData._id!);
+		const dropTarget = $(event.target!).closest("[data-item-id]");
+		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
+		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(
+			i => i.data._id !== source!.data._id && source!.sameSection(i),
+		);
+
+		if (target && !source?.sameSection(target)) return;
+
+		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
+		const updateData = sortUpdates.map(u => {
+			const update = u.update;
+			(update as any)._id = u.target!.data._id;
+			return update;
+		});
+
+		const parent = target!.parent;
+		if (source && target && source.parent != target.parent) {
+			if (source instanceof ContainerGURPS && target.parents.includes(source)) return;
+			await source!.parent!.deleteEmbeddedDocuments("Item", [source!.data._id!], { render: false });
+			return parent?.createEmbeddedDocuments(
+				"Item",
+				[
+					{
+						name: source.data.name,
+						data: source.data.data,
+						type: source.data.type,
+						flags: source.data.flags,
+						sort: updateData[0].sort,
+					},
+				],
+				{ temporary: false },
+			);
+		}
+		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
 	}
 }
 

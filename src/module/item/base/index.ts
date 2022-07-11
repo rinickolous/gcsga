@@ -1,5 +1,5 @@
 import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { ItemDataGURPS, ItemType } from "@item/data";
+import { ItemDataGURPS, ItemGURPS, ItemType } from "@item/data";
 import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
 import { Weapon } from "@module/weapon";
@@ -34,6 +34,10 @@ class BaseItemGURPS extends Item {
 		return null;
 	}
 
+	get enabled(): boolean {
+		return true;
+	}
+
 	get tags(): string[] {
 		return this.data.data.tags;
 	}
@@ -54,6 +58,12 @@ class BaseItemGURPS extends Item {
 		return [];
 	}
 
+	get parents(): Array<any> {
+		if (!this.parent) return [];
+		const grandparents = !(this.parent instanceof CharacterGURPS) ? this.parent.parents : [];
+		return [this.parent, ...grandparents];
+	}
+
 	get parentCount(): number {
 		let i = 0;
 		let p: any = this.parent;
@@ -62,6 +72,19 @@ class BaseItemGURPS extends Item {
 			p = p.parent;
 		}
 		return i;
+	}
+
+	sameSection(compare: ItemGURPS): boolean {
+		const traits = ["trait", "trait_container"];
+		const skills = ["skill", "technique", "skill_container"];
+		const spells = ["spell", "ritual_magic_spell", "spell_container"];
+		const equipment = ["equipment", "equipment_container"];
+		const notes = ["note", "note_container"];
+		const sections = [traits, skills, spells, equipment, notes];
+		for (const i of sections) {
+			if (i.includes(this.data.type) && i.includes(compare.data.type)) return true;
+		}
+		return false;
 	}
 }
 

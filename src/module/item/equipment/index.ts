@@ -57,6 +57,10 @@ export class EquipmentGURPS extends ContainerGURPS {
 		return this.prereqs.prereqs.length == 0;
 	}
 
+	get enabled(): boolean {
+		return this.equipped;
+	}
+
 	get equipped(): boolean {
 		return this.data.data.equipped;
 	}

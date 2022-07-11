@@ -20,6 +20,7 @@ import { TraitContainerSystemData } from "@item/trait_container/data";
 import { TraitModifierSystemData } from "@item/trait_modifier/data";
 import { AttributeObj } from "@module/attribute";
 import { AttributeDefObj } from "@module/attribute/attribute_def";
+import { CR } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { BaseWeapon, Weapon } from "@module/weapon";
@@ -323,7 +324,7 @@ export class ActorImporter {
 			levels: data.levels ?? 0,
 			base_points: data.base_points ?? 0,
 			points_per_level: data.points_per_level ?? 0,
-			cr: data.cr ?? -1,
+			cr: data.cr ?? CR.None,
 			cr_adj: data.cr_adj ?? "none",
 			features: data.features ? this.importFeatures(data.features) : [],
 			weapons: data.weapons ? this.importWeapons(data.weapons) : [],
@@ -339,7 +340,7 @@ export class ActorImporter {
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
 			disabled: data.disabled ?? false,
-			cr: data.cr ?? -1,
+			cr: data.cr ?? CR.None,
 			cr_adj: data.cr_adj ?? "none",
 			open: data.open ?? false,
 		};
@@ -532,6 +533,7 @@ export class ActorImporter {
 			weight: data.weight ?? 0,
 			tech_level: data.tech_level ?? "",
 			features: data.features ? this.importFeatures(data.features) : [],
+			disabled: data.disabled ?? false,
 		};
 	}
 

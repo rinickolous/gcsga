@@ -28,6 +28,3 @@
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)
-
-## Immediate
-- Finish weapon damage calculation

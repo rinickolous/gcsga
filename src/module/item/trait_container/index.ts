@@ -2,7 +2,7 @@ import { ContainerGURPS } from "@item/container";
 import { calculateModifierPoints, TraitGURPS } from "@item/trait";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
-import { i18n, i18n_f } from "@util";
+import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitContainerData, TraitContainerType } from "./data";
 
 export class TraitContainerGURPS extends ContainerGURPS {
@@ -32,12 +32,22 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		return 0;
 	}
 
-	get cr(): CR {
+	get cr(): number {
 		return this.data.data.cr;
 	}
 
 	get crAdj(): CRAdjustment {
 		return this.data.data.cr_adj;
+	}
+
+	get formattedCR(): string {
+		let cr = "";
+		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
+		if (this.crAdj != "none")
+			cr +=
+				", " +
+				i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		return cr;
 	}
 
 	get roundCostDown(): boolean {
@@ -46,7 +56,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get modifierNotes(): string {
 		let n = "";
-		if (this.cr != -1) {
+		if (this.cr != CR.None) {
 			n += i18n(`gcsga.trait.cr_level.${this.cr}`);
 			if (this.crAdj != "none") {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });

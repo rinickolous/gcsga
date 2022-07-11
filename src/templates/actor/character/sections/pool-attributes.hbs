@@ -3,14 +3,14 @@
 	<div class="fieldblock6">
 		{{#each point_pools}}
 			<div class="points">[{{this.points}}]</div>
-			{{>input-text after=(localize "gcsga.character.pool_of") field="field rollable" name=(concat "data.attributes." this.id ".damage") data=this.current type="Number"}}
+			{{>input-text after=(localize "gcsga.character.pool_of") field="field" name=(concat "data.attributes." this.id ".damage") data=this.current type="Number"}}
 			{{>input-text after=this.attribute_def.name field="field" name=(concat "data.attributes." this.id ".adj") data=this.max type="Number" class=(input_lock ../editing)}}
 			<div class="label tooltip">
 				{{#if this.currentThreshold.state}}
-					[{{this.currentThreshold.state}}]
-					{{#if this.currentThreshold.explanation}}
-						<span class="tooltiptext">{{{this.currentThreshold.explanation}}}</span>
-					{{/if}}
+				[{{this.currentThreshold.state}}]
+				{{#if this.currentThreshold.explanation}}
+				<span class="tooltiptext">{{{this.currentThreshold.explanation}}}</span>
+				{{/if}}
 				{{/if}}
 			</div>
 		{{/each}}

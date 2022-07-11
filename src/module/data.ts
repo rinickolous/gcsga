@@ -119,7 +119,14 @@ export const gid = {
 
 export const attrPrefix = "attr.";
 
-export type CR = -1 | 0 | 6 | 9 | 12 | 15;
+// export type CR = -1 | 0 | 6 | 9 | 12 | 15;
+export const CR = {
+	None: 0,
+	CR6: 6,
+	CR9: 9,
+	CR12: 12,
+	CR15: 15,
+};
 
 export type CRAdjustment =
 	| "none"

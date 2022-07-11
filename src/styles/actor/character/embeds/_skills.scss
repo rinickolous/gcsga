@@ -1,16 +1,15 @@
 #skills {
 	grid-area: skills;
-	grid-template-columns: min-content 1fr repeat(4, auto);
+	grid-template-columns: 1fr repeat(4, auto);
 	.header {
 		grid-area: auto;
 	}
 
-	.entry-parent:nth-child(12n + 1),
-	.desc:nth-child(12n + 2),
-	.level:nth-child(12n + 3),
-	.rsl:nth-child(12n + 4),
-	.points:nth-child(12n + 5),
-	.reference:nth-child(12n + 6) {
+	.desc:nth-child(10n + 1),
+	.level:nth-child(10n + 2),
+	.rsl:nth-child(10n + 3),
+	.points:nth-child(10n + 4),
+	.reference:nth-child(10n + 5) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);

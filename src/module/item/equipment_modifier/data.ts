@@ -20,6 +20,7 @@ export interface EquipmentModifierSystemData extends ItemSystemData {
 	weight: string;
 	tech_level: string;
 	features: Feature[];
+	disabled: boolean;
 }
 
 export type EquipmentCostType = "to_original_cost" | "to_base_cost" | "to_final_base_cost" | "to_final_cost";

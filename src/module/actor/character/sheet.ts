@@ -15,14 +15,13 @@ import {
 	TraitGURPS,
 } from "@item";
 import { Attribute } from "@module/attribute";
+import { CondMod } from "@module/conditional-modifier";
 import { openPDF } from "@module/modules";
 import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon, RangedWeapon } from "@module/weapon";
 import { dollarFormat } from "@util";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
-	editing = true;
-
 	static override get defaultOptions(): ActorSheet.Options {
 		const options = super.defaultOptions;
 		mergeObject(options, {
@@ -84,7 +83,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected async _onRollableHover(event: JQuery.MouseOverEvent | JQuery.MouseOutEvent, hover: boolean) {
 		event.preventDefault();
-		if (this.editing) {
+		if (this.actor.editing) {
 			event.currentTarget.classList.remove("hover");
 			return;
 		}
@@ -106,7 +105,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				data: actorData.data,
 				items: items,
 				settings: (actorData.data as any).settings,
-				editing: this.editing,
+				editing: this.actor.editing,
 				primary_attributes: primary_attributes,
 				secondary_attributes: secondary_attributes,
 				point_pools: point_pools,
@@ -181,8 +180,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 		const melee: MeleeWeapon[] = this.actor.meleeWeapons;
 		const ranged: RangedWeapon[] = this.actor.rangedWeapons;
-		const reactions: any[] = [];
-		const conditional_modifiers: any[] = [];
+		const reactions: CondMod[] = this.actor.reactions;
+		const conditionalModifiers: CondMod[] = this.actor.conditionalModifiers;
 
 		const carried_value = this.actor.wealthCarried();
 		let carried_weight = this.actor.weightCarried(true);
@@ -198,6 +197,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		data.notes = notes;
 		data.melee = melee;
 		data.ranged = ranged;
+		data.reactions = reactions;
+		data.conditionalModifiers = conditionalModifiers;
 		data.blocks = {
 			traits: traits,
 			skills: skills,
@@ -208,17 +209,15 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			melee: melee,
 			ranged: ranged,
 			reactions: reactions,
-			conditional_modifiers: conditional_modifiers,
+			conditional_modifiers: conditionalModifiers,
 		};
 	}
 
 	// Events
 	async _onEditToggle(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		this.editing = !this.editing;
-		//@ts-ignore
+		await this.actor.update({ "data.editing": !this.actor.editing });
 		$(event.currentTarget).find("i").toggleClass("fa-unlock fa-lock");
-		// this._renderOuter();
 		return this.render();
 	}
 
@@ -226,10 +225,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const edit_button = {
 			label: "",
 			class: "edit-toggle",
-			icon: `fas fa-${this.editing ? "un" : ""}lock`,
+			icon: `fas fa-${this.actor.editing ? "un" : ""}lock`,
 			onclick: (event: any) => this._onEditToggle(event),
 		};
-		// if (this.editing) edit_button.icon = "fas fa-unlock";
 		const buttons: Application.HeaderButton[] = [
 			edit_button,
 			{

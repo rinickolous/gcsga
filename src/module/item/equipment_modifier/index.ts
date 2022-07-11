@@ -6,6 +6,10 @@ export class EquipmentModifierGURPS extends BaseItemGURPS {
 		return EquipmentModifierData;
 	}
 
+	get enabled(): boolean {
+		return !this.data.data.disabled;
+	}
+
 	get features() {
 		return this.data.data.features;
 	}

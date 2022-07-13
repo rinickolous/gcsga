@@ -508,16 +508,24 @@ class CharacterGURPS extends BaseActorGURPS {
 	equippedWeapons(type: WeaponType): Weapon[] {
 		let weaponList: Weapon[] = [];
 		this.traits.forEach(t => {
-			for (const w of t.weapons) if (w.type == type) weaponList.push(w);
+			t.weapons.forEach(w => {
+				if (w.type == type) weaponList.push(w);
+			});
 		});
 		this.skills.forEach(sk => {
-			for (const w of sk.weapons) if (w.type == type) weaponList.push(w);
+			sk.weapons.forEach(w => {
+				if (w.type == type) weaponList.push(w);
+			});
 		});
 		this.spells.forEach(sp => {
-			for (const w of sp.weapons) if (w.type == type) weaponList.push(w);
+			sp.weapons.forEach(w => {
+				if (w.type == type) weaponList.push(w);
+			});
 		});
 		this.carried_equipment.forEach(e => {
-			if (e.equipped) for (const w of e.weapons) if (w.type == type) weaponList.push(w);
+			e.weapons.forEach(w => {
+				if (w.type == type) weaponList.push(w);
+			});
 		});
 		weaponList.sort((a, b) => (a.usage > b.usage ? 1 : b.usage > a.usage ? -1 : 0));
 		return weaponList;

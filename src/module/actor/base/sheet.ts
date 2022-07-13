@@ -15,6 +15,9 @@ export class ActorSheetGURPS extends ActorSheet {
 
 	// DragData handling
 	protected override async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
+		// Remove Drag Markers
+		$(".drop-over").removeClass("drop-over");
+
 		if (!this.actor.isOwner) return false;
 
 		const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
@@ -47,7 +50,7 @@ export class ActorSheetGURPS extends ActorSheet {
 			const dragImage = document.createElement("div");
 			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
 				name: `${dragData.data.name}`,
-				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replace("_", "-")}`,
+				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replaceAll("_", "-")}`,
 			});
 			dragImage.id = "drag-ghost";
 			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
@@ -74,6 +77,9 @@ export class ActorSheetGURPS extends ActorSheet {
 		const source = this.actor.deepItems.get(itemData._id!);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
 		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
+		if (!target) return [];
+		const parent = target?.parent;
+		console.log(parent);
 		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(
 			i => i.data._id !== source!.data._id && source!.sameSection(i),
 		);
@@ -87,7 +93,6 @@ export class ActorSheetGURPS extends ActorSheet {
 			return update;
 		});
 
-		const parent = target!.parent;
 		if (source && target && source.parent != target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
 			await source!.parent!.deleteEmbeddedDocuments("Item", [source!.data._id!], { render: false });

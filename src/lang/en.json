@@ -141,6 +141,19 @@
 			}
 		},
 		"trait": {
+			"name": "Name",
+			"enabled": "Enabled",
+			"notes": "Notes",
+			"vtt_notes": "VTT Notes",
+			"user_description": "User Description",
+			"tags": "Tags",
+			"point_cost": "Point Cost",
+			"base_cost": "Base Cost",
+			"round_down": "Round Down",
+			"points_per_level": "Per Level",
+			"levels": "Levels",
+			"cr": "Self-Control Roll",
+			"reference": "Page Reference",
 			"cr_level": {
 				"0": "None Required",
 				"6": "CR: 6 (Resist Rarely)",
@@ -168,6 +181,9 @@
 		"equipment": {},
 		"equipment_modifier": {},
 		"equipment_container": {},
+		"prereq": {
+			"header": "Prerequisites"
+		},
 		"tooltip": {},
 		"settings": {
 			"basic_set_pdfs": {

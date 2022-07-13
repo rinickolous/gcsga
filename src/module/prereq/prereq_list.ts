@@ -1,5 +1,5 @@
 import { CharacterGURPS } from "@actor";
-import { NumberCompare } from "@module/data";
+import { NumberCompare, NumberComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq, Prereq, PrereqType } from "@prereq";
 import { extractTechLevel, i18n, numberCompare } from "@util";
@@ -20,7 +20,7 @@ export interface PrereqListObj {
 export class PrereqList extends BasePrereq {
 	prereqs: Prereq[] = [];
 	all = true;
-	when_tl?: NumberCompare = { compare: "none", qualifier: 0 };
+	when_tl?: NumberCompare = { compare: NumberComparison.None, qualifier: 0 };
 
 	constructor(data: PrereqListObj, context: PrereqConstructionContext = {}) {
 		super(data, context);

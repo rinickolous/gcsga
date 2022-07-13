@@ -1,6 +1,8 @@
-@import "trait_container";
-
 .gcsga.item {
+	&.trait {
+		@import "trait";
+	}
+
 	min-width: 600px;
 	.window-content {
 		background: rgb(var(--color-background));
@@ -45,9 +47,15 @@
 				box-shadow: none;
 				border: 2px solid rgb(var(--color-focused-editable-border));
 			}
+			&[readonly] {
+				background-color: rgb(var(--color-backgroudn));
+				color: rgb(var(--color-on-background));
+				pointer-events: none;
+			}
 			&:disabled {
 				background-color: rgb(var(--color-background));
 				color: rgba(var(--color-on-editable), 0); // Invisible Text
+				pointer-events: none;
 			}
 			&[data-dtype="Number"] {
 				width: 93px;

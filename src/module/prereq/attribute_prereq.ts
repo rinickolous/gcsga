@@ -1,5 +1,5 @@
 import { CharacterGURPS } from "@actor";
-import { NumberCompare } from "@module/data";
+import { NumberCompare, NumberComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { i18n, numberCompare } from "@util";
@@ -8,7 +8,7 @@ import { PrereqConstructionContext } from "./base";
 export class AttributePrereq extends BasePrereq {
 	which = "st";
 	combined_with = "";
-	qualifier: NumberCompare = { compare: "at_least", qualifier: 10 };
+	qualifier: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 10 };
 
 	constructor(data: AttributePrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);

@@ -1,6 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { EquipmentContainerGURPS, EquipmentGURPS } from "@item";
-import { NumberCompare } from "@module/data";
+import { NumberCompare, NumberComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { i18n, numberCompare } from "@util";
@@ -11,7 +11,7 @@ export interface ContainedQuantityPrereq extends BasePrereq {
 }
 
 export class ContainedQuantityPrereq extends BasePrereq {
-	quantity: NumberCompare = { compare: "at_most", qualifier: 1 };
+	quantity: NumberCompare = { compare: NumberComparison.AtMost, qualifier: 1 };
 
 	constructor(data: ContainedQuantityPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);

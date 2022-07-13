@@ -57,90 +57,102 @@ export interface StringCompare {
 	qualifier?: string;
 }
 
-export type StringComparison =
-	| "none" // maybe not needed
-	| "is"
-	| "is_not"
-	| "contains"
-	| "does_not_contain"
-	| "starts_with"
-	| "does_not_start_with"
-	| "ends_with"
-	| "does_not_end_with";
+export enum StringComparison {
+	None = "none",
+	Is = "is",
+	IsNot = "is_not",
+	Contains = "contains",
+	DoesNotContain = "does_not_contain",
+	StartsWith = "starts_with",
+	DoesNotStartWith = "does_not_start_with",
+	EndsWith = "ends_with",
+	DoesNotEndWith = "does_not_end_with",
+}
 
 export interface NumberCompare {
 	compare: NumberComparison;
 	qualifier: number;
 }
 
-export type NumberComparison =
-	| "none" // maybe not needed
-	| "is"
-	| "is_not"
-	| "at_least"
-	| "at_most";
+export enum NumberComparison {
+	None = "none",
+	Is = "is",
+	IsNot = "is_not",
+	AtLeast = "at_least",
+	AtMost = "at_most",
+}
 
 // standard attribute related ids
-export const gid = {
-	All: "all",
-	BasicMove: "basic_move",
-	BasicSpeed: "basic_speed",
-	Block: "block",
-	ConditionalModifier: "conditional_modifier",
-	Dexterity: "dx",
-	Dodge: "dodge",
-	Equipment: "equipment",
-	EquipmentModifier: "equipment_modifier",
-	FatiguePoints: "fp",
-	FrightCheck: "fright_check",
-	Health: "ht",
-	Hearing: "hearing",
-	HitPoints: "hp",
-	Intelligence: "iq",
-	Note: "note",
-	Parry: "parry",
-	Perception: "per",
-	ReactionModifier: "reaction_modifier",
-	RitualMagicSpell: "ritual_magic_spell",
-	SizeModifier: "sm",
-	Skill: "skill",
-	Spell: "spell",
-	Strength: "st",
-	TasteSmell: "taste_smell",
-	Technique: "technique",
-	Ten: "10",
-	Torso: "torso",
-	Touch: "touch",
-	Trait: "trait",
-	TraitModifier: "trait_modifier",
-	Vision: "vision",
-	Will: "will",
-};
+export enum gid {
+	All = "all",
+	BasicMove = "basic_move",
+	BasicSpeed = "basic_speed",
+	Block = "block",
+	ConditionalModifier = "conditional_modifier",
+	Dexterity = "dx",
+	Dodge = "dodge",
+	Equipment = "equipment",
+	EquipmentModifier = "equipment_modifier",
+	FatiguePoints = "fp",
+	FrightCheck = "fright_check",
+	Health = "ht",
+	Hearing = "hearing",
+	HitPoints = "hp",
+	Intelligence = "iq",
+	Note = "note",
+	Parry = "parry",
+	Perception = "per",
+	ReactionModifier = "reaction_modifier",
+	RitualMagicSpell = "ritual_magic_spell",
+	SizeModifier = "sm",
+	Skill = "skill",
+	Spell = "spell",
+	Strength = "st",
+	TasteSmell = "taste_smell",
+	Technique = "technique",
+	Ten = "10",
+	Torso = "torso",
+	Touch = "touch",
+	Trait = "trait",
+	TraitModifier = "trait_modifier",
+	Vision = "vision",
+	Will = "will",
+}
 
 export const attrPrefix = "attr.";
 
-// export type CR = -1 | 0 | 6 | 9 | 12 | 15;
-export const CR = {
-	None: 0,
-	CR6: 6,
-	CR9: 9,
-	CR12: 12,
-	CR15: 15,
-};
+export enum CR {
+	None = 0,
+	CR6 = 6,
+	CR9 = 9,
+	CR12 = 12,
+	CR15 = 15,
+}
 
-export type CRAdjustment =
-	| "none"
-	| "action_penalty"
-	| "reaction_penalty"
-	| "fright_check_penalty"
-	| "fright_check_bonus"
-	| "minor_cost_of_living_increase"
-	| "major_cost_of_living_increase";
+export enum CRAdjustment {
+	None = "none",
+	ActionPenalty = "action_penalty",
+	ReactionPenalty = "reaction_penalty",
+	FrightCheckPenalty = "fright_check_penalty",
+	FrightCheckBonus = "fright_check_bonus",
+	MinorCostOfLivingIncrease = "minor_cost_of_living_increase",
+	MajorCostOfLivingIncrease = "major_cost_of_living_increase",
+}
 
-export const Difficulty = {
-	Easy: "e",
-	Average: "a",
-	Hard: "h",
-	VeryHard: "vh",
-	Wildcard: "w",
-};
+export enum Difficulty {
+	Easy = "e",
+	Average = "a",
+	Hard = "h",
+	VeryHard = "vh",
+	Wildcard = "w",
+}
+
+export enum RollType {
+	Skill = "skill",
+	SkillRelative = "skill_rsl",
+	Spell = "spell",
+	SpellRelative = "spell_rsl",
+	Attack = "attack",
+	Damage = "damage",
+	Modifier = "modifier",
+}

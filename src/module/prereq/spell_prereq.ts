@@ -1,12 +1,18 @@
 import { CharacterGURPS } from "@actor";
 import { RitualMagicSpellGURPS, SpellContainerGURPS, SpellGURPS } from "@item";
-import { NumberCompare, StringCompare } from "@module/data";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
-export type SpellPrereqSubType = "name" | "any" | "college" | "college_count" | "tag";
+export enum SpellPrereqSubType {
+	Name = "name",
+	Any = "any",
+	College = "college",
+	CollegeCount = "college_count",
+	Tag = "tag",
+}
 
 export interface SpellPrereq extends BasePrereq {
 	quantity: NumberCompare;
@@ -15,9 +21,9 @@ export interface SpellPrereq extends BasePrereq {
 }
 
 export class SpellPrereq extends BasePrereq {
-	quantity: NumberCompare = { compare: "at_least", qualifier: 1 };
-	sub_type: SpellPrereqSubType = "name";
-	qualifier: StringCompare = { compare: "is", qualifier: "" };
+	quantity: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 1 };
+	sub_type: SpellPrereqSubType = SpellPrereqSubType.Name;
+	qualifier: StringCompare = { compare: StringComparison.Is, qualifier: "" };
 
 	constructor(data: SpellPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);

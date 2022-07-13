@@ -62,14 +62,6 @@ export class SkillGURPS extends BaseItemGURPS {
 		return features;
 	}
 
-	get weapons(): Weapon[] {
-		const weapons: Weapon[] = [];
-		for (const w of this.data.data.weapons ?? []) {
-			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
-		}
-		return weapons;
-	}
-
 	get prereqs(): PrereqList {
 		return new PrereqList(this.data.data.prereqs);
 	}

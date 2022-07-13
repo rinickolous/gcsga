@@ -1,4 +1,5 @@
 import { CharacterGURPS } from "@actor";
+import { NumberComparison, StringComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { Prereq, PrereqList, PrereqType, TraitPrereq } from "@prereq";
 
@@ -27,9 +28,9 @@ export class BasePrereq {
 		return new TraitPrereq(
 			{
 				type: "trait_prereq",
-				name: { compare: "is", qualifier: "" },
-				notes: { compare: "none", qualifier: "" },
-				levels: { compare: "at_least", qualifier: 0 },
+				name: { compare: StringComparison.Is, qualifier: "" },
+				notes: { compare: StringComparison.None, qualifier: "" },
+				levels: { compare: NumberComparison.AtLeast, qualifier: 0 },
 				has: true,
 				satisfied: () => false,
 			},
@@ -41,7 +42,7 @@ export class BasePrereq {
 		return new PrereqList({
 			type: "prereq_list",
 			all: true,
-			when_tl: { compare: "none", qualifier: 0 },
+			when_tl: { compare: NumberComparison.None, qualifier: 0 },
 			prereqs: [],
 		});
 	}

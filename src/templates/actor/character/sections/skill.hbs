@@ -14,8 +14,8 @@
 	</div>
 	{{>item-notes}}
 </div>
-<div class="level rollable">{{this.skillLevel}}</div>
-<div class="rsl rollable">{{this.relativeLevel}}</div>
+<div data-item-id="{{this.id}}" data-type="skill" class="level rollable">{{this.skillLevel}}</div>
+<div data-item-id="{{this.id}}" data-type="skill_rsl" class="rsl rollable">{{this.relativeLevel}}</div>
 <div class="points">{{this.points}}</div>
 <div class="reference">{{this.reference}}</div>
 {{#if this.open}}

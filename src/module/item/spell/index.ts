@@ -2,7 +2,6 @@ import { BaseItemGURPS } from "@item/base";
 import { baseRelativeLevel, SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
-import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { SpellData } from "./data";
@@ -41,14 +40,6 @@ export class SpellGURPS extends BaseItemGURPS {
 
 	get prereqs() {
 		return new PrereqList(this.data.data.prereqs);
-	}
-
-	get weapons(): Weapon[] {
-		const weapons: Weapon[] = [];
-		for (const w of this.data.data.weapons ?? []) {
-			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
-		}
-		return weapons;
 	}
 
 	get prereqsEmpty(): boolean {

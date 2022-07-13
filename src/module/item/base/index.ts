@@ -2,7 +2,7 @@ import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/fou
 import { ItemDataGURPS, ItemGURPS, ItemType } from "@item/data";
 import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
-import { Weapon } from "@module/weapon";
+import { BaseWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
@@ -54,8 +54,24 @@ class BaseItemGURPS extends Item {
 		return [];
 	}
 
-	get weapons(): Weapon[] {
-		return [];
+	get weapons(): Map<number, Weapon> {
+		if (
+			[
+				"modifier",
+				"trait_container",
+				"skill_container",
+				"spell_container",
+				"eqp_modifier",
+				"note",
+				"note_container",
+			].includes(this.type)
+		)
+			return new Map();
+		const weapons: Map<number, Weapon> = new Map();
+		((this as any).data.data.weapons ?? []).forEach((w: Weapon, index: number) => {
+			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));
+		});
+		return weapons;
 	}
 
 	get parents(): Array<any> {

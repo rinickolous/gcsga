@@ -16,10 +16,11 @@ import {
 } from "@item";
 import { Attribute } from "@module/attribute";
 import { CondMod } from "@module/conditional-modifier";
+import { RollType } from "@module/data";
 import { openPDF } from "@module/modules";
 import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon, RangedWeapon } from "@module/weapon";
-import { dollarFormat } from "@util";
+import { dollarFormat, RollGURPS } from "@util";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
 	static override get defaultOptions(): ActorSheet.Options {
@@ -45,6 +46,11 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		html.find(".equipped").on("click", event => this._onEquippedToggle(event));
 		html.find(".rollable").on("mouseover", event => this._onRollableHover(event, true));
 		html.find(".rollable").on("mouseout", event => this._onRollableHover(event, false));
+		html.find(".rollable").on("click", event => this._onClickRoll(event));
+
+		// Hover Over
+		html.find(".item").on("dragleave", event => this._onItemDragLeave(event));
+		html.find(".item").on("dragenter", event => this._onItemDragEnter(event));
 	}
 
 	protected _resizeInput(event: JQuery.ChangeEvent) {
@@ -89,6 +95,51 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		}
 		if (hover) event.currentTarget.classList.add("hover");
 		else event.currentTarget.classList.remove("hover");
+	}
+
+	protected async _onClickRoll(event: JQuery.ClickEvent) {
+		event.preventDefault();
+		const type: RollType = $(event.currentTarget).data("type");
+		const data: { [key: string]: any } = { type: type };
+		if (
+			[
+				RollType.Damage,
+				RollType.Attack,
+				RollType.Skill,
+				RollType.SkillRelative,
+				RollType.Spell,
+				RollType.SpellRelative,
+			].includes(type)
+		)
+			data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
+		if ([RollType.Damage, RollType.Attack].includes(type))
+			data.weapon = data.item.weapons.get($(event.currentTarget).data("attack-id"));
+		if (type == RollType.Modifier) {
+			data.modifier = $(event.currentTarget).data("modifier");
+			data.comment = $(event.currentTarget).data("comment");
+		}
+		return RollGURPS.handleRoll((game as Game).user, this.actor, data);
+	}
+
+	protected async _onItemDragEnter(event: JQuery.DragEnterEvent) {
+		event.preventDefault();
+		// let parent = $(event.currentTarget).parent();
+		// if (!parent.hasClass("item-list")) parent = parent.parent();
+		// const siblings = Array.prototype.slice.call(parent.children());
+		// siblings.forEach(e => e.classList.remove("drop-over"));
+		$(".drop-over").removeClass("drop-over");
+		const item = $(event.currentTarget).closest(".item.desc");
+		const selection = Array.prototype.slice.call(item.nextUntil(".item.desc"));
+		selection.unshift(item);
+		selection.forEach(e => $(e).addClass("drop-over"));
+	}
+
+	protected async _onItemDragLeave(event: JQuery.DragLeaveEvent) {
+		event.preventDefault();
+		// const item = $(event.currentTarget).closest(".item.desc");
+		// const selection = Array.prototype.slice.call(item.nextUntil(".item.desc"));
+		// selection.unshift(item);
+		// selection.forEach(e => $(e).removeClass("drop-over"));
 	}
 
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {

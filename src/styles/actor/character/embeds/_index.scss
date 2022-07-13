@@ -6,6 +6,10 @@
 	grid-auto-columns: 1fr 1fr;
 	gap: var(--section-gap);
 
+	.item-list.hover {
+		border: 1px solid red !important;
+	}
+
 	> div {
 		display: grid;
 		grid-template-rows: repeat(1000, auto) 1fr;

@@ -3,7 +3,6 @@ import { SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
-import { BaseWeapon, Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { RitualMagicSpellData } from "./data";
@@ -43,14 +42,6 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 
 	get baseSkill(): string {
 		return this.data.data.base_skill;
-	}
-
-	get weapons(): Weapon[] {
-		const weapons: Weapon[] = [];
-		for (const w of this.data.data.weapons ?? []) {
-			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
-		}
-		return weapons;
 	}
 
 	get prereqs() {

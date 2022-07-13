@@ -7,7 +7,6 @@ import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitData } from "./data";
 import { Feature } from "@module/feature";
 import { BaseFeature } from "@feature/base";
-import { BaseWeapon, Weapon } from "@module/weapon";
 
 export class TraitGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
@@ -43,7 +42,7 @@ export class TraitGURPS extends ContainerGURPS {
 		return this.data.data.points_per_level;
 	}
 
-	get cr(): number {
+	get cr(): CR {
 		return this.data.data.cr;
 	}
 
@@ -69,14 +68,6 @@ export class TraitGURPS extends ContainerGURPS {
 		return features;
 	}
 
-	get weapons(): Weapon[] {
-		const weapons: Weapon[] = [];
-		for (const w of this.data.data.weapons ?? []) {
-			weapons.push(new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor } }));
-		}
-		return weapons;
-	}
-
 	get prereqs() {
 		return new PrereqList(this.data.data.prereqs);
 	}
@@ -91,7 +82,7 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get modifierNotes(): string {
 		let n = "";
-		if (this.cr != -1) {
+		if (this.cr != CR.None) {
 			n += i18n(`gcsga.trait.cr_level.${this.cr}`);
 			if (this.crAdj != "none") {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
@@ -185,20 +176,20 @@ export class TraitGURPS extends ContainerGURPS {
 		return [ad, disad, race, quirk];
 	}
 
-	crMultiplier(cr: number): number {
+	crMultiplier(cr: CR): number {
 		switch (cr) {
-			case -1:
+			case CR.None:
 				return 1;
-			case 6:
+			case CR.CR6:
 				return 2;
-			case 9:
+			case CR.CR9:
 				return 1.5;
-			case 12:
+			case CR.CR12:
 				return 1;
-			case 15:
+			case CR.CR15:
 				return 0.5;
 			default:
-				return this.crMultiplier(-1);
+				return this.crMultiplier(CR.None);
 		}
 	}
 }

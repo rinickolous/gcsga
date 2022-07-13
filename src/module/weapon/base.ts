@@ -254,6 +254,7 @@ class BaseWeapon {
 interface BaseWeapon {
 	actor?: CharacterGURPS;
 	parent: ItemGURPS;
+	id: string;
 	type: WeaponType;
 	damage: WeaponDamage;
 	strength: string;

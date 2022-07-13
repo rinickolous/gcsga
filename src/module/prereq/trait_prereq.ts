@@ -1,14 +1,14 @@
 import { CharacterGURPS } from "@actor";
-import { NumberCompare, StringCompare } from "@module/data";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { i18n, numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class TraitPrereq extends BasePrereq {
-	name: StringCompare = { compare: "is", qualifier: "" };
-	notes: StringCompare = { compare: "none", qualifier: "" };
-	levels: NumberCompare = { compare: "at_least", qualifier: 0 };
+	name: StringCompare = { compare: StringComparison.Is, qualifier: "" };
+	notes: StringCompare = { compare: StringComparison.None, qualifier: "" };
+	levels: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 0 };
 
 	constructor(data: TraitPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);

@@ -1,4 +1,5 @@
-import { NumberCompare, StringCompare } from "@module/data";
+import { ActorGURPS } from "@actor";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 import { v4 as uuidv4 } from "uuid";
 
 export function i18n(value: string, fallback?: string): string {
@@ -62,28 +63,28 @@ export function stringCompare(value?: string | string[] | null, base?: StringCom
 		return e.toLowerCase();
 	});
 	switch (base.compare) {
-		case "none":
+		case StringComparison.None:
 			return true;
-		case "is":
+		case StringComparison.Is:
 			return !!base.qualifier && value.includes(base.qualifier);
-		case "is_not":
+		case StringComparison.IsNot:
 			return !!base.qualifier && !value.includes(base.qualifier);
-		case "contains":
+		case StringComparison.Contains:
 			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return true;
 			return false;
-		case "does_not_contain":
+		case StringComparison.DoesNotContain:
 			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return false;
 			return true;
-		case "starts_with":
+		case StringComparison.StartsWith:
 			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return true;
 			return false;
-		case "does_not_start_with":
+		case StringComparison.DoesNotStartWith:
 			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return false;
 			return true;
-		case "ends_with":
+		case StringComparison.EndsWith:
 			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return true;
 			return false;
-		case "does_not_end_with":
+		case StringComparison.DoesNotEndWith:
 			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return false;
 			return true;
 	}
@@ -92,15 +93,15 @@ export function stringCompare(value?: string | string[] | null, base?: StringCom
 export function numberCompare(value: number, base?: NumberCompare): boolean {
 	if (!base) return true;
 	switch (base.compare) {
-		case "none":
+		case NumberComparison.None:
 			return true;
-		case "is":
+		case NumberComparison.Is:
 			return value == base.qualifier;
-		case "is_not":
+		case NumberComparison.IsNot:
 			return value != base.qualifier;
-		case "at_most":
+		case NumberComparison.AtMost:
 			return value <= base.qualifier;
-		case "at_least":
+		case NumberComparison.AtLeast:
 			return value >= base.qualifier;
 	}
 }

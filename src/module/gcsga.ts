@@ -39,6 +39,8 @@ import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
 import { ModifierBucket } from "./app/bucket";
 
+Error.stackTraceLimit = Infinity;
+
 export const GURPS: any = {};
 (window as any).GURPS = GURPS;
 GURPS.DEBUG = true;
@@ -65,8 +67,8 @@ Hooks.once("init", async () => {
 	CONFIG.Actor.documentClass = BaseActorGURPS;
 
 	// Modifier Bucket Test
-	GURPS.ModifierBucket = new ModifierBucket();
-	GURPS.ModifierBucket.render(true);
+	// GURPS.ModifierBucket = new ModifierBucket();
+	// GURPS.ModifierBucket.render(true);
 
 	// Register custom system settings
 	registerSettings();

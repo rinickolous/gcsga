@@ -1,15 +1,15 @@
 import { CharacterGURPS } from "@actor";
 import { SkillContainerGURPS, SkillGURPS, TechniqueGURPS } from "@item";
-import { NumberCompare, StringCompare } from "@module/data";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { i18n, numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class SkillPrereq extends BasePrereq {
-	name: StringCompare = { compare: "is", qualifier: "" };
-	specialization: StringCompare = { compare: "none", qualifier: "" };
-	level: NumberCompare = { compare: "at_least", qualifier: 0 };
+	name: StringCompare = { compare: StringComparison.Is, qualifier: "" };
+	specialization: StringCompare = { compare: StringComparison.None, qualifier: "" };
+	level: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 0 };
 
 	constructor(data: SkillPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);

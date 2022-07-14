@@ -172,7 +172,22 @@
 		},
 		"trait_container": {},
 		"trait_modifier": {},
-		"skill": {},
+		"skill": {
+			"level_short": {
+				"e": "E",
+				"a": "A",
+				"h": "H",
+				"vh": "VH",
+				"w": "W"
+			},
+			"level": {
+				"e": "Easy",
+				"a": "Average",
+				"h": "Hard",
+				"vh": "Very Hard",
+				"w": "Wildcard"
+			}
+		},
 		"technique": {},
 		"skill_container": {},
 		"spell": {},

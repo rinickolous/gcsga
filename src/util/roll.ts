@@ -1,6 +1,7 @@
 import { ActorGURPS } from "@actor";
 import { RollType } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
+import { i18n } from "./misc";
 
 export async function handleRoll(
 	user: StoredDocument<User> | null,
@@ -35,10 +36,17 @@ export async function rollSkill(
 ): Promise<void> {
 	const formula = "3d6";
 	const roll = Roll.create(formula);
+	console.log(user, actor, data);
 	await roll.evaluate({ async: true });
 	let rollTotal = roll.total;
 	const speaker = ChatMessage.getSpeaker({ actor: actor });
+
+	// Set up Chat Data
 	const chatData: { [key: string]: any } = {};
+	chatData.text = `<b>${data.item.name}</b> - ${data.item.skillLevel}/${data.item.relativeLevel}`;
+	chatData.success = "";
+	chatData.total = rollTotal;
+	chatData.margin = rollTotal;
 
 	const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/skill-roll.hbs`, chatData);
 

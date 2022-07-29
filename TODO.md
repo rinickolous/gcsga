@@ -14,6 +14,7 @@
 - Roll function
 - Sort items on import
 - overlay hex on tokens
+- manual light/dark mode
 ## Large Features
 - redo item and character import
 - vehicles

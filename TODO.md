@@ -8,7 +8,6 @@
 - ChatMessage style
 - rollable style
 - NPC sheet (?)
-- remove font height specific (px) styles
 ## Small Features
 - Roll function
 - Sort items on import

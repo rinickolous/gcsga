@@ -84,7 +84,7 @@
 			<div id="traits" class="item-list">
 				<div class="header desc">{{localize "gcsga.character.traits.desc"}}</div>
 				<div class="header points">{{localize "gcsga.character.traits.points"}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each traits}}
 					{{>trait}}
 				{{/each}}
@@ -96,7 +96,7 @@
 				<div class="header level">{{localize "gcsga.character.skills.level"}}</div>
 				<div class="header rsl">{{localize "gcsga.character.skills.rsl"}}</div>
 				<div class="header points">{{localize "gcsga.character.skills.points"}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each skills}}
 					{{>skill}}
 				{{/each}}
@@ -109,7 +109,7 @@
 				<div class="header level">{{localize "gcsga.character.spells.level"}}</div>
 				<div class="header rsl">{{localize "gcsga.character.spells.rsl"}}</div>
 				<div class="header points">{{localize "gcsga.character.spells.points"}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each spells}}
 					{{>spell}}
 				{{/each}}
@@ -117,17 +117,17 @@
 			{{/if}}
 			{{#if equipment.length}}
 			<div id="equipment" class="item-list">
-				<div class="header equipped">{{>svg shapes=(arr "--shape-checkmark")}}</div>
+				<div class="header equipped"><i class="gcs-checkmark"></i></div>
 				<div class="header quantity">{{localize "gcsga.character.equipment.quantity"}}</div>
 				<div class="header desc">{{localize "gcsga.character.equipment.desc" weight=actor.fastWeightCarried value=actor.fastWealthCarried}}</div>
 				<div class="header uses">{{localize "gcsga.character.equipment.uses"}}</div>
 				<div class="header tech-level">{{localize "gcsga.character.equipment.tech_level"}}</div>
 				<div class="header legality-class">{{localize "gcsga.character.equipment.legality_class"}}</div>
-				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
-				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
-				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
-				<div class="header extended-weight">{{>svg shapes=(arr "--shape-stack" "--shape-weight")}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header value"><i class="gcs-coins"></i></div>
+				<div class="header weight"><i class="gcs-weight"></i></div>
+				<div class="header extended-value"><i class="gcs-stack"></i><i class="gcs-coins"></i></div>
+				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each equipment}}
 					{{>equipment}}
 				{{/each}}
@@ -140,11 +140,11 @@
 				<div class="header uses">{{localize "gcsga.character.other_equipment.uses"}}</div>
 				<div class="header tech-level">{{localize "gcsga.character.other_equipment.tech_level"}}</div>
 				<div class="header legality-class">{{localize "gcsga.character.other_equipment.legality_class"}}</div>
-				<div class="header value">{{>svg shapes=(arr "--shape-coins")}}</div>
-				<div class="header weight">{{>svg shapes=(arr "--shape-weight")}}</div>
-				<div class="header extended-value">{{>svg shapes=(arr "--shape-stack" "--shape-coins")}}</div>
-				<div class="header extended-weight">{{>svg shapes=(arr "--shape-stack" "--shape-weight")}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header value"><i class="gcs-coins"></i></div>
+				<div class="header weight"><i class="gcs-weight"></i></div>
+				<div class="header extended-value"><i class="gcs-stack"></i><i class="gcs-coins"></i></div>
+				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each other_equipment}}
 					{{>other-equipment}}
 				{{/each}}
@@ -153,7 +153,7 @@
 			{{#if notes.length}}
 			<div id="notes" class="item-list">
 				<div class="header desc">{{localize "gcsga.character.notes.desc"}}</div>
-				<div class="header reference">{{>svg shapes=(arr "--shape-bookmark")}}</div>
+				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each notes}}
 					{{>note}}
 				{{/each}}

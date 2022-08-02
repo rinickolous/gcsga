@@ -1,7 +1,7 @@
 <div class="prereq">
 	{{#if (eq this.type "prereq_list")}}
-		<i class="add-child">{{>svg shapes=(arr "--shape-circle-add")}}</i>
-		<i class="add-list">{{>svg shapes=(arr "--shape-circle-vertical-ellipsis")}}</i>
+		<i class="add-child gcs-circled-add"></i>
+		<i class="add-list gcs-circled-vertical-ellipsis"></i>
 		<select name="{{name}}.when_tl.compare" data-dtype="String">
 			{{! {{selectOptions config.select.prereqs.when_tl selected=this.when_tl.compare localize=true}} }}
 		</select>
@@ -10,7 +10,7 @@
 			{{! {{selectOptions config.select.prereqs.all selected=this.all localize=true}} }}
 		</select>
 	{{else}}
-		<i class="remove">{{>svg shapes=(arr "--shape-trash")}}</i>
+		<i class="remove gcs-trash"></i>
 		<select name="{{name}}.has" data-dtype="Boolean">
 			{{! {{selectOptions config.select.prereqs.has selected=this.has localize=true}} }}
 		</select>

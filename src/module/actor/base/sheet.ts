@@ -50,7 +50,7 @@ export class ActorSheetGURPS extends ActorSheet {
 			const dragImage = document.createElement("div");
 			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
 				name: `${dragData.data.name}`,
-				type: `--shape-gcs-${dragData.data.type.replace("_container", "").replaceAll("_", "-")}`,
+				type: `${dragData.data.type.replace("_container", "").replaceAll("_", "-")}`,
 			});
 			dragImage.id = "drag-ghost";
 			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());

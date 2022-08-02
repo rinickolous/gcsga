@@ -7,8 +7,7 @@
 - Roll button and popup
 - ChatMessage style
 - rollable style
-- NPC sheet
-- match font to foundry default
+- NPC sheet (?)
 - remove font height specific (px) styles
 ## Small Features
 - Roll function
@@ -16,7 +15,6 @@
 - overlay hex on tokens
 - manual light/dark mode
 ## Large Features
-- redo item and character import
 - vehicles
 - mass combat elements
 - conditions

@@ -59,7 +59,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				]);
 			else this.setCollection(this, currentItems);
 		}
-		return [];
+		return createdItems;
 	}
 
 	override getEmbeddedDocument(embeddedName: string, id: string, options?: { strict?: boolean }): any {

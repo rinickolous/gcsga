@@ -8,7 +8,9 @@ import { DiceGURPS } from "@module/dice";
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
-export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "flags" | "items" | "token"> {
+export interface CharacterDataGURPS
+	extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">,
+		CharacterSystemData {
 	readonly type: CharacterSource["type"];
 	data: CharacterSystemData;
 	flags: CharacterFlags;
@@ -65,7 +67,7 @@ export interface CharacterSettings {
 	};
 	block_layout: Array<string>;
 	// attributes: Record<string, AttributeSettingDef>;
-	hit_locations: HitLocationTable;
+	body_type: HitLocationTable;
 	attributes: Record<string, AttributeDef | AttributeDefObj>; // AttributeObj represents the attribute as an object
 }
 

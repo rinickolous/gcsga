@@ -15,12 +15,12 @@
 				{{>pool-attributes}}
 			</div>
 			<div id="hit-locations">
-				<div class="header body-plan">{{data.settings.hit_locations.name}}</div>
-				<div class="header roll">{{localize "gcsga.character.hit_locations.roll"}}</div>
-				<div class="header location">{{localize "gcsga.character.hit_locations.location"}}</div>
-				<div class="header dr">{{localize "gcsga.character.hit_locations.dr"}}</div>
-				{{#each data.settings.hit_locations.locations}}
-					{{>hit-location tab=""}}
+				<div class="header body-plan">{{data.settings.body_type.name}}</div>
+				<div class="header roll">{{localize "gcsga.character.body_type.roll"}}</div>
+				<div class="header location">{{localize "gcsga.character.body_type.location"}}</div>
+				<div class="header dr">{{localize "gcsga.character.body_type.dr"}}</div>
+				{{#each data.settings.body_type.locations}}
+				{{>hit-location tab=""}}
 				{{/each}}
 			</div>
 			<div id="encumbrance-lifting">
@@ -34,18 +34,18 @@
 				<div class="header modifier">{{localize "gcsga.character.reactions.modifier"}}</div>
 				<div class="header condition">{{localize "gcsga.character.reactions.reaction"}}</div>
 				{{#each reactions}}
-					{{>reaction}}
+				{{>reaction}}
 				{{/each}}
 			</div>
 			{{/if}}
 			{{#if conditionalModifiers.length}}
-				<div id="conditional-modifiers">
-					<div class="header modifier">{{localize "gcsga.character.conditional_modifiers.modifier"}}</div>
-					<div class="header condition">{{localize "gcsga.character.conditional_modifiers.reaction"}}</div>
-					{{#each conditionalModifiers}}
-						{{>conditional-modifier}}
-					{{/each}}
-				</div>
+			<div id="conditional-modifiers">
+				<div class="header modifier">{{localize "gcsga.character.conditional_modifiers.modifier"}}</div>
+				<div class="header condition">{{localize "gcsga.character.conditional_modifiers.reaction"}}</div>
+				{{#each conditionalModifiers}}
+				{{>conditional-modifier}}
+				{{/each}}
+			</div>
 			{{/if}}
 			{{#if melee.length}}
 			<div id="melee">
@@ -58,7 +58,7 @@
 				<div class="header reach">{{localize "gcsga.character.melee.reach"}}</div>
 				<div class="header st">{{localize "gcsga.character.melee.st"}}</div>
 				{{#each melee}}
-					{{>melee-attack}}
+				{{>melee-attack}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -76,7 +76,7 @@
 				<div class="header recoil">{{localize "gcsga.character.ranged.recoil"}}</div>
 				<div class="header st">{{localize "gcsga.character.ranged.st"}}</div>
 				{{#each ranged}}
-					{{>ranged-attack}}
+				{{>ranged-attack}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -86,7 +86,7 @@
 				<div class="header points">{{localize "gcsga.character.traits.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each traits}}
-					{{>trait}}
+				{{>trait}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -98,7 +98,7 @@
 				<div class="header points">{{localize "gcsga.character.skills.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each skills}}
-					{{>skill}}
+				{{>skill}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -111,7 +111,7 @@
 				<div class="header points">{{localize "gcsga.character.spells.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each spells}}
-					{{>spell}}
+				{{>spell}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -119,7 +119,8 @@
 			<div id="equipment" class="item-list">
 				<div class="header equipped"><i class="gcs-checkmark"></i></div>
 				<div class="header quantity">{{localize "gcsga.character.equipment.quantity"}}</div>
-				<div class="header desc">{{localize "gcsga.character.equipment.desc" weight=actor.fastWeightCarried value=actor.fastWealthCarried}}</div>
+				<div class="header desc">{{localize "gcsga.character.equipment.desc" weight=actor.fastWeightCarried
+					value=actor.fastWealthCarried}}</div>
 				<div class="header uses">{{localize "gcsga.character.equipment.uses"}}</div>
 				<div class="header tech-level">{{localize "gcsga.character.equipment.tech_level"}}</div>
 				<div class="header legality-class">{{localize "gcsga.character.equipment.legality_class"}}</div>
@@ -129,7 +130,7 @@
 				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each equipment}}
-					{{>equipment}}
+				{{>equipment}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -146,7 +147,7 @@
 				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each other_equipment}}
-					{{>other-equipment}}
+				{{>other-equipment}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -155,7 +156,7 @@
 				<div class="header desc">{{localize "gcsga.character.notes.desc"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each notes}}
-					{{>note}}
+				{{>note}}
 				{{/each}}
 			</div>
 			{{/if}}

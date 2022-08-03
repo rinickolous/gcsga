@@ -1,33 +1,33 @@
 import { ItemFlagsGURPS, ItemType } from "@item/data";
 import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { BaseItemGURPS } from ".";
+// import { BaseItemGURPS } from ".";
 
 export interface BaseItemSourceGURPS<
 	TItemType extends ItemType = ItemType,
 	TSystemData extends ItemSystemData = ItemSystemData,
 > extends ItemDataSource {
 	type: TItemType;
-	data: TSystemData;
-	flags: DeepPartial<ItemFlagsGURPS>;
+	// data: TSystemData;
+	// flags: DeepPartial<ItemFlagsGURPS>;
 }
 
-export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {
-	enabled?: boolean;
-}
+// export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {
+// 	enabled?: boolean;
+// }
 
-export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects"> {
+export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects" | "flags">, ItemSystemData {
 	type: ItemType;
-	data: ItemSystemData;
-	flags: ItemFlagsGURPS;
+	// data: ItemSystemData;
+	// flags: ItemFlagsGURPS;
 	//this should not be here
-	modifiers: any;
+	// modifiers: any;
 
 	readonly _source: BaseItemSourceGURPS;
 }
 
 export interface ItemSystemData {
 	id: string;
-	name?: string;
+	name: string;
 	reference: string;
 	notes: string;
 	tags: Array<string>;

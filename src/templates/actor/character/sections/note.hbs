@@ -1,14 +1,14 @@
 <div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
 	<div class="dropdown">{{#if (eq this.type "note_container")}}
-		{{#if this.data.open}}	
-			{{>dropdown-open}}
+		{{#if this.system.open}}
+		{{>dropdown-open}}
 		{{else}}
-			{{>dropdown-closed}}
+		{{>dropdown-closed}}
 		{{/if}}
-	{{/if}}
+		{{/if}}
 	</div>
 	<div class="name">
-	{{this.name}}
+		{{this.name}}
 	</div>
 </div>
 <div class="reference">{{this.reference}}</div>

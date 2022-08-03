@@ -5,9 +5,11 @@ import { RitualMagicSpellGURPS } from ".";
 
 export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", RitualMagicSpellSystemData>;
 
-export class RitualMagicSpellData extends BaseItemDataGURPS<RitualMagicSpellGURPS> {}
+// export class RitualMagicSpellData extends BaseItemDataGURPS<RitualMagicSpellGURPS> {}
 
-export interface RitualMagicSpellData extends Omit<RitualMagicSpellSource, "effects" | "flags"> {
+export interface RitualMagicSpellData
+	extends Omit<RitualMagicSpellSource, "effects" | "flags">,
+		RitualMagicSpellSystemData {
 	readonly type: RitualMagicSpellSource["type"];
 	data: RitualMagicSpellSystemData;
 

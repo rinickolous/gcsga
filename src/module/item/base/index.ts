@@ -1,9 +1,15 @@
-import { Context } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { ItemDataGURPS, ItemGURPS, ItemType } from "@item/data";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
 import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
+import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
+import { SYSTEM_NAME } from "@module/settings";
+import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -29,6 +35,17 @@ class BaseItemGURPS extends Item {
 		}
 	}
 
+	protected async _preCreate(
+		data: ItemDataGURPS,
+		options: DocumentModificationOptions,
+		user: BaseUser,
+	): Promise<void> {
+		//@ts-ignore
+		if (this._source.img === foundry.documents.BaseItem.DEFAULT_ICON)
+			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
+		await super._preCreate(data, options, user);
+	}
+
 	get actor(): CharacterGURPS | null {
 		if (this.parent) return this.parent instanceof CharacterGURPS ? this.parent : this.parent.actor;
 		return null;
@@ -39,15 +56,15 @@ class BaseItemGURPS extends Item {
 	}
 
 	get tags(): string[] {
-		return this.data.data.tags;
+		return this.system.tags;
 	}
 
 	get notes(): string {
-		return this.data.data.notes;
+		return this.system.notes;
 	}
 
 	get reference(): string {
-		return this.data.data.reference;
+		return this.system.reference;
 	}
 
 	get features(): Feature[] {
@@ -68,7 +85,7 @@ class BaseItemGURPS extends Item {
 		)
 			return new Map();
 		const weapons: Map<number, Weapon> = new Map();
-		((this as any).data.data.weapons ?? []).forEach((w: Weapon, index: number) => {
+		((this as any).system.weapons ?? []).forEach((w: Weapon, index: number) => {
 			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));
 		});
 		return weapons;
@@ -98,7 +115,7 @@ class BaseItemGURPS extends Item {
 		const notes = ["note", "note_container"];
 		const sections = [traits, skills, spells, equipment, notes];
 		for (const i of sections) {
-			if (i.includes(this.data.type) && i.includes(compare.data.type)) return true;
+			if (i.includes(this.type) && i.includes(compare.type)) return true;
 		}
 		return false;
 	}
@@ -107,7 +124,11 @@ class BaseItemGURPS extends Item {
 //@ts-ignore
 interface BaseItemGURPS extends Item {
 	parent: CharacterGURPS | ContainerGURPS | null;
-	readonly data: ItemDataGURPS;
+	readonly system: BaseItemDataGURPS;
+	// temporary
+	_id: string;
+	_source: BaseItemSourceGURPS;
+	flags: ItemFlagsGURPS;
 }
 
 export { BaseItemGURPS };

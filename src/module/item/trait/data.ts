@@ -1,6 +1,6 @@
 import { Feature } from "@feature";
 import { SkillBonus } from "@feature/skill_bonus";
-import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CRAdjustment } from "@module/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
@@ -8,11 +8,11 @@ import { TraitGURPS } from ".";
 
 export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
 
-export class TraitData extends BaseContainerData<TraitGURPS> {}
+// export class TraitData extends BaseContainerData<TraitGURPS> {}
 
-export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "items"> {
+export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "items">, TraitSystemData {
 	readonly type: TraitSource["type"];
-	data: TraitSystemData;
+	// data: TraitSystemData;
 	readonly _source: TraitSource;
 }
 

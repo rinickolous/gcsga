@@ -2,9 +2,10 @@
 	<div class="header">{{localize "gcsga.character.secondary_attributes"}}</div>
 	<div class="fieldblock3">
 		{{#each secondary_attributes}}
-			<div class="points">[{{this.points}}]</div>
-			{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".adj") data=this.current type="Number" class=(input_lock ../editing)}}
-			<div class="label">{{this.attribute_def.combinedName}}</div>
+		<div class="points">[{{this.points}}]</div>
+		{{>input-text field="field rollable" name=(concat "system.attributes." this.id ".adj") data=this.current
+		type="Number" class=(input_lock ../editing)}}
+		<div class="label">{{this.attribute_def.combinedName}}</div>
 		{{/each}}
 	</div>
 </div>

@@ -56,7 +56,7 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	constructor(data: CharacterSource, context: ActorConstructorContextGURPS = {}) {
 		super(data, context);
-		if (this.data.data.attributes) this.attributes = this.getAttributes();
+		if (this.system.attributes) this.attributes = this.getAttributes();
 		this.featureMap = new Map();
 	}
 
@@ -86,7 +86,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		sd.modified_date = sd.created_date;
 		if (SETTINGS_TEMP.general.auto_fill) sd.profile = SETTINGS_TEMP.general.auto_fill;
 		sd.atributes = this.newAttributes();
-		this.update({ _id: this.data._id, data: sd });
+		this.update({ _id: this._id, system: sd });
 		super._onCreate(data, options, userId);
 	}
 
@@ -103,19 +103,19 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	checkImport(data?: any) {
 		for (const i in data) {
-			if (i.includes("data.import")) return data;
+			if (i.includes("system.import")) return data;
 		}
-		data["data.modified_date"] = new Date().toISOString();
+		data["system.modified_date"] = new Date().toISOString();
 		return data;
 	}
 
 	unspentToTotal(data?: any) {
 		for (const i in data) {
-			if (i.includes("data.import")) return data;
+			if (i.includes("system.import")) return data;
 		}
 		for (const i in data) {
 			if (i.includes("actor.unspentPoints")) {
-				data["data.total_points"] = data[i] + this.spentPoints;
+				data["system.total_points"] = data[i] + this.spentPoints;
 			}
 		}
 		return data;
@@ -124,9 +124,9 @@ class CharacterGURPS extends BaseActorGURPS {
 	updateAttributes(
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 	) {
-		if (Object.keys(this.data.data.attributes).length == 0) (data as any)["data.attributes"] = this.newAttributes();
+		if (Object.keys(this.system.attributes).length == 0) (data as any)["system.attributes"] = this.newAttributes();
 		for (const i in data) {
-			if (i.includes("data.attributes.")) {
+			if (i.includes("system.attributes.")) {
 				const att = this.attributes.get(i.split("attributes.")[1].split(".")[0]);
 				const type = i.split("attributes.")[1].split(".")[1];
 				if (att) {
@@ -140,37 +140,37 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	// Getters
 	get editing() {
-		return this.data.data.editing;
+		return this.system.editing;
 	}
 
 	get profile() {
-		return this.data.data.profile;
+		return this.system.profile;
 	}
 
 	get importData(): this["data"]["data"]["import"] {
-		return this.data.data.import;
+		return this.system.import;
 	}
 
 	get calc() {
-		return this.data.data.calc;
+		return this.system.calc;
 	}
 	set calc(v: any) {
-		this.data.data.calc = v;
+		this.system.calc = v;
 	}
 
 	get pools() {
-		return this.data.data.pools;
+		return this.system.pools;
 	}
 	set pools(v: any) {
-		this.data.data.pools = v;
+		this.system.pools = v;
 	}
 
 	// Points
 	get totalPoints(): number {
-		return this.data.data.total_points;
+		return this.system.total_points;
 	}
 	set totalPoints(v: number) {
-		this.data.data.total_points = v;
+		this.system.total_points = v;
 	}
 
 	get spentPoints(): number {
@@ -267,7 +267,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get settings() {
-		let settings = this.data.data.settings;
+		let settings = this.system.settings;
 		const defs: Record<string, AttributeDef> = {};
 		for (const att in settings.attributes) {
 			defs[att] = new AttributeDef(settings.attributes[att]);
@@ -281,11 +281,11 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get created_date(): string {
-		return this.data.data.created_date;
+		return this.system.created_date;
 	}
 
 	get modified_date(): string {
-		return this.data.data.created_date;
+		return this.system.created_date;
 	}
 
 	get basicLift(): number {
@@ -396,10 +396,10 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get striking_st_bonus(): number {
-		return this.data.data.calc.striking_st_bonus;
+		return this.system.calc.striking_st_bonus;
 	}
 	set striking_st_bonus(v: number) {
-		this.data.data.calc.striking_st_bonus = v;
+		this.system.calc.striking_st_bonus = v;
 	}
 
 	get lifting_st_bonus(): number {
@@ -410,10 +410,10 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get throwing_st_bonus(): number {
-		return this.data.data.calc.throwing_st_bonus;
+		return this.system.calc.throwing_st_bonus;
 	}
 	set throwing_st_bonus(v: number) {
-		this.data.data.calc.throwing_st_bonus = v;
+		this.system.calc.throwing_st_bonus = v;
 	}
 
 	get parryBonus(): number {
@@ -428,7 +428,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	get traits(): Collection<TraitGURPS | TraitContainerGURPS> {
 		const traits: Collection<TraitGURPS | TraitContainerGURPS> = new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) traits.set(item.data._id!, item);
+			if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) traits.set(item._id!, item);
 		});
 		return traits;
 	}
@@ -437,7 +437,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		const skills: Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> = new Collection();
 		this.deepItems.forEach(item => {
 			if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS)
-				skills.set(item.data._id!, item);
+				skills.set(item._id!, item);
 		});
 		return skills;
 	}
@@ -450,7 +450,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				item instanceof RitualMagicSpellGURPS ||
 				item instanceof SpellContainerGURPS
 			)
-				spells.set(item.data._id!, item);
+				spells.set(item._id!, item);
 		});
 		return spells;
 	}
@@ -459,7 +459,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		const equipment: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection();
 		this.deepItems.forEach(item => {
 			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
-				equipment.set(item.data._id!, item);
+				equipment.set(item._id!, item);
 		});
 		return equipment;
 	}
@@ -469,7 +469,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.equipment
 				.filter(item => !item.other)
 				.map(item => {
-					return [item.data._id!, item];
+					return [item._id!, item];
 				}),
 		);
 	}
@@ -479,7 +479,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			this.equipment
 				.filter(item => item.other)
 				.map(item => {
-					return [item.data._id!, item];
+					return [item._id!, item];
 				}),
 		);
 	}
@@ -487,7 +487,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	get notes(): Collection<NoteGURPS | NoteContainerGURPS> {
 		const notes: Collection<NoteGURPS | NoteContainerGURPS> = new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) notes.set(item.data._id!, item);
+			if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) notes.set(item._id!, item);
 		});
 		return notes;
 	}
@@ -616,7 +616,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	newAttributes(): Record<string, AttributeObj> {
 		const a: Record<string, AttributeObj> = {};
 		let i = 0;
-		for (const attr_id in this.data.data.settings.attributes) {
+		for (const attr_id in this.system.settings.attributes) {
 			const attr = new Attribute(this, attr_id, i);
 			a[attr_id] = {
 				bonus: attr.bonus,
@@ -634,8 +634,8 @@ class CharacterGURPS extends BaseActorGURPS {
 	getAttributes(): Map<string, Attribute> {
 		const a: Map<string, Attribute> = new Map();
 		let i = 0;
-		for (const attr_id in this.data.data.attributes) {
-			let att = this.data.data.attributes[attr_id];
+		for (const attr_id in this.system.attributes) {
+			let att = this.system.attributes[attr_id];
 			a.set(attr_id, new Attribute(this, attr_id, i, att));
 			i++;
 		}
@@ -649,8 +649,8 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	override prepareBaseData(): void {
 		super.prepareBaseData();
-		if (this.data?.data?.attributes && Object.keys(this.data.data.attributes).length == 0) {
-			this.data.data.attributes = this.newAttributes();
+		if (this.system.attributes && Object.keys(this.system.attributes).length == 0) {
+			this.system.attributes = this.newAttributes();
 			this.attributes = this.getAttributes();
 		}
 	}
@@ -722,12 +722,12 @@ class CharacterGURPS extends BaseActorGURPS {
 				const def = attr.attribute_def;
 				if (def) {
 					const attrID = attrPrefix + attr.attr_id;
-					this.data.data.attributes[attr.attr_id].bonus = this.bonusFor(attrID, undefined);
+					this.system.attributes[attr.attr_id].bonus = this.bonusFor(attrID, undefined);
 					if (def.type != "decimal") attr.bonus = Math.floor(attr.bonus);
-					this.data.data.attributes[attr.attr_id].cost_reduction = this.costReductionFor(attrID);
+					this.system.attributes[attr.attr_id].cost_reduction = this.costReductionFor(attrID);
 				} else {
-					this.data.data.attributes[attr.attr_id].bonus = 0;
-					this.data.data.attributes[attr.attr_id].cost_reduction = 0;
+					this.system.attributes[attr.attr_id].bonus = 0;
+					this.system.attributes[attr.attr_id].cost_reduction = 0;
 				}
 			});
 		this.attributes = this.getAttributes();
@@ -839,7 +839,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				(!require_points || item instanceof TechniqueGURPS || item.adjustedPoints() > 0) &&
 				(specialization == "" || specialization == item.specialization)
 			)
-				skills.set(item.data._id!, item);
+				skills.set(item._id!, item);
 		});
 		return skills;
 	}

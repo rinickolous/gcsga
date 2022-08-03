@@ -58,7 +58,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("enabledList", function (a: any[]) {
-		return a.filter(e => !e.data.disabled);
+		return a.filter(e => !e.system.disabled);
 	});
 
 	Handlebars.registerHelper("notEmpty", function (a: any[]) {
@@ -109,12 +109,12 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("spellValues", function (i: SpellGURPS): string {
 		const values = {
-			resist: i.data.data.resist,
-			spell_class: i.data.data.spell_class,
-			casting_cost: i.data.data.casting_cost,
-			maintenance_cost: i.data.data.maintenance_cost,
-			casting_time: i.data.data.casting_time,
-			duration: i.data.data.duration,
+			resist: i.system.resist,
+			spell_class: i.system.spell_class,
+			casting_cost: i.system.casting_cost,
+			maintenance_cost: i.system.maintenance_cost,
+			casting_time: i.system.casting_time,
+			duration: i.system.duration,
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {

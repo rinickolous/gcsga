@@ -4,9 +4,11 @@ import { EquipmentModifierGURPS } from ".";
 
 export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", EquipmentModifierSystemData>;
 
-export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
+// export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
 
-export interface EquipmentModifierData extends Omit<EquipmentModifierSource, "effects" | "flags"> {
+export interface EquipmentModifierData
+	extends Omit<EquipmentModifierSource, "effects" | "flags">,
+		EquipmentModifierSystemData {
 	readonly type: EquipmentModifierSource["type"];
 	data: EquipmentModifierSystemData;
 

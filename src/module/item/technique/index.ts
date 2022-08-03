@@ -13,17 +13,17 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
 	unsatisfied_reason = "";
 
-	static get schema(): typeof TechniqueData {
-		return TechniqueData;
-	}
+	// static get schema(): typeof TechniqueData {
+	// 	return TechniqueData;
+	// }
 
 	// Getters
 	get points(): number {
-		return this.data.data.points;
+		return this.system.points;
 	}
 
 	get techLevel(): string {
-		return this.data.data.tech_level;
+		return this.system.tech_level;
 	}
 
 	get specialization(): string {
@@ -31,34 +31,34 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	}
 
 	get limit(): number {
-		return this.data.data.limit;
+		return this.system.limit;
 	}
 
 	get difficulty(): string {
-		return this.data.data.difficulty;
+		return this.system.difficulty;
 	}
 
 	get defaultedFrom(): SkillDefault | undefined {
-		return this.data.data.defaulted_from;
+		return this.system.defaulted_from;
 	}
 	set defaultedFrom(v: SkillDefault | undefined) {
-		this.data.data.defaulted_from = v;
+		this.system.defaulted_from = v;
 	}
 
 	get default(): SkillDefault {
-		return new SkillDefault(this.data.data.default);
+		return new SkillDefault(this.system.default);
 	}
 
 	get features() {
 		const features: Feature[] = [];
-		for (const f of this.data.data.features ?? []) {
+		for (const f of this.system.features ?? []) {
 			features.push(new BaseFeature(f));
 		}
 		return features;
 	}
 
 	get prereqs() {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -162,5 +162,5 @@ export class TechniqueGURPS extends BaseItemGURPS {
 }
 
 export interface TechniqueGURPS {
-	readonly data: TechniqueData;
+	readonly system: TechniqueData;
 }

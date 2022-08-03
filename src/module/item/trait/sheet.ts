@@ -22,6 +22,7 @@ export class TraitSheet extends ContainerSheetGURPS {
 
 	protected _toggleEnabled(event: JQuery.ClickEvent): any {
 		event.preventDefault();
-		return this.item?.update({ "data.disabled": !(this.item as TraitGURPS).data.data.disabled });
+		//TODO change
+		return this.item?.update({ "system.disabled": !(this.item as unknown as TraitGURPS).system.disabled });
 	}
 }

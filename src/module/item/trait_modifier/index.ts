@@ -2,37 +2,37 @@ import { BaseItemGURPS } from "@item/base";
 import { TraitModifierAffects, TraitModifierCostType, TraitModifierData } from "./data";
 
 export class TraitModifierGURPS extends BaseItemGURPS {
-	static get schema(): typeof TraitModifierData {
-		return TraitModifierData;
-	}
+	// static get schema(): typeof TraitModifierData {
+	// 	return TraitModifierData;
+	// }
 
 	// Getters
 	get levels(): number {
-		return this.data.data.levels;
+		return this.system.levels;
 	}
 
 	get features() {
-		return this.data.data.features;
+		return this.system.features;
 	}
 
 	get costDescription() {
-		return this.data.data.cost;
+		return this.system.cost;
 	}
 
 	get enabled(): boolean {
-		return !this.data.data.disabled;
+		return !this.system.disabled;
 	}
 
 	get costType(): TraitModifierCostType {
-		return this.data.data.cost_type;
+		return this.system.cost_type;
 	}
 
 	get affects(): TraitModifierAffects {
-		return this.data.data.affects;
+		return this.system.affects;
 	}
 
 	get cost(): number {
-		return this.data.data.cost;
+		return this.system.cost;
 	}
 
 	get costModifier(): number {
@@ -49,5 +49,5 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 	}
 }
 export interface TraitModifierGURPS {
-	readonly data: TraitModifierData;
+	readonly system: TraitModifierData;
 }

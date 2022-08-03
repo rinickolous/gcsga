@@ -42,7 +42,7 @@
 				"skills": "Skills",
 				"spells": "Spells"
 			},
-			"hit_locations": {
+			"body_type": {
 				"roll": "Roll",
 				"location": "Location",
 				"dr": "DR"

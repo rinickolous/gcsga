@@ -78,7 +78,7 @@ Hooks.once("init", async () => {
 	registerHandlebarsHelpers();
 
 	// Register custom sheets (if any)
-	Items.unregisterSheet("core", ItemSheet);
+	// Items.unregisterSheet("core", ItemSheet);
 	Actors.unregisterSheet("core", ActorSheet);
 
 	Items.registerSheet(SYSTEM_NAME, TraitSheet, {

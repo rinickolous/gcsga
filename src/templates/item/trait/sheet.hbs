@@ -4,41 +4,44 @@
 			<label class="label"></label>
 			<div class="field">
 				<label class="checkbox-label">
-					<input class="input enabled" type="checkbox" {{checked (not data.disabled)}}/>
+					<input class="input enabled" type="checkbox" {{checked (not data.disabled)}} />
 					{{localize "gcsga.trait.enabled"}}
 				</label>
 			</div>
 			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
-			{{>input-text field="field" label="gcsga.trait.notes" name="data.notes" data=data.notes type="String"}}
-			{{>input-text field="field" label="gcsga.trait.vtt_notes" name="data.vtt_notes" data=data.vtt_notes type="String"}}
-			{{>input-text field="field" label="gcsga.trait.user_description" name="data.user_description" data=data.user_description type="String"}}
+			{{>input-text field="field" label="gcsga.trait.notes" name="system.notes" data=data.notes type="String"}}
+			{{>input-text field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=data.vtt_notes
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.user_description" name="system.user_description"
+			data=data.user_description type="String"}}
 			<div class="label">{{localize "gcsga.trait.tags"}}</div>
-			{{>input-text field="field" name="data.tags" data=data.tags type="String"}}
+			{{>input-text field="field" name="system.tags" data=data.tags type="String"}}
 			<div class="label">{{localize "gcsga.trait.point_cost"}}</div>
 			<div class="field no-stretch">
 				{{>input-text data=document.adjustedPoints type="Number" class="readonly"}}
 				<label class="label checkbox-label">
-					<input class="input" type="checkbox" checked/>
+					<input class="input" type="checkbox" checked />
 					{{localize "gcsga.trait.round_down"}}
 				</label>
 			</div>
 			<div class="label">{{localize "gcsga.trait.base_cost"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="data.base_points" data=data.base_points type="Number" class=""}}
-				{{>input-text label="gcsga.trait.points_per_level" name="data.points_per_level"
+				{{>input-text name="system.base_points" data=data.base_points type="Number" class=""}}
+				{{>input-text label="gcsga.trait.points_per_level" name="system.points_per_level"
 				data=data.points_per_level type="Number"}}
-				{{>input-text label="gcsga.trait.levels" name="data.levels" data=data.levels type="Number"
+				{{>input-text label="gcsga.trait.levels" name="system.levels" data=data.levels type="Number"
 				class=(input_lock data.points_per_level)}}
 			</div>
 			<div class="label">{{localize "gcsga.trait.cr"}}</div>
 			<div class="field">
-				<select name="data.cr" data-dtype="Number">
+				<select name="system.cr" data-dtype="Number">
 					{{#select data.cr}}
-						<option value="0">None Required</option>
+					<option value="0">None Required</option>
 					{{/select}}
 				</select>
 			</div>
-			{{>input-text field="field" label="gcsga.trait.reference" name="data.reference" data=data.reference type="String"}}
+			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference" data=data.reference
+			type="String"}}
 		</div>
 		{{>prerequisites}}
 	</div>

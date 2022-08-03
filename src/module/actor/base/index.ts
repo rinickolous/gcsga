@@ -7,6 +7,7 @@ import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
 import { ContainerGURPS, ItemGURPS } from "@item";
+import { CharacterDataGURPS, CharacterSource } from "@actor/character/data";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -31,8 +32,9 @@ class BaseActorGURPS extends Actor {
 		options: DocumentModificationOptions,
 		user: BaseUser,
 	): Promise<void> {
-		if (this.data._source.img === foundry.data.ActorData.DEFAULT_ICON)
-			this.data._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
+		//@ts-ignore TODO
+		if (this._source.img === foundry.documents.BaseActor.DEFAULT_ICON)
+			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 
@@ -56,6 +58,10 @@ class BaseActorGURPS extends Actor {
 interface BaseActorGURPS extends Actor {
 	readonly data: ActorDataGURPS;
 	deepItems: Collection<ItemGURPS>;
+	// temp
+	system: CharacterDataGURPS;
+	_source: CharacterSource;
+	_id: string;
 }
 
 export { BaseActorGURPS };

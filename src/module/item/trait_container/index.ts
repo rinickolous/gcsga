@@ -8,24 +8,24 @@ import { TraitContainerData, TraitContainerType } from "./data";
 export class TraitContainerGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
 
-	static override get schema(): typeof TraitContainerData {
-		return TraitContainerData;
-	}
+	// static override get schema(): typeof TraitContainerData {
+	// 	return TraitContainerData;
+	// }
 
 	// Getters
 	get enabled(): boolean {
-		if (this.data.data.disabled) return false;
-		let enabled = !this.data.data.disabled;
+		if (this.system.disabled) return false;
+		let enabled = !this.system.disabled;
 		if (this.parent instanceof TraitContainerGURPS) enabled = enabled && this.parent.enabled;
 		return enabled;
 	}
 
 	set enabled(enabled: boolean) {
-		this.data.data.disabled = !enabled;
+		this.system.disabled = !enabled;
 	}
 
 	get containerType(): TraitContainerType {
-		return this.data.data.container_type;
+		return this.system.container_type;
 	}
 
 	get levels(): number {
@@ -33,11 +33,11 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	}
 
 	get cr(): number {
-		return this.data.data.cr;
+		return this.system.cr;
 	}
 
 	get crAdj(): CRAdjustment {
-		return this.data.data.cr_adj;
+		return this.system.cr_adj;
 	}
 
 	get formattedCR(): string {
@@ -75,7 +75,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 			this.items
 				.filter(item => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
 				.map(item => {
-					return [item.data._id!, item];
+					return [item.id!, item];
 				}),
 		) as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
@@ -84,7 +84,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
 				.map(item => {
-					return [item.data._id!, item];
+					return [item.id!, item];
 				}),
 		) as Collection<TraitModifierGURPS>;
 	}
@@ -140,5 +140,5 @@ export class TraitContainerGURPS extends ContainerGURPS {
 }
 
 export interface TraitContainerGURPS {
-	readonly data: TraitContainerData;
+	readonly system: TraitContainerData;
 }

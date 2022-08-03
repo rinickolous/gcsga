@@ -1,12 +1,14 @@
-import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { CRAdjustment } from "@module/data";
 import { TraitContainerGURPS } from ".";
 
 export type TraitContainerSource = BaseContainerSource<"trait_container", TraitContainerSystemData>;
 
-export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
+// export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
 
-export interface TraitContainerData extends Omit<TraitContainerSource, "effects" | "flags" | "items"> {
+export interface TraitContainerData
+	extends Omit<TraitContainerSource, "effects" | "flags" | "items">,
+		TraitContainerSystemData {
 	readonly type: TraitContainerSource["type"];
 	data: TraitContainerSystemData;
 	readonly _source: TraitContainerSource;

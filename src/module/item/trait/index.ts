@@ -11,19 +11,19 @@ import { BaseFeature } from "@feature/base";
 export class TraitGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
 
-	static override get schema(): typeof TraitData {
-		return TraitData;
-	}
+	// static override get schema(): TraitData {
+	// 	return TraitData;
+	// }
 
 	// Getters
 	get enabled(): boolean {
-		if (this.data.data.disabled) return false;
-		let enabled = !this.data.data.disabled;
+		if (this.system.disabled) return false;
+		let enabled = !this.system.disabled;
 		if (this.parent && this.parent instanceof TraitContainerGURPS) enabled = enabled && this.parent.enabled;
 		return enabled;
 	}
 	set enabled(enabled: boolean) {
-		this.data.data.disabled = !enabled;
+		this.system.disabled = !enabled;
 	}
 
 	get isLeveled(): boolean {
@@ -31,23 +31,23 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 
 	get levels(): number {
-		return this.data.data.levels;
+		return this.system.levels ?? 0;
 	}
 
 	get basePoints(): number {
-		return this.data.data.base_points;
+		return this.system.base_points ?? 0;
 	}
 
 	get pointsPerLevel(): number {
-		return this.data.data.points_per_level;
+		return this.system.points_per_level ?? 0;
 	}
 
 	get cr(): CR {
-		return this.data.data.cr;
+		return this.system.cr;
 	}
 
 	get crAdj(): CRAdjustment {
-		return this.data.data.cr_adj;
+		return this.system.cr_adj;
 	}
 
 	get formattedCR(): string {
@@ -62,14 +62,14 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get features() {
 		const features: Feature[] = [];
-		for (const f of this.data.data.features ?? []) {
+		for (const f of this.system.features ?? []) {
 			features.push(new BaseFeature(f));
 		}
 		return features;
 	}
 
 	get prereqs() {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -77,7 +77,7 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 
 	get roundCostDown(): boolean {
-		return this.data.data.round_down;
+		return this.system.round_down;
 	}
 
 	get modifierNotes(): string {
@@ -132,22 +132,25 @@ export class TraitGURPS extends ContainerGURPS {
 		let leveledPoints = pointsPerLevel * this.levels;
 		if (baseEnh != 0 || baseLim != 0 || levelEnh != 0 || levelLim != 0) {
 			if (this.actor?.settings.use_multiplicative_modifiers) {
-				if (baseEnh == levelEnh && baseLim == levelLim)
+				if (baseEnh == levelEnh && baseLim == levelLim) {
 					modifiedBasePoints = modifyPoints(
 						modifyPoints(modifiedBasePoints + leveledPoints, baseEnh),
 						Math.max(-80, baseLim),
 					);
-				else
+				} else {
 					modifiedBasePoints =
 						modifyPoints(modifyPoints(modifiedBasePoints, baseEnh), Math.max(-80, baseLim)) +
 						modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
+				}
 			} else {
 				let baseMod = Math.max(-80, baseEnh + baseLim);
 				let levelMod = Math.max(-80, levelEnh + levelLim);
-				if (baseMod == levelMod) modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
-				else
+				if (baseMod == levelMod) {
+					modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
+				} else {
 					modifiedBasePoints =
 						modifyPoints(modifiedBasePoints, baseMod) + modifyPoints(leveledPoints, levelMod);
+				}
 			}
 		} else {
 			modifiedBasePoints += leveledPoints;
@@ -162,7 +165,7 @@ export class TraitGURPS extends ContainerGURPS {
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
 				.map(item => {
-					return [item.data._id!, item];
+					return [item.id!, item];
 				}),
 		) as Collection<TraitModifierGURPS>;
 	}
@@ -203,5 +206,5 @@ export function calculateModifierPoints(points: number, modifier: number): numbe
 }
 
 export interface TraitGURPS {
-	readonly data: TraitData;
+	readonly system: TraitData;
 }

@@ -9,9 +9,9 @@ import { SkillGURPS } from ".";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
 
-export class SkillData extends BaseItemDataGURPS<SkillGURPS> {}
+// export class SkillData extends BaseItemDataGURPS<SkillGURPS> {}
 
-export interface SkillData extends Omit<SkillSource, "effects" | "flags"> {
+export interface SkillData extends Omit<SkillSource, "effects" | "flags">, SkillSystemData {
 	readonly type: SkillSource["type"];
 	data: SkillSystemData;
 

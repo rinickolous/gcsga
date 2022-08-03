@@ -1,13 +1,13 @@
 import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
-import { SpellGURPS } from ".";
+// import { SpellGURPS } from ".";
 
 export type SpellSource = BaseItemSourceGURPS<"spell", SpellSystemData>;
 
-export class SpellData extends BaseItemDataGURPS<SpellGURPS> {}
+// export class SpellData extends BaseItemDataGURPS<SpellGURPS> {}
 
-export interface SpellData extends Omit<SpellSource, "effects" | "flags"> {
+export interface SpellData extends Omit<SpellSource, "effects" | "flags">, SpellSystemData {
 	readonly type: SpellSource["type"];
 	data: SpellSystemData;
 

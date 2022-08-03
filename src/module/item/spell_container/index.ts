@@ -4,9 +4,9 @@ import { SpellGURPS } from "@item/spell";
 import { SpellContainerData } from "./data";
 
 export class SpellContainerGURPS extends ContainerGURPS {
-	static override get schema(): typeof SpellContainerData {
-		return SpellContainerData;
-	}
+	// static override get schema(): typeof SpellContainerData {
+	// 	return SpellContainerData;
+	// }
 
 	// Embedded Items
 	get children(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
@@ -17,12 +17,12 @@ export class SpellContainerGURPS extends ContainerGURPS {
 				item instanceof RitualMagicSpellGURPS ||
 				item instanceof SpellContainerGURPS
 			)
-				children.set(item.data._id!, item);
+				children.set(item.id!, item);
 		});
 		return children;
 	}
 }
 
 export interface SpellContainerGURPS {
-	readonly data: SpellContainerData;
+	readonly system: SpellContainerData;
 }

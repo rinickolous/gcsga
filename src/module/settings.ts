@@ -89,7 +89,7 @@ interface provider {
 		};
 		block_layout: Array<string>;
 		attributes: Record<string, AttributeDefObj>;
-		hit_locations: unknown;
+		body_type: unknown;
 	};
 	general: {
 		initial_points: number;
@@ -348,7 +348,7 @@ export const SETTINGS_TEMP: provider = {
 				],
 			},
 		},
-		hit_locations: {
+		body_type: {
 			name: "Humanoid",
 			roll: "3d",
 			locations: [

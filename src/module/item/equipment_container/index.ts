@@ -12,37 +12,37 @@ import { EquipmentContainerData } from "./data";
 export class EquipmentContainerGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
 
-	static override get schema(): typeof EquipmentContainerData {
-		return EquipmentContainerData;
-	}
+	// static override get schema(): typeof EquipmentContainerData {
+	// 	return EquipmentContainerData;
+	// }
 
 	// Getters
 	get other(): boolean {
-		return this.data.data.other;
+		return this.system.other;
 	}
 
 	get quantity(): number {
-		return this.data.data.quantity;
+		return this.system.quantity;
 	}
 
 	get value(): number {
-		return this.data.data.value;
+		return this.system.value;
 	}
 
 	get weight(): number {
-		return parseFloat(this.data.data.weight);
+		return parseFloat(this.system.weight);
 	}
 
 	get features() {
 		const features: Feature[] = [];
-		for (const f of this.data.data.features ?? []) {
+		for (const f of this.system.features ?? []) {
 			features.push(new BaseFeature(f));
 		}
 		return features;
 	}
 
 	get prereqs() {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -54,38 +54,37 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get equipped(): boolean {
-		return this.data.data.equipped;
+		return this.system.equipped;
 	}
 
 	get techLevel(): string {
-		return this.data.data.tech_level;
+		return this.system.tech_level;
 	}
 
 	get legalityClass(): string {
-		return this.data.data.legality_class;
+		return this.system.legality_class;
 	}
 
 	get uses(): number {
-		return this.data.data.uses;
+		return this.system.uses;
 	}
 
 	get maxUses(): number {
-		return this.data.data.max_uses;
+		return this.system.max_uses;
 	}
 
 	// Embedded Items
 	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
 		const children: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection();
 		this.items.forEach(item => {
-			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS)
-				children.set(item.data._id!, item);
+			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS) children.set(item.id!, item);
 		});
 		return children;
 	}
 	get modifiers(): Collection<EquipmentModifierGURPS> {
 		const modifiers: Collection<EquipmentModifierGURPS> = new Collection();
 		this.items.forEach(item => {
-			if (item instanceof EquipmentModifierGURPS) modifiers.set(item.data._id!, item);
+			if (item instanceof EquipmentModifierGURPS) modifiers.set(item.id!, item);
 		});
 		return modifiers;
 	}
@@ -105,7 +104,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
-		if (for_skills && this.data.data.ignore_weight_for_skills) return 0;
+		if (for_skills && this.system.ignore_weight_for_skills) return 0;
 		return this.weightAdjustedForMods(units);
 	}
 
@@ -151,7 +150,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	extendedWeightAdjustForMods(units: WeightUnits, for_skills: boolean): number {
 		if (this.quantity <= 0) return 0;
 		let base = 0;
-		if (!for_skills || !this.data.data.ignore_weight_for_skills) base = this.weightAdjustedForMods(units);
+		if (!for_skills || !this.system.ignore_weight_for_skills) base = this.weightAdjustedForMods(units);
 		if (this.children) {
 			let contained = 0;
 			this.children?.forEach(ch => {
@@ -182,5 +181,5 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 }
 
 export interface EquipmentContainerGURPS {
-	readonly data: EquipmentContainerData;
+	readonly system: EquipmentContainerData;
 }

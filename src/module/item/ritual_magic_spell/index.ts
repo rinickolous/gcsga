@@ -11,41 +11,41 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
 	unsatisfied_reason = "";
 
-	static get schema(): typeof RitualMagicSpellData {
-		return RitualMagicSpellData;
-	}
+	// static get schema(): typeof RitualMagicSpellData {
+	// 	return RitualMagicSpellData;
+	// }
 
 	// Getters
 	get points(): number {
-		return this.data.data.points;
+		return this.system.points;
 	}
 
 	get techLevel(): string {
-		return this.data.data.tech_level;
+		return this.system.tech_level;
 	}
 
 	get attribute(): string {
-		return this.data.data.difficulty.split("/")[0] ?? gid.Intelligence;
+		return this.system.difficulty.split("/")[0] ?? gid.Intelligence;
 	}
 
 	get difficulty(): string {
-		return this.data.data.difficulty.split("/")[1] ?? Difficulty.Average;
+		return this.system.difficulty.split("/")[1] ?? Difficulty.Average;
 	}
 
 	get powerSource(): string {
-		return this.data.data.power_source;
+		return this.system.power_source;
 	}
 
 	get college(): string[] {
-		return this.data.data.college;
+		return this.system.college;
 	}
 
 	get baseSkill(): string {
-		return this.data.data.base_skill;
+		return this.system.base_skill;
 	}
 
 	get prereqs() {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -53,7 +53,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	get prereqCount(): number {
-		return this.data.data.prereq_count;
+		return this.system.prereq_count;
 	}
 
 	adjustedPoints(tooltip?: TooltipGURPS): number {
@@ -207,5 +207,5 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 }
 
 export interface RitualMagicSpellGURPS {
-	readonly data: RitualMagicSpellData;
+	readonly system: RitualMagicSpellData;
 }

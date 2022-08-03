@@ -2,7 +2,6 @@ import { CharacterGURPS } from "@actor";
 import { Feature } from "@feature";
 import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS, ItemGURPS } from "@item";
-import { BaseItemDataGURPS } from "@item/base/data";
 import { ItemSystemDataGURPS } from "@item/data";
 import { EquipmentSystemData } from "@item/equipment/data";
 import { EquipmentContainerSystemData } from "@item/equipment_container/data";
@@ -74,7 +73,7 @@ export class ActorImporter {
 				return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_old")));
 			else if (r.version > this.version)
 				return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_new")));
-			commit = { ...commit, ...{ "data.import": imp } };
+			commit = { ...commit, ...{ "system.import": imp } };
 			commit = { ...commit, ...{ name: r.profile.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
 			commit = { ...commit, ...(await this.importProfile(r.profile)) };
@@ -118,32 +117,32 @@ export class ActorImporter {
 
 	importMiscData(data: CharacterImportedData) {
 		return {
-			"data.version": data.version,
-			"data.id": data.id,
-			"data.created_date": data.created_date,
-			"data.modified_date": data.modified_date,
-			"data.total_points": data.total_points,
+			"system.version": data.version,
+			"system.id": data.id,
+			"system.created_date": data.created_date,
+			"system.modified_date": data.modified_date,
+			"system.total_points": data.total_points,
 		};
 	}
 
 	async importProfile(profile: CharacterImportedData["profile"]) {
 		const p: any = {
-			"data.profile.player_name": profile.player_name || "",
-			"data.profile.name": profile.name || this.document.name,
-			"data.profile.title": profile.title || "",
-			"data.profile.organization": profile.organization || "",
-			"data.profile.age": profile.age || "",
-			"data.profile.birthday": profile.birthday || "",
-			"data.profile.eyes": profile.eyes || "",
-			"data.profile.hair": profile.hair || "",
-			"data.profile.skin": profile.skin || "",
-			"data.profile.handedness": profile.handedness || "",
-			"data.profile.height": profile.height || "",
-			"data.profile.weight": profile.weight || "",
-			"data.profile.SM": profile.SM || 0,
-			"data.profile.gender": profile.gender || "",
-			"data.profile.tech_level": profile.tech_level || "",
-			"data.profile.religion": profile.religion || "",
+			"system.profile.player_name": profile.player_name || "",
+			"system.profile.name": profile.name || this.document.name,
+			"system.profile.title": profile.title || "",
+			"system.profile.organization": profile.organization || "",
+			"system.profile.age": profile.age || "",
+			"system.profile.birthday": profile.birthday || "",
+			"system.profile.eyes": profile.eyes || "",
+			"system.profile.hair": profile.hair || "",
+			"system.profile.skin": profile.skin || "",
+			"system.profile.handedness": profile.handedness || "",
+			"system.profile.height": profile.height || "",
+			"system.profile.weight": profile.weight || "",
+			"system.profile.SM": profile.SM || 0,
+			"system.profile.gender": profile.gender || "",
+			"system.profile.tech_level": profile.tech_level || "",
+			"system.profile.religion": profile.religion || "",
 		};
 		if (!!profile.portrait) {
 			const path: string = this.getPortraitPath();
@@ -181,25 +180,25 @@ export class ActorImporter {
 			attributes[att.id] = att;
 		}
 		return {
-			"data.settings.default_length_units": settings.default_length_units ?? "ft_in",
-			"data.settings.default_weight_units": settings.default_weight_units ?? "lb",
-			"data.settings.user_description_display": settings.user_description_display ?? "tooltip",
-			"data.settings.modifiers_display": settings.modifiers_display ?? "inline",
-			"data.settings.notes_display": settings.notes_display ?? "inline",
-			"data.settings.skill_level_adj_display": settings.skill_level_adj_display ?? "tooltip",
-			"data.settings.use_multiplicative_modifiers": settings.use_multiplicative_modifiers ?? false,
-			"data.settings.use_modifying_dice_plus_adds": settings.use_modifying_dice_plus_adds ?? false,
-			"data.settings.damage_progression": settings.damage_progression ?? "basic_set",
-			"data.settings.use_simple_metric_conversions": settings.use_simple_metric_conversions ?? true,
-			"data.settings.show_difficulty": settings.show_difficulty ?? true,
-			"data.settings.show_trait_modifier_adj": settings.show_trait_modifier_adj ?? false,
-			"data.settings.show_equipment_modifier_adj": settings.show_equipment_modifier_adj ?? false,
-			"data.settings.show_spell_adj": settings.show_spell_adj ?? true,
-			"data.settings.use_title_in_footer": settings.use_title_in_footer ?? false,
-			"data.settings.page": settings.page,
-			"data.settings.block_layout": settings.block_layout,
-			"data.settings.attributes": attributes,
-			"data.settings.hit_locations": settings.hit_locations,
+			"system.settings.default_length_units": settings.default_length_units ?? "ft_in",
+			"system.settings.default_weight_units": settings.default_weight_units ?? "lb",
+			"system.settings.user_description_display": settings.user_description_display ?? "tooltip",
+			"system.settings.modifiers_display": settings.modifiers_display ?? "inline",
+			"system.settings.notes_display": settings.notes_display ?? "inline",
+			"system.settings.skill_level_adj_display": settings.skill_level_adj_display ?? "tooltip",
+			"system.settings.use_multiplicative_modifiers": settings.use_multiplicative_modifiers ?? false,
+			"system.settings.use_modifying_dice_plus_adds": settings.use_modifying_dice_plus_adds ?? false,
+			"system.settings.damage_progression": settings.damage_progression ?? "basic_set",
+			"system.settings.use_simple_metric_conversions": settings.use_simple_metric_conversions ?? true,
+			"system.settings.show_difficulty": settings.show_difficulty ?? true,
+			"system.settings.show_trait_modifier_adj": settings.show_trait_modifier_adj ?? false,
+			"system.settings.show_equipment_modifier_adj": settings.show_equipment_modifier_adj ?? false,
+			"system.settings.show_spell_adj": settings.show_spell_adj ?? true,
+			"system.settings.use_title_in_footer": settings.use_title_in_footer ?? false,
+			"system.settings.page": settings.page,
+			"system.settings.block_layout": settings.block_layout,
+			"system.settings.attributes": attributes,
+			"system.settings.body_type": settings.body_type,
 		};
 	}
 
@@ -209,7 +208,7 @@ export class ActorImporter {
 			atts[a.attr_id] = a;
 		});
 		return {
-			"data.attributes": atts,
+			"system.attributes": atts,
 		};
 	}
 
@@ -219,16 +218,16 @@ export class ActorImporter {
 		for (const item of list) {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			const [itemData, itemFlags]: [ItemSystemDataGURPS, BaseItemDataGURPS["flags"]] = this.getItemData(
+			const [itemData, itemFlags]: [ItemSystemDataGURPS, BaseItemGURPS["flags"]] = this.getItemData(
 				item,
 				context,
 			);
 			const newItem = new BaseItemGURPS({
 				name: item.name ?? "ERROR",
 				type: item.type,
-				data: itemData,
+				system: itemData,
 				flags: itemFlags,
-				_id: id,
+				// _id: id,
 			});
 			if (context?.container) {
 				items.push({
@@ -252,9 +251,9 @@ export class ActorImporter {
 	getItemData(
 		item: ItemSystemDataGURPS,
 		context?: { container?: boolean; other?: boolean },
-	): [ItemSystemDataGURPS, BaseItemDataGURPS["flags"]] {
+	): [ItemSystemDataGURPS, BaseItemGURPS["flags"]] {
 		let data: ItemSystemDataGURPS;
-		const flags: BaseItemDataGURPS["flags"] = { gcsga: { contentsData: [] } };
+		const flags: BaseItemGURPS["flags"] = { gcsga: { contentsData: [] } };
 
 		switch (item.type) {
 			case "trait":
@@ -313,6 +312,7 @@ export class ActorImporter {
 
 	getTraitData(data: TraitSystemData): TraitSystemData {
 		return {
+			name: data.name ?? "Trait",
 			type: data.type ?? "trait",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -333,6 +333,7 @@ export class ActorImporter {
 
 	getTraitContainerData(data: TraitContainerSystemData): TraitContainerSystemData {
 		return {
+			name: data.name ?? "Trait Container",
 			type: data.type ?? "trait_container",
 			container_type: data.container_type ?? "group",
 			id: data.id ?? newUUID(),
@@ -348,6 +349,7 @@ export class ActorImporter {
 
 	getTraitModifierData(data: TraitModifierSystemData): TraitModifierSystemData {
 		return {
+			name: data.name ?? "Trait Modifier",
 			type: data.type ?? "modifier",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -364,6 +366,7 @@ export class ActorImporter {
 
 	getSkillData(data: SkillSystemData): SkillSystemData {
 		return {
+			name: data.name ?? "Skill",
 			type: data.type ?? "skill",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -383,6 +386,7 @@ export class ActorImporter {
 
 	getTechniqueData(data: TechniqueSystemData): TechniqueSystemData {
 		return {
+			name: data.name ?? "Technique",
 			type: data.type ?? "technique",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -403,6 +407,7 @@ export class ActorImporter {
 
 	getSkillContainerData(data: SkillContainerSystemData): SkillContainerSystemData {
 		return {
+			name: data.name ?? "Skill Container",
 			type: data.type ?? "skill_container",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -414,6 +419,7 @@ export class ActorImporter {
 
 	getSpellData(data: SpellSystemData): SpellSystemData {
 		return {
+			name: data.name ?? "Spell",
 			type: data.type ?? "spell",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -437,6 +443,7 @@ export class ActorImporter {
 
 	getRitualMagicSpellData(data: RitualMagicSpellSystemData): RitualMagicSpellSystemData {
 		return {
+			name: data.name ?? "Spell",
 			type: data.type ?? "ritual_magic_spell",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -462,6 +469,7 @@ export class ActorImporter {
 
 	getSpellContainerData(data: SpellContainerSystemData): SpellContainerSystemData {
 		return {
+			name: data.name ?? "Spell Container",
 			type: data.type ?? "spell_container",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -473,6 +481,7 @@ export class ActorImporter {
 
 	getEquipmentData(data: EquipmentSystemData, other = false): EquipmentSystemData {
 		return {
+			name: data.name ?? "Equipment",
 			type: data.type ?? "equipment",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -497,6 +506,7 @@ export class ActorImporter {
 
 	getEquipmentContainerData(data: EquipmentContainerSystemData, other = false): EquipmentContainerSystemData {
 		return {
+			name: data.name ?? "Equipment",
 			type: data.type ?? "equipment",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -522,6 +532,7 @@ export class ActorImporter {
 
 	getEquipmentModifierData(data: EquipmentModifierSystemData): EquipmentModifierSystemData {
 		return {
+			name: data.name ?? "Equipment Modifier",
 			type: data.type ?? "eqp_modifier",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -539,6 +550,7 @@ export class ActorImporter {
 
 	getNoteData(data: NoteSystemData): NoteSystemData {
 		return {
+			name: data.text ?? "Note",
 			type: data.type ?? "note",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",
@@ -550,6 +562,7 @@ export class ActorImporter {
 
 	getNoteContainerData(data: NoteContainerSystemData): NoteContainerSystemData {
 		return {
+			name: data.name ?? "Note",
 			type: data.type ?? "note_container",
 			id: data.id ?? newUUID(),
 			reference: data.reference ?? "",

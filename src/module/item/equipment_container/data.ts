@@ -1,14 +1,16 @@
 import { Feature } from "@feature";
-import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 import { EquipmentContainerGURPS } from ".";
 
 export type EquipmentContainerSource = BaseContainerSource<"equipment_container", EquipmentContainerSystemData>;
 
-export class EquipmentContainerData extends BaseContainerData<EquipmentContainerGURPS> {}
+// export class EquipmentContainerData extends BaseContainerData<EquipmentContainerGURPS> {}
 
-export interface EquipmentContainerData extends Omit<EquipmentContainerSource, "effects" | "flags" | "items"> {
+export interface EquipmentContainerData
+	extends Omit<EquipmentContainerSource, "effects" | "flags" | "items">,
+		EquipmentContainerSystemData {
 	readonly type: EquipmentContainerSource["type"];
 	data: EquipmentContainerSystemData;
 

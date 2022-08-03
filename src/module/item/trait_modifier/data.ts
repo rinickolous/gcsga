@@ -4,9 +4,9 @@ import { TraitModifierGURPS } from ".";
 
 export type TraitModifierSource = BaseItemSourceGURPS<"modifier", TraitModifierSystemData>;
 
-export class TraitModifierData extends BaseItemDataGURPS<TraitModifierGURPS> {}
+// export class TraitModifierData extends BaseItemDataGURPS<TraitModifierGURPS> {}
 
-export interface TraitModifierData extends Omit<TraitModifierSource, "effects" | "flags"> {
+export interface TraitModifierData extends Omit<TraitModifierSource, "effects" | "flags">, TraitModifierSystemData {
 	readonly type: TraitModifierSource["type"];
 	data: TraitModifierSystemData;
 

@@ -14,41 +14,41 @@ export class SkillGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
 	unsatisfied_reason = "";
 
-	static get schema(): typeof SkillData {
-		return SkillData;
-	}
+	// static get schema(): typeof SkillData {
+	// 	return SkillData;
+	// }
 
 	// Getters
 	get points(): number {
-		return this.data.data.points;
+		return this.system.points;
 	}
 
 	get techLevel(): string {
-		return this.data.data.tech_level;
+		return this.system.tech_level;
 	}
 
 	get attribute(): string {
-		return this.data?.data?.difficulty?.split("/")[0] ?? gid.Dexterity;
+		return this.system.difficulty?.split("/")[0] ?? gid.Dexterity;
 	}
 
 	get difficulty(): string {
-		return this.data?.data?.difficulty?.split("/")[1] ?? Difficulty.Average;
+		return this.system.difficulty?.split("/")[1] ?? Difficulty.Average;
 	}
 
 	get specialization(): string {
-		return this.data.data.specialization;
+		return this.system.specialization;
 	}
 
 	get defaultedFrom(): SkillDefault | undefined {
-		return this.data.data.defaulted_from;
+		return this.system.defaulted_from;
 	}
 	set defaultedFrom(v: SkillDefault | undefined) {
-		this.data.data.defaulted_from = v;
+		this.system.defaulted_from = v;
 	}
 
 	get defaults(): SkillDefault[] {
 		const defs: SkillDefault[] = [];
-		for (const d of this.data.data.defaults) {
+		for (const d of this.system.defaults) {
 			defs.push(new SkillDefault(d));
 		}
 		return defs;
@@ -56,14 +56,14 @@ export class SkillGURPS extends BaseItemGURPS {
 
 	get features() {
 		const features: Feature[] = [];
-		for (const f of this.data.data.features ?? []) {
+		for (const f of this.system.features ?? []) {
 			features.push(new BaseFeature(f));
 		}
 		return features;
 	}
 
 	get prereqs(): PrereqList {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -71,7 +71,7 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	get encumbrancePenaltyMultiplier(): number {
-		return this.data.data.encumbrance_penalty_multiplier;
+		return this.system.encumbrance_penalty_multiplier;
 	}
 
 	// Point & Level Manipulation
@@ -251,5 +251,5 @@ export class SkillGURPS extends BaseItemGURPS {
 }
 
 export interface SkillGURPS {
-	readonly data: SkillData;
+	readonly system: SkillData;
 }

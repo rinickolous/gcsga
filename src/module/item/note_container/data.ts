@@ -1,11 +1,13 @@
-import { BaseContainerData, BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { NoteContainerGURPS } from ".";
 
 export type NoteContainerSource = BaseContainerSource<"note_container", NoteContainerSystemData>;
 
-export class NoteContainerData extends BaseContainerData<NoteContainerGURPS> {}
+// export class NoteContainerData extends BaseContainerData<NoteContainerGURPS> {}
 
-export interface NoteContainerData extends Omit<NoteContainerSource, "effects" | "flags" | "items"> {
+export interface NoteContainerData
+	extends Omit<NoteContainerSource, "effects" | "flags" | "items">,
+		NoteContainerSystemData {
 	readonly type: NoteContainerSource["type"];
 	data: NoteContainerSystemData;
 

@@ -3,9 +3,9 @@ import { NoteGURPS } from ".";
 
 export type NoteSource = BaseItemSourceGURPS<"note", NoteSystemData>;
 
-export class NoteData extends BaseItemDataGURPS<NoteGURPS> {}
+// export class NoteData extends BaseItemDataGURPS<NoteGURPS> {}
 
-export interface NoteData extends Omit<NoteSource, "effects" | "flags"> {
+export interface NoteData extends Omit<NoteSource, "effects" | "flags">, NoteSystemData {
 	readonly type: NoteSource["type"];
 	data: NoteSystemData;
 

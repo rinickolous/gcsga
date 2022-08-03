@@ -1,28 +1,32 @@
 <form class="{{cssClass}} gcsga" autocomplete="off">
-    <div id="sheet" class="gcs_trait_container_sheet">
-        <div id="details">
+	<div id="sheet" class="gcs_trait_container_sheet">
+		<div id="details">
 			<label class="label"></label>
 			<div class="field">
 				<label class="checkbox-label">
-					<input class="input enabled" type="checkbox" {{checked (not data.disabled)}}/>
+					<input class="input enabled" type="checkbox" {{checked (not system.disabled)}} />
 					{{localize "gcsga.trait_container.enabled"}}
 				</label>
 			</div>
 			{{>input_text field="field" label="gcsga.trait_container.name" name="name" data=item.name type="String"}}
-			{{>input_text field="field" label="gcsga.trait_container.notes" name="data.notes" data=data.notes type="String"}}
-			{{>input_text field="field" label="gcsga.trait_container.vtt_notes" name="data.vtt_notes" data=data.vtt_notes type="String"}}
-			{{>input_text field="field" label="gcsga.trait_container.user_description" name="data.user_description" data=data.user_description type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.notes" name="system.notes" data=system.notes
+			type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes type="String"}}
+			{{>input_text field="field" label="gcsga.trait_container.user_description" name="system.user_description"
+			data=system.user_description type="String"}}
 			<div class="label">{{localize "gcsga.trait_container.tags"}}</div>
-			{{>input_text field="field" name="data.tags" data=data.tags type="String"}}
+			{{>input_text field="field" name="system.tags" data=system.tags type="String"}}
 			<div class="label">{{localize "gcsga.trait_container.cr"}}</div>
 			<div class="field">
-				<select name="data.cr" data-dtype="Number">
-					{{#select data.cr}}
-						<option value="-1">None Required</option>
+				<select name="system.cr" data-dtype="Number">
+					{{#select system.cr}}
+					<option value="-1">None Required</option>
 					{{/select}}
 				</select>
 			</div>
-			{{>input_text field="field" label="gcsga.trait_container.reference" name="data.reference" data=data.reference type="String"}}
-        </div>
-    </div>
+			{{>input_text field="field" label="gcsga.trait_container.reference" name="system.reference"
+			data=system.reference type="String"}}
+		</div>
+	</div>
 </form>

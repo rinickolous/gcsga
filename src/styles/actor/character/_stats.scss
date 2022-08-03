@@ -4,5 +4,5 @@
 	grid-template: "attributes hit-locations encumbrance-lifting";
 	gap: var(--section-gap);
 
-	@import "attributes", "hit_locations", "encumbrance_lifting";
+	@import "attributes", "body_type", "encumbrance_lifting";
 }

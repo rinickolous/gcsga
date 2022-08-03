@@ -8,9 +8,9 @@ import { BaseContainerData } from "./data";
 export abstract class ContainerGURPS extends BaseItemGURPS {
 	items: foundry.utils.Collection<ItemGURPS> = new foundry.utils.Collection();
 
-	static override get schema(): typeof BaseContainerData {
-		return BaseContainerData;
-	}
+	// static override get schema(): typeof BaseContainerData {
+	// 	return BaseContainerData;
+	// }
 
 	// Getters
 	get deepItems(): Collection<ItemGURPS> {
@@ -30,7 +30,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 	}
 
 	get open(): boolean {
-		return (this.data.data as any).open;
+		return (this.system as any).open;
 	}
 
 	override async createEmbeddedDocuments(
@@ -40,7 +40,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 	): Promise<any> {
 		if (!Array.isArray(data)) data = [data];
 		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
-		const currentItems = duplicate(getProperty(this, "data.flags.gcsga.contentsData")) ?? [];
+		const currentItems = duplicate(getProperty(this, "flags.gcsga.contentsData")) ?? [];
 		const createdItems = [];
 		if (data.length > 0) {
 			for (const itemData of data) {
@@ -55,7 +55,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 			}
 			if (this.parent)
 				return this.parent.updateEmbeddedDocuments(embeddedName, [
-					{ _id: this.id, "flags.gcsga.contentsData": currentItems },
+					{ _id: this._id, "flags.gcsga.contentsData": currentItems },
 				]);
 			else this.setCollection(this, currentItems);
 		}
@@ -73,11 +73,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		context?: DocumentModificationContext | undefined,
 	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.updateEmbeddedDocuments(embeddedName, updates, context);
-		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
+		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
 		const updatedItems: any[] = [];
-		const newContainedItems = containedItems.map((existing: { _id: string }) => {
-			const theUpdate = updates?.find(update => update._id === existing._id);
+		const newContainedItems = containedItems.map((existing: { id: string }) => {
+			const theUpdate = updates?.find(update => update.id === existing.id);
 			if (theUpdate) {
 				const newData = mergeObject(theUpdate, existing, {
 					overwrite: false,
@@ -105,37 +105,39 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		ids: string[],
 		context?: DocumentModificationContext | undefined,
 	): Promise<any[]> {
+		console.log("checkem delete");
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
-		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
-		const newContainedItems = containedItems.filter((itemData: ItemDataGURPS) => !ids.includes(itemData._id!));
-		const deletedItems = this.items.filter((itemData: ItemGURPS) => ids.includes(itemData.data._id!));
+		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
+		const newContainedItems = containedItems.filter((itemData: ItemGURPS) => !ids.includes(itemData._id!));
+		const deletedItems = this.items.filter((itemData: ItemGURPS) => ids.includes(itemData._id!));
 		if (this.parent)
 			await this.parent.updateEmbeddedDocuments("Item", [
-				{ _id: this.data._id, "flags.gcsga.contentsData": newContainedItems },
+				{ _id: this._id, "flags.gcsga.contentsData": newContainedItems },
 			]);
 		else await this.setCollection(this, newContainedItems);
 		return deletedItems;
 	}
 
+	// TODO update
 	override prepareEmbeddedDocuments(): void {
 		super.prepareEmbeddedDocuments();
-		const containedItems = getProperty(this, "data.flags.gcsga.contentsData") ?? [];
+		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		const oldItems = this.items;
 		this.items = new foundry.utils.Collection();
-		containedItems.forEach((itemData: ItemDataGURPS) => {
+		containedItems.forEach((itemData: ItemGURPS) => {
 			if (!oldItems?.has(itemData._id!)) {
 				// "this as any" used to ignore parent type incompatibility
 				const theItem = new CONFIG.Item.documentClass(itemData as any as ItemDataConstructorData, {
 					parent: this as any,
 				});
 				theItem.prepareData();
-				this.items.set(itemData._id!, theItem as ItemGURPS);
+				this.items.set(itemData._id!, theItem as unknown as ItemGURPS);
 			} else {
 				const currentItem = oldItems.get(itemData._id!);
 				if (currentItem) {
-					setProperty(currentItem.data._source, "name", itemData.name);
-					setProperty(currentItem.data._source, "flags", itemData.flags);
-					setProperty(currentItem.data._source, "data", itemData.data);
+					setProperty((currentItem as any)._source, "name", itemData.name);
+					// setProperty(currentItem.data._source, "flags", itemData.flags);
+					// setProperty(currentItem.data._source, "system", itemData.system);
 					// commented out because may not be necessary
 					// setProperty(currentItem.data._source, "sort", itemData.sort);
 					currentItem.prepareData();
@@ -151,6 +153,6 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 }
 
 export interface ContainerGURPS extends BaseItemGURPS {
-	readonly data: BaseContainerData;
+	readonly system: BaseContainerData;
 	items: foundry.utils.Collection<ItemGURPS>;
 }

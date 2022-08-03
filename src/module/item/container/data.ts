@@ -7,11 +7,12 @@ export type BaseContainerSource<
 	TSystemData extends BaseContainerSystemData = BaseContainerSystemData,
 > = BaseItemSourceGURPS<ItemType, BaseContainerSystemData>;
 
-export class BaseContainerData<
-	TItem extends ContainerGURPS = ContainerGURPS,
-	TSystemData extends BaseContainerSystemData = BaseContainerSystemData,
-	//@ts-ignore
-> extends BaseItemDataGURPS<TItem> {}
+// export class BaseContainerData<
+// 	TItem extends ContainerGURPS = ContainerGURPS,
+// 	TSystemData extends BaseContainerSystemData = BaseContainerSystemData,
+// 	//@ts-ignore
+// > extends BaseItemDataGURPS<TItem> {}
+export interface BaseContainerData extends BaseItemDataGURPS, BaseContainerSystemData {}
 
 export interface BaseContainerSystemData extends ItemSystemData {
 	open?: boolean;

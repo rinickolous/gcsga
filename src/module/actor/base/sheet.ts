@@ -1,5 +1,5 @@
 import { ActorGURPS } from "@actor";
-import { BaseItemGURPS, ContainerGURPS, ItemGURPS } from "@item";
+import { ContainerGURPS, ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";
@@ -20,11 +20,13 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		if (!this.actor.isOwner) return false;
 
-		const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
+		// const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
+		//@ts-ignore
+		const item = await Item.implementation.fromDropData(data);
 		const itemData = item.toObject();
 
 		//Handle item sorting within the same Actor
-		if (await this._isFromSameActor(data)) return this._onSortItem(event, itemData);
+		if (this.actor.uuid === item.actor?.uuid) return this._onSortItem(event, itemData);
 
 		return this._onDropItemCreate(itemData);
 	}
@@ -33,24 +35,25 @@ export class ActorSheetGURPS extends ActorSheet {
 		const list = event.currentTarget;
 		// if (event.target.classList.contains("contents-link")) return;
 
-		const dragData: any = {
-			actorId: this.actor.id,
-			sceneId: this.actor.isToken ? canvas?.scene?.id : null,
-			tokenId: this.actor.isToken ? this.actor.token?.id : null,
-			pack: this.actor?.pack,
-		};
+		let dragData: any;
+		// const dragData: any = {
+		// 	actorId: this.actor.id,
+		// 	sceneId: this.actor.isToken ? canvas?.scene?.id : null,
+		// 	tokenId: this.actor.isToken ? this.actor.token?.id : null,
+		// 	pack: this.actor?.pack,
+		// };
 
 		// Owned Items
 		if ((list as HTMLElement).dataset.itemId) {
 			const item = this.actor.deepItems.get((list as HTMLElement).dataset.itemId!);
-			dragData.type = "Item";
-			dragData.data = item?.data;
+			//@ts-ignore
+			dragData = item?.toDragData();
 
 			// Create custom drag image
 			const dragImage = document.createElement("div");
 			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
-				name: `${dragData.data.name}`,
-				type: `${dragData.data.type.replace("_container", "").replaceAll("_", "-")}`,
+				name: `${item?.name}`,
+				type: `${item?.type.replace("_container", "").replaceAll("_", "-")}`,
 			});
 			dragImage.id = "drag-ghost";
 			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
@@ -62,8 +65,8 @@ export class ActorSheetGURPS extends ActorSheet {
 		// Active Effect
 		if ((list as HTMLElement).dataset.effectId) {
 			const effect = this.actor.effects.get((list as HTMLElement).dataset.effectId!);
-			dragData.type = "ActiveEffect";
-			dragData.data = effect?.data;
+			//@ts-ignore
+			dragData = effect?.toDragData();
 		}
 
 		// Set data transfer
@@ -79,9 +82,8 @@ export class ActorSheetGURPS extends ActorSheet {
 		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
 		if (!target) return [];
 		const parent = target?.parent;
-		console.log(parent);
 		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(
-			i => i.data._id !== source!.data._id && source!.sameSection(i),
+			i => i._id !== source!._id && source!.sameSection(i),
 		);
 
 		if (target && !source?.sameSection(target)) return [];
@@ -89,21 +91,21 @@ export class ActorSheetGURPS extends ActorSheet {
 		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
 		const updateData = sortUpdates.map(u => {
 			const update = u.update;
-			(update as any)._id = u.target!.data._id;
+			(update as any)._id = u.target!._id;
 			return update;
 		});
 
 		if (source && target && source.parent != target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
-			await source!.parent!.deleteEmbeddedDocuments("Item", [source!.data._id!], { render: false });
+			await source!.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
 			return parent?.createEmbeddedDocuments(
 				"Item",
 				[
 					{
-						name: source.data.name,
-						data: source.data.data,
-						type: source.data.type,
-						flags: source.data.flags,
+						name: source.name,
+						data: source.system,
+						type: source.type,
+						flags: source.flags,
 						sort: updateData[0].sort,
 					},
 				],

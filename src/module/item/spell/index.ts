@@ -10,36 +10,36 @@ export class SpellGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
 	unsatisfied_reason = "";
 
-	static get schema(): typeof SpellData {
-		return SpellData;
-	}
+	// static get schema(): typeof SpellData {
+	// 	return SpellData;
+	// }
 
 	get points(): number {
-		return this.data.data.points;
+		return this.system.points;
 	}
 
 	get techLevel(): string {
-		return this.data.data.tech_level;
+		return this.system.tech_level;
 	}
 
 	get attribute(): string {
-		return this.data.data.difficulty.split("/")[0] ?? gid.Intelligence;
+		return this.system.difficulty.split("/")[0] ?? gid.Intelligence;
 	}
 
 	get difficulty(): string {
-		return this.data.data.difficulty.split("/")[1] ?? Difficulty.Average;
+		return this.system.difficulty.split("/")[1] ?? Difficulty.Average;
 	}
 
 	get powerSource(): string {
-		return this.data.data.power_source;
+		return this.system.power_source;
 	}
 
 	get college(): string[] {
-		return this.data.data.college;
+		return this.system.college;
 	}
 
 	get prereqs() {
-		return new PrereqList(this.data.data.prereqs);
+		return new PrereqList(this.system.prereqs);
 	}
 
 	get prereqsEmpty(): boolean {
@@ -124,5 +124,5 @@ export class SpellGURPS extends BaseItemGURPS {
 }
 
 export interface SpellGURPS {
-	readonly data: SpellData;
+	readonly system: SpellData;
 }

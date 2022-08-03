@@ -64,7 +64,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const id: string = $(event.currentTarget).data("item-id");
 		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
 		const item = this.actor.deepItems.get(id);
-		item?.update({ _id: id, "data.open": open });
+		item?.update({ _id: id, "system.open": open });
 	}
 
 	protected async _handlePDF(event: JQuery.ClickEvent): Promise<void> {
@@ -84,7 +84,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		const id = $(event.currentTarget).data("item-id");
 		const item = this.actor.deepItems.get(id);
-		return item?.update({ "data.equipped": !(item as EquipmentGURPS).equipped });
+		return item?.update({ "system.equipped": !(item as EquipmentGURPS).equipped });
 	}
 
 	protected async _onRollableHover(event: JQuery.MouseOverEvent | JQuery.MouseOutEvent, hover: boolean) {
@@ -143,9 +143,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {
-		const actorData = this.actor.toObject(false);
+		const actorData = this.actor.toObject(false) as any;
 		const items = deepClone(
-			this.actor.items.map(item => item).sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0)),
+			this.actor.items.map(item => item as any).sort((a, b) => (a.sort || 0) - (b.sort || 0)),
 		);
 		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
 		const encumbrance = this.prepareEncumbrance();
@@ -153,9 +153,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const sheetData = {
 			...super.getData(options),
 			...{
-				data: actorData.data,
+				data: actorData.system,
 				items: items,
-				settings: (actorData.data as any).settings,
+				settings: (actorData.system as any).settings,
 				editing: this.actor.editing,
 				primary_attributes: primary_attributes,
 				secondary_attributes: secondary_attributes,
@@ -267,7 +267,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	// Events
 	async _onEditToggle(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		await this.actor.update({ "data.editing": !this.actor.editing });
+		await this.actor.update({ "system.editing": !this.actor.editing });
 		$(event.currentTarget).find("i").toggleClass("fa-unlock fa-lock");
 		return this.render();
 	}

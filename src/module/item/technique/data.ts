@@ -8,9 +8,9 @@ import { TechniqueGURPS } from ".";
 
 export type TechniqueSource = BaseItemSourceGURPS<"technique", TechniqueSystemData>;
 
-export class TechniqueData extends BaseItemDataGURPS<TechniqueGURPS> {}
+// export class TechniqueData extends BaseItemDataGURPS<TechniqueGURPS> {}
 
-export interface TechniqueData extends Omit<TechniqueSource, "effects" | "flags"> {
+export interface TechniqueData extends Omit<TechniqueSource, "effects" | "flags">, TechniqueSystemData {
 	readonly type: TechniqueSource["type"];
 	data: TechniqueSystemData;
 

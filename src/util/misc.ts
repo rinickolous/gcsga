@@ -1,4 +1,3 @@
-import { ActorGURPS } from "@actor";
 import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 import { v4 as uuidv4 } from "uuid";
 

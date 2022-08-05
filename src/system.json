@@ -1,5 +1,5 @@
 {
-	"name": "gcsga",
+	"id": "gcsga",
 	"title": "GURPS Character Sheet Game Aid",
 	"description": "",
 	"version": "",
@@ -11,13 +11,16 @@
 			"discord": "neck#0001"
 		}
 	],
-	"minimumCoreVersion": "9",
-	"compatibleCoreVersion": "9",
+	"compatibility": {
+		"minimum": 10,
+		"verified": "10.277",
+		"maximum": 10
+	},
 	"scripts": [],
 	"esmodules": ["module/gcsga.js"],
 	"styles": ["styles/gcsga.css"],
 	"packs": [],
-	"dependencies": [],
+	"relatinships": {},
 	"languages": [
 		{
 			"lang": "en",

@@ -10,6 +10,8 @@ import { Feature } from "@feature";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
 import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
+import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { BaseActorGURPS } from "@actor";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -44,6 +46,15 @@ class BaseItemGURPS extends Item {
 		if (this._source.img === foundry.documents.BaseItem.DEFAULT_ICON)
 			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		await super._preCreate(data, options, user);
+	}
+
+	override update(
+		data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>,
+		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
+	): Promise<this | undefined> {
+		console.log(data);
+		// if (!(this.parent instanceof BaseActorGURPS)) return this.parent?.updateEmbeddedDocuments("Item", [data as any]) as any;
+		return super.update(data, context);
 	}
 
 	get actor(): CharacterGURPS | null {

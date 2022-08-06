@@ -656,7 +656,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	override prepareEmbeddedDocuments(): void {
-		super.prepareEmbeddedDocuments();
+		this.items.forEach(e => e.prepareData());
 		this.updateSkills();
 		this.updateSpells();
 		for (let i = 0; i < 5; i++) {

@@ -282,13 +282,37 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const buttons: Application.HeaderButton[] = [
 			edit_button,
 			{
-				label: "Import",
+				label: "",
+				class: "attributes",
+				icon: "gcs-attribute",
+				onclick: event => this._onAttributeSettingsClick(event),
+			},
+			{
+				label: "",
+				class: "body-type",
+				icon: "gcs-body-type",
+				onclick: event => this._onBodyTypeSettingsClick(event),
+			},
+			{
+				label: "",
+				// label: "Import",
 				class: "import",
 				icon: "fas fa-file-import",
 				onclick: event => this._onFileImport(event),
 			},
 		];
-		return buttons.concat(super._getHeaderButtons());
+		const all_buttons = buttons.concat(super._getHeaderButtons());
+		all_buttons.at(-1)!.label = "";
+		all_buttons.at(-1)!.icon = "gcs-circled-x";
+		return all_buttons;
+		// return buttons.concat(super._getHeaderButtons());
+	}
+
+	private _onBodyTypeSettingsClick(event: JQuery.ClickEvent<any, any, any, any>): void {
+		throw new Error("Method not implemented.");
+	}
+	private _onAttributeSettingsClick(event: JQuery.ClickEvent<any, any, any, any>): void {
+		throw new Error("Method not implemented.");
 	}
 
 	async _onFileImport(event: any) {

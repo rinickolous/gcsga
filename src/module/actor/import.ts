@@ -222,22 +222,29 @@ export class ActorImporter {
 				item,
 				context,
 			);
-			const newItem = new BaseItemGURPS({
+			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,
 				system: itemData,
 				flags: itemFlags,
-				// _id: id,
-			});
+				_id: id,
+			};
+			// const newItem = new BaseItemGURPS({
+			// 	name: item.name ?? "ERROR",
+			// 	type: item.type,
+			// 	system: itemData,
+			// 	flags: itemFlags,
+			// 	// _id: id,
+			// });
 			if (context?.container) {
 				items.push({
 					name: item.name,
 					data: itemData,
 					effects: [],
 					flags: itemFlags,
-					folder: newItem.folder as Folder,
-					img: newItem.img,
-					permission: newItem.permission,
+					// folder: newItem.folder as Folder,
+					// img: newItem.img,
+					// permission: newItem.permission,
 					type: item.type,
 					_id: id,
 				});

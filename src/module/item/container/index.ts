@@ -76,8 +76,9 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
 		const updatedItems: any[] = [];
-		const newContainedItems = containedItems.map((existing: { id: string }) => {
-			const theUpdate = updates?.find(update => update.id === existing.id);
+		const newContainedItems = containedItems.map((existing: { _id: string }) => {
+			console.log(updates, existing);
+			const theUpdate = updates?.find(update => update._id === existing._id!);
 			if (theUpdate) {
 				const newData = mergeObject(theUpdate, existing, {
 					overwrite: false,

@@ -6,7 +6,7 @@ export class ItemSheetGURPS extends ItemSheet {
 			...{
 				document: this.item,
 				item: itemData,
-				data: (itemData as any).system,
+				system: (itemData as any).system,
 				config: (CONFIG as any).GURPS,
 			},
 		};

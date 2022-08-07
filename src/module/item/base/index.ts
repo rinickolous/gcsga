@@ -1,7 +1,4 @@
-import {
-	Context,
-	DocumentModificationOptions,
-} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
 import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
@@ -36,21 +33,14 @@ class BaseItemGURPS extends Item {
 		}
 	}
 
-	protected async _preCreate(
-		data: ItemDataGURPS,
-		options: DocumentModificationOptions,
-		user: BaseUser,
-	): Promise<void> {
+	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
 		//@ts-ignore
-		if (this._source.img === foundry.documents.BaseItem.DEFAULT_ICON)
-			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
+		if (this._source.img === foundry.documents.BaseItem.DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 
-	override async update(
-		data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>,
-		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
-	): Promise<this | undefined> {
+	override async update(data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
+		console.log(data);
 		if (this.parent instanceof BaseItemGURPS) {
 			data = foundry.utils.expandObject(data as any);
 			data!._id = this.id;
@@ -92,18 +82,7 @@ class BaseItemGURPS extends Item {
 	}
 
 	get weapons(): Map<number, Weapon> {
-		if (
-			[
-				"modifier",
-				"trait_container",
-				"skill_container",
-				"spell_container",
-				"eqp_modifier",
-				"note",
-				"note_container",
-			].includes(this.type)
-		)
-			return new Map();
+		if (["modifier", "trait_container", "skill_container", "spell_container", "eqp_modifier", "note", "note_container"].includes(this.type)) return new Map();
 		const weapons: Map<number, Weapon> = new Map();
 		((this as any).system.weapons ?? []).forEach((w: Weapon, index: number) => {
 			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));

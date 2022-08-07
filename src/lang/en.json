@@ -153,22 +153,7 @@
 			"points_per_level": "Per Level",
 			"levels": "Levels",
 			"cr": "Self-Control Roll",
-			"reference": "Page Reference",
-			"cr_level": {
-				"0": "None Required",
-				"6": "CR: 6 (Resist Rarely)",
-				"9": "CR: 9 (Resist Fairly Often)",
-				"12": "CR: 12 (Resist Quite Often)",
-				"15": "CR: 15 (Resist Almost All The Time)"
-			},
-			"cr_adj": {
-				"action_penalty": "{penalty} Action Penalty",
-				"reaction_penalty": "{penalty} Reaction Penalty",
-				"fright_check_penalty": "{penalty} Fright Check Penalty",
-				"fright_check_bonus": "{penalty} Fright Check Bonus",
-				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
-				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
-			}
+			"reference": "Page Reference"
 		},
 		"trait_container": {},
 		"trait_modifier": {},
@@ -222,7 +207,71 @@
 				"hint": "Choose whether character portraits are overwritten on import"
 			}
 		},
-		"select": {},
+		"select": {
+			"cr_level": {
+				"0": "None Required",
+				"6": "CR: 6 (Resist Rarely)",
+				"9": "CR: 9 (Resist Fairly Often)",
+				"12": "CR: 12 (Resist Quite Often)",
+				"15": "CR: 15 (Resist Almost All The Time)"
+			},
+			"cr_adj": {
+				"action_penalty": "{penalty} Action Penalty",
+				"reaction_penalty": "{penalty} Reaction Penalty",
+				"fright_check_penalty": "{penalty} Fright Check Penalty",
+				"fright_check_bonus": "{penalty} Fright Check Bonus",
+				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
+				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
+			},
+			"number_compare": {
+				"none": "is anything",
+				"is": "is",
+				"is_not": "is not",
+				"at_least": "is at least",
+				"at_most": "is at most"
+			},
+			"number_compare_strict": {
+				"is": "exactly",
+				"at_least": "at least",
+				"at_most": "at most"
+			},
+			"string_compare": {
+				"none": "is anything",
+				"is": "is",
+				"is_not": "is not",
+				"contains": "contains",
+				"does_not_contain": "does not contain",
+				"starts_with": "starts with",
+				"does_not_start_with": "does not start with",
+				"ends_with": "ends with",
+				"does_not_end_with": "does not end with"
+			},
+			"has": {
+				"true": "has",
+				"false": "doesn't have"
+			},
+			"all": {
+				"true": "requires all of:",
+				"false": "requires at least one of:"
+			},
+			"prereqs": {
+				"trait_prereq": "a trait",
+				"attribute_prereq": "the attribute",
+				"contained_quantity_prereq": "a contained quantity",
+				"contained_weight_prereq": "a contained weight",
+				"skill_prereq": "a skill",
+				"spell_prereq": "spell(s)"
+			}
+		},
+		"field_prefix": {
+			"tech_level": "When the Tech Level",
+			"trait_name": "whose name",
+			"skill_name": "to skills whose name",
+			"specialization": "and whose specialization",
+			"usage": "and whose usage",
+			"notes": "and whose notes",
+			"level": "and whose level"
+		},
 		"system": {
 			"sheet": {
 				"character": "GURPS Character Sheet",

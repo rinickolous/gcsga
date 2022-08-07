@@ -94,6 +94,58 @@ const GURPSCONFIG: any = {
 			ranged_weapon: RangedWeapon,
 		},
 	},
+	select: {
+		cr_level: {
+			0: "0",
+			6: "6",
+			9: "9",
+			12: "12",
+			15: "15",
+		},
+		cr_adj: {
+			action_penalty: "action_penalty",
+			reaction_penalty: "reaction_penalty",
+			fright_check_penalty: "fright_check_penalty",
+			fright_check_bonus: "fright_check_bonus",
+			minor_cost_of_living_increase: "minor_cost_of_living_increase",
+			major_cost_of_living_increase: "major_cost_of_living_increase",
+		},
+		number_compare: {
+			none: "none",
+			is: "is",
+			is_not: "is_not",
+			at_least: "at_least",
+			at_most: "at_most",
+		},
+		number_compare_strict: {
+			is: "is",
+			at_least: "at_least",
+			at_most: "at_most",
+		},
+		string_compare: {
+			none: "none",
+			is: "is",
+			is_not: "is_not",
+			contains: "contains",
+			does_not_contain: "does_not_contain",
+			starts_with: "starts_with",
+			does_not_start_with: "does_not_start_with",
+			ends_with: "ends_with",
+			does_not_end_with: "does_not_end_with",
+		},
+		boolean: {
+			true: "true",
+			false: "false",
+		},
+		prereqs: {
+			trait_prereq: "trait_prereq",
+			attribute_prereq: "attribute_prereq",
+			contained_quantity_prereq: "contained_quantity_prereq",
+			contained_weight_prereq: "contained_weight_prereq",
+			skill_prereq: "skill_prereq",
+			spell_prereq: "spell_prereq",
+		},
+	},
 };
 // GURPSCONFIG.Item.documentClasses = {};
 // GURPSCONFIG.Actor.documentClasses = {

@@ -7,8 +7,8 @@ export interface BaseItemSourceGURPS<
 	TSystemData extends ItemSystemData = ItemSystemData,
 > extends ItemDataSource {
 	type: TItemType;
-	// data: TSystemData;
-	// flags: DeepPartial<ItemFlagsGURPS>;
+	system: TSystemData;
+	flags: DeepPartial<ItemFlagsGURPS>;
 }
 
 // export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {

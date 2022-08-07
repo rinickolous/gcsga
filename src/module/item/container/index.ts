@@ -76,8 +76,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
 		const updatedItems: any[] = [];
-		const newContainedItems = containedItems.map((existing: { _id: string }) => {
-			console.log(updates, existing);
+		const newContainedItems = containedItems.map((existing: any) => {
 			const theUpdate = updates?.find(update => update._id === existing._id!);
 			if (theUpdate) {
 				const newData = mergeObject(theUpdate, existing, {
@@ -106,7 +105,6 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		ids: string[],
 		context?: DocumentModificationContext | undefined,
 	): Promise<any[]> {
-		console.log("checkem delete");
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		const newContainedItems = containedItems.filter((itemData: ItemGURPS) => !ids.includes(itemData._id!));
@@ -119,31 +117,23 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return deletedItems;
 	}
 
-	// TODO update
 	override prepareEmbeddedDocuments(): void {
 		super.prepareEmbeddedDocuments();
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		const oldItems = this.items;
 		this.items = new foundry.utils.Collection();
-		containedItems.forEach((itemData: ItemGURPS) => {
-			if (!oldItems?.has(itemData._id!)) {
-				// "this as any" used to ignore parent type incompatibility
-				const theItem = new CONFIG.Item.documentClass(itemData as any as ItemDataConstructorData, {
-					parent: this as any,
-				});
-				theItem.prepareData();
-				this.items.set(itemData._id!, theItem as unknown as ItemGURPS);
+		containedItems.forEach((itemData: any) => {
+			if (!oldItems?.has(itemData._id)) {
+				const theItem = new CONFIG.Item.documentClass(itemData, { parent: this as any });
+				this.items.set(itemData._id, theItem as ItemGURPS);
 			} else {
-				const currentItem = oldItems.get(itemData._id!);
-				if (currentItem) {
-					setProperty((currentItem as any)._source, "name", itemData.name);
-					// setProperty(currentItem.data._source, "flags", itemData.flags);
-					// setProperty(currentItem.data._source, "system", itemData.system);
-					// commented out because may not be necessary
-					// setProperty(currentItem.data._source, "sort", itemData.sort);
-					currentItem.prepareData();
-					this.items.set(itemData._id!, currentItem);
-				}
+				const currentItem = oldItems.get(itemData._id);
+				// setProperty(currentItem!._source, "flags", itemData.flags);
+				// setProperty(currentItem!._source, "system", itemData.system);
+				setProperty(currentItem!._source, "flags", itemData.flags);
+				setProperty(currentItem!._source, "system", itemData.system);
+				currentItem?.prepareData();
+				this.items.set(itemData._id, currentItem!);
 			}
 		});
 	}

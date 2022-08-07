@@ -11,7 +11,6 @@ import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/fo
 import { SYSTEM_NAME } from "@module/settings";
 import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { BaseActorGURPS } from "@actor";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -48,13 +47,23 @@ class BaseItemGURPS extends Item {
 		await super._preCreate(data, options, user);
 	}
 
-	override update(
+	override async update(
 		data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
-		console.log(data);
-		// if (!(this.parent instanceof BaseActorGURPS)) return this.parent?.updateEmbeddedDocuments("Item", [data as any]) as any;
-		return super.update(data, context);
+		if (this.parent instanceof BaseItemGURPS) {
+			data = foundry.utils.expandObject(data as any);
+			data!._id = this.id;
+			await this.parent?.updateEmbeddedDocuments("Item", [data!]);
+			this.render(false, { action: "update", data: data } as any);
+			return this;
+		} else return super.update(data, context);
+	}
+
+	// Should not be necessary
+	override prepareBaseData(): void {
+		mergeObject(this.system, this._source.system);
+		mergeObject(this.flags, this._source.flags);
 	}
 
 	get actor(): CharacterGURPS | null {

@@ -60,12 +60,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);
-			points += this.actor.spellPointBonusesFor(
-				"spell.power_source.points",
-				this.powerSource,
-				this.tags,
-				tooltip,
-			);
+			points += this.actor.spellPointBonusesFor("spell.power_source.points", this.powerSource, this.tags, tooltip);
 			points += this.actor.spellPointBonusesFor("spell.points", this.name ?? "", this.tags, tooltip);
 			points = Math.max(points, 0);
 		}
@@ -103,10 +98,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 
 	get relativeLevel(): string {
 		if (this.calculateLevel.level == -Infinity) return "-";
-		return (
-			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
-			signed(this.calculateLevel.relative_level)
-		);
+		return (this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") + signed(this.calculateLevel.relative_level);
 	}
 	// Point & Level Manipulation
 	updateLevel(): boolean {
@@ -180,13 +172,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 				if (points > 0) relative_level = points;
 				if (level != Math.max()) {
 					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor(
-						"skill.name*",
-						this.name ?? "",
-						college,
-						this.tags,
-						tooltip,
-					);
+					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", college, this.tags, tooltip);
 					level += relative_level;
 				}
 				if (limit) {

@@ -6,9 +6,7 @@ export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", Equipm
 
 // export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
 
-export interface EquipmentModifierData
-	extends Omit<EquipmentModifierSource, "effects" | "flags">,
-		EquipmentModifierSystemData {
+export interface EquipmentModifierData extends Omit<EquipmentModifierSource, "effects" | "flags">, EquipmentModifierSystemData {
 	readonly type: EquipmentModifierSource["type"];
 	data: EquipmentModifierSystemData;
 

@@ -101,19 +101,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		const type: RollType = $(event.currentTarget).data("type");
 		const data: { [key: string]: any } = { type: type };
-		if (
-			[
-				RollType.Damage,
-				RollType.Attack,
-				RollType.Skill,
-				RollType.SkillRelative,
-				RollType.Spell,
-				RollType.SpellRelative,
-			].includes(type)
-		)
-			data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
-		if ([RollType.Damage, RollType.Attack].includes(type))
-			data.weapon = data.item.weapons.get($(event.currentTarget).data("attack-id"));
+		if ([RollType.Damage, RollType.Attack, RollType.Skill, RollType.SkillRelative, RollType.Spell, RollType.SpellRelative].includes(type)) data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
+		if ([RollType.Damage, RollType.Attack].includes(type)) data.weapon = data.item.weapons.get($(event.currentTarget).data("attack-id"));
 		if (type == RollType.Modifier) {
 			data.modifier = $(event.currentTarget).data("modifier");
 			data.comment = $(event.currentTarget).data("comment");
@@ -144,9 +133,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {
 		const actorData = this.actor.toObject(false) as any;
-		const items = deepClone(
-			this.actor.items.map(item => item as any).sort((a, b) => (a.sort || 0) - (b.sort || 0)),
-		);
+		const items = deepClone(this.actor.items.map(item => item as any).sort((a, b) => (a.sort || 0) - (b.sort || 0)));
 		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
 		const encumbrance = this.prepareEncumbrance();
 		const lifts = this.prepareLifts();
@@ -208,18 +195,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const [traits, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
 			(arr: ItemGURPS[][], item: ItemGURPS) => {
 				if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) arr[0].push(item);
-				else if (
-					item instanceof SkillGURPS ||
-					item instanceof TechniqueGURPS ||
-					item instanceof SkillContainerGURPS
-				)
-					arr[1].push(item);
-				else if (
-					item instanceof SpellGURPS ||
-					item instanceof RitualMagicSpellGURPS ||
-					item instanceof SpellContainerGURPS
-				)
-					arr[2].push(item);
+				else if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS) arr[1].push(item);
+				else if (item instanceof SpellGURPS || item instanceof RitualMagicSpellGURPS || item instanceof SpellContainerGURPS) arr[2].push(item);
 				else if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS) {
 					if (item.other) arr[4].push(item);
 					else arr[3].push(item);

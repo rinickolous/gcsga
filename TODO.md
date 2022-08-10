@@ -8,6 +8,7 @@
 - ChatMessage style
 - rollable style
 - NPC sheet (?)
+- move character options to modified DocumentSheetConfig form
 ## Small Features
 - Roll function
 - Sort items on import
@@ -26,4 +27,3 @@
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)
-- **URGENT** fix nested item updates

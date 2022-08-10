@@ -221,13 +221,7 @@ export class Evaluator {
 		return opIndex;
 	}
 
-	processOperator(
-		expression: string,
-		index: number,
-		op: Operator | null,
-		haveOperand: boolean,
-		unaryOp: Operator | null,
-	): number {
+	processOperator(expression: string, index: number, op: Operator | null, haveOperand: boolean, unaryOp: Operator | null): number {
 		if (haveOperand && op && op.symbol == "(") {
 			[index, op] = this.processFunction(expression, index);
 			index += op?.symbol.length || 0;

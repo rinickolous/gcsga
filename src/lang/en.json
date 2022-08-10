@@ -153,7 +153,14 @@
 			"points_per_level": "Per Level",
 			"levels": "Levels",
 			"cr": "Self-Control Roll",
-			"reference": "Page Reference"
+			"reference": "Page Reference",
+			"cr_level": {
+				"0": "None Required",
+				"6": "CR: 6 (Resist Rarely)",
+				"9": "CR: 9 (Resist Fairly Often)",
+				"12": "CR: 12 (Resist Quite Often)",
+				"15": "CR: 15 (Resist Almost All The Time)"
+			}
 		},
 		"trait_container": {},
 		"trait_modifier": {},
@@ -208,13 +215,6 @@
 			}
 		},
 		"select": {
-			"cr_level": {
-				"0": "None Required",
-				"6": "CR: 6 (Resist Rarely)",
-				"9": "CR: 9 (Resist Fairly Often)",
-				"12": "CR: 12 (Resist Quite Often)",
-				"15": "CR: 15 (Resist Almost All The Time)"
-			},
 			"cr_adj": {
 				"action_penalty": "{penalty} Action Penalty",
 				"reaction_penalty": "{penalty} Reaction Penalty",

@@ -5,9 +5,7 @@ export type SpellContainerSource = BaseContainerSource<"spell_container", SpellC
 
 // export class SpellContainerData extends BaseContainerData<SpellContainerGURPS> {}
 
-export interface SpellContainerData
-	extends Omit<SpellContainerSource, "effects" | "flags" | "items">,
-		SpellContainerSystemData {
+export interface SpellContainerData extends Omit<SpellContainerSource, "effects" | "flags" | "items">, SpellContainerSystemData {
 	readonly type: SpellContainerSource["type"];
 	data: SpellContainerSystemData;
 

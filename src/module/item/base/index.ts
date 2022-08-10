@@ -8,6 +8,8 @@ import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/fo
 import { SYSTEM_NAME } from "@module/settings";
 import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
+import { updateArray } from "@util";
+import { BaseFeature } from "@feature/base";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -40,6 +42,7 @@ class BaseItemGURPS extends Item {
 	}
 
 	override async update(data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
+		// this.keepArrays(data);
 		console.log(data);
 		if (this.parent instanceof BaseItemGURPS) {
 			data = foundry.utils.expandObject(data as any);
@@ -49,6 +52,22 @@ class BaseItemGURPS extends Item {
 			return this;
 		} else return super.update(data, context);
 	}
+
+	// keepArrays(data: any): void {
+	// 	const arrays: any = {};
+	// 	for (const [key, value] of Object.entries(data)) {
+	// 		if (key.includes("system.prereqs.prereqs.")) {
+	// 			if (!arrays["system.prereqs.prereqs"]) arrays["system.prereqs.prereqs"] = (this.system as any).prereqs.prereqs;
+	// 			const path: Array<string> = key.replace("system.prereqs.prereqs.", "").split(".");
+	// 			updateArray(arrays["system.prereqs.prereqs"], path, value);
+	// 			delete data[key];
+	// 		}
+	// 	}
+	// 	console.log(data, arrays);
+	// 	for (const [key, value] of Object.entries(arrays)) {
+	// 		data[key] = value;
+	// 	}
+	// }
 
 	// Should not be necessary
 	override prepareBaseData(): void {
@@ -78,6 +97,20 @@ class BaseItemGURPS extends Item {
 	}
 
 	get features(): Feature[] {
+		if (this.system.hasOwnProperty("features")) {
+			const features: Feature[] = [];
+			let list = [];
+			if (Array.isArray((this.system as any).features)) list = (this.system as any).features;
+			else {
+				for (const [key, value] of Object.entries((this.system as any).features)) {
+					if (!isNaN(key as any) && !list[parseInt(key)]) list.push(value);
+				}
+			}
+			for (const f of list ?? []) {
+				features.push(new BaseFeature(f));
+			}
+			return features;
+		}
 		return [];
 	}
 

@@ -58,12 +58,7 @@ export class AttributeDef {
 
 	computeCost(actor: CharacterGURPS, value: number, cost_reduction: number, size_modifier: number): number {
 		let cost = value * this.cost_per_point;
-		if (
-			size_modifier > 0 &&
-			this.cost_adj_percent_per_sm > 0 &&
-			!(this.def_id == "hp" && actor.settings.damage_progression == "knowing_your_own_strength")
-		)
-			cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
+		if (size_modifier > 0 && this.cost_adj_percent_per_sm > 0 && !(this.def_id == "hp" && actor.settings.damage_progression == "knowing_your_own_strength")) cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
 		if (cost_reduction > 0) {
 			if (cost_reduction > 80) cost_reduction = 80;
 			cost = (cost * (100 - cost_reduction)) / 100;

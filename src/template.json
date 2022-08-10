@@ -33,22 +33,7 @@
 		}
 	},
 	"Item": {
-		"types": [
-			"trait",
-			"trait_container",
-			"modifier",
-			"skill",
-			"technique",
-			"skill_container",
-			"spell",
-			"ritual_magic_spell",
-			"spell_container",
-			"equipment",
-			"eqp_modifier",
-			"equipment_container",
-			"note",
-			"note_container"
-		],
+		"types": ["trait", "trait_container", "modifier", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "eqp_modifier", "equipment_container", "note", "note_container"],
 		"templates": {
 			"common": {
 				"id": "",

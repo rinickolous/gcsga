@@ -24,10 +24,18 @@ export class PrereqList extends BasePrereq {
 
 	constructor(data: PrereqListObj, context: PrereqConstructionContext = {}) {
 		super(data, context);
-		if (!!(data as PrereqList).prereqs)
-			(data as PrereqList).prereqs.forEach((e: Prereq) => {
+		if (!!(data as PrereqList).prereqs) {
+			let list: any[] = [];
+			if (Array.isArray((data as PrereqList).prereqs)) list = (data as PrereqList).prereqs;
+			else {
+				for (const [key, value] of Object.entries((data as PrereqList).prereqs)) {
+					if (!isNaN(key as any) && !list[parseInt(key)]) list.push(value);
+				}
+			}
+			list.forEach((e: Prereq) => {
 				this.prereqs.push(new (CONFIG as any).GURPS.Prereq.classes[e?.type as PrereqType](e as any, context));
 			});
+		}
 	}
 
 	override satisfied(character: CharacterGURPS, exclude: any, buffer: TooltipGURPS, prefix: string): boolean {

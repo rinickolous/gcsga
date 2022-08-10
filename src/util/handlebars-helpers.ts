@@ -49,6 +49,10 @@ export function registerHandlebarsHelpers() {
 		return a == b;
 	});
 
+	Handlebars.registerHelper("neq", function (a, b) {
+		return a != b;
+	});
+
 	Handlebars.registerHelper("sum", function (...args) {
 		const arr: number[] = [];
 		for (const arg of args) {
@@ -149,6 +153,11 @@ export function registerHandlebarsHelpers() {
 			if ((typeof a == "number" || typeof a == "string") && `${a}`.length > length) length = `${a}`.length;
 		}
 		return length;
+	});
+
+	Handlebars.registerHelper("print", function (a: any): any {
+		console.log(a);
+		return a;
 	});
 
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {

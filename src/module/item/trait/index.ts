@@ -53,20 +53,17 @@ export class TraitGURPS extends ContainerGURPS {
 	get formattedCR(): string {
 		let cr = "";
 		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
-		if (this.crAdj != "none")
-			cr +=
-				", " +
-				i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
 		return cr;
 	}
 
-	get features() {
-		const features: Feature[] = [];
-		for (const f of this.system.features ?? []) {
-			features.push(new BaseFeature(f));
-		}
-		return features;
-	}
+	// get features() {
+	// 	const features: Feature[] = [];
+	// 	for (const f of this.system.features ?? []) {
+	// 		features.push(new BaseFeature(f));
+	// 	}
+	// 	return features;
+	// }
 
 	get prereqs() {
 		return new PrereqList(this.system.prereqs);
@@ -133,14 +130,9 @@ export class TraitGURPS extends ContainerGURPS {
 		if (baseEnh != 0 || baseLim != 0 || levelEnh != 0 || levelLim != 0) {
 			if (this.actor?.settings.use_multiplicative_modifiers) {
 				if (baseEnh == levelEnh && baseLim == levelLim) {
-					modifiedBasePoints = modifyPoints(
-						modifyPoints(modifiedBasePoints + leveledPoints, baseEnh),
-						Math.max(-80, baseLim),
-					);
+					modifiedBasePoints = modifyPoints(modifyPoints(modifiedBasePoints + leveledPoints, baseEnh), Math.max(-80, baseLim));
 				} else {
-					modifiedBasePoints =
-						modifyPoints(modifyPoints(modifiedBasePoints, baseEnh), Math.max(-80, baseLim)) +
-						modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
+					modifiedBasePoints = modifyPoints(modifyPoints(modifiedBasePoints, baseEnh), Math.max(-80, baseLim)) + modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
 				}
 			} else {
 				let baseMod = Math.max(-80, baseEnh + baseLim);
@@ -148,8 +140,7 @@ export class TraitGURPS extends ContainerGURPS {
 				if (baseMod == levelMod) {
 					modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
 				} else {
-					modifiedBasePoints =
-						modifyPoints(modifiedBasePoints, baseMod) + modifyPoints(leveledPoints, levelMod);
+					modifiedBasePoints = modifyPoints(modifiedBasePoints, baseMod) + modifyPoints(leveledPoints, levelMod);
 				}
 			}
 		} else {

@@ -69,10 +69,8 @@ export class ActorImporter {
 		imp.path = file.path ?? imp.path;
 		imp.last_import = new Date().toISOString();
 		try {
-			if (r.version < this.version)
-				return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_old")));
-			else if (r.version > this.version)
-				return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_new")));
+			if (r.version < this.version) return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_old")));
+			else if (r.version > this.version) return this.throwImportError(errorMessages.concat(i18n("gcsga.error.import.format_new")));
 			commit = { ...commit, ...{ "system.import": imp } };
 			commit = { ...commit, ...{ name: r.profile.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
@@ -218,10 +216,7 @@ export class ActorImporter {
 		for (const item of list) {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			const [itemData, itemFlags]: [ItemSystemDataGURPS, BaseItemGURPS["flags"]] = this.getItemData(
-				item,
-				context,
-			);
+			const [itemData, itemFlags]: [ItemSystemDataGURPS, BaseItemGURPS["flags"]] = this.getItemData(item, context);
 			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,
@@ -255,10 +250,7 @@ export class ActorImporter {
 		return items;
 	}
 
-	getItemData(
-		item: ItemSystemDataGURPS,
-		context?: { container?: boolean; other?: boolean },
-	): [ItemSystemDataGURPS, BaseItemGURPS["flags"]] {
+	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, BaseItemGURPS["flags"]] {
 		let data: ItemSystemDataGURPS;
 		const flags: BaseItemGURPS["flags"] = { gcsga: { contentsData: [] } };
 
@@ -292,9 +284,7 @@ export class ActorImporter {
 				return [data, flags];
 			case "equipment":
 				data = this.getEquipmentData(item as EquipmentSystemData, context?.other);
-				flags.gcsga!.contentsData!.concat(
-					this.importItems((item as any).modifiers, { container: true, other: context?.other }),
-				);
+				flags.gcsga!.contentsData!.concat(this.importItems((item as any).modifiers, { container: true, other: context?.other }));
 				return [data, flags];
 			case "equipment_container":
 				data = this.getEquipmentContainerData(item as EquipmentContainerSystemData, context?.other);
@@ -302,9 +292,7 @@ export class ActorImporter {
 					container: true,
 					other: context?.other,
 				});
-				flags.gcsga!.contentsData!.concat(
-					this.importItems((item as any).modifiers, { container: true, other: context?.other }),
-				);
+				flags.gcsga!.contentsData!.concat(this.importItems((item as any).modifiers, { container: true, other: context?.other }));
 				return [data, flags];
 			case "eqp_modifier":
 				return [this.getEquipmentModifierData(item as EquipmentModifierSystemData), flags];

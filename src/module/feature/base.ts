@@ -40,10 +40,7 @@ export class BaseFeature {
 
 	// needed?
 	static get default() {
-		return new BaseFeature(
-			{ type: "attribute_bonus", attribute: "st", amount: 1, per_level: false },
-			{ ready: true },
-		);
+		return new BaseFeature({ type: "attribute_bonus", attribute: "st", amount: 1, per_level: false }, { ready: true });
 	}
 
 	get adjustedAmount(): number {
@@ -58,12 +55,7 @@ export class BaseFeature {
 		if (buffer) {
 			buffer.push("\n");
 			buffer.push(this.parent);
-			buffer.push(
-				` [${
-					new LeveledAmount({ level: this.levels, amount: this.amount, per_level: this.per_level })
-						.formatWithLevel
-				}]`,
-			);
+			buffer.push(` [${new LeveledAmount({ level: this.levels, amount: this.amount, per_level: this.per_level }).formatWithLevel}]`);
 		}
 	}
 }

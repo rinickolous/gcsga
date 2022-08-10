@@ -3,11 +3,7 @@ import { RollType } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "./misc";
 
-export async function handleRoll(
-	user: StoredDocument<User> | null,
-	actor: ActorGURPS,
-	data: { [key: string]: any },
-): Promise<void> {
+export async function handleRoll(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
 	console.log(user, actor, data);
 	switch (data.type) {
 		case RollType.Modifier:
@@ -29,11 +25,7 @@ function addModifier(user: StoredDocument<User> | null, actor: ActorGURPS, data:
 	throw new Error("Function not implemented.");
 }
 
-export async function rollSkill(
-	user: StoredDocument<User> | null,
-	actor: ActorGURPS,
-	data: { [key: string]: any },
-): Promise<void> {
+export async function rollSkill(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
 	const formula = "3d6";
 	const roll = Roll.create(formula);
 	console.log(user, actor, data);

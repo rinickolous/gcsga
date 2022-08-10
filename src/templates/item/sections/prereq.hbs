@@ -1,62 +1,70 @@
 <div class="prereq">
-	{{#if (eq this.type "prereq_list")}}
-	<i class="add-child gcs-circled-add"></i>
-	<i class="add-list gcs-circled-vertical-ellipsis"></i>
-	<select name="{{name}}.when_tl.compare" data-dtype="String">
-		{{#select this.when_tl.compare}}
-		{{#each config.select.number_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.tech_level"}} {{localize (concat
-			"gcsga.select.number_compare." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{>input-text field="field" name=(concat name ".when_tl.qualifier") data=this.when_tl.qualifier type="Number"
-	class=(disabled (eq this.when_tl.compare "none"))}}
-	<select name="{{name}}.all" data-dtype="Boolean">
-		{{#select this.all}}
-		{{#each config.select.boolean as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.all." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{else}}
-	<i class="remove gcs-trash"></i>
-	<select name="{{name}}.has" data-dtype="Boolean">
-		{{#select this.has}}
-		{{#each config.select.boolean as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.has." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{#unless (eq this.type "spell_prereq")}}
-	<select name="{{name}}.type">
-		{{#select this.type}}
-		{{#each config.select.prereqs as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{else}}
-	<select name="{{name}}.quantity.compare">
-		{{#select this.quantity.compare}}
-		{{#each config.select.number_compare_strict as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.number_compare_strict." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{>input-text field="field" name=(concat name ".quantity.qualifier") type="Number"}}
-	<select name="{{name}}.type">
-		{{#select this.type}}
-		{{#each config.select.prereqs as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
-		{{/each}}
-		{{/select}}
-	</select>
-	{{/unless}}
-	{{/if}}
+	<div class="top">
+		{{#if (eq this.type "prereq_list")}}
+		<i class="add-child gcs-circled-add"></i>
+		<i class="add-list gcs-circled-vertical-ellipsis"></i>
+		<select name="{{path}}.when_tl.compare" data-dtype="String">
+			{{#select this.when_tl.compare}}
+			{{#each config.select.number_compare as |v k|}}
+			<option value="{{k}}">{{localize "gcsga.field_prefix.tech_level"}} {{localize (concat
+				"gcsga.select.number_compare." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{>input-text field="field" name=(concat path ".when_tl.qualifier") data=this.when_tl.qualifier type="Number"
+		class=(disabled (eq this.when_tl.compare "none"))}}
+		<select name="{{path}}.all" data-dtype="Boolean">
+			{{#select this.all}}
+			{{#each config.select.boolean as |v k|}}
+			<option value="{{k}}">{{localize (concat "gcsga.select.all." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{else}}
+		<i class="remove gcs-trash"></i>
+		<select name="{{path}}.has" data-dtype="Boolean">
+			{{#select this.has}}
+			{{#each config.select.boolean as |v k|}}
+			<option value="{{k}}">{{localize (concat "gcsga.select.has." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{#unless (eq this.type "spell_prereq")}}
+		<select name="{{path}}.type">
+			{{#select this.type}}
+			{{#each config.select.prereqs as |v k|}}
+			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{else}}
+		<select name="{{path}}.quantity.compare">
+			{{#select this.quantity.compare}}
+			{{#each config.select.number_compare_strict as |v k|}}
+			<option value="{{k}}">{{localize (concat "gcsga.select.number_compare_strict." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{>input-text field="field" name=(concat path ".quantity.qualifier") type="Number"}}
+		<select name="{{path}}.type">
+			{{#select this.type}}
+			{{#each config.select.prereqs as |v k|}}
+			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		{{/unless}}
+		{{/if}}
+	</div>
+	{{#if (eq this.type "trait_prereq")}}{{>trait-prereq}}{{/if}}
+	{{#if (eq this.type "attribute_prereq")}}{{>attribute-prereq}}{{/if}}
+	{{#if (eq this.type "contained_quantity_prereq")}}{{>contained-quantity-prereq}}{{/if}}
+	{{#if (eq this.type "contained_weight_prereq")}}{{>contained-weight-prereq}}{{/if}}
+	{{#if (eq this.type "skill_prereq")}}{{>skill-prereq}}{{/if}}
+	{{#if (eq this.type "spell_prereq")}}{{>spell-prereq}}{{/if}}
 </div>
 {{#if (eq this.type "prereq_list")}}
 {{#each this.prereqs}}
-{{>prereq this name=(concat ../name ".prereqs." @index) config=../config}}
+{{>prereq path=(concat ../path ".prereqs." @index) config=../config}}
 {{/each}}
 {{/if}}

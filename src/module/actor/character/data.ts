@@ -8,9 +8,7 @@ import { DiceGURPS } from "@module/dice";
 export interface CharacterSource extends BaseActorSourceGURPS<"character", CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
-export interface CharacterDataGURPS
-	extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">,
-		CharacterSystemData {
+export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">, CharacterSystemData {
 	readonly type: CharacterSource["type"];
 	data: CharacterSystemData;
 	flags: CharacterFlags;

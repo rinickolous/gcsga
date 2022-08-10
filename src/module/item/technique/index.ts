@@ -49,13 +49,13 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return new SkillDefault(this.system.default);
 	}
 
-	get features() {
-		const features: Feature[] = [];
-		for (const f of this.system.features ?? []) {
-			features.push(new BaseFeature(f));
-		}
-		return features;
-	}
+	// get features() {
+	// 	const features: Feature[] = [];
+	// 	for (const f of this.system.features ?? []) {
+	// 		features.push(new BaseFeature(f));
+	// 	}
+	// 	return features;
+	// }
 
 	get prereqs() {
 		return new PrereqList(this.system.prereqs);
@@ -135,13 +135,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				if (points > 0) relative_level = points;
 				if (level != -Infinity) {
 					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor(
-						"skill.name*",
-						this.name ?? "",
-						this.specialization,
-						this.tags,
-						tooltip,
-					);
+					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", this.specialization, this.tags, tooltip);
 					level += relative_level;
 				}
 				if (!!this.limit) {

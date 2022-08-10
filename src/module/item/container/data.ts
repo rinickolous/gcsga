@@ -2,10 +2,7 @@ import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/ba
 import { ItemType } from "@item/data";
 import { ContainerGURPS } from ".";
 
-export type BaseContainerSource<
-	TItemType extends ItemType = ItemType,
-	TSystemData extends BaseContainerSystemData = BaseContainerSystemData,
-> = BaseItemSourceGURPS<ItemType, BaseContainerSystemData>;
+export type BaseContainerSource<TItemType extends ItemType = ItemType, TSystemData extends BaseContainerSystemData = BaseContainerSystemData> = BaseItemSourceGURPS<ItemType, BaseContainerSystemData>;
 
 // export class BaseContainerData<
 // 	TItem extends ContainerGURPS = ContainerGURPS,

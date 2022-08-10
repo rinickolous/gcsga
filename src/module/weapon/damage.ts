@@ -115,44 +115,12 @@ export class WeaponDamage {
 		let bonusSet: Map<WeaponBonus, boolean> = new Map();
 		let tags = this.parent.parent.tags;
 		if (bestDefault) {
-			actor.addWeaponComparedDamageBonusesFor(
-				"skill.name*",
-				bestDefault.name ?? "",
-				bestDefault.specialization ?? "",
-				tags,
-				base.count,
-				tooltip,
-				bonusSet,
-			);
-			actor.addWeaponComparedDamageBonusesFor(
-				"skill.name/" + bestDefault.name,
-				bestDefault.name ?? "",
-				bestDefault.specialization ?? "",
-				tags,
-				base.count,
-				tooltip,
-				bonusSet,
-			);
+			actor.addWeaponComparedDamageBonusesFor("skill.name*", bestDefault.name ?? "", bestDefault.specialization ?? "", tags, base.count, tooltip, bonusSet);
+			actor.addWeaponComparedDamageBonusesFor("skill.name/" + bestDefault.name, bestDefault.name ?? "", bestDefault.specialization ?? "", tags, base.count, tooltip, bonusSet);
 		}
 		const nameQualifier = this.parent.name;
-		actor.addNamedWeaponDamageBonusesFor(
-			"weapon_named.*",
-			nameQualifier,
-			this.parent.usage,
-			tags,
-			base.count,
-			tooltip,
-			bonusSet,
-		);
-		actor.addNamedWeaponDamageBonusesFor(
-			"weapon_named./" + nameQualifier,
-			nameQualifier,
-			this.parent.usage,
-			tags,
-			base.count,
-			tooltip,
-			bonusSet,
-		);
+		actor.addNamedWeaponDamageBonusesFor("weapon_named.*", nameQualifier, this.parent.usage, tags, base.count, tooltip, bonusSet);
+		actor.addNamedWeaponDamageBonusesFor("weapon_named./" + nameQualifier, nameQualifier, this.parent.usage, tags, base.count, tooltip, bonusSet);
 		for (const f of this.parent.parent.features) {
 			this.extractWeaponDamageBonus(f, bonusSet, base.count, tooltip);
 		}
@@ -203,12 +171,7 @@ export class WeaponDamage {
 		return buffer;
 	}
 
-	extractWeaponDamageBonus(
-		f: Feature,
-		set: Map<WeaponBonus, boolean>,
-		dieCount: number,
-		tooltip?: TooltipGURPS,
-	): void {
+	extractWeaponDamageBonus(f: Feature, set: Map<WeaponBonus, boolean>, dieCount: number, tooltip?: TooltipGURPS): void {
 		if (f instanceof WeaponBonus) {
 			const level = f.levels;
 			f.levels = dieCount;
@@ -224,11 +187,7 @@ export class WeaponDamage {
 					}
 					break;
 				case "weapons_with_name":
-					if (
-						stringCompare(this.parent.name, f.name) &&
-						stringCompare(this.parent.usage, f.specialization) &&
-						stringCompare(this.parent.parent.tags, f.tags)
-					) {
+					if (stringCompare(this.parent.name, f.name) && stringCompare(this.parent.usage, f.specialization) && stringCompare(this.parent.parent.tags, f.tags)) {
 						if (!set.has(f)) {
 							set.set(f, true);
 							f.addToTooltip(tooltip);

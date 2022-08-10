@@ -22,12 +22,7 @@ export class SkillPrereq extends BasePrereq {
 		character.skills.forEach(sk => {
 			if (sk instanceof SkillContainerGURPS) return;
 			sk = sk as SkillGURPS | TechniqueGURPS;
-			if (
-				exclude == sk ||
-				!stringCompare(sk.name, this.name) ||
-				!stringCompare(sk.specialization, this.specialization)
-			)
-				return false;
+			if (exclude == sk || !stringCompare(sk.name, this.name) || !stringCompare(sk.specialization, this.specialization)) return false;
 			satisfied = numberCompare(sk.level.level, this.level);
 			if (satisfied && tech_level) satisfied = !sk.techLevel || tech_level == sk.techLevel;
 		});

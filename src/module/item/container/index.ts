@@ -33,11 +33,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return (this.system as any).open;
 	}
 
-	override async createEmbeddedDocuments(
-		embeddedName: string,
-		data: Record<string, unknown>[],
-		context: DocumentModificationContext & { temporary: false },
-	): Promise<any> {
+	override async createEmbeddedDocuments(embeddedName: string, data: Record<string, unknown>[], context: DocumentModificationContext & { temporary: false }): Promise<any> {
 		if (!Array.isArray(data)) data = [data];
 		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
 		const currentItems = duplicate(getProperty(this, "flags.gcsga.contentsData")) ?? [];
@@ -53,10 +49,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				currentItems.push(theData);
 				createdItems.push(theData);
 			}
-			if (this.parent)
-				return this.parent.updateEmbeddedDocuments(embeddedName, [
-					{ _id: this._id, "flags.gcsga.contentsData": currentItems },
-				]);
+			if (this.parent) return this.parent.updateEmbeddedDocuments(embeddedName, [{ _id: this._id, "flags.gcsga.contentsData": currentItems }]);
 			else this.setCollection(this, currentItems);
 		}
 		return createdItems;
@@ -67,11 +60,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return this.items.get(id);
 	}
 
-	override async updateEmbeddedDocuments(
-		embeddedName: string,
-		updates?: Record<string, unknown>[] | undefined,
-		context?: DocumentModificationContext | undefined,
-	): Promise<Document<any, any, Metadata<any>>[]> {
+	override async updateEmbeddedDocuments(embeddedName: string, updates?: Record<string, unknown>[] | undefined, context?: DocumentModificationContext | undefined): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.updateEmbeddedDocuments(embeddedName, updates, context);
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		if (!Array.isArray(updates)) updates = updates ? [updates] : [];
@@ -92,27 +81,18 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		});
 		if (updatedItems.length > 0) {
 			if (this.parent) {
-				await this.parent.updateEmbeddedDocuments("Item", [
-					{ _id: this.id, "flags.gcsga.contentsData": newContainedItems },
-				]);
+				await this.parent.updateEmbeddedDocuments("Item", [{ _id: this.id, "flags.gcsga.contentsData": newContainedItems }]);
 			} else await this.setCollection(this, newContainedItems);
 		}
 		return updatedItems;
 	}
 
-	override async deleteEmbeddedDocuments(
-		embeddedName: string,
-		ids: string[],
-		context?: DocumentModificationContext | undefined,
-	): Promise<any[]> {
+	override async deleteEmbeddedDocuments(embeddedName: string, ids: string[], context?: DocumentModificationContext | undefined): Promise<any[]> {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 		const containedItems = getProperty(this, "flags.gcsga.contentsData") ?? [];
 		const newContainedItems = containedItems.filter((itemData: ItemGURPS) => !ids.includes(itemData._id!));
 		const deletedItems = this.items.filter((itemData: ItemGURPS) => ids.includes(itemData._id!));
-		if (this.parent)
-			await this.parent.updateEmbeddedDocuments("Item", [
-				{ _id: this._id, "flags.gcsga.contentsData": newContainedItems },
-			]);
+		if (this.parent) await this.parent.updateEmbeddedDocuments("Item", [{ _id: this._id, "flags.gcsga.contentsData": newContainedItems }]);
 		else await this.setCollection(this, newContainedItems);
 		return deletedItems;
 	}

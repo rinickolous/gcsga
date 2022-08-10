@@ -5,7 +5,7 @@ import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
 import { WeightUnits } from "@module/data";
 import { PrereqList } from "@prereq/prereq_list";
-import { determineModWeightValueTypeFromString, extractFraction } from "@util";
+import { determineModWeightValueTypeFromString, extractFraction, floatingMul } from "@util";
 import { EquipmentData } from "./data";
 
 export class EquipmentGURPS extends ContainerGURPS {
@@ -32,13 +32,13 @@ export class EquipmentGURPS extends ContainerGURPS {
 		return parseFloat(this.system.weight);
 	}
 
-	get features() {
-		const features: Feature[] = [];
-		for (const f of this.system.features ?? []) {
-			features.push(new BaseFeature(f));
-		}
-		return features;
-	}
+	// get features() {
+	// 	const features: Feature[] = [];
+	// 	for (const f of this.system.features ?? []) {
+	// 		features.push(new BaseFeature(f));
+	// 	}
+	// 	return features;
+	// }
 
 	get prereqs() {
 		return new PrereqList(this.system.prereqs);
@@ -89,7 +89,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
-		return value * this.quantity;
+		return floatingMul(value, this.quantity);
 	}
 
 	get adjustedWeightFast(): string {
@@ -102,7 +102,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	extendedWeight(for_skills: boolean, units: WeightUnits): number {
-		return this.adjustedWeight(for_skills, units);
+		return floatingMul(this.adjustedWeight(for_skills, units), this.quantity);
 	}
 
 	get extendedWeightFast(): string {
@@ -133,7 +133,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 
 		w = processMultiplyAddWeightStep("to_final_weight", w, units, this.modifiers);
 
-		return w * this.quantity;
+		return Math.max(w, 0);
 	}
 }
 
@@ -158,11 +158,7 @@ export function valueAdjustedForModifiers(value: number, modifiers: Collection<E
 	return Math.max(cost, 0);
 }
 
-export function processNonCFStep(
-	costType: EquipmentCostType,
-	value: number,
-	modifiers: Collection<EquipmentModifierGURPS>,
-): number {
+export function processNonCFStep(costType: EquipmentCostType, value: number, modifiers: Collection<EquipmentModifierGURPS>): number {
 	let cost = value;
 	let percentages = 0;
 	let additions = 0;
@@ -219,12 +215,7 @@ export function extract(s: string): number {
 	return value;
 }
 
-export function processMultiplyAddWeightStep(
-	type: EquipmentWeightType,
-	weight: number,
-	units: WeightUnits,
-	modifiers: Collection<EquipmentModifierGURPS>,
-): number {
+export function processMultiplyAddWeightStep(type: EquipmentWeightType, weight: number, units: WeightUnits, modifiers: Collection<EquipmentModifierGURPS>): number {
 	let sum = 0;
 	modifiers.forEach(mod => {
 		if (mod.weightType == type) {

@@ -7,17 +7,13 @@ export interface ActorFlagsGURPS extends Record<string, unknown> {
 	gcsga?: Record<string, unknown>;
 }
 
-export interface BaseActorSourceGURPS<
-	TActorType extends ActorType = ActorType,
-	TSystemData extends ActorSystemData = ActorSystemData,
-> extends ActorDataSource {
+export interface BaseActorSourceGURPS<TActorType extends ActorType = ActorType, TSystemData extends ActorSystemData = ActorSystemData> extends ActorDataSource {
 	type: TActorType;
 	data: TSystemData;
 	flags: DeepPartial<ActorFlagsGURPS>;
 }
 
-export abstract class BaseActorDataGURPS<TActor extends BaseActorGURPS = BaseActorGURPS> extends foundry.data
-	.ActorData {}
+export abstract class BaseActorDataGURPS<TActor extends BaseActorGURPS = BaseActorGURPS> extends foundry.data.ActorData {}
 
 export interface ActorSystemData {
 	id: string;

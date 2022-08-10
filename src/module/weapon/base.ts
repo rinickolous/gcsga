@@ -32,8 +32,7 @@ class BaseWeapon {
 			// this.damage = new WeaponDamage({ ...data.damage, ...{ parent: this } });
 			this.damage = new WeaponDamage(data.damage);
 			// horrible hack to prevent max stack size error
-			if (!context?.recursive)
-				this.damage.parent = new BaseWeapon({ ...this }, { ...context, ...{ recursive: true } });
+			if (!context?.recursive) this.damage.parent = new BaseWeapon({ ...this }, { ...context, ...{ recursive: true } });
 			// this.damage.parent = this;
 		} else {
 			mergeObject(context, { ready: true });
@@ -66,8 +65,7 @@ class BaseWeapon {
 		if (!actor) return 0;
 		let primaryTooltip = new TooltipGURPS();
 		if (tooltip) primaryTooltip = tooltip;
-		const adj =
-			this.skillLevelBaseAdjustment(actor, primaryTooltip) + this.skillLevelPostAdjustment(actor, primaryTooltip);
+		const adj = this.skillLevelBaseAdjustment(actor, primaryTooltip) + this.skillLevelPostAdjustment(actor, primaryTooltip);
 		let best = -Infinity;
 		for (const def of this.defaults) {
 			let level = def.skillLevelFast(actor, false, null, true);
@@ -90,32 +88,16 @@ class BaseWeapon {
 		const minST = this.resolvedMinimumStrength - (actor.strengthOrZero + actor.striking_st_bonus);
 		if (minST > 0) adj -= minST;
 		const nameQualifier = this.parent.name;
-		for (const bonus of actor.namedWeaponSkillBonusesFor(
-			"weapon_named.*",
-			nameQualifier ?? "",
-			this.usage,
-			this.parent.tags,
-			tooltip,
-		)) {
+		for (const bonus of actor.namedWeaponSkillBonusesFor("weapon_named.*", nameQualifier ?? "", this.usage, this.parent.tags, tooltip)) {
 			adj += bonus.adjustedAmount;
 		}
-		for (const bonus of actor.namedWeaponSkillBonusesFor(
-			"weapon_named./" + nameQualifier,
-			nameQualifier ?? "",
-			this.usage,
-			this.parent.tags,
-			tooltip,
-		)) {
+		for (const bonus of actor.namedWeaponSkillBonusesFor("weapon_named./" + nameQualifier, nameQualifier ?? "", this.usage, this.parent.tags, tooltip)) {
 			adj += bonus.adjustedAmount;
 		}
 		for (const f of this.parent.features) {
 			adj += this.extractSkillBonusForThisWeapon(f, tooltip);
 		}
-		if (
-			this.parent instanceof TraitGURPS ||
-			this.parent instanceof EquipmentGURPS ||
-			this.parent instanceof EquipmentContainerGURPS
-		) {
+		if (this.parent instanceof TraitGURPS || this.parent instanceof EquipmentGURPS || this.parent instanceof EquipmentContainerGURPS) {
 			this.parent.modifiers.forEach(mod => {
 				for (const f of mod.features) {
 					adj += this.extractSkillBonusForThisWeapon(f, tooltip);
@@ -126,8 +108,7 @@ class BaseWeapon {
 	}
 
 	skillLevelPostAdjustment(actor: CharacterGURPS, tooltip: TooltipGURPS): number {
-		if (this instanceof MeleeWeapon)
-			if (this.parry.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
+		if (this instanceof MeleeWeapon) if (this.parry.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
 		return 0;
 	}
 

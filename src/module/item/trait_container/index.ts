@@ -43,10 +43,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get formattedCR(): string {
 		let cr = "";
 		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
-		if (this.crAdj != "none")
-			cr +=
-				", " +
-				i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
 		return cr;
 	}
 

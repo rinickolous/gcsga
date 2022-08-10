@@ -32,13 +32,7 @@ export class SkillDefault {
 	}
 
 	equivalent(other: SkillDefault): boolean {
-		return (
-			other &&
-			this.type == other.type &&
-			this.modifier == other.modifier &&
-			this.name == other.name &&
-			this.specialization == other.specialization
-		);
+		return other && this.type == other.type && this.modifier == other.modifier && this.name == other.name && this.specialization == other.specialization;
 	}
 
 	fullName(actor: CharacterGURPS): string {
@@ -54,12 +48,7 @@ export class SkillDefault {
 		return actor.resolveAttributeName(this.type);
 	}
 
-	skillLevel(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean>,
-		rule_of_20: boolean,
-	): number {
+	skillLevel(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean>, rule_of_20: boolean): number {
 		let best = Math.max();
 		switch (this.type) {
 			case "parry":
@@ -86,12 +75,7 @@ export class SkillDefault {
 		return best;
 	}
 
-	skillLevelFast(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean> | null = new Map(),
-		rule_of_20: boolean,
-	): number {
+	skillLevelFast(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean> | null = new Map(), rule_of_20: boolean): number {
 		let level = 0;
 		let best = 0;
 		switch (this.type) {

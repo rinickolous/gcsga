@@ -73,18 +73,13 @@ export class ActorSheetGURPS extends ActorSheet {
 		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
 	}
 
-	protected override async _onSortItem(
-		event: DragEvent,
-		itemData: PropertiesToSource<ItemDataBaseProperties>,
-	): Promise<Item[]> {
+	protected override async _onSortItem(event: DragEvent, itemData: PropertiesToSource<ItemDataBaseProperties>): Promise<Item[]> {
 		const source = this.actor.deepItems.get(itemData._id!);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
 		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
 		if (!target) return [];
 		const parent = target?.parent;
-		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(
-			i => i._id !== source!._id && source!.sameSection(i),
-		);
+		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(i => i._id !== source!._id && source!.sameSection(i));
 
 		if (target && !source?.sameSection(target)) return [];
 

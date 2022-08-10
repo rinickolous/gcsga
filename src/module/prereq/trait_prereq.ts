@@ -6,10 +6,6 @@ import { i18n, numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class TraitPrereq extends BasePrereq {
-	name: StringCompare = { compare: StringComparison.Is, qualifier: "" };
-	notes: StringCompare = { compare: StringComparison.None, qualifier: "" };
-	levels: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 0 };
-
 	constructor(data: TraitPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
 	}
@@ -40,7 +36,7 @@ export class TraitPrereq extends BasePrereq {
 			}
 			tooltip.push(i18n(`gcsga.prereqs.trait.level`));
 			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.levels?.compare}`));
-			tooltip.push(this.levels!.qualifier.toString());
+			tooltip.push((this.levels!.qualifier ?? 0).toString());
 		}
 		return satisfied;
 	}

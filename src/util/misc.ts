@@ -25,8 +25,7 @@ export function sanitize(id: string, permit_leading_digits: boolean, reserved: s
 	const buffer: string[] = [];
 	for (let ch of id.split("")) {
 		if (ch.match("[A-Z]")) ch = ch.toLowerCase();
-		if (ch == "_" || ch.match("[a-z]") || (ch.match("[0-9]") && (permit_leading_digits || buffer.length > 0)))
-			buffer.push(ch);
+		if (ch == "_" || ch.match("[a-z]") || (ch.match("[0-9]") && (permit_leading_digits || buffer.length > 0))) buffer.push(ch);
 	}
 	if (buffer.length == 0) buffer.push("_");
 	let ok = true;
@@ -109,11 +108,7 @@ export function extractTechLevel(str: string): number {
 	return Math.min(Math.max(0, parseInt(str)), 12);
 }
 
-type WeightValueType =
-	| "weight_addition"
-	| "weight_percentage_addition"
-	| "weight_percentage_multiplier"
-	| "weight_multiplier";
+type WeightValueType = "weight_addition" | "weight_percentage_addition" | "weight_percentage_multiplier" | "weight_multiplier";
 
 export function determineModWeightValueTypeFromString(s: string): WeightValueType {
 	s = s.toLowerCase().trim();
@@ -157,4 +152,23 @@ export function dollarFormat(i: number): string {
 		currency: "USD",
 	});
 	return formatter.format(i);
+}
+
+export function floatingMul(...args: number[]): number {
+	let multiplier = 100;
+	let x = args.length;
+	let result = multiplier;
+	args.forEach(arg => {
+		const newArg = arg * multiplier;
+		result *= newArg;
+	});
+	return parseFloat((result / multiplier ** (x + 1)).toPrecision(12));
+}
+
+export function updateArray(a: any[], path: string[], value: any): void {
+	let ref: any = a;
+	while (path.length > 1) {
+		ref = ref[path.shift() as any];
+	}
+	ref[path[0]] = value;
 }

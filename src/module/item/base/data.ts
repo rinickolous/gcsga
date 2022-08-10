@@ -2,10 +2,7 @@ import { ItemFlagsGURPS, ItemType } from "@item/data";
 import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 // import { BaseItemGURPS } from ".";
 
-export interface BaseItemSourceGURPS<
-	TItemType extends ItemType = ItemType,
-	TSystemData extends ItemSystemData = ItemSystemData,
-> extends ItemDataSource {
+export interface BaseItemSourceGURPS<TItemType extends ItemType = ItemType, TSystemData extends ItemSystemData = ItemSystemData> extends ItemDataSource {
 	type: TItemType;
 	system: TSystemData;
 	flags: DeepPartial<ItemFlagsGURPS>;

@@ -7,13 +7,7 @@ export type DisplayMode = "not_shown" | "inline" | "tooltip" | "inline_and_toolt
 export type Height = string;
 export type Weight = string;
 
-export type DamageProgression =
-	| "basic_set"
-	| "knowing_your_own_strength"
-	| "no_school_grognard_damage"
-	| "thrust_equals_swing_minus_2"
-	| "swing_equals_thrust_plus_2"
-	| "phoenix_flame_d3";
+export type DamageProgression = "basic_set" | "knowing_your_own_strength" | "no_school_grognard_damage" | "thrust_equals_swing_minus_2" | "swing_equals_thrust_plus_2" | "phoenix_flame_d3";
 
 export class LeveledAmount {
 	level = 0;
@@ -30,8 +24,7 @@ export class LeveledAmount {
 
 	format(what: string): string {
 		const per_level = signed(this.amount);
-		if (this.per_level)
-			return i18n_f("gcsga.feature.format", { total: signed(this.adjustedAmount), per_level, what });
+		if (this.per_level) return i18n_f("gcsga.feature.format", { total: signed(this.adjustedAmount), per_level, what });
 		return per_level;
 	}
 

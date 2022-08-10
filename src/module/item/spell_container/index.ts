@@ -12,12 +12,7 @@ export class SpellContainerGURPS extends ContainerGURPS {
 	get children(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
 		const children: Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> = new Collection();
 		this.items.forEach(item => {
-			if (
-				item instanceof SpellGURPS ||
-				item instanceof RitualMagicSpellGURPS ||
-				item instanceof SpellContainerGURPS
-			)
-				children.set(item.id!, item);
+			if (item instanceof SpellGURPS || item instanceof RitualMagicSpellGURPS || item instanceof SpellContainerGURPS) children.set(item.id!, item);
 		});
 		return children;
 	}

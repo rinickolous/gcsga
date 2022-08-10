@@ -54,13 +54,13 @@ export class SkillGURPS extends BaseItemGURPS {
 		return defs;
 	}
 
-	get features() {
-		const features: Feature[] = [];
-		for (const f of this.system.features ?? []) {
-			features.push(new BaseFeature(f));
-		}
-		return features;
-	}
+	// get features() {
+	// 	const features: Feature[] = [];
+	// 	for (const f of this.system.features ?? []) {
+	// 		features.push(new BaseFeature(f));
+	// 	}
+	// 	return features;
+	// }
 
 	get prereqs(): PrereqList {
 		return new PrereqList(this.system.prereqs);
@@ -108,13 +108,7 @@ export class SkillGURPS extends BaseItemGURPS {
 			if (this.difficulty != "w" && !!def && level < def.adjustedLevel) {
 				level = def.adjustedLevel;
 			}
-			let bonus = this.actor.skillComparedBonusFor(
-				"skill_bonus",
-				this.name ?? "",
-				this.specialization,
-				this.tags,
-				tooltip,
-			);
+			let bonus = this.actor.skillComparedBonusFor("skill_bonus", this.name ?? "", this.specialization, this.tags, tooltip);
 			level += bonus;
 			relative_level += bonus;
 			bonus = this.actor.encumbranceLevel(true).penalty * this.encumbrancePenaltyMultiplier;
@@ -134,13 +128,7 @@ export class SkillGURPS extends BaseItemGURPS {
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
-			points += this.actor.skillPointComparedBonusFor(
-				"skill.points",
-				this.name!,
-				this.specialization,
-				this.tags,
-				tooltip,
-			);
+			points += this.actor.skillPointComparedBonusFor("skill.points", this.name!, this.specialization, this.tags, tooltip);
 			points += this.actor.bonusFor(`skills.points/${this.name}`, tooltip);
 			points = Math.max(points, 0);
 		}
@@ -154,10 +142,7 @@ export class SkillGURPS extends BaseItemGURPS {
 
 	get relativeLevel(): string {
 		if (this.calculateLevel.level == -Infinity) return "-";
-		return (
-			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
-			signed(this.calculateLevel.relative_level)
-		);
+		return (this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") + signed(this.calculateLevel.relative_level);
 	}
 
 	updateLevel(): boolean {
@@ -204,13 +189,7 @@ export class SkillGURPS extends BaseItemGURPS {
 			if (def.type == "skill") {
 				const other = this.actor.bestSkillNamed(def.name ?? "", def.specialization ?? "", true, excludes);
 				if (other) {
-					level -= this.actor.skillComparedBonusFor(
-						"skill.name",
-						def.name ?? "",
-						def.specialization ?? "",
-						this.tags,
-						undefined,
-					);
+					level -= this.actor.skillComparedBonusFor("skill.name", def.name ?? "", def.specialization ?? "", this.tags, undefined);
 					level -= this.actor.bonusFor(`skill.name/${def.name?.toLowerCase()}`, undefined);
 				}
 			}
@@ -224,21 +203,13 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	equivalent(def: SkillDefault, other: SkillDefault | null): boolean {
-		return (
-			other != null &&
-			def.type == other.type &&
-			def.modifier == other.modifier &&
-			def.name == other.name &&
-			def.specialization == other.specialization
-		);
+		return other != null && def.type == other.type && def.modifier == other.modifier && def.name == other.name && def.specialization == other.specialization;
 	}
 
 	inDefaultChain(actor: CharacterGURPS, def: SkillDefault | undefined, lookedAt: Map<string, boolean>): boolean {
 		if (!actor || !def || !def.name) return false;
 		let hadOne = false;
-		for (const one of (actor.skills as Collection<SkillGURPS>).filter(
-			s => s.name == def.name && s.specialization == def.specialization,
-		)) {
+		for (const one of (actor.skills as Collection<SkillGURPS>).filter(s => s.name == def.name && s.specialization == def.specialization)) {
 			if (one == this) return true;
 			if (typeof one.id == "string" && lookedAt.get(one.id)) {
 				lookedAt.set(one.id, true);

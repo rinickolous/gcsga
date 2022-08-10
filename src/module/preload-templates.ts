@@ -40,6 +40,12 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 
 		"item/sections/prerequisites",
 		"item/sections/prereq",
+		"item/sections/prereq/trait-prereq",
+		"item/sections/prereq/attribute-prereq",
+		"item/sections/prereq/contained-quantity-prereq",
+		"item/sections/prereq/contained-weight-prereq",
+		"item/sections/prereq/skill-prereq",
+		"item/sections/prereq/spell-prereq",
 
 		"chat/import-character-error",
 	];

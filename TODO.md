@@ -14,6 +14,8 @@
 - Sort items on import
 - overlay hex on tokens
 - manual light/dark mode
+- add adding/deleting support for prereqs/features
+- implement "toArray" function returning array from pseudo-array object
 ## Large Features
 - vehicles
 - mass combat elements

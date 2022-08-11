@@ -26,14 +26,14 @@
 </div>
 <div>
 	<div class="placeholder"> </div>
-	<select name="{{path}}.levels.compare">
-		{{#select this.levels.compare}}
-		{{#each config.select.string_compare as |v k|}}
+	<select name="{{path}}.level.compare">
+		{{#select this.level.compare}}
+		{{#each config.select.number_compare as |v k|}}
 		<option value="{{k}}">{{localize "gcsga.field_prefix.level"}} {{localize (concat
-			"gcsga.select.string_compare." v)}}</option>
+			"gcsga.select.number_compare." v)}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat path ".levels.qualifier") data=this.levels.qualifier type="Number"
-	class=(input_lock (neq this.levels.compare "none"))}}
+	{{>input-text field="field" name=(concat path ".level.qualifier") data=this.levels.qualifier type="Number"
+	class=(input_lock (neq this.level.compare "none"))}}
 </div>

@@ -44,14 +44,6 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		return this.system.base_skill;
 	}
 
-	get prereqs() {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
-	}
-
 	get prereqCount(): number {
 		return this.system.prereq_count;
 	}

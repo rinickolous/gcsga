@@ -49,22 +49,6 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		return new SkillDefault(this.system.default);
 	}
 
-	// get features() {
-	// 	const features: Feature[] = [];
-	// 	for (const f of this.system.features ?? []) {
-	// 		features.push(new BaseFeature(f));
-	// 	}
-	// 	return features;
-	// }
-
-	get prereqs() {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
-	}
-
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {

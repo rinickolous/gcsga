@@ -38,14 +38,6 @@ export class SpellGURPS extends BaseItemGURPS {
 		return this.system.college;
 	}
 
-	get prereqs() {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
-	}
-
 	get defaultedFrom(): null {
 		return null;
 	}

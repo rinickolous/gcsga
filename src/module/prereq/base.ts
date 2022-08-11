@@ -8,12 +8,9 @@ export interface PrereqConstructionContext {
 }
 
 export class BasePrereq {
-	type: PrereqType = "trait_prereq";
-	has = true;
-
-	constructor(data?: Prereq | any, context: PrereqConstructionContext = {}) {
+	constructor(data: Prereq | any, context: PrereqConstructionContext = {}) {
 		if (context.ready) {
-			Object.assign(this, data);
+			// do nothing
 		} else {
 			mergeObject(context, {
 				ready: true,
@@ -24,6 +21,13 @@ export class BasePrereq {
 		}
 	}
 
+	static get defaults(): Record<string, any> {
+		return {
+			type: "trait_prereq",
+			has: true,
+		};
+	}
+
 	static get default() {
 		return new TraitPrereq(
 			{
@@ -32,7 +36,6 @@ export class BasePrereq {
 				notes: { compare: StringComparison.None, qualifier: "" },
 				levels: { compare: NumberComparison.AtLeast, qualifier: 0 },
 				has: true,
-				satisfied: () => false,
 			},
 			{ ready: true },
 		);
@@ -50,4 +53,6 @@ export class BasePrereq {
 
 export interface BasePrereq {
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean;
+	type: PrereqType;
+	has: boolean;
 }

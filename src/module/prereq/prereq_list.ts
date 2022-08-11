@@ -2,12 +2,13 @@ import { CharacterGURPS } from "@actor";
 import { NumberCompare, NumberComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq, Prereq, PrereqType } from "@prereq";
-import { extractTechLevel, i18n, numberCompare } from "@util";
+import { extractTechLevel, i18n, numberCompare, toArray } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export interface PrereqList extends Omit<BasePrereq, "has"> {
 	prereqs: Prereq[];
 	all: boolean;
+	when_tl: NumberCompare;
 }
 
 export interface PrereqListObj {
@@ -18,24 +19,25 @@ export interface PrereqListObj {
 }
 
 export class PrereqList extends BasePrereq {
-	prereqs: Prereq[] = [];
-	all = true;
-	when_tl?: NumberCompare = { compare: NumberComparison.None, qualifier: 0 };
-
-	constructor(data: PrereqListObj, context: PrereqConstructionContext = {}) {
+	constructor(data?: PrereqListObj, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(PrereqList.defaults, data));
 		if (!!(data as PrereqList).prereqs) {
-			let list: any[] = [];
-			if (Array.isArray((data as PrereqList).prereqs)) list = (data as PrereqList).prereqs;
-			else {
-				for (const [key, value] of Object.entries((data as PrereqList).prereqs)) {
-					if (!isNaN(key as any) && !list[parseInt(key)]) list.push(value);
-				}
-			}
+			const list = toArray((data as PrereqList).prereqs);
+			this.prereqs = [];
 			list.forEach((e: Prereq) => {
 				this.prereqs.push(new (CONFIG as any).GURPS.Prereq.classes[e?.type as PrereqType](e as any, context));
 			});
 		}
+	}
+
+	static get defaults(): Record<string, any> {
+		return {
+			type: "prereq_list",
+			prereqs: [],
+			all: true,
+			when_tl: { compare: NumberComparison.None },
+		};
 	}
 
 	override satisfied(character: CharacterGURPS, exclude: any, buffer: TooltipGURPS, prefix: string): boolean {
@@ -46,9 +48,10 @@ export class PrereqList extends BasePrereq {
 		}
 		let count = 0;
 		const local = new TooltipGURPS();
-		for (const p of this.prereqs) {
-			if (p.satisfied(character, exclude, local, prefix)) count++;
-		}
+		if (this.prereqs.length)
+			for (const p of this.prereqs) {
+				if (p.satisfied(character, exclude, local, prefix)) count++;
+			}
 		const satisfied = count == this.prereqs.length || (!this.all && count > 0);
 		if (!satisfied) {
 			if (this.all) buffer.push(i18n("gcsga.prereqs.requires_all"));

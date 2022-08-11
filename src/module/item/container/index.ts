@@ -74,6 +74,9 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 					insertValues: true,
 					inplace: false,
 				});
+				// temporary hack to fix prereqs. will fix later
+				// TODO fix later
+				if (Object.keys(theUpdate).includes("system.prereqs.-=prereqs")) (newData.system as any).prereqs.prereqs = null;
 				updatedItems.push(newData);
 				return newData;
 			}

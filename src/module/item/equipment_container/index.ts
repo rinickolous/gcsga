@@ -41,14 +41,6 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	// 	return features;
 	// }
 
-	get prereqs() {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
-	}
-
 	get enabled(): boolean {
 		return this.equipped;
 	}

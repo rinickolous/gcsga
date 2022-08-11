@@ -8,8 +8,9 @@ import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/fo
 import { SYSTEM_NAME } from "@module/settings";
 import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { updateArray } from "@util";
+import { toArray } from "@util";
 import { BaseFeature } from "@feature/base";
+import { PrereqList } from "@prereq";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -45,7 +46,7 @@ class BaseItemGURPS extends Item {
 		// this.keepArrays(data);
 		console.log(data);
 		if (this.parent instanceof BaseItemGURPS) {
-			data = foundry.utils.expandObject(data as any);
+			// data = foundry.utils.expandObject(data as any);
 			data!._id = this.id;
 			await this.parent?.updateEmbeddedDocuments("Item", [data!]);
 			this.render(false, { action: "update", data: data } as any);
@@ -99,19 +100,23 @@ class BaseItemGURPS extends Item {
 	get features(): Feature[] {
 		if (this.system.hasOwnProperty("features")) {
 			const features: Feature[] = [];
-			let list = [];
-			if (Array.isArray((this.system as any).features)) list = (this.system as any).features;
-			else {
-				for (const [key, value] of Object.entries((this.system as any).features)) {
-					if (!isNaN(key as any) && !list[parseInt(key)]) list.push(value);
-				}
-			}
+			const list = toArray((this.system as any).features);
 			for (const f of list ?? []) {
 				features.push(new BaseFeature(f));
 			}
 			return features;
 		}
 		return [];
+	}
+
+	get prereqs() {
+		if (!(this.system as any).prereqs) return new PrereqList();
+		return new PrereqList((this.system as any).prereqs);
+	}
+
+	get prereqsEmpty(): boolean {
+		if (!(this.system as any).prereqs.prereqs) return true;
+		return this.prereqs?.prereqs.length == 0;
 	}
 
 	get weapons(): Map<number, Weapon> {

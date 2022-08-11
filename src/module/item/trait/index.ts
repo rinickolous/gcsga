@@ -5,8 +5,6 @@ import { CR, CRAdjustment } from "@module/data";
 import { PrereqList } from "@prereq";
 import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitData } from "./data";
-import { Feature } from "@module/feature";
-import { BaseFeature } from "@feature/base";
 
 export class TraitGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
@@ -55,22 +53,6 @@ export class TraitGURPS extends ContainerGURPS {
 		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
 		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
 		return cr;
-	}
-
-	// get features() {
-	// 	const features: Feature[] = [];
-	// 	for (const f of this.system.features ?? []) {
-	// 		features.push(new BaseFeature(f));
-	// 	}
-	// 	return features;
-	// }
-
-	get prereqs() {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
 	}
 
 	get roundCostDown(): boolean {

@@ -165,10 +165,11 @@ export function floatingMul(...args: number[]): number {
 	return parseFloat((result / multiplier ** (x + 1)).toPrecision(12));
 }
 
-export function updateArray(a: any[], path: string[], value: any): void {
-	let ref: any = a;
-	while (path.length > 1) {
-		ref = ref[path.shift() as any];
+export function toArray(obj: any): any[] {
+	if (Array.isArray(obj)) return obj;
+	const arr: any[] = [];
+	for (const [key, value] of Object.entries(obj)) {
+		if (!isNaN(key as any) && !arr[parseInt(key)]) arr.push(value);
 	}
-	ref[path[0]] = value;
+	return arr;
 }

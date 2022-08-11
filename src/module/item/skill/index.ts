@@ -54,22 +54,6 @@ export class SkillGURPS extends BaseItemGURPS {
 		return defs;
 	}
 
-	// get features() {
-	// 	const features: Feature[] = [];
-	// 	for (const f of this.system.features ?? []) {
-	// 		features.push(new BaseFeature(f));
-	// 	}
-	// 	return features;
-	// }
-
-	get prereqs(): PrereqList {
-		return new PrereqList(this.system.prereqs);
-	}
-
-	get prereqsEmpty(): boolean {
-		return this.prereqs.prereqs.length == 0;
-	}
-
 	get encumbrancePenaltyMultiplier(): number {
 		return this.system.encumbrance_penalty_multiplier;
 	}

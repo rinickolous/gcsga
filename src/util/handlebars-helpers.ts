@@ -106,8 +106,10 @@ export function registerHandlebarsHelpers() {
 		return outArr;
 	});
 
-	Handlebars.registerHelper("indent", function (i: ItemGURPS): string {
-		const sum = -6 + 12 * (i.parentCount ?? 0);
+	Handlebars.registerHelper("indent", function (i: ItemGURPS | number): string {
+		let sum = -6;
+		if (typeof i == "number") sum += 12 * i;
+		else sum += 12 * (i.parentCount ?? 0);
 		return `style=\"padding-left: ${sum}px;\"`;
 	});
 

@@ -1,10 +1,18 @@
+import { CharacterGURPS } from "@actor";
 import { NumberComparison, StringComparison } from "@module/data";
-import { BasePrereq, TraitPrereq } from "@prereq";
+import { BasePrereq, PrereqType, TraitPrereq } from "@prereq";
 import { toArray } from "@util";
 
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
 		const itemData = this.object.toObject(false);
+		const attributes: Record<string, string> = {};
+		if (this.item.actor) {
+			(this.item.actor as CharacterGURPS).attributes.forEach(e => {
+				attributes[e.attr_id] = e.attribute_def.name;
+			});
+		}
+		console.log(attributes);
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -12,6 +20,7 @@ export class ItemSheetGURPS extends ItemSheet {
 				item: itemData,
 				system: (itemData as any).system,
 				config: (CONFIG as any).GURPS,
+				attributes: attributes,
 			},
 		};
 
@@ -33,6 +42,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find(".prereq .add-child").on("click", event => this._addPrereqChild(event));
 		html.find(".prereq .add-list").on("click", event => this._addPrereqList(event));
 		html.find(".prereq .remove").on("click", event => this._removePrereq(event));
+		html.find(".prereq .type").on("change", event => this._onPrereqTypeChange(event));
 	}
 
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
@@ -77,6 +87,26 @@ export class ItemSheetGURPS extends ItemSheet {
 		update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
 		await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
+	}
+
+	protected async _onPrereqTypeChange(event: JQuery.ChangeEvent): Promise<any> {
+		const value = event.currentTarget.value;
+		const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[value as PrereqType];
+		console.log(value, PrereqConstructor.defaults);
+		let path = $(event.currentTarget).data("path");
+		const items = path.split(".");
+		const index = items.pop();
+		path = items.join(".");
+		const prereqs = toArray(duplicate(getProperty(this.item as any, path)));
+		prereqs[index] = {
+			type: value,
+			...PrereqConstructor.defaults,
+			has: prereqs[index].has,
+		};
+		const update: any = {};
+		update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
+		return this.item.update(update, { render: false });
 	}
 
 	async getPrereqUpdate(path: string, data: any): Promise<any> {

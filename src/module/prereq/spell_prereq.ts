@@ -21,12 +21,17 @@ export interface SpellPrereq extends BasePrereq {
 }
 
 export class SpellPrereq extends BasePrereq {
-	quantity: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 1 };
-	sub_type: SpellPrereqSubType = SpellPrereqSubType.Name;
-	qualifier: StringCompare = { compare: StringComparison.Is, qualifier: "" };
-
 	constructor(data: SpellPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+	}
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "spell_prereq",
+			quantity: { compare: NumberComparison.AtLeast, qualifier: 1 },
+			sub_type: SpellPrereqSubType.Name,
+			qualifier: { compare: StringComparison.Is, qualifier: "" },
+		});
 	}
 
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
@@ -69,8 +74,8 @@ export class SpellPrereq extends BasePrereq {
 				tooltip.push(this.quantity.compare.toString());
 			} else {
 				tooltip.push(" ");
-				tooltip.push(`gcsga.prereqs.criteria.${this.quantity.compare}`);
-				if (this.quantity.qualifier == 1) tooltip.push(`gcsga.prereqs.spell.one`);
+				tooltip.push(`gcsga.prereqs.criteria.${this.quantity?.compare}`);
+				if (this.quantity?.qualifier == 1) tooltip.push(`gcsga.prereqs.spell.one`);
 				else tooltip.push(`gcsga.prereqs.spell.many`);
 				tooltip.push(" ");
 				if (this.sub_type == "any") tooltip.push(`gcsga.prereqs.spell.any`);
@@ -78,8 +83,8 @@ export class SpellPrereq extends BasePrereq {
 					if (this.sub_type == "name") tooltip.push(`gcsga.prereqs.spell.name`);
 					else if (this.sub_type == "tag") tooltip.push(`gcsga.prereqs.spell.tag`);
 					else if (this.sub_type == "college") tooltip.push(`gcsga.prereqs.spell.college`);
-					tooltip.push(`gcsga.prereqs.criteria.${this.qualifier.compare}`);
-					tooltip.push(this.qualifier.qualifier!);
+					tooltip.push(`gcsga.prereqs.criteria.${this.qualifier?.compare}`);
+					tooltip.push(this.qualifier?.qualifier ?? "");
 				}
 			}
 		}

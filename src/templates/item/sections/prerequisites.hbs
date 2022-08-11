@@ -1,6 +1,7 @@
 <div id="prerequisites">
 	<div class="header">{{localize "gcsga.prereq.header"}}</div>
 	<div class="content">
-		{{>prereq system.prereqs path="system.prereqs" config=config indent=1}}
+		{{print attributes}}
+		{{>prereq system.prereqs path="system.prereqs" config=config indent=1 attributes=attributes}}
 	</div>
 </div>

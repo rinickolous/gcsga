@@ -7,12 +7,17 @@ import { i18n, numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class SkillPrereq extends BasePrereq {
-	name: StringCompare = { compare: StringComparison.Is, qualifier: "" };
-	specialization: StringCompare = { compare: StringComparison.None, qualifier: "" };
-	level: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 0 };
-
 	constructor(data: SkillPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+	}
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "skill_prereq",
+			name: { compare: StringComparison.Is, qualifier: "" },
+			specialization: { compare: StringComparison.None, qualifier: "" },
+			level: { compare: NumberComparison.AtLeast, qualifier: 0 },
+		});
 	}
 
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {

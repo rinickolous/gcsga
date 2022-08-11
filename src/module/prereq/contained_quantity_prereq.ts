@@ -11,10 +11,15 @@ export interface ContainedQuantityPrereq extends BasePrereq {
 }
 
 export class ContainedQuantityPrereq extends BasePrereq {
-	quantity: NumberCompare = { compare: NumberComparison.AtMost, qualifier: 1 };
-
 	constructor(data: ContainedQuantityPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+	}
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "contained_quantity_prereq",
+			quantity: { compare: NumberComparison.AtMost, qualifier: 1 },
+		});
 	}
 
 	satisfied(_: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {

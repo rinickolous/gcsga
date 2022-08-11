@@ -6,12 +6,17 @@ import { i18n, numberCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class AttributePrereq extends BasePrereq {
-	which = "st";
-	combined_with = "";
-	qualifier: NumberCompare = { compare: NumberComparison.AtLeast, qualifier: 10 };
-
 	constructor(data: AttributePrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+	}
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "attribute_prereq",
+			which: "st",
+			combined_with: "",
+			qualifier: { compare: NumberComparison.AtLeast, qualifier: 10 },
+		});
 	}
 
 	satisfied(character: CharacterGURPS, _: any, tooltip: TooltipGURPS, prefix: string): boolean {
@@ -30,7 +35,7 @@ export class AttributePrereq extends BasePrereq {
 			}
 			tooltip.push(i18n(`gcsga.prereqs.attribute.which`));
 			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.qualifier?.compare}`));
-			tooltip.push(this.qualifier!.qualifier.toString());
+			tooltip.push((this.qualifier ? this.qualifier.qualifier : 0).toString());
 		}
 		return satisfied;
 	}

@@ -1,0 +1,31 @@
+<div>
+	<div class="placeholder"> </div>
+	<select name="{{path}}.which">
+		{{#select this.which}}
+		<option value=""></option>
+		{{#each attributes as |v k|}}
+		<option value="{{k}}">{{v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	<div class="placeholder"> </div>
+	<select name="{{path}}.combined_with">
+		{{#select this.combined_with}}
+		<option value=""></option>
+		{{#each attributes as |v k|}}
+		<option value="{{k}}">{{localize "gcsga.field_prefix.combined_with"}} {{v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	<div class="placeholder"> </div>
+	<select name="{{path}}.qualifier.compare">
+		{{#select this.qualifier.compare}}
+		{{#each config.select.number_compare as |v k|}}
+		<option value="{{k}}">{{localize "gcsga.field_prefix.attribute_level"}} {{localize (concat
+			"gcsga.select.number_compare." v)}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	{{>input-text field="field" name=(concat path ".qualifier.qualifier") data=this.levels.qualifier type="Number"
+	class=(input_lock (neq this.qualifier.compare "none"))}}
+</div>

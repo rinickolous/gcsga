@@ -266,6 +266,8 @@
 		"field_prefix": {
 			"tech_level": "When the Tech Level",
 			"trait_name": "whose name",
+			"combined_with": "combined with",
+			"attribute_level": "which is",
 			"skill_name": "to skills whose name",
 			"specialization": "and whose specialization",
 			"usage": "and whose usage",

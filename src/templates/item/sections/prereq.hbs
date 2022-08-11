@@ -33,7 +33,7 @@
 			{{/select}}
 		</select>
 		{{#unless (eq this.type "spell_prereq")}}
-		<select name="{{path}}.type">
+		<select class="type" name="{{path}}.type" data-path="{{path}}">
 			{{#select this.type}}
 			{{#each config.select.prereqs as |v k|}}
 			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
@@ -48,8 +48,9 @@
 			{{/each}}
 			{{/select}}
 		</select>
-		{{>input-text field="field" name=(concat path ".quantity.qualifier") type="Number"}}
-		<select name="{{path}}.type">
+		{{>input-text field="field" name=(concat path ".quantity.qualifier") data=this.quantity.qualifier
+		type="Number"}}
+		<select class="type" name="{{path}}.type" data-path="{{path}}">
 			{{#select this.type}}
 			{{#each config.select.prereqs as |v k|}}
 			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
@@ -68,6 +69,6 @@
 </div>
 {{#if (eq this.type "prereq_list")}}
 {{#each this.prereqs}}
-{{>prereq path=(concat ../path ".prereqs." @index) config=../config indent=(sum ../indent 1)}}
+{{>prereq path=(concat ../path ".prereqs." @index) config=../config indent=(sum ../indent 1) attributes=../attributes}}
 {{/each}}
 {{/if}}

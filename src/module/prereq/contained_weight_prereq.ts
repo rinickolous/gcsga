@@ -11,10 +11,15 @@ export interface ContainedWeightPrereq extends BasePrereq {
 }
 
 export class ContainedWeightPrereq extends BasePrereq {
-	qualifier: NumberCompare = { compare: NumberComparison.AtMost, qualifier: 5 };
-
 	constructor(data: ContainedWeightPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+	}
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "contained_weight_prereq",
+			qualifier: { compare: NumberComparison.AtMost, qualifier: 5 },
+		});
 	}
 
 	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
@@ -34,7 +39,7 @@ export class ContainedWeightPrereq extends BasePrereq {
 			tooltip.push(i18n(`gcsga.prerqs.has.${this.has}`));
 			tooltip.push(i18n(`gcsga.prereqs.weight`));
 			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.qualifier?.compare}`));
-			tooltip.push(this.qualifier!.qualifier.toString());
+			tooltip.push((this.qualifier ? this.qualifier.qualifier : 0).toString());
 		}
 		return satisfied;
 	}

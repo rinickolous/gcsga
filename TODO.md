@@ -14,7 +14,7 @@
 - Sort items on import
 - overlay hex on tokens
 - manual light/dark mode
-- add adding/deleting support for prereqs/features
+- add adding/deleting support for features
 ## Large Features
 - vehicles
 - mass combat elements

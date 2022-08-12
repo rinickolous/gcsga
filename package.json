@@ -68,5 +68,8 @@
 	"lint-staged": {
 		"*.(ts|js|cjs|mjs)": "eslint --fix",
 		"*.(json|yml|scss)": "prettier --write"
+	},
+	"dependencies": {
+		"fuse.js": "^6.6.2"
 	}
 }

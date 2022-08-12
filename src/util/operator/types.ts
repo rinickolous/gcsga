@@ -124,7 +124,7 @@ export function add(f: opFunction, unary: unaryOpFunction): Operator {
 
 export function subtract(f: opFunction, unary: unaryOpFunction): Operator {
 	return new Operator({
-		symbol: "+",
+		symbol: "-",
 		precedence: 50,
 		evaluate: f,
 		evaluateUnary: unary,

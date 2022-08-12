@@ -31,13 +31,12 @@
 // Import TypeScript modules
 import { registerSettings, SYSTEM_NAME } from "./settings";
 import { preloadTemplates } from "./preload-templates";
-import { i18n, registerHandlebarsHelpers } from "@util";
+import { evaluateToNumber, i18n, registerHandlebarsHelpers } from "@util";
 import { CharacterSheetGURPS } from "@actor/sheet";
 import { BaseActorGURPS } from "@actor/base";
 import { BaseItemGURPS } from "@item";
 import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
-import { ModifierBucket } from "./app/bucket";
 
 Error.stackTraceLimit = Infinity;
 
@@ -50,6 +49,7 @@ GURPS.BANNER = `   __   ____   ____  ____    ____     _     __
  / /  | |  _ | |    \\___ \\ | |  _   / _ \\    \\ \\
  \\ \\  | |_| || |___  ___) || |_| | / ___ \\   / /
   \\_\\  \\____| \\____||____/  \\____|/_/   \\_\\ /_/ `;
+GURPS.eval = evaluateToNumber;
 
 // Initialize system
 Hooks.once("init", async () => {

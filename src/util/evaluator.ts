@@ -181,7 +181,7 @@ export class Evaluator {
 			if (opIndex == i) {
 				if (op && op.evaluateUnary && (haveOperator || i == 0)) {
 					i = opIndex + op.symbol.length;
-					if (!unaryOp) throw new Error(`Consecutive unary operators are not allowed at index ${i}`);
+					if (unaryOp) throw new Error(`Consecutive unary operators are not allowed at index ${i}`);
 					unaryOp = op;
 				} else {
 					i = this.processOperator(expression, opIndex, op, haveOperand, unaryOp);

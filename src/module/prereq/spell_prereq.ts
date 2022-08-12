@@ -23,6 +23,7 @@ export interface SpellPrereq extends BasePrereq {
 export class SpellPrereq extends BasePrereq {
 	constructor(data: SpellPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(SpellPrereq.defaults, data));
 	}
 
 	static get defaults(): Record<string, any> {

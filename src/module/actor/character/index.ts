@@ -72,7 +72,6 @@ class CharacterGURPS extends BaseActorGURPS {
 		console.log(data);
 		data = this.updateAttributes(data);
 		data = this.checkImport(data);
-		data = this.unspentToTotal(data);
 		return super.update(data, context);
 	}
 
@@ -81,18 +80,6 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (i.includes("system.import")) return data;
 		}
 		data["system.modified_date"] = new Date().toISOString();
-		return data;
-	}
-
-	unspentToTotal(data?: any) {
-		for (const i in data) {
-			if (i.includes("system.import")) return data;
-		}
-		for (const i in data) {
-			if (i.includes("actor.unspentPoints")) {
-				data["system.total_points"] = data[i] + this.spentPoints;
-			}
-		}
 		return data;
 	}
 

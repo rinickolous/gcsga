@@ -13,6 +13,7 @@ export interface ContainedWeightPrereq extends BasePrereq {
 export class ContainedWeightPrereq extends BasePrereq {
 	constructor(data: ContainedWeightPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(ContainedWeightPrereq.defaults, data));
 	}
 
 	static get defaults(): Record<string, any> {

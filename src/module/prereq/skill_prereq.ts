@@ -9,6 +9,7 @@ import { PrereqConstructionContext } from "./base";
 export class SkillPrereq extends BasePrereq {
 	constructor(data: SkillPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(SkillPrereq.defaults, data));
 	}
 
 	static get defaults(): Record<string, any> {

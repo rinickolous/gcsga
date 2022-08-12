@@ -14,7 +14,6 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"actor/character/sections/equipment",
 		"actor/character/sections/hit-location",
 		"actor/character/sections/identity",
-		"actor/character/sections/input-text",
 		"actor/character/sections/item-notes",
 		"actor/character/sections/lifting",
 		"actor/character/sections/melee-attack",
@@ -34,7 +33,8 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"actor/character/sections/error",
 		"actor/drag-image",
 
-		"sections/svg",
+		"sections/input-text",
+		"sections/textarea",
 
 		"actor/import",
 

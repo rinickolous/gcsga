@@ -40,6 +40,8 @@
 			{{/each}}
 			{{/select}}
 		</select>
+		{{#if (eq this.type "contained_quantity_prereq")}}{{>contained-quantity-prereq}}{{/if}}
+		{{#if (eq this.type "contained_weight_prereq")}}{{>contained-weight-prereq}}{{/if}}
 		{{else}}
 		<select name="{{path}}.quantity.compare">
 			{{#select this.quantity.compare}}
@@ -62,8 +64,6 @@
 	</div>
 	{{#if (eq this.type "trait_prereq")}}{{>trait-prereq}}{{/if}}
 	{{#if (eq this.type "attribute_prereq")}}{{>attribute-prereq}}{{/if}}
-	{{#if (eq this.type "contained_quantity_prereq")}}{{>contained-quantity-prereq}}{{/if}}
-	{{#if (eq this.type "contained_weight_prereq")}}{{>contained-weight-prereq}}{{/if}}
 	{{#if (eq this.type "skill_prereq")}}{{>skill-prereq}}{{/if}}
 	{{#if (eq this.type "spell_prereq")}}{{>spell-prereq}}{{/if}}
 </div>

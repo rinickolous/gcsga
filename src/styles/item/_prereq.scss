@@ -19,4 +19,8 @@
 			width: 14px;
 		}
 	}
+	select[disabled] {
+		color: transparent;
+		opacity: 1;
+	}
 }

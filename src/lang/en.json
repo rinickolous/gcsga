@@ -261,6 +261,13 @@
 				"contained_weight_prereq": "a contained weight",
 				"skill_prereq": "a skill",
 				"spell_prereq": "spell(s)"
+			},
+			"spell_sub_type": {
+				"name": "whose name",
+				"tag": "with a tag which",
+				"college": "whose college name",
+				"college_count": "from different colleges",
+				"any": "of any kind"
 			}
 		},
 		"field_prefix": {

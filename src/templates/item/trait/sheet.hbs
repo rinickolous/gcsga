@@ -10,13 +10,13 @@
 				</label>
 			</div>
 			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
-			{{>input-text field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
-			{{>input-text field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			{{>input-text field="field" label="gcsga.trait.user_description" name="system.user_description"
+			{{>textarea field="field" label="gcsga.trait.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
 			<div class="label">{{localize "gcsga.trait.tags"}}</div>
-			{{>input-text field="field" name="system.tags" data=system.tags type="String"}}
+			{{>input-text field="field" name="system.tags" data=(join system.tags ", ") type="String"}}
 			<div class="label">{{localize "gcsga.trait.point_cost"}}</div>
 			<div class="field no-stretch">
 				{{>input-text data=document.adjustedPoints type="Number" class="readonly"}}

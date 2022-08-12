@@ -37,6 +37,15 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return `/systems/${SYSTEM_NAME}/templates/actor/character/sheet.hbs`;
 	}
 
+	protected async _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+		console.log(formData);
+		if (!!formData["actor.unspentPoints"]) {
+			formData["system.total_points"] = (formData["actor.unspentPoints"] as number) + this.actor.spentPoints;
+			delete formData["actor.unspentPoints"];
+		}
+		return super._updateObject(event, formData);
+	}
+
 	override activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
 		html.find(".input").on("change", event => this._resizeInput(event));

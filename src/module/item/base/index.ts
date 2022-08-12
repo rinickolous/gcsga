@@ -43,8 +43,7 @@ class BaseItemGURPS extends Item {
 	}
 
 	override async update(data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
-		// this.keepArrays(data);
-		console.log(data);
+		// console.log(data);
 		if (this.parent instanceof BaseItemGURPS) {
 			// data = foundry.utils.expandObject(data as any);
 			data!._id = this.id;
@@ -53,22 +52,6 @@ class BaseItemGURPS extends Item {
 			return this;
 		} else return super.update(data, context);
 	}
-
-	// keepArrays(data: any): void {
-	// 	const arrays: any = {};
-	// 	for (const [key, value] of Object.entries(data)) {
-	// 		if (key.includes("system.prereqs.prereqs.")) {
-	// 			if (!arrays["system.prereqs.prereqs"]) arrays["system.prereqs.prereqs"] = (this.system as any).prereqs.prereqs;
-	// 			const path: Array<string> = key.replace("system.prereqs.prereqs.", "").split(".");
-	// 			updateArray(arrays["system.prereqs.prereqs"], path, value);
-	// 			delete data[key];
-	// 		}
-	// 	}
-	// 	console.log(data, arrays);
-	// 	for (const [key, value] of Object.entries(arrays)) {
-	// 		data[key] = value;
-	// 	}
-	// }
 
 	// Should not be necessary
 	override prepareBaseData(): void {

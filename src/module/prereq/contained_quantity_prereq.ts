@@ -13,6 +13,7 @@ export interface ContainedQuantityPrereq extends BasePrereq {
 export class ContainedQuantityPrereq extends BasePrereq {
 	constructor(data: ContainedQuantityPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(ContainedQuantityPrereq.defaults, data));
 	}
 
 	static get defaults(): Record<string, any> {

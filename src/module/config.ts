@@ -145,6 +145,13 @@ const GURPSCONFIG: any = {
 			skill_prereq: "skill_prereq",
 			spell_prereq: "spell_prereq",
 		},
+		spell_sub_type: {
+			name: "name",
+			tag: "tag",
+			college: "college",
+			college_count: "college_count",
+			any: "any",
+		},
 	},
 };
 // GURPSCONFIG.Item.documentClasses = {};

@@ -12,7 +12,6 @@ export class ItemSheetGURPS extends ItemSheet {
 				attributes[e.attr_id] = e.attribute_def.name;
 			});
 		}
-		console.log(attributes);
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -43,6 +42,28 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find(".prereq .add-list").on("click", event => this._addPrereqList(event));
 		html.find(".prereq .remove").on("click", event => this._removePrereq(event));
 		html.find(".prereq .type").on("change", event => this._onPrereqTypeChange(event));
+		html.find("span.input").on("blur", event => this._onSubmit(event as any));
+	}
+
+	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+		if (formData["system.tags"] && typeof formData["system.tags"] == "string") {
+			const tags = formData["system.tags"].split(",").map(e => e.trim());
+			formData["system.tags"] = tags;
+		}
+		if (formData["system.college"] && typeof formData["system.college"] == "string") {
+			const college = formData["system.college"].split(",").map(e => e.trim());
+			formData["system.college"] = college;
+		}
+		for (const [key, value] of Object.entries(formData)) {
+			if (typeof value == "string" && value.includes("<div>")) {
+				formData[key] = value
+					.replace(/(<\/div>)?<div>/g, "\n")
+					.replace("<br></div>", "")
+					.replace("<br>", "\n");
+			}
+			if (value == "\n") formData[key] = "";
+		}
+		return super._updateObject(event, formData);
 	}
 
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
@@ -92,7 +113,6 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _onPrereqTypeChange(event: JQuery.ChangeEvent): Promise<any> {
 		const value = event.currentTarget.value;
 		const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[value as PrereqType];
-		console.log(value, PrereqConstructor.defaults);
 		let path = $(event.currentTarget).data("path");
 		const items = path.split(".");
 		const index = items.pop();
@@ -106,7 +126,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		const update: any = {};
 		update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
 		await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
-		return this.item.update(update, { render: false });
+		return this.item.update(update);
 	}
 
 	async getPrereqUpdate(path: string, data: any): Promise<any> {

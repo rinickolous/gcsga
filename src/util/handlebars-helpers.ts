@@ -162,6 +162,14 @@ export function registerHandlebarsHelpers() {
 		return a;
 	});
 
+	Handlebars.registerHelper("join", function (a: string[], s: string): string {
+		return a.join(s);
+	});
+
+	Handlebars.registerHelper("format", function (a: string): string {
+		return (!!a ? a : "").replace(/\n/g, "<br>");
+	});
+
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
 	// 	console.warn(list);
 	// 	if (list.includes(item)) return "selected";

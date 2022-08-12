@@ -8,6 +8,7 @@ import { PrereqConstructionContext } from "./base";
 export class AttributePrereq extends BasePrereq {
 	constructor(data: AttributePrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
+		Object.assign(this, mergeObject(AttributePrereq.defaults, data));
 	}
 
 	static get defaults(): Record<string, any> {

@@ -171,7 +171,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const point_pools: Attribute[] = [];
 		if (attributes) {
 			attributes.forEach(a => {
-				if (a.attribute_def?.type == "pool") point_pools.push(a);
+				if (a.attribute_def?.type.includes("pool")) point_pools.push(a);
 				else if (a.attribute_def?.isPrimary) primary_attributes.push(a);
 				else secondary_attributes.push(a);
 			});

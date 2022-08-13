@@ -3,20 +3,20 @@ import { gid } from "@module/data";
 import { VariableResolver, evaluateToNumber, sanitize } from "@util";
 import { CharacterGURPS } from "@actor";
 
-export type AttributeType = "integer" | "decimal" | "pool";
+export type AttributeType = "integer" | "decimal" | "pool" | "primary_separator" | "secondary_separator" | "pool_separator";
 
 export const reserved_ids: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
 export class AttributeDef {
-	def_id = "";
-	type: AttributeType = "integer";
-	name = "";
-	full_name = "";
-	attribute_base = "10";
-	cost_per_point = 10;
-	cost_adj_percent_per_sm = 0;
-	thresholds?: PoolThreshold[];
-	order = 0;
+	// def_id = "";
+	// type: AttributeType = "integer";
+	// name = "";
+	// full_name = "";
+	// attribute_base = "10";
+	// cost_per_point = 10;
+	// cost_adj_percent_per_sm = 0;
+	// thresholds?: PoolThreshold[];
+	// order = 0;
 
 	constructor(data?: AttributeDefObj) {
 		if (data) {
@@ -49,6 +49,8 @@ export class AttributeDef {
 	}
 
 	get isPrimary(): boolean {
+		if (this.type == "primary_separator") return true;
+		if (this.type.includes("_separator")) return false;
 		return !isNaN(parseInt(this.attribute_base));
 	}
 
@@ -76,4 +78,16 @@ export interface AttributeDefObj {
 	cost_per_point: number;
 	cost_adj_percent_per_sm?: number;
 	thresholds?: PoolThresholdDef[];
+}
+
+export interface AttributeDef {
+	def_id: string;
+	type: AttributeType;
+	name: string;
+	full_name: string;
+	attribute_base: string;
+	cost_per_point: number;
+	cost_adj_percent_per_sm: number;
+	thresholds?: PoolThreshold[];
+	order: number;
 }

@@ -45,4 +45,41 @@
 	.field .input {
 		text-align: right;
 	}
+
+	.separator {
+		overflow: hidden;
+		text-align: center;
+		font: var(--font-page-secondary-fields);
+		&:before,
+		&:after {
+			background-color: rgb(var(--color-divider));
+			content: "";
+			display: inline-block;
+			height: 1px;
+			position: relative;
+			vertical-align: middle;
+			width: 50%;
+		}
+		&:before {
+			right: 0.5em;
+			margin-left: -50%;
+		}
+		&:after {
+			left: 0.5em;
+			margin-right: -50%;
+		}
+		&[data-text=""] {
+			&:before,
+			&:after {
+				right: 0;
+				left: 0;
+			}
+		}
+	}
+	.fieldblock3 .separator_parent {
+		grid-column: 1 / span 3;
+	}
+	.fieldblock6 .separator_parent {
+		grid-column: 1 / span 6;
+	}
 }

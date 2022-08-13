@@ -567,6 +567,12 @@ class CharacterGURPS extends BaseActorGURPS {
 		let i = 0;
 		for (const attr_id in this.system.settings.attributes) {
 			const attr = new Attribute(this, attr_id, i);
+			if (attr.attribute_def.type.includes("separator"))
+				a[attr_id] = {
+					attr_id: attr.attr_id,
+					order: attr.order,
+					adj: attr.adj,
+				};
 			a[attr_id] = {
 				bonus: attr.bonus,
 				cost_reduction: attr.cost_reduction,

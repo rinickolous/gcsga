@@ -2,6 +2,11 @@
 	<div class="header">{{localize "gcsga.character.point_pools"}}</div>
 	<div class="fieldblock6">
 		{{#each point_pools}}
+		{{#if (eq this.attribute_def.type "pool_separator")}}
+		<div class="separator_parent">
+			<div class="separator" data-text="{{this.attribute_def.name}}">{{this.attribute_def.name}}</div>
+		</div>
+		{{else}}
 		<div class="points">[{{this.points}}]</div>
 		{{>input-text after=(localize "gcsga.character.pool_of") field="field" name=(concat "system.attributes." this.id
 		".damage") data=this.current type="Number"}}
@@ -15,6 +20,7 @@
 			{{/if}}
 			{{/if}}
 		</div>
+		{{/if}}
 		{{/each}}
 	</div>
 </div>

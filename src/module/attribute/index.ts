@@ -7,8 +7,8 @@ import { PoolThreshold } from "./pool_threshold";
 const reservedIds: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
 export interface AttributeObj {
-	bonus: number;
-	cost_reduction: number;
+	bonus?: number;
+	cost_reduction?: number;
 	order: number;
 	attr_id: string;
 	adj: number;
@@ -73,6 +73,7 @@ export class Attribute {
 	get currentThreshold(): PoolThreshold | null {
 		const def = this.attribute_def;
 		if (!def) return null;
+		if (def.type.includes("separator")) return null;
 		const cur = this.current;
 		if (def.thresholds) {
 			for (const t of def.thresholds) {

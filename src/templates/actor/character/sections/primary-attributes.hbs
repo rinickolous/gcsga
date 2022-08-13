@@ -2,9 +2,16 @@
 	<div class="header">{{localize "gcsga.character.primary_attributes"}}</div>
 	<div class="fieldblock3">
 		{{#each primary_attributes}}
-			<div class="points">[{{this.points}}]</div>
-			{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".adj") data=this.current type="Number" class=(input_lock ../editing)}}
-			<div class="label">{{this.attribute_def.combinedName}}</div>
+		{{#if (eq this.attribute_def.type "primary_separator")}}
+		<div class="separator_parent">
+			<div class="separator" data-text="{{this.attribute_def.name}}">{{this.attribute_def.name}}</div>
+		</div>
+		{{else}}
+		<div class="points">[{{this.points}}]</div>
+		{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".adj") data=this.current
+		type="Number" class=(input_lock ../editing)}}
+		<div class="label">{{this.attribute_def.combinedName}}</div>
+		{{/if}}
 		{{/each}}
 	</div>
 </div>

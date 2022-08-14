@@ -145,6 +145,17 @@
 		row-gap: 4px;
 		column-gap: 9px;
 		vertical-align: middle;
-		padding: 16px 2px 16px 16px;
+		padding: 2px 16px;
+	}
+	#prerequisites {
+		padding: 2px 16px;
+		.content {
+			border: 1px solid rgb(var(--color-header));
+			background-color: rgb(var(--color-content));
+			display: grid;
+			> div {
+				padding: 5px;
+			}
+		}
 	}
 }

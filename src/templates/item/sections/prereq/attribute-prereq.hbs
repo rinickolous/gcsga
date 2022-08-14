@@ -1,4 +1,4 @@
-<div>
+<div class="attribute-prereq">
 	<div class="placeholder"> </div>
 	<select name="{{path}}.which">
 		{{#select this.which}}
@@ -8,7 +8,6 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	<div class="placeholder"> </div>
 	<select name="{{path}}.combined_with">
 		{{#select this.combined_with}}
 		<option value=""></option>
@@ -17,7 +16,6 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	<div class="placeholder"> </div>
 	<select name="{{path}}.qualifier.compare">
 		{{#select this.qualifier.compare}}
 		{{#each config.select.number_compare as |v k|}}

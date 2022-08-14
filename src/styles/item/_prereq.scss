@@ -2,7 +2,6 @@
 	display: grid;
 	grid-auto-flow: rows;
 	grid-gap: 5px;
-	padding: 0px 5px;
 	i {
 		align-self: center;
 	}
@@ -17,6 +16,12 @@
 		}
 		.placeholder {
 			width: 14px;
+		}
+		&.attribute-prereq {
+			grid-template-columns: repeat(4, 0fr) 1fr;
+		}
+		&.spell-prereq {
+			grid-template-columns: repeat(3, 0fr) 1fr;
 		}
 	}
 	select[disabled] {

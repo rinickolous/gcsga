@@ -15,6 +15,7 @@
 - overlay hex on tokens
 - manual light/dark mode
 - add adding/deleting support for features
+- change charsheet header buttons to single "GCS" button with context menu onclick
 ## Large Features
 - vehicles
 - mass combat elements

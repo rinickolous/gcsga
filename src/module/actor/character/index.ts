@@ -159,7 +159,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get traitPoints(): [number, number, number, number] {
 		let [ad, disad, race, quirk] = [0, 0, 0, 0];
+		console.clear();
 		for (const t of this.traits) {
+			if (t.parent != t.actor) continue;
 			let [a, d, r, q] = t.calculatePoints();
 			ad += a;
 			disad += d;
@@ -567,22 +569,25 @@ class CharacterGURPS extends BaseActorGURPS {
 		let i = 0;
 		for (const attr_id in this.system.settings.attributes) {
 			const attr = new Attribute(this, attr_id, i);
-			if (attr.attribute_def.type.includes("separator"))
+			if (attr.attribute_def.type.includes("separator")) {
 				a[attr_id] = {
 					attr_id: attr.attr_id,
 					order: attr.order,
 					adj: attr.adj,
 				};
-			a[attr_id] = {
-				bonus: attr.bonus,
-				cost_reduction: attr.cost_reduction,
-				order: attr.order,
-				attr_id: attr.attr_id,
-				adj: attr.adj,
-			};
+			} else {
+				a[attr_id] = {
+					bonus: attr.bonus,
+					cost_reduction: attr.cost_reduction,
+					order: attr.order,
+					attr_id: attr.attr_id,
+					adj: attr.adj,
+				};
+			}
 			if (!!attr.damage) a[attr_id]["damage"] = attr.damage;
 			i++;
 		}
+		console.log(a);
 		return a;
 	}
 

@@ -49,7 +49,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 
 		"item/sections/features",
 		"item/sections/feature/attribute-bonus",
-		"item/sections/feature/conditional-modifier",
+		"item/sections/feature/cond-mod",
 		"item/sections/feature/dr-bonus",
 		"item/sections/feature/reaction-bonus",
 		"item/sections/feature/skill-bonus",

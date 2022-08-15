@@ -8,7 +8,7 @@
 		</div>
 		{{else}}
 		<div class="points">[{{this.points}}]</div>
-		{{>input-text field="field rollable" name=(concat "data.attributes." this.id ".adj") data=this.current
+		{{>input-text field="field rollable" name=(concat "system.attributes." this.id ".adj") data=this.current
 		type="Number" class=(input_lock ../editing)}}
 		<div class="label">{{this.attribute_def.combinedName}}</div>
 		{{/if}}

@@ -257,7 +257,7 @@ export class ActorImporter {
 		switch (item.type) {
 			case "trait":
 				data = this.getTraitData(item as TraitSystemData);
-				flags.gcsga!.contentsData!.concat(this.importItems((item as any).modifiers, { container: true }));
+				flags.gcsga!.contentsData = this.importItems((item as any).modifiers, { container: true });
 				return [data, flags];
 			case "trait_container":
 				data = this.getTraitContainerData(item as TraitContainerSystemData);
@@ -284,7 +284,7 @@ export class ActorImporter {
 				return [data, flags];
 			case "equipment":
 				data = this.getEquipmentData(item as EquipmentSystemData, context?.other);
-				flags.gcsga!.contentsData!.concat(this.importItems((item as any).modifiers, { container: true, other: context?.other }));
+				flags.gcsga!.contentsData = this.importItems((item as any).modifiers, { container: true });
 				return [data, flags];
 			case "equipment_container":
 				data = this.getEquipmentContainerData(item as EquipmentContainerSystemData, context?.other);

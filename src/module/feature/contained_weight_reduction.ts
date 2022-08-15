@@ -1,7 +1,12 @@
-import { BaseFeature, FeatureType } from "./base";
+import { BaseFeature } from "./base";
 
 export class ContainedWeightReduction extends BaseFeature {
-	type: FeatureType = "contained_weight_reduction";
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "contained_weight_reduction",
+			reduction: "0%",
+		});
+	}
 
 	get is_percentage_reduction(): boolean {
 		return this.reduction.endsWith("%");

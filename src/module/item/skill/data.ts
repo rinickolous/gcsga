@@ -1,11 +1,10 @@
 import { Feature } from "@feature";
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
+import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { Difficulty } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
-import { SkillGURPS } from ".";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
 

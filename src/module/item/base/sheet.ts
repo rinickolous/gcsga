@@ -1,16 +1,20 @@
 import { CharacterGURPS } from "@actor";
+import { FeatureType } from "@feature/base";
 import { NumberComparison, StringComparison } from "@module/data";
-import { BasePrereq, PrereqType, TraitPrereq } from "@prereq";
-import { toArray } from "@util";
+import { PrereqType } from "@prereq";
+import { i18n, toArray } from "@util";
 
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
 		const itemData = this.object.toObject(false);
 		const attributes: Record<string, string> = {};
 		if (this.item.actor) {
-			(this.item.actor as CharacterGURPS).attributes.forEach(e => {
+			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(e => {
 				attributes[e.attr_id] = e.attribute_def.name;
 			});
+			attributes["dodge"] = i18n("gcsga.attributes.dodge");
+			attributes["parry"] = i18n("gcsga.attributes.parry");
+			attributes["block"] = i18n("gcsga.attributes.block");
 		}
 		const sheetData = {
 			...super.getData(options),
@@ -42,6 +46,9 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find(".prereq .add-list").on("click", event => this._addPrereqList(event));
 		html.find(".prereq .remove").on("click", event => this._removePrereq(event));
 		html.find(".prereq .type").on("change", event => this._onPrereqTypeChange(event));
+		html.find(".features .add").on("click", event => this._addFeature(event));
+		html.find(".feature .remove").on("click", event => this._removeFeature(event));
+		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
@@ -136,5 +143,47 @@ export class ItemSheetGURPS extends ItemSheet {
 		const parent = duplicate(getProperty(this.item as any, list.join(".")));
 		parent[variable] = data;
 		return this.getPrereqUpdate(list.join("."), parent);
+	}
+
+	protected async _addFeature(event: JQuery.ClickEvent): Promise<any> {
+		event.preventDefault();
+		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		features.push({
+			type: "attribute_bonus",
+			attribute: "st",
+			limitation: "none",
+			amount: 1,
+			per_level: false,
+			levels: 0,
+		});
+		const update: any = {};
+		update["system.feaures"] = { ...features };
+		return this.item.update(update);
+	}
+
+	protected async _removeFeature(event: JQuery.ClickEvent): Promise<any> {
+		const index = $(event.currentTarget).data("index");
+		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		features.splice(index, 1);
+		const update: any = {};
+		update["system.features"] = { ...features };
+		await this.item.update({ "system.-=features": null }, { render: false });
+		return this.item.update(update);
+	}
+
+	protected async _onFeatureTypeChange(event: JQuery.ChangeEvent): Promise<any> {
+		const value = event.currentTarget.value;
+		const index = $(event.currentTarget).data("index");
+		const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[value as FeatureType];
+		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		features[index] = {
+			type: value,
+			...FeatureConstructor.defaults,
+			has: features[index].has,
+		};
+		const update: any = {};
+		update["system.features"] = { ...features };
+		await this.item.update({ "system.-=features": null }, { render: false });
+		return this.item.update(update);
 	}
 }

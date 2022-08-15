@@ -6,7 +6,7 @@ import { BaseWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import { BaseItemDataGURPS, BaseItemSourceGURPS } from "./data";
+import { BaseItemSourceGURPS, ItemSystemData } from "./data";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { toArray } from "@util";
 import { BaseFeature } from "@feature/base";
@@ -144,7 +144,7 @@ class BaseItemGURPS extends Item {
 //@ts-ignore
 interface BaseItemGURPS extends Item {
 	parent: CharacterGURPS | ContainerGURPS | null;
-	readonly system: BaseItemDataGURPS;
+	system: ItemSystemData;
 	// temporary
 	_id: string;
 	_source: BaseItemSourceGURPS;

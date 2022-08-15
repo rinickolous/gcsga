@@ -1,5 +1,4 @@
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { NoteGURPS } from ".";
+import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
 export type NoteSource = BaseItemSourceGURPS<"note", NoteSystemData>;
 

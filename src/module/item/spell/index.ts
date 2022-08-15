@@ -2,7 +2,6 @@ import { BaseItemGURPS } from "@item/base";
 import { baseRelativeLevel, SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
-import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { SpellData } from "./data";
 

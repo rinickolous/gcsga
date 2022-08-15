@@ -1,9 +1,16 @@
-import { BaseFeature, FeatureType } from "./base";
-import { StringCompare } from "@module/data";
+import { BaseFeature } from "./base";
+import { StringCompare, StringComparison } from "@module/data";
 import { SpellBonusMatch } from "./spell_bonus";
 
 export class SpellPointBonus extends BaseFeature {
-	type: FeatureType = "spell_bonus";
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "spell_point_bonus",
+			match: "all_colleges",
+			name: { compare: StringComparison.None, qualifier: "" },
+			tags: { compare: StringComparison.None, qualifier: "" },
+		});
+	}
 
 	get featureMapKey(): string {
 		if (this.tags?.compare != "none") {

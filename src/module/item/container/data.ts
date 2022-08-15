@@ -1,15 +1,14 @@
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
+import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { ItemType } from "@item/data";
-import { ContainerGURPS } from ".";
 
-export type BaseContainerSource<TItemType extends ItemType = ItemType, TSystemData extends BaseContainerSystemData = BaseContainerSystemData> = BaseItemSourceGURPS<ItemType, BaseContainerSystemData>;
+export type BaseContainerSource<TItemType extends ItemType = ItemType, TSystemData extends BaseContainerSystemData = BaseContainerSystemData> = BaseItemSourceGURPS<TItemType, TSystemData>;
 
 // export class BaseContainerData<
 // 	TItem extends ContainerGURPS = ContainerGURPS,
 // 	TSystemData extends BaseContainerSystemData = BaseContainerSystemData,
 // 	//@ts-ignore
 // > extends BaseItemDataGURPS<TItem> {}
-export interface BaseContainerData extends BaseItemDataGURPS, BaseContainerSystemData {}
+// export interface BaseContainerData extends BaseItemDataGURPS, BaseContainerSystemData {}
 
 export interface BaseContainerSystemData extends ItemSystemData {
 	open?: boolean;

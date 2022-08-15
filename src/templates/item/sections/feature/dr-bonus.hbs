@@ -1,0 +1,14 @@
+<div>
+	<select name="{{path}}.location">
+		{{#select this.location}}
+		{{#each locations as |v k|}}
+		<option value="{{k}}">{{v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+</div>
+<div>
+	{{>input-text field="field" label=(localize "gcsga.features.dr_bonus.before") after=(localize
+	"gcsga.features.dr_bonus.after")name=(concat "system.features" @index ".specialization") data=this.specialization
+	type="Number"}}
+</div>

@@ -1,4 +1,4 @@
-#prerequisites {
+#features {
 	padding: 2px 16px;
 	.content {
 		border: 1px solid rgb(var(--color-header));
@@ -9,8 +9,7 @@
 		}
 	}
 }
-
-.prereq {
+.feature {
 	display: grid;
 	grid-auto-flow: rows;
 	grid-gap: 5px;
@@ -29,11 +28,8 @@
 		.placeholder {
 			width: 14px;
 		}
-		&.attribute-prereq {
-			grid-template-columns: repeat(4, 0fr) 1fr;
-		}
-		&.spell-prereq {
-			grid-template-columns: repeat(3, 0fr) 1fr;
+		&.conditional-modifier {
+			grid-template-columns: 0fr 1fr;
 		}
 	}
 	select[disabled] {

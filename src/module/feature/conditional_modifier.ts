@@ -1,7 +1,12 @@
-import { BaseFeature, FeatureType } from "./base";
+import { BaseFeature } from "./base";
 
 export class ConditionalModifier extends BaseFeature {
-	type: FeatureType = "conditional_modifier";
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "conditional_modifier",
+			situation: "triggering condition",
+		});
+	}
 
 	get featureMapKey(): string {
 		return "conditional_modifier";

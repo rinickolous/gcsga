@@ -1,8 +1,14 @@
-import { BaseFeature, FeatureType } from "./base";
+import { BaseFeature } from "./base";
 
 export class ReactionBonus extends BaseFeature {
-	type: FeatureType = "reaction_bonus";
 	sources: string[] = [];
+
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "reaction_bonus",
+			situation: "from others",
+		});
+	}
 
 	get featureMapKey(): string {
 		return "reaction";

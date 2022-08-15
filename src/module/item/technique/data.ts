@@ -1,10 +1,9 @@
 import { Feature } from "@feature";
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
+import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { EncumbrancePenaltyMultiplier } from "@item/skill/data";
 import { SkillDefault } from "@module/skill-default";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
-import { TechniqueGURPS } from ".";
 
 export type TechniqueSource = BaseItemSourceGURPS<"technique", TechniqueSystemData>;
 

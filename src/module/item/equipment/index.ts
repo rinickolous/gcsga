@@ -1,10 +1,7 @@
-import { Feature } from "@feature";
-import { BaseFeature } from "@feature/base";
 import { ContainerGURPS } from "@item/container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
 import { WeightUnits } from "@module/data";
-import { PrereqList } from "@prereq/prereq_list";
 import { determineModWeightValueTypeFromString, extractFraction, floatingMul } from "@util";
 import { EquipmentData } from "./data";
 

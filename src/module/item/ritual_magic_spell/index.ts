@@ -3,7 +3,6 @@ import { SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
-import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { RitualMagicSpellData } from "./data";
 

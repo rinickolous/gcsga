@@ -2,7 +2,6 @@ import { ContainerGURPS } from "@item/container";
 import { TraitContainerGURPS } from "@item/trait_container";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { CR, CRAdjustment } from "@module/data";
-import { PrereqList } from "@prereq";
 import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitData } from "./data";
 

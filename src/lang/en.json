@@ -1,5 +1,10 @@
 {
 	"gcsga": {
+		"attributes": {
+			"dodge": "Dodge",
+			"parry": "Parry",
+			"block": "Block"
+		},
 		"character": {
 			"portrait": "Portrait",
 			"identity": "Identity",
@@ -190,6 +195,10 @@
 		"equipment_container": {},
 		"prereq": {
 			"header": "Prerequisites"
+		},
+		"feature": {
+			"header": "Features",
+			"per_level": "Per Level"
 		},
 		"tooltip": {},
 		"settings": {

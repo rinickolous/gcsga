@@ -24,7 +24,7 @@ import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { MeleeWeapon, RangedWeapon, Weapon, WeaponType } from "@module/weapon";
 import { damageProgression, getCurrentTime, i18n, i18n_f, newUUID, numberCompare, SelfControl, stringCompare } from "@util";
-import { CharacterDataGURPS, CharacterSource, CharacterSystemData, Encumbrance } from "./data";
+import { CharacterSource, CharacterSystemData, Encumbrance } from "./data";
 
 class CharacterGURPS extends BaseActorGURPS {
 	attributes: Map<string, Attribute> = new Map();
@@ -107,7 +107,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		return this.system.profile;
 	}
 
-	get importData(): this["data"]["data"]["import"] {
+	get importData(): this["system"]["import"] {
 		return this.system.import;
 	}
 
@@ -152,7 +152,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	get attributePoints(): number {
 		let total = 0;
 		this.attributes.forEach((a: Attribute) => {
-			total += a.points;
+			if (!isNaN(a.points)) total += a.points;
 		});
 		return total;
 	}
@@ -1097,7 +1097,8 @@ export function processFeature(parent: any, m: Map<string, Feature[]>, f: Featur
 }
 
 interface CharacterGURPS extends BaseActorGURPS {
-	readonly data: CharacterDataGURPS;
+	system: CharacterSystemData;
+	_source: CharacterSource;
 }
 
 export { CharacterGURPS };

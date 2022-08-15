@@ -1,3 +1,4 @@
+// import { ItemType } from "@item/data";
 import { ItemFlagsGURPS, ItemType } from "@item/data";
 import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 // import { BaseItemGURPS } from ".";
@@ -12,15 +13,15 @@ export interface BaseItemSourceGURPS<TItemType extends ItemType = ItemType, TSys
 // 	enabled?: boolean;
 // }
 
-export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects" | "flags">, ItemSystemData {
-	type: ItemType;
-	// data: ItemSystemData;
-	// flags: ItemFlagsGURPS;
-	//this should not be here
-	// modifiers: any;
+// export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects" | "flags">, ItemSystemData {
+// 	type: ItemType;
+// 	// data: ItemSystemData;
+// 	// flags: ItemFlagsGURPS;
+// 	//this should not be here
+// 	// modifiers: any;
 
-	readonly _source: BaseItemSourceGURPS;
-}
+// 	readonly _source: BaseItemSourceGURPS;
+// }
 
 export interface ItemSystemData {
 	id: string;

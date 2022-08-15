@@ -1,9 +1,18 @@
-import { BaseFeature, FeatureType } from "./base";
-import { NumberCompare, StringCompare } from "@module/data";
+import { BaseFeature } from "./base";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 
 export class WeaponBonus extends BaseFeature {
-	type: FeatureType = "weapon_bonus";
-	percent = false;
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "weapon_bonus",
+			percent: false,
+			selection_type: "weapons_with_required_skill",
+			name: { compare: StringComparison.Is, qualifier: "" },
+			specialization: { compare: StringComparison.None, qualifier: "" },
+			tags: { compare: StringComparison.None, qualifier: "" },
+			level: { compare: NumberComparison.None, qualifier: "" },
+		});
+	}
 
 	get featureMapKey(): string {
 		switch (this.selection_type) {

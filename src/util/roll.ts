@@ -1,7 +1,6 @@
 import { ActorGURPS } from "@actor";
 import { RollType } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
-import { i18n } from "./misc";
 
 export async function handleRoll(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
 	console.log(user, actor, data);
@@ -31,7 +30,7 @@ export async function rollSkill(user: StoredDocument<User> | null, actor: ActorG
 	console.log(user, actor, data);
 	await roll.evaluate({ async: true });
 	let rollTotal = roll.total;
-	const speaker = ChatMessage.getSpeaker({ actor: actor });
+	const speaker = ChatMessage.getSpeaker({ actor: actor as any });
 
 	// Set up Chat Data
 	const chatData: { [key: string]: any } = {};

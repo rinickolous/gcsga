@@ -1,8 +1,16 @@
-import { StringCompare } from "@module/data";
-import { BaseFeature, FeatureType } from "./base";
+import { StringCompare, StringComparison } from "@module/data";
+import { BaseFeature } from "./base";
 
 export class SkillBonus extends BaseFeature {
-	type: FeatureType = "skill_bonus";
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "skill_bonus",
+			selection_type: "skills_with_name",
+			name: { compare: StringComparison.None, qualifier: "" },
+			specialization: { compare: StringComparison.None, qualifier: "" },
+			tags: { compare: StringComparison.None, qualifier: "" },
+		});
+	}
 
 	get featureMapKey(): string {
 		switch (this.selection_type) {

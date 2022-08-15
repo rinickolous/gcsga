@@ -1,5 +1,4 @@
 import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { SkillContainerGURPS } from ".";
 
 export type SkillContainerSource = BaseContainerSource<"skill_container", SkillContainerSystemData>;
 

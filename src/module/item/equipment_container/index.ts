@@ -1,11 +1,8 @@
-import { Feature } from "@feature";
-import { BaseFeature } from "@feature/base";
 import { ContainedWeightReduction } from "@feature/contained_weight_reduction";
 import { ContainerGURPS } from "@item/container";
 import { EquipmentGURPS, processMultiplyAddWeightStep, valueAdjustedForModifiers } from "@item/equipment";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { WeightUnits } from "@module/data";
-import { PrereqList } from "@prereq/prereq_list";
 import { determineModWeightValueTypeFromString, extractFraction } from "@util";
 import { EquipmentContainerData } from "./data";
 

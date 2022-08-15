@@ -1,7 +1,13 @@
-import { BaseFeature, FeatureType } from "./base";
+import { BaseFeature } from "./base";
 
 export class DRBonus extends BaseFeature {
-	type: FeatureType = "dr_bonus";
+	static get defaults(): Record<string, any> {
+		return mergeObject(super.defaults, {
+			type: "dr_bonus",
+			location: "torso",
+			specialization: "all",
+		});
+	}
 }
 
 export interface DRBonus extends BaseFeature {

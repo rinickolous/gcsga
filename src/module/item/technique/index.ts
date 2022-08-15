@@ -1,11 +1,8 @@
-import { Feature } from "@feature";
-import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS } from "@item/base";
 import { SkillLevel } from "@item/skill/data";
 import { gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
-import { PrereqList } from "@prereq/prereq_list";
 import { signed } from "@util";
 import { TechniqueData } from "./data";
 

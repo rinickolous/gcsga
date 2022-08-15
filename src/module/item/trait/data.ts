@@ -4,7 +4,6 @@ import { BaseContainerSource, BaseContainerSystemData } from "@item/container/da
 import { CRAdjustment } from "@module/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
-import { TraitGURPS } from ".";
 
 export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
 

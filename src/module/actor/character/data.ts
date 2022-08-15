@@ -1,6 +1,5 @@
 import { DamageProgression, DisplayMode, Height, LengthUnits, Weight, WeightUnits } from "@module/data";
-import { ActorFlagsGURPS, ActorSystemData, BaseActorDataGURPS, BaseActorSourceGURPS } from "@actor/base/data";
-import { CharacterGURPS } from ".";
+import { ActorFlagsGURPS, ActorSystemData, BaseActorSourceGURPS } from "@actor/base/data";
 import { AttributeDef, AttributeDefObj } from "@module/attribute/attribute_def";
 import { Attribute, AttributeObj } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
@@ -15,8 +14,6 @@ export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "f
 
 	readonly _source: CharacterSource;
 }
-
-export class CharacterDataGURPS extends BaseActorDataGURPS<CharacterGURPS> {}
 
 type CharacterFlags = ActorFlagsGURPS & {
 	gcsga: {

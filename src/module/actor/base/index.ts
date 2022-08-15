@@ -4,7 +4,7 @@ import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
 import { ContainerGURPS, ItemGURPS } from "@item";
-import { CharacterDataGURPS, CharacterSource } from "@actor/character/data";
+import { ActorSystemData, BaseActorSourceGURPS } from "./data";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gcsga?: {
@@ -48,11 +48,11 @@ class BaseActorGURPS extends Actor {
 }
 
 interface BaseActorGURPS extends Actor {
-	readonly data: ActorDataGURPS;
+	// readonly data: BaseActorDataGURPS;
 	deepItems: Collection<ItemGURPS>;
 	// temp
-	system: CharacterDataGURPS;
-	_source: CharacterSource;
+	system: ActorSystemData;
+	_source: BaseActorSourceGURPS;
 	_id: string;
 }
 

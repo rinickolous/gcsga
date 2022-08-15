@@ -1,5 +1,4 @@
 import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { NoteContainerGURPS } from ".";
 
 export type NoteContainerSource = BaseContainerSource<"note_container", NoteContainerSystemData>;
 

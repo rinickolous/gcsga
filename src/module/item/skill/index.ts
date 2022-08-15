@@ -1,12 +1,8 @@
 import { CharacterGURPS } from "@actor";
-import { Feature } from "@feature";
-import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS } from "@item/base";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
-import { BaseWeapon, Weapon } from "@module/weapon";
-import { PrereqList } from "@prereq";
 import { signed } from "@util";
 import { baseRelativeLevel, SkillData, SkillLevel } from "./data";
 

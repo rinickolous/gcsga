@@ -47,6 +47,19 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"item/sections/prereq/skill-prereq",
 		"item/sections/prereq/spell-prereq",
 
+		"item/sections/features",
+		"item/sections/feature/attribute-bonus",
+		"item/sections/feature/conditional-modifier",
+		"item/sections/feature/dr-bonus",
+		"item/sections/feature/reaction-bonus",
+		"item/sections/feature/skill-bonus",
+		"item/sections/feature/skill-point-bonus",
+		"item/sections/feature/spell-bonus",
+		"item/sections/feature/spell-point-bonus",
+		"item/sections/feature/weapon-bonus",
+		"item/sections/feature/cost-reduction",
+		"item/sections/feature/contained-weight-reduction",
+
 		"chat/import-character-error",
 	];
 	const formattedPaths: string[] = [];

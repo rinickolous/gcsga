@@ -3,7 +3,8 @@ import { ItemDataGURPS } from "@item/data";
 import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-import { BaseContainerData } from "./data";
+import { BaseContainerSystemData } from "./data";
+// import { BaseContainerData } from "./data";
 
 export abstract class ContainerGURPS extends BaseItemGURPS {
 	items: foundry.utils.Collection<ItemGURPS> = new foundry.utils.Collection();
@@ -128,6 +129,6 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 }
 
 export interface ContainerGURPS extends BaseItemGURPS {
-	readonly system: BaseContainerData;
+	readonly system: BaseContainerSystemData;
 	items: foundry.utils.Collection<ItemGURPS>;
 }

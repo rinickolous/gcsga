@@ -50,6 +50,7 @@
 		overflow: hidden;
 		text-align: center;
 		font: var(--font-page-secondary-fields);
+		color: rgb(var(--color-on-content));
 		&:before,
 		&:after {
 			background-color: rgb(var(--color-divider));

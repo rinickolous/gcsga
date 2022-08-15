@@ -2,7 +2,6 @@ import { Feature } from "@feature";
 import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
-import { EquipmentContainerGURPS } from ".";
 
 export type EquipmentContainerSource = BaseContainerSource<"equipment_container", EquipmentContainerSystemData>;
 

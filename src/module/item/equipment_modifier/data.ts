@@ -1,6 +1,5 @@
 import { Feature } from "@feature";
-import { BaseItemDataGURPS, BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
-import { EquipmentModifierGURPS } from ".";
+import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
 export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", EquipmentModifierSystemData>;
 

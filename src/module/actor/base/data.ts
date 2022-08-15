@@ -1,4 +1,4 @@
-import { BaseActorGURPS } from "@actor";
+// import { BaseActorGURPS } from "@actor";
 import { ActorDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 
 export type ActorType = "character" | "element" | "vehicle" | "merchant" | "trap";
@@ -13,7 +13,7 @@ export interface BaseActorSourceGURPS<TActorType extends ActorType = ActorType, 
 	flags: DeepPartial<ActorFlagsGURPS>;
 }
 
-export abstract class BaseActorDataGURPS<TActor extends BaseActorGURPS = BaseActorGURPS> extends foundry.data.ActorData {}
+// export abstract class BaseActorDataGURPS<TActor extends BaseActorGURPS = BaseActorGURPS> extends foundry.data.ActorData {}
 
 export interface ActorSystemData {
 	id: string;

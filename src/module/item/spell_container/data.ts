@@ -1,5 +1,4 @@
 import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
-import { SpellContainerGURPS } from ".";
 
 export type SpellContainerSource = BaseContainerSource<"spell_container", SpellContainerSystemData>;
 

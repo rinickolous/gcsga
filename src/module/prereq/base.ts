@@ -23,7 +23,6 @@ export class BasePrereq {
 
 	static get defaults(): Record<string, any> {
 		return {
-			type: "trait_prereq",
 			has: true,
 		};
 	}

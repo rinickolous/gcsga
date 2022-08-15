@@ -1,0 +1,38 @@
+<div class="field-3">
+	<select name="system.features.{{@index}}.selection_type">
+		{{#select this.selection_type}}
+		{{#each config.select.skill_bonus_selection_type as |v k|}}
+		<option value="{{k}}">{{localize v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	<select name="system.features.{{@index}}.name.compare">
+		{{#select this.name.compare}}
+		{{#each config.select.string_compare as |v k|}}
+		<option value="{{k}}">{{localize v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	{{>input-text field="field" name="system.features.(@index).name.qualifier" data=this.name.qualifier type="String"}}
+</div>
+<div class="field-2">
+	<select name="system.features.{{@index}}.specialization.compare">
+		{{#select this.specialization.compare}}
+		{{#each config.select.string_compare as |v k|}}
+		<option value="{{k}}">{{localize v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	{{>input-text field="field" name="system.features.(@index).specialization.qualifier"
+	data=this.specialization.qualifier type="String"}}
+</div>
+<div class="field-2">
+	<select name="system.features.{{@index}}.tags.compare">
+		{{#select this.tags.compare}}
+		{{#each config.select.string_compare as |v k|}}
+		<option value="{{k}}">{{localize v}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	{{>input-text field="field" name="system.features.(@index).tags.qualifier" data=this.tags.qualifier type="String"}}
+</div>

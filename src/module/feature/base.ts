@@ -20,13 +20,6 @@ export interface FeatureConstructionContext {
 }
 
 export class BaseFeature {
-	parent = "";
-	type: FeatureType;
-	item?: string;
-	amount = 1;
-	per_level = false;
-	levels = 0;
-
 	constructor(data: Feature | any, context: FeatureConstructionContext = {}) {
 		this.type = data.type; // needed?
 		if (context?.ready) {
@@ -38,9 +31,12 @@ export class BaseFeature {
 		}
 	}
 
-	// needed?
-	static get default() {
-		return new BaseFeature({ type: "attribute_bonus", attribute: "st", amount: 1, per_level: false }, { ready: true });
+	static get defaults(): Record<string, any> {
+		return {
+			amount: 1,
+			per_level: false,
+			levels: 0,
+		};
 	}
 
 	get adjustedAmount(): number {

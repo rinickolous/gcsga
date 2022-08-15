@@ -93,9 +93,10 @@ export function registerHandlebarsHelpers() {
 		return !a;
 	});
 
-	Handlebars.registerHelper("join", function (a: any[], j: string): string {
+	Handlebars.registerHelper("join", function (a: any[], s: string): string {
+		console.log(a);
 		if (!a.length) return "";
-		return a.join(j);
+		return a.join(s);
 	});
 
 	Handlebars.registerHelper("arr", function (...args) {
@@ -160,10 +161,6 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("print", function (a: any): any {
 		console.log(a);
 		return a;
-	});
-
-	Handlebars.registerHelper("join", function (a: string[], s: string): string {
-		return a.join(s);
 	});
 
 	Handlebars.registerHelper("format", function (a: string): string {

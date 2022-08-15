@@ -21,8 +21,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		if (!this.actor.isOwner) return false;
 
 		// const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
-		//@ts-ignore
-		const item = await Item.implementation.fromDropData(data);
+		const item = await (Item.implementation as any).fromDropData(data);
 		const itemData = item.toObject();
 
 		//Handle item sorting within the same Actor
@@ -46,8 +45,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		// Owned Items
 		if ((list as HTMLElement).dataset.itemId) {
 			const item = this.actor.deepItems.get((list as HTMLElement).dataset.itemId!);
-			//@ts-ignore
-			dragData = item?.toDragData();
+			dragData = (item as any)?.toDragData();
 
 			// Create custom drag image
 			const dragImage = document.createElement("div");
@@ -65,8 +63,7 @@ export class ActorSheetGURPS extends ActorSheet {
 		// Active Effect
 		if ((list as HTMLElement).dataset.effectId) {
 			const effect = this.actor.effects.get((list as HTMLElement).dataset.effectId!);
-			//@ts-ignore
-			dragData = effect?.toDragData();
+			dragData = (effect as any)?.toDragData();
 		}
 
 		// Set data transfer

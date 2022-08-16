@@ -78,7 +78,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected async _handlePDF(event: JQuery.ClickEvent): Promise<void> {
 		event.preventDefault();
-		const pdf = $(event.currentTarget).text();
+		const pdf = $(event.currentTarget).data("pdf");
 		if (pdf) return openPDF(pdf);
 	}
 

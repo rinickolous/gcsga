@@ -84,7 +84,10 @@ export function openPDF(pdfs: string) {
 		const pdf = (ui as any).PDFoundry?.findPDFDataByCode(book);
 		if (!pdf) {
 			let url = (SJG_links as any)[book];
-			if (!url) url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
+			if (!url) {
+				if (pdfs.includes("http")) url = pdfs;
+				else url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
+			}
 			window.open(url, "_blank");
 		} else (ui as any).PDFoundry?.openPDF(pdf, { page: page });
 	});

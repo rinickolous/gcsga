@@ -1,25 +1,25 @@
 <div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
 	<div class="dropdown">
-	{{#if (eq this.type "skill_container")}}
-		{{#if this.open}}	
-			{{>dropdown-open}}
+		{{#if (eq this.type "skill_container")}}
+		{{#if this.open}}
+		{{>dropdown-open}}
 		{{else}}
-			{{>dropdown-closed}}
+		{{>dropdown-closed}}
 		{{/if}}
-	{{/if}}
+		{{/if}}
 	</div>
 	{{!-- {{this.name_formatted}} --}}
 	<div class="name">
-	{{this.name}}
+		{{this.name}}
 	</div>
 	{{>item-notes}}
 </div>
 <div data-item-id="{{this.id}}" data-type="skill" class="level rollable">{{this.skillLevel}}</div>
 <div data-item-id="{{this.id}}" data-type="skill_rsl" class="rsl rollable">{{this.relativeLevel}}</div>
 <div class="points">{{this.points}}</div>
-<div class="reference">{{this.reference}}</div>
+<div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}
-	{{#each this.children}}
-		{{>skill}}
-	{{/each}}
+{{#each this.children}}
+{{>skill}}
+{{/each}}
 {{/if}}

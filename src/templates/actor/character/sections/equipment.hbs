@@ -1,17 +1,17 @@
-<div class="equipped" data-item-id="{{this.id}}" >{{#if this.equipped}}<i class="gcs-checkmark"></i>{{/if}}</div>
+<div class="equipped" data-item-id="{{this.id}}">{{#if this.equipped}}<i class="gcs-checkmark"></i>{{/if}}</div>
 <div class="quantity">{{this.quantity}}</div>
 <div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
-	 <div class="dropdown">
-	{{#if (eq this.type "equipment_container")}}
-		{{#if this.open}}	
-			{{>dropdown-open}}
+	<div class="dropdown">
+		{{#if (eq this.type "equipment_container")}}
+		{{#if this.open}}
+		{{>dropdown-open}}
 		{{else}}
-			{{>dropdown-closed}}
+		{{>dropdown-closed}}
 		{{/if}}
-	{{/if}}
+		{{/if}}
 	</div>
 	<div class="name">
-	{{this.name}}
+		{{this.name}}
 	</div>
 	{{>item-notes}}
 </div>
@@ -22,9 +22,9 @@
 <div class="weight">{{this.adjustedWeightFast}}</div>
 <div class="extended-value">{{this.extendedValue}}</div>
 <div class="extended-weight">{{this.extendedWeightFast}}</div>
-<div class="reference">{{this.reference}}</div>
+<div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}
-	{{#each this.children}}
-		{{>equipment}}
-	{{/each}}
+{{#each this.children}}
+{{>equipment}}
+{{/each}}
 {{/if}}

@@ -60,7 +60,7 @@
 		}
 		span.input {
 			min-height: 24px;
-			padding: 3px 1px;
+			padding: 1px 3px;
 			line-height: 24px;
 			resize: both;
 			height: initial !important;
@@ -104,6 +104,7 @@
 			height: 16px;
 			grid-row-gap: 0px;
 			font: var(--font-system);
+			white-space: nowrap;
 		}
 		input.input[type="checkbox"] {
 			appearance: none;

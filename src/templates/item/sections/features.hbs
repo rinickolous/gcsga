@@ -2,22 +2,27 @@
 	<div class="header">{{localize "gcsga.feature.header"}}</div>
 	<div class="content">
 		<div>
-			<i class="add gcs-circled-add" data-path="{{path}}"></i>
+			<i class="add gcs-circled-add"></i>
 		</div>
 		{{#each system.features}}
 		<div class="feature">
 			<div class="top">
-				<i class="remove gcs-trash" data-path="{{path}}"></i>
-				<select class="type" name="{{path}}.type" data-path="{{path}}">
+				<i class="remove gcs-trash" data-index="{{@index}}"></i>
+				<select class="type" name="system.features.{{@index}}.type" data-index="{{@index}}">
 					{{#select this.type}}
 					{{#each ../config.select.features as |v k|}}
 					<option value="{{k}}">{{localize (concat "gcsga.select.features." v)}}</option>
 					{{/each}}
+					{{#if (eq ../this.type "equipment_container")}}
+					{{#each ../config.select.features as |v k|}}
+					<option value="{{k}}">{{localize (concat "gcsga.select.features." v)}}</option>
+					{{/each}}
+					{{/if}}
 					{{/select}}
 				</select>
 				{{#if (eq this.type "cost_reduction")}}{{>cost-reduction config=../config
 				attributes=../attributes}}{{else}}
-				{{>input-text field="field" name=(concat "system.features" @index ".amount") data=this.amount
+				{{>input-text field="field" name=(concat "system.features." @index ".amount") data=this.amount
 				type="Number"}}
 				{{#if (eq this.type "weapon_bonus")}}<p>TODO</p>{{else}}
 				<div class="field">

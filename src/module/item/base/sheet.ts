@@ -12,10 +12,28 @@ export class ItemSheetGURPS extends ItemSheet {
 			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(e => {
 				attributes[e.attr_id] = e.attribute_def.name;
 			});
-			attributes["dodge"] = i18n("gcsga.attributes.dodge");
-			attributes["parry"] = i18n("gcsga.attributes.parry");
-			attributes["block"] = i18n("gcsga.attributes.block");
+		} else {
+			mergeObject(attributes, {
+				st: "ST",
+				dx: "DX",
+				iq: "IQ",
+				ht: "HT",
+				will: "Will",
+				fright_check: "Fright Check",
+				per: "Perception",
+				vision: "Vision",
+				hearing: "Hearing",
+				taste_smell: "Taste & Smell",
+				touch: "Touch",
+				basic_speed: "Basic Speed",
+				basic_move: "Basic Move",
+				fp: "FP",
+				hp: "HP",
+			});
 		}
+		attributes["dodge"] = i18n("gcsga.attributes.dodge");
+		attributes["parry"] = i18n("gcsga.attributes.parry");
+		attributes["block"] = i18n("gcsga.attributes.block");
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -46,9 +64,10 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find(".prereq .add-list").on("click", event => this._addPrereqList(event));
 		html.find(".prereq .remove").on("click", event => this._removePrereq(event));
 		html.find(".prereq .type").on("change", event => this._onPrereqTypeChange(event));
-		html.find(".features .add").on("click", event => this._addFeature(event));
+		html.find("#features .add").on("click", event => this._addFeature(event));
 		html.find(".feature .remove").on("click", event => this._removeFeature(event));
 		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
+
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
@@ -146,7 +165,7 @@ export class ItemSheetGURPS extends ItemSheet {
 	}
 
 	protected async _addFeature(event: JQuery.ClickEvent): Promise<any> {
-		event.preventDefault();
+		console.log("checkem");
 		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
 		features.push({
 			type: "attribute_bonus",
@@ -157,7 +176,8 @@ export class ItemSheetGURPS extends ItemSheet {
 			levels: 0,
 		});
 		const update: any = {};
-		update["system.feaures"] = { ...features };
+		update["system.features"] = { ...features };
+		console.log(update);
 		return this.item.update(update);
 	}
 
@@ -179,7 +199,6 @@ export class ItemSheetGURPS extends ItemSheet {
 		features[index] = {
 			type: value,
 			...FeatureConstructor.defaults,
-			has: features[index].has,
 		};
 		const update: any = {};
 		update["system.features"] = { ...features };

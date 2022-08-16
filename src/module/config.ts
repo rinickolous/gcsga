@@ -152,6 +152,27 @@ const GURPSCONFIG: any = {
 			college_count: "college_count",
 			any: "any",
 		},
+		features: {
+			attribute_bonus: "attribute_bonus",
+			conditional_modifier: "conditional_modifier",
+			dr_bonus: "dr_bonus",
+			reaction_bonus: "reaction_bonus",
+			skill_bonus: "skill_bonus",
+			skill_point_bonus: "skill_point_bonus",
+			spell_bonus: "spell_bonus",
+			spell_point_bonus: "spell_point_bonus",
+			weapon_bonus: "weapon_bonus",
+			cost_reduction: "cost_reduction",
+		},
+		features_eqc: {
+			contained_weight_reduction: "contained_weight_reduction",
+		},
+		st_limitation: {
+			none: "none",
+			striking_only: "striking_only",
+			lifting_only: "lifting_only",
+			throwing_only: "throwing_only",
+		},
 	},
 };
 // GURPSCONFIG.Item.documentClasses = {};

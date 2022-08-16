@@ -167,6 +167,11 @@ export function registerHandlebarsHelpers() {
 		return (!!a ? a : "").replace(/\n/g, "<br>");
 	});
 
+	Handlebars.registerHelper("ref", function (a: string): string {
+		if (a.includes("http")) return i18n("gcsga.character.link");
+		return a;
+	});
+
 	// Handlebars.registerHelper("selected", function (list: any[], item: string): string {
 	// 	console.warn(list);
 	// 	if (list.includes(item)) return "selected";

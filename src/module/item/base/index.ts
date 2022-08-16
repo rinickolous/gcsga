@@ -43,7 +43,7 @@ class BaseItemGURPS extends Item {
 	}
 
 	override async update(data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
-		// console.log(data);
+		console.log(data);
 		if (this.parent instanceof BaseItemGURPS) {
 			// data = foundry.utils.expandObject(data as any);
 			data!._id = this.id;

@@ -36,6 +36,7 @@
 			"point_pools": "Point Pools",
 			"pool_of": "of",
 			"copyright": "GCS is copyrighted ©1998-{current_year} by Richard A. Wilkes. All rights reserved",
+			"link": "Link",
 			"points": {
 				"title": "Points",
 				"unspent": "Unspent",
@@ -270,6 +271,25 @@
 				"contained_weight_prereq": "a contained weight",
 				"skill_prereq": "a skill",
 				"spell_prereq": "spell(s)"
+			},
+			"features": {
+				"attribute_bonus": "Gives an attribute modifier of",
+				"conditional_modifier": "Gives a conditional modifier of",
+				"dr_bonus": "Gives a DR bonus of",
+				"reaction_bonus": "Gives a reaction modifier of",
+				"skill_bonus": "Gives a skill level modifier of",
+				"skill_point_bonus": "Gives a skill point modifier of",
+				"spell_bonus": "Gives a spell level modifier of",
+				"spell_point_bonus": "Gives a spell point modifier of",
+				"weapon_bonus": "Gives a weapon damage modifier of",
+				"cost_reduction": "Reduces the attribute cost of",
+				"contained_weight_reduction": "Reduces the contained weight by"
+			},
+			"st_limitation": {
+				"none": "",
+				"striking_only": "for striking only",
+				"lifting_only": "for lifting only",
+				"throwing_only": "for throwing only"
 			},
 			"spell_sub_type": {
 				"name": "whose name",

@@ -11,13 +11,18 @@
 
 	// Image displayed as background-image
 	.img-display {
+		// background-position: center;
+		// background-repeat: no-repeat;
+		// background-size: cover;
+		// height: 100%;
+		// TODO figure out how to set height without direct px value
+		// height: 132px;
+		// aspect-ratio: 3 / 4;
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
-		// height: 100%;
-		// TODO figure out how to set height without direct px value
-		height: 132px;
-		aspect-ratio: 3 / 4;
+		width: 7.6875rem;
+		aspect-ratio: 3/4;
 
 		// Actual portait element (invisible)
 		.profile-img {

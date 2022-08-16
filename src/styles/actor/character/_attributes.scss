@@ -31,6 +31,9 @@
 			.points:nth-child(6n-2) {
 				background-color: rgba(var(--color-banding), 1);
 			}
+			.field {
+				width: 5ch;
+			}
 		}
 	}
 

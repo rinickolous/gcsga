@@ -96,7 +96,7 @@
 		background-color: transparent;
 		overflow-x: hidden;
 	}
-	.reference:not(.header):hover {
+	.reference:not(.header):not([data-pdf=""]):hover {
 		background-color: rgba(var(--color-link), 1) !important;
 		color: rgba(var(--color-on-link), 1) !important;
 		cursor: pointer;

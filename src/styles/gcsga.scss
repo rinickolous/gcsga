@@ -75,12 +75,11 @@
 				background: rgba(var(--color-scroll-rollover));
 			}
 		}
-
-		// Resize Handle
-		.window-resizable-handle {
-			background-color: rgba(var(--color-background), 1);
-			color: rgba(var(--color-on-background), 1);
-		}
+	}
+	// Resize Handle
+	.window-resizable-handle {
+		background-color: rgb(var(--color-focused-tab));
+		color: rgb(var(--color-on-focused-tab));
 	}
 }
 

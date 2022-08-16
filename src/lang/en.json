@@ -37,6 +37,11 @@
 			"pool_of": "of",
 			"copyright": "GCS is copyrighted ©1998-{current_year} by Richard A. Wilkes. All rights reserved",
 			"link": "Link",
+			"settings": {
+				"import_title": "Import",
+				"import_note": "Select a file exported from GCS.<br><b>This import will overwrite the data for {name}</b>",
+				"import_warning": "<b>NOTE:</b> This action cannot be un-done."
+			},
 			"points": {
 				"title": "Points",
 				"unspent": "Unspent",

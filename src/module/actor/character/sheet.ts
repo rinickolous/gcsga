@@ -21,6 +21,8 @@ import { openPDF } from "@module/modules";
 import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon, RangedWeapon } from "@module/weapon";
 import { dollarFormat, RollGURPS } from "@util";
+import { CharacterGURPS } from ".";
+import { CharacterSheetConfig } from "./config_sheet";
 
 export class CharacterSheetGURPS extends ActorSheetGURPS {
 	static override get defaultOptions(): ActorSheet.Options {
@@ -287,6 +289,12 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				icon: "fas fa-file-import",
 				onclick: event => this._onFileImport(event),
 			},
+			{
+				label: "GCSGA",
+				class: "gmenu",
+				icon: "fas fa-dice",
+				onclick: event => this._onGMenu(event),
+			},
 		];
 		const all_buttons = buttons.concat(super._getHeaderButtons());
 		all_buttons.at(-1)!.label = "";
@@ -298,6 +306,14 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	async _onFileImport(event: any) {
 		event.preventDefault();
 		this.actor.importCharacter();
+	}
+
+	protected async _onGMenu(event: JQuery.ClickEvent) {
+		event.preventDefault();
+		new CharacterSheetConfig(this.document as CharacterGURPS, {
+			top: this.position.top! + 40,
+			left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
+		}).render(true);
 	}
 }
 

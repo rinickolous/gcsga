@@ -149,7 +149,6 @@ export class TraitGURPS extends ContainerGURPS {
 		if (pts == -1) quirk += pts;
 		else if (pts > 0) ad += pts;
 		else if (pts < 0) disad += pts;
-		console.log(this.name, this.type, ad, disad, race, quirk);
 		return [ad, disad, race, quirk];
 	}
 

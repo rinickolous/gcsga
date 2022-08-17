@@ -4,9 +4,9 @@ import { StringCompare, StringComparison } from "@module/data";
 export class SkillPointBonus extends BaseFeature {
 	static get defaults(): Record<string, any> {
 		return mergeObject(super.defaults, {
-			type: "skill_bonus",
+			type: "skill_point_bonus",
 			selection_type: "skills_with_name",
-			name: { compare: StringComparison.None, qualifier: "" },
+			name: { compare: StringComparison.Is, qualifier: "" },
 			specialization: { compare: StringComparison.None, qualifier: "" },
 			tags: { compare: StringComparison.None, qualifier: "" },
 		});

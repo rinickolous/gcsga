@@ -1,6 +1,5 @@
 <select name="{{path}}.which">
 	{{#select this.which}}
-	<option value=""></option>
 	{{#each attributes as |v k|}}
 	<option value="{{k}}">{{v}}</option>
 	{{/each}}
@@ -9,7 +8,7 @@
 <select name="{{path}}.percentage">
 	{{#select this.percentage}}
 	{{#each config.select.percentage as |v k|}}
-	<option value="{{k}}">{{localize v}}</option>
+	<option value="{{k}}">{{localize "gcsga.field_prefix.percentage" value=v}}</option>
 	{{/each}}
 	{{/select}}
 </select>

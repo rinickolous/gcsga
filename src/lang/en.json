@@ -204,7 +204,9 @@
 		},
 		"feature": {
 			"header": "Features",
-			"per_level": "Per Level"
+			"per_level": "per level",
+			"per_die": "per die",
+			"percent": "as a percentage"
 		},
 		"tooltip": {},
 		"settings": {
@@ -302,6 +304,22 @@
 				"college": "whose college name",
 				"college_count": "from different colleges",
 				"any": "of any kind"
+			},
+			"skill_bonus_selection_type": {
+				"skills_with_name": "to skills with name",
+				"weapons_with_name": "to weapons with name",
+				"this_weapon": "to this weapon"
+			},
+			"weapon_bonus_selection_type": {
+				"weapons_with_required_skill": "to weapons whose required skill name",
+				"weapons_with_name": "to weapons whose name",
+				"this_weapon": "to this weapon"
+			},
+			"spell_match": {
+				"all_colleges": "to all colleges",
+				"college_name": "to the college whose name",
+				"power_source_name": "to the power source whose name",
+				"spell_name": "to the spell whose name"
 			}
 		},
 		"field_prefix": {
@@ -309,11 +327,18 @@
 			"trait_name": "whose name",
 			"combined_with": "combined with",
 			"attribute_level": "which is",
-			"skill_name": "to skills whose name",
+			"skills_with_name": "to skills whose name",
+			"this_weapon": "to this weapon",
 			"specialization": "and whose specialization",
 			"usage": "and whose usage",
 			"notes": "and whose notes",
-			"level": "and whose level"
+			"level": "and whose level",
+			"rsl": "and whose relative skill level",
+			"tags": "and at least one tag",
+			"dr_bonus_before": "against",
+			"dr_bonus_after": "attacks",
+			"dr": "to the {location}",
+			"percentage": "by {value}%"
 		},
 		"system": {
 			"sheet": {

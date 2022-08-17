@@ -16,6 +16,7 @@
 - manual light/dark mode
 - add adding/deleting support for features
 - change charsheet header buttons to single "GCS" button with context menu onclick
+- change the way prereq messages are displayed for better formatting & localization
 ## Large Features
 - vehicles
 - mass combat elements
@@ -25,6 +26,7 @@
 - default attributes and hit locations settings
 - mook generator with autocomplete from compendium
 - weapons
+- G-Force calculator (affects encumbrance & move)
 ## Fixes
 - scale portrait based on height not width
 - functional svg in ChatMessage

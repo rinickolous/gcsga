@@ -1,6 +1,5 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
 import { SYSTEM_NAME } from "@module/settings";
-import { TraitGURPS } from ".";
 
 export class TraitSheet extends ContainerSheetGURPS {
 	get template(): string {
@@ -17,12 +16,10 @@ export class TraitSheet extends ContainerSheetGURPS {
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		html.find(".input.enabled").on("click", event => this._toggleEnabled(event));
 	}
 
-	protected _toggleEnabled(event: JQuery.ClickEvent): any {
-		event.preventDefault();
-		//TODO change
-		return this.item?.update({ "system.disabled": !(this.item as unknown as TraitGURPS).system.disabled });
+	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+		if (Object.keys(formData).includes("system.disabled")) formData["system.disabled"] = !formData["system.disabled"];
+		return super._updateObject(event, formData);
 	}
 }

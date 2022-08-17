@@ -6,7 +6,7 @@ export class SkillBonus extends BaseFeature {
 		return mergeObject(super.defaults, {
 			type: "skill_bonus",
 			selection_type: "skills_with_name",
-			name: { compare: StringComparison.None, qualifier: "" },
+			name: { compare: StringComparison.Is, qualifier: "" },
 			specialization: { compare: StringComparison.None, qualifier: "" },
 			tags: { compare: StringComparison.None, qualifier: "" },
 		});

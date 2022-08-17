@@ -7,10 +7,15 @@ import { i18n, toArray } from "@util";
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
 		const itemData = this.object.toObject(false);
+
 		const attributes: Record<string, string> = {};
+		const locations: Record<string, string> = {};
 		if (this.item.actor) {
 			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(e => {
 				attributes[e.attr_id] = e.attribute_def.name;
+			});
+			(this.item.actor as unknown as CharacterGURPS).system.settings.body_type.locations.forEach(e => {
+				locations[e.id] = e.choice_name;
 			});
 		} else {
 			mergeObject(attributes, {
@@ -30,10 +35,24 @@ export class ItemSheetGURPS extends ItemSheet {
 				fp: "FP",
 				hp: "HP",
 			});
+			mergeObject(locations, {
+				eyes: "Eyes",
+				skull: "Skull",
+				face: "Face",
+				leg: "Leg",
+				arm: "Arm",
+				torso: "Torso",
+				groin: "Groin",
+				hand: "Hand",
+				foot: "Foot",
+				neck: "Neck",
+				vitals: "Vitals",
+			});
 		}
 		attributes["dodge"] = i18n("gcsga.attributes.dodge");
 		attributes["parry"] = i18n("gcsga.attributes.parry");
 		attributes["block"] = i18n("gcsga.attributes.block");
+
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -42,6 +61,7 @@ export class ItemSheetGURPS extends ItemSheet {
 				system: (itemData as any).system,
 				config: (CONFIG as any).GURPS,
 				attributes: attributes,
+				locations: locations,
 			},
 		};
 
@@ -51,8 +71,8 @@ export class ItemSheetGURPS extends ItemSheet {
 	static get defaultOptions(): DocumentSheetOptions {
 		const options = super.defaultOptions;
 		mergeObject(options, {
-			width: 600,
-			min_width: 600,
+			width: 620,
+			min_width: 620,
 			classes: options.classes.concat(["item", "gcsga"]),
 		});
 		return options;

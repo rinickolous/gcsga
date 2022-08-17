@@ -6,7 +6,7 @@ export class SpellBonus extends BaseFeature {
 		return mergeObject(super.defaults, {
 			type: "spell_bonus",
 			match: "all_colleges",
-			name: { compare: StringComparison.None, qualifier: "" },
+			name: { compare: StringComparison.Is, qualifier: "" },
 			tags: { compare: StringComparison.None, qualifier: "" },
 		});
 	}

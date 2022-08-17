@@ -1,14 +1,17 @@
 <div>
+	<div class="placeholder"> </div>
 	<select name="{{path}}.location">
 		{{#select this.location}}
 		{{#each locations as |v k|}}
-		<option value="{{k}}">{{v}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.dr" location=v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
 </div>
-<div>
-	{{>input-text field="field" label=(localize "gcsga.features.dr_bonus.before") after=(localize
-	"gcsga.features.dr_bonus.after")name=(concat "system.features" @index ".specialization") data=this.specialization
+<div class="dr-bonus">
+	<div class="placeholder"> </div>
+	{{>input-text field="field" label=(localize "gcsga.field_prefix.dr_bonus_before") after=(localize
+	"gcsga.field_prefix.dr_bonus_after")name=(concat "system.features" @index ".specialization")
+	data=this.specialization
 	type="Number"}}
 </div>

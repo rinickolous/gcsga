@@ -24,11 +24,26 @@
 				attributes=../attributes}}{{else}}
 				{{>input-text field="field" name=(concat "system.features." @index ".amount") data=this.amount
 				type="Number"}}
-				{{#if (eq this.type "weapon_bonus")}}<p>TODO</p>{{else}}
+				{{#if (eq this.type "weapon_bonus")}}
 				<div class="field">
 					<label class="checkbox-label">
-						<input class="input
-					enabled" type="checkbox" {{checked this.per_level}} />
+						<input class="input" type="checkbox" data-dtype="Boolean"
+							name="system.features.{{@index}}.per_level" {{checked this.per_level}} />
+						{{localize "gcsga.feature.per_die"}}
+					</label>
+				</div>
+				<div class="field">
+					<label class="checkbox-label">
+						<input class="input" type="checkbox" data-dtype="Boolean"
+							name="system.features.{{@index}}.percent" {{checked this.percent}} />
+						{{localize "gcsga.feature.percent"}}
+					</label>
+				</div>
+				{{else}}
+				<div class="field">
+					<label class="checkbox-label">
+						<input class="input" type="checkbox" data-dtype="Boolean"
+							name="system.features.{{@index}}.per_level" {{checked this.per_level}} />
 						{{localize "gcsga.feature.per_level"}}
 					</label>
 				</div>
@@ -38,7 +53,7 @@
 			{{#if (eq this.type "attribute_bonus")}}{{>attribute-bonus config=../config
 			attributes=../attributes}}{{/if}}
 			{{#if (eq this.type "reaction_bonus")}}{{>reaction-bonus config=../config}}{{/if}}
-			{{#if (eq this.type "dr_bonus")}}{{>dr-bonus config=../config}}{{/if}}
+			{{#if (eq this.type "dr_bonus")}}{{>dr-bonus config=../config locations=../locations}}{{/if}}
 			{{#if (eq this.type "conditional_modifier")}}{{>cond-mod config=../config}}{{/if}}
 			{{#if (eq this.type "weapon_bonus")}}{{>weapon-bonus config=../config}}{{/if}}
 			{{#if (eq this.type "skill_bonus")}}{{>skill-bonus config=../config}}{{/if}}

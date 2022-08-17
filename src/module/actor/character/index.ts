@@ -159,7 +159,6 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get traitPoints(): [number, number, number, number] {
 		let [ad, disad, race, quirk] = [0, 0, 0, 0];
-		console.clear();
 		for (const t of this.traits) {
 			if (t.parent != t.actor) continue;
 			let [a, d, r, q] = t.calculatePoints();

@@ -16,6 +16,7 @@
 	.desc,
 	.refrence {
 		border-right: 1px solid rgb(var(--color-divider));
+		&.refernce,
 		&.reference {
 			border-right: none;
 		}

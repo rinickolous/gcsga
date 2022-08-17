@@ -220,7 +220,7 @@ class BaseWeapon {
 						skillLevel = Math.max(best, 0);
 					}
 					if (neg) modifier = -modifier;
-					const num = (skillLevel + Math.trunc(modifier)).toString();
+					const num = Math.trunc(skillLevel + modifier).toString();
 					if (i < max) {
 						buffer += num;
 						line = line.substring(i);

@@ -13,20 +13,6 @@
 			color: rgb(var(--color-on-banding));
 		}
 	}
-
-	.modifier,
-	.condition {
-		&:not(.header) {
-			border-bottom: 1px solid rgb(var(--color-header));
-			border-right: 1px solid rgb(var(--color-header));
-			&.condition {
-				border-right: none;
-			}
-			&:nth-last-child(-n + 2) {
-				border-bottom: none;
-			}
-		}
-	}
 }
 
 #conditional-modifiers {

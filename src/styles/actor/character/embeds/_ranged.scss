@@ -21,23 +21,4 @@
 			color: rgb(var(--color-on-banding));
 		}
 	}
-	.desc,
-	.usage,
-	.level,
-	.accuracy,
-	.damage,
-	.range,
-	.rate-of-fire,
-	.shots,
-	.bulk,
-	.recoil,
-	.st {
-		border-bottom: 1px solid rgb(var(--color-header));
-		&:not(.st) {
-			border-right: 1px solid rgb(var(--color-header));
-		}
-		&:nth-last-child(-n + 11) {
-			border-bottom: none;
-		}
-	}
 }

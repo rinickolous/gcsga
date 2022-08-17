@@ -23,7 +23,7 @@ import { SETTINGS_TEMP, SYSTEM_NAME } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { TooltipGURPS } from "@module/tooltip";
 import { MeleeWeapon, RangedWeapon, Weapon, WeaponType } from "@module/weapon";
-import { damageProgression, getCurrentTime, i18n, i18n_f, newUUID, numberCompare, SelfControl, stringCompare } from "@util";
+import { damageProgression, floatingMul, getCurrentTime, i18n, i18n_f, newUUID, numberCompare, SelfControl, stringCompare } from "@util";
 import { CharacterSource, CharacterSystemData, Encumbrance } from "./data";
 
 class CharacterGURPS extends BaseActorGURPS {
@@ -296,7 +296,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		this.carried_equipment.forEach(e => {
 			if (e.parent == this) total += e.extendedWeight(for_skills, this.settings.default_weight_units);
 		});
-		return total;
+		return floatingMul(total);
 	}
 
 	wealthCarried(): number {
@@ -304,7 +304,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		this.carried_equipment.forEach(e => {
 			if (e.parent == this) value += e.extendedValue;
 		});
-		return value;
+		return floatingMul(value);
 	}
 
 	wealthNotCarried(): number {

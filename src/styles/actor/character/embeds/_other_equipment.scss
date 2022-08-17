@@ -38,6 +38,7 @@
 		&:not(.header) {
 			border-bottom: 1px solid rgb(var(--color-header));
 			border-right: 1px solid rgb(var(--color-header));
+			&.refernce,
 			&.dropdown {
 				border-right: none;
 			}

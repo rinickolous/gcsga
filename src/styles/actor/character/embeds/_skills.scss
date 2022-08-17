@@ -15,26 +15,4 @@
 			color: rgba(var(--color-on-banding), 1);
 		}
 	}
-
-	.dropdown,
-	.desc,
-	.level,
-	.rsl,
-	.points,
-	.reference {
-		border-right: 1px solid rgb(var(--color-divider));
-		&.reference {
-			border-right: none;
-		}
-		&:not(.header) {
-			border-bottom: 1px solid rgb(var(--color-header));
-			border-right: 1px solid rgb(var(--color-header));
-			&.dropdown {
-				border-right: none;
-			}
-			&:nth-last-child(-n + 5) {
-				border-bottom: none;
-			}
-		}
-	}
 }

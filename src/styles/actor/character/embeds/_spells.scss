@@ -24,10 +24,13 @@
 	.rsl,
 	.points,
 	.reference {
+		border-right: 1px solid rgb(var(--color-divider));
+		&.reference {
+			border-right: none;
+		}
 		&:not(.header) {
-			border-bottom: 1px solid rgba(var(--color-header), 1);
-			border-right: 1px solid rgba(var(--color-header), 1);
-			&.reference,
+			border-bottom: 1px solid rgb(var(--color-header));
+			border-right: 1px solid rgb(var(--color-header));
 			&.dropdown {
 				border-right: none;
 			}

@@ -171,7 +171,9 @@
 				"9": "CR: 9 (Resist Fairly Often)",
 				"12": "CR: 12 (Resist Quite Often)",
 				"15": "CR: 15 (Resist Almost All The Time)"
-			}
+			},
+			"modifier_desc": "Trait Modifier",
+			"modifier_cost": "Cost Modifier"
 		},
 		"trait_container": {},
 		"trait_modifier": {},

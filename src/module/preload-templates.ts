@@ -60,6 +60,10 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"item/sections/feature/cost-reduction",
 		"item/sections/feature/contained-weight-reduction",
 
+		"item/sections/trait-modifiers",
+		"item/sections/melee",
+		"item/sections/ranged",
+
 		"chat/import-character-error",
 	];
 	const formattedPaths: string[] = [];

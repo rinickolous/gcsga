@@ -1,6 +1,7 @@
 import { ContainerGURPS } from "@item/container";
 import { calculateModifierPoints, TraitGURPS } from "@item/trait";
 import { TraitModifierGURPS } from "@item/trait_modifier";
+import { TraitModifierContainerGURPS } from "@item/trait_modifier_container";
 import { CR, CRAdjustment } from "@module/data";
 import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitContainerData, TraitContainerType } from "./data";
@@ -59,7 +60,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
 			}
 		}
-		this.modifiers.forEach(m => {
+		this.deepModifiers.forEach(m => {
 			if (n.length) n += ";";
 			n += m.fullDescription;
 		});
@@ -76,7 +77,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				}),
 		) as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
-	get modifiers(): Collection<TraitModifierGURPS> {
+
+	get modifiers(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
@@ -84,6 +86,22 @@ export class TraitContainerGURPS extends ContainerGURPS {
 					return [item.id!, item];
 				}),
 		) as Collection<TraitModifierGURPS>;
+	}
+
+	get deepModifiers(): Collection<TraitModifierGURPS> {
+		const deepModifiers: Array<TraitModifierGURPS> = [];
+		this.modifiers.forEach(mod => {
+			if (mod instanceof TraitModifierGURPS) deepModifiers.push(mod);
+			else
+				mod.deepItems.forEach(e => {
+					if (e instanceof TraitModifierGURPS) deepModifiers.push(e);
+				});
+		});
+		return new Collection(
+			deepModifiers.map(item => {
+				return [item.id!, item];
+			}),
+		);
 	}
 
 	get adjustedPoints(): number {

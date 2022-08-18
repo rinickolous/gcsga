@@ -64,8 +64,8 @@ class BaseItemGURPS extends Item {
 		return null;
 	}
 
-	get enabled(): boolean {
-		return true;
+	get enabled(): boolean | undefined {
+		return undefined;
 	}
 
 	get tags(): string[] {

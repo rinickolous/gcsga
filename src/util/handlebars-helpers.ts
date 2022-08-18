@@ -94,7 +94,6 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("join", function (a: any[], s: string): string {
-		console.log(a);
 		if (!a.length) return "";
 		return a.join(s);
 	});
@@ -107,10 +106,10 @@ export function registerHandlebarsHelpers() {
 		return outArr;
 	});
 
-	Handlebars.registerHelper("indent", function (i: ItemGURPS | number): string {
-		let sum = -6;
-		if (typeof i == "number") sum += 12 * i;
-		else sum += 12 * (i.parentCount ?? 0);
+	Handlebars.registerHelper("indent", function (i: ItemGURPS | number, init = -6, step = 12): string {
+		let sum = init;
+		if (typeof i == "number") sum += step * i;
+		else sum += step * (i.parentCount ?? 0);
 		return `style=\"padding-left: ${sum}px;\"`;
 	});
 

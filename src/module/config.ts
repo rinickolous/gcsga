@@ -14,6 +14,7 @@ import {
 	BaseItemGURPS,
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
+	EquipmentModifierContainerGURPS,
 	EquipmentModifierGURPS,
 	NoteContainerGURPS,
 	NoteGURPS,
@@ -25,6 +26,7 @@ import {
 	TechniqueGURPS,
 	TraitContainerGURPS,
 	TraitGURPS,
+	TraitModifierContainerGURPS,
 	TraitModifierGURPS,
 } from "@item";
 import { AttributePrereq } from "@prereq/attribute_prereq";
@@ -44,6 +46,7 @@ const GURPSCONFIG: any = {
 			trait: TraitGURPS,
 			trait_container: TraitContainerGURPS,
 			modifier: TraitModifierGURPS,
+			modifier_container: TraitModifierContainerGURPS,
 			skill: SkillGURPS,
 			technique: TechniqueGURPS,
 			skill_container: SkillContainerGURPS,
@@ -53,6 +56,7 @@ const GURPSCONFIG: any = {
 			equipment: EquipmentGURPS,
 			equipment_container: EquipmentContainerGURPS,
 			eqp_modifier: EquipmentModifierGURPS,
+			eqp_modifier_container: EquipmentModifierContainerGURPS,
 			note: NoteGURPS,
 			note_container: NoteContainerGURPS,
 		},

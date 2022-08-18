@@ -1,5 +1,6 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
 import { SYSTEM_NAME } from "@module/settings";
+import { TraitGURPS } from ".";
 
 export class TraitSheet extends ContainerSheetGURPS {
 	get template(): string {
@@ -16,6 +17,14 @@ export class TraitSheet extends ContainerSheetGURPS {
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
+		html.find(".item").on("dblclick", event => this._openItemSheet(event));
+	}
+
+	protected async _openItemSheet(event: JQuery.DoubleClickEvent) {
+		event.preventDefault();
+		const id = $(event.currentTarget).data("item-id");
+		const item = (this.item as TraitGURPS).deepItems.get(id);
+		item?.sheet?.render(true);
 	}
 
 	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {

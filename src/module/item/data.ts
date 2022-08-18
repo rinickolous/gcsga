@@ -50,6 +50,7 @@ export type ItemType =
 	| "trait"
 	| "trait_container"
 	| "modifier"
+	| "modifier_container"
 	| "skill"
 	| "technique"
 	| "skill_container"
@@ -57,8 +58,9 @@ export type ItemType =
 	| "ritual_magic_spell"
 	| "spell_container"
 	| "equipment"
-	| "eqp_modifier"
 	| "equipment_container"
+	| "eqp_modifier"
+	| "eqp_modifier_container"
 	| "note"
 	| "note_container";
 

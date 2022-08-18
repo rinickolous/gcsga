@@ -1,6 +1,7 @@
 import { ContainerGURPS } from "@item/container";
 import { TraitContainerGURPS } from "@item/trait_container";
 import { TraitModifierGURPS } from "@item/trait_modifier";
+import { TraitModifierContainerGURPS } from "@item/trait_modifier_container";
 import { CR, CRAdjustment } from "@module/data";
 import { i18n, i18n_f, SelfControl } from "@util";
 import { TraitData } from "./data";
@@ -66,7 +67,7 @@ export class TraitGURPS extends ContainerGURPS {
 				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
 			}
 		}
-		this.modifiers.forEach(m => {
+		this.deepModifiers.forEach(m => {
 			if (n.length) n += ";";
 			n += m.fullDescription;
 		});
@@ -82,7 +83,7 @@ export class TraitGURPS extends ContainerGURPS {
 		let basePoints = this.basePoints;
 		let pointsPerLevel = this.pointsPerLevel;
 		let multiplier = this.crMultiplier(this.cr);
-		this.modifiers.forEach(mod => {
+		this.deepModifiers.forEach(mod => {
 			if (!mod.enabled) return;
 			const modifier = mod.costModifier;
 			switch (mod.costType) {
@@ -133,14 +134,30 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 
 	// Embedded Items
-	get modifiers(): Collection<TraitModifierGURPS> {
+	get modifiers(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
 		return new Collection(
 			this.items
-				.filter(item => item instanceof TraitModifierGURPS)
+				.filter(item => item instanceof TraitModifierGURPS || item instanceof TraitModifierContainerGURPS)
 				.map(item => {
 					return [item.id!, item];
 				}),
 		) as Collection<TraitModifierGURPS>;
+	}
+
+	get deepModifiers(): Collection<TraitModifierGURPS> {
+		const deepModifiers: Array<TraitModifierGURPS> = [];
+		this.modifiers.forEach(mod => {
+			if (mod instanceof TraitModifierGURPS) deepModifiers.push(mod);
+			else
+				mod.deepItems.forEach(e => {
+					if (e instanceof TraitModifierGURPS) deepModifiers.push(e);
+				});
+		});
+		return new Collection(
+			deepModifiers.map(item => {
+				return [item.id!, item];
+			}),
+		);
 	}
 
 	calculatePoints(): [number, number, number, number] {

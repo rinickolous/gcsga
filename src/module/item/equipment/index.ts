@@ -1,6 +1,7 @@
 import { ContainerGURPS } from "@item/container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentCostType, EquipmentWeightType } from "@item/equipment_modifier/data";
+import { EquipmentModifierContainerGURPS } from "@item/equipment_modifier_container";
 import { WeightUnits } from "@module/data";
 import { determineModWeightValueTypeFromString, extractFraction, floatingMul } from "@util";
 import { EquipmentData } from "./data";
@@ -54,7 +55,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	// Embedded Items
-	get modifiers(): Collection<EquipmentModifierGURPS> {
+	get modifiers(): Collection<EquipmentModifierGURPS | EquipmentModifierContainerGURPS> {
 		const modifiers: Collection<EquipmentModifierGURPS> = new Collection();
 		this.items.forEach(item => {
 			if (item instanceof EquipmentModifierGURPS) modifiers.set(item.id!, item);
@@ -62,8 +63,24 @@ export class EquipmentGURPS extends ContainerGURPS {
 		return modifiers;
 	}
 
+	get deepModifiers(): Collection<EquipmentModifierGURPS> {
+		const deepModifiers: Array<EquipmentModifierGURPS> = [];
+		this.modifiers.forEach(mod => {
+			if (mod instanceof EquipmentModifierGURPS) deepModifiers.push(mod);
+			else
+				mod.deepItems.forEach(e => {
+					if (e instanceof EquipmentModifierGURPS) deepModifiers.push(e);
+				});
+		});
+		return new Collection(
+			deepModifiers.map(item => {
+				return [item.id!, item];
+			}),
+		);
+	}
+
 	get adjustedValue(): number {
-		return valueAdjustedForModifiers(this.value, this.modifiers);
+		return valueAdjustedForModifiers(this.value, this.deepModifiers);
 	}
 
 	// Value Calculator
@@ -94,7 +111,7 @@ export class EquipmentGURPS extends ContainerGURPS {
 		let percentages = 0;
 		let w = this.weight;
 
-		this.modifiers.forEach(mod => {
+		this.deepModifiers.forEach(mod => {
 			if (mod.weightType == "to_original_weight") {
 				const t = determineModWeightValueTypeFromString(mod.weightAmount);
 				const f = extractFraction(mod.weightAmount);
@@ -108,11 +125,11 @@ export class EquipmentGURPS extends ContainerGURPS {
 		});
 		if (percentages != 0) w += (this.weight * percentages) / 100;
 
-		w = processMultiplyAddWeightStep("to_base_weight", w, units, this.modifiers);
+		w = processMultiplyAddWeightStep("to_base_weight", w, units, this.deepModifiers);
 
-		w = processMultiplyAddWeightStep("to_final_base_weight", w, units, this.modifiers);
+		w = processMultiplyAddWeightStep("to_final_base_weight", w, units, this.deepModifiers);
 
-		w = processMultiplyAddWeightStep("to_final_weight", w, units, this.modifiers);
+		w = processMultiplyAddWeightStep("to_final_weight", w, units, this.deepModifiers);
 
 		return Math.max(w, 0);
 	}

@@ -2,10 +2,11 @@ import { CharacterGURPS } from "@actor";
 import { Feature } from "@feature";
 import { BaseFeature } from "@feature/base";
 import { BaseItemGURPS, ItemGURPS } from "@item";
-import { ItemSystemDataGURPS } from "@item/data";
+import { ItemFlagsGURPS, ItemSystemDataGURPS } from "@item/data";
 import { EquipmentSystemData } from "@item/equipment/data";
 import { EquipmentContainerSystemData } from "@item/equipment_container/data";
 import { EquipmentModifierSystemData } from "@item/equipment_modifier/data";
+import { EquipmentModifierContainerSystemData } from "@item/equipment_modifier_container/data";
 import { NoteSystemData } from "@item/note/data";
 import { NoteContainerSystemData } from "@item/note_container/data";
 import { RitualMagicSpellSystemData } from "@item/ritual_magic_spell/data";
@@ -17,6 +18,7 @@ import { TechniqueSystemData } from "@item/technique/data";
 import { TraitSystemData } from "@item/trait/data";
 import { TraitContainerSystemData } from "@item/trait_container/data";
 import { TraitModifierSystemData } from "@item/trait_modifier/data";
+import { TraitModifierContainerSystemData } from "@item/trait_modifier_container/data";
 import { AttributeObj } from "@module/attribute";
 import { AttributeDefObj } from "@module/attribute/attribute_def";
 import { CR } from "@module/data";
@@ -216,7 +218,8 @@ export class ActorImporter {
 		for (const item of list) {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			const [itemData, itemFlags]: [ItemSystemDataGURPS, BaseItemGURPS["flags"]] = this.getItemData(item, context);
+			console.log(item.name);
+			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
 			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,
@@ -250,10 +253,9 @@ export class ActorImporter {
 		return items;
 	}
 
-	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, BaseItemGURPS["flags"]] {
+	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, ItemFlagsGURPS] {
 		let data: ItemSystemDataGURPS;
-		const flags: BaseItemGURPS["flags"] = { gcsga: { contentsData: [] } };
-
+		const flags: ItemFlagsGURPS = { gcsga: { contentsData: [] } };
 		switch (item.type) {
 			case "trait":
 				data = this.getTraitData(item as TraitSystemData);
@@ -266,6 +268,10 @@ export class ActorImporter {
 				return [data, flags];
 			case "modifier":
 				return [this.getTraitModifierData(item as TraitModifierSystemData), flags];
+			case "modifier_container":
+				data = this.getTraitModifierContainerData(item as TraitModifierContainerSystemData);
+				flags.gcsga!.contentsData = this.importItems((item as any).children, { container: true });
+				return [data, flags];
 			case "skill":
 				return [this.getSkillData(item as SkillSystemData), flags];
 			case "technique":
@@ -296,6 +302,10 @@ export class ActorImporter {
 				return [data, flags];
 			case "eqp_modifier":
 				return [this.getEquipmentModifierData(item as EquipmentModifierSystemData), flags];
+			case "eqp_modifier_container":
+				data = this.getEquipmentModifierContainerData(item as EquipmentModifierContainerSystemData);
+				flags.gcsga!.contentsData = this.importItems((item as any).children, { container: true });
+				return [data, flags];
 			case "note":
 				return [this.getNoteData(item as NoteSystemData), flags];
 			case "note_container":
@@ -356,6 +366,18 @@ export class ActorImporter {
 			affects: data.affects ?? "total",
 			levels: data.levels ?? 0,
 			features: data.features ? this.importFeatures(data.features) : [],
+		};
+	}
+
+	getTraitModifierContainerData(data: TraitModifierContainerSystemData): TraitModifierContainerSystemData {
+		return {
+			name: data.name ?? "Trait Modifier Container",
+			type: data.type ?? "modifier_container",
+			id: data.id ?? newUUID(),
+			reference: data.reference ?? "",
+			notes: data.notes ?? "",
+			tags: data.tags ?? [],
+			open: data.open ?? false,
 		};
 	}
 
@@ -540,6 +562,18 @@ export class ActorImporter {
 			tech_level: data.tech_level ?? "",
 			features: data.features ? this.importFeatures(data.features) : [],
 			disabled: data.disabled ?? false,
+		};
+	}
+
+	getEquipmentModifierContainerData(data: EquipmentModifierContainerSystemData): EquipmentModifierContainerSystemData {
+		return {
+			name: data.name ?? "Equipment Modifier Container",
+			type: data.type ?? "eqp_modifier_container",
+			id: data.id ?? newUUID(),
+			reference: data.reference ?? "",
+			notes: data.notes ?? "",
+			tags: data.tags ?? [],
+			open: data.open ?? false,
 		};
 	}
 

@@ -27,6 +27,9 @@
 - mook generator with autocomplete from compendium
 - weapons
 - G-Force calculator (affects encumbrance & move)
+- Damage Calculator
+	- automatically detect location type to determine effects
+	- detect damage type for effects
 ## Fixes
 - scale portrait based on height not width
 - functional svg in ChatMessage

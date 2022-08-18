@@ -490,7 +490,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		this.traits.forEach(t => {
 			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
 			this.reactionsFromFeatureList(source, t.features, reactionMap);
-			t.modifiers.forEach(mod => {
+			t.deepModifiers.forEach(mod => {
 				this.reactionsFromFeatureList(source, mod.features, reactionMap);
 			});
 			if (t.cr != -1 && t.crAdj == "reaction_penalty") {
@@ -504,7 +504,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (e.equipped && e.quantity > 0) {
 				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
 				this.reactionsFromFeatureList(source, e.features, reactionMap);
-				e.modifiers.forEach(mod => {
+				e.deepModifiers.forEach(mod => {
 					this.reactionsFromFeatureList(source, mod.features, reactionMap);
 				});
 			}
@@ -532,7 +532,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		this.traits.forEach(t => {
 			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
 			this.conditionalModifiersFromFeatureList(source, t.features, reactionMap);
-			t.modifiers.forEach(mod => {
+			t.deepModifiers.forEach(mod => {
 				this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
 			});
 		});
@@ -540,7 +540,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (e.equipped && e.quantity > 0) {
 				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
 				this.conditionalModifiersFromFeatureList(source, e.features, reactionMap);
-				e.modifiers.forEach(mod => {
+				e.deepModifiers.forEach(mod => {
 					this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
 				});
 			}
@@ -650,7 +650,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				for (const f of CR_Features?.get(t.crAdj)) {
 					processFeature(t, this.featureMap, f, Math.max(t.levels, 0));
 				}
-			for (const m of t.modifiers) {
+			for (const m of t.deepModifiers) {
 				for (const f of m.features) {
 					processFeature(t, this.featureMap, f, m.levels);
 				}
@@ -666,7 +666,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			for (const f of e.features) {
 				processFeature(e, this.featureMap, f, 0);
 			}
-			for (const m of e.modifiers) {
+			for (const m of e.deepModifiers) {
 				for (const f of m.features) {
 					processFeature(e, this.featureMap, f, 0);
 				}

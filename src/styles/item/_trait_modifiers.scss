@@ -9,6 +9,30 @@
 		color: rgb(var(--color-on-content));
 	}
 
+	> .desc {
+		display: grid;
+		grid-template:
+			"dropdown name"
+			"blank notes";
+		grid-template-columns: min-content auto;
+		.dropdown {
+			min-width: 0.75em;
+			margin-right: 6px;
+		}
+		.name {
+			font: inherit;
+			background: transparent;
+			color: inherit;
+			grid-area: name;
+		}
+		.item-notes {
+			grid-area: notes;
+			font: var(--font-page-secondary-fields);
+			background-color: transparent;
+			overflow-x: hidden;
+		}
+	}
+
 	> div {
 		border-right: 1px solid rgb(var(--color-header));
 		border-bottom: 1px solid rgb(var(--color-header));
@@ -35,6 +59,7 @@
 		background-color: rgb(var(--color-header));
 		color: rgb(var(--color-on-header));
 		border-right: 1px solid rgb(var(--color-separator));
+		white-space: nowrap;
 		&.reference {
 			border-right: none;
 		}

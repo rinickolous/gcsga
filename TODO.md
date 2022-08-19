@@ -9,6 +9,7 @@
 - rollable style
 - NPC sheet (?)
 - move character options to modified DocumentSheetConfig form
+- ondragstart for item sheets
 ## Small Features
 - Roll function
 - Sort items on import
@@ -28,9 +29,7 @@
 - weapons
 - G-Force calculator (affects encumbrance & move)
 - Damage Calculator
-	- automatically detect location type to determine effects
-	- detect damage type for effects
-## Fixes
+	- automatically detect location type to determine effects detect damage type for effects ## Fixes
 - scale portrait based on height not width
 - functional svg in ChatMessage
 - sort items on init (**done?**)

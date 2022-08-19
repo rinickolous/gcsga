@@ -10,6 +10,7 @@ import { SkillPointBonus } from "@feature/skill_point_bonus";
 import { SpellBonus } from "@feature/spell_bonus";
 import { WeaponBonus } from "@feature/weapon_damage_bonus";
 import { EquipmentContainerGURPS, EquipmentGURPS, NoteContainerGURPS, NoteGURPS, RitualMagicSpellGURPS, SkillContainerGURPS, SkillGURPS, SpellContainerGURPS, SpellGURPS, TechniqueGURPS, TraitContainerGURPS, TraitGURPS } from "@item";
+import { ItemType } from "@item/data";
 import { CR_Features } from "@item/trait/data";
 import { DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
@@ -599,6 +600,12 @@ class CharacterGURPS extends BaseActorGURPS {
 			i++;
 		}
 		return a;
+	}
+
+	// do not store modifiers directly on actors
+	createEmbeddedDocuments(embeddedName: string, data: Array<Record<string, unknown>>, context: DocumentModificationContext & { temporary: boolean }): Promise<Array<any>> {
+		data = data.filter(e => !(e.type as ItemType).includes("modifier"));
+		return super.createEmbeddedDocuments(embeddedName, data, context);
 	}
 
 	// Prepare data

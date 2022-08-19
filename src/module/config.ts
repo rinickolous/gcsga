@@ -60,6 +60,18 @@ const GURPSCONFIG: any = {
 			note: NoteGURPS,
 			note_container: NoteContainerGURPS,
 		},
+		allowedContents: {
+			// character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
+			trait: ["modifier", "modifier_container"],
+			trait_container: ["modifier", "modifier_container", "trait", "trait_container"],
+			modifier_container: ["modifier", "modifier_container"],
+			skill_container: ["skill", "technique", "skill_container"],
+			spell_container: ["spell", "ritual_magic_spell", "spell_container"],
+			equipment: ["eqp_modifier", "eqp_modifier_container"],
+			equipment_container: ["equipment", "equipment_container", "eqp_modifier", "eqp_modifier_container"],
+			eqp_modifier_container: ["eqp_modifier", "eqp_modifier_container"],
+			note_container: ["note", "note_container"],
+		},
 	},
 	Actor: {
 		documentClasses: {

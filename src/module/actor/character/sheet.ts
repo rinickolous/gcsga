@@ -39,6 +39,11 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return `/systems/${SYSTEM_NAME}/templates/actor/character/sheet.hbs`;
 	}
 
+	protected _onDrop(event: DragEvent): void {
+		console.log(super._onDrop);
+		super._onDrop(event);
+	}
+
 	protected async _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
 		console.log(formData);
 		if (!!formData["actor.unspentPoints"]) {

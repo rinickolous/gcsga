@@ -1,6 +1,7 @@
 import { BaseItemGURPS, ItemGURPS } from "@item";
+import { ItemConstructionContextGURPS } from "@item/base";
 import { ItemDataGURPS } from "@item/data";
-import { Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { Context, Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { BaseContainerSystemData } from "./data";
@@ -12,6 +13,12 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 	// static override get schema(): typeof BaseContainerData {
 	// 	return BaseContainerData;
 	// }
+
+	constructor(data: ItemDataGURPS | any, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
+		if (!data.flags?.gcsga?.contentsData) data = mergeObject(data, { flags: { gcsga: { contentsData: [] } } });
+		console.log(data.name, data);
+		super(data, context);
+	}
 
 	// Getters
 	get deepItems(): Collection<ItemGURPS> {
@@ -36,6 +43,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 
 	override async createEmbeddedDocuments(embeddedName: string, data: Record<string, unknown>[], context: DocumentModificationContext & { temporary: false }): Promise<any> {
 		if (!Array.isArray(data)) data = [data];
+		data = data.filter(e => (CONFIG as any).GURPS.Item.allowedContents[this.type].includes(e.type));
 		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
 		const currentItems = duplicate(getProperty(this, "flags.gcsga.contentsData")) ?? [];
 		const createdItems = [];

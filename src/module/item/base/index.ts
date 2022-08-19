@@ -37,8 +37,9 @@ class BaseItemGURPS extends Item {
 	}
 
 	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
-		//@ts-ignore
-		if (this._source.img === foundry.documents.BaseItem.DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
+		const type = data.type.replace("_container", "");
+		// TODO remove any
+		if (this._source.img === (foundry.documents.BaseItem as any).DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 

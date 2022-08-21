@@ -1,4 +1,4 @@
-<div class="enabled">{{#if this.enabled}}<i class="gcs-checkmark"></i>{{/if}}</div>
+<div class="enabled" data-item-id="{{this.id}}">{{#if this.enabled}}<i class="gcs-checkmark"></i>{{/if}}</div>
 <div class="desc item" data-item-id="{{this.id}}" {{{indent i=this init=0 step=6}}}>
 	<div class="dropdown">
 		{{#if (eq this.type "modifier_container")}}

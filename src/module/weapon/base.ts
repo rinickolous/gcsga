@@ -108,7 +108,7 @@ class BaseWeapon {
 	}
 
 	skillLevelPostAdjustment(actor: CharacterGURPS, tooltip: TooltipGURPS): number {
-		if (this instanceof MeleeWeapon) if (this.parry.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
+		if (this instanceof MeleeWeapon) if (this.parry?.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
 		return 0;
 	}
 

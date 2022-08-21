@@ -1,0 +1,25 @@
+<div id="melee" class="weapon-list">
+	<div class="header usage">{{localize "gcsga.character.melee.usage"}}</div>
+	<div class="header level">{{localize "gcsga.character.melee.level"}}</div>
+	<div class="header parry">{{localize "gcsga.character.melee.parry"}}</div>
+	<div class="header block">{{localize "gcsga.character.melee.block"}}</div>
+	<div class="header damage">{{localize "gcsga.character.melee.damage"}}</div>
+	<div class="header reach">{{localize "gcsga.character.melee.reach"}}</div>
+	<div class="header st">{{localize "gcsga.character.melee.st"}}</div>
+	{{#each meleeWeapons}}
+	<div class="usage" data-index="{{this.index}}">
+		<div class="name">
+			{{this.usage}}
+		</div>
+		{{>item-notes}}
+	</div>
+	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="attack" class="level rollable">
+		{{this.level}}</div>
+	<div class="parry rollable">{{this.fastResolvedParry}}</div>
+	<div class="block rollable">{{this.fastResolvedBlock}}</div>
+	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="damage" class="damage rollable">
+		{{this.fastResolvedDamage}}</div>
+	<div class="reach">{{this.reach}}</div>
+	<div class="st">{{this.st}}</div>
+	{{/each}}
+</div>

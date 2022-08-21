@@ -1,6 +1,8 @@
 #TO DO
-## Sheets & Styling
+## In Progress
+- Weapon Editor Sheet
 - Base item sheets
+## Sheets & Styling
 - Weapon sections
 - Global Foundry styling
 - Chat templates
@@ -8,7 +10,6 @@
 	- Damage template
 - (compact) NPC sheet
 - GCSGA character settings form
-- finish drag & drop for item sheets
 ## Large Features
 - Roll Functionality
 	- ChatCommand for rolling
@@ -31,3 +32,4 @@
 ## Small Features & Changes
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
+- Redo drag & drop indicators

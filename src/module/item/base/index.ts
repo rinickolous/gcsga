@@ -1,7 +1,7 @@
 import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
 import { CharacterGURPS } from "@actor/character";
-import { BaseWeapon, Weapon } from "@module/weapon";
+import { BaseWeapon, MeleeWeapon, RangedWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
@@ -64,6 +64,7 @@ class BaseItemGURPS extends Item {
 		mergeObject(this.system, this._source.system);
 		mergeObject(this.flags, this._source.flags);
 		setProperty(this, "name", this._source.name);
+		setProperty(this, "sort", this._source.sort);
 		if (getProperty(this, "system.features")) setProperty(this, "system.features", { ...getProperty(this, "system.features") });
 		if (getProperty(this, "system.prereqs.prereqs")) setProperty(this, "system.prereqs.prereqs", { ...getProperty(this, "system.prereqs.prereqs") });
 	}
@@ -111,8 +112,16 @@ class BaseItemGURPS extends Item {
 		return this.prereqs?.prereqs.length == 0;
 	}
 
+	get meleeWeapons(): Map<number, MeleeWeapon> {
+		return new Map([...this.weapons].filter(([k, v]) => v instanceof MeleeWeapon)) as Map<number, MeleeWeapon>;
+	}
+
+	get rangedWeapons(): Map<number, RangedWeapon> {
+		return new Map([...this.weapons].filter(([k, v]) => v instanceof RangedWeapon)) as Map<number, RangedWeapon>;
+	}
+
 	get weapons(): Map<number, Weapon> {
-		if (["modifier", "trait_container", "skill_container", "spell_container", "eqp_modifier", "note", "note_container"].includes(this.type)) return new Map();
+		if (!["trait", "skill", "technique", "spell", "ritual_magic_spell", "equipment", "equipment_container"].includes(this.type)) return new Map();
 		const weapons: Map<number, Weapon> = new Map();
 		((this as any).system.weapons ?? []).forEach((w: Weapon, index: number) => {
 			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));

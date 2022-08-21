@@ -53,6 +53,10 @@
 		}
 	}
 
+	:nth-last-child(-n + 5) {
+		border-bottom: none;
+	}
+
 	.header {
 		grid-area: auto;
 		padding: var(--padding-header);

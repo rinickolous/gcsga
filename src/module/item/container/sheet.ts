@@ -1,5 +1,6 @@
 import { ItemSheetGURPS } from "@item/base/sheet";
 import { ItemGURPS } from "@item/data";
+import { TraitModifierGURPS } from "@item/trait_modifier";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";
@@ -19,6 +20,8 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
+		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
+		html.find(".enabled").on("click", event => this._onEnabledToggle(event));
 		// html.find(".item-list").on("dragend", event => this._onDrop(event));
 	}
 
@@ -108,9 +111,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		const target = (this.item as ContainerGURPS).deepItems.get(dropTarget.data("item-id"));
 		if (!target) return [];
 		const parent = target?.parent;
-		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(i => i._id !== source!._id && source!.sameSection(i));
-
-		if (target && !source?.sameSection(target)) return [];
+		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(i => i._id !== source!._id);
 
 		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
 		const updateData = sortUpdates.map(u => {
@@ -137,5 +138,21 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 			);
 		}
 		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
+	}
+
+	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
+		event.preventDefault();
+		const id: string = $(event.currentTarget).data("item-id");
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
+		const item = (this.item as ContainerGURPS).deepItems.get(id);
+		item?.update({ _id: id, "system.open": open });
+	}
+
+	protected async _onEnabledToggle(event: JQuery.ClickEvent) {
+		event.preventDefault();
+		const id = $(event.currentTarget).data("item-id");
+		const item = (this.item as ContainerGURPS).deepItems.get(id);
+		if (item?.type.includes("container")) return;
+		return item?.update({ "system.disabled": (item as TraitModifierGURPS).enabled });
 	}
 }

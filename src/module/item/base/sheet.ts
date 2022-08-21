@@ -1,8 +1,12 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
+import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
+import { MeleeWeapon } from "@module/weapon";
+import { MeleeSheet } from "@module/weapon/melee_sheet";
 import { PrereqType } from "@prereq";
 import { i18n, toArray } from "@util";
+import { BaseItemGURPS } from ".";
 
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
@@ -11,7 +15,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		const attributes: Record<string, string> = {};
 		const locations: Record<string, string> = {};
 		if (this.item.actor) {
-			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(e => {
+			(this.item.actor as unknown as CharacterGURPS).attributes.forEach((e: Attribute) => {
 				attributes[e.attr_id] = e.attribute_def.name;
 			});
 			(this.item.actor as unknown as CharacterGURPS).system.settings.body_type.locations.forEach(e => {
@@ -52,11 +56,16 @@ export class ItemSheetGURPS extends ItemSheet {
 		attributes["dodge"] = i18n("gcsga.attributes.dodge");
 		attributes["parry"] = i18n("gcsga.attributes.parry");
 		attributes["block"] = i18n("gcsga.attributes.block");
+		const item = this.item as BaseItemGURPS;
+		const meleeWeapons = [...item.meleeWeapons].map(e => mergeObject(e[1], { index: e[0] }));
+		const rangedWeapons = [...item.rangedWeapons].map(e => mergeObject(e[1], { index: e[0] }));
 
 		const sheetData = {
 			...super.getData(options),
 			...{
-				document: this.item,
+				document: item,
+				meleeWeapons: meleeWeapons,
+				rangedWeapons: rangedWeapons,
 				item: itemData,
 				system: (itemData as any).system,
 				config: (CONFIG as any).GURPS,
@@ -73,6 +82,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		mergeObject(options, {
 			width: 620,
 			min_width: 620,
+			height: 800,
 			classes: options.classes.concat(["item", "gcsga"]),
 		});
 		return options;
@@ -87,6 +97,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("#features .add").on("click", event => this._addFeature(event));
 		html.find(".feature .remove").on("click", event => this._removeFeature(event));
 		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
+		html.find("#melee .usage").on("dblclick", event => this._onMeleeEdit(event));
 
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
@@ -238,5 +249,17 @@ export class ItemSheetGURPS extends ItemSheet {
 		// await this.item.update({ "system.-=features": null }, { render: false });
 		await this.item.update(preUpdate, { render: false });
 		return this.item.update(update);
+	}
+
+	protected async _onMeleeEdit(event: JQuery.DoubleClickEvent): Promise<any> {
+		event.preventDefault();
+		const index = $(event.currentTarget).data("index");
+		new MeleeSheet(
+			{ weapon: (this.item as BaseItemGURPS).weapons.get(index) as MeleeWeapon, index: index },
+			{
+				top: this.position.top! + 40,
+				left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
+			},
+		).render(true);
 	}
 }

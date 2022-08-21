@@ -154,6 +154,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				setProperty(currentItem._source, "name", item.name);
 				setProperty(currentItem._source, "flags", item.flags);
 				setProperty(currentItem._source, "system", item.system);
+				setProperty(currentItem._source, "sort", item.sort);
 				currentItem.prepareData();
 				this.items.set(item._id!, currentItem);
 				if (this.sheet) {

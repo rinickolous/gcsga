@@ -5,7 +5,7 @@ export type TraitContainerSource = BaseContainerSource<"trait_container", TraitC
 
 // export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
 
-export interface TraitContainerData extends Omit<TraitContainerSource, "effects" | "flags" | "items">, TraitContainerSystemData {
+export interface TraitContainerData extends Omit<TraitContainerSource, "effects" | "items">, TraitContainerSystemData {
 	readonly type: TraitContainerSource["type"];
 	data: TraitContainerSystemData;
 	readonly _source: TraitContainerSource;

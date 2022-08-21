@@ -1,6 +1,5 @@
 import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
-import { ContainerGURPS } from "@item/container";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
@@ -11,6 +10,8 @@ import { ItemDataConstructorData } from "@league-of-foundry-developers/foundry-v
 import { toArray } from "@util";
 import { BaseFeature } from "@feature/base";
 import { PrereqList } from "@prereq";
+import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/helpers.mjs";
+import { ContainerGURPS } from "@item/container";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gcsga?: {
@@ -43,21 +44,28 @@ class BaseItemGURPS extends Item {
 		await super._preCreate(data, options, user);
 	}
 
-	override async update(data?: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
-		console.log(data);
-		if (this.parent instanceof BaseItemGURPS) {
-			// data = foundry.utils.expandObject(data as any);
-			data!._id = this.id;
-			await this.parent?.updateEmbeddedDocuments("Item", [data!]);
-			this.render(false, { action: "update", data: data } as any);
-			return this;
-		} else return super.update(data, context);
+	override async update(data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: (DocumentModificationContext & MergeObjectOptions) | undefined): Promise<this | undefined> {
+		// console.log("update()", this.name, data);
+		if (!(this.parent instanceof Item)) return super.update(data, context);
+		data = expandObject(data);
+		data._id = this.id;
+		await this.parent.updateEmbeddedDocuments("Item", [data]);
+		//@ts-ignore
+		this.render(false, { action: "update", data: data });
+	}
+
+	override delete(context?: DocumentModificationContext | undefined): Promise<any> {
+		if (!(this.parent instanceof Item)) return super.delete(context);
+		return this.parent.deleteEmbeddedDocuments("Item", [this.id!]);
 	}
 
 	// Should not be necessary
 	override prepareBaseData(): void {
 		mergeObject(this.system, this._source.system);
 		mergeObject(this.flags, this._source.flags);
+		setProperty(this, "name", this._source.name);
+		if (getProperty(this, "system.features")) setProperty(this, "system.features", { ...getProperty(this, "system.features") });
+		if (getProperty(this, "system.prereqs.prereqs")) setProperty(this, "system.prereqs.prereqs", { ...getProperty(this, "system.prereqs.prereqs") });
 	}
 
 	get actor(): CharacterGURPS | null {

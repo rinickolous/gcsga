@@ -7,7 +7,7 @@ export type EquipmentSource = BaseContainerSource<"equipment", EquipmentSystemDa
 
 // export class EquipmentData extends BaseContainerData<EquipmentGURPS> {}
 
-export interface EquipmentData extends Omit<EquipmentSource, "effects" | "flags" | "items">, EquipmentSystemData {
+export interface EquipmentData extends Omit<EquipmentSource, "effects" | "items">, EquipmentSystemData {
 	readonly type: EquipmentSource["type"];
 	data: EquipmentSystemData;
 

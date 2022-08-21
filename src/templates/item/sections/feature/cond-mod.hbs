@@ -1,4 +1,4 @@
 <div class="conditional-modifier">
 	<div class="placeholder"> </div>
-	{{>textarea field="field" name="(concat 'system.features' @index 'situation')" data=this.situation type="String"}}
+	{{>textarea field="field" name=(concat "system.features." @index ".situation") data=this.situation type="String"}}
 </div>

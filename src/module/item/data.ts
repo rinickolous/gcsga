@@ -2,38 +2,45 @@ import { ItemGURPS } from "@item";
 import { EquipmentData, EquipmentSystemData } from "./equipment/data";
 import { EquipmentContainerData, EquipmentContainerSystemData } from "./equipment_container/data";
 import { EquipmentModifierData, EquipmentModifierSystemData } from "./equipment_modifier/data";
+import { EquipmentModifierContainerData, EquipmentModifierContainerSystemData } from "./equipment_modifier_container/data";
 import { NoteData, NoteSystemData } from "./note/data";
 import { NoteContainerData, NoteContainerSystemData } from "./note_container/data";
 import { RitualMagicSpellData, RitualMagicSpellSystemData } from "./ritual_magic_spell/data";
 import { SkillData, SkillSystemData } from "./skill/data";
 import { SkillContainerData, SkillContainerSystemData } from "./skill_container/data";
 import { SpellData, SpellSystemData } from "./spell/data";
-import { SpellContainerSystemData } from "./spell_container/data";
+import { SpellContainerData, SpellContainerSystemData } from "./spell_container/data";
 import { TechniqueData, TechniqueSystemData } from "./technique/data";
 import { TraitData, TraitSystemData } from "./trait/data";
 import { TraitContainerData, TraitContainerSystemData } from "./trait_container/data";
 import { TraitModifierData, TraitModifierSystemData } from "./trait_modifier/data";
+import { TraitModifierContainerData, TraitModifierContainerSystemData } from "./trait_modifier_container/data";
 
 export type ItemDataGURPS =
 	| TraitData
 	| TraitContainerData
 	| TraitModifierData
+	| TraitModifierContainerData
 	| SkillData
 	| TechniqueData
 	| SkillContainerData
 	| SpellData
 	| RitualMagicSpellData
-	| SkillContainerData
+	| SpellContainerData
 	| EquipmentData
-	| EquipmentModifierData
 	| EquipmentContainerData
+	| EquipmentModifierData
+	| EquipmentModifierContainerData
 	| NoteData
 	| NoteContainerData;
+
+export type ContainerDataGURPS = TraitData | TraitContainerData | TraitModifierContainerData | SkillContainerData | SpellContainerData | EquipmentData | EquipmentContainerData | EquipmentModifierContainerData | NoteData | NoteContainerData;
 
 export type ItemSystemDataGURPS =
 	| TraitSystemData
 	| TraitContainerSystemData
 	| TraitModifierSystemData
+	| TraitModifierContainerSystemData
 	| SkillSystemData
 	| TechniqueSystemData
 	| SkillContainerSystemData
@@ -41,8 +48,9 @@ export type ItemSystemDataGURPS =
 	| RitualMagicSpellSystemData
 	| SpellContainerSystemData
 	| EquipmentSystemData
-	| EquipmentModifierSystemData
 	| EquipmentContainerSystemData
+	| EquipmentModifierSystemData
+	| EquipmentModifierContainerSystemData
 	| NoteSystemData
 	| NoteContainerSystemData;
 

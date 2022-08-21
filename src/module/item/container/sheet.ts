@@ -22,7 +22,46 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		// html.find(".item-list").on("dragend", event => this._onDrop(event));
 	}
 
-	// TODO fix
+	protected override async _onDragStart(event: DragEvent): Promise<void> {
+		const list = event.currentTarget;
+		// if (event.target.classList.contains("contents-link")) return;
+
+		let dragData: any;
+		// const dragData: any = {
+		// 	actorId: this.actor.id,
+		// 	sceneId: this.actor.isToken ? canvas?.scene?.id : null,
+		// 	tokenId: this.actor.isToken ? this.actor.token?.id : null,
+		// 	pack: this.actor?.pack,
+		// };
+
+		// Owned Items
+		if ((list as HTMLElement).dataset.itemId) {
+			const item = (this.item as ContainerGURPS).deepItems.get((list as HTMLElement).dataset.itemId!);
+			dragData = (item as any)?.toDragData();
+
+			// Create custom drag image
+			const dragImage = document.createElement("div");
+			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
+				name: `${item?.name}`,
+				type: `${item?.type.replace("_container", "").replaceAll("_", "-")}`,
+			});
+			dragImage.id = "drag-ghost";
+			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
+			document.body.appendChild(dragImage);
+			const height = (document.body.querySelector("#drag-ghost") as HTMLElement).offsetHeight;
+			event.dataTransfer?.setDragImage(dragImage, 0, height / 2);
+		}
+
+		// Active Effect
+		if ((list as HTMLElement).dataset.effectId) {
+			const effect = (this.item as ContainerGURPS).effects.get((list as HTMLElement).dataset.effectId!);
+			dragData = (effect as any)?.toDragData();
+		}
+
+		// Set data transfer
+		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
+	}
+
 	protected _onDrop(event: DragEvent): any {
 		event.preventDefault();
 		event.stopPropagation();
@@ -34,7 +73,6 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 			console.log(err);
 			return false;
 		}
-		// const item = this.item;
 
 		switch (data.type) {
 			case "Item":
@@ -59,7 +97,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		return this._onDropItemCreate(itemData);
 	}
 
-	async _onDropItemCreate(itemData: Record<string, unknown> | Record<string, unknown>[]) {
+	async _onDropItemCreate(itemData: any[]) {
 		itemData = itemData instanceof Array ? itemData : [itemData];
 		return (this.item as ContainerGURPS).createEmbeddedDocuments("Item", itemData, { temporary: false });
 	}
@@ -88,7 +126,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 				"Item",
 				[
 					{
-						name: source.name,
+						name: source.name!,
 						data: source.system,
 						type: source.type,
 						flags: source.flags,

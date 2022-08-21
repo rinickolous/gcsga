@@ -69,7 +69,7 @@
 	.desc:nth-child(10n + 2),
 	.cost:nth-child(10n + 3),
 	.tags:nth-child(10n + 4),
-	.reference:nth-child(10n + 4) {
+	.reference:nth-child(10n + 5) {
 		&:not(.header) {
 			background-color: rgba(var(--color-banding), 1);
 			color: rgba(var(--color-on-banding), 1);

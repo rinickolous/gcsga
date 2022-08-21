@@ -10,10 +10,6 @@ export class EquipmentModifierGURPS extends BaseItemGURPS {
 		return !this.system.disabled;
 	}
 
-	// get features() {
-	// 	return this.system.features;
-	// }
-
 	get costType(): EquipmentCostType {
 		return this.system.cost_type;
 	}

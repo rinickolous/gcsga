@@ -13,7 +13,7 @@ export interface BaseItemSourceGURPS<TItemType extends ItemType = ItemType, TSys
 // 	enabled?: boolean;
 // }
 
-// export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects" | "flags">, ItemSystemData {
+// export interface BaseItemDataGURPS extends Omit<BaseItemSourceGURPS, "effects" g>, ItemSystemData {
 // 	type: ItemType;
 // 	// data: ItemSystemData;
 // 	// flags: ItemFlagsGURPS;

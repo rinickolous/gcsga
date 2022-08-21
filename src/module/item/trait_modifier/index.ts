@@ -11,10 +11,6 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 		return this.system.levels;
 	}
 
-	get features() {
-		return this.system.features;
-	}
-
 	get costDescription() {
 		return this.system.cost;
 	}

@@ -9,7 +9,7 @@ export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
 
 // export class TraitData extends BaseContainerData<TraitGURPS> {}
 
-export interface TraitData extends Omit<TraitSource, "effects" | "flags" | "items">, TraitSystemData {
+export interface TraitData extends Omit<TraitSource, "effects" | "items">, TraitSystemData {
 	readonly type: TraitSource["type"];
 	// data: TraitSystemData;
 	readonly _source: TraitSource;

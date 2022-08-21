@@ -218,7 +218,7 @@ export class ActorImporter {
 		for (const item of list) {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			console.log(item.name);
+			// console.log(item.name);
 			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
 			const newItem = {
 				name: item.name ?? "ERROR",

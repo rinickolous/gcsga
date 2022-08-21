@@ -9,7 +9,7 @@ export type TechniqueSource = BaseItemSourceGURPS<"technique", TechniqueSystemDa
 
 // export class TechniqueData extends BaseItemDataGURPS<TechniqueGURPS> {}
 
-export interface TechniqueData extends Omit<TechniqueSource, "effects" | "flags">, TechniqueSystemData {
+export interface TechniqueData extends Omit<TechniqueSource, "effects">, TechniqueSystemData {
 	readonly type: TechniqueSource["type"];
 	data: TechniqueSystemData;
 

@@ -114,6 +114,7 @@ export class ItemSheetGURPS extends ItemSheet {
 
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
 		const path = $(event.currentTarget).data("path");
+		console.log(path);
 		const prereqs = toArray(duplicate(getProperty(this.item as any, `${path}.prereqs`)));
 		prereqs.push({
 			type: "trait_prereq",
@@ -123,7 +124,8 @@ export class ItemSheetGURPS extends ItemSheet {
 			has: true,
 		});
 		const update: any = {};
-		update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
 		// await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
@@ -137,7 +139,9 @@ export class ItemSheetGURPS extends ItemSheet {
 			when_tl: { compare: NumberComparison.None },
 		});
 		const update: any = {};
-		update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		// update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
 		// await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
@@ -151,8 +155,9 @@ export class ItemSheetGURPS extends ItemSheet {
 		const prereqs = toArray(duplicate(getProperty(this.item as any, path)));
 		prereqs.splice(index, 1);
 		const update: any = {};
-		update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
-		await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
+		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
@@ -170,13 +175,16 @@ export class ItemSheetGURPS extends ItemSheet {
 			has: prereqs[index].has,
 		};
 		const update: any = {};
-		update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
-		await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
+		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, prereqs);
+		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
 	async getPrereqUpdate(path: string, data: any): Promise<any> {
-		if (path == "system.prereqs") return data;
+		// console.log(path);
+		// if (path == "system.prereqs") return data;
+		if (path == "system.prereqs.prereqs") return toArray(data);
 		const list = path.split(".");
 		const variable: string = list.pop()!;
 		const parent = duplicate(getProperty(this.item as any, list.join(".")));
@@ -185,6 +193,7 @@ export class ItemSheetGURPS extends ItemSheet {
 	}
 
 	protected async _addFeature(event: JQuery.ClickEvent): Promise<any> {
+		event.preventDefault();
 		console.log("checkem");
 		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
 		features.push({
@@ -196,7 +205,7 @@ export class ItemSheetGURPS extends ItemSheet {
 			levels: 0,
 		});
 		const update: any = {};
-		update["system.features"] = { ...features };
+		update["system.features"] = features;
 		console.log(update);
 		return this.item.update(update);
 	}
@@ -206,8 +215,9 @@ export class ItemSheetGURPS extends ItemSheet {
 		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
 		features.splice(index, 1);
 		const update: any = {};
-		update["system.features"] = { ...features };
-		await this.item.update({ "system.-=features": null }, { render: false });
+		// update["system.features"] = { ...features };
+		update["system.features"] = features;
+		// await this.item.update({ "system.-=features": null }, { render: false });
 		return this.item.update(update);
 	}
 
@@ -220,9 +230,13 @@ export class ItemSheetGURPS extends ItemSheet {
 			type: value,
 			...FeatureConstructor.defaults,
 		};
+		const preUpdate: any = {};
 		const update: any = {};
-		update["system.features"] = { ...features };
-		await this.item.update({ "system.-=features": null }, { render: false });
+		// update["system.features"] = { ...features };
+		preUpdate[`system.features.${index}`] = {};
+		update["system.features"] = features;
+		// await this.item.update({ "system.-=features": null }, { render: false });
+		await this.item.update(preUpdate, { render: false });
 		return this.item.update(update);
 	}
 }

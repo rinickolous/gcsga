@@ -4,7 +4,7 @@ export type NoteContainerSource = BaseContainerSource<"note_container", NoteCont
 
 // export class NoteContainerData extends BaseContainerData<NoteContainerGURPS> {}
 
-export interface NoteContainerData extends Omit<NoteContainerSource, "effects" | "flags" | "items">, NoteContainerSystemData {
+export interface NoteContainerData extends Omit<NoteContainerSource, "effects" | "items">, NoteContainerSystemData {
 	readonly type: NoteContainerSource["type"];
 	data: NoteContainerSystemData;
 

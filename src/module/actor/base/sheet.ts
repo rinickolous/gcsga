@@ -94,7 +94,7 @@ export class ActorSheetGURPS extends ActorSheet {
 				"Item",
 				[
 					{
-						name: source.name,
+						name: source.name!,
 						data: source.system,
 						type: source.type,
 						flags: source.flags,

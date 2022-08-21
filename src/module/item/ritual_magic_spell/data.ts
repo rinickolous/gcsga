@@ -6,7 +6,7 @@ export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", R
 
 // export class RitualMagicSpellData extends BaseItemDataGURPS<RitualMagicSpellGURPS> {}
 
-export interface RitualMagicSpellData extends Omit<RitualMagicSpellSource, "effects" | "flags">, RitualMagicSpellSystemData {
+export interface RitualMagicSpellData extends Omit<RitualMagicSpellSource, "effects">, RitualMagicSpellSystemData {
 	readonly type: RitualMagicSpellSource["type"];
 	data: RitualMagicSpellSystemData;
 

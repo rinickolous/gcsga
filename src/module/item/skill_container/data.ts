@@ -4,7 +4,7 @@ export type SkillContainerSource = BaseContainerSource<"skill_container", SkillC
 
 // export class SkillContainerData extends BaseContainerData<SkillContainerGURPS> {}
 
-export interface SkillContainerData extends Omit<SkillContainerSource, "effects" | "flags" | "items">, SkillContainerSystemData {
+export interface SkillContainerData extends Omit<SkillContainerSource, "effects" | "items">, SkillContainerSystemData {
 	readonly type: SkillContainerSource["type"];
 	data: SkillContainerSystemData;
 	readonly _source: SkillContainerSource;

@@ -38,6 +38,7 @@ import { BaseItemGURPS } from "@item";
 import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
 import { fSearch } from "@util/fuse";
+import { DiceGURPS } from "./dice";
 
 Error.stackTraceLimit = Infinity;
 
@@ -52,6 +53,7 @@ GURPS.BANNER = `   __   ____   ____  ____    ____     _     __
   \\_\\  \\____| \\____||____/  \\____|/_/   \\_\\ /_/ `;
 GURPS.eval = evaluateToNumber;
 GURPS.search = fSearch;
+GURPS.dice = DiceGURPS;
 
 // Initialize system
 Hooks.once("init", async () => {

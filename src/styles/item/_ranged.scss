@@ -11,12 +11,11 @@
 		color: rgb(var(--color-on-header));
 		border-right: 1px solid rgb(var(--color-separator));
 		white-space: nowrap;
-		&.st {
-			border-right: none;
-		}
 	}
 
 	> div {
+		background-color: rgb(var(--color-content));
+		color: rgb(var(--color-on-content));
 		border-right: 1px solid rgb(var(--color-header));
 		border-bottom: 1px solid rgb(var(--color-header));
 
@@ -36,7 +35,7 @@
 		}
 	}
 
-	:nth-last-child(-n + 11) {
+	:nth-last-child(-n + 10) {
 		border-bottom: none;
 	}
 

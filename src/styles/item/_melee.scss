@@ -14,6 +14,8 @@
 	}
 
 	> div {
+		background-color: rgb(var(--color-content));
+		color: rgb(var(--color-on-content));
 		border-right: 1px solid rgb(var(--color-header));
 		border-bottom: 1px solid rgb(var(--color-header));
 
@@ -33,7 +35,7 @@
 		}
 	}
 
-	:nth-last-child(-n + 8) {
+	:nth-last-child(-n + 7) {
 		border-bottom: none;
 	}
 

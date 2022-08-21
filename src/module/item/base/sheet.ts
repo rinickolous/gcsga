@@ -3,7 +3,7 @@ import { FeatureType } from "@feature/base";
 import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
 import { MeleeWeapon } from "@module/weapon";
-import { MeleeSheet } from "@module/weapon/melee_sheet";
+import { WeaponSheet } from "@module/weapon/sheet";
 import { PrereqType } from "@prereq";
 import { i18n, toArray } from "@util";
 import { BaseItemGURPS } from ".";
@@ -97,7 +97,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("#features .add").on("click", event => this._addFeature(event));
 		html.find(".feature .remove").on("click", event => this._removeFeature(event));
 		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
-		html.find("#melee .usage").on("dblclick", event => this._onMeleeEdit(event));
+		html.find(".weapon-list > :not(.header)").on("dblclick", event => this._onWeaponEdit(event));
 
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
@@ -251,10 +251,10 @@ export class ItemSheetGURPS extends ItemSheet {
 		return this.item.update(update);
 	}
 
-	protected async _onMeleeEdit(event: JQuery.DoubleClickEvent): Promise<any> {
+	protected async _onWeaponEdit(event: JQuery.DoubleClickEvent): Promise<any> {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
-		new MeleeSheet(
+		new WeaponSheet(
 			{ weapon: (this.item as BaseItemGURPS).weapons.get(index) as MeleeWeapon, index: index },
 			{
 				top: this.position.top! + 40,

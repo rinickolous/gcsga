@@ -13,13 +13,13 @@
 		</div>
 		{{>item-notes}}
 	</div>
-	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="attack" class="level rollable">
+	<div data-index="{{this.index}}" class="level">
 		{{this.level}}</div>
-	<div class="parry rollable">{{this.fastResolvedParry}}</div>
-	<div class="block rollable">{{this.fastResolvedBlock}}</div>
-	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="damage" class="damage rollable">
+	<div data-index="{{this.index}}" class="parry rollable">{{this.fastResolvedParry}}</div>
+	<div data-index="{{this.index}}" class="block rollable">{{this.fastResolvedBlock}}</div>
+	<div data-index="{{this.index}}" class="damage rollable">
 		{{this.fastResolvedDamage}}</div>
-	<div class="reach">{{this.reach}}</div>
-	<div class="st">{{this.st}}</div>
+	<div data-index="{{this.index}}" class="reach">{{this.reach}}</div>
+	<div data-index="{{this.index}}" class="st">{{this.st}}</div>
 	{{/each}}
 </div>

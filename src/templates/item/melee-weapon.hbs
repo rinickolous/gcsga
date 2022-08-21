@@ -1,3 +1,40 @@
-<form class="{{cssClass}}" autocomplete="off">
-	{{>input-text field="field" label="Usage" name="usage" data=object.usage type="String"}}
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet" class="gcs_melee_sheet">
+		<div id="details">
+			{{>input-text field="field" label="gcsga.weapon.usage" name="usage" data=object.usage type="String"}}
+			{{>textarea field="field" label="gcsga.weapon.notes" name="usage_notes" data=object.usage_notes
+			type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.strength" name="strength" data=object.strength
+			type="String"}}
+			<div class="label">{{localize "gcsga.weapon.damage.st"}}</div>
+			<div class="field">
+				<select name="damage.st" data-dtype="String">
+					{{#select object.damage.st}}
+					{{#each config.select.damage_st as |v k|}}
+					<option value="{{k}}">{{localize (concat "gcsga.select.damage_st." v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+			{{>input-text field="field" label="gcsga.weapon.damage.base" name="damage.base" data=(diceString
+			object.damage.base)
+			type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.modifier_per_die" name="damage.modifier_per_die"
+			data=object.damage.modifier_per_die type="Number"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.armor_divisor" name="damage.armor_divisor"
+			data=object.damage.armor_divisor type="Number"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.type" name="damage.type" data=object.damage.type
+			type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation" name="damage.fragmentation"
+			data=object.damage.fragmentation type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_armor_divisor"
+			name="damage.fragmentation_armor_divisor" data=object.damage.fragmentation_armor_divisor type="Number"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_type" name="damage.fragmentation_type"
+			data=object.damage.fragmentation_type type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.reach" name="reach" data=object.reach type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.parry" name="parry" data=object.parry type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.block" name="block" data=object.block type="String"}}
+		</div>
+		{{>defaults}}
+	</div>
 </form>

@@ -2,6 +2,7 @@ import { CharacterGURPS } from "@actor";
 import { Encumbrance } from "@actor/character/data";
 import { SpellGURPS } from "@item";
 import { ItemGURPS } from "@item/data";
+import { DiceGURPS } from "@module/dice";
 import { i18n } from "./misc";
 
 export function registerHandlebarsHelpers() {
@@ -176,4 +177,9 @@ export function registerHandlebarsHelpers() {
 	// 	if (list.includes(item)) return "selected";
 	// 	return "";
 	// });
+
+	// may be temporary
+	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
+		return new DiceGURPS(d).stringExtra(false);
+	});
 }

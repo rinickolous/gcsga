@@ -225,6 +225,13 @@ const GURPSCONFIG: any = {
 			75: "75",
 			80: "80",
 		},
+		damage_st: {
+			none: "none",
+			thr: "thr",
+			thr_leveled: "thr_leveled",
+			sw: "sw",
+			sw_leveled: "sw_leveled",
+		},
 	},
 };
 // GURPSCONFIG.Item.documentClasses = {};

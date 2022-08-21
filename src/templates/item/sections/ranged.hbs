@@ -16,17 +16,17 @@
 		</div>
 		{{>item-notes}}
 	</div>
-	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="attack" class="level rollable">
+	<div data-index="{{this.index}}" class="level">
 		{{this.level}}</div>
-	<div data-modifier="{{this.accuracy}}" data-comment="Accuracy" data-type="modifier" class="accuracy rollable">
+	<div data-index="{{this.index}}" class="accuracy">
 		{{signed this.accuracy}}</div>
-	<div data-item-id="{{this.parent.id}}" data-attack-id="{{this.id}}" data-type="damage" class="damage rollable">
+	<div data-index="{{this.index}}" class="damage">
 		{{this.damage}}</div>
-	<div class="range">{{this.range}}</div>
-	<div class="rate-of-fire">{{this.rate_of_fire}}</div>
-	<div class="shots">{{this.shots}}</div>
-	<div data-modifier="{{this.bulk}}" data-comment="Bulk" data-type="modifier" class="bulk rollable">{{this.bulk}}
+	<div data-index="{{this.index}}" class="range">{{this.range}}</div>
+	<div data-index="{{this.index}}" class="rate-of-fire">{{this.rate_of_fire}}</div>
+	<div data-index="{{this.index}}" class="shots">{{this.shots}}</div>
+	<div data-index="{{this.index}}" class="bulk">{{this.bulk}}
 	</div>
-	<div class="recoil rollable">{{this.recoil}}</div>
-	<div class="st">{{this.st}}</div>
+	<div data-index="{{this.index}}" class="recoil">{{this.recoil}}</div>
+	<div data-index="{{this.index}}" class="st">{{this.st}}</div>
 	{{/each}}

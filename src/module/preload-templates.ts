@@ -63,6 +63,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"item/sections/trait-mod",
 		"item/sections/melee",
 		"item/sections/ranged",
+		"item/sections/defaults",
 
 		"chat/import-character-error",
 	];

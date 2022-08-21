@@ -29,7 +29,9 @@
 - G-Force calculator (affects encumbrance & move)
 	- Toggleable sidebar button
 	- Affects clicked on tokens / current map / current character
-## Small Features & Changes
+## Small Features, Changes & Fixes
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
 - Redo drag & drop indicators
+- Editing unspent points does not change total
+- Damage base values with "0d" redundantly show "0d"

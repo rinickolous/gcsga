@@ -322,6 +322,13 @@
 				"college_name": "to the college whose name",
 				"power_source_name": "to the power source whose name",
 				"spell_name": "to the spell whose name"
+			},
+			"damage_st": {
+				"none": "None",
+				"thr": "thr",
+				"thr_leveled": "thr (leveled)",
+				"sw": "sw",
+				"sw_leveled": "sw (leveled)"
 			}
 		},
 		"field_prefix": {
@@ -358,6 +365,30 @@
 			"modules": {
 				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"
 			}
+		},
+		"weapon": {
+			"usage": "Usage",
+			"notes": "Notes",
+			"strength": "Minimum ST",
+			"damage": {
+				"st": "Base Damage",
+				"base": "Damage Modifier",
+				"modifier_per_die": "Damage Modifier Per Die",
+				"armor_divisor": "Armor Divisor",
+				"type": "Damage Type",
+				"fragmentation": "Fragmentation Base Damage",
+				"fragmentation_armor_divisor": "Fragmentation Armor Divisor",
+				"fragmentation_type": "Fragmentation Type"
+			},
+			"reach": "Reach",
+			"parry": "Parry Modifier",
+			"block": "Block Modifier",
+			"accuracy": "Accuracy",
+			"rate_of_fire": "Rate of Fire",
+			"range": "Range",
+			"recoil": "Recoil",
+			"shots": "Shots",
+			"bulk": "Bulk"
 		}
 	}
 }

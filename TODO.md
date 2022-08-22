@@ -2,12 +2,11 @@
 ## In Progress
 - Weapon Editor Sheet
 - Base item sheets
+- Roll chat template
 ## Sheets & Styling
 - Weapon sections
 - Global Foundry styling
-- Chat templates
-	- Roll template
-	- Damage template
+- Damage template
 - (compact) NPC sheet
 - GCSGA character settings form
 ## Large Features

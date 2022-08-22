@@ -39,6 +39,8 @@ export async function rollSkill(user: StoredDocument<User> | null, actor: ActorG
 	chatData.total = rollTotal;
 	chatData.margin = rollTotal;
 
+	console.log("chatData", chatData);
+
 	const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/skill-roll.hbs`, chatData);
 
 	console.log(roll.dice[0].results);

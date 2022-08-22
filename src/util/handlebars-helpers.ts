@@ -178,6 +178,10 @@ export function registerHandlebarsHelpers() {
 	// 	return "";
 	// });
 
+	Handlebars.registerHelper("in", function (total: string, sub: string): boolean {
+		return total.includes(sub);
+	});
+
 	// may be temporary
 	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
 		return new DiceGURPS(d).stringExtra(false);

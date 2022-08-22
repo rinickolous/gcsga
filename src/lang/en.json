@@ -164,16 +164,12 @@
 			"points_per_level": "Per Level",
 			"levels": "Levels",
 			"cr": "Self-Control Roll",
+			"cr_adj": "CR Adjustment",
 			"reference": "Page Reference",
-			"cr_level": {
-				"0": "None Required",
-				"6": "CR: 6 (Resist Rarely)",
-				"9": "CR: 9 (Resist Fairly Often)",
-				"12": "CR: 12 (Resist Quite Often)",
-				"15": "CR: 15 (Resist Almost All The Time)"
-			},
 			"modifier_desc": "Trait Modifier",
-			"modifier_cost": "Cost Modifier"
+			"modifier_cost": "Cost Modifier",
+			"container_type": "Container Type",
+			"ancestry": "Ancestry"
 		},
 		"trait_container": {},
 		"trait_modifier": {},
@@ -234,13 +230,21 @@
 			}
 		},
 		"select": {
+			"cr_level": {
+				"0": "None Required",
+				"6": "CR: 6 (Resist Rarely)",
+				"9": "CR: 9 (Resist Fairly Often)",
+				"12": "CR: 12 (Resist Quite Often)",
+				"15": "CR: 15 (Resist Almost All The Time)"
+			},
 			"cr_adj": {
-				"action_penalty": "{penalty} Action Penalty",
-				"reaction_penalty": "{penalty} Reaction Penalty",
-				"fright_check_penalty": "{penalty} Fright Check Penalty",
-				"fright_check_bonus": "{penalty} Fright Check Bonus",
-				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
-				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
+				"none": "None",
+				"action_penalty": "Includes an Action Penalty for Failure",
+				"reaction_penalty": "Includes a Reaction Penalty for Failure",
+				"fright_check_penalty": "Includes a Fright Check Penalty",
+				"fright_check_bonus": "Includes a Fright Check Bonus",
+				"minor_cost_of_living_increase": "Includes a Minor Cost of Living Increase",
+				"major_cost_of_living_increase": "Includes a Major Cost of Living Increase and Merchant Skill Penalty"
 			},
 			"number_compare": {
 				"none": "is anything",
@@ -329,6 +333,18 @@
 				"thr_leveled": "thr (leveled)",
 				"sw": "sw",
 				"sw_leveled": "sw (leveled)"
+			},
+			"defaults": {
+				"ten": "10",
+				"parry": "Parry",
+				"block": "Block",
+				"skill": "Skill"
+			},
+			"container_type": {
+				"group": "Group",
+				"meta_trait": "Meta-Trait",
+				"race": "Race",
+				"alternative_abilities": "Alternative Abilities"
 			}
 		},
 		"field_prefix": {
@@ -389,6 +405,23 @@
 			"recoil": "Recoil",
 			"shots": "Shots",
 			"bulk": "Bulk"
+		},
+		"roll": {
+			"just_made_it": "Just made it.",
+			"success_margin": "Made it by {margin}.",
+			"failure_margin": "Missed it by {margin}.",
+			"success": {
+				"success": "Success!",
+				"failure": "Failure!",
+				"critical_success": "Critical Success!",
+				"critical_failure": "Critical Failure!"
+			},
+			"success_attack": {
+				"success": "Hit!",
+				"failure": "Miss!",
+				"critical_success": "Critical Hit!",
+				"critical_failure": "Critical Miss!"
+			}
 		}
 	}
 }

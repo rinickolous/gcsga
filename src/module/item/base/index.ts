@@ -123,7 +123,7 @@ class BaseItemGURPS extends Item {
 	get weapons(): Map<number, Weapon> {
 		if (!["trait", "skill", "technique", "spell", "ritual_magic_spell", "equipment", "equipment_container"].includes(this.type)) return new Map();
 		const weapons: Map<number, Weapon> = new Map();
-		((this as any).system.weapons ?? []).forEach((w: Weapon, index: number) => {
+		toArray((this as any).system.weapons).forEach((w: Weapon, index: number) => {
 			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));
 		});
 		return weapons;

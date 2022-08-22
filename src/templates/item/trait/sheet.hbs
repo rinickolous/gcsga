@@ -38,7 +38,17 @@
 				<select name="system.cr" data-dtype="Number">
 					{{#select system.cr}}
 					{{#each config.select.cr_level as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.trait.cr_level." v)}}</option>
+					<option value="{{k}}">{{localize (concat "gcsga.select.cr_level." v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+			<div class="label">{{localize "gcsga.trait.cr_adj"}}</div>
+			<div class="field">
+				<select name="system.cr_adj" data-dtype="String" {{input_lock (neq system.cr 0 )}}>
+					{{#select system.cr_adj}}
+					{{#each config.select.cr_adj as |v k|}}
+					<option value="{{k}}">{{localize (concat "gcsga.select.cr_adj." v)}}</option>
 					{{/each}}
 					{{/select}}
 				</select>

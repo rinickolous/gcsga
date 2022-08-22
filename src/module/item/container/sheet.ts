@@ -14,10 +14,6 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		});
 	}
 
-	get template(): string {
-		return `/systems/${SYSTEM_NAME}/templates/item/container-sheet.hbs`;
-	}
-
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
 		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));

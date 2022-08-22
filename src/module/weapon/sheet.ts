@@ -1,3 +1,5 @@
+import { CharacterGURPS } from "@actor";
+import { Attribute } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 import { SYSTEM_NAME } from "@module/settings";
 import { toArray } from "@util";
@@ -13,6 +15,8 @@ export class WeaponSheet extends FormApplication {
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
+		html.find("#defaults .add").on("click", event => this._addDefault(event));
+		html.find(".default .remove").on("click", event => this._removeDefault(event));
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
@@ -33,9 +37,35 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	getData(options?: Partial<FormApplicationOptions> | undefined): any {
+		const attributes: Record<string, string> = {};
+		if (this.object.actor) {
+			(this.object.actor as unknown as CharacterGURPS).attributes.forEach((e: Attribute) => {
+				attributes[e.attr_id] = e.attribute_def.name;
+			});
+		} else {
+			mergeObject(attributes, {
+				st: "ST",
+				dx: "DX",
+				iq: "IQ",
+				ht: "HT",
+				will: "Will",
+				fright_check: "Fright Check",
+				per: "Perception",
+				vision: "Vision",
+				hearing: "Hearing",
+				taste_smell: "Taste & Smell",
+				touch: "Touch",
+				basic_speed: "Basic Speed",
+				basic_move: "Basic Move",
+				fp: "FP",
+				hp: "HP",
+			});
+		}
 		return {
 			...super.getData(options),
 			config: (CONFIG as any).GURPS,
+			attributes: attributes,
+			sysPrefix: "",
 		};
 	}
 
@@ -57,6 +87,38 @@ export class WeaponSheet extends FormApplication {
 		}
 
 		return this.object.parent.update({ "system.weapons": weaponList });
+	}
+
+	protected async _addDefault(event: JQuery.ClickEvent): Promise<any> {
+		event.preventDefault();
+		console.log("checkem");
+		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
+		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
+		defaults.push({
+			type: "skill",
+			name: "",
+			specialization: "",
+			modifier: 0,
+		});
+		const update: any = {};
+		this.object["defaults"] = defaults;
+		weapons[this.index] = this.object;
+		update[`system.weapons`] = weapons;
+		return this.object.parent.update(update);
+	}
+
+	protected async _removeDefault(event: JQuery.ClickEvent): Promise<any> {
+		const index = $(event.currentTarget).data("index");
+		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
+		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
+		defaults.splice(index, 1);
+		const update: any = {};
+		// update["system.defaults"] = { ...defaults };
+		this.object["defaults"] = defaults;
+		weapons[this.index] = this.object;
+		update[`system.weapons`] = weapons;
+		// await this.item.update({ "system.-=defaults": null }, { render: false });
+		return this.object.parent.update(update);
 	}
 }
 

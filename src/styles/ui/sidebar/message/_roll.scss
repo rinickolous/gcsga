@@ -1,0 +1,53 @@
+.message-roll {
+	.rollable {
+		&.hover.fas {
+			color: rgb(var(--color-link));
+		}
+		&.hover:not(.fas) {
+			background-color: rgba(var(--color-link), 1) !important;
+			color: rgba(var(--color-on-link), 1) !important;
+			cursor: pointer;
+		}
+	}
+	// font-size: var(--font-size-16);
+	// .skill-text {
+	// 	font-size: var(--font-size-18);
+	// 	text-align: center;
+	// }
+	&.attack {
+		display: grid;
+		grid-auto-flow: row;
+		align-items: center;
+		text-align: center;
+		.name {
+			font-size: var(--font-size-16);
+		}
+		.result {
+			font-size: var(--font-size-20);
+			font-weight: bold;
+			// margin: 0 30px;
+			margin: auto;
+			width: min-content;
+			padding: 0 5px;
+			white-space: nowrap;
+			text-align: center;
+			color: white;
+			border: 2px solid;
+			border-color: rgb(var(--color-header));
+			border-radius: 5px;
+
+			&.critical_success {
+				background-color: rgb(var(--color-critical-success));
+			}
+			&.critical_failure {
+				background-color: rgb(var(--color-critical-failure));
+			}
+			&.success {
+				background-color: rgb(var(--color-success));
+			}
+			&.failure {
+				background-color: rgb(var(--color-failure));
+			}
+		}
+	}
+}

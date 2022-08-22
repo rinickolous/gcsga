@@ -121,6 +121,7 @@ const GURPSCONFIG: any = {
 			15: "15",
 		},
 		cr_adj: {
+			none: "none",
 			action_penalty: "action_penalty",
 			reaction_penalty: "reaction_penalty",
 			fright_check_penalty: "fright_check_penalty",
@@ -231,6 +232,12 @@ const GURPSCONFIG: any = {
 			thr_leveled: "thr_leveled",
 			sw: "sw",
 			sw_leveled: "sw_leveled",
+		},
+		container_type: {
+			group: "group",
+			meta_trait: "meta_trait",
+			race: "race",
+			alternative_abilities: "alternative_abilities",
 		},
 	},
 };

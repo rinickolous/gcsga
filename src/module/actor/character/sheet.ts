@@ -115,6 +115,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected async _onClickRoll(event: JQuery.ClickEvent) {
 		event.preventDefault();
+		if (this.actor.editing) return;
 		const type: RollType = $(event.currentTarget).data("type");
 		const data: { [key: string]: any } = { type: type };
 		if ([RollType.Damage, RollType.Attack, RollType.Skill, RollType.SkillRelative, RollType.Spell, RollType.SpellRelative].includes(type)) data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));

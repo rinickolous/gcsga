@@ -2,6 +2,7 @@ import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
 import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
+import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon } from "@module/weapon";
 import { WeaponSheet } from "@module/weapon/sheet";
 import { PrereqType } from "@prereq";
@@ -71,6 +72,7 @@ export class ItemSheetGURPS extends ItemSheet {
 				config: (CONFIG as any).GURPS,
 				attributes: attributes,
 				locations: locations,
+				sysPrefix: "system.",
 			},
 		};
 
@@ -86,6 +88,10 @@ export class ItemSheetGURPS extends ItemSheet {
 			classes: options.classes.concat(["item", "gcsga"]),
 		});
 		return options;
+	}
+
+	get template(): string {
+		return `/systems/${SYSTEM_NAME}/templates/item/${this.item.type}/sheet.hbs`;
 	}
 
 	override activateListeners(html: JQuery<HTMLElement>): void {

@@ -26,6 +26,7 @@ class BaseWeapon {
 		// this.damage = new WeaponDamage({ parent: this });
 		if (context?.ready) {
 			Object.assign(this, data);
+			// this.actor = this.parent.actor;
 			this.defaults = this.defaults.map(e => {
 				return new SkillDefault(e);
 			});
@@ -233,7 +234,7 @@ class BaseWeapon {
 }
 
 interface BaseWeapon {
-	actor?: CharacterGURPS;
+	actor: CharacterGURPS | null;
 	parent: ItemGURPS;
 	id: string;
 	type: WeaponType;

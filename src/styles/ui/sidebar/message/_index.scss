@@ -12,6 +12,7 @@
 		background-color: rgb(var(--color-header));
 		color: rgb(var(--color-on-header));
 		padding: var(--padding-header);
+		padding-bottom: 2px;
 		.message-metadata {
 			font-size: var(--fontsize-7);
 		}

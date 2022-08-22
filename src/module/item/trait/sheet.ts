@@ -1,12 +1,7 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
-import { SYSTEM_NAME } from "@module/settings";
 import { TraitGURPS } from ".";
 
 export class TraitSheet extends ContainerSheetGURPS {
-	get template(): string {
-		return `/systems/${SYSTEM_NAME}/templates/item/trait/sheet.hbs`;
-	}
-
 	static get defaultOptions(): DocumentSheetOptions {
 		const options = super.defaultOptions;
 		mergeObject(options, {

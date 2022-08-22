@@ -39,6 +39,8 @@ import { GURPSCONFIG } from "./config";
 import { TraitSheet } from "@item/trait/sheet";
 import { fSearch } from "@util/fuse";
 import { DiceGURPS } from "./dice";
+import * as Chat from "@module/chat";
+import { TraitContainerSheet } from "@item/trait_container/sheet";
 
 Error.stackTraceLimit = Infinity;
 
@@ -90,6 +92,11 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: i18n("gcsga.system.sheet.trait"),
 	});
+	Items.registerSheet(SYSTEM_NAME, TraitContainerSheet, {
+		types: ["trait_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.trait_container"),
+	});
 
 	Actors.registerSheet(SYSTEM_NAME, CharacterSheetGURPS, {
 		types: ["character"],
@@ -123,3 +130,4 @@ Hooks.once("ready", async () => {
 });
 
 // Add any additional hooks if necessary
+Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));

@@ -2,7 +2,7 @@
 ## In Progress
 - Weapon Editor Sheet
 - Base item sheets
-- Roll chat template
+- Roll chat templates
 ## Sheets & Styling
 - Weapon sections
 - Global Foundry styling

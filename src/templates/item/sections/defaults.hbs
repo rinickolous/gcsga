@@ -1,0 +1,31 @@
+<div id="defaults">
+	<div class="header">{{localize "gcsga.defaults.header"}}</div>
+	<div class="content">
+		<div>
+			<i class="add gcs-circled-add"></i>
+		</div>
+		{{#each object.defaults}}
+		<div class="default">
+			<i class="remove gcs-trash" data-index="{{@index}}"></i>
+			<select name="{{../sysPrefix}}defaults.{{@index}}.type" data-index="{{@index}}">
+				{{#select this.type}}
+				<option value="ten">{{localize "gcsga.select.defaults.ten"}}</option>
+				{{#each ../attributes as |v k|}}
+				<option value="{{k}}">{{v}}</option>
+				{{/each}}
+				<option value="parry">{{localize "gcsga.select.defaults.parry"}}</option>
+				<option value="block">{{localize "gcsga.select.defaults.block"}}</option>
+				<option value="skill">{{localize "gcsga.select.defaults.skill"}}</option>
+				{{/select}}
+			</select>
+			{{>input-text field="field" name=(concat ../sysPrefix "defaults." @index ".name") data=this.name
+			type="String"
+			class=(input_lock (eq this.type "skill"))}}
+			{{>input-text field="field" name=(concat ../sysPrefix "defaults." @index ".specialization")
+			data=this.specialization type="String" class=(input_lock (eq this.type "skill"))}}
+			{{>input-text field="field" name=(concat ../sysPrefix "defaults." @index ".modifier")
+			data=this.modifier type="Number"}}
+		</div>
+		{{/each}}
+	</div>
+</div>

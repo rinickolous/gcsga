@@ -28,6 +28,7 @@
 - G-Force calculator (affects encumbrance & move)
 	- Toggleable sidebar button
 	- Affects clicked on tokens / current map / current character
+- Active Effects with Features
 ## Small Features, Changes & Fixes
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization

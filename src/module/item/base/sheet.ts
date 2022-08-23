@@ -1,5 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
+import { ItemGURPS } from "@item/data";
 import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
@@ -263,12 +264,13 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _onWeaponEdit(event: JQuery.DoubleClickEvent): Promise<any> {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
-		new WeaponSheet(
-			{ weapon: (this.item as BaseItemGURPS).weapons.get(index) as MeleeWeapon, index: index },
-			{
-				top: this.position.top! + 40,
-				left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
-			},
-		).render(true);
+		new WeaponSheet(this.item as ItemGURPS, {}, index).render(true);
+		// new WeaponSheet(
+		// 	{ weapon: (this.item as BaseItemGURPS).weapons.get(index) as MeleeWeapon, index: index },
+		// 	{
+		// 		top: this.position.top! + 40,
+		// 		left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
+		// 	},
+		// ).render(true);
 	}
 }

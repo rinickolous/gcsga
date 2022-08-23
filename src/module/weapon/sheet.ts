@@ -1,16 +1,21 @@
 import { CharacterGURPS } from "@actor";
+import { ItemGURPS } from "@item";
 import { Attribute } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 import { SYSTEM_NAME } from "@module/settings";
 import { toArray } from "@util";
-import { MeleeWeapon } from "./melee";
-import { RangedWeapon } from "./ranged";
+import { Weapon } from ".";
 
-export class WeaponSheet extends FormApplication {
-	constructor(data: { weapon: MeleeWeapon; index: number }, options?: any) {
-		super(data, options);
-		this.object = data.weapon;
-		this.index = data.index;
+export class WeaponSheet extends DocumentSheetConfig {
+	// constructor(data: { weapon: MeleeWeapon; index: number }, options?: any) {
+	// 	super(data, options);
+	// 	this.object = data.weapon;
+	// 	this.index = data.index;
+	// }
+	constructor(object: ItemGURPS, options: any = {}, index: number) {
+		super(object, options);
+		this.index = index;
+		this.weapon = (object.system as any).weapons[index];
 	}
 
 	activateListeners(html: JQuery<HTMLElement>): void {
@@ -21,7 +26,7 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	get template(): string {
-		return `systems/${SYSTEM_NAME}/templates/item/${this.object.type.replaceAll("_", "-")}.hbs`;
+		return `systems/${SYSTEM_NAME}/templates/item/${this.weapon.type.replaceAll("_", "-")}.hbs`;
 	}
 
 	static get defaultOptions() {
@@ -63,6 +68,7 @@ export class WeaponSheet extends FormApplication {
 		}
 		return {
 			...super.getData(options),
+			weapon: this.weapon,
 			config: (CONFIG as any).GURPS,
 			attributes: attributes,
 			sysPrefix: "",
@@ -76,24 +82,26 @@ export class WeaponSheet extends FormApplication {
 		return all_buttons;
 	}
 
-	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<any> {
-		console.log("_updateObject", this.object);
-		console.log(event, formData);
+	protected _updateObject(event: Event, formData: DocumentSheetConfig.FormData | any): Promise<any> {
+		// console.log("_updateObject", this.object);
+		// console.log(event, formData);
 		formData["damage.base"] = new DiceGURPS(formData["damage.base"] as string).stringExtra(false);
 
-		const weaponList: MeleeWeapon[] = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
+		const weaponList: Weapon[] = toArray(duplicate(getProperty(this.object, "system.weapons")));
 		for (const [k, v] of Object.entries(formData)) {
 			setProperty(weaponList[this.index], k, v);
 		}
 
-		return this.object.parent.update({ "system.weapons": weaponList });
+		console.log(formData);
+		// return this.object.update({});
+		return this.object.update({ "system.weapons": weaponList });
 	}
 
 	protected async _addDefault(event: JQuery.ClickEvent): Promise<any> {
-		console.log("_addDefault", event);
-		event.preventDefault();
-		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
-		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
+		console.log("_removeDefault", event);
+		const weapons = toArray(duplicate(getProperty(this.object, "system.weapons")));
+		const defaults = toArray(duplicate(getProperty(this.weapon, "defaults")));
+		console.log(weapons, defaults);
 		defaults.push({
 			type: "skill",
 			name: "",
@@ -101,30 +109,34 @@ export class WeaponSheet extends FormApplication {
 			modifier: 0,
 		});
 		const update: any = {};
-		this.object["defaults"] = defaults;
-		weapons[this.index] = this.object;
+		this.weapon["defaults"] = defaults;
+		weapons[this.index] = { ...this.weapon };
+		console.log(weapons);
 		update[`system.weapons`] = weapons;
-		return this.object.parent.update(update);
+		await this.object.update(update);
+		return this.render(false, { action: "update", data: update } as any);
 	}
 
 	protected async _removeDefault(event: JQuery.ClickEvent): Promise<any> {
 		console.log("_removeDefault", event);
 		const index = $(event.currentTarget).data("index");
-		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
-		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
+		const weapons = toArray(duplicate(getProperty(this.object, "system.weapons")));
+		const defaults = toArray(duplicate(getProperty(this.weapon, "defaults")));
 		console.log(index, weapons, defaults);
 		defaults.splice(index, 1);
 		const update: any = {};
-		// update["system.defaults"] = { ...defaults };
-		this.object["defaults"] = defaults;
-		weapons[this.index] = this.object;
+		this.weapon["defaults"] = defaults;
+		weapons[this.index] = { ...this.weapon };
+		console.log(weapons);
 		update[`system.weapons`] = weapons;
-		// await this.item.update({ "system.-=defaults": null }, { render: false });
-		return this.object.parent.update(update);
+		await this.object.update(update);
+		return this.render(false, { action: "update", data: update } as any);
 	}
 }
 
-export interface WeaponSheet extends FormApplication {
-	object: MeleeWeapon | RangedWeapon;
+export interface WeaponSheet extends DocumentSheetConfig {
+	// object: MeleeWeapon | RangedWeapon;
+	object: ItemGURPS;
 	index: number;
+	weapon: Weapon;
 }

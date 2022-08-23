@@ -69,6 +69,7 @@ class BaseItemGURPS extends Item {
 		setProperty(this, "sort", this._source.sort);
 		if (getProperty(this, "system.features")) setProperty(this, "system.features", { ...getProperty(this, "system.features") });
 		if (getProperty(this, "system.prereqs.prereqs")) setProperty(this, "system.prereqs.prereqs", { ...getProperty(this, "system.prereqs.prereqs") });
+		if (getProperty(this, "system.weapons")) setProperty(this, "system.weapons", { ...getProperty(this, "system.weapons") });
 	}
 
 	get actor(): CharacterGURPS | null {

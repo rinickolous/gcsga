@@ -1,6 +1,5 @@
 # TO DO
 ## In Progress
-- Weapon Editor Sheet
 - Base item sheets
 - Roll chat templates
 ## Sheets & Styling

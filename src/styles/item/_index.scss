@@ -31,23 +31,24 @@
 	select {
 		align-self: center;
 		font: var(--font-system);
-		// background-color: var(--shape-chevron-right) rgb(var(--color-control));
 		background-color: rgb(var(--color-control));
 		color: rgb(var(--color-on-control));
 		border: 1px solid rgb(var(--color-control-edge));
+		padding: 1px 3px;
 		border-radius: 3px;
-		height: 21px;
+		height: 24px;
 		width: max-content;
 		align-items: self-end;
 		option {
 			font: var(--font-system);
-			// background-color: var(--shape-chevron-right) rgb(var(--color-control));
 			background-color: rgb(var(--color-control));
 			color: rgb(var(--color-on-control));
 			border: 1px solid rgb(var(--color-control-edge));
 		}
 		&:focus {
 			box-shadow: none;
+			border-width: 2px;
+			padding: 0px 2px;
 		}
 	}
 	.field {
@@ -77,9 +78,11 @@
 			background-color: rgb(var(--color-editable));
 			color: rgb(var(--color-on-editable));
 			border: 1px solid rgba(var(--color-editable-border));
+			padding: 1px 3px;
 			&:focus {
 				box-shadow: none;
-				border: 1px solid rgb(var(--color-focused-editable-border));
+				border: 2px solid rgb(var(--color-focused-editable-border));
+				padding: 0 2px;
 			}
 			&[readonly] {
 				background-color: rgb(var(--color-backgroudn));
@@ -115,22 +118,22 @@
 			font: inherit;
 			width: 14px;
 			height: 14px;
-			border: 2px solid rgb(var(--color-control-edge));
+			border: 1px solid rgb(var(--color-control-edge));
 			border-radius: 4px;
 			display: grid;
 			place-content: center;
 			filter: none;
+			&:focus {
+				border: 2px solid rgb(var(--color-focused-editable-border));
+			}
 			&:active {
 				background-color: rgb(var(--color-pressed-control));
 			}
 			&::before {
-				content: "";
-				width: 512px;
-				height: 512px;
+				font-family: "gcs";
+				font-size: var(--font-size-12);
+				content: "\e804";
 				opacity: 0;
-				transform: scale(calc(8 / 512), calc(7 / 512)) translate(0px, 18px);
-				background-color: rgb(var(--color-on-control));
-				clip-path: var(--shape-checkmark);
 			}
 			&:checked::before {
 				opacity: 1;

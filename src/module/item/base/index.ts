@@ -45,10 +45,11 @@ class BaseItemGURPS extends Item {
 	}
 
 	override async update(data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: (DocumentModificationContext & MergeObjectOptions) | undefined): Promise<this | undefined> {
-		// console.log("update()", this.name, data);
+		console.log("update()", this.name, data);
 		if (!(this.parent instanceof Item)) return super.update(data, context);
 		data = expandObject(data);
 		data._id = this.id;
+		console.log("pre this.parent.updateEmbeddedDocuments", this.name, this);
 		await this.parent.updateEmbeddedDocuments("Item", [data]);
 		//@ts-ignore
 		this.render(false, { action: "update", data: data });
@@ -61,6 +62,7 @@ class BaseItemGURPS extends Item {
 
 	// Should not be necessary
 	override prepareBaseData(): void {
+		// console.log("prepareBaseData", this.name, this);
 		mergeObject(this.system, this._source.system);
 		mergeObject(this.flags, this._source.flags);
 		setProperty(this, "name", this._source.name);

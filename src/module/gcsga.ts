@@ -130,4 +130,4 @@ Hooks.once("ready", async () => {
 });
 
 // Add any additional hooks if necessary
-Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));
+// Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));

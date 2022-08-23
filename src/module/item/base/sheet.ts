@@ -108,7 +108,8 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
-	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+	protected async _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+		console.log("_updateObject", formData);
 		if (formData["system.tags"] && typeof formData["system.tags"] == "string") {
 			const tags = formData["system.tags"].split(",").map(e => e.trim());
 			formData["system.tags"] = tags;
@@ -124,6 +125,8 @@ export class ItemSheetGURPS extends ItemSheet {
 					.replace("<br></div>", "")
 					.replace("<br>", "\n");
 			}
+			if (value == "false") formData[key] = false;
+			if (value == "true") formData[key] = true;
 			if (value == "\n") formData[key] = "";
 		}
 		return super._updateObject(event, formData);

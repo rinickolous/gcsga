@@ -169,7 +169,15 @@
 			"modifier_desc": "Trait Modifier",
 			"modifier_cost": "Cost Modifier",
 			"container_type": "Container Type",
-			"ancestry": "Ancestry"
+			"ancestry": "Ancestry",
+			"cr_adj_display": {
+				"action_penalty": "{penalty} Action Penalty",
+				"reaction_penalty": "{penalty} Reaction Penalty",
+				"fright_check_penalty": "{penalty} Fright Check Penalty",
+				"fright_check_bonus": "{penalty} Fright Check Bonus",
+				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
+				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
+			}
 		},
 		"trait_container": {},
 		"trait_modifier": {},
@@ -422,6 +430,9 @@
 				"critical_success": "Critical Hit!",
 				"critical_failure": "Critical Miss!"
 			}
+		},
+		"reaction": {
+			"cr": "from others when {trait} is triggered"
 		}
 	}
 }

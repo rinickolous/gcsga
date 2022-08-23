@@ -90,8 +90,8 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	protected async _addDefault(event: JQuery.ClickEvent): Promise<any> {
+		console.log("_addDefault", event);
 		event.preventDefault();
-		console.log("checkem");
 		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
 		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
 		defaults.push({
@@ -108,9 +108,11 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	protected async _removeDefault(event: JQuery.ClickEvent): Promise<any> {
+		console.log("_removeDefault", event);
 		const index = $(event.currentTarget).data("index");
 		const weapons = toArray(duplicate(getProperty(this.object.parent, "system.weapons")));
 		const defaults = toArray(duplicate(getProperty(this.object as any, "defaults")));
+		console.log(index, weapons, defaults);
 		defaults.splice(index, 1);
 		const update: any = {};
 		// update["system.defaults"] = { ...defaults };

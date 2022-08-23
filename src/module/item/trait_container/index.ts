@@ -43,8 +43,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get formattedCR(): string {
 		let cr = "";
-		if (this.cr != CR.None) cr += i18n(`gcsga.trait.cr_level.${this.cr}`);
-		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		if (this.cr != CR.None) cr += i18n(`gcsga.select.cr_level.${this.cr}`);
+		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.select.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
 		return cr;
 	}
 
@@ -55,9 +55,9 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get modifierNotes(): string {
 		let n = "";
 		if (this.cr != CR.None) {
-			n += i18n(`gcsga.trait.cr_level.${this.cr}`);
+			n += i18n(`gcsga.select.cr_level.${this.cr}`);
 			if (this.crAdj != "none") {
-				n += ", " + i18n_f(`gcsga.trait.cr_adj.${this.crAdj}`, { penalty: "TODO" });
+				n += ", " + i18n_f(`gcsga.trait.cr_adj_display.${this.crAdj}`, { penalty: "TODO" });
 			}
 		}
 		this.deepModifiers.forEach(m => {

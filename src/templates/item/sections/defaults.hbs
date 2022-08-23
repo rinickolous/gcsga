@@ -2,11 +2,11 @@
 	<div class="header">{{localize "gcsga.defaults.header"}}</div>
 	<div class="content">
 		<div>
-			<i class="add gcs-circled-add"></i>
+			<i class="add button gcs-circled-add"></i>
 		</div>
 		{{#each object.defaults}}
 		<div class="default">
-			<i class="remove gcs-trash" data-index="{{@index}}"></i>
+			<i class="remove button gcs-trash" data-index="{{@index}}"></i>
 			<select name="{{../sysPrefix}}defaults.{{@index}}.type" data-index="{{@index}}">
 				{{#select this.type}}
 				<option value="ten">{{localize "gcsga.select.defaults.ten"}}</option>

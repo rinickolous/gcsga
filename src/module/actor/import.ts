@@ -1,7 +1,7 @@
 import { CharacterGURPS } from "@actor";
 import { Feature } from "@feature";
 import { BaseFeature } from "@feature/base";
-import { BaseItemGURPS, ItemGURPS } from "@item";
+import { ItemGURPS } from "@item";
 import { ItemFlagsGURPS, ItemSystemDataGURPS } from "@item/data";
 import { EquipmentSystemData } from "@item/equipment/data";
 import { EquipmentContainerSystemData } from "@item/equipment_container/data";

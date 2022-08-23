@@ -2,12 +2,12 @@
 	<div class="header">{{localize "gcsga.feature.header"}}</div>
 	<div class="content">
 		<div>
-			<i class="add gcs-circled-add"></i>
+			<i class="add button gcs-circled-add"></i>
 		</div>
 		{{#each system.features}}
 		<div class="feature">
 			<div class="top">
-				<i class="remove gcs-trash" data-index="{{@index}}"></i>
+				<i class="remove button gcs-trash" data-index="{{@index}}"></i>
 				<select class="type" name="system.features.{{@index}}.type" data-index="{{@index}}">
 					{{#select this.type}}
 					{{#each ../config.select.features as |v k|}}

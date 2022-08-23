@@ -24,7 +24,7 @@
 <div class="extended-weight">{{this.extendedWeightFast}}</div>
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}
-{{#each this.children}}
+{{#each (sort this.children "sort")}}
 {{>equipment}}
 {{/each}}
 {{/if}}

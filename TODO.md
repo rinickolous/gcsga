@@ -33,4 +33,5 @@
 - Change unsatisfied prerequisite messages for better formatting & localization
 - Redo drag & drop indicators
 - Editing unspent points does not change total
-- Damage base values with "0d" redundantly show "0d"
+- Add "children" section to sheets for items which can have children
+- Nested items cannot be dragged to item list

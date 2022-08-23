@@ -186,4 +186,8 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
 		return new DiceGURPS(d).stringExtra(false);
 	});
+
+	Handlebars.registerHelper("sort", function (list: any[], key: string): any[] {
+		return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
+	});
 }

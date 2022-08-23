@@ -63,7 +63,6 @@ const GURPSCONFIG: any = {
 			note_container: NoteContainerGURPS,
 		},
 		allowedContents: {
-			// character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
 			trait: ["modifier", "modifier_container"],
 			trait_container: ["modifier", "modifier_container", "trait", "trait_container"],
 			modifier_container: ["modifier", "modifier_container"],
@@ -78,6 +77,9 @@ const GURPSCONFIG: any = {
 	Actor: {
 		documentClasses: {
 			character: CharacterGURPS,
+		},
+		allowedContents: {
+			character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
 		},
 	},
 	Feature: {

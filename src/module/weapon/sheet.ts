@@ -7,11 +7,6 @@ import { toArray } from "@util";
 import { Weapon } from ".";
 
 export class WeaponSheet extends DocumentSheetConfig {
-	// constructor(data: { weapon: MeleeWeapon; index: number }, options?: any) {
-	// 	super(data, options);
-	// 	this.object = data.weapon;
-	// 	this.index = data.index;
-	// }
 	constructor(object: ItemGURPS, options: any = {}, index: number) {
 		super(object, options);
 		this.index = index;
@@ -83,8 +78,6 @@ export class WeaponSheet extends DocumentSheetConfig {
 	}
 
 	protected _updateObject(event: Event, formData: DocumentSheetConfig.FormData | any): Promise<any> {
-		// console.log("_updateObject", this.object);
-		// console.log(event, formData);
 		formData["damage.base"] = new DiceGURPS(formData["damage.base"] as string).stringExtra(false);
 
 		const weaponList: Weapon[] = toArray(duplicate(getProperty(this.object, "system.weapons")));
@@ -93,7 +86,6 @@ export class WeaponSheet extends DocumentSheetConfig {
 		}
 
 		console.log(formData);
-		// return this.object.update({});
 		return this.object.update({ "system.weapons": weaponList });
 	}
 
@@ -135,7 +127,6 @@ export class WeaponSheet extends DocumentSheetConfig {
 }
 
 export interface WeaponSheet extends DocumentSheetConfig {
-	// object: MeleeWeapon | RangedWeapon;
 	object: ItemGURPS;
 	index: number;
 	weapon: Weapon;

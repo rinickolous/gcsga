@@ -40,7 +40,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	protected _onDrop(event: DragEvent): void {
-		console.log(super._onDrop);
+		// console.log(super._onDrop);
 		super._onDrop(event);
 	}
 
@@ -151,7 +151,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	getData(options?: Partial<ActorSheet.Options> | undefined): any {
 		const actorData = this.actor.toObject(false) as any;
 		//@ts-ignore
-		const items = deepClone(this.actor.items.map(item => item as Item).sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0)));
+		const items = deepClone(this.actor.items.map(item => item as Item).sort((a: Item, b: Item) => (a.sort ?? 0) - (b.sort ?? 0)));
 		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
 		const encumbrance = this.prepareEncumbrance();
 		const lifts = this.prepareLifts();

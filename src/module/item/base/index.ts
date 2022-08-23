@@ -37,6 +37,27 @@ class BaseItemGURPS extends Item {
 		}
 	}
 
+	// static override async createDocuments(
+	// 	data: any[],
+	// 	context: DocumentModificationContext & { options?: any }
+	// ): Promise<any[]> {
+	// 	const { parent, pack, options } = context;
+	// 	if (!(parent instanceof Item)) return Item.createDocuments(data, context);
+	// 	return parent.createEmbeddedDocuments("Item", data, options);
+	// }
+
+	// static override async updateDocuments(
+	// 	updates: any[],
+	// 	context: DocumentModificationContext & { options: any }
+	// ): Promise<any[]> {
+	// 	console.log(updates, context);
+	// 	console.trace();
+	// 	const { parent, pack, options } = context;
+	// 	if (!(parent instanceof Item)) return Item.updateDocuments(updates, context);
+	// 	// return Item.updateDocuments(updates, { parent: null as any, pack: null as any });
+	// 	return parent.updateEmbeddedDocuments("Item", updates, options);
+	// }
+
 	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
 		const type = data.type.replace("_container", "");
 		// TODO remove any
@@ -45,11 +66,9 @@ class BaseItemGURPS extends Item {
 	}
 
 	override async update(data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: (DocumentModificationContext & MergeObjectOptions) | undefined): Promise<this | undefined> {
-		console.log("update()", this.name, data);
 		if (!(this.parent instanceof Item)) return super.update(data, context);
 		data = expandObject(data);
 		data._id = this.id;
-		console.log("pre this.parent.updateEmbeddedDocuments", this.name, this);
 		await this.parent.updateEmbeddedDocuments("Item", [data]);
 		//@ts-ignore
 		this.render(false, { action: "update", data: data });
@@ -62,7 +81,6 @@ class BaseItemGURPS extends Item {
 
 	// Should not be necessary
 	override prepareBaseData(): void {
-		// console.log("prepareBaseData", this.name, this);
 		mergeObject(this.system, this._source.system);
 		mergeObject(this.flags, this._source.flags);
 		setProperty(this, "name", this._source.name);

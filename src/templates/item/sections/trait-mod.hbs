@@ -18,7 +18,7 @@
 <div class="tags">{{join this.tags ", "}}</div>
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}
-{{#each this.children}}
+{{#each (sort this.children "sort")}}
 {{>trait-mod}}
 {{/each}}
 {{/if}}

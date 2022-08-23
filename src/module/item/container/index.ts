@@ -118,10 +118,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 
 		const containedItems: ItemGURPS[] = (this.getFlag("gcsga", "contentsData") as ItemGURPS[]) ?? [];
-		const newContainedItems = containedItems.filter(e => !ids.includes(e.id!));
+		const newContainedItems = containedItems.filter(e => !ids.includes(e._id));
 		const deletedItems = containedItems.filter(e => ids.includes(e.id!));
 
 		if (this.parent) {
+			console.log(this, this.parent, ids, containedItems, newContainedItems);
 			await this.parent.updateEmbeddedDocuments("Item", [
 				{
 					_id: this.id,

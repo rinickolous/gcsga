@@ -68,6 +68,7 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		// Set data transfer
 		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
+		console.log(dragData);
 	}
 
 	protected override async _onSortItem(event: DragEvent, itemData: PropertiesToSource<ItemDataBaseProperties>): Promise<Item[]> {
@@ -89,7 +90,8 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		if (source && target && source.parent != target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
-			await source!.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
+			console.log(source);
+			await source.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
 			return parent?.createEmbeddedDocuments(
 				"Item",
 				[
@@ -104,6 +106,7 @@ export class ActorSheetGURPS extends ActorSheet {
 				{ temporary: false },
 			);
 		}
+		console.log(updateData);
 		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
 	}
 }

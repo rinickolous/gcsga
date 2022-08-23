@@ -236,9 +236,7 @@ export class ItemSheetGURPS extends ItemSheet {
 		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
 		features.splice(index, 1);
 		const update: any = {};
-		// update["system.features"] = { ...features };
 		update["system.features"] = features;
-		// await this.item.update({ "system.-=features": null }, { render: false });
 		return this.item.update(update);
 	}
 
@@ -253,10 +251,8 @@ export class ItemSheetGURPS extends ItemSheet {
 		};
 		const preUpdate: any = {};
 		const update: any = {};
-		// update["system.features"] = { ...features };
 		preUpdate[`system.features.${index}`] = {};
 		update["system.features"] = features;
-		// await this.item.update({ "system.-=features": null }, { render: false });
 		await this.item.update(preUpdate, { render: false });
 		return this.item.update(update);
 	}
@@ -265,12 +261,5 @@ export class ItemSheetGURPS extends ItemSheet {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
 		new WeaponSheet(this.item as ItemGURPS, {}, index).render(true);
-		// new WeaponSheet(
-		// 	{ weapon: (this.item as BaseItemGURPS).weapons.get(index) as MeleeWeapon, index: index },
-		// 	{
-		// 		top: this.position.top! + 40,
-		// 		left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
-		// 	},
-		// ).render(true);
 	}
 }

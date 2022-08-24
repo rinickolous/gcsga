@@ -21,6 +21,9 @@ export interface SkillSystemData extends ItemSystemData {
 	prereqs: PrereqList;
 	specialization: string;
 	tech_level: string;
+	// should not be needed
+	// TODO: find a way to remove
+	tech_level_required: boolean;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;
 	// may change to object type
 	difficulty: string;

@@ -1,0 +1,16 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet">
+		<div id="details">
+			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
+			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			type="String"}}
+			{{>textarea field="field" label="gcsga.trait.user_description" name="system.user_description"
+			data=system.user_description type="String"}}
+			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference" data=system.reference
+			type="String"}}
+		</div>
+	</div>
+</form>

@@ -4,7 +4,6 @@ import { ItemGURPS } from "@item/data";
 import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
-import { MeleeWeapon } from "@module/weapon";
 import { WeaponSheet } from "@module/weapon/sheet";
 import { PrereqType } from "@prereq";
 import { i18n, toArray } from "@util";
@@ -109,8 +108,8 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
-	protected async _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
-		console.log("_updateObject", formData);
+	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
+		// console.log("_updateObject", formData);
 		if (formData["system.tags"] && typeof formData["system.tags"] == "string") {
 			const tags = formData["system.tags"].split(",").map(e => e.trim());
 			formData["system.tags"] = tags;
@@ -135,7 +134,7 @@ export class ItemSheetGURPS extends ItemSheet {
 
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
 		const path = $(event.currentTarget).data("path");
-		console.log(path);
+		// console.log(path);
 		const prereqs = toArray(duplicate(getProperty(this.item as any, `${path}.prereqs`)));
 		prereqs.push({
 			type: "trait_prereq",

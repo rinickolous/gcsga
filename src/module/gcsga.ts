@@ -41,6 +41,19 @@ import { fSearch } from "@util/fuse";
 import { DiceGURPS } from "./dice";
 import * as Chat from "@module/chat";
 import { TraitContainerSheet } from "@item/trait_container/sheet";
+import { SkillSheet } from "@item/skill/sheet";
+import { TraitModifierSheet } from "@item/trait_modifier/sheet";
+import { TraitModifierContainerSheet } from "@item/trait_modifier_container/sheet";
+import { EquipmentModifierContainerSheet } from "@item/equipment_modifier_container/sheet";
+import { SpellContainerSheet } from "@item/spell_container/sheet";
+import { SkillContainerSheet } from "@item/skill_container/sheet";
+import { NoteContainerSheet } from "@item/note_container/sheet";
+import { NoteSheet } from "@item/note/sheet";
+import { TechniqueSheet } from "@item/technique/sheet";
+import { EquipmentSheet } from "@item/equipment/sheet";
+import { RitualMagicSpellSheet } from "@item/ritual_magic_spell/sheet";
+import { SpellSheet } from "@item/spell/sheet";
+import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 
 Error.stackTraceLimit = Infinity;
 
@@ -97,6 +110,71 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: i18n("gcsga.system.sheet.trait_container"),
 	});
+	Items.registerSheet(SYSTEM_NAME, TraitModifierSheet, {
+		types: ["modifier"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.modifier"),
+	});
+	Items.registerSheet(SYSTEM_NAME, TraitModifierContainerSheet, {
+		types: ["modifier_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.modifier_container"),
+	});
+	Items.registerSheet(SYSTEM_NAME, SkillSheet, {
+		types: ["skill"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.skill"),
+	});
+	Items.registerSheet(SYSTEM_NAME, TechniqueSheet, {
+		types: ["technique"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.technique"),
+	});
+	Items.registerSheet(SYSTEM_NAME, SkillContainerSheet, {
+		types: ["skill_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.skill_container"),
+	});
+	Items.registerSheet(SYSTEM_NAME, SpellSheet, {
+		types: ["spell"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.spell"),
+	});
+	Items.registerSheet(SYSTEM_NAME, RitualMagicSpellSheet, {
+		types: ["ritual_magic_spell"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.ritual_magic_spell"),
+	});
+	Items.registerSheet(SYSTEM_NAME, SpellContainerSheet, {
+		types: ["spell_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.spell_container"),
+	});
+	Items.registerSheet(SYSTEM_NAME, EquipmentSheet, {
+		types: ["equipment", "equipment_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.equipment"),
+	});
+	Items.registerSheet(SYSTEM_NAME, EquipmentModifierSheet, {
+		types: ["eqp_modifier"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.eqp_modifier"),
+	});
+	Items.registerSheet(SYSTEM_NAME, EquipmentModifierContainerSheet, {
+		types: ["eqp_modifier_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.eqp_modifier_container"),
+	});
+	Items.registerSheet(SYSTEM_NAME, NoteSheet, {
+		types: ["note"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.note"),
+	});
+	Items.registerSheet(SYSTEM_NAME, NoteContainerSheet, {
+		types: ["note_container"],
+		makeDefault: true,
+		label: i18n("gcsga.system.sheet.note_container"),
+	});
 
 	Actors.registerSheet(SYSTEM_NAME, CharacterSheetGURPS, {
 		types: ["character"],
@@ -130,4 +208,4 @@ Hooks.once("ready", async () => {
 });
 
 // Add any additional hooks if necessary
-// Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));
+Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));

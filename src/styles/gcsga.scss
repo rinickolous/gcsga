@@ -101,3 +101,10 @@
 		visibility: visible;
 	}
 }
+
+.button {
+	color: rgb(var(--color-icon-button));
+	&:hover {
+		color: rgb(var(--color-icon-button-rollover));
+	}
+}

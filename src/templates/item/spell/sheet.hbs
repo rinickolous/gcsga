@@ -1,0 +1,73 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet">
+		<div id="details">
+			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
+			<div class="label">{{localize "gcsga.trait.tech_level"}}</div>
+			<div class="field no-stretch">
+				{{#if system.tech_level_required}}
+				{{>input-text name="system.tech_level"
+				data=system.tech_level type="String"}}
+				{{else}}
+				{{>input-text name="system.tech_level"
+				data=system.tech_level type="String" class="disabled"}}
+				{{/if}}
+				<label class="label checkbox-label">
+					<input class="input" type="checkbox" name="system.tech_level_required" data-dtype="Boolean"
+						{{checked system.tech_level_required}} />
+					{{localize "gcsga.trait.tech_level_required"}}
+				</label>
+			</div>
+			{{>input-text field="field" label="gcsga.trait.college" name="system.college" data=(join system.college ",
+			")
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.class" name="system.class" data=system.class type="String"}}
+			{{>input-text field="field" label="gcsga.trait.power_source" name="system.power_source"
+			data=system.power_source type="String"}}
+			<div class="label">{{localize "gcsga.trait.difficulty"}}</div>
+			<div class="field no-stretch">
+				<select name="attribute" data-dtype="String">
+					{{#select document.attribute}}
+					{{#each attributes as |v k|}}
+					<option value="{{k}}">{{localize (concat v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+				<div class="label">{{localize "gcsga.trait.slash"}}</div>
+				<select name="difficulty" data-dtype="String">
+					{{#select document.difficulty}}
+					{{#each config.select.difficulty as |v k|}}
+					<option value="{{k}}">{{localize (concat v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+			<div class="label">{{localize "gcsga.trait.points"}}</div>
+			<div class="field no-stretch">
+				{{>input-text name="system.points" data=system.points type="Number"}}
+				<div class="label">{{localize "gcsga.trait.level"}}</div>
+				{{>input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
+				tabIndex='-1'"}}
+			</div>
+			{{>input-text field="field" label="gcsga.trait.resist" name="system.resist" data=system.resist
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.casting_cost" name="system.casting_cost"
+			data=system.casting_cost type="String"}}
+			{{>input-text field="field" label="gcsga.trait.maintencance_cost" name="system.maintencance_cost"
+			data=system.maintencance_cost type="String"}}
+			{{>input-text field="field" label="gcsga.trait.casting_time" name="system.casting_time"
+			data=system.casting_time type="String"}}
+			{{>input-text field="field" label="gcsga.trait.duration" name="system.duration" data=system.duration
+			type="String"}}
+			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference" data=system.reference
+			type="String"}}
+		</div>
+		{{>prerequisites}}
+		{{>melee}}
+		{{>ranged}}
+	</div>
+</form>

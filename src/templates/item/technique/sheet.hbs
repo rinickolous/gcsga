@@ -1,0 +1,79 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet">
+		<div id="details">
+			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
+			{{>input-text field="field" label="gcsga.trait.specialization" name="system.specialization"
+			data=system.specialization type="String"}}
+			{{!-- <div class="label">{{localize "gcsga.trait.tech_level"}}</div> --}}
+			{{!-- <div class="field no-stretch"> --}}
+				{{!-- {{#if system.tech_level_required}} --}}
+				{{!-- {{>input-text name="system.tech_level" --}}
+				{{!-- data=system.tech_level type="String"}} --}}
+				{{!-- {{else}} --}}
+				{{!-- {{>input-text name="system.tech_level" --}}
+				{{!-- data=system.tech_level type="String" class="disabled"}} --}}
+				{{!-- {{/if}} --}}
+				{{!-- <label class="label checkbox-label"> --}}
+					{{!-- <input class="input" type="checkbox" name="system.tech_level_required" data-dtype="Boolean"
+						--}} {{!-- {{checked system.tech_level_required}} /> --}}
+					{{!-- {{localize "gcsga.trait.tech_level_required"}} --}}
+					{{!-- </label> --}}
+				{{!-- </div> --}}
+			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
+			<div class="label">{{localize "gcsga.trait.defaults_to"}}</div>
+			<div class="field no-stretch">
+				<select name="system.default.type" data-dtype="String">
+					{{#select system.default.type}}
+					{{#each attributes as |v k|}}
+					<option value="{{k}}">{{localize (concat v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+				{{>input-text name="system.default.name" data=system.default.name type="String"}}
+				{{>input-text name="system.default.specialization" data=system.default.specialization type="String"}}
+				{{>input-text name="system.default.modifier" data=system.default.modifier type="Number"}}
+			</div>
+			<div class="label">{{localize "gcsga.trait.limit"}}</div>
+			<div class="field no-stretch">
+				<label class="label checkbox-label">
+					<input class="input" type="checkbox" name="system.limited" data-dtype="Boolean" {{checked
+						system.limited}} />
+					{{localize "gcsga.trait.limited"}}
+				</label>
+				{{#if system.limited}}
+				{{>input-text name="system.limit" data=system.limit type="Number"}}
+				{{else}}
+				{{>input-text name="system.limit" data=system.limit type="Number" class="disabled"}}
+				{{/if}}
+			</div>
+			<div class="label">{{localize "gcsga.trait.difficulty"}}</div>
+			<div class="field">
+				<select name="system.difficulty" data-dtype="String">
+					{{#select system.difficulty}}
+					{{#each config.select.difficulty as |v k|}}
+					<option value="{{k}}">{{localize (concat v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+			<div class="label">{{localize "gcsga.trait.points"}}</div>
+			<div class="field no-stretch">
+				{{>input-text name="system.points" data=system.points type="Number"}}
+				<div class="label">{{localize "gcsga.trait.level"}}</div>
+				{{>input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
+				tabIndex='-1'"}}
+			</div>
+			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference" data=system.reference
+			type="String"}}
+		</div>
+		{{>prerequisites}}
+		{{>defaults document attributes=attributes sysPrefix=sysPrefix}}
+		{{>features}}
+		{{>melee}}
+		{{>ranged}}
+	</div>
+</form>

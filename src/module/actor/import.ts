@@ -161,7 +161,7 @@ export class ActorImporter {
 				.then(res => res.blob())
 				.then(blob => {
 					const file = new File([blob], filename);
-					// TODO get rid of as any when new types version drops
+					// TODO: get rid of as any when new types version drops
 					(FilePicker as any).upload("data", path, file, {}, { notify: false });
 				});
 			p.img = (path + filename).replaceAll(" ", "_");
@@ -393,6 +393,7 @@ export class ActorImporter {
 			points: data.points ?? 1,
 			specialization: data.specialization ?? "",
 			tech_level: data.tech_level ?? "",
+			tech_level_required: !!data.tech_level ? true : false,
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
 			defaults: data.defaults ? this.importDefaults(data.defaults) : [],
@@ -412,6 +413,7 @@ export class ActorImporter {
 			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			points: data.points ?? 1,
 			limit: data.limit ?? 0,
+			limited: !!data.limit ?? false,
 			tech_level: data.tech_level ?? "",
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
@@ -556,9 +558,9 @@ export class ActorImporter {
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
 			cost_type: data.cost_type ?? "to_original_cost",
-			cost: data.cost ?? 0,
+			cost: data.cost ?? "",
 			weight_type: data.weight_type ?? "to_original_weight",
-			weight: data.weight ?? 0,
+			weight: data.weight ?? "",
 			tech_level: data.tech_level ?? "",
 			features: data.features ? this.importFeatures(data.features) : [],
 			disabled: data.disabled ?? false,

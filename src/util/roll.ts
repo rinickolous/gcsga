@@ -99,7 +99,7 @@ function rollDamage(user: StoredDocument<User> | null, actor: ActorGURPS, data: 
 	throw new Error("Function not implemented.");
 }
 
-// TODO change from string to enum
+// TODO: change from string to enum
 function getSuccess(level: number, rollTotal: number): string {
 	if (rollTotal == 18) return "critical_failure";
 	if (rollTotal <= 4) return "critical_success";

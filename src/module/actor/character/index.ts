@@ -70,7 +70,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	override update(data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
-		console.log(data);
+		// console.log(data);
 		this.updateAttributes(data);
 		this.checkImport(data);
 		return super.update(data, context);
@@ -482,7 +482,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		return weaponList;
 	}
 
-	//TODO changed
+	//TODO: changed
 	// get reactions(): Collection<any> {
 	// 	return new Collection();
 	// }
@@ -1004,7 +1004,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		if (!this.variableResolverExclusions) this.variableResolverExclusions = new Map();
 		this.variableResolverExclusions.set(variableName, true);
 		if (gid.SizeModifier == variableName) return this.profile.SM.signedString();
-		const parts = variableName.split("."); // TODO check
+		const parts = variableName.split("."); // TODO: check
 		const attr = this.attributes.get(parts[0]);
 		if (!attr) {
 			console.warn(`No such variable: $${variableName}`);

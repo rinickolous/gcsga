@@ -34,4 +34,5 @@ export interface TechniqueSystemData extends ItemSystemData {
 	// };
 	default: SkillDefault;
 	limit: number;
+	limited: boolean;
 }

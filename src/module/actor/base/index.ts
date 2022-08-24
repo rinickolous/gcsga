@@ -25,7 +25,7 @@ class BaseActorGURPS extends Actor {
 	}
 
 	protected async _preCreate(data: ActorDataConstructorData & ActorDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
-		//@ts-ignore TODO
+		//@ts-ignore TODO:
 		if (this._source.img === foundry.documents.BaseActor.DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		await super._preCreate(data, options, user);
 	}

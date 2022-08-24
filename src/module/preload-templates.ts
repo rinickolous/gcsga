@@ -61,6 +61,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"item/sections/feature/contained-weight-reduction",
 
 		"item/sections/trait-mod",
+		"item/sections/eqp-mod",
 		"item/sections/melee",
 		"item/sections/ranged",
 		"item/sections/defaults",

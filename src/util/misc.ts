@@ -111,6 +111,7 @@ export function extractTechLevel(str: string): number {
 type WeightValueType = "weight_addition" | "weight_percentage_addition" | "weight_percentage_multiplier" | "weight_multiplier";
 
 export function determineModWeightValueTypeFromString(s: string): WeightValueType {
+	if (typeof s !== "string") s = `${s}`;
 	s = s.toLowerCase().trim();
 	if (s.endsWith("%")) {
 		if (s.startsWith("x")) return "weight_percentage_multiplier";
@@ -125,6 +126,7 @@ export interface Fraction {
 }
 
 export function extractFraction(s: string): Fraction {
+	if (typeof s !== "string") s = `${s}`;
 	let v = s.trim();
 	while (v.length > 0 && v[-1].match("[0-9]")) {
 		v = v.substring(0, v.length - 1);

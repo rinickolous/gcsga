@@ -59,8 +59,10 @@ class BaseItemGURPS extends Item {
 	// }
 
 	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
-		const type = data.type.replace("_container", "");
-		// TODO remove any
+		let type = data.type.replace("_container", "");
+		if (type == "technique") type = "skill";
+		if (type == "ritual_magic_spell") type = "spell";
+		// TODO: remove any
 		if (this._source.img === (foundry.documents.BaseItem as any).DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
 		await super._preCreate(data, options, user);
 	}

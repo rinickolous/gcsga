@@ -87,7 +87,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				});
 				if (!!newData["system.prereqs.-=prereqs"]) delete newData["system.prereqs.-=prereqs"];
 				// temporary hack to fix prereqs. will fix later
-				// TODO fix later
+				// TODO: fix later
 				if (Object.keys(theUpdate).includes("system.prereqs.-=prereqs")) (newData.system as any).prereqs.prereqs = null;
 				updated.push(newData);
 				return newData;

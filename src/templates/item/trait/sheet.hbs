@@ -1,5 +1,5 @@
 <form class="{{cssClass}} gcsga" autocomplete="off">
-	<div id="sheet" class="gcs_trait_sheet">
+	<div id="sheet">
 		<div id="details">
 			<label class="label"></label>
 			<div class="field">
@@ -15,8 +15,8 @@
 			type="String"}}
 			{{>textarea field="field" label="gcsga.trait.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
-			<div class="label">{{localize "gcsga.trait.tags"}}</div>
-			{{>input-text field="field" name="system.tags" data=(join system.tags ", ") type="String"}}
+			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
 			<div class="label">{{localize "gcsga.trait.point_cost"}}</div>
 			<div class="field no-stretch">
 				{{>input-text data=document.adjustedPoints type="Number" class="readonly tabIndex='-1'"}}

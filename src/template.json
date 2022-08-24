@@ -101,11 +101,13 @@
 		},
 		"spell": {
 			"templates": ["common", "prereqs"],
-			"weapons": []
+			"weapons": [],
+			"college": []
 		},
 		"ritual_magic_spell": {
 			"templates": ["common", "prereqs"],
-			"weapons": []
+			"weapons": [],
+			"college": []
 		},
 		"spell_container": {
 			"templates": ["common"],

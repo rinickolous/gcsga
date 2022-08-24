@@ -95,7 +95,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("join", function (a: any[], s: string): string {
-		if (!a.length) return "";
+		if (!a || !a.length) return "";
 		return a.join(s);
 	});
 

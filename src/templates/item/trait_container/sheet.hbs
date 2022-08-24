@@ -15,8 +15,8 @@
 			type="String"}}
 			{{>textarea field="field" label="gcsga.trait.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
-			<div class="label">{{localize "gcsga.trait.tags"}}</div>
-			{{>input-text field="field" name="system.tags" data=(join system.tags ", ") type="String"}}
+			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
 			<div class="label">{{localize "gcsga.trait.cr"}}</div>
 			<div class="field">
 				<select name="system.cr" data-dtype="Number">

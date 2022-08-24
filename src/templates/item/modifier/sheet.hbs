@@ -1,0 +1,50 @@
+<form class="{{cssClass}} gcsga" autocomplete="off">
+	<div id="sheet">
+		<div id="details">
+			<label class="label"></label>
+			<div class="field">
+				<label class="checkbox-label">
+					<input class="input" name="system.disabled" type="checkbox" data-dtype="Boolean" {{checked (not
+						system.disabled)}} />
+					{{localize "gcsga.trait.enabled"}}
+				</label>
+			</div>
+			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
+			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			type="String"}}
+			<div class="label">{{localize "gcsga.trait.point_cost"}}</div>
+			<div class="field no-stretch">
+				{{>input-text name="system.cost" data=system.cost type="Number"}}
+				<select name="system.cost_type" data-dtype="String">
+					{{#select system.cost_type}}
+					{{#each config.select.trait_mod_cost_type as |v k|}}
+					<option value="{{k}}">{{localize (concat "gcsga.select.trait_mod_cost_type." v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+				<select name="system.affects" data-dtype="String">
+					{{#select system.affects}}
+					{{#each config.select.trait_mod_affects as |v k|}}
+					<option value="{{k}}">{{localize (concat "gcsga.select.trait_mod_affects." v)}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+			{{#if (eq system.cost_type "percentage_leveled")}}
+			{{>input-text field="field" label="gcsga.trait.level" name="system.levels" data=system.levels
+			type="Number"}}
+			{{else}}
+			{{>input-text field="field" label="gcsga.trait.level" data=system.levels type="Number" class="disabled"}}
+			{{/if}}
+			{{>input-text field="field" label="gcsga.trait.total" data=document.costDescription class="readonly
+			tabIndex='-1'"}}
+			{{>input-text label="gcsga.trait.tags" field="field" name="system.tags" data=(join system.tags ", ")
+			type="String"}}
+			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference"
+			data=system.reference
+			type="String"}}
+		</div>
+		{{>features}}
+	</div>
+</form>

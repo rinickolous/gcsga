@@ -241,6 +241,36 @@ const GURPSCONFIG: any = {
 			race: "race",
 			alternative_abilities: "alternative_abilities",
 		},
+		difficulty: {
+			e: "easy",
+			a: "average",
+			h: "hard",
+			vh: "very_hard",
+			w: "wildcard",
+		},
+		trait_mod_cost_type: {
+			percentage_leveled: "percentage_leveled",
+			percentage: "percentage",
+			points: "points",
+			multiplier: "multiplier",
+		},
+		trait_mod_affects: {
+			total: "total",
+			base_only: "base_only",
+			levels_only: "levels_only",
+		},
+		eqp_mod_cost_type: {
+			to_original_cost: "to_original_cost",
+			to_base_cost: "to_base_cost",
+			to_final_base_cost: "to_final_base_cost",
+			to_final_cost: "to_final_cost",
+		},
+		eqp_mod_weight_type: {
+			to_original_weight: "to_original_weight",
+			to_base_weight: "to_base_weight",
+			to_final_base_weight: "to_final_base_weight",
+			to_final_weight: "to_final_weight",
+		},
 	},
 };
 // GURPSCONFIG.Item.documentClasses = {};

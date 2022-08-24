@@ -3,14 +3,14 @@
 	<select name="system.features.{{@index}}.match">
 		{{#select this.match}}
 		{{#each config.select.spell_match as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.spell_match." v)}}</option>
+		<option value="{{k}}">{{localize (concat v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
 	<select name="system.features.{{@index}}.name.compare" {{input_lock (neq this.match "all_colleges" )}}>
 		{{#select this.name.compare}}
 		{{#each config.select.string_compare as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.string_compare." v)}}</option>
+		<option value="{{k}}">{{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
@@ -22,8 +22,7 @@
 	<select name="system.features.{{@index}}.tags.compare">
 		{{#select this.tags.compare}}
 		{{#each config.select.string_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.tags"}} {{localize (concat "gcsga.select.string_compare."
-			v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.tags"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>

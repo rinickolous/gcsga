@@ -11,7 +11,7 @@
 				<select name="damage.st" data-dtype="String">
 					{{#select weapon.damage.st}}
 					{{#each config.select.damage_st as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.select.damage_st." v)}}</option>
+					<option value="{{k}}">{{localize v}}</option>
 					{{/each}}
 					{{/select}}
 				</select>

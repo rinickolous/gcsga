@@ -9,8 +9,7 @@
 		<select name="{{path}}.when_tl.compare" data-dtype="String">
 			{{#select this.when_tl.compare}}
 			{{#each config.select.number_compare as |v k|}}
-			<option value="{{k}}">{{localize "gcsga.field_prefix.tech_level"}} {{localize (concat
-				"gcsga.select.number_compare." v)}}</option>
+			<option value="{{k}}">{{localize "gcsga.field_prefix.tech_level"}} {{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
@@ -18,8 +17,8 @@
 		class=(disabled (eq this.when_tl.compare "none"))}}
 		<select name="{{path}}.all" data-dtype="Boolean">
 			{{#select this.all}}
-			{{#each config.select.boolean as |v k|}}
-			<option value="{{k}}">{{localize (concat "gcsga.select.all." v)}}</option>
+			{{#each config.select.has as |v k|}}
+			<option value="{{k}}">{{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
@@ -27,8 +26,8 @@
 		<i class="remove button gcs-trash" data-path="{{path}}"></i>
 		<select name="{{path}}.has" data-dtype="String">
 			{{#select this.has}}
-			{{#each config.select.boolean as |v k|}}
-			<option value="{{k}}">{{localize (concat "gcsga.select.has." v)}}</option>
+			{{#each config.select.has as |v k|}}
+			<option value="{{k}}">{{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
@@ -36,7 +35,7 @@
 		<select class="type" name="{{path}}.type" data-path="{{path}}">
 			{{#select this.type}}
 			{{#each config.select.prereqs as |v k|}}
-			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
+			<option value="{{k}}">{{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
@@ -46,7 +45,7 @@
 		<select name="{{path}}.quantity.compare">
 			{{#select this.quantity.compare}}
 			{{#each config.select.number_compare_strict as |v k|}}
-			<option value="{{k}}">{{localize (concat "gcsga.select.number_compare_strict." v)}}</option>
+			<option value="{{k}}">{{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
@@ -55,7 +54,7 @@
 		<select class="type" name="{{path}}.type" data-path="{{path}}">
 			{{#select this.type}}
 			{{#each config.select.prereqs as |v k|}}
-			<option value="{{k}}">{{localize (concat "gcsga.select.prereqs." v)}}</option>
+			<option value="{{k}}">{{localize v}}</option>
 			{{/each}}
 			{{/select}}
 		</select>

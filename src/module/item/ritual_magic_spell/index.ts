@@ -24,11 +24,11 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	get attribute(): string {
-		return this.system.difficulty.split("/")[0] ?? gid.Intelligence;
+		return this.system.difficulty?.split("/")[0] ?? gid.Intelligence;
 	}
 
 	get difficulty(): string {
-		return this.system.difficulty.split("/")[1] ?? Difficulty.Average;
+		return this.system.difficulty?.split("/")[1] ?? Difficulty.Hard;
 	}
 
 	get powerSource(): string {

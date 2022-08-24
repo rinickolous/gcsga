@@ -11,11 +11,11 @@
 				<select class="type" name="system.features.{{@index}}.type" data-index="{{@index}}">
 					{{#select this.type}}
 					{{#each ../config.select.features as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.select.features." v)}}</option>
+					<option value="{{k}}">{{localize v}}</option>
 					{{/each}}
 					{{#if (eq ../this.type "equipment_container")}}
 					{{#each ../config.select.features as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.select.features." v)}}</option>
+					<option value="{{k}}">{{localize v}}</option>
 					{{/each}}
 					{{/if}}
 					{{/select}}

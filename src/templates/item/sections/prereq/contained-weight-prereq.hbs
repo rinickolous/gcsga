@@ -1,7 +1,7 @@
 <select name="{{path}}.qualifier.compare">
 	{{#select this.qualifier.compare}}
 	{{#each config.select.number_compare_strict as |v k|}}
-	<option value="{{k}}">{{localize (concat "gcsga.select.number_compare_strict." v)}}</option>
+	<option value="{{k}}">{{localize v}}</option>
 	{{/each}}
 	{{/select}}
 </select>

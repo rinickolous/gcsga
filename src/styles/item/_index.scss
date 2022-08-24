@@ -109,6 +109,7 @@
 			grid-row-gap: 0px;
 			font: var(--font-system);
 			white-space: nowrap;
+			translate: 0px -4px;
 		}
 		input.input[type="checkbox"] {
 			appearance: none;
@@ -123,6 +124,7 @@
 			display: grid;
 			place-content: center;
 			filter: none;
+			translate: 0px 4px;
 			&:focus {
 				border: 2px solid rgb(var(--color-focused-editable-border));
 			}

@@ -1,56 +1,63 @@
 <form class="{{cssClass}} gcsga" autocomplete="off">
 	<div id="sheet">
 		<div id="details">
-			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
-			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>input-text field="field" label="gcsga.item.name" name="name" data=item.name type="String"}}
+			{{>textarea field="field" label="gcsga.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			{{>input-text field="field" label="gcsga.trait.tech_level" name="system.tech_level" data=system.tech_level
+			{{>input-text field="field" label="gcsga.item.tech_level" name="system.tech_level" data=system.tech_level
 			type="String"}}
-			{{>input-text field="field" label="gcsga.trait.legality_class" name="system.legality_class"
+			{{>input-text field="field" label="gcsga.item.legality_class" name="system.legality_class"
 			data=system.legality_class type="String"}}
-			<div class="label">{{localize "gcsga.trait.quantity"}}</div>
+			<div class="label">{{localize "gcsga.item.quantity"}}</div>
 			<div class="field no-stretch">
-				{{>input-text field="field" label="gcsga.trait.quantity" name="system.quantity" data=system.quantity
+				{{>input-text field="field" label="gcsga.item.quantity" name="system.quantity" data=system.quantity
 				type="Number"}}
 				<label class="label checkbox-label">
 					<input class="input" type="checkbox" {{checked system.equipped}} />
-					{{localize "gcsga.trait.equipped"}}
+					{{localize "gcsga.item.equipped"}}
 				</label>
 			</div>
-			<div class="label">{{localize "gcsga.trait.value"}}</div>
+			<div class="label">{{localize "gcsga.item.value"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="system.value" data=system.value type="Number"}}
-				<div class="label">{{localize "gcsga.trait.extended_value"}}</div>
+				<div class="label">{{localize "gcsga.item.extended_value"}}</div>
 				{{>input-text data=document.extendedValueFast type="String" class="readonly tabIndex='-1'"}}
 			</div>
-			<div class="label">{{localize "gcsga.trait.weight"}}</div>
+			<div class="label">{{localize "gcsga.item.weight"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="system.weight" data=system.weight type="String"}}
-				<div class="label">{{localize "gcsga.trait.extended_weight"}}</div>
+				<div class="label">{{localize "gcsga.item.extended_weight"}}</div>
 				{{>input-text data=document.extendedWeightFast type="String" class="readonly tabIndex='-1'"}}
 			</div>
-			<div class="label">{{localize "gcsga.trait.uses"}}</div>
+			<div class="label"></div>
+			<div class="field no-stretch">
+				<label class="label checkbox-label">
+					<input class="input" type="checkbox" {{checked system.ignore_weight_for_skills}} />
+					{{localize "gcsga.item.ignore_weight_for_skills"}}
+				</label>
+			</div>
+			<div class="label">{{localize "gcsga.item.uses"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="system.uses" data=system.uses type="Number" class=(input_lock (neq system.max_uses
 				0))}}
-				<div class="label">{{localize "gcsga.trait.max_uses"}}</div>
+				<div class="label">{{localize "gcsga.item.max_uses"}}</div>
 				{{>input-text name="system.max_uses" data=system._maxuses type="Number"}}
 			</div>
-			{{>input-text field="field" label="gcsga.trait.tags" name="system.tags" data=(join system.tags ", ")
+			{{>input-text field="field" label="gcsga.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference" data=system.reference
+			{{>input-text field="field" label="gcsga.item.reference" name="system.reference" data=system.reference
 			type="String"}}
 		</div>
 		{{>prerequisites}}
 		{{>features}}
 		<div id="equipment-modifiers" class="item-list">
 			<div class="header enabled"><i class="gcs-checkmark"></i></div>
-			<div class="header desc">{{localize "gcsga.trait.modifier_desc"}}</div>
-			<div class="header tl">{{localize "gcsga.trait.modifier_tl"}}</div>
-			<div class="header cost">{{localize "gcsga.trait.modifier_cost"}}</div>
-			<div class="header weight">{{localize "gcsga.trait.modifier_weight"}}</div>
-			<div class="header tags">{{localize "gcsga.trait.tags"}}</div>
+			<div class="header desc">{{localize "gcsga.item.modifier_desc"}}</div>
+			<div class="header tl">{{localize "gcsga.item.modifier_tl"}}</div>
+			<div class="header cost">{{localize "gcsga.item.modifier_cost"}}</div>
+			<div class="header weight">{{localize "gcsga.item.modifier_weight"}}</div>
+			<div class="header tags">{{localize "gcsga.item.tags"}}</div>
 			<div class="header reference"><i class="gcs-bookmark"></i></div>
 			{{#each (sort modifiers "sort")}}
 			{{>eqp-mod}}

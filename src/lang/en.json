@@ -1,10 +1,26 @@
 {
+	"ACTOR": {
+		"TypeCharacter": "Character"
+	},
+	"ITEM": {
+		"TypeTrait": "Trait",
+		"TypeTrait_container": "Trait Container",
+		"TypeModifier": "Trait Modifier",
+		"TypeModifier_container": "Trait Modifier Container",
+		"TypeSkill": "Skill",
+		"TypeTechnique": "Technique",
+		"TypeSkill_container": "Skill Container",
+		"TypeSpell": "Spell",
+		"TypeRitual_magic_spell": "Ritual Magic Spell",
+		"TypeSpell_container": "Spell Container",
+		"TypeEquipment": "Equipment",
+		"TypeEquipment_container": "Equipment Container",
+		"TypeEqp_modifier": "Equipment Modifier",
+		"TypeEqp_modifier_container": "Equipment Modifier Container",
+		"TypeNote": "Note",
+		"TypeNote_container": "Note Container"
+	},
 	"gcsga": {
-		"attributes": {
-			"dodge": "Dodge",
-			"parry": "Parry",
-			"block": "Block"
-		},
 		"character": {
 			"portrait": "Portrait",
 			"identity": "Identity",
@@ -37,6 +53,15 @@
 			"pool_of": "of",
 			"copyright": "GCS is copyrighted ©1998-{current_year} by Richard A. Wilkes. All rights reserved",
 			"link": "Link",
+			"cr_reaction": "from others when {trait} is triggered",
+			"cr_adj_display": {
+				"action_penalty": "{penalty} Action Penalty",
+				"reaction_penalty": "{penalty} Reaction Penalty",
+				"fright_check_penalty": "{penalty} Fright Check Penalty",
+				"fright_check_bonus": "{penalty} Fright Check Bonus",
+				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
+				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
+			},
 			"settings": {
 				"import_title": "Import",
 				"import_note": "Select a file exported from GCS.<br><b>This import will overwrite the data for {name}</b>",
@@ -151,7 +176,7 @@
 				"desc": "Note"
 			}
 		},
-		"trait": {
+		"item": {
 			"name": "Name",
 			"enabled": "Enabled",
 			"notes": "Notes",
@@ -163,48 +188,53 @@
 			"round_down": "Round Down",
 			"points_per_level": "Per Level",
 			"levels": "Levels",
+			"level": "Level",
 			"cr": "Self-Control Roll",
 			"cr_adj": "CR Adjustment",
 			"reference": "Page Reference",
 			"modifier_desc": "Trait Modifier",
-			"modifier_cost": "Cost Modifier",
+			"modifier_point_cost": "Cost Modifier",
+			"modifier_tl": "TL",
+			"modifier_cost": "Cost Adjustment",
+			"modifier_weight": "Weight Adjustment",
 			"container_type": "Container Type",
 			"ancestry": "Ancestry",
-			"cr_adj_display": {
-				"action_penalty": "{penalty} Action Penalty",
-				"reaction_penalty": "{penalty} Reaction Penalty",
-				"fright_check_penalty": "{penalty} Fright Check Penalty",
-				"fright_check_bonus": "{penalty} Fright Check Bonus",
-				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
-				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
-			}
+			"specialization": "Specialization",
+			"tech_level": "Tech Level",
+			"tech_level_required": "Required",
+			"epm_before": "Encumbrance Penalty",
+			"epm_after": "times the current encumbrance level",
+			"points": "Points",
+			"difficulty": "Difficulty",
+			"defaults_to": "Default To",
+			"college": "College",
+			"class": "Class",
+			"power_source": "Power Source",
+			"resist": "Resistance",
+			"casting_cost": "Casting Cost",
+			"maintenance_cost": "Maintenance Cost",
+			"casting_time": "Casting Time",
+			"duration": "Duration",
+			"base_skill": "Base Skill",
+			"prereq_count": "Prerequisite Count",
+			"legality_class": "Legality Class",
+			"quantity": "Quantity",
+			"equipped": "Equipped",
+			"value": "Value",
+			"extended_value": "Extended",
+			"weight": "Weight",
+			"extended_weight": "Extended",
+			"ignore_weight_for_skills": "Ignore weight for skills",
+			"uses": "Uses",
+			"max_uses": "Maximum Uses",
+			"limit": "Cannot exceed default skill level by more than",
+			"total": "Total"
 		},
-		"trait_container": {},
-		"trait_modifier": {},
-		"skill": {
-			"level_short": {
-				"e": "E",
-				"a": "A",
-				"h": "H",
-				"vh": "VH",
-				"w": "W"
-			},
-			"level": {
-				"e": "Easy",
-				"a": "Average",
-				"h": "Hard",
-				"vh": "Very Hard",
-				"w": "Wildcard"
-			}
+		"attributes": {
+			"dodge": "Dodge",
+			"parry": "Parry",
+			"block": "Block"
 		},
-		"technique": {},
-		"skill_container": {},
-		"spell": {},
-		"ritual_magic_spell": {},
-		"spell_container": {},
-		"equipment": {},
-		"equipment_modifier": {},
-		"equipment_container": {},
 		"prereq": {
 			"header": "Prerequisites"
 		},
@@ -214,27 +244,50 @@
 			"per_die": "per die",
 			"percent": "as a percentage"
 		},
-		"tooltip": {},
-		"settings": {
-			"basic_set_pdfs": {
-				"name": "Basic Set PDFs",
-				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFoundry. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDFoundry test.",
-				"choices": {
-					"combined": "Combined Basic Set (B)",
-					"separate": "Separate (Characters: B, Campaigns: BX)"
-				}
+		"default": {
+			"header": "Defaults"
+		},
+		"weapon": {
+			"melee_header": "Melee Weapon Usage",
+			"ranged_header": "Ranged Weapon Usage",
+			"usage": "Usage",
+			"notes": "Notes",
+			"strength": "Minimum ST",
+			"damage": {
+				"st": "Base Damage",
+				"base": "Damage Modifier",
+				"modifier_per_die": "Damage Modifier Per Die",
+				"armor_divisor": "Armor Divisor",
+				"type": "Damage Type",
+				"fragmentation": "Fragmentation Base Damage",
+				"fragmentation_armor_divisor": "Fragmentation Armor Divisor",
+				"fragmentation_type": "Fragmentation Type"
 			},
-			"portrait_path": {
-				"name": "Default Portait Path",
-				"hint": "Choose where character portraits are stored (in the global Foundry User Data directory, or the local world directory).",
-				"choices": {
-					"global": "Global ([Foundry User Data]/Data/images/portaits/",
-					"local": "Local ([Foundry User Data]/Data/worlds/[World]/images/portaits/)"
-				}
+			"reach": "Reach",
+			"parry": "Parry Modifier",
+			"block": "Block Modifier",
+			"accuracy": "Accuracy",
+			"rate_of_fire": "Rate of Fire",
+			"range": "Range",
+			"recoil": "Recoil",
+			"shots": "Shots",
+			"bulk": "Bulk"
+		},
+		"roll": {
+			"just_made_it": "Just made it.",
+			"success_margin": "Made it by {margin}.",
+			"failure_margin": "Missed it by {margin}.",
+			"success": {
+				"success": "Success!",
+				"failure": "Failure!",
+				"critical_success": "Critical Success!",
+				"critical_failure": "Critical Failure!"
 			},
-			"portrait_overwrite": {
-				"name": "Overwrite Portraits",
-				"hint": "Choose whether character portraits are overwritten on import"
+			"success_attack": {
+				"success": "Hit!",
+				"failure": "Miss!",
+				"critical_success": "Critical Hit!",
+				"critical_failure": "Critical Miss!"
 			}
 		},
 		"select": {
@@ -353,6 +406,36 @@
 				"meta_trait": "Meta-Trait",
 				"race": "Race",
 				"alternative_abilities": "Alternative Abilities"
+			},
+			"trait_mod_cost_type": {
+				"percentage_leveled": "% per level",
+				"percentage": "%",
+				"points": "points",
+				"multiplier": "×"
+			},
+			"trait_mod_affects": {
+				"total": "to cost",
+				"base_only": "to base cost only",
+				"levels_only": "to leveled cost only"
+			},
+			"eqp_mod_cost_type": {
+				"to_original_cost": "to original cost (e.g. \"+5\", \"-5\", \"+10%\", \"-10%\", \"x3.2\")",
+				"to_base_cost": "to base cost (e.g. \"x2\", \"+2 CF\", \"-0.2 CF\")",
+				"to_final_base_cost": "to final base cost (e.g. \"+5\", \"-5\", \"+10%\", \"-10%\", \"x3.2\")",
+				"to_final_cost": "to final cost (e.g. \"+5\", \"-5\", \"+10%\", \"-10%\", \"x3.2\")"
+			},
+			"eqp_mod_weight_type": {
+				"to_original_weight": "to original weight (e.g. \"+5 lb\", \"-5 lb\", \"+10%\", \"-10%\")",
+				"to_base_weight": "to base weight (e.g. \"+5 lb\", \"-5 lb\", \"x10%\", \"x3\", \"x2/3\")",
+				"to_final_base_weight": "to final base weight (e.g. \"+5 lb\", \"-5 lb\", \"x10%\", \"x3\", \"x2/3\")",
+				"to_final_weight": "to final weight (e.g. \"+5 lb\", \"-5 lb\", \"x10%\", \"x3\", \"x2/3\")"
+			},
+			"difficulty": {
+				"easy": "E",
+				"average": "A",
+				"hard": "H",
+				"very_hard": "VH",
+				"wildcard": "W"
 			}
 		},
 		"field_prefix": {
@@ -376,7 +459,44 @@
 		"system": {
 			"sheet": {
 				"character": "GURPS Character Sheet",
-				"trait": "Trait Sheet"
+				"trait": "Trait Sheet",
+				"trait_container": "Trait Container Sheet",
+				"modifier": "Trait Modifier Sheet",
+				"modifier_container": "Trait Modifier Container Sheet",
+				"skill": "Skill Sheet",
+				"technique": "Technique Sheet",
+				"skill_container": "Skill Container Sheet",
+				"spell": "Spell Sheet",
+				"ritual_magic_spell": "Ritual Magic Spell Sheet",
+				"spell_container": "Spell Container Sheet",
+				"equipment": "Equipment Sheet",
+				"equipment_container": "Equipment Container Sheet",
+				"eqp_modifier": "Equipment Modifier Sheet",
+				"eqp_modifier_container": "Equipment Modifier Container Sheet",
+				"note": "Note Sheet",
+				"note_container": "Note Container Sheet"
+			}
+		},
+		"settings": {
+			"basic_set_pdfs": {
+				"name": "Basic Set PDFs",
+				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFoundry. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDFoundry test.",
+				"choices": {
+					"combined": "Combined Basic Set (B)",
+					"separate": "Separate (Characters: B, Campaigns: BX)"
+				}
+			},
+			"portrait_path": {
+				"name": "Default Portait Path",
+				"hint": "Choose where character portraits are stored (in the global Foundry User Data directory, or the local world directory).",
+				"choices": {
+					"global": "Global ([Foundry User Data]/Data/images/portaits/",
+					"local": "Local ([Foundry User Data]/Data/worlds/[World]/images/portaits/)"
+				}
+			},
+			"portrait_overwrite": {
+				"name": "Overwrite Portraits",
+				"hint": "Choose whether character portraits are overwritten on import"
 			}
 		},
 		"error": {
@@ -389,50 +509,6 @@
 			"modules": {
 				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"
 			}
-		},
-		"weapon": {
-			"usage": "Usage",
-			"notes": "Notes",
-			"strength": "Minimum ST",
-			"damage": {
-				"st": "Base Damage",
-				"base": "Damage Modifier",
-				"modifier_per_die": "Damage Modifier Per Die",
-				"armor_divisor": "Armor Divisor",
-				"type": "Damage Type",
-				"fragmentation": "Fragmentation Base Damage",
-				"fragmentation_armor_divisor": "Fragmentation Armor Divisor",
-				"fragmentation_type": "Fragmentation Type"
-			},
-			"reach": "Reach",
-			"parry": "Parry Modifier",
-			"block": "Block Modifier",
-			"accuracy": "Accuracy",
-			"rate_of_fire": "Rate of Fire",
-			"range": "Range",
-			"recoil": "Recoil",
-			"shots": "Shots",
-			"bulk": "Bulk"
-		},
-		"roll": {
-			"just_made_it": "Just made it.",
-			"success_margin": "Made it by {margin}.",
-			"failure_margin": "Missed it by {margin}.",
-			"success": {
-				"success": "Success!",
-				"failure": "Failure!",
-				"critical_success": "Critical Success!",
-				"critical_failure": "Critical Failure!"
-			},
-			"success_attack": {
-				"success": "Hit!",
-				"failure": "Miss!",
-				"critical_success": "Critical Hit!",
-				"critical_failure": "Critical Miss!"
-			}
-		},
-		"reaction": {
-			"cr": "from others when {trait} is triggered"
 		}
 	}
 }

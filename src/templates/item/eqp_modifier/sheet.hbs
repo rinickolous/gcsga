@@ -6,40 +6,40 @@
 				<label class="checkbox-label">
 					<input class="input" name="system.disabled" type="checkbox" data-dtype="Boolean" {{checked (not
 						system.disabled)}} />
-					{{localize "gcsga.trait.enabled"}}
+					{{localize "gcsga.item.enabled"}}
 				</label>
 			</div>
-			{{>input-text field="field" label="gcsga.trait.name" name="name" data=item.name type="String"}}
-			{{>input-text field="field" label="gcsga.trait.tech_level" name="system.tech_level" data=system.tech_level
+			{{>input-text field="field" label="gcsga.item.name" name="name" data=item.name type="String"}}
+			{{>input-text field="field" label="gcsga.item.tech_level" name="system.tech_level" data=system.tech_level
 			type="String"}}
-			{{>textarea field="field" label="gcsga.trait.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gcsga.trait.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>textarea field="field" label="gcsga.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gcsga.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			<div class="label">{{localize "gcsga.trait.cost"}}</div>
+			<div class="label">{{localize "gcsga.item.cost"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="system.cost" data=system.cost type="String"}}
 				<select name="system.cost_type" data-dtype="String">
 					{{#select system.cost_type}}
 					{{#each config.select.eqp_mod_cost_type as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.select.trait_mod_cost_type." v)}}</option>
+					<option value="{{k}}">{{localize v}}</option>
 					{{/each}}
 					{{/select}}
 				</select>
 			</div>
-			<div class="label">{{localize "gcsga.trait.weight"}}</div>
+			<div class="label">{{localize "gcsga.item.weight"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="system.weight" data=system.weight type="String"}}
 				<select name="system.weight_type" data-dtype="String">
 					{{#select system.weight_type}}
 					{{#each config.select.eqp_mod_weight_type as |v k|}}
-					<option value="{{k}}">{{localize (concat "gcsga.select.trait_mod_weight_type." v)}}</option>
+					<option value="{{k}}">{{localize v}}</option>
 					{{/each}}
 					{{/select}}
 				</select>
 			</div>
-			{{>input-text label="gcsga.trait.tags" field="field" name="system.tags" data=(join system.tags ", ")
+			{{>input-text label="gcsga.item.tags" field="field" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>input-text field="field" label="gcsga.trait.reference" name="system.reference"
+			{{>input-text field="field" label="gcsga.item.reference" name="system.reference"
 			data=system.reference
 			type="String"}}
 		</div>

@@ -3,8 +3,7 @@
 	<select name="system.features.{{@index}}.name.compare" {{input_lock (neq this.selection_type "this_weapon" )}}>
 		{{#select this.name.compare}}
 		{{#each config.select.string_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.skills_with_name"}} {{localize (concat
-			"gcsga.select.string_compare." v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.skills_with_name"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
@@ -17,11 +16,9 @@
 		{{#select this.specialization.compare}}
 		{{#each config.select.string_compare as |v k|}}
 		{{#if (eq ../this.selection_type "skills_with_name")}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.specialization"}}{{localize (concat
-			"gcsga.select.string_compare." v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.specialization"}}{{localize v}}</option>
 		{{else}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.usage"}} {{localize (concat
-			"gcsga.select.string_compare." v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.usage"}} {{localize v}}</option>
 		{{/if}}
 		{{/each}}
 		{{/select}}
@@ -35,8 +32,7 @@
 	<select name="system.features.{{@index}}.tags.compare">
 		{{#select this.tags.compare}}
 		{{#each config.select.string_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.tags"}} {{localize (concat "gcsga.select.string_compare."
-			v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.tags"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>

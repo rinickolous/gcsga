@@ -10,7 +10,7 @@
 	<select name="system.features.{{@index}}.limitation" {{input_lock (eq this.attribute "st" )}}>
 		{{#select this.limitation}}
 		{{#each config.select.st_limitation as |v k|}}
-		<option value="{{k}}">{{localize (concat "gcsga.select.st_limitation." v)}}</option>
+		<option value="{{k}}">{{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>

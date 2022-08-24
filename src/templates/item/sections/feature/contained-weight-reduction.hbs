@@ -19,8 +19,7 @@
 	<select name="{{path}}.qualifier.compare">
 		{{#select this.qualifier.compare}}
 		{{#each config.select.number_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.attribute_level"}} {{localize (concat
-			"gcsga.select.number_compare." v)}}</option>
+		<option value="{{k}}">{{localize "gcsga.field_prefix.attribute_level"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>

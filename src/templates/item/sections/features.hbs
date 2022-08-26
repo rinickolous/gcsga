@@ -22,8 +22,8 @@
 				</select>
 				{{#if (eq this.type "cost_reduction")}}{{>cost-reduction config=../config
 				attributes=../attributes}}{{else}}
-				{{>input-text field="field" name=(concat "system.features." @index ".amount") data=this.amount
-				type="Number"}}
+				{{>input-text field="field" name=(concat "NUMBER.system.features." @index ".amount") data=this.amount
+				type="String"}}
 				{{#if (eq this.type "weapon_bonus")}}
 				<div class="field">
 					<label class="checkbox-label">

@@ -49,6 +49,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		if (!!formData["actor.unspentPoints"]) {
 			formData["system.total_points"] = (formData["actor.unspentPoints"] as number) + this.actor.spentPoints;
 			delete formData["actor.unspentPoints"];
+			console.log("character", formData);
 		}
 		return super._updateObject(event, formData);
 	}

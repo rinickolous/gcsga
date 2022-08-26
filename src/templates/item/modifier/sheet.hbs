@@ -15,7 +15,7 @@
 			type="String"}}
 			<div class="label">{{localize "gcsga.item.point_cost"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.cost" data=system.cost type="Number"}}
+				{{>input-text name="NUMBER.system.cost" data=system.cost type="String"}}
 				<select name="system.cost_type" data-dtype="String">
 					{{#select system.cost_type}}
 					{{#each config.select.trait_mod_cost_type as |v k|}}
@@ -32,10 +32,10 @@
 				</select>
 			</div>
 			{{#if (eq system.cost_type "percentage_leveled")}}
-			{{>input-text field="field" label="gcsga.item.level" name="system.levels" data=system.levels
-			type="Number"}}
+			{{>input-text field="field" label="gcsga.item.level" name="NUMBER.system.levels" data=system.levels
+			type="String"}}
 			{{else}}
-			{{>input-text field="field" label="gcsga.item.level" data=system.levels type="Number" class="disabled"}}
+			{{>input-text field="field" label="gcsga.item.level" data=system.levels class="disabled"}}
 			{{/if}}
 			{{>input-text field="field" label="gcsga.item.total" data=document.costDescription class="readonly
 			tabIndex='-1'"}}

@@ -11,7 +11,7 @@
 				<select name="damage.st" data-dtype="String">
 					{{#select weapon.damage.st}}
 					{{#each config.select.damage_st as |v k|}}
-					<option value="{{k}}">{{localize v}}</option>
+					<option value="{{k}}">{{ localize v}}</option>
 					{{/each}}
 					{{/select}}
 				</select>
@@ -19,16 +19,18 @@
 			{{>input-text field="field" label="gcsga.weapon.damage.base" name="damage.base" data=(diceString
 			weapon.damage.base)
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.modifier_per_die" name="damage.modifier_per_die"
-			data=weapon.damage.modifier_per_die type="Number"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.armor_divisor" name="damage.armor_divisor"
-			data=weapon.damage.armor_divisor type="Number"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.modifier_per_die"
+			name="NUMBER.damage.modifier_per_die"
+			data=weapon.damage.modifier_per_die type="String"}}
+			{{>input-text field="field" label="gcsga.weapon.damage.armor_divisor" name="NUMBER.damage.armor_divisor"
+			data=weapon.damage.armor_divisor type="String"}}
 			{{>input-text field="field" label="gcsga.weapon.damage.type" name="damage.type" data=weapon.damage.type
 			type="String"}}
 			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation" name="damage.fragmentation"
 			data=weapon.damage.fragmentation type="String"}}
 			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_armor_divisor"
-			name="damage.fragmentation_armor_divisor" data=weapon.damage.fragmentation_armor_divisor type="Number"}}
+			name="NUMBER.damage.fragmentation_armor_divisor" data=weapon.damage.fragmentation_armor_divisor
+			type="String"}}
 			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_type" name="damage.fragmentation_type"
 			data=weapon.damage.fragmentation_type type="String"}}
 			{{>input-text field="field" label="gcsga.weapon.reach" name="reach" data=weapon.reach type="String"}}

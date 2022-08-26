@@ -1,6 +1,5 @@
 # TO DO
 ## In Progress
-- Base item sheets
 - Roll chat templates
 ## Sheets & Styling
 - Weapon sections
@@ -28,6 +27,9 @@
 	- Toggleable sidebar button
 	- Affects clicked on tokens / current map / current character
 - Active Effects with Features
+- Incorporate v10 tooltip API
+- Skill Defaults from compendium
+- @@ notation dialog box for items
 ## Small Features, Changes & Fixes
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
@@ -35,3 +37,4 @@
 - Editing unspent points does not change total
 - Add "children" section to sheets for items which can have children
 - Nested items cannot be dragged to item list
+- Values of "0" are turned into empty strings ""

@@ -35,11 +35,11 @@
 					{{/select}}
 				</select>
 				<div class="label">{{localize "gcsga.item.prereq_count"}}</div>
-				{{>input-text name="system.prereq_count" data=system.prereq_count type="Number"}}
+				{{>input-text name="NUMBER.system.prereq_count" data=system.prereq_count type="String"}}
 			</div>
 			<div class="label">{{localize "gcsga.item.points"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.points" data=system.points type="Number"}}
+				{{>input-text name="NUMBER.system.points" data=system.points type="String"}}
 				<div class="label">{{localize "gcsga.item.level"}}</div>
 				{{>input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}

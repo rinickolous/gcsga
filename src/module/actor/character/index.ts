@@ -587,7 +587,6 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (!!attr.damage) a[attr_id]["damage"] = attr.damage;
 			i++;
 		}
-		console.log(a);
 		return a;
 	}
 

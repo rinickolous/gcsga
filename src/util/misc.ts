@@ -16,6 +16,7 @@ export function i18n_f(value: string, data: Record<string, unknown>, fallback?: 
 }
 
 export function signed(i: string | number): string {
+	if (i == "") i = "0";
 	if (typeof i == "string") i = parseFloat(i);
 	if (i >= 0) return "+" + i.toString();
 	return i.toString();
@@ -193,4 +194,13 @@ export function toWord(n: number): string {
 		default:
 			return "d6";
 	}
+}
+
+export function removeAccents(str: string): string {
+	return str
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "") // Remove accents
+		.replace(/([^\w]+|\s+)/g, "-") // Replace space and other characters by hyphen
+		.replace(/\-\-+/g, "-") // Replaces multiple hyphens by one hyphen
+		.replace(/(^-+|-+$)/g, "");
 }

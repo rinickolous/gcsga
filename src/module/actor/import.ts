@@ -26,7 +26,7 @@ import { SYSTEM_NAME } from "@module/settings";
 import { SkillDefault } from "@module/skill-default";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
-import { i18n, i18n_f, newUUID } from "@util";
+import { i18n, i18n_f, newUUID, removeAccents } from "@util";
 import { CharacterDataGURPS, CharacterSystemData } from "./character/data";
 
 export interface CharacterImportedData extends Omit<CharacterSystemData, "attributes"> {
@@ -155,12 +155,14 @@ export class ActorImporter {
 					continue;
 				}
 			}
-			const filename = `${profile.name}_${this.document.id}_portrait.png`.replaceAll(" ", "_");
+			const filename = `${removeAccents(profile.name)}_${this.document.id}_portrait.png`.replaceAll(" ", "_");
 			const url = `data:image/png;base64,${profile.portrait}`;
+			console.log(filename);
 			await fetch(url)
 				.then(res => res.blob())
 				.then(blob => {
 					const file = new File([blob], filename);
+					console.log(file);
 					// TODO: get rid of as any when new types version drops
 					(FilePicker as any).upload("data", path, file, {}, { notify: false });
 				});

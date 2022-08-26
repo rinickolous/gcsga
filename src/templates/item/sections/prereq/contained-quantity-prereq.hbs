@@ -5,5 +5,5 @@
 	{{/each}}
 	{{/select}}
 </select>
-{{>input-text field="field" name=(concat path ".quantity.qualifier") data=this.quantity.qualifier
-type="Number"}}
+{{>input-text field="field" name=(concat "NUMBER." path ".quantity.qualifier") data=this.quantity.qualifier
+type="String"}}

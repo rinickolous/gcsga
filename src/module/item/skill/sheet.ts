@@ -28,10 +28,21 @@ export class SkillSheet extends ItemSheetGURPS {
 		super.activateListeners(html);
 	}
 
-	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
+	protected _updateObject(event: Event, formData: any): Promise<unknown> {
+		console.log("foobar", event, formData);
+		console.trace();
+		const checkem: any = {};
 		const attribute = formData["attribute"] ?? (this.item as SkillGURPS).attribute;
 		const difficulty = formData["difficulty"] ?? (this.item as SkillGURPS).difficulty;
 		formData["system.difficulty"] = `${attribute}/${difficulty}`;
+		formData["test"] = 1;
+		formData["test2"] = 0;
+		checkem["test3"] = 1;
+		checkem["system.encumbrance_penalty_multiplier"] = 0;
+		console.log(formData);
+		console.log(checkem);
+		const newFormData = { ...formData, ...checkem };
+		console.log(newFormData);
 		delete formData["attribute"];
 		delete formData["difficulty"];
 		return super._updateObject(event, formData);

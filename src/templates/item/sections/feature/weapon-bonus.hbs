@@ -57,7 +57,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".level.qualifier")
-	data=this.level.qualifier type="Number" class=(input_lock (neq this.level.compare "none"))}}
+	{{>input-text field="field" name=(concat "NUMBER.system.features." @index ".level.qualifier")
+	data=this.level.qualifier type="String" class=(input_lock (neq this.level.compare "none"))}}
 </div>
 {{/if}}

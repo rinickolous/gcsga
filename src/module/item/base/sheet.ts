@@ -128,6 +128,11 @@ export class ItemSheetGURPS extends ItemSheet {
 			if (value == "false") formData[key] = false;
 			if (value == "true") formData[key] = true;
 			if (value == "\n") formData[key] = "";
+			// HACK: values of 0 are replaced with empty strings. this fixes it, but it's messy
+			if (key.startsWith("NUMBER.")) {
+				formData[key.replace("NUMBER.", "")] = parseFloat(value);
+				delete formData[key];
+			}
 		}
 		return super._updateObject(event, formData);
 	}

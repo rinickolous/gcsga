@@ -179,6 +179,7 @@ export function registerHandlebarsHelpers() {
 	// });
 
 	Handlebars.registerHelper("in", function (total: string, sub: string): boolean {
+		if (!total) total = "";
 		return total.includes(sub);
 	});
 

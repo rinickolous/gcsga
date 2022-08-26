@@ -35,7 +35,7 @@
 				</select>
 				{{>input-text name="system.default.name" data=system.default.name type="String"}}
 				{{>input-text name="system.default.specialization" data=system.default.specialization type="String"}}
-				{{>input-text name="system.default.modifier" data=system.default.modifier type="Number"}}
+				{{>input-text name="NUMBER.system.default.modifier" data=system.default.modifier type="String"}}
 			</div>
 			<div class="label"></div>
 			<div class="field no-stretch">
@@ -45,9 +45,9 @@
 					{{localize "gcsga.item.limit"}}
 				</label>
 				{{#if system.limited}}
-				{{>input-text name="system.limit" data=system.limit type="Number"}}
+				{{>input-text name="NUMBER.system.limit" data=system.limit type="String"}}
 				{{else}}
-				{{>input-text name="system.limit" data=system.limit type="Number" class="disabled"}}
+				{{>input-text name="NUMBER.system.limit" data=system.limit type="String" class="disabled"}}
 				{{/if}}
 			</div>
 			<div class="label">{{localize "gcsga.item.difficulty"}}</div>
@@ -62,7 +62,7 @@
 			</div>
 			<div class="label">{{localize "gcsga.item.points"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.points" data=system.points type="Number"}}
+				{{>input-text name="NUMBER.system.points" data=system.points type="String"}}
 				<div class="label">{{localize "gcsga.item.level"}}</div>
 				{{>input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}

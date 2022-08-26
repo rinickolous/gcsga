@@ -69,7 +69,8 @@
 				outline: none;
 			}
 		}
-		.input[type="text"] {
+		.input[type="text"],
+		.input[type="number"] {
 			font: var(--font-field);
 			height: 24px;
 			width: 100%;

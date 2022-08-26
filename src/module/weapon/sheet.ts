@@ -3,10 +3,10 @@ import { ItemGURPS } from "@item";
 import { Attribute } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 import { SYSTEM_NAME } from "@module/settings";
-import { toArray } from "@util";
+import { i18n, toArray } from "@util";
 import { Weapon } from ".";
 
-export class WeaponSheet extends DocumentSheetConfig {
+export class WeaponSheet extends FormApplication {
 	constructor(object: ItemGURPS, options: any = {}, index: number) {
 		super(object, options);
 		this.index = index;
@@ -32,8 +32,12 @@ export class WeaponSheet extends DocumentSheetConfig {
 			submitOnChange: true,
 			submitOnClose: true,
 			closeOnSubmit: false,
-			title: "TODO change me",
+			popOut: true,
 		});
+	}
+
+	get title(): string {
+		return `${this.object.name} - ${this.weapon.usage || i18n("gcsga.weapon.usage") + " " + this.index}`;
 	}
 
 	getData(options?: Partial<FormApplicationOptions> | undefined): any {
@@ -82,10 +86,16 @@ export class WeaponSheet extends DocumentSheetConfig {
 
 		const weaponList: Weapon[] = toArray(duplicate(getProperty(this.object, "system.weapons")));
 		for (const [k, v] of Object.entries(formData)) {
+			// HACK: values of 0 are replaced with empty strings. this fixes it, but it's messy
+			if (k.startsWith("NUMBER.")) {
+				formData[k.replace("NUMBER.", "")] = parseFloat(`${v}`);
+				delete formData[k];
+			}
+		}
+		for (const [k, v] of Object.entries(formData)) {
 			setProperty(weaponList[this.index], k, v);
 		}
 
-		console.log(formData);
 		return this.object.update({ "system.weapons": weaponList });
 	}
 
@@ -126,7 +136,7 @@ export class WeaponSheet extends DocumentSheetConfig {
 	}
 }
 
-export interface WeaponSheet extends DocumentSheetConfig {
+export interface WeaponSheet extends FormApplication {
 	object: ItemGURPS;
 	index: number;
 	weapon: Weapon;

@@ -30,6 +30,11 @@ export class EquipmentGURPS extends ContainerGURPS {
 		return parseFloat(this.system.weight);
 	}
 
+	get weightString(): string {
+		// TODO: change to default unit
+		return this.weight + " lb";
+	}
+
 	get enabled(): boolean {
 		return this.equipped;
 	}

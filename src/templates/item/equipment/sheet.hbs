@@ -11,8 +11,7 @@
 			data=system.legality_class type="String"}}
 			<div class="label">{{localize "gcsga.item.quantity"}}</div>
 			<div class="field no-stretch">
-				{{>input-text field="field" label="gcsga.item.quantity" name="system.quantity" data=system.quantity
-				type="Number"}}
+				{{>input-text field="field" name="NUMBER.system.quantity" data=system.quantity type="String"}}
 				<label class="label checkbox-label">
 					<input class="input" type="checkbox" {{checked system.equipped}} />
 					{{localize "gcsga.item.equipped"}}
@@ -20,13 +19,13 @@
 			</div>
 			<div class="label">{{localize "gcsga.item.value"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.value" data=system.value type="Number"}}
+				{{>input-text name="NUMBER.system.value" data=system.value type="String"}}
 				<div class="label">{{localize "gcsga.item.extended_value"}}</div>
 				{{>input-text data=document.extendedValueFast type="String" class="readonly tabIndex='-1'"}}
 			</div>
 			<div class="label">{{localize "gcsga.item.weight"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.weight" data=system.weight type="String"}}
+				{{>input-text name="system.weight" data=document.weightString type="String"}}
 				<div class="label">{{localize "gcsga.item.extended_weight"}}</div>
 				{{>input-text data=document.extendedWeightFast type="String" class="readonly tabIndex='-1'"}}
 			</div>
@@ -39,10 +38,11 @@
 			</div>
 			<div class="label">{{localize "gcsga.item.uses"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.uses" data=system.uses type="Number" class=(input_lock (neq system.max_uses
+				{{>input-text name="NUMBER.system.uses" data=system.uses type="String" class=(input_lock (neq
+				system.max_uses
 				0))}}
 				<div class="label">{{localize "gcsga.item.max_uses"}}</div>
-				{{>input-text name="system.max_uses" data=system._maxuses type="Number"}}
+				{{>input-text name="NUMBER.system.max_uses" data=system._max_uses type="String"}}
 			</div>
 			{{>input-text field="field" label="gcsga.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}

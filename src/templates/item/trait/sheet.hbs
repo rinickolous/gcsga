@@ -19,7 +19,7 @@
 			type="String"}}
 			<div class="label">{{localize "gcsga.item.point_cost"}}</div>
 			<div class="field no-stretch">
-				{{>input-text data=document.adjustedPoints type="Number" class="readonly tabIndex='-1'"}}
+				{{>input-text data=document.adjustedPoints class="readonly tabIndex='-1'"}}
 				<label class="label checkbox-label">
 					<input class="input" type="checkbox" checked />
 					{{localize "gcsga.item.round_down"}}
@@ -27,15 +27,15 @@
 			</div>
 			<div class="label">{{localize "gcsga.item.base_cost"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="system.base_points" data=system.base_points type="Number"}}
-				{{>input-text label="gcsga.item.points_per_level" name="system.points_per_level"
-				data=system.points_per_level type="Number"}}
-				{{>input-text label="gcsga.item.levels" name="system.levels" data=system.levels type="Number"
+				{{>input-text name="NUMBER.system.base_points" data=system.base_points type="String"}}
+				{{>input-text label="gcsga.item.points_per_level" name="NUMBER.system.points_per_level"
+				data=system.points_per_level type="String"}}
+				{{>input-text label="gcsga.item.levels" name="NUMBER.system.levels" data=system.levels type="String"
 				class=(input_lock system.points_per_level)}}
 			</div>
 			<div class="label">{{localize "gcsga.item.cr"}}</div>
 			<div class="field">
-				<select name="system.cr" data-dtype="Number">
+				<select name="NUMBER.system.cr" data-dtype="String">
 					{{#select system.cr}}
 					{{#each config.select.cr_level as |v k|}}
 					<option value="{{k}}">{{localize v}}</option>

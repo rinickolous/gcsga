@@ -1,6 +1,10 @@
 # TO DO
 ## In Progress
 - Roll chat templates
+- Roll Functionality
+	- ChatCommand for rolling
+	- Modifier parsing
+	- Modifier stack set by flags
 ## Sheets & Styling
 - Weapon sections
 - Global Foundry styling
@@ -8,9 +12,6 @@
 - (compact) NPC sheet
 - GCSGA character settings form
 ## Large Features
-- Roll Functionality
-	- ChatCommand for rolling
-	- Modifier parsing
 - Manual Light & Dark Mode
 - Vehicles
 	- Spaceships
@@ -30,6 +31,7 @@
 - Incorporate v10 tooltip API
 - Skill Defaults from compendium
 - @@ notation dialog box for items
+- Skill modifiers based on TL
 ## Small Features, Changes & Fixes
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
@@ -37,4 +39,6 @@
 - Editing unspent points does not change total
 - Add "children" section to sheets for items which can have children
 - Nested items cannot be dragged to item list
-- Values of "0" are turned into empty strings ""
+- Tech Level Modifiers (B168)
+- rename to TOGGA (The Other GURPS Game Aid)
+- mods persistent after closing

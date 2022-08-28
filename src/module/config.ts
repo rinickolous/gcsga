@@ -37,10 +37,12 @@ import { PrereqList } from "@prereq/prereq_list";
 import { SkillPrereq } from "@prereq/skill_prereq";
 import { SpellPrereq } from "@prereq/spell_prereq";
 import { TraitPrereq } from "@prereq/trait_prereq";
+import { rollModifiers } from "./data";
 import { MeleeWeapon, RangedWeapon } from "./weapon";
 
 // const GURPSCONFIG: any = CONFIG;
 const GURPSCONFIG: any = {
+	modifiers: rollModifiers,
 	Item: {
 		documentClasses: {
 			base: BaseItemGURPS,

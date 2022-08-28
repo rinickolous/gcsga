@@ -1,0 +1,104 @@
+#modifier-app {
+	display: grid;
+	pointer-events: auto;
+	height: 52px;
+	font: var(--font-system);
+	font-size: var(--font-size-20);
+	color: rgb(var(--color-on-control));
+	background-color: rgba(var(--color-control), 0.8);
+	border: 2px solid rgb(var(--color-control-edge));
+	border-radius: 2px;
+	padding: 10px;
+	align-items: center;
+}
+
+#modifier-app-window {
+	position: absolute;
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: 5px;
+	grid-template:
+		"none list"
+		"bar list";
+	align-items: end;
+	.searchbar {
+		grid-area: bar;
+		font: var(--font-field);
+		height: 24px;
+		min-width: 180px;
+		background-color: rgba(var(--color-editable), 0.8);
+		color: rgb(var(--color-on-editable));
+		padding: 1px 3px;
+		border: 1px solid rgba(var(--color-editable-border), 1);
+		border-radius: 0;
+		&:focus {
+			box-shadow: none;
+			border: 2px solid rgb(var(--color-focused-editable-border));
+			padding: 0 2px;
+		}
+	}
+	#applied-mods {
+		grid-area: list;
+		border: 1px solid rgb(var(--color-header));
+		border-radius: 0;
+		margin-bottom: 1px;
+		> div {
+			display: grid;
+			grid-auto-flow: column;
+			justify-content: space-between;
+			background-color: rgba(var(--color-content), 0.8);
+			color: rgb(var(--color-on-content));
+			height: 24px;
+			padding: 1px 3px;
+			font: var(--font-field);
+			&.title {
+				background-color: rgba(var(--color-header), 0.8);
+				color: rgb(var(--color-on-header));
+				justify-content: space-around;
+			}
+		}
+		:not(.title):nth-child(2n + 1) {
+			background-color: rgba(var(--color-banding), 0.8);
+			color: rgb(var(--color-on-banding));
+		}
+	}
+}
+
+#modifier-app-list {
+	position: absolute;
+	display: flex;
+	flex-direction: column-reverse;
+	border: 2px solid rgb(var(--color-focused-editable-border));
+	border-bottom: none;
+	min-width: 180px;
+	width: max-content;
+	> div {
+		display: grid;
+		grid-auto-flow: column;
+		background-color: rgba(var(--color-content), 0.8);
+		color: rgb(var(--color-on-content));
+		height: 24px;
+		width: 100%;
+		white-space: nowrap;
+		padding: 1px 3px;
+		font: var(--font-field);
+		justify-content: space-between;
+		.fas {
+			background-color: transparent;
+			color: limegreen;
+			align-self: center;
+		}
+	}
+	:nth-child(2n + 1) {
+		background-color: rgba(var(--color-banding), 0.8);
+		color: rgb(var(--color-on-banding));
+	}
+	.selected {
+		background-color: rgba(var(--color-selection), 0.8);
+		color: rgba(var(--color-on-selection), 0.8);
+	}
+}
+
+#ui-bottom > div {
+	justify-content: unset;
+}

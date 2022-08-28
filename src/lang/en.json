@@ -475,6 +475,11 @@
 				"eqp_modifier_container": "Equipment Modifier Container Sheet",
 				"note": "Note Sheet",
 				"note_container": "Note Container Sheet"
+			},
+			"modifier_stack": {
+				"no_mods": "No modifiers currently active.",
+				"active_title": "Active Modifiers",
+				"pin_prompt": "Press Up for Pinned Modifiers"
 			}
 		},
 		"settings": {
@@ -508,7 +513,8 @@
 			},
 			"modules": {
 				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"
-			}
+			},
+			"modifier_app_load_failed": "Failed to initialize the Modifier Stack App."
 		}
 	}
 }

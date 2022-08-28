@@ -149,3 +149,112 @@ export enum RollType {
 	Damage = "damage",
 	Modifier = "modifier",
 }
+
+export interface RollModifier {
+	name: string;
+	modifier: number;
+	tags: string[];
+}
+
+export const rollModifiers: RollModifier[] = [
+	{
+		name: "Eye",
+		modifier: -9,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Skull",
+		modifier: -7,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Face",
+		modifier: -5,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Right Leg",
+		modifier: -2,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Right Leg",
+		modifier: -2,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Torso",
+		modifier: 0,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Groin",
+		modifier: -3,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Left Arm",
+		modifier: -2,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Left Leg",
+		modifier: -2,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Hand",
+		modifier: -4,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Foot",
+		modifier: -4,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Neck",
+		modifier: -5,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Vitals",
+		modifier: -3,
+		tags: ["hit_location"],
+	},
+	{
+		name: "Shooting through light cover",
+		modifier: -2,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Target behind someone else (per intervening figure)",
+		modifier: -4,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Target crouching, kneeling, sitting, or lying down",
+		modifier: -2,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Target only partly exposed",
+		modifier: -2,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Laser sight",
+		modifier: +1,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Scope (per second of Aim, Max: Scope Acc)",
+		modifier: +1,
+		tags: ["ranged_combat"],
+	},
+	{
+		name: "Unfamiliar weapon or targeting system",
+		modifier: -2,
+		tags: ["ranged_combat"],
+	},
+];

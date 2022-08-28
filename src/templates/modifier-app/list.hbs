@@ -1,0 +1,10 @@
+<div id="modifier-app-list" class="{{cssClass}}" autocomplete="off">
+	{{#if mods}}
+	{{#each mods}}
+	<div {{#if (eq ../selection @index)}}class="selected" {{/if}}>{{signed this.modifier}}: {{this.name}}{{#if
+		this.pinned}}<i class="fas fa-thumbtack"></i>{{/if}}</div>
+	{{/each}}
+	{{else}}
+	<div>{{localize "gcsga.system.modifier_stack.pin_prompt"}}</div>
+	{{/if}}
+</div>

@@ -54,6 +54,7 @@ import { EquipmentSheet } from "@item/equipment/sheet";
 import { RitualMagicSpellSheet } from "@item/ritual_magic_spell/sheet";
 import { SpellSheet } from "@item/spell/sheet";
 import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
+import { ModifierApp } from "./mod_stack/app";
 
 Error.stackTraceLimit = Infinity;
 
@@ -72,6 +73,7 @@ GURPS.dice = DiceGURPS;
 
 // Initialize system
 Hooks.once("init", async () => {
+	// CONFIG.debug.hooks = true;
 	console.log(`${SYSTEM_NAME} | Initializing ${SYSTEM_NAME}`);
 	console.log("%c" + GURPS.BANNER, "color:green");
 	console.log("%c" + GURPS.LEGAL, "color:yellow");
@@ -181,6 +183,8 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: i18n("gcsga.system.sheet.character"),
 	});
+
+	GURPS.ModifierApp = new ModifierApp();
 });
 
 // Setup system
@@ -205,7 +209,11 @@ Hooks.once("ready", async () => {
 			actor.prepareData();
 		}),
 	);
+
+	// Render modifier app after user object loaded to avoid old data
+	GURPS.ModifierApp.render(true);
 });
 
 // Add any additional hooks if necessary
 Hooks.on("renderChatMessage", (app, html, data) => Chat.addChatListeners(html));
+// Hooks.on("updateActor", (test: any) => console.warn(test));

@@ -1,3 +1,4 @@
+{{#if (or mods pinnedMods)}}
 <div id="modifier-app-list" class="{{cssClass}}" autocomplete="off">
 	{{#if mods}}
 	{{#each mods}}
@@ -5,6 +6,11 @@
 		this.pinned}}<i class="fas fa-thumbtack"></i>{{/if}}</div>
 	{{/each}}
 	{{else}}
+	{{#if pinnedMods}}
 	<div>{{localize "gcsga.system.modifier_stack.pin_prompt"}}</div>
 	{{/if}}
+	{{/if}}
 </div>
+{{else}}
+<div></div>
+{{/if}}

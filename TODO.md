@@ -4,7 +4,6 @@
 - Roll Functionality
 	- ChatCommand for rolling
 	- Modifier parsing
-	- Modifier stack set by flags
 ## Sheets & Styling
 - Weapon sections
 - Global Foundry styling
@@ -41,4 +40,3 @@
 - Nested items cannot be dragged to item list
 - Tech Level Modifiers (B168)
 - rename to TOGGA (The Other GURPS Game Aid)
-- mods persistent after closing

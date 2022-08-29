@@ -17,7 +17,12 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("camelcase", function (s) {
 		let n = "";
 		s.split(" ").forEach((word: string) => {
-			n = n + `<span class="first-letter">${word.substring(0, 1)}</span>${word.substring(1)} `;
+			n =
+				n +
+				`<span class="first-letter">${word.substring(
+					0,
+					1,
+				)}</span>${word.substring(1)} `;
 		});
 		return n;
 	});
@@ -34,6 +39,7 @@ export function registerHandlebarsHelpers() {
 		let val = false;
 		args.forEach(arg => {
 			if (arg && typeof arg != "object") val = true;
+			if (Array.isArray(arg) && arg.length) val = true;
 		});
 		return val;
 	});
@@ -70,21 +76,27 @@ export function registerHandlebarsHelpers() {
 		return !!a.length;
 	});
 
-	Handlebars.registerHelper("blockLayout", function (a: Array<string>, items: any) {
-		if (!a) return "";
-		let outStr = ``;
-		let line_length = 2;
-		for (const value of a) {
-			let line = value.split(" ");
-			if (line.length > line_length) line_length = line.length;
-			line = line.filter((e: string) => !!items[e]?.length);
-			if (!!line.length) {
-				if (line_length > line.length) line = line.concat(Array(line_length - line.length).fill(line[0]));
-				outStr += `\n"${line.join(" ")}"`;
+	Handlebars.registerHelper(
+		"blockLayout",
+		function (a: Array<string>, items: any) {
+			if (!a) return "";
+			let outStr = ``;
+			let line_length = 2;
+			for (const value of a) {
+				let line = value.split(" ");
+				if (line.length > line_length) line_length = line.length;
+				line = line.filter((e: string) => !!items[e]?.length);
+				if (!!line.length) {
+					if (line_length > line.length)
+						line = line.concat(
+							Array(line_length - line.length).fill(line[0]),
+						);
+					outStr += `\n"${line.join(" ")}"`;
+				}
 			}
-		}
-		return outStr;
-	});
+			return outStr;
+		},
+	);
 
 	Handlebars.registerHelper("json", function (a: any) {
 		return JSON.stringify(a);
@@ -107,12 +119,15 @@ export function registerHandlebarsHelpers() {
 		return outArr;
 	});
 
-	Handlebars.registerHelper("indent", function (i: ItemGURPS | number, init = -6, step = 12): string {
-		let sum = init;
-		if (typeof i == "number") sum += step * i;
-		else sum += step * (i.parentCount ?? 0);
-		return `style=\"padding-left: ${sum}px;\"`;
-	});
+	Handlebars.registerHelper(
+		"indent",
+		function (i: ItemGURPS | number, init = -6, step = 12): string {
+			let sum = init;
+			if (typeof i == "number") sum += step * i;
+			else sum += step * (i.parentCount ?? 0);
+			return `style=\"padding-left: ${sum}px;\"`;
+		},
+	);
 
 	Handlebars.registerHelper("spellValues", function (i: SpellGURPS): string {
 		const values = {
@@ -125,7 +140,8 @@ export function registerHandlebarsHelpers() {
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
-			if (v && v != "-") list.push(`${i18n("gcsga.character.spells." + k)}: ${v}`);
+			if (v && v != "-")
+				list.push(`${i18n("gcsga.character.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});
@@ -135,17 +151,29 @@ export function registerHandlebarsHelpers() {
 		return "";
 	});
 
-	Handlebars.registerHelper("getMove", function (c: CharacterGURPS, level: Encumbrance): number {
-		return c.move(level);
-	});
+	Handlebars.registerHelper(
+		"getMove",
+		function (c: CharacterGURPS, level: Encumbrance): number {
+			return c.move(level);
+		},
+	);
 
-	Handlebars.registerHelper("getDodge", function (c: CharacterGURPS, level: Encumbrance): number {
-		return c.dodge(level);
-	});
+	Handlebars.registerHelper(
+		"getDodge",
+		function (c: CharacterGURPS, level: Encumbrance): number {
+			return c.dodge(level);
+		},
+	);
 
 	Handlebars.registerHelper("date", function (str: string): string {
 		const date = new Date(str);
-		const options: any = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+		const options: any = {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+		};
 		options.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		return date.toLocaleString("en-US", options);
 	});
@@ -153,7 +181,11 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("length", function (...args: any[]): number {
 		let length = 0;
 		for (const a of args) {
-			if ((typeof a == "number" || typeof a == "string") && `${a}`.length > length) length = `${a}`.length;
+			if (
+				(typeof a == "number" || typeof a == "string") &&
+				`${a}`.length > length
+			)
+				length = `${a}`.length;
 		}
 		return length;
 	});
@@ -178,17 +210,23 @@ export function registerHandlebarsHelpers() {
 	// 	return "";
 	// });
 
-	Handlebars.registerHelper("in", function (total: string, sub: string): boolean {
-		if (!total) total = "";
-		return total.includes(sub);
-	});
+	Handlebars.registerHelper(
+		"in",
+		function (total: string, sub: string): boolean {
+			if (!total) total = "";
+			return total.includes(sub);
+		},
+	);
 
 	// may be temporary
 	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
 		return new DiceGURPS(d).stringExtra(false);
 	});
 
-	Handlebars.registerHelper("sort", function (list: any[], key: string): any[] {
-		return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
-	});
+	Handlebars.registerHelper(
+		"sort",
+		function (list: any[], key: string): any[] {
+			return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
+		},
+	);
 }

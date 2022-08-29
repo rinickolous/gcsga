@@ -1,18 +1,21 @@
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
-import { ModifierAppWindow } from "./app_window";
+import { ModifierWindow } from "./window";
 
-export class ModifierApp extends Application {
+export class ModifierButton extends Application {
 	constructor(options = {}) {
 		super(options);
 		console.trace("Create ModifierApp");
 
 		this.showing = false;
-		this.window = new ModifierAppWindow(this, {});
+		this.window = new ModifierWindow(this, {});
 	}
 
-	async render(force?: boolean | undefined, options?: Application.RenderOptions<ApplicationOptions> | undefined): Promise<unknown> {
+	async render(
+		force?: boolean | undefined,
+		options?: Application.RenderOptions<ApplicationOptions> | undefined,
+	): Promise<unknown> {
 		await this.recalculateModTotal((game as Game).user);
 		return super.render(force, options);
 	}
@@ -22,9 +25,9 @@ export class ModifierApp extends Application {
 			popOut: false,
 			minimizable: false,
 			resizable: false,
-			id: "ModifierApp",
+			id: "ModifierButton",
 			template: `systems/${SYSTEM_NAME}/templates/modifier-app/button.hbs`,
-			classes: ["modifier-app"],
+			classes: ["modifier-button"],
 		});
 	}
 
@@ -61,10 +64,14 @@ export class ModifierApp extends Application {
 		}
 	}
 
-	async recalculateModTotal(user: StoredDocument<User> | null): Promise<unknown> {
+	async recalculateModTotal(
+		user: StoredDocument<User> | null,
+	): Promise<unknown> {
 		if (!user) return;
 		let total = 0;
-		const mods: RollModifier[] = (user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
+		const mods: RollModifier[] =
+			(user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ??
+			[];
 		if (mods.length > 0)
 			mods.forEach(m => {
 				total += m.modifier;
@@ -73,7 +80,7 @@ export class ModifierApp extends Application {
 	}
 }
 
-export interface ModifierApp extends Application {
+export interface ModifierButton extends Application {
 	showing: boolean;
-	window: ModifierAppWindow;
+	window: ModifierWindow;
 }

@@ -1,7 +1,7 @@
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 
-export class ModifierAppList extends Application {
+export class ModifierList extends Application {
 	constructor(list: any[], options = {}) {
 		super(options);
 
@@ -12,7 +12,7 @@ export class ModifierAppList extends Application {
 
 	static get defaultOptions(): ApplicationOptions {
 		return mergeObject(super.defaultOptions, {
-			id: "ModifierAppList",
+			id: "ModifierList",
 			template: `systems/${SYSTEM_NAME}/templates/modifier-app/list.hbs`,
 			popOut: false,
 			minimizable: false,
@@ -37,27 +37,37 @@ export class ModifierAppList extends Application {
 		// html.css("width", `${parentWidth}px`);
 	}
 
-	getData(options?: Partial<ApplicationOptions> | undefined): object | Promise<object> {
+	getData(
+		options?: Partial<ApplicationOptions> | undefined,
+	): object | Promise<object> {
 		if (this.customMod && !this.mods.includes(this.customMod)) {
 			this.mods.unshift(this.customMod);
 			this.selection = 0;
 		}
 
 		const mods: any[] = this.mods;
-		const pinnedMods: any[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
+		const pinnedMods: any[] =
+			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ??
+			[];
 		mods.forEach(m => {
-			if (pinnedMods.find(e => e.name == m.name && e.modifier && m.modifier)) m.pinned = true;
+			if (
+				pinnedMods.find(
+					e => e.name == m.name && e.modifier && m.modifier,
+				)
+			)
+				m.pinned = true;
 			else m.pinned = false;
 		});
 
 		return mergeObject(super.getData, {
 			mods: mods,
+			pinnedMods: pinnedMods,
 			selection: this.selection,
 		});
 	}
 }
 
-export interface ModifierAppList extends Application {
+export interface ModifierList extends Application {
 	mods: RollModifier[];
 	customMod: RollModifier | null;
 	selection: number;

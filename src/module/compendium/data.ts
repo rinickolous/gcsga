@@ -12,7 +12,8 @@ export type TabName =
 	| "spell"
 	| "equipment"
 	| "eqp_modifier"
-	| "note";
+	| "note"
+	| "settings";
 export type BrowserTab = InstanceType<
 	typeof browserTabs[keyof typeof browserTabs]
 >;

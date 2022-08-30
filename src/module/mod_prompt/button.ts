@@ -6,8 +6,6 @@ import { ModifierWindow } from "./window";
 export class ModifierButton extends Application {
 	constructor(options = {}) {
 		super(options);
-		console.trace("Create ModifierApp");
-
 		this.showing = false;
 		this.window = new ModifierWindow(this, {});
 	}

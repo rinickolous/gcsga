@@ -9,6 +9,21 @@ export class CompendiumTraitTab extends CompendiumTab {
 
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "trait");
+
+		this.prepareFilterData();
+	}
+
+	protected override prepareFilterData(): void {
+		this.filterData = {
+			search: {
+				text: "",
+			},
+			order: {
+				by: "name",
+				direction: "asc",
+				options: {},
+			},
+		};
 	}
 
 	protected override async loadData(): Promise<void> {
@@ -22,7 +37,7 @@ export class CompendiumTraitTab extends CompendiumTab {
 		)) {
 			console.log(pack, index);
 			for (const traitData of index) {
-				if (traitData.type === "trait") {
+				if (["trait", "trait_container"].includes(traitData.type)) {
 					// TODO: hasAllIndexFields
 					traits.push({
 						_id: traitData._id,

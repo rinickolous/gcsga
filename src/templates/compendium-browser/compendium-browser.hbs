@@ -17,7 +17,17 @@
 		{{#with trait}}
 		<div class="tab browser" data-group="primary" data-tab="trait">
 			{{print this}}
-			{{> compendium-browser/trait }}
+			{{>compendium-browser/filters}}
+			<ul class="item-list result-list"></ul>
 		</div>
 		{{/with}}
+
+		{{#with equipment}}
+		<div class="tab browser" data-group="primary" data-tab="equipment">
+			{{print this}}
+			{{>compendium-browser/filters}}
+			<ul class="item-list result-list"></ul>
+		</div>
+		{{/with}}
+
 </div>

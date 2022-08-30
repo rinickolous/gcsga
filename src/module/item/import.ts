@@ -102,7 +102,9 @@ export class ItemImporter {
 	async _import(file: { text: string; name: string; path: string }) {
 		const json = file.text;
 		console.log(file);
-		const name = "Library Test";
+		// return;
+		const name = file.name.split(".")[0];
+		// const name = "Library Test";
 		let r: ItemLibraryData | any;
 		const errorMessages: string[] = [];
 		try {

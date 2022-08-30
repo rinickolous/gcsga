@@ -14,12 +14,12 @@ export class CompendiumBrowser extends Application {
 		"eqp_modifier",
 		"note",
 	] as const;
-	tabs: Record<TabName, BrowserTab>;
+	tabs: Record<Exclude<TabName, "settings">, BrowserTab>;
 	packLoader = new PackLoader();
 	activeTab!: TabName;
 	navigationTab!: Tabs;
 
-	private initialFilter: any = {};
+	initialFilter: any = {};
 
 	constructor(options = {}) {
 		super(options);
@@ -40,6 +40,43 @@ export class CompendiumBrowser extends Application {
 
 	override get title(): string {
 		return i18n("gurps.compendium_browser.title");
+	}
+
+	private async renderReultsList(
+		html: HTMLElement,
+		list: HTMLUListElement,
+		start = 0,
+	): Promise<void> {
+		const currentTab =
+			this.activeTab !== "settings" ? this.tabs[this.activeTab] : null;
+		if (!currentTab) return;
+
+		const newResults = await currentTab.renderResults(start);
+		this.activateResultListeners(newResults);
+		const fragment = document.createDocumentFragment();
+		fragment.append(...newResults);
+		list.append(fragment);
+		for (const dragDropHandler of this._dragDrop) {
+			dragDropHandler.bind(html);
+		}
+	}
+
+	private activateResultListeners(liElements: HTMLLIElement[] = []): void {
+		for (const liElement of liElements) {
+			const { entryUuid } = liElement.dataset;
+			if (!entryUuid) continue;
+
+			const nameAnchor =
+				liElement.querySelector<HTMLAnchorElement>("div.name > a");
+			if (nameAnchor) {
+				nameAnchor.addEventListener("click", async () => {
+					const document = (await fromUuid(entryUuid)) as any;
+					if (document?.sheet) {
+						document.sheet.render(true);
+					}
+				});
+			}
+		}
 	}
 
 	static override get defaultOptions(): ApplicationOptions {
@@ -66,17 +103,74 @@ export class CompendiumBrowser extends Application {
 		const _html = html[0];
 		super.activateListeners(html);
 		const activeTabName = this.activeTab;
+		console.warn("checkem");
+
+		// Settings Tab
+		if (activeTabName === "settings") {
+			// const form = html.querySelector<HTMLFormElement>(".compendium-browser-settings form");
+			// if (form) {
+			//     form.querySelector("button.save-settings")?.addEventListener("click", async () => {
+			//         const formData = new FormData(form);
+			//         for (const [t, packs] of Object.entries(this.settings) as [string, { [key: string]: PackInfo }][]) {
+			//             for (const [key, pack] of Object.entries(packs) as [string, PackInfo][]) {
+			//                 pack.load = formData.has(`${t}-${key}`);
+			//             }
+			//         }
+			//         await game.settings.set("pf2e", "compendiumBrowserPacks", JSON.stringify(this.settings));
+			//         this.loadSettings();
+			//         this.initCompendiumList();
+			//         for (const tab of Object.values(this.tabs)) {
+			//             if (tab.isInitialized) {
+			//                 await tab.init();
+			//                 tab.scrollLimit = 100;
+			//             }
+			//         }
+			//         this.render(true);
+			//     });
+			// }
+			return;
+		}
 
 		const currentTab = this.tabs[activeTabName];
 		const controlArea =
 			_html.querySelector<HTMLDivElement>("div.control-area");
 		if (!controlArea) return;
+
+		const list = _html.querySelector<HTMLUListElement>(
+			".tab.active ul.item-list",
+		);
+		console.warn(list);
+		if (!list) return;
+		list.addEventListener("scroll", () => {
+			if (list.scrollTop + list.clientHeight >= list.scrollHeight - 5) {
+				const currentValue = currentTab.scrollLimit;
+				const maxValue = currentTab.totalItemCount ?? 0;
+				if (currentValue < maxValue) {
+					currentTab.scrollLimit = Math.clamped(
+						currentValue + 100,
+						100,
+						maxValue,
+					);
+					this.renderReultsList(_html, list, currentValue);
+				}
+			}
+		});
+
+		this.renderReultsList(_html, list);
 	}
 
-	override getData(
-		options?: Partial<ApplicationOptions> | undefined,
-	): object | Promise<object> {
+	override getData(): object | Promise<object> {
 		const activeTab = this.activeTab;
+
+		// Settings
+		if (activeTab === "settings") {
+			return {
+				user: (game as Game).user,
+				settings: this.settings,
+			};
+		}
+
+		// Active Tab
 		const tab = this.tabs[activeTab];
 		if (tab) {
 			console.log("active tab", tab);
@@ -110,28 +204,42 @@ export class CompendiumBrowser extends Application {
 		// TODO: get rid of
 		const loadDefault: any = {
 			"world.Library Test": true,
+			"world.equipment": true,
 		};
 
 		for (const pack of (game as Game).packs) {
 			//@ts-ignore
 			const types = new Set(pack.index.map(entry => entry.type));
 			if (types.size === 0) continue;
+			console.log("types", types);
 
-			if (types.has("trait")) {
-				const load =
-					this.settings.trait?.[pack.collection]?.load ??
-					!!loadDefault[pack.collection];
+			if (["trait", "trait_container"].some(type => types.has(type))) {
+				// const load =
+				// 	this.settings.trait?.[pack.collection]?.load ??
+				// 	!!loadDefault[pack.collection];
 				// let load = this.settings.trait?.[pack.collection]?.load ?? !!loadDefault[pack.collection];
-				console.log(pack.collection, load);
+				// console.log(pack.collection, load);
 				// load = true;
-				// const load = true;
+				const load = true;
 				settings.trait![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};
-			} else if (types.has("modifier")) {
+			}
+			if (types.has("modifier")) {
 				// TODO: finish
 				continue;
+			}
+			if (
+				["equipment", "equipment_container"].some(type =>
+					types.has(type),
+				)
+			) {
+				const load = true;
+				settings.equipment![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
 			}
 		}
 
@@ -158,6 +266,7 @@ export class CompendiumBrowser extends Application {
 	}
 
 	openTab(tab: "trait", filter?: any): Promise<void>;
+	openTab(tab: "equipment", filter?: any): Promise<void>;
 	async openTab(tab: TabName, filter: any = {}): Promise<void> {
 		this.initialFilter = filter;
 		await this._render(true);
@@ -167,6 +276,12 @@ export class CompendiumBrowser extends Application {
 
 	async loadTab(tab: TabName): Promise<void> {
 		this.activeTab = tab;
+
+		// Settings Tab
+		if (tab === "settings") {
+			await this.render(true);
+			return;
+		}
 		const currentTab = this.tabs[tab];
 		if (!currentTab.isInitialized) await currentTab?.init();
 
@@ -189,8 +304,7 @@ export class CompendiumBrowser extends Application {
 	}
 
 	loadedPacks(tab: TabName): string[] {
-		console.log("loadedPacks", tab);
-		console.log(this.settings[tab]);
+		if (tab === "settings") return [];
 		return Object.entries(this.settings[tab] ?? []).flatMap(
 			([collection, info]) => {
 				console.log(collection, info);

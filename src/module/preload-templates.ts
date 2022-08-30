@@ -70,6 +70,7 @@ export async function preloadTemplates(): Promise<
 
 		"chat/import-character-error",
 
+		"compendium-browser/filters",
 		"compendium-browser/trait",
 	];
 	const formattedPaths: string[] = [];

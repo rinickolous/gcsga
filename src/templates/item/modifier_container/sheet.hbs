@@ -1,15 +1,15 @@
-<form class="{{cssClass}} gcsga" autocomplete="off">
+<form class="{{cssClass}} gcs" autocomplete="off">
 	<div id="sheet">
 		<div id="details">
-			{{>input-text field="field" label="gcsga.item.name" name="name" data=item.name type="String"}}
-			{{>textarea field="field" label="gcsga.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gcsga.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
+			{{>textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			{{>textarea field="field" label="gcsga.item.user_description" name="system.user_description"
+			{{>textarea field="field" label="gurps.item.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
-			{{>input-text field="field" label="gcsga.item.tags" name="system.tags" data=(join system.tags ", ")
+			{{>input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>input-text field="field" label="gcsga.item.reference" name="system.reference" data=system.reference
+			{{>input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
 			type="String"}}
 		</div>
 	</div>

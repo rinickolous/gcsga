@@ -89,11 +89,11 @@
 			align-self: center;
 		}
 	}
-	:nth-child(2n + 1) {
+	div:nth-child(2n + 1) {
 		background-color: rgba(var(--color-banding), 0.8);
 		color: rgb(var(--color-on-banding));
 	}
-	.selected {
+	div.selected {
 		background-color: rgba(var(--color-selection), 0.8);
 		color: rgba(var(--color-on-selection), 0.8);
 	}

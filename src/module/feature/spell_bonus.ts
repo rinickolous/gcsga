@@ -44,4 +44,8 @@ export interface SpellBonus extends BaseFeature {
 	tags?: StringCompare;
 }
 
-export type SpellBonusMatch = "all_colleges" | "college_name" | "spell_name" | "power_source_name";
+export type SpellBonusMatch =
+	| "all_colleges"
+	| "college_name"
+	| "spell_name"
+	| "power_source_name";

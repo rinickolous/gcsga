@@ -1,7 +1,7 @@
 import { BaseItemGURPS } from "@item/base";
 import { SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
-import { SkillDefault } from "@module/skill-default";
+import { SkillDefault } from "@module/default";
 import { TooltipGURPS } from "@module/tooltip";
 import { signed } from "@util";
 import { RitualMagicSpellData } from "./data";
@@ -50,9 +50,23 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
-			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);
-			points += this.actor.spellPointBonusesFor("spell.power_source.points", this.powerSource, this.tags, tooltip);
-			points += this.actor.spellPointBonusesFor("spell.points", this.name ?? "", this.tags, tooltip);
+			points += this.actor.bestCollegeSpellPointBonus(
+				this.college,
+				this.tags,
+				tooltip,
+			);
+			points += this.actor.spellPointBonusesFor(
+				"spell.power_source.points",
+				this.powerSource,
+				this.tags,
+				tooltip,
+			);
+			points += this.actor.spellPointBonusesFor(
+				"spell.points",
+				this.name ?? "",
+				this.tags,
+				tooltip,
+			);
 			points = Math.max(points, 0);
 		}
 		return points;
@@ -61,21 +75,23 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	satisfied(tooltip: TooltipGURPS, prefix: string): boolean {
 		if (this.college.length == 0) {
 			tooltip.push(prefix);
-			tooltip.push(`gcsga.ritual_magic_spell.must_assign_college`);
+			tooltip.push(`gurps.ritual_magic_spell.must_assign_college`);
 			return false;
 		}
 		for (const c of this.college) {
-			if (this.actor?.bestSkillNamed(this.baseSkill, c, false, null)) return true;
+			if (this.actor?.bestSkillNamed(this.baseSkill, c, false, null))
+				return true;
 		}
-		if (this.actor?.bestSkillNamed(this.baseSkill, "", false, null)) return true;
+		if (this.actor?.bestSkillNamed(this.baseSkill, "", false, null))
+			return true;
 		tooltip.push(prefix);
-		tooltip.push(`gcsga.prereqs.ritual_magic.skill.name`);
+		tooltip.push(`gurps.prereqs.ritual_magic.skill.name`);
 		tooltip.push(this.baseSkill);
 		tooltip.push(` (${this.college[0]})`);
 		const colleges = this.college;
 		colleges.shift();
 		for (const c of colleges) {
-			tooltip.push(`gcsga.prereqs.ritual_magic.skill.or`);
+			tooltip.push(`gurps.prereqs.ritual_magic.skill.or`);
 			tooltip.push(this.baseSkill);
 			tooltip.push(`(${c})`);
 		}
@@ -89,7 +105,10 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 
 	get relativeLevel(): string {
 		if (this.calculateLevel.level == -Infinity) return "-";
-		return (this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") + signed(this.calculateLevel.relative_level);
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ??
+				"") + signed(this.calculateLevel.relative_level)
+		);
 	}
 	// Point & Level Manipulation
 	updateLevel(): boolean {
@@ -99,8 +118,13 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	get calculateLevel(): SkillLevel {
-		let skillLevel = { level: Math.max(), relative_level: 0, tooltip: new TooltipGURPS() as TooltipGURPS | string };
-		if (this.college.length == 0) skillLevel = this.determineLevelForCollege("");
+		let skillLevel = {
+			level: Math.max(),
+			relative_level: 0,
+			tooltip: new TooltipGURPS() as TooltipGURPS | string,
+		};
+		if (this.college.length == 0)
+			skillLevel = this.determineLevelForCollege("");
 		else {
 			for (const c of this.college) {
 				const possible = this.determineLevelForCollege(c);
@@ -110,9 +134,23 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		if (this.actor) {
 			const tooltip = new TooltipGURPS();
 			tooltip.push(skillLevel.tooltip);
-			let levels = this.actor.bestCollegeSpellBonus(this.college, this.tags, tooltip);
-			levels += this.actor.spellBonusesFor("spell.power_source", this.powerSource, this.tags, tooltip);
-			levels += this.actor.spellBonusesFor("spell.name", this.name ?? "", this.tags, tooltip);
+			let levels = this.actor.bestCollegeSpellBonus(
+				this.college,
+				this.tags,
+				tooltip,
+			);
+			levels += this.actor.spellBonusesFor(
+				"spell.power_source",
+				this.powerSource,
+				this.tags,
+				tooltip,
+			);
+			levels += this.actor.spellBonusesFor(
+				"spell.name",
+				this.name ?? "",
+				this.tags,
+				tooltip,
+			);
 			levels = Math.trunc(levels);
 			skillLevel.level += levels;
 			skillLevel.relative_level += levels;
@@ -144,7 +182,11 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		return fallback;
 	}
 
-	calculateLevelAsTechnique(def: SkillDefault, college: string, limit: number): SkillLevel {
+	calculateLevelAsTechnique(
+		def: SkillDefault,
+		college: string,
+		limit: number,
+	): SkillLevel {
 		const tooltip = new TooltipGURPS();
 		let relative_level = 0;
 		let points = this.adjustedPoints();
@@ -154,7 +196,9 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 				const sk = this.actor.baseSkill(def!, true);
 				if (sk) level = sk.calculateLevel.level;
 			} else if (def) {
-				level = def?.skillLevelFast(this.actor, true, null, false) - def?.modifier;
+				level =
+					def?.skillLevelFast(this.actor, true, null, false) -
+					def?.modifier;
 			}
 			if (level != Math.max()) {
 				const base_level = level;
@@ -162,8 +206,17 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 				if (this.difficulty == "h") points -= 1;
 				if (points > 0) relative_level = points;
 				if (level != Math.max()) {
-					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", college, this.tags, tooltip);
+					relative_level += this.actor.bonusFor(
+						"skill.name/" + this.name,
+						tooltip,
+					);
+					relative_level += this.actor.skillComparedBonusFor(
+						"skill.name*",
+						this.name ?? "",
+						college,
+						this.tags,
+						tooltip,
+					);
 					level += relative_level;
 				}
 				if (limit) {

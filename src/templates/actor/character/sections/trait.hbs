@@ -1,4 +1,4 @@
-<div class="desc item {{disabled (not this.enabled)}}" data-item-id="{{this.id}}" {{{indent this}}}>
+<div class="desc item {{disabled (not this.enabled)}}" data-item-id="{{this.id}}" {{{indent this.parents.length}}}>
 	<div class="dropdown">
 		{{#if (eq this.type "trait_container")}}
 		{{#if this.open}}

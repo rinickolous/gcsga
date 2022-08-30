@@ -1,4 +1,7 @@
-import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, MeleeWeapon, RangedWeapon, Weapon } from "@module/weapon";
@@ -14,7 +17,7 @@ import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-ty
 import { ContainerGURPS } from "@item/container";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
-	gcsga?: {
+	gurps?: {
 		ready?: boolean;
 	};
 }
@@ -23,17 +26,24 @@ class BaseItemGURPS extends Item {
 	//@ts-ignore
 	parent: CharacterGURPS | ContainerGURPS | null;
 
-	constructor(data: ItemDataGURPS | any, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
-		if (context.gcsga?.ready) {
+	constructor(
+		data: ItemDataGURPS | any,
+		context: Context<Actor> & ItemConstructionContextGURPS = {},
+	) {
+		if (context.gurps?.ready) {
 			super(data, context);
 		} else {
 			mergeObject(context, {
-				gcsga: {
+				gurps: {
 					ready: true,
 				},
 			});
-			const ItemConstructor = (CONFIG as any).GURPS.Item.documentClasses[data.type as ItemType];
-			return ItemConstructor ? new ItemConstructor(data, context) : new BaseItemGURPS(data, context);
+			const ItemConstructor = (CONFIG as any).GURPS.Item.documentClasses[
+				data.type as ItemType
+			];
+			return ItemConstructor
+				? new ItemConstructor(data, context)
+				: new BaseItemGURPS(data, context);
 		}
 	}
 
@@ -58,16 +68,33 @@ class BaseItemGURPS extends Item {
 	// 	return parent.updateEmbeddedDocuments("Item", updates, options);
 	// }
 
-	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
+	protected async _preCreate(
+		data: ItemDataGURPS,
+		options: DocumentModificationOptions,
+		user: BaseUser,
+	): Promise<void> {
 		let type = data.type.replace("_container", "");
 		if (type == "technique") type = "skill";
 		if (type == "ritual_magic_spell") type = "spell";
 		// TODO: remove any
-		if (this._source.img === (foundry.documents.BaseItem as any).DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
+		if (
+			this._source.img ===
+			(foundry.documents.BaseItem as any).DEFAULT_ICON
+		)
+			this._source.img =
+				data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 
-	override async update(data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: (DocumentModificationContext & MergeObjectOptions) | undefined): Promise<this | undefined> {
+	override async update(
+		data: DeepPartial<
+			| ItemDataConstructorData
+			| (ItemDataConstructorData & Record<string, unknown>)
+		>,
+		context?:
+			| (DocumentModificationContext & MergeObjectOptions)
+			| undefined,
+	): Promise<this | undefined> {
 		if (!(this.parent instanceof Item)) return super.update(data, context);
 		data = expandObject(data);
 		data._id = this.id;
@@ -76,7 +103,9 @@ class BaseItemGURPS extends Item {
 		this.render(false, { action: "update", data: data });
 	}
 
-	override delete(context?: DocumentModificationContext | undefined): Promise<any> {
+	override delete(
+		context?: DocumentModificationContext | undefined,
+	): Promise<any> {
 		if (!(this.parent instanceof Item)) return super.delete(context);
 		return this.parent.deleteEmbeddedDocuments("Item", [this.id!]);
 	}
@@ -87,13 +116,25 @@ class BaseItemGURPS extends Item {
 		mergeObject(this.flags, this._source.flags);
 		setProperty(this, "name", this._source.name);
 		setProperty(this, "sort", this._source.sort);
-		if (getProperty(this, "system.features")) setProperty(this, "system.features", { ...getProperty(this, "system.features") });
-		if (getProperty(this, "system.prereqs.prereqs")) setProperty(this, "system.prereqs.prereqs", { ...getProperty(this, "system.prereqs.prereqs") });
-		if (getProperty(this, "system.weapons")) setProperty(this, "system.weapons", { ...getProperty(this, "system.weapons") });
+		if (getProperty(this, "system.features"))
+			setProperty(this, "system.features", {
+				...getProperty(this, "system.features"),
+			});
+		if (getProperty(this, "system.prereqs.prereqs"))
+			setProperty(this, "system.prereqs.prereqs", {
+				...getProperty(this, "system.prereqs.prereqs"),
+			});
+		if (getProperty(this, "system.weapons"))
+			setProperty(this, "system.weapons", {
+				...getProperty(this, "system.weapons"),
+			});
 	}
 
 	get actor(): CharacterGURPS | null {
-		if (this.parent) return this.parent instanceof CharacterGURPS ? this.parent : this.parent.actor;
+		if (this.parent)
+			return this.parent instanceof CharacterGURPS
+				? this.parent
+				: this.parent.actor;
 		return null;
 	}
 
@@ -136,25 +177,50 @@ class BaseItemGURPS extends Item {
 	}
 
 	get meleeWeapons(): Map<number, MeleeWeapon> {
-		return new Map([...this.weapons].filter(([k, v]) => v instanceof MeleeWeapon)) as Map<number, MeleeWeapon>;
+		return new Map(
+			[...this.weapons].filter(([k, v]) => v instanceof MeleeWeapon),
+		) as Map<number, MeleeWeapon>;
 	}
 
 	get rangedWeapons(): Map<number, RangedWeapon> {
-		return new Map([...this.weapons].filter(([k, v]) => v instanceof RangedWeapon)) as Map<number, RangedWeapon>;
+		return new Map(
+			[...this.weapons].filter(([k, v]) => v instanceof RangedWeapon),
+		) as Map<number, RangedWeapon>;
 	}
 
 	get weapons(): Map<number, Weapon> {
-		if (!["trait", "skill", "technique", "spell", "ritual_magic_spell", "equipment", "equipment_container"].includes(this.type)) return new Map();
+		if (
+			![
+				"trait",
+				"skill",
+				"technique",
+				"spell",
+				"ritual_magic_spell",
+				"equipment",
+				"equipment_container",
+			].includes(this.type)
+		)
+			return new Map();
 		const weapons: Map<number, Weapon> = new Map();
-		toArray((this as any).system.weapons).forEach((w: Weapon, index: number) => {
-			weapons.set(index, new BaseWeapon({ ...w, ...{ parent: this, actor: this.actor, id: index } }));
-		});
+		toArray((this as any).system.weapons).forEach(
+			(w: Weapon, index: number) => {
+				weapons.set(
+					index,
+					new BaseWeapon({
+						...w,
+						...{ parent: this, actor: this.actor, id: index },
+					}),
+				);
+			},
+		);
 		return weapons;
 	}
 
 	get parents(): Array<any> {
 		if (!this.parent) return [];
-		const grandparents = !(this.parent instanceof CharacterGURPS) ? this.parent.parents : [];
+		const grandparents = !(this.parent instanceof CharacterGURPS)
+			? this.parent.parents
+			: [];
 		return [this.parent, ...grandparents];
 	}
 

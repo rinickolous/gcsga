@@ -2,16 +2,16 @@
 	<div class="name">{{name}} ({{level}})</div>
 	<div class="total">{{#each rolls}}<i data-result={{this.result}} class="rollable fas fa-dice-{{this.word}}"></i>
 		{{/each}}= {{total}}</div>
-	<div class="result {{success}}">{{localize (concat "gcsga.roll.success_attack." success)}}</div>
+	<div class="result {{success}}">{{localize (concat "gurps.roll.success_attack." success)}}</div>
 	<div class="margin">
 		{{#if (in success "success")}}
 		{{#if (eq margin 0)}}
-		{{localize "gcsga.roll.just_made_it"}}
+		{{localize "gurps.roll.just_made_it"}}
 		{{else}}
-		{{localize "gcsga.roll.success_margin" margin=margin}}
+		{{localize "gurps.roll.success_margin" margin=margin}}
 		{{/if}}
 		{{else}}
-		{{localize "gcsga.roll.failure_margin" margin=margin}}
+		{{localize "gurps.roll.failure_margin" margin=margin}}
 		{{/if}}
 	</div>
 	{{!-- <div data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-attack-id="{{weapon.id}}" data-type="damage"

@@ -1,4 +1,4 @@
-<form class="{{cssClass}} gcsga" autocomplete="off">
+<form class="{{cssClass}} gcs" autocomplete="off">
 	<div id="sheet">
 		<div id="details">
 			<label class="label"></label>
@@ -6,18 +6,18 @@
 				<label class="checkbox-label">
 					<input class="input" name="system.disabled" type="checkbox" data-dtype="Boolean" {{checked (not
 						system.disabled)}} />
-					{{localize "gcsga.item.enabled"}}
+					{{localize "gurps.item.enabled"}}
 				</label>
 			</div>
-			{{>input-text field="field" label="gcsga.item.name" name="name" data=item.name type="String"}}
-			{{>textarea field="field" label="gcsga.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gcsga.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
+			{{>textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			{{>textarea field="field" label="gcsga.item.user_description" name="system.user_description"
+			{{>textarea field="field" label="gurps.item.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
-			{{>input-text field="field" label="gcsga.item.tags" name="system.tags" data=(join system.tags ", ")
+			{{>input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			<div class="label">{{localize "gcsga.item.cr"}}</div>
+			<div class="label">{{localize "gurps.item.cr"}}</div>
 			<div class="field">
 				<select name="NUMBER.system.cr" data-dtype="String">
 					{{#select system.cr}}
@@ -27,7 +27,7 @@
 					{{/select}}
 				</select>
 			</div>
-			<div class="label">{{localize "gcsga.item.cr_adj"}}</div>
+			<div class="label">{{localize "gurps.item.cr_adj"}}</div>
 			<div class="field">
 				<select name="system.cr_adj" data-dtype="String" {{input_lock (neq system.cr 0 )}}>
 					{{#select system.cr_adj}}
@@ -37,7 +37,7 @@
 					{{/select}}
 				</select>
 			</div>
-			<div class="label">{{localize "gcsga.item.container_type"}}</div>
+			<div class="label">{{localize "gurps.item.container_type"}}</div>
 			<div class="field">
 				<select name="system.container_type" data-dtype="String">
 					{{#select system.container_type}}
@@ -47,7 +47,7 @@
 					{{/select}}
 				</select>
 			</div>
-			<div class="label">{{localize "gcsga.item.ancestry"}}</div>
+			<div class="label">{{localize "gurps.item.ancestry"}}</div>
 			<div class="field">
 				<select name="system.ancestry" data-dtype="String" {{input_lock (eq system.container_type "race" )}}>
 					{{#select system.ancestry}}
@@ -57,14 +57,14 @@
 					{{/select}}
 				</select>
 			</div>
-			{{>input-text field="field" label="gcsga.item.reference" name="system.reference" data=system.reference
+			{{>input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
 			type="String"}}
 		</div>
 		<div id="trait-modifiers" class="item-list">
 			<div class="header enabled"><i class="gcs-checkmark"></i></div>
-			<div class="header desc">{{localize "gcsga.item.modifier_desc"}}</div>
-			<div class="header cost">{{localize "gcsga.item.modifier_point_cost"}}</div>
-			<div class="header tags">{{localize "gcsga.item.tags"}}</div>
+			<div class="header desc">{{localize "gurps.item.modifier_desc"}}</div>
+			<div class="header cost">{{localize "gurps.item.modifier_point_cost"}}</div>
+			<div class="header tags">{{localize "gurps.item.tags"}}</div>
 			<div class="header reference"><i class="gcs-bookmark"></i></div>
 			{{#each (sort modifiers "sort")}}
 			{{>trait-mod}}

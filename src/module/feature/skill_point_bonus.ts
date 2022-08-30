@@ -13,7 +13,11 @@ export class SkillPointBonus extends BaseFeature {
 	}
 
 	get featureMapKey(): string {
-		if (this.name?.compare == "is" && this.specialization?.compare == "none" && this.tags?.compare == "none") {
+		if (
+			this.name?.compare == "is" &&
+			this.specialization?.compare == "none" &&
+			this.tags?.compare == "none"
+		) {
 			return "skill.points" + "/" + this.name?.qualifier;
 		}
 		return "skill.points" + "*";

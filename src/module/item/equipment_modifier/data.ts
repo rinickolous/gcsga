@@ -1,11 +1,16 @@
 import { Feature } from "@feature";
 import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
-export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", EquipmentModifierSystemData>;
+export type EquipmentModifierSource = BaseItemSourceGURPS<
+	"eqp_modifier",
+	EquipmentModifierSystemData
+>;
 
 // export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
 
-export interface EquipmentModifierData extends Omit<EquipmentModifierSource, "effects">, EquipmentModifierSystemData {
+export interface EquipmentModifierData
+	extends Omit<EquipmentModifierSource, "effects">,
+		EquipmentModifierSystemData {
 	readonly type: EquipmentModifierSource["type"];
 	data: EquipmentModifierSystemData;
 
@@ -22,5 +27,13 @@ export interface EquipmentModifierSystemData extends ItemSystemData {
 	disabled: boolean;
 }
 
-export type EquipmentCostType = "to_original_cost" | "to_base_cost" | "to_final_base_cost" | "to_final_cost";
-export type EquipmentWeightType = "to_original_weight" | "to_base_weight" | "to_final_base_weight" | "to_final_weight";
+export type EquipmentCostType =
+	| "to_original_cost"
+	| "to_base_cost"
+	| "to_final_base_cost"
+	| "to_final_cost";
+export type EquipmentWeightType =
+	| "to_original_weight"
+	| "to_base_weight"
+	| "to_final_base_weight"
+	| "to_final_weight";

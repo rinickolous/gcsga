@@ -13,7 +13,12 @@ export function adjustment(cr: CR, crAdj: CRAdjustment): number {
 		case CRAdjustment.MinorCostOfLivingIncrease:
 			return 5 * Object.values(CR).length - Object.values(CR).indexOf(cr);
 		case CRAdjustment.MajorCostOfLivingIncrease:
-			return 10 * (1 << (Object.values(CR).length - (Object.values(CR).indexOf(cr) + 1)));
+			return (
+				10 *
+				(1 <<
+					(Object.values(CR).length -
+						(Object.values(CR).indexOf(cr) + 1)))
+			);
 		default:
 			return adjustment(cr, CRAdjustment.None);
 	}

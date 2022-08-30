@@ -35,7 +35,7 @@ export class ModifierButton extends Application {
 		const user = (game as Game).user;
 		let total = user?.getFlag(SYSTEM_NAME, "modifierTotal") ?? 0;
 
-		return mergeObject(super.getData, {
+		return mergeObject(super.getData(options), {
 			total: total,
 		});
 	}
@@ -45,7 +45,7 @@ export class ModifierButton extends Application {
 			html.insertAfter($("body").find("#hotbar"));
 			this._element = html;
 		} else {
-			throw new Error(i18n("gcsga.error.modifier_app_load_failed"));
+			throw new Error(i18n("gurps.error.modifier_app_load_failed"));
 		}
 	}
 
@@ -53,6 +53,7 @@ export class ModifierButton extends Application {
 		super.activateListeners(html);
 		console.warn(html, html.find("#show-popup"));
 		html.on("click", event => this._onClick(event));
+		html.on("wheel", event => this._onMouseWheel(event));
 	}
 
 	async _onClick(event: JQuery.ClickEvent): Promise<void> {
@@ -61,6 +62,19 @@ export class ModifierButton extends Application {
 			this.window.close();
 		} else {
 			await this.window.render(true);
+		}
+	}
+
+	async _onMouseWheel(event: JQuery.TriggeredEvent) {
+		event.preventDefault();
+		const originalEvent = event.originalEvent;
+		if (originalEvent instanceof WheelEvent) {
+			const delta = Math.round(originalEvent.deltaY / -100);
+			return this.window.addModifier({
+				name: "",
+				modifier: delta,
+				tags: [],
+			});
 		}
 	}
 

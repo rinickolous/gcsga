@@ -1,13 +1,34 @@
 import { i18n, i18n_f, signed } from "@util";
 
-export type LengthUnits = "pt" | "in" | "ft" | "ft_in" | "yd" | "mi" | "mm" | "cm" | "km" | "m";
+export type LengthUnits =
+	| "pt"
+	| "in"
+	| "ft"
+	| "ft_in"
+	| "yd"
+	| "mi"
+	| "mm"
+	| "cm"
+	| "km"
+	| "m";
 export type WeightUnits = "oz" | "lb" | "tn" | "lt" | "t" | "kg" | "g";
-export type DisplayMode = "not_shown" | "inline" | "tooltip" | "inline_and_tooltip";
+export type DisplayMode =
+	| "not_shown"
+	| "inline"
+	| "tooltip"
+	| "inline_and_tooltip";
 
 export type Height = string;
 export type Weight = string;
 
-export type DamageProgression = "basic_set" | "knowing_your_own_strength" | "no_school_grognard_damage" | "thrust_equals_swing_minus_2" | "swing_equals_thrust_plus_2" | "phoenix_flame_d3";
+export enum DamageProgression {
+	BasicSet = "basic_set",
+	KnowingYourOwnStrength = "knowing_your_own_strength",
+	NoSchoolGrognardDamage = "no_school_grognard_damage",
+	ThrustEqualsSwingMinus2 = "thrust_equals_swing_minus_2",
+	SwingEqualsThrustPlus2 = "swing_equals_thrust_plus_2",
+	PhoenixFlameD3 = "phoenix_flame_d3",
+}
 
 export class LeveledAmount {
 	level = 0;
@@ -19,12 +40,17 @@ export class LeveledAmount {
 	}
 
 	get formatWithLevel(): string {
-		return this.format(i18n("gcsga.feature.level"));
+		return this.format(i18n("gurps.feature.level"));
 	}
 
 	format(what: string): string {
 		const per_level = signed(this.amount);
-		if (this.per_level) return i18n_f("gcsga.feature.format", { total: signed(this.adjustedAmount), per_level, what });
+		if (this.per_level)
+			return i18n_f("gurps.feature.format", {
+				total: signed(this.adjustedAmount),
+				per_level,
+				what,
+			});
 		return per_level;
 	}
 

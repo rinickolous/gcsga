@@ -16,10 +16,14 @@ export class ItemSheetGURPS extends ItemSheet {
 		const attributes: Record<string, string> = {};
 		const locations: Record<string, string> = {};
 		if (this.item.actor) {
-			(this.item.actor as unknown as CharacterGURPS).attributes.forEach((e: Attribute) => {
-				attributes[e.attr_id] = e.attribute_def.name;
-			});
-			(this.item.actor as unknown as CharacterGURPS).system.settings.body_type.locations.forEach(e => {
+			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(
+				(e: Attribute) => {
+					attributes[e.attr_id] = e.attribute_def.name;
+				},
+			);
+			(
+				this.item.actor as unknown as CharacterGURPS
+			).system.settings.body_type.locations.forEach(e => {
 				locations[e.id] = e.choice_name;
 			});
 		} else {
@@ -54,12 +58,16 @@ export class ItemSheetGURPS extends ItemSheet {
 				vitals: "Vitals",
 			});
 		}
-		attributes["dodge"] = i18n("gcsga.attributes.dodge");
-		attributes["parry"] = i18n("gcsga.attributes.parry");
-		attributes["block"] = i18n("gcsga.attributes.block");
+		attributes["dodge"] = i18n("gurps.attributes.dodge");
+		attributes["parry"] = i18n("gurps.attributes.parry");
+		attributes["block"] = i18n("gurps.attributes.block");
 		const item = this.item as BaseItemGURPS;
-		const meleeWeapons = [...item.meleeWeapons].map(e => mergeObject(e[1], { index: e[0] }));
-		const rangedWeapons = [...item.rangedWeapons].map(e => mergeObject(e[1], { index: e[0] }));
+		const meleeWeapons = [...item.meleeWeapons].map(e =>
+			mergeObject(e[1], { index: e[0] }),
+		);
+		const rangedWeapons = [...item.rangedWeapons].map(e =>
+			mergeObject(e[1], { index: e[0] }),
+		);
 
 		const sheetData = {
 			...super.getData(options),
@@ -85,7 +93,7 @@ export class ItemSheetGURPS extends ItemSheet {
 			width: 620,
 			min_width: 620,
 			height: 800,
-			classes: options.classes.concat(["item", "gcsga"]),
+			classes: options.classes.concat(["item", "gcs"]),
 		});
 		return options;
 	}
@@ -96,26 +104,55 @@ export class ItemSheetGURPS extends ItemSheet {
 
 	override activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		html.find(".prereq .add-child").on("click", event => this._addPrereqChild(event));
-		html.find(".prereq .add-list").on("click", event => this._addPrereqList(event));
-		html.find(".prereq .remove").on("click", event => this._removePrereq(event));
-		html.find(".prereq .type").on("change", event => this._onPrereqTypeChange(event));
-		html.find("#features .add").on("click", event => this._addFeature(event));
-		html.find(".feature .remove").on("click", event => this._removeFeature(event));
-		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
-		html.find(".weapon-list > :not(.header)").on("dblclick", event => this._onWeaponEdit(event));
+		html.find(".prereq .add-child").on("click", event =>
+			this._addPrereqChild(event),
+		);
+		html.find(".prereq .add-list").on("click", event =>
+			this._addPrereqList(event),
+		);
+		html.find(".prereq .remove").on("click", event =>
+			this._removePrereq(event),
+		);
+		html.find(".prereq .type").on("change", event =>
+			this._onPrereqTypeChange(event),
+		);
+		html.find("#features .add").on("click", event =>
+			this._addFeature(event),
+		);
+		html.find(".feature .remove").on("click", event =>
+			this._removeFeature(event),
+		);
+		html.find(".feature .type").on("change", event =>
+			this._onFeatureTypeChange(event),
+		);
+		html.find(".weapon-list > :not(.header)").on("dblclick", event =>
+			this._onWeaponEdit(event),
+		);
 
-		html.find("span.input").on("blur", event => this._onSubmit(event as any));
+		html.find("span.input").on("blur", event =>
+			this._onSubmit(event as any),
+		);
 	}
 
-	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
+	protected async _updateObject(
+		event: Event,
+		formData: Record<string, any>,
+	): Promise<unknown> {
 		// console.log("_updateObject", formData);
-		if (formData["system.tags"] && typeof formData["system.tags"] == "string") {
+		if (
+			formData["system.tags"] &&
+			typeof formData["system.tags"] == "string"
+		) {
 			const tags = formData["system.tags"].split(",").map(e => e.trim());
 			formData["system.tags"] = tags;
 		}
-		if (formData["system.college"] && typeof formData["system.college"] == "string") {
-			const college = formData["system.college"].split(",").map(e => e.trim());
+		if (
+			formData["system.college"] &&
+			typeof formData["system.college"] == "string"
+		) {
+			const college = formData["system.college"]
+				.split(",")
+				.map(e => e.trim());
 			formData["system.college"] = college;
 		}
 		for (const [key, value] of Object.entries(formData)) {
@@ -140,7 +177,9 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
 		const path = $(event.currentTarget).data("path");
 		// console.log(path);
-		const prereqs = toArray(duplicate(getProperty(this.item as any, `${path}.prereqs`)));
+		const prereqs = toArray(
+			duplicate(getProperty(this.item as any, `${path}.prereqs`)),
+		);
 		prereqs.push({
 			type: "trait_prereq",
 			name: { compare: StringComparison.Is, qualifier: "" },
@@ -150,14 +189,19 @@ export class ItemSheetGURPS extends ItemSheet {
 		});
 		const update: any = {};
 		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
-		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(
+			`${path}.prereqs`,
+			{ ...prereqs },
+		);
 		// await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
 	protected async _addPrereqList(event: JQuery.ClickEvent): Promise<any> {
 		const path = $(event.currentTarget).data("path");
-		const prereqs = toArray(duplicate(getProperty(this.item as any, `${path}.prereqs`)));
+		const prereqs = toArray(
+			duplicate(getProperty(this.item as any, `${path}.prereqs`)),
+		);
 		prereqs.push({
 			type: "prereq_list",
 			prereqs: [],
@@ -166,7 +210,10 @@ export class ItemSheetGURPS extends ItemSheet {
 		const update: any = {};
 		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
 		// update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
-		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(
+			`${path}.prereqs`,
+			{ ...prereqs },
+		);
 		// await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
@@ -181,14 +228,20 @@ export class ItemSheetGURPS extends ItemSheet {
 		prereqs.splice(index, 1);
 		const update: any = {};
 		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
-		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, {
+			...prereqs,
+		});
 		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
-	protected async _onPrereqTypeChange(event: JQuery.ChangeEvent): Promise<any> {
+	protected async _onPrereqTypeChange(
+		event: JQuery.ChangeEvent,
+	): Promise<any> {
 		const value = event.currentTarget.value;
-		const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[value as PrereqType];
+		const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[
+			value as PrereqType
+		];
 		let path = $(event.currentTarget).data("path");
 		const items = path.split(".");
 		const index = items.pop();
@@ -201,7 +254,10 @@ export class ItemSheetGURPS extends ItemSheet {
 		};
 		const update: any = {};
 		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
-		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, prereqs);
+		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(
+			path,
+			prereqs,
+		);
 		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
@@ -220,7 +276,9 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _addFeature(event: JQuery.ClickEvent): Promise<any> {
 		event.preventDefault();
 		console.log("checkem");
-		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		const features = toArray(
+			duplicate(getProperty(this.item as any, "system.features")),
+		);
 		features.push({
 			type: "attribute_bonus",
 			attribute: "st",
@@ -237,18 +295,26 @@ export class ItemSheetGURPS extends ItemSheet {
 
 	protected async _removeFeature(event: JQuery.ClickEvent): Promise<any> {
 		const index = $(event.currentTarget).data("index");
-		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		const features = toArray(
+			duplicate(getProperty(this.item as any, "system.features")),
+		);
 		features.splice(index, 1);
 		const update: any = {};
 		update["system.features"] = features;
 		return this.item.update(update);
 	}
 
-	protected async _onFeatureTypeChange(event: JQuery.ChangeEvent): Promise<any> {
+	protected async _onFeatureTypeChange(
+		event: JQuery.ChangeEvent,
+	): Promise<any> {
 		const value = event.currentTarget.value;
 		const index = $(event.currentTarget).data("index");
-		const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[value as FeatureType];
-		const features = toArray(duplicate(getProperty(this.item as any, "system.features")));
+		const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[
+			value as FeatureType
+		];
+		const features = toArray(
+			duplicate(getProperty(this.item as any, "system.features")),
+		);
 		features[index] = {
 			type: value,
 			...FeatureConstructor.defaults,
@@ -261,7 +327,9 @@ export class ItemSheetGURPS extends ItemSheet {
 		return this.item.update(update);
 	}
 
-	protected async _onWeaponEdit(event: JQuery.DoubleClickEvent): Promise<any> {
+	protected async _onWeaponEdit(
+		event: JQuery.DoubleClickEvent,
+	): Promise<any> {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
 		new WeaponSheet(this.item as ItemGURPS, {}, index).render(true);

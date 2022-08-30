@@ -9,10 +9,23 @@ export class EquipmentModifierContainerGURPS extends ContainerGURPS {
 	// }
 
 	// Embedded Items
-	get children(): Collection<EquipmentModifierGURPS | TechniqueGURPS | EquipmentModifierContainerGURPS> {
-		const children: Collection<EquipmentModifierGURPS | TechniqueGURPS | EquipmentModifierContainerGURPS> = new Collection();
+	get children(): Collection<
+		| EquipmentModifierGURPS
+		| TechniqueGURPS
+		| EquipmentModifierContainerGURPS
+	> {
+		const children: Collection<
+			| EquipmentModifierGURPS
+			| TechniqueGURPS
+			| EquipmentModifierContainerGURPS
+		> = new Collection();
 		this.items.forEach(item => {
-			if (item instanceof EquipmentModifierGURPS || item instanceof TechniqueGURPS || item instanceof EquipmentModifierContainerGURPS) children.set(item.id!, item);
+			if (
+				item instanceof EquipmentModifierGURPS ||
+				item instanceof TechniqueGURPS ||
+				item instanceof EquipmentModifierContainerGURPS
+			)
+				children.set(item.id!, item);
 		});
 		return children;
 	}

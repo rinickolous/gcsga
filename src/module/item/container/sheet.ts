@@ -10,14 +10,29 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
 		return mergeObject(ItemSheetGURPS.defaultOptions, {
 			template: `/systems/${SYSTEM_NAME}/templates/item/container-sheet.hbs`,
-			dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }],
+			dragDrop: [
+				{ dragSelector: ".item-list .item", dropSelector: null },
+			],
 		});
+	}
+
+	get items() {
+		return deepClone(
+			(this.item as ContainerGURPS).items
+				.map(item => item as Item)
+				//@ts-ignore sort not in Item type yet
+				.sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0)),
+		);
 	}
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
-		html.find(".enabled").on("click", event => this._onEnabledToggle(event));
+		html.find(".dropdown-toggle").on("click", event =>
+			this._onCollapseToggle(event),
+		);
+		html.find(".enabled").on("click", event =>
+			this._onEnabledToggle(event),
+		);
 		// html.find(".item-list").on("dragend", event => this._onDrop(event));
 	}
 
@@ -35,25 +50,38 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 
 		// Owned Items
 		if ((list as HTMLElement).dataset.itemId) {
-			const item = (this.item as ContainerGURPS).deepItems.get((list as HTMLElement).dataset.itemId!);
+			const item = (this.item as ContainerGURPS).deepItems.get(
+				(list as HTMLElement).dataset.itemId!,
+			);
 			dragData = (item as any)?.toDragData();
 
 			// Create custom drag image
 			const dragImage = document.createElement("div");
-			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
-				name: `${item?.name}`,
-				type: `${item?.type.replace("_container", "").replaceAll("_", "-")}`,
-			});
+			dragImage.innerHTML = await renderTemplate(
+				`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`,
+				{
+					name: `${item?.name}`,
+					type: `${item?.type
+						.replace("_container", "")
+						.replaceAll("_", "-")}`,
+				},
+			);
 			dragImage.id = "drag-ghost";
-			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
+			document.body
+				.querySelectorAll("#drag-ghost")
+				.forEach(e => e.remove());
 			document.body.appendChild(dragImage);
-			const height = (document.body.querySelector("#drag-ghost") as HTMLElement).offsetHeight;
+			const height = (
+				document.body.querySelector("#drag-ghost") as HTMLElement
+			).offsetHeight;
 			event.dataTransfer?.setDragImage(dragImage, 0, height / 2);
 		}
 
 		// Active Effect
 		if ((list as HTMLElement).dataset.effectId) {
-			const effect = (this.item as ContainerGURPS).effects.get((list as HTMLElement).dataset.effectId!);
+			const effect = (this.item as ContainerGURPS).effects.get(
+				(list as HTMLElement).dataset.effectId!,
+			);
 			dragData = (effect as any)?.toDragData();
 		}
 
@@ -75,12 +103,18 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 
 		switch (data.type) {
 			case "Item":
-				return this._onDropItem(event, data as ActorSheet.DropData.Item);
+				return this._onDropItem(
+					event,
+					data as ActorSheet.DropData.Item,
+				);
 		}
 	}
 
 	// DragData handling
-	protected async _onDropItem(event: DragEvent, data: ActorSheet.DropData.Item): Promise<unknown> {
+	protected async _onDropItem(
+		event: DragEvent,
+		data: ActorSheet.DropData.Item,
+	): Promise<unknown> {
 		// Remove Drag Markers
 		$(".drop-over").removeClass("drop-over");
 
@@ -91,25 +125,42 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		const itemData = item.toObject();
 
 		//Handle item sorting within the same Actor
-		if (this.item.uuid === item.parent?.uuid) return this._onSortItem(event, itemData);
+		if (this.item.uuid === item.parent?.uuid)
+			return this._onSortItem(event, itemData);
 
 		return this._onDropItemCreate(itemData);
 	}
 
 	async _onDropItemCreate(itemData: any[]) {
 		itemData = itemData instanceof Array ? itemData : [itemData];
-		return (this.item as ContainerGURPS).createEmbeddedDocuments("Item", itemData, { temporary: false });
+		return (this.item as ContainerGURPS).createEmbeddedDocuments(
+			"Item",
+			itemData,
+			{ temporary: false },
+		);
 	}
 
-	protected async _onSortItem(event: DragEvent, itemData: PropertiesToSource<ItemDataBaseProperties>): Promise<Item[]> {
-		const source = (this.item as ContainerGURPS).deepItems.get(itemData._id!);
+	protected async _onSortItem(
+		event: DragEvent,
+		itemData: PropertiesToSource<ItemDataBaseProperties>,
+	): Promise<Item[]> {
+		const source = (this.item as ContainerGURPS).deepItems.get(
+			itemData._id!,
+		);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
-		const target = (this.item as ContainerGURPS).deepItems.get(dropTarget.data("item-id"));
+		const target = (this.item as ContainerGURPS).deepItems.get(
+			dropTarget.data("item-id"),
+		);
 		if (!target) return [];
 		const parent = target?.parent;
-		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(i => i._id !== source!._id);
+		const siblings = (
+			target!.parent!.items as Collection<ItemGURPS>
+		).filter(i => i._id !== source!._id);
 
-		const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
+		const sortUpdates = SortingHelpers.performIntegerSort(source, {
+			target: target,
+			siblings,
+		});
 		const updateData = sortUpdates.map(u => {
 			const update = u.update;
 			(update as any)._id = u.target!._id;
@@ -117,8 +168,16 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		});
 
 		if (source && target && source.parent != target.parent) {
-			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
-			await source!.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
+			if (
+				source instanceof ContainerGURPS &&
+				target.parents.includes(source)
+			)
+				return [];
+			await source!.parent!.deleteEmbeddedDocuments(
+				"Item",
+				[source!._id!],
+				{ render: false },
+			);
 			return parent?.createEmbeddedDocuments(
 				"Item",
 				[
@@ -133,13 +192,20 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 				{ temporary: false },
 			);
 		}
-		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
+		return parent!.updateEmbeddedDocuments(
+			"Item",
+			updateData,
+		) as unknown as Item[];
 	}
 
 	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
 		event.preventDefault();
 		const id: string = $(event.currentTarget).data("item-id");
-		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
+		const open: boolean = $(event.currentTarget)
+			.attr("class")
+			?.includes("closed")
+			? true
+			: false;
 		const item = (this.item as ContainerGURPS).deepItems.get(id);
 		item?.update({ _id: id, "system.open": open });
 	}
@@ -149,6 +215,8 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		const id = $(event.currentTarget).data("item-id");
 		const item = (this.item as ContainerGURPS).deepItems.get(id);
 		if (item?.type.includes("container")) return;
-		return item?.update({ "system.disabled": (item as TraitModifierGURPS).enabled });
+		return item?.update({
+			"system.disabled": (item as TraitModifierGURPS).enabled,
+		});
 	}
 }

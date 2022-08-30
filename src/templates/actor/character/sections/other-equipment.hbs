@@ -1,5 +1,5 @@
 <div class="quantity">{{this.quantity}}</div>
-<div class="desc item" data-item-id="{{this.id}}" {{{indent this}}}>
+<div class="desc item" data-item-id="{{this.id}}" {{{indent this.parents.length}}}>
 	<div class="dropdown">
 		{{#if (eq this.type "equipment_container")}}
 		{{#if this.open}}

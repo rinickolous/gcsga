@@ -1,7 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { Encumbrance } from "@actor/character/data";
 import { SpellGURPS } from "@item";
-import { ItemGURPS } from "@item/data";
 import { DiceGURPS } from "@module/dice";
 import { i18n } from "./misc";
 
@@ -119,15 +118,14 @@ export function registerHandlebarsHelpers() {
 		return outArr;
 	});
 
-	Handlebars.registerHelper(
-		"indent",
-		function (i: ItemGURPS | number, init = -6, step = 12): string {
-			let sum = init;
-			if (typeof i == "number") sum += step * i;
-			else sum += step * (i.parentCount ?? 0);
-			return `style=\"padding-left: ${sum}px;\"`;
-		},
-	);
+	// TODO: change to variable init and step
+	Handlebars.registerHelper("indent", function (i: number): string {
+		const init = -6;
+		const step = 12;
+		let sum = init;
+		sum += step * i;
+		return `style=\"padding-left: ${sum}px;\"`;
+	});
 
 	Handlebars.registerHelper("spellValues", function (i: SpellGURPS): string {
 		const values = {
@@ -141,7 +139,7 @@ export function registerHandlebarsHelpers() {
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
 			if (v && v != "-")
-				list.push(`${i18n("gcsga.character.spells." + k)}: ${v}`);
+				list.push(`${i18n("gurps.character.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});
@@ -200,7 +198,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("ref", function (a: string): string {
-		if (a.includes("http")) return i18n("gcsga.character.link");
+		if (a.includes("http")) return i18n("gurps.character.link");
 		return a;
 	});
 

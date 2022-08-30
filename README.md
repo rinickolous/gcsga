@@ -97,4 +97,4 @@ This project is under an [MIT License].
 [League Basic JS Module Template]: https://github.com/League-of-Foundry-Developers/FoundryVTT-Module-Template
 [LIMITED LICENSE AGREEMENT FOR MODULE DEVELOPMENT]: https://foundryvtt.com/article/license/
 [Steve Jackson Games Online Policy]: http://www.sjgames.com/general/online_policy.html
-[MIT License]: https://github.com/rinickolous/gcsga/blob/master/LICENSE.md
+[MIT License]: https://github.com/crnormand/gurps/blob/master/LICENSE.md

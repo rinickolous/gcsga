@@ -26,8 +26,12 @@ export class BaseFeature {
 			Object.assign(this, data);
 		} else {
 			mergeObject(context, { ready: true });
-			const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[data.type as FeatureType];
-			return FeatureConstructor ? new FeatureConstructor(data, context) : new BaseFeature(data, context);
+			const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[
+				data.type as FeatureType
+			];
+			return FeatureConstructor
+				? new FeatureConstructor(data, context)
+				: new BaseFeature(data, context);
 		}
 	}
 
@@ -51,7 +55,15 @@ export class BaseFeature {
 		if (buffer) {
 			buffer.push("\n");
 			buffer.push(this.parent);
-			buffer.push(` [${new LeveledAmount({ level: this.levels, amount: this.amount, per_level: this.per_level }).formatWithLevel}]`);
+			buffer.push(
+				` [${
+					new LeveledAmount({
+						level: this.levels,
+						amount: this.amount,
+						per_level: this.per_level,
+					}).formatWithLevel
+				}]`,
+			);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 import { BaseItemGURPS } from "@item/base";
 import { SkillLevel } from "@item/skill/data";
 import { gid } from "@module/data";
-import { SkillDefault } from "@module/skill-default";
+import { SkillDefault } from "@module/default";
 import { TooltipGURPS } from "@module/tooltip";
 import { signed } from "@util";
 import { TechniqueData } from "./data";
@@ -49,8 +49,17 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
-			points += this.actor.skillPointComparedBonusFor("skill.points", this.name!, "", this.tags, tooltip);
-			points += this.actor.bonusFor(`skills.points/${this.name}`, tooltip);
+			points += this.actor.skillPointComparedBonusFor(
+				"skill.points",
+				this.name!,
+				"",
+				this.tags,
+				tooltip,
+			);
+			points += this.actor.bonusFor(
+				`skills.points/${this.name}`,
+				tooltip,
+			);
 			points = Math.max(points, 0);
 		}
 		return points;
@@ -58,12 +67,18 @@ export class TechniqueGURPS extends BaseItemGURPS {
 
 	satisfied(tooltip: TooltipGURPS, prefix: string): boolean {
 		if (this.default.type != "skill") return true;
-		const sk = this.actor?.bestSkillNamed(this.default.name ?? "", this.default.specialization ?? "", false, null);
-		const satisfied = (sk && (sk instanceof TechniqueGURPS || sk.points > 0)) || false;
+		const sk = this.actor?.bestSkillNamed(
+			this.default.name ?? "",
+			this.default.specialization ?? "",
+			false,
+			null,
+		);
+		const satisfied =
+			(sk && (sk instanceof TechniqueGURPS || sk.points > 0)) || false;
 		if (!satisfied) {
 			tooltip.push(prefix);
-			if (!sk) tooltip.push(`gcsga.prereqs.technique.skill`);
-			else tooltip.push(`gcsga.prereqs.technique.point`);
+			if (!sk) tooltip.push(`gurps.prereqs.technique.skill`);
+			else tooltip.push(`gurps.prereqs.technique.point`);
 			tooltip.push(this.default.fullName(this.actor!));
 		}
 		return satisfied;
@@ -107,7 +122,13 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				const sk = this.actor.baseSkill(this.default!, true);
 				if (sk) level = sk.calculateLevel.level;
 			} else if (this.default) {
-				level = this.default?.skillLevelFast(this.actor, true, null, false) - this.default?.modifier;
+				level =
+					this.default?.skillLevelFast(
+						this.actor,
+						true,
+						null,
+						false,
+					) - this.default?.modifier;
 			}
 			if (level != -Infinity) {
 				const base_level = level;
@@ -115,8 +136,17 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				if (this.difficulty == "h") points -= 1;
 				if (points > 0) relative_level = points;
 				if (level != -Infinity) {
-					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", this.specialization, this.tags, tooltip);
+					relative_level += this.actor.bonusFor(
+						"skill.name/" + this.name,
+						tooltip,
+					);
+					relative_level += this.actor.skillComparedBonusFor(
+						"skill.name*",
+						this.name ?? "",
+						this.specialization,
+						this.tags,
+						tooltip,
+					);
 					level += relative_level;
 				}
 				if (!!this.limit) {

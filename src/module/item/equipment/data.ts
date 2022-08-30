@@ -1,20 +1,29 @@
 import { Feature } from "@feature";
-import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
+import {
+	BaseContainerSource,
+	BaseContainerSystemData,
+} from "@item/container/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 
-export type EquipmentSource = BaseContainerSource<"equipment", EquipmentSystemData>;
+export type EquipmentSource = BaseContainerSource<
+	"equipment",
+	EquipmentSystemData
+>;
 
 // export class EquipmentData extends BaseContainerData<EquipmentGURPS> {}
 
-export interface EquipmentData extends Omit<EquipmentSource, "effects" | "items">, EquipmentSystemData {
+export interface EquipmentData
+	extends Omit<EquipmentSource, "effects" | "items">,
+		EquipmentSystemData {
 	readonly type: EquipmentSource["type"];
 	data: EquipmentSystemData;
 
 	readonly _source: EquipmentSource;
 }
 
-export interface EquipmentSystemData extends Omit<BaseContainerSystemData, "open"> {
+export interface EquipmentSystemData
+	extends Omit<BaseContainerSystemData, "open"> {
 	description: string;
 	prereqs: PrereqList;
 	equipped: boolean;

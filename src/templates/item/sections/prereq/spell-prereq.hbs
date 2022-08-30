@@ -4,7 +4,7 @@
 		{{#select this.sub_type}}
 		{{#each config.select.spell_sub_type as |v k|}}
 		<option value="{{k}}">{{localize (concat
-			"gcsga.select.spell_sub_type." v)}}</option>
+			"gurps.select.spell_sub_type." v)}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
@@ -14,7 +14,7 @@
 		{{!-- {{#unless (or (eq this.sub_type "college_count") (eq this.sub_type "any"))}} --}}
 		{{#each config.select.string_compare as |v k|}}
 		<option value="{{k}}">{{localize (concat
-			"gcsga.select.string_compare." v)}}</option>
+			"gurps.select.string_compare." v)}}</option>
 		{{/each}}
 		{{!-- {{/unless}} --}}
 		{{/select}}

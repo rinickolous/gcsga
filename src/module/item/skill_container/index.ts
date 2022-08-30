@@ -9,10 +9,19 @@ export class SkillContainerGURPS extends ContainerGURPS {
 	// }
 
 	// Embedded Items
-	get children(): Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> {
-		const children: Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> = new Collection();
+	get children(): Collection<
+		SkillGURPS | TechniqueGURPS | SkillContainerGURPS
+	> {
+		const children: Collection<
+			SkillGURPS | TechniqueGURPS | SkillContainerGURPS
+		> = new Collection();
 		this.items.forEach(item => {
-			if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS) children.set(item.id!, item);
+			if (
+				item instanceof SkillGURPS ||
+				item instanceof TechniqueGURPS ||
+				item instanceof SkillContainerGURPS
+			)
+				children.set(item.id!, item);
 		});
 		return children;
 	}

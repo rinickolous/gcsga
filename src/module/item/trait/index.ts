@@ -17,7 +17,8 @@ export class TraitGURPS extends ContainerGURPS {
 	get enabled(): boolean {
 		if (this.system.disabled) return false;
 		let enabled = !this.system.disabled;
-		if (this.parent && this.parent instanceof TraitContainerGURPS) enabled = enabled && this.parent.enabled;
+		if (this.parent && this.parent instanceof TraitContainerGURPS)
+			enabled = enabled && this.parent.enabled;
 		return enabled;
 	}
 	set enabled(enabled: boolean) {
@@ -50,8 +51,13 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get formattedCR(): string {
 		let cr = "";
-		if (this.cr != CR.None) cr += i18n(`gcsga.select.cr_level.${this.cr}`);
-		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.select.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		if (this.cr != CR.None) cr += i18n(`gurps.select.cr_level.${this.cr}`);
+		if (this.crAdj != "none")
+			cr +=
+				", " +
+				i18n_f(`gurps.select.cr_adj.${this.crAdj}`, {
+					penalty: SelfControl.adjustment(this.cr, this.crAdj),
+				});
 		return cr;
 	}
 
@@ -62,9 +68,13 @@ export class TraitGURPS extends ContainerGURPS {
 	get modifierNotes(): string {
 		let n = "";
 		if (this.cr != CR.None) {
-			n += i18n(`gcsga.select.cr_level.${this.cr}`);
+			n += i18n(`gurps.select.cr_level.${this.cr}`);
 			if (this.crAdj != "none") {
-				n += ", " + i18n_f(`gcsga.item.cr_adj_display.${this.crAdj}`, { penalty: "TODO" });
+				n +=
+					", " +
+					i18n_f(`gurps.item.cr_adj_display.${this.crAdj}`, {
+						penalty: "TODO",
+					});
 			}
 		}
 		this.deepModifiers.forEach(m => {
@@ -101,7 +111,8 @@ export class TraitGURPS extends ContainerGURPS {
 							return;
 					}
 				case "points":
-					if (mod.affects == "levels_only") pointsPerLevel += modifier;
+					if (mod.affects == "levels_only")
+						pointsPerLevel += modifier;
 					else basePoints += modifier;
 					return;
 				case "multiplier":
@@ -113,31 +124,57 @@ export class TraitGURPS extends ContainerGURPS {
 		if (baseEnh != 0 || baseLim != 0 || levelEnh != 0 || levelLim != 0) {
 			if (this.actor?.settings.use_multiplicative_modifiers) {
 				if (baseEnh == levelEnh && baseLim == levelLim) {
-					modifiedBasePoints = modifyPoints(modifyPoints(modifiedBasePoints + leveledPoints, baseEnh), Math.max(-80, baseLim));
+					modifiedBasePoints = modifyPoints(
+						modifyPoints(
+							modifiedBasePoints + leveledPoints,
+							baseEnh,
+						),
+						Math.max(-80, baseLim),
+					);
 				} else {
-					modifiedBasePoints = modifyPoints(modifyPoints(modifiedBasePoints, baseEnh), Math.max(-80, baseLim)) + modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
+					modifiedBasePoints =
+						modifyPoints(
+							modifyPoints(modifiedBasePoints, baseEnh),
+							Math.max(-80, baseLim),
+						) +
+						modifyPoints(
+							modifyPoints(leveledPoints, levelEnh),
+							Math.max(-80, levelLim),
+						);
 				}
 			} else {
 				let baseMod = Math.max(-80, baseEnh + baseLim);
 				let levelMod = Math.max(-80, levelEnh + levelLim);
 				if (baseMod == levelMod) {
-					modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
+					modifiedBasePoints = modifyPoints(
+						modifiedBasePoints + leveledPoints,
+						baseMod,
+					);
 				} else {
-					modifiedBasePoints = modifyPoints(modifiedBasePoints, baseMod) + modifyPoints(leveledPoints, levelMod);
+					modifiedBasePoints =
+						modifyPoints(modifiedBasePoints, baseMod) +
+						modifyPoints(leveledPoints, levelMod);
 				}
 			}
 		} else {
 			modifiedBasePoints += leveledPoints;
 		}
-		if (this.roundCostDown) return Math.floor(modifiedBasePoints * multiplier);
+		if (this.roundCostDown)
+			return Math.floor(modifiedBasePoints * multiplier);
 		else return Math.ceil(modifiedBasePoints * multiplier);
 	}
 
 	// Embedded Items
-	get modifiers(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
+	get modifiers(): Collection<
+		TraitModifierGURPS | TraitModifierContainerGURPS
+	> {
 		return new Collection(
 			this.items
-				.filter(item => item instanceof TraitModifierGURPS || item instanceof TraitModifierContainerGURPS)
+				.filter(
+					item =>
+						item instanceof TraitModifierGURPS ||
+						item instanceof TraitModifierContainerGURPS,
+				)
 				.map(item => {
 					return [item.id!, item];
 				}),
@@ -191,7 +228,10 @@ export function modifyPoints(points: number, modifier: number): number {
 	return points + calculateModifierPoints(points, modifier);
 }
 
-export function calculateModifierPoints(points: number, modifier: number): number {
+export function calculateModifierPoints(
+	points: number,
+	modifier: number,
+): number {
 	return (points * modifier) / 100;
 }
 

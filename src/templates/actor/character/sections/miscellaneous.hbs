@@ -1,8 +1,11 @@
 <div id="miscellaneous">
-	<div class="header">{{localize "gcsga.character.miscellaneous"}}</div>
+	<div class="header">{{localize "gurps.character.miscellaneous"}}</div>
 	<div class="fieldblock">
-		{{>input-text label="gcsga.character.created_date" field="field" data=(date actor.created_date) class="disabled"}}
-		{{>input-text label="gcsga.character.modified_date" field="field" data=(date data.modified_date) class="disabled"}}
-		{{>input-text label="gcsga.character.player_name" field="field" name="data.profile.player_name" data=data.profile.player_name type="String" class=(input_lock editing)}}
+		{{>input-text label="gurps.character.created_date" field="field" data=(date actor.created_date)
+		class="disabled"}}
+		{{>input-text label="gurps.character.modified_date" field="field" data=(date data.modified_date)
+		class="disabled"}}
+		{{>input-text label="gurps.character.player_name" field="field" name="data.profile.player_name"
+		data=data.profile.player_name type="String" class=(input_lock editing)}}
 	</div>
 </div>

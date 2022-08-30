@@ -6,7 +6,9 @@ export type SpellSource = BaseItemSourceGURPS<"spell", SpellSystemData>;
 
 // export class SpellData extends BaseItemDataGURPS<SpellGURPS> {}
 
-export interface SpellData extends Omit<SpellSource, "effects">, SpellSystemData {
+export interface SpellData
+	extends Omit<SpellSource, "effects">,
+		SpellSystemData {
 	readonly type: SpellSource["type"];
 	data: SpellSystemData;
 

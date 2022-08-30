@@ -1,4 +1,9 @@
-import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
+import {
+	NumberCompare,
+	NumberComparison,
+	StringCompare,
+	StringComparison,
+} from "@module/data";
 import { v4 as uuidv4 } from "uuid";
 
 export function i18n(value: string, fallback?: string): string {
@@ -7,7 +12,11 @@ export function i18n(value: string, fallback?: string): string {
 	return result;
 }
 
-export function i18n_f(value: string, data: Record<string, unknown>, fallback?: string): string {
+export function i18n_f(
+	value: string,
+	data: Record<string, unknown>,
+	fallback?: string,
+): string {
 	const template = (game as Game).i18n.has(value) ? value : fallback;
 	if (!template) return value;
 	const result = (game as Game).i18n.format(template, data);
@@ -22,11 +31,20 @@ export function signed(i: string | number): string {
 	return i.toString();
 }
 
-export function sanitize(id: string, permit_leading_digits: boolean, reserved: string[]): string {
+export function sanitize(
+	id: string,
+	permit_leading_digits: boolean,
+	reserved: string[],
+): string {
 	const buffer: string[] = [];
 	for (let ch of id.split("")) {
 		if (ch.match("[A-Z]")) ch = ch.toLowerCase();
-		if (ch == "_" || ch.match("[a-z]") || (ch.match("[0-9]") && (permit_leading_digits || buffer.length > 0))) buffer.push(ch);
+		if (
+			ch == "_" ||
+			ch.match("[a-z]") ||
+			(ch.match("[0-9]") && (permit_leading_digits || buffer.length > 0))
+		)
+			buffer.push(ch);
 	}
 	if (buffer.length == 0) buffer.push("_");
 	let ok = true;
@@ -54,7 +72,10 @@ export function getCurrentTime(): string {
 	return new Date().toISOString();
 }
 
-export function stringCompare(value?: string | string[] | null, base?: StringCompare): boolean {
+export function stringCompare(
+	value?: string | string[] | null,
+	base?: StringCompare,
+): boolean {
 	if (!base) return true;
 	if (!value) return false;
 	if (typeof value == "string") value = [value];
@@ -69,22 +90,29 @@ export function stringCompare(value?: string | string[] | null, base?: StringCom
 		case StringComparison.IsNot:
 			return !!base.qualifier && !value.includes(base.qualifier);
 		case StringComparison.Contains:
-			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return true;
+			for (const v of value)
+				if (base.qualifier && v.includes(base.qualifier)) return true;
 			return false;
 		case StringComparison.DoesNotContain:
-			for (const v of value) if (base.qualifier && v.includes(base.qualifier)) return false;
+			for (const v of value)
+				if (base.qualifier && v.includes(base.qualifier)) return false;
 			return true;
 		case StringComparison.StartsWith:
-			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return true;
+			for (const v of value)
+				if (base.qualifier && v.startsWith(base.qualifier)) return true;
 			return false;
 		case StringComparison.DoesNotStartWith:
-			for (const v of value) if (base.qualifier && v.startsWith(base.qualifier)) return false;
+			for (const v of value)
+				if (base.qualifier && v.startsWith(base.qualifier))
+					return false;
 			return true;
 		case StringComparison.EndsWith:
-			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return true;
+			for (const v of value)
+				if (base.qualifier && v.endsWith(base.qualifier)) return true;
 			return false;
 		case StringComparison.DoesNotEndWith:
-			for (const v of value) if (base.qualifier && v.endsWith(base.qualifier)) return false;
+			for (const v of value)
+				if (base.qualifier && v.endsWith(base.qualifier)) return false;
 			return true;
 	}
 }
@@ -109,9 +137,15 @@ export function extractTechLevel(str: string): number {
 	return Math.min(Math.max(0, parseInt(str)), 12);
 }
 
-type WeightValueType = "weight_addition" | "weight_percentage_addition" | "weight_percentage_multiplier" | "weight_multiplier";
+type WeightValueType =
+	| "weight_addition"
+	| "weight_percentage_addition"
+	| "weight_percentage_multiplier"
+	| "weight_multiplier";
 
-export function determineModWeightValueTypeFromString(s: string): WeightValueType {
+export function determineModWeightValueTypeFromString(
+	s: string,
+): WeightValueType {
 	if (typeof s !== "string") s = `${s}`;
 	s = s.toLowerCase().trim();
 	if (s.endsWith("%")) {
@@ -133,7 +167,10 @@ export function extractFraction(s: string): Fraction {
 		v = v.substring(0, v.length - 1);
 	}
 	const f = v.split("/");
-	const fraction: Fraction = { numerator: parseInt(f[0]) || 0, denominator: parseInt(f[1]) || 1 };
+	const fraction: Fraction = {
+		numerator: parseInt(f[0]) || 0,
+		denominator: parseInt(f[1]) || 1,
+	};
 	const revised = determineModWeightValueTypeFromString(s);
 	if (revised == "weight_percentage_multiplier") {
 		if (fraction.numerator <= 0) {

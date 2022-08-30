@@ -11,8 +11,7 @@ export class EquipmentSheet extends ContainerSheetGURPS {
 	}
 
 	getData(options?: Partial<DocumentSheetOptions> | undefined) {
-		//@ts-ignore sort not in Item type yet
-		const items = deepClone((this.item as EquipmentGURPS).items.map(item => item as Item).sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0)));
+		const items = this.items;
 		const sheetData = {
 			...super.getData(options),
 			...{

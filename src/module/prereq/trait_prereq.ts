@@ -1,12 +1,20 @@
 import { CharacterGURPS } from "@actor";
-import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
+import {
+	NumberCompare,
+	NumberComparison,
+	StringCompare,
+	StringComparison,
+} from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { BasePrereq } from "@prereq";
 import { i18n, numberCompare, stringCompare } from "@util";
 import { PrereqConstructionContext } from "./base";
 
 export class TraitPrereq extends BasePrereq {
-	constructor(data: TraitPrereq | any, context: PrereqConstructionContext = {}) {
+	constructor(
+		data: TraitPrereq | any,
+		context: PrereqConstructionContext = {},
+	) {
 		super(data, context);
 		Object.assign(this, mergeObject(TraitPrereq.defaults, data));
 	}
@@ -20,7 +28,12 @@ export class TraitPrereq extends BasePrereq {
 		});
 	}
 
-	override satisfied(actor: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
+	override satisfied(
+		actor: CharacterGURPS,
+		exclude: any,
+		tooltip: TooltipGURPS,
+		prefix: string,
+	): boolean {
 		let satisfied = false;
 		actor.traits.forEach(t => {
 			if (exclude == t || !stringCompare(t.name, this.name)) return false;
@@ -34,19 +47,24 @@ export class TraitPrereq extends BasePrereq {
 		if (this.has) satisfied = !satisfied;
 		if (!satisfied) {
 			tooltip.push(prefix);
-			tooltip.push(i18n(`gcsga.prereqs.has.${this.has}`));
-			tooltip.push(i18n(`gcsga.prereqs.trait.name`));
-			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.name?.compare}`));
-			if (this.name?.compare != "none") tooltip.push(this.name!.qualifier!);
+			tooltip.push(i18n(`gurps.prereqs.has.${this.has}`));
+			tooltip.push(i18n(`gurps.prereqs.trait.name`));
+			tooltip.push(i18n(`gurps.prereqs.criteria.${this.name?.compare}`));
+			if (this.name?.compare != "none")
+				tooltip.push(this.name!.qualifier!);
 			if (this.notes?.compare != "none") {
-				tooltip.push(i18n(`gcsga.prereqs.trait.notes`));
-				tooltip.push(i18n(`gcsga.prereqs.criteria.${this.notes?.compare}`));
+				tooltip.push(i18n(`gurps.prereqs.trait.notes`));
+				tooltip.push(
+					i18n(`gurps.prereqs.criteria.${this.notes?.compare}`),
+				);
 				tooltip.push(this.notes ? this.notes.qualifier! : "");
 				tooltip.push(",");
 			}
-			tooltip.push(i18n(`gcsga.prereqs.trait.level`));
-			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.level?.compare}`));
-			tooltip.push(((this.level ? this.level.qualifier : 0) ?? 0).toString());
+			tooltip.push(i18n(`gurps.prereqs.trait.level`));
+			tooltip.push(i18n(`gurps.prereqs.criteria.${this.level?.compare}`));
+			tooltip.push(
+				((this.level ? this.level.qualifier : 0) ?? 0).toString(),
+			);
 		}
 		return satisfied;
 	}

@@ -1,5 +1,9 @@
 import { BaseItemGURPS } from "@item/base";
-import { EquipmentCostType, EquipmentModifierData, EquipmentWeightType } from "./data";
+import {
+	EquipmentCostType,
+	EquipmentModifierData,
+	EquipmentWeightType,
+} from "./data";
 
 export class EquipmentModifierGURPS extends BaseItemGURPS {
 	// static get schema(): typeof EquipmentModifierData {

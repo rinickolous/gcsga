@@ -6,9 +6,23 @@ import { SkillPrereq } from "./skill_prereq";
 import { SpellPrereq } from "./spell_prereq";
 import { TraitPrereq } from "./trait_prereq";
 
-export type PrereqType = "prereq_list" | "trait_prereq" | "attribute_prereq" | "contained_quantity_prereq" | "contained_weight_prereq" | "skill_prereq" | "spell_prereq";
+export type PrereqType =
+	| "prereq_list"
+	| "trait_prereq"
+	| "attribute_prereq"
+	| "contained_quantity_prereq"
+	| "contained_weight_prereq"
+	| "skill_prereq"
+	| "spell_prereq";
 
-export type Prereq = PrereqList | TraitPrereq | AttributePrereq | ContainedWeightPrereq | ContainedQuantityPrereq | SkillPrereq | SpellPrereq;
+export type Prereq =
+	| PrereqList
+	| TraitPrereq
+	| AttributePrereq
+	| ContainedWeightPrereq
+	| ContainedQuantityPrereq
+	| SkillPrereq
+	| SpellPrereq;
 
 export const prereqClasses = {
 	// prereq_list: PrereqList,

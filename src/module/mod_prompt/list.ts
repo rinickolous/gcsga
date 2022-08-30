@@ -1,10 +1,12 @@
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
+import { ModifierWindow } from "./window";
 
 export class ModifierList extends Application {
-	constructor(list: any[], options = {}) {
+	constructor(window: ModifierWindow, list: any[], options = {}) {
 		super(options);
 
+		this.window = window;
 		this.mods = list;
 		this.selection = -1;
 		this.customMod = null;
@@ -34,7 +36,25 @@ export class ModifierList extends Application {
 		html.css("left", `${left}px`);
 		html.css("top", `${parentTop - height}px`);
 		parent.css("width", html.css("width"));
+
+		html.find(".entry").on("mouseover", event =>
+			this._onEntryMouseOver(event),
+		);
+		html.find(".entry").on("click", event => this._onEntryClick(event));
 		// html.css("width", `${parentWidth}px`);
+	}
+
+	_onEntryMouseOver(event: JQuery.MouseOverEvent) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.selection = $(event.currentTarget).data("index");
+		this.render();
+	}
+
+	_onEntryClick(event: JQuery.ClickEvent) {
+		event.preventDefault();
+		console.log("click");
+		return this.window.addModFromList();
 	}
 
 	getData(
@@ -59,7 +79,7 @@ export class ModifierList extends Application {
 			else m.pinned = false;
 		});
 
-		return mergeObject(super.getData, {
+		return mergeObject(super.getData(options), {
 			mods: mods,
 			pinnedMods: pinnedMods,
 			selection: this.selection,
@@ -71,4 +91,5 @@ export interface ModifierList extends Application {
 	mods: RollModifier[];
 	customMod: RollModifier | null;
 	selection: number;
+	window: ModifierWindow;
 }

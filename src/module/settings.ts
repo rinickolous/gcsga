@@ -1,43 +1,48 @@
 import { CharacterProfile } from "@actor/character/data";
 import { i18n } from "@util";
 import { AttributeDefObj } from "./attribute/attribute_def";
-import { DamageProgression, DisplayMode, LengthUnits, WeightUnits } from "./data";
+import {
+	DamageProgression,
+	DisplayMode,
+	LengthUnits,
+	WeightUnits,
+} from "./data";
 
 export const SYSTEM_NAME = "gcsga";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
 	(game as Game).settings.register(SYSTEM_NAME, "basic_set_pdf", {
-		name: i18n("gcsga.settings.basic_set_pdfs.name"),
-		hint: i18n("gcsga.settings.basic_set_pdfs.hint"),
+		name: i18n("gurps.settings.basic_set_pdfs.name"),
+		hint: i18n("gurps.settings.basic_set_pdfs.hint"),
 		scope: "world",
 		config: true,
 		type: String,
 		choices: {
-			combined: i18n("gcsga.settings.basic_set_pdfs.choices.combined"),
-			separate: i18n("gcsga.settings.basic_set_pdfs.choices.separate"),
+			combined: i18n("gurps.settings.basic_set_pdfs.choices.combined"),
+			separate: i18n("gurps.settings.basic_set_pdfs.choices.separate"),
 		},
 		default: "combined",
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
 
 	(game as Game).settings.register(SYSTEM_NAME, "portrait_path", {
-		name: i18n("gcsga.settings.portrait_path.name"),
-		hint: i18n("gcsga.settings.portrait_path.hint"),
+		name: i18n("gurps.settings.portrait_path.name"),
+		hint: i18n("gurps.settings.portrait_path.hint"),
 		scope: "world",
 		config: true,
 		type: String,
 		choices: {
-			global: i18n("gcsga.settings.portrait_path.choices.global"),
-			local: i18n("gcsga.settings.portrait_path.choices.local"),
+			global: i18n("gurps.settings.portrait_path.choices.global"),
+			local: i18n("gurps.settings.portrait_path.choices.local"),
 		},
 		default: "global",
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
 
 	(game as Game).settings.register(SYSTEM_NAME, "portrait_overwrite", {
-		name: i18n("gcsga.settings.portrait_overwrite.name"),
-		hint: i18n("gcsga.settings.portrait_overwrite.hint"),
+		name: i18n("gurps.settings.portrait_overwrite.name"),
+		hint: i18n("gurps.settings.portrait_overwrite.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -107,7 +112,7 @@ export const SETTINGS_TEMP: provider = {
 		skill_level_adj_display: "tooltip",
 		use_multiplicative_modifiers: false,
 		use_modifying_dice_plus_adds: false,
-		damage_progression: "basic_set",
+		damage_progression: DamageProgression.BasicSet,
 		use_simple_metric_conversions: true,
 		show_difficulty: false,
 		show_trait_modifier_adj: false,
@@ -122,7 +127,16 @@ export const SETTINGS_TEMP: provider = {
 			right_margin: "0.25 in",
 			orientation: "portrait",
 		},
-		block_layout: ["reactions conditional_modifiers", "melee", "ranged", "traits skills", "spells", "equipment", "other_equipment", "notes"],
+		block_layout: [
+			"reactions conditional_modifiers",
+			"melee",
+			"ranged",
+			"traits skills",
+			"spells",
+			"equipment",
+			"other_equipment",
+			"notes",
+		],
 		attributes: {
 			st: {
 				id: "st",
@@ -236,7 +250,8 @@ export const SETTINGS_TEMP: provider = {
 					},
 					{
 						state: "Collapse",
-						explanation: "Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
+						explanation:
+							"Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
 						expression: "0",
 						ops: ["halve_move", "halve_dodge", "halve_st"],
 					},
@@ -272,31 +287,36 @@ export const SETTINGS_TEMP: provider = {
 					},
 					{
 						state: "Dying #4",
-						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation:
+							"Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*4)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #3",
-						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation:
+							"Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*3)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #2",
-						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation:
+							"Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*2)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #1",
-						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation:
+							"Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "-$hp",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Collapse",
-						explanation: "Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation:
+							"Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round($hp/3)",
 						ops: ["halve_move", "halve_dodge"],
 					},

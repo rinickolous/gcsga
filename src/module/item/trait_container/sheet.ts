@@ -11,8 +11,7 @@ export class TraitContainerSheet extends ContainerSheetGURPS {
 	}
 
 	getData(options?: Partial<DocumentSheetOptions> | undefined) {
-		//@ts-ignore sort not in Item type yet
-		const items = deepClone((this.item as TraitContainerGURPS).items.map(item => item as Item).sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0)));
+		const items = this.items;
 		const sheetData = {
 			...super.getData(options),
 			...{
@@ -34,8 +33,12 @@ export class TraitContainerSheet extends ContainerSheetGURPS {
 		item?.sheet?.render(true);
 	}
 
-	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
-		if (Object.keys(formData).includes("system.disabled")) formData["system.disabled"] = !formData["system.disabled"];
+	protected _updateObject(
+		event: Event,
+		formData: Record<string, unknown>,
+	): Promise<unknown> {
+		if (Object.keys(formData).includes("system.disabled"))
+			formData["system.disabled"] = !formData["system.disabled"];
 		return super._updateObject(event, formData);
 	}
 }

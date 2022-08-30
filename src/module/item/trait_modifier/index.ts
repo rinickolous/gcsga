@@ -1,6 +1,10 @@
 import { BaseItemGURPS } from "@item/base";
 import { signed } from "@util";
-import { TraitModifierAffects, TraitModifierCostType, TraitModifierData } from "./data";
+import {
+	TraitModifierAffects,
+	TraitModifierCostType,
+	TraitModifierData,
+} from "./data";
 
 export class TraitModifierGURPS extends BaseItemGURPS {
 	// static get schema(): typeof TraitModifierData {
@@ -10,7 +14,8 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 	prepareBaseData() {
 		super.prepareBaseData();
 		// HACK: find a way to avoid this
-		if (typeof this.system.levels == "string") this.system.levels = parseInt(this.system.levels);
+		if (typeof this.system.levels == "string")
+			this.system.levels = parseInt(this.system.levels);
 	}
 
 	// Getters
@@ -27,7 +32,8 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 			}
 			base += "%";
 		} else if (this.costType == "points") base = signed(this.cost);
-		else if (this.costType == "multiplier") return `${this.costType}${this.cost}`;
+		else if (this.costType == "multiplier")
+			return `${this.costType}${this.cost}`;
 		return base;
 	}
 
@@ -56,7 +62,8 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 		let d = "";
 		d += this.name;
 		if (this.notes) d += ` (${this.notes})`;
-		if (this.actor && this.actor.settings.show_trait_modifier_adj) d += ` [${this.costDescription}]`;
+		if (this.actor && this.actor.settings.show_trait_modifier_adj)
+			d += ` [${this.costDescription}]`;
 		return d;
 	}
 

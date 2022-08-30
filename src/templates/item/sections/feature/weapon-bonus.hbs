@@ -23,9 +23,9 @@
 		{{#select this.specialization.compare}}
 		{{#each config.select.string_compare as |v k|}}
 		{{#if (eq ../this.selection_type "skills_with_name")}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.specialization"}} {{localize v}}</option>
+		<option value="{{k}}">{{localize "gurps.field_prefix.specialization"}} {{localize v}}</option>
 		{{else}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.usage"}} {{localize v}}</option>
+		<option value="{{k}}">{{localize "gurps.field_prefix.usage"}} {{localize v}}</option>
 		{{/if}}
 		{{/each}}
 		{{/select}}
@@ -39,7 +39,7 @@
 	<select name="system.features.{{@index}}.tags.compare">
 		{{#select this.tags.compare}}
 		{{#each config.select.string_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.tags"}} {{localize v}}</option>
+		<option value="{{k}}">{{localize "gurps.field_prefix.tags"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>
@@ -53,7 +53,7 @@
 	<select name="system.features.{{@index}}.level.compare">
 		{{#select this.level.compare}}
 		{{#each config.select.number_compare as |v k|}}
-		<option value="{{k}}">{{localize "gcsga.field_prefix.rsl"}} {{localize v}}</option>
+		<option value="{{k}}">{{localize "gurps.field_prefix.rsl"}} {{localize v}}</option>
 		{{/each}}
 		{{/select}}
 	</select>

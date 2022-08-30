@@ -1,12 +1,12 @@
-<form class="{{cssClass}} gcsga" autocomplete="off">
+<form class="{{cssClass}} gurps" autocomplete="off">
 	<div id="sheet" class="gcs_melee_sheet">
 		<div id="details">
-			{{>input-text field="field" label="gcsga.weapon.usage" name="usage" data=weapon.usage type="String"}}
-			{{>textarea field="field" label="gcsga.weapon.notes" name="usage_notes" data=weapon.usage_notes
+			{{>input-text field="field" label="gurps.weapon.usage" name="usage" data=weapon.usage type="String"}}
+			{{>textarea field="field" label="gurps.weapon.notes" name="usage_notes" data=weapon.usage_notes
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.strength" name="strength" data=weapon.strength
+			{{>input-text field="field" label="gurps.weapon.strength" name="strength" data=weapon.strength
 			type="String"}}
-			<div class="label">{{localize "gcsga.weapon.damage.st"}}</div>
+			<div class="label">{{localize "gurps.weapon.damage.st"}}</div>
 			<div class="field">
 				<select name="damage.st" data-dtype="String">
 					{{#select weapon.damage.st}}
@@ -16,31 +16,31 @@
 					{{/select}}
 				</select>
 			</div>
-			{{>input-text field="field" label="gcsga.weapon.damage.base" name="damage.base" data=(diceString
+			{{>input-text field="field" label="gurps.weapon.damage.base" name="damage.base" data=(diceString
 			weapon.damage.base)
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.modifier_per_die"
+			{{>input-text field="field" label="gurps.weapon.damage.modifier_per_die"
 			name="NUMBER.damage.modifier_per_die"
 			data=weapon.damage.modifier_per_die type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.armor_divisor" name="NUMBER.damage.armor_divisor"
+			{{>input-text field="field" label="gurps.weapon.damage.armor_divisor" name="NUMBER.damage.armor_divisor"
 			data=weapon.damage.armor_divisor type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.type" name="damage.type" data=weapon.damage.type
+			{{>input-text field="field" label="gurps.weapon.damage.type" name="damage.type" data=weapon.damage.type
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation" name="damage.fragmentation"
+			{{>input-text field="field" label="gurps.weapon.damage.fragmentation" name="damage.fragmentation"
 			data=weapon.damage.fragmentation type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_armor_divisor"
+			{{>input-text field="field" label="gurps.weapon.damage.fragmentation_armor_divisor"
 			name="NUMBER.damage.fragmentation_armor_divisor" data=weapon.damage.fragmentation_armor_divisor
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.damage.fragmentation_type" name="damage.fragmentation_type"
+			{{>input-text field="field" label="gurps.weapon.damage.fragmentation_type" name="damage.fragmentation_type"
 			data=weapon.damage.fragmentation_type type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.accuracy" name="accuracy" data=weapon.accuracy
+			{{>input-text field="field" label="gurps.weapon.accuracy" name="accuracy" data=weapon.accuracy
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.rate_of_fire" name="rate_of_fire" data=weapon.rate_of_fire
+			{{>input-text field="field" label="gurps.weapon.rate_of_fire" name="rate_of_fire" data=weapon.rate_of_fire
 			type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.range" name="range" data=weapon.range type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.recoil" name="recoil" data=weapon.recoil type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.shots" name="shots" data=weapon.shots type="String"}}
-			{{>input-text field="field" label="gcsga.weapon.bulk" name="bulk" data=weapon.bulk type="String"}}
+			{{>input-text field="field" label="gurps.weapon.range" name="range" data=weapon.range type="String"}}
+			{{>input-text field="field" label="gurps.weapon.recoil" name="recoil" data=weapon.recoil type="String"}}
+			{{>input-text field="field" label="gurps.weapon.shots" name="shots" data=weapon.shots type="String"}}
+			{{>input-text field="field" label="gurps.weapon.bulk" name="bulk" data=weapon.bulk type="String"}}
 		</div>
 		{{>defaults weapon attributes=attributes sysPrefix=sysPrefix}}
 	</div>

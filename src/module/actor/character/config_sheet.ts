@@ -11,7 +11,7 @@ export class CharacterSheetConfig extends FormApplication {
 
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			classes: ["form", "character-config", "gcsga"],
+			classes: ["form", "character-config", "gcs"],
 			template: `systems/${SYSTEM_NAME}/templates/actor/character/config.hbs`,
 			width: 400,
 		});
@@ -39,7 +39,10 @@ export class CharacterSheetConfig extends FormApplication {
 		return all_buttons;
 	}
 
-	protected _updateObject(event: Event, formData?: object | undefined): Promise<unknown> {
+	protected _updateObject(
+		event: Event,
+		formData?: object | undefined,
+	): Promise<unknown> {
 		throw new Error("Function not yet implemented");
 	}
 }

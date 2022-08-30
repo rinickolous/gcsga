@@ -1,4 +1,24 @@
-import { add, closeParen, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, logicalAnd, logicalOr, multiply, not, divide, modulo, notEqual, openParen, Operator, opFunction, power, subtract } from "./types";
+import {
+	add,
+	closeParen,
+	equal,
+	greaterThan,
+	greaterThanOrEqual,
+	lessThan,
+	lessThanOrEqual,
+	logicalAnd,
+	logicalOr,
+	multiply,
+	not,
+	divide,
+	modulo,
+	notEqual,
+	openParen,
+	Operator,
+	opFunction,
+	power,
+	subtract,
+} from "./types";
 
 export function fixedOperators(dbzrz: boolean): Operator[] {
 	let eDivide: opFunction;

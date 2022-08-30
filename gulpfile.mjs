@@ -16,13 +16,21 @@ import rollupConfig from "./rollup.config.mjs";
 /*  CONFIGURATION   */
 /********************/
 
-const name = "gcsga";
+const name = "gurps";
 const sourceDirectory = "./src";
 const distDirectory = "./dist";
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = "scss";
 const sourceFileExtension = "ts";
-const staticFiles = ["assets", "fonts", "lang", "packs", "templates", "system.json", "template.json"];
+const staticFiles = [
+	"assets",
+	"fonts",
+	"lang",
+	"packs",
+	"templates",
+	"system.json",
+	"template.json",
+];
 
 /********************/
 /*      BUILD       */
@@ -61,7 +69,10 @@ function buildStyles() {
 async function copyFiles() {
 	for (const file of staticFiles) {
 		if (fs.existsSync(`${sourceDirectory}/${file}`)) {
-			await fs.copy(`${sourceDirectory}/${file}`, `${distDirectory}/${file}`);
+			await fs.copy(
+				`${sourceDirectory}/${file}`,
+				`${distDirectory}/${file}`,
+			);
 		}
 	}
 }
@@ -70,8 +81,16 @@ async function copyFiles() {
  * Watch for changes for each build step
  */
 export function watch() {
-	gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
-	gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
+	gulp.watch(
+		`${sourceDirectory}/**/*.${sourceFileExtension}`,
+		{ ignoreInitial: false },
+		buildCode,
+	);
+	gulp.watch(
+		`${stylesDirectory}/**/*.${stylesExtension}`,
+		{ ignoreInitial: false },
+		buildStyles,
+	);
 	gulp.watch(
 		staticFiles.map(file => `${sourceDirectory}/${file}`),
 		{ ignoreInitial: false },
@@ -79,7 +98,10 @@ export function watch() {
 	);
 }
 
-export const build = gulp.series(clean, gulp.parallel(buildCode, buildStyles, copyFiles));
+export const build = gulp.series(
+	clean,
+	gulp.parallel(buildCode, buildStyles, copyFiles),
+);
 
 /********************/
 /*      CLEAN       */
@@ -135,7 +157,12 @@ export async function link() {
 		throw new Error("Could not find system.json");
 	}
 
-	const linkDirectory = path.resolve(getDataPath(), "Data", destinationDirectory, name);
+	const linkDirectory = path.resolve(
+		getDataPath(),
+		"Data",
+		destinationDirectory,
+		name,
+	);
 
 	const argv = yargs(hideBin(process.argv)).option("clean", {
 		alias: "c",

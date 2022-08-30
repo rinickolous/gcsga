@@ -1,17 +1,25 @@
 {
 	"private": true,
-	"name": "gcsga",
-	"description": "GURPS Character Sheet Game Aid",
+	"name": "gurps",
+	"description": "A game aid to help play GURPS 4e for Foundry VTT",
 	"license": "MIT",
-	"homepage": "https://github.com/rinickolous/gcsga",
+	"homepage": "https://github.com/crnormand/gurps",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/rinickolous/gcsga"
+		"url": "https://github.com/crnormand/gurps"
 	},
 	"bugs": {
-		"url": "https://github.com/rinickolous/gcsga/issues"
+		"url": "https://github.com/crnormand/gurps/issues"
 	},
 	"contributors": [
+		{
+			"name": "Chris Normand",
+			"email": ""
+		},
+		{
+			"name": "Nick Coffin",
+			"email": ""
+		},
 		{
 			"name": "Mikolaj Tomczynski",
 			"email": "mikolajtomczynski@gmail.com"

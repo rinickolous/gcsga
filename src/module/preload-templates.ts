@@ -1,8 +1,10 @@
 import { SYSTEM_NAME } from "./settings";
 
-export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
+export async function preloadTemplates(): Promise<
+	Handlebars.TemplateDelegate[]
+> {
 	const templatePaths: string[] = [
-		// Add paths to "systems/gcsga/templates"
+		// Add paths to "systems/gurps/templates"
 
 		"actor/character/sections/trait",
 		"actor/character/sections/basic-damage",

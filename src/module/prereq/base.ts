@@ -15,8 +15,11 @@ export class BasePrereq {
 			mergeObject(context, {
 				ready: true,
 			});
-			const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[data?.type as PrereqType];
-			if (PrereqConstructor) return new PrereqConstructor(data as any, context);
+			const PrereqConstructor = (CONFIG as any).GURPS.Prereq.classes[
+				data?.type as PrereqType
+			];
+			if (PrereqConstructor)
+				return new PrereqConstructor(data as any, context);
 			throw new Error("No PrereqConstructor provided");
 		}
 	}
@@ -51,7 +54,12 @@ export class BasePrereq {
 }
 
 export interface BasePrereq {
-	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean;
+	satisfied(
+		character: CharacterGURPS,
+		exclude: any,
+		tooltip: TooltipGURPS,
+		prefix: string,
+	): boolean;
 	type: PrereqType;
 	has: boolean;
 }

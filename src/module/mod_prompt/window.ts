@@ -10,7 +10,7 @@ export class ModifierWindow extends Application {
 
 		this.value = "";
 		this.button = button;
-		this.list = new ModifierList([]);
+		this.list = new ModifierList(this, []);
 	}
 
 	static get defaultOptions(): ApplicationOptions {
@@ -45,7 +45,7 @@ export class ModifierWindow extends Application {
 		const user = (game as Game).user;
 		let modStack = user?.getFlag(SYSTEM_NAME, "modifierStack") ?? [];
 
-		return mergeObject(super.getData, {
+		return mergeObject(super.getData(options), {
 			value: this.value,
 			applied_mods: modStack,
 		});
@@ -72,6 +72,8 @@ export class ModifierWindow extends Application {
 		// Focus the textbox on show
 		const searchbar = html.find(".searchbar");
 		searchbar.trigger("focus");
+
+		// Detect changes to input
 		searchbar.on("input", event => this._updateQuery(event, searchbar));
 		searchbar.on("keydown", event => this._keyDown(event));
 
@@ -122,7 +124,7 @@ export class ModifierWindow extends Application {
 					return this.list.render();
 				case "Enter":
 					if (event.shiftKey) return this.togglePin();
-					return this.addModifier();
+					return this.addModFromList();
 				case "Escape":
 					return this.close();
 			}
@@ -156,17 +158,21 @@ export class ModifierWindow extends Application {
 		this.list.render();
 	}
 
-	addModifier() {
+	addModFromList() {
+		const newMod: RollModifier = this.list.mods[this.list.selection];
+		if (!newMod) return;
+		return this.addModifier(newMod);
+	}
+
+	addModifier(mod: RollModifier) {
 		const modList: RollModifier[] =
 			((game as Game).user?.getFlag(
 				SYSTEM_NAME,
 				"modifierStack",
 			) as RollModifier[]) ?? [];
-		const newMod: RollModifier = this.list.mods[this.list.selection];
-		if (!newMod) return;
-		const oldMod = modList.find(e => e.name == newMod.name);
-		if (oldMod) oldMod.modifier += newMod.modifier;
-		else modList.push(newMod);
+		const oldMod = modList.find(e => e.name == mod.name);
+		if (oldMod) oldMod.modifier += mod.modifier;
+		else modList.push(mod);
 		(game as Game).user?.setFlag(SYSTEM_NAME, "modifierStack", modList);
 		this.list.customMod = null;
 		this.list.mods = [];

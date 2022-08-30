@@ -9,7 +9,20 @@ import { SkillBonus } from "@feature/skill_bonus";
 import { SkillPointBonus } from "@feature/skill_point_bonus";
 import { SpellBonus } from "@feature/spell_bonus";
 import { WeaponBonus } from "@feature/weapon_damage_bonus";
-import { EquipmentContainerGURPS, EquipmentGURPS, NoteContainerGURPS, NoteGURPS, RitualMagicSpellGURPS, SkillContainerGURPS, SkillGURPS, SpellContainerGURPS, SpellGURPS, TechniqueGURPS, TraitContainerGURPS, TraitGURPS } from "@item";
+import {
+	EquipmentContainerGURPS,
+	EquipmentGURPS,
+	NoteContainerGURPS,
+	NoteGURPS,
+	RitualMagicSpellGURPS,
+	SkillContainerGURPS,
+	SkillGURPS,
+	SpellContainerGURPS,
+	SpellGURPS,
+	TechniqueGURPS,
+	TraitContainerGURPS,
+	TraitGURPS,
+} from "@item";
 import { ItemType } from "@item/data";
 import { CR_Features } from "@item/trait/data";
 import { DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
@@ -21,25 +34,41 @@ import { CondMod } from "@module/conditional-modifier";
 import { attrPrefix, gid } from "@module/data";
 import { DiceGURPS } from "@module/dice";
 import { SETTINGS_TEMP, SYSTEM_NAME } from "@module/settings";
-import { SkillDefault } from "@module/skill-default";
+import { SkillDefault } from "@module/default";
 import { TooltipGURPS } from "@module/tooltip";
 import { MeleeWeapon, RangedWeapon, Weapon, WeaponType } from "@module/weapon";
-import { damageProgression, floatingMul, getCurrentTime, i18n, i18n_f, newUUID, numberCompare, SelfControl, stringCompare } from "@util";
+import {
+	damageProgression,
+	floatingMul,
+	getCurrentTime,
+	i18n,
+	i18n_f,
+	newUUID,
+	numberCompare,
+	SelfControl,
+	stringCompare,
+} from "@util";
 import { CharacterSource, CharacterSystemData, Encumbrance } from "./data";
 
 class CharacterGURPS extends BaseActorGURPS {
 	attributes: Map<string, Attribute> = new Map();
 	variableResolverExclusions: Map<string, boolean> = new Map();
-	// featureMap: Map<string, Feature[]> = new Map();
 	featureMap: Map<string, Feature[]>;
 
-	constructor(data: CharacterSource, context: ActorConstructorContextGURPS = {}) {
+	constructor(
+		data: CharacterSource,
+		context: ActorConstructorContextGURPS = {},
+	) {
 		super(data, context);
 		if (this.system.attributes) this.attributes = this.getAttributes();
 		this.featureMap = new Map();
 	}
 
-	protected _onCreate(data: any, options: DocumentModificationOptions, userId: string): void {
+	protected _onCreate(
+		data: any,
+		options: DocumentModificationOptions,
+		userId: string,
+	): void {
 		const sd: CharacterSystemData | any = {
 			id: newUUID(),
 			created_date: getCurrentTime(),
@@ -63,13 +92,21 @@ class CharacterGURPS extends BaseActorGURPS {
 		sd.total_points = SETTINGS_TEMP.general.initial_points;
 		sd.settings = SETTINGS_TEMP.sheet;
 		sd.modified_date = sd.created_date;
-		if (SETTINGS_TEMP.general.auto_fill) sd.profile = SETTINGS_TEMP.general.auto_fill;
+		if (SETTINGS_TEMP.general.auto_fill)
+			sd.profile = SETTINGS_TEMP.general.auto_fill;
 		sd.atributes = this.newAttributes();
 		this.update({ _id: this._id, system: sd });
 		super._onCreate(data, options, userId);
 	}
 
-	override update(data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>, context?: DocumentModificationContext & foundry.utils.MergeObjectOptions): Promise<this | undefined> {
+	override update(
+		data?: DeepPartial<
+			| ActorDataConstructorData
+			| (ActorDataConstructorData & Record<string, unknown>)
+		>,
+		context?: DocumentModificationContext &
+			foundry.utils.MergeObjectOptions,
+	): Promise<this | undefined> {
 		// console.log(data);
 		this.updateAttributes(data);
 		this.checkImport(data);
@@ -84,15 +121,27 @@ class CharacterGURPS extends BaseActorGURPS {
 		return data;
 	}
 
-	updateAttributes(data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>) {
-		if (Object.keys(this.system.attributes).length == 0) (data as any)["system.attributes"] = this.newAttributes();
+	updateAttributes(
+		data?: DeepPartial<
+			| ActorDataConstructorData
+			| (ActorDataConstructorData & Record<string, unknown>)
+		>,
+	) {
+		if (Object.keys(this.system.attributes).length == 0)
+			(data as any)["system.attributes"] = this.newAttributes();
 		for (const i in data) {
 			if (i.includes("system.attributes.")) {
-				const att = this.attributes.get(i.split("attributes.")[1].split(".")[0]);
+				const att = this.attributes.get(
+					i.split("attributes.")[1].split(".")[0],
+				);
 				const type = i.split("attributes.")[1].split(".")[1];
 				if (att) {
 					if (type == "adj") (data as any)[i] -= att.max - att.adj;
-					else if (type == "damage") (data as any)[i] = Math.max(att.max - (data as any)[i], 0);
+					else if (type == "damage")
+						(data as any)[i] = Math.max(
+							att.max - (data as any)[i],
+							0,
+						);
 				}
 			}
 		}
@@ -173,7 +222,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get skillPoints(): number {
 		let total = 0;
-		for (const s of this.skills.filter(e => e instanceof SkillGURPS || e instanceof TechniqueGURPS) as Array<SkillGURPS | TechniqueGURPS>) {
+		for (const s of this.skills.filter(
+			e => e instanceof SkillGURPS || e instanceof TechniqueGURPS,
+		) as Array<SkillGURPS | TechniqueGURPS>) {
 			total += s.points ?? 0;
 		}
 		return total;
@@ -181,7 +232,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	get spellPoints(): number {
 		let total = 0;
-		for (const s of this.spells.filter(e => e instanceof SpellGURPS || e instanceof RitualMagicSpellGURPS) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
+		for (const s of this.spells.filter(
+			e => e instanceof SpellGURPS || e instanceof RitualMagicSpellGURPS,
+		) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
 			total += s.points ?? 0;
 		}
 		return total;
@@ -196,8 +249,16 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	move(enc: Encumbrance): number {
-		let initialMove = Math.max(0, this.resolveAttributeCurrent(gid.BasicMove));
-		const divisor = 2 * Math.min(this.countThresholdOpMet("halve_move", this.attributes), 2);
+		let initialMove = Math.max(
+			0,
+			this.resolveAttributeCurrent(gid.BasicMove),
+		);
+		const divisor =
+			2 *
+			Math.min(
+				this.countThresholdOpMet("halve_move", this.attributes),
+				2,
+			);
 		if (divisor > 0) initialMove = Math.ceil(initialMove / divisor);
 		const move = Math.trunc((initialMove * (10 + 2 * enc.penalty)) / 10);
 		if (move < 1) {
@@ -208,8 +269,16 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	dodge(enc: Encumbrance): number {
-		let dodge = 3 + (this.calc?.dodge_bonus ?? 0) + Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
-		const divisor = 2 * Math.min(this.countThresholdOpMet("halve_dodge", this.attributes), 2);
+		let dodge =
+			3 +
+			(this.calc?.dodge_bonus ?? 0) +
+			Math.max(this.resolveAttributeCurrent(gid.BasicSpeed), 0);
+		const divisor =
+			2 *
+			Math.min(
+				this.countThresholdOpMet("halve_dodge", this.attributes),
+				2,
+			);
 		if (divisor > 0) {
 			dodge = Math.ceil(dodge / divisor);
 		}
@@ -247,7 +316,11 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get basicLift(): number {
-		const basicLift = (this.resolveAttributeCurrent(gid.Strength) + (this.calc?.lifting_st_bonus ?? 0)) ** 2 / 5;
+		const basicLift =
+			(this.resolveAttributeCurrent(gid.Strength) +
+				(this.calc?.lifting_st_bonus ?? 0)) **
+				2 /
+			5;
 		if (basicLift >= 10) return Math.round(basicLift);
 		return basicLift;
 	}
@@ -281,7 +354,9 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get fastWeightCarried(): string {
-		return `${this.weightCarried(false)} ${this.settings.default_weight_units}`;
+		return `${this.weightCarried(false)} ${
+			this.settings.default_weight_units
+		}`;
 	}
 
 	encumbranceLevel(for_skills = true): Encumbrance {
@@ -295,7 +370,11 @@ class CharacterGURPS extends BaseActorGURPS {
 	weightCarried(for_skills: boolean): number {
 		let total = 0;
 		this.carried_equipment.forEach(e => {
-			if (e.parent == this) total += e.extendedWeight(for_skills, this.settings.default_weight_units);
+			if (e.parent == this)
+				total += e.extendedWeight(
+					for_skills,
+					this.settings.default_weight_units,
+				);
 		});
 		return floatingMul(total);
 	}
@@ -325,7 +404,10 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	thrustFor(st: number): DiceGURPS {
-		return damageProgression.thrustFor(this.settings.damage_progression, st);
+		return damageProgression.thrustFor(
+			this.settings.damage_progression,
+			st,
+		);
 	}
 
 	get swing(): DiceGURPS {
@@ -339,11 +421,36 @@ class CharacterGURPS extends BaseActorGURPS {
 	get allEncumbrance(): Encumbrance[] {
 		const bl = this.basicLift;
 		const ae: Encumbrance[] = [
-			{ level: 0, maximum_carry: bl * 1, penalty: 0, name: i18n("gcsga.character.encumbrance.0") },
-			{ level: 1, maximum_carry: bl * 2, penalty: -1, name: i18n("gcsga.character.encumbrance.1") },
-			{ level: 2, maximum_carry: bl * 3, penalty: -2, name: i18n("gcsga.character.encumbrance.2") },
-			{ level: 3, maximum_carry: bl * 6, penalty: -3, name: i18n("gcsga.character.encumbrance.3") },
-			{ level: 4, maximum_carry: bl * 10, penalty: -4, name: i18n("gcsga.character.encumbrance.4") },
+			{
+				level: 0,
+				maximum_carry: bl * 1,
+				penalty: 0,
+				name: i18n("gurps.character.encumbrance.0"),
+			},
+			{
+				level: 1,
+				maximum_carry: bl * 2,
+				penalty: -1,
+				name: i18n("gurps.character.encumbrance.1"),
+			},
+			{
+				level: 2,
+				maximum_carry: bl * 3,
+				penalty: -2,
+				name: i18n("gurps.character.encumbrance.2"),
+			},
+			{
+				level: 3,
+				maximum_carry: bl * 6,
+				penalty: -3,
+				name: i18n("gurps.character.encumbrance.3"),
+			},
+			{
+				level: 4,
+				maximum_carry: bl * 10,
+				penalty: -4,
+				name: i18n("gurps.character.encumbrance.4"),
+			},
 		];
 		return ae;
 	}
@@ -384,38 +491,68 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	// Item Types
 	get traits(): Collection<TraitGURPS | TraitContainerGURPS> {
-		const traits: Collection<TraitGURPS | TraitContainerGURPS> = new Collection();
+		const traits: Collection<TraitGURPS | TraitContainerGURPS> =
+			new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) traits.set(item._id!, item);
+			if (
+				item instanceof TraitGURPS ||
+				item instanceof TraitContainerGURPS
+			)
+				traits.set(item._id!, item);
 		});
 		return traits;
 	}
 
-	get skills(): Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> {
-		const skills: Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> = new Collection();
+	get skills(): Collection<
+		SkillGURPS | TechniqueGURPS | SkillContainerGURPS
+	> {
+		const skills: Collection<
+			SkillGURPS | TechniqueGURPS | SkillContainerGURPS
+		> = new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS) skills.set(item._id!, item);
+			if (
+				item instanceof SkillGURPS ||
+				item instanceof TechniqueGURPS ||
+				item instanceof SkillContainerGURPS
+			)
+				skills.set(item._id!, item);
 		});
 		return skills;
 	}
 
-	get spells(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
-		const spells: Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> = new Collection();
+	get spells(): Collection<
+		SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS
+	> {
+		const spells: Collection<
+			SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS
+		> = new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof SpellGURPS || item instanceof RitualMagicSpellGURPS || item instanceof SpellContainerGURPS) spells.set(item._id!, item);
+			if (
+				item instanceof SpellGURPS ||
+				item instanceof RitualMagicSpellGURPS ||
+				item instanceof SpellContainerGURPS
+			)
+				spells.set(item._id!, item);
 		});
 		return spells;
 	}
 
 	get equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
-		const equipment: Collection<EquipmentGURPS | EquipmentContainerGURPS> = new Collection();
+		const equipment: Collection<EquipmentGURPS | EquipmentContainerGURPS> =
+			new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS) equipment.set(item._id!, item);
+			if (
+				item instanceof EquipmentGURPS ||
+				item instanceof EquipmentContainerGURPS
+			)
+				equipment.set(item._id!, item);
 		});
 		return equipment;
 	}
 
-	get carried_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+	get carried_equipment(): Collection<
+		EquipmentGURPS | EquipmentContainerGURPS
+	> {
 		return new Collection(
 			this.equipment
 				.filter(item => !item.other)
@@ -425,7 +562,9 @@ class CharacterGURPS extends BaseActorGURPS {
 		);
 	}
 
-	get other_equipment(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+	get other_equipment(): Collection<
+		EquipmentGURPS | EquipmentContainerGURPS
+	> {
 		return new Collection(
 			this.equipment
 				.filter(item => item.other)
@@ -436,9 +575,11 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get notes(): Collection<NoteGURPS | NoteContainerGURPS> {
-		const notes: Collection<NoteGURPS | NoteContainerGURPS> = new Collection();
+		const notes: Collection<NoteGURPS | NoteContainerGURPS> =
+			new Collection();
 		this.deepItems.forEach(item => {
-			if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) notes.set(item._id!, item);
+			if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS)
+				notes.set(item._id!, item);
 		});
 		return notes;
 	}
@@ -478,7 +619,9 @@ class CharacterGURPS extends BaseActorGURPS {
 				if (w.type == type) weaponList.push(w);
 			});
 		});
-		weaponList.sort((a, b) => (a.usage > b.usage ? 1 : b.usage > a.usage ? -1 : 0));
+		weaponList.sort((a, b) =>
+			a.usage > b.usage ? 1 : b.usage > a.usage ? -1 : 0,
+		);
 		return weaponList;
 	}
 
@@ -489,78 +632,135 @@ class CharacterGURPS extends BaseActorGURPS {
 	get reactions(): CondMod[] {
 		let reactionMap: Map<string, CondMod> = new Map();
 		this.traits.forEach(t => {
-			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
+			let source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
 			this.reactionsFromFeatureList(source, t.features, reactionMap);
 			t.deepModifiers.forEach(mod => {
-				this.reactionsFromFeatureList(source, mod.features, reactionMap);
+				this.reactionsFromFeatureList(
+					source,
+					mod.features,
+					reactionMap,
+				);
 			});
 			if (t.cr != -1 && t.crAdj == "reaction_penalty") {
 				let amount = SelfControl.adjustment(t.cr, t.crAdj);
-				let situation = i18n_f("gcsga.reaction.cr", { trait: t.name ?? "" });
-				if (reactionMap.has(situation)) reactionMap.get(situation)!.add(source, amount);
-				else reactionMap.set(situation, new CondMod(source, situation, amount));
+				let situation = i18n_f("gurps.reaction.cr", {
+					trait: t.name ?? "",
+				});
+				if (reactionMap.has(situation))
+					reactionMap.get(situation)!.add(source, amount);
+				else
+					reactionMap.set(
+						situation,
+						new CondMod(source, situation, amount),
+					);
 			}
 		});
 		this.carried_equipment.forEach(e => {
 			if (e.equipped && e.quantity > 0) {
-				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
+				let source =
+					i18n("gurps.reaction.from_equipment") + (e.name ?? "");
 				this.reactionsFromFeatureList(source, e.features, reactionMap);
 				e.deepModifiers.forEach(mod => {
-					this.reactionsFromFeatureList(source, mod.features, reactionMap);
+					this.reactionsFromFeatureList(
+						source,
+						mod.features,
+						reactionMap,
+					);
 				});
 			}
 		});
 		this.skills.forEach(sk => {
-			let source = i18n("gcsga.reaction.from_skill") + (sk.name ?? "");
-			if (sk instanceof TechniqueGURPS) source = i18n("gcsga.reaction.from_technique") + (sk.name ?? "");
+			let source = i18n("gurps.reaction.from_skill") + (sk.name ?? "");
+			if (sk instanceof TechniqueGURPS)
+				source =
+					i18n("gurps.reaction.from_technique") + (sk.name ?? "");
 			this.reactionsFromFeatureList(source, sk.features, reactionMap);
 		});
 		let reactionList = Array.from(reactionMap.values());
 		return reactionList;
 	}
 
-	reactionsFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
+	reactionsFromFeatureList(
+		source: string,
+		features: Feature[],
+		m: Map<string, CondMod>,
+	): void {
 		for (const f of features)
 			if (f instanceof ReactionBonus) {
 				let amount = f.adjustedAmount;
 				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
-				else m.set(f.situation, new CondMod(source, f.situation, amount));
+				else
+					m.set(
+						f.situation,
+						new CondMod(source, f.situation, amount),
+					);
 			}
 	}
 
 	get conditionalModifiers(): CondMod[] {
 		let reactionMap: Map<string, CondMod> = new Map();
 		this.traits.forEach(t => {
-			let source = i18n("gcsga.reaction.from_trait") + (t.name ?? "");
-			this.conditionalModifiersFromFeatureList(source, t.features, reactionMap);
+			let source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
+			this.conditionalModifiersFromFeatureList(
+				source,
+				t.features,
+				reactionMap,
+			);
 			t.deepModifiers.forEach(mod => {
-				this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
+				this.conditionalModifiersFromFeatureList(
+					source,
+					mod.features,
+					reactionMap,
+				);
 			});
 		});
 		this.carried_equipment.forEach(e => {
 			if (e.equipped && e.quantity > 0) {
-				let source = i18n("gcsga.reaction.from_equipment") + (e.name ?? "");
-				this.conditionalModifiersFromFeatureList(source, e.features, reactionMap);
+				let source =
+					i18n("gurps.reaction.from_equipment") + (e.name ?? "");
+				this.conditionalModifiersFromFeatureList(
+					source,
+					e.features,
+					reactionMap,
+				);
 				e.deepModifiers.forEach(mod => {
-					this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
+					this.conditionalModifiersFromFeatureList(
+						source,
+						mod.features,
+						reactionMap,
+					);
 				});
 			}
 		});
 		this.skills.forEach(sk => {
-			let source = i18n("gcsga.reaction.from_skill") + (sk.name ?? "");
-			if (sk instanceof TechniqueGURPS) source = i18n("gcsga.reaction.from_technique") + (sk.name ?? "");
-			this.conditionalModifiersFromFeatureList(source, sk.features, reactionMap);
+			let source = i18n("gurps.reaction.from_skill") + (sk.name ?? "");
+			if (sk instanceof TechniqueGURPS)
+				source =
+					i18n("gurps.reaction.from_technique") + (sk.name ?? "");
+			this.conditionalModifiersFromFeatureList(
+				source,
+				sk.features,
+				reactionMap,
+			);
 		});
 		let reactionList = Array.from(reactionMap.values());
 		return reactionList;
 	}
 
-	conditionalModifiersFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
+	conditionalModifiersFromFeatureList(
+		source: string,
+		features: Feature[],
+		m: Map<string, CondMod>,
+	): void {
 		for (const f of features)
 			if (f instanceof ConditionalModifier) {
 				let amount = f.adjustedAmount;
 				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
-				else m.set(f.situation, new CondMod(source, f.situation, amount));
+				else
+					m.set(
+						f.situation,
+						new CondMod(source, f.situation, amount),
+					);
 			}
 	}
 
@@ -602,7 +802,11 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	// do not store modifiers directly on actors
-	createEmbeddedDocuments(embeddedName: string, data: Array<Record<string, unknown>>, context: DocumentModificationContext & { temporary: boolean }): Promise<Array<any>> {
+	createEmbeddedDocuments(
+		embeddedName: string,
+		data: Array<Record<string, unknown>>,
+		context: DocumentModificationContext & { temporary: boolean },
+	): Promise<Array<any>> {
 		data = data.filter(e => !(e.type as ItemType).includes("modifier"));
 		return super.createEmbeddedDocuments(embeddedName, data, context);
 	}
@@ -614,7 +818,10 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	override prepareBaseData(): void {
 		super.prepareBaseData();
-		if (this.system.attributes && Object.keys(this.system.attributes).length == 0) {
+		if (
+			this.system.attributes &&
+			Object.keys(this.system.attributes).length == 0
+		) {
 			this.system.attributes = this.newAttributes();
 			this.attributes = this.getAttributes();
 		}
@@ -634,12 +841,20 @@ class CharacterGURPS extends BaseActorGURPS {
 		}
 		this.pools = {};
 		this.attributes.forEach(a => {
-			if (a.attribute_def.type == "pool") this.pools[a.attribute_def.name] = { max: a.max, value: a.current };
+			if (a.attribute_def.type == "pool")
+				this.pools[a.attribute_def.name] = {
+					max: a.max,
+					value: a.current,
+				};
 		});
 	}
 
 	updateProfile(): void {
-		if (this.profile) this.profile.SM = this.bonusFor(`${attrPrefix}${gid.SizeModifier}`, undefined);
+		if (this.profile)
+			this.profile.SM = this.bonusFor(
+				`${attrPrefix}${gid.SizeModifier}`,
+				undefined,
+			);
 	}
 
 	processFeatures() {
@@ -649,12 +864,22 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (t instanceof TraitGURPS) {
 				if (t.features)
 					for (const f of t.features) {
-						processFeature(t, this.featureMap, f, Math.max(t.levels, 0));
+						processFeature(
+							t,
+							this.featureMap,
+							f,
+							Math.max(t.levels, 0),
+						);
 					}
 			}
 			if (CR_Features.has(t.crAdj))
 				for (const f of CR_Features?.get(t.crAdj)) {
-					processFeature(t, this.featureMap, f, Math.max(t.levels, 0));
+					processFeature(
+						t,
+						this.featureMap,
+						f,
+						Math.max(t.levels, 0),
+					);
 				}
 			for (const m of t.deepModifiers) {
 				for (const f of m.features) {
@@ -680,17 +905,31 @@ class CharacterGURPS extends BaseActorGURPS {
 		}
 		// this.featureMap = featureMap;
 		if (!this.calc) this.calc = {};
-		this.calc.lifting_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.lifting_only`, undefined);
-		this.calc.striking_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.striking_only`, undefined);
-		this.calc.throwing_st_bonus = this.bonusFor(`${attrPrefix}${gid.Strength}.throwing_only`, undefined);
+		this.calc.lifting_st_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Strength}.lifting_only`,
+			undefined,
+		);
+		this.calc.striking_st_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Strength}.striking_only`,
+			undefined,
+		);
+		this.calc.throwing_st_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Strength}.throwing_only`,
+			undefined,
+		);
 		if (this.attributes)
 			this.attributes.forEach(attr => {
 				const def = attr.attribute_def;
 				if (def) {
 					const attrID = attrPrefix + attr.attr_id;
-					this.system.attributes[attr.attr_id].bonus = this.bonusFor(attrID, undefined);
-					if (def.type != "decimal") attr.bonus = Math.floor(attr.bonus);
-					this.system.attributes[attr.attr_id].cost_reduction = this.costReductionFor(attrID);
+					this.system.attributes[attr.attr_id].bonus = this.bonusFor(
+						attrID,
+						undefined,
+					);
+					if (def.type != "decimal")
+						attr.bonus = Math.floor(attr.bonus);
+					this.system.attributes[attr.attr_id].cost_reduction =
+						this.costReductionFor(attrID);
 				} else {
 					this.system.attributes[attr.attr_id].bonus = 0;
 					this.system.attributes[attr.attr_id].cost_reduction = 0;
@@ -698,14 +937,23 @@ class CharacterGURPS extends BaseActorGURPS {
 			});
 		this.attributes = this.getAttributes();
 		this.updateProfile();
-		this.calc.dodge_bonus = this.bonusFor(`${attrPrefix}${gid.Dodge}`, undefined);
-		this.calc.parry_bonus = this.bonusFor(`${attrPrefix}${gid.Parry}`, undefined);
-		this.calc.block_bonus = this.bonusFor(`${attrPrefix}${gid.Block}`, undefined);
+		this.calc.dodge_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Dodge}`,
+			undefined,
+		);
+		this.calc.parry_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Parry}`,
+			undefined,
+		);
+		this.calc.block_bonus = this.bonusFor(
+			`${attrPrefix}${gid.Block}`,
+			undefined,
+		);
 	}
 
 	processPrereqs(): void {
 		const prefix = "\n● ";
-		const not_met = i18n("gcsga.prerqs.not_met");
+		const not_met = i18n("gurps.prerqs.not_met");
 		for (const t of this.traits.filter(e => e instanceof TraitGURPS)) {
 			t.unsatisfied_reason = "";
 			if (t instanceof TraitGURPS && !t.prereqsEmpty) {
@@ -715,24 +963,32 @@ class CharacterGURPS extends BaseActorGURPS {
 				}
 			}
 		}
-		for (let k of this.skills.filter(e => !(e instanceof SkillContainerGURPS))) {
+		for (let k of this.skills.filter(
+			e => !(e instanceof SkillContainerGURPS),
+		)) {
 			k = k as SkillGURPS | TechniqueGURPS;
 			k.unsatisfied_reason = "";
 			const tooltip = new TooltipGURPS();
 			let satisfied = true;
-			if (!k.prereqsEmpty) satisfied = k.prereqs.satisfied(this, k, tooltip, prefix);
-			if (satisfied && k instanceof TechniqueGURPS) satisfied = k.satisfied(tooltip, prefix);
+			if (!k.prereqsEmpty)
+				satisfied = k.prereqs.satisfied(this, k, tooltip, prefix);
+			if (satisfied && k instanceof TechniqueGURPS)
+				satisfied = k.satisfied(tooltip, prefix);
 			if (!satisfied) {
 				k.unsatisfied_reason = not_met + tooltip.toString();
 			}
 		}
-		for (let b of this.spells.filter(e => !(e instanceof SpellContainerGURPS))) {
+		for (let b of this.spells.filter(
+			e => !(e instanceof SpellContainerGURPS),
+		)) {
 			b = b as SpellGURPS | RitualMagicSpellGURPS;
 			b.unsatisfied_reason = "";
 			const tooltip = new TooltipGURPS();
 			let satisfied = true;
-			if (!b.prereqsEmpty) satisfied = b.prereqs.satisfied(this, b, tooltip, prefix);
-			if (satisfied && b instanceof RitualMagicSpellGURPS) satisfied = b.satisfied(tooltip, prefix);
+			if (!b.prereqsEmpty)
+				satisfied = b.prereqs.satisfied(this, b, tooltip, prefix);
+			if (satisfied && b instanceof RitualMagicSpellGURPS)
+				satisfied = b.satisfied(tooltip, prefix);
 			if (!satisfied) b.unsatisfied_reason = not_met + tooltip.toString();
 		}
 		for (const e of this.equipment) {
@@ -748,7 +1004,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	updateSkills(): boolean {
 		let changed = false;
-		for (const k of this.skills.filter(e => !(e instanceof SkillContainerGURPS)) as Array<SkillGURPS | TechniqueGURPS>) {
+		for (const k of this.skills.filter(
+			e => !(e instanceof SkillContainerGURPS),
+		) as Array<SkillGURPS | TechniqueGURPS>) {
 			if (k.updateLevel()) changed = true;
 		}
 		return changed;
@@ -756,39 +1014,65 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	updateSpells(): boolean {
 		let changed = false;
-		for (const b of this.spells.filter(e => !(e instanceof SpellContainerGURPS)) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
+		for (const b of this.spells.filter(
+			e => !(e instanceof SpellContainerGURPS),
+		) as Array<SpellGURPS | RitualMagicSpellGURPS>) {
 			if (b.updateLevel()) changed = true;
 		}
 		return changed;
 	}
 
 	// Directed Skill Getters
-	baseSkill(def: SkillDefault, require_points: boolean): SkillGURPS | TechniqueGURPS | null {
+	baseSkill(
+		def: SkillDefault,
+		require_points: boolean,
+	): SkillGURPS | TechniqueGURPS | null {
 		if (!def.skillBased) return null;
-		return this.bestSkillNamed(def.name ?? "", def.specialization ?? "", require_points, null);
+		return this.bestSkillNamed(
+			def.name ?? "",
+			def.specialization ?? "",
+			require_points,
+			null,
+		);
 	}
 
-	bestSkillNamed(name: string, specialization: string, require_points: boolean, excludes: Map<string, boolean> | null): SkillGURPS | TechniqueGURPS | null {
+	bestSkillNamed(
+		name: string,
+		specialization: string,
+		require_points: boolean,
+		excludes: Map<string, boolean> | null,
+	): SkillGURPS | TechniqueGURPS | null {
 		let best: SkillGURPS | TechniqueGURPS | null = null;
 		let level = Math.max();
-		this.skillNamed(name, specialization, require_points, excludes).forEach(sk => {
-			const skill_level = sk.calculateLevel.level;
-			if (best || level < skill_level) {
-				best = sk;
-				level = skill_level;
-			}
-		});
+		this.skillNamed(name, specialization, require_points, excludes).forEach(
+			sk => {
+				const skill_level = sk.calculateLevel.level;
+				if (best || level < skill_level) {
+					best = sk;
+					level = skill_level;
+				}
+			},
+		);
 		return best;
 	}
 
-	skillNamed(name: string, specialization: string, require_points: boolean, excludes: Map<string, boolean> | null): Collection<SkillGURPS | TechniqueGURPS> {
-		const skills: Collection<SkillGURPS | TechniqueGURPS> = new Collection();
+	skillNamed(
+		name: string,
+		specialization: string,
+		require_points: boolean,
+		excludes: Map<string, boolean> | null,
+	): Collection<SkillGURPS | TechniqueGURPS> {
+		const skills: Collection<SkillGURPS | TechniqueGURPS> =
+			new Collection();
 		this.skills.forEach(item => {
 			if (
 				(!excludes || !excludes.get(item.name!)) &&
-				(item instanceof SkillGURPS || item instanceof TechniqueGURPS) &&
+				(item instanceof SkillGURPS ||
+					item instanceof TechniqueGURPS) &&
 				item.name == name &&
-				(!require_points || item instanceof TechniqueGURPS || item.adjustedPoints() > 0) &&
+				(!require_points ||
+					item instanceof TechniqueGURPS ||
+					item.adjustedPoints() > 0) &&
 				(specialization == "" || specialization == item.specialization)
 			)
 				skills.set(item._id!, item);
@@ -808,11 +1092,21 @@ class CharacterGURPS extends BaseActorGURPS {
 		return total;
 	}
 
-	skillComparedBonusFor(featureID: string, name: string, specialization: string, tags: string[], tooltip: TooltipGURPS | undefined): number {
+	skillComparedBonusFor(
+		featureID: string,
+		name: string,
+		specialization: string,
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let total = 0;
 		this.featureMap.get(featureID)?.forEach(f => {
 			if (!(f instanceof SkillBonus)) return;
-			if (stringCompare(name, f.name) && stringCompare(specialization, f.specialization) && stringCompare(tags, f.tags)) {
+			if (
+				stringCompare(name, f.name) &&
+				stringCompare(specialization, f.specialization) &&
+				stringCompare(tags, f.tags)
+			) {
 				total += f.adjustedAmount;
 				f.addToTooltip(tooltip);
 			}
@@ -820,11 +1114,21 @@ class CharacterGURPS extends BaseActorGURPS {
 		return total;
 	}
 
-	skillPointComparedBonusFor(featureID: string, name: string, specialization: string, tags: string[], tooltip: TooltipGURPS | undefined): number {
+	skillPointComparedBonusFor(
+		featureID: string,
+		name: string,
+		specialization: string,
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let total = 0;
 		this.featureMap?.get(featureID)?.forEach(f => {
 			if (!(f instanceof SkillPointBonus)) return;
-			if (stringCompare(name, f.name) && stringCompare(specialization, f.specialization) && stringCompare(tags, f.tags)) {
+			if (
+				stringCompare(name, f.name) &&
+				stringCompare(specialization, f.specialization) &&
+				stringCompare(tags, f.tags)
+			) {
 				total += f.adjustedAmount;
 				f.addToTooltip(tooltip);
 			}
@@ -832,24 +1136,59 @@ class CharacterGURPS extends BaseActorGURPS {
 		return total;
 	}
 
-	spellBonusesFor(featureID: string, qualifier: string, tags: string[], tooltip: TooltipGURPS | undefined): number {
+	spellBonusesFor(
+		featureID: string,
+		qualifier: string,
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let level = this.bonusFor(featureID, tooltip);
-		level += this.bonusFor(featureID + "/" + qualifier.toLowerCase(), tooltip);
-		level += this.spellComparedBonusFor(featureID + "*", qualifier, tags, tooltip);
+		level += this.bonusFor(
+			featureID + "/" + qualifier.toLowerCase(),
+			tooltip,
+		);
+		level += this.spellComparedBonusFor(
+			featureID + "*",
+			qualifier,
+			tags,
+			tooltip,
+		);
 		return level;
 	}
 
-	spellPointBonusesFor(featureID: string, qualifier: string, tags: string[], tooltip: TooltipGURPS | undefined): number {
+	spellPointBonusesFor(
+		featureID: string,
+		qualifier: string,
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let level = this.bonusFor(featureID, tooltip);
-		level += this.bonusFor(featureID + "/" + qualifier.toLowerCase(), tooltip);
-		level += this.spellComparedBonusFor(featureID + "*", qualifier, tags, tooltip);
+		level += this.bonusFor(
+			featureID + "/" + qualifier.toLowerCase(),
+			tooltip,
+		);
+		level += this.spellComparedBonusFor(
+			featureID + "*",
+			qualifier,
+			tags,
+			tooltip,
+		);
 		return level;
 	}
 
-	spellComparedBonusFor(featureID: string, name: string, tags: string[], tooltip: TooltipGURPS | undefined): number {
+	spellComparedBonusFor(
+		featureID: string,
+		name: string,
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let total = 0;
 		this.featureMap.get(featureID.toLowerCase())?.forEach(feature => {
-			if (feature instanceof SpellBonus && stringCompare(name, feature.name) && stringCompare(tags, feature.tags)) {
+			if (
+				feature instanceof SpellBonus &&
+				stringCompare(name, feature.name) &&
+				stringCompare(tags, feature.tags)
+			) {
 				total += feature.adjustedAmount;
 				feature.addToTooltip(tooltip);
 			}
@@ -857,13 +1196,22 @@ class CharacterGURPS extends BaseActorGURPS {
 		return total;
 	}
 
-	bestCollegeSpellBonus(colleges: string[], tags: string[], tooltip: TooltipGURPS | undefined): number {
+	bestCollegeSpellBonus(
+		colleges: string[],
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let best = Math.max();
 		let bestTooltip = "";
 		for (const c of colleges) {
 			const buffer = new TooltipGURPS();
 			if (!tooltip) tooltip = new TooltipGURPS();
-			const points = this.spellPointBonusesFor("spell.college.points", c, tags, buffer);
+			const points = this.spellPointBonusesFor(
+				"spell.college.points",
+				c,
+				tags,
+				buffer,
+			);
 			if (best < points) {
 				best = points;
 				if (buffer) bestTooltip = buffer.toString();
@@ -874,13 +1222,22 @@ class CharacterGURPS extends BaseActorGURPS {
 		return best;
 	}
 
-	bestCollegeSpellPointBonus(colleges: string[], tags: string[], tooltip: TooltipGURPS | undefined): number {
+	bestCollegeSpellPointBonus(
+		colleges: string[],
+		tags: string[],
+		tooltip: TooltipGURPS | undefined,
+	): number {
 		let best = Math.max();
 		let bestTooltip = "";
 		for (const c of colleges) {
 			const buffer = new TooltipGURPS();
 			if (!tooltip) tooltip = new TooltipGURPS();
-			const points = this.spellBonusesFor("spell.college", c, tags, buffer);
+			const points = this.spellBonusesFor(
+				"spell.college",
+				c,
+				tags,
+				buffer,
+			);
 			if (best < points) {
 				best = points;
 				if (buffer) bestTooltip = buffer.toString();
@@ -901,26 +1258,61 @@ class CharacterGURPS extends BaseActorGURPS {
 		m: Map<WeaponBonus, boolean>,
 	): Map<WeaponBonus, boolean> {
 		if (!m) m = new Map();
-		for (const one of this.weaponComparedDamageBonusesFor(featureID, nameQualifier, specializationQualifier, tagsQualifier, dieCount, tooltip)) {
+		for (const one of this.weaponComparedDamageBonusesFor(
+			featureID,
+			nameQualifier,
+			specializationQualifier,
+			tagsQualifier,
+			dieCount,
+			tooltip,
+		)) {
 			m.set(one, true);
 		}
 		return m;
 	}
 
-	addNamedWeaponDamageBonusesFor(featureID: string, nameQualifier: string, usageQualifier: string, tagsQualifier: string[], dieCount: number, tooltip: TooltipGURPS | undefined, m: Map<WeaponBonus, boolean>): Map<WeaponBonus, boolean> {
+	addNamedWeaponDamageBonusesFor(
+		featureID: string,
+		nameQualifier: string,
+		usageQualifier: string,
+		tagsQualifier: string[],
+		dieCount: number,
+		tooltip: TooltipGURPS | undefined,
+		m: Map<WeaponBonus, boolean>,
+	): Map<WeaponBonus, boolean> {
 		if (!m) m = new Map();
-		for (const one of this.namedWeaponDamageBonusesFor(featureID, nameQualifier, usageQualifier, tagsQualifier, dieCount, tooltip)) {
+		for (const one of this.namedWeaponDamageBonusesFor(
+			featureID,
+			nameQualifier,
+			usageQualifier,
+			tagsQualifier,
+			dieCount,
+			tooltip,
+		)) {
 			m.set(one, true);
 		}
 		return m;
 	}
 
-	namedWeaponDamageBonusesFor(featureID: string, nameQualifier: string, usageQualifier: string, tagsQualifier: string[], dieCount: number, tooltip: TooltipGURPS | undefined): WeaponBonus[] {
+	namedWeaponDamageBonusesFor(
+		featureID: string,
+		nameQualifier: string,
+		usageQualifier: string,
+		tagsQualifier: string[],
+		dieCount: number,
+		tooltip: TooltipGURPS | undefined,
+	): WeaponBonus[] {
 		const list = this.featureMap.get(featureID.toLowerCase());
 		if (!list || list.length == 0) return [];
 		const bonuses: WeaponBonus[] = [];
 		for (const f of list) {
-			if (f instanceof WeaponBonus && f.selection_type == "weapons_with_name" && stringCompare(nameQualifier, f.name) && stringCompare(usageQualifier, f.specialization) && stringCompare(tagsQualifier, f.tags)) {
+			if (
+				f instanceof WeaponBonus &&
+				f.selection_type == "weapons_with_name" &&
+				stringCompare(nameQualifier, f.name) &&
+				stringCompare(usageQualifier, f.specialization) &&
+				stringCompare(tagsQualifier, f.tags)
+			) {
 				bonuses.push(f);
 				const level = f.levels;
 				f.levels = dieCount;
@@ -931,12 +1323,24 @@ class CharacterGURPS extends BaseActorGURPS {
 		return bonuses;
 	}
 
-	namedWeaponSkillBonusesFor(featureID: string, nameQualifier: string, usageQualifier: string, tagsQualifier: string[], tooltip: TooltipGURPS): Feature[] {
+	namedWeaponSkillBonusesFor(
+		featureID: string,
+		nameQualifier: string,
+		usageQualifier: string,
+		tagsQualifier: string[],
+		tooltip: TooltipGURPS,
+	): Feature[] {
 		const list = this.featureMap.get(featureID.toLowerCase()) ?? [];
 		if (list.length == 0) return [];
 		let bonuses: SkillBonus[] = [];
 		for (const f of list) {
-			if (f instanceof SkillBonus && f.selection_type == "weapons_with_name" && stringCompare(nameQualifier, f.name) && stringCompare(usageQualifier, f.specialization) && stringCompare(tagsQualifier, f.tags)) {
+			if (
+				f instanceof SkillBonus &&
+				f.selection_type == "weapons_with_name" &&
+				stringCompare(nameQualifier, f.name) &&
+				stringCompare(usageQualifier, f.specialization) &&
+				stringCompare(tagsQualifier, f.tags)
+			) {
 				bonuses.push(f);
 				f.addToTooltip(tooltip);
 			}
@@ -944,16 +1348,33 @@ class CharacterGURPS extends BaseActorGURPS {
 		return bonuses;
 	}
 
-	weaponComparedDamageBonusesFor(featureID: string, nameQualifier: string, specializationQualifier: string, tagsQualifier: string[], dieCount: number, tooltip: TooltipGURPS | undefined): WeaponBonus[] {
+	weaponComparedDamageBonusesFor(
+		featureID: string,
+		nameQualifier: string,
+		specializationQualifier: string,
+		tagsQualifier: string[],
+		dieCount: number,
+		tooltip: TooltipGURPS | undefined,
+	): WeaponBonus[] {
 		let rsl = -Infinity;
-		for (const sk of this.skillNamed(nameQualifier, specializationQualifier, true, null)) {
+		for (const sk of this.skillNamed(
+			nameQualifier,
+			specializationQualifier,
+			true,
+			null,
+		)) {
 			if (rsl < sk.level.relative_level) rsl = sk.level.relative_level;
 		}
 		if (rsl == -Infinity) return [];
 		let bonuses: WeaponBonus[] = [];
 		for (const f of this.featureMap.get(featureID.toLowerCase()) ?? []) {
 			if (f instanceof WeaponBonus) {
-				if (stringCompare(nameQualifier, f.name) && stringCompare(specializationQualifier, f.specialization) && numberCompare(rsl, f.level) && stringCompare(tagsQualifier, f.tags)) {
+				if (
+					stringCompare(nameQualifier, f.name) &&
+					stringCompare(specializationQualifier, f.specialization) &&
+					numberCompare(rsl, f.level) &&
+					stringCompare(tagsQualifier, f.tags)
+				) {
 					bonuses.push(f);
 					let level = f.levels;
 					f.levels = dieCount;
@@ -997,12 +1418,16 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	resolveVariable(variableName: string): string {
 		if (this.variableResolverExclusions?.has(variableName)) {
-			console.warn(`Attempt to resolve variable via itself: $${variableName}`);
+			console.warn(
+				`Attempt to resolve variable via itself: $${variableName}`,
+			);
 			return "";
 		}
-		if (!this.variableResolverExclusions) this.variableResolverExclusions = new Map();
+		if (!this.variableResolverExclusions)
+			this.variableResolverExclusions = new Map();
 		this.variableResolverExclusions.set(variableName, true);
-		if (gid.SizeModifier == variableName) return this.profile.SM.signedString();
+		if (gid.SizeModifier == variableName)
+			return this.profile.SM.signedString();
 		const parts = variableName.split("."); // TODO: check
 		const attr = this.attributes.get(parts[0]);
 		if (!attr) {
@@ -1042,7 +1467,11 @@ class CharacterGURPS extends BaseActorGURPS {
 				request.onload = () => {
 					if (request.status === 200) {
 						const text = request.response;
-						ActorImporter.import(this, { text: text, name: import_name[1], path: import_path });
+						ActorImporter.import(this, {
+							text: text,
+							name: import_name[1],
+							path: import_path,
+						});
 					} else this._openImportDialog();
 					resolve(this);
 				};
@@ -1056,9 +1485,12 @@ class CharacterGURPS extends BaseActorGURPS {
 			new Dialog(
 				{
 					title: `Import character data for: ${this.name}`,
-					content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/import.hbs`, {
-						name: `"${this.name}"`,
-					}),
+					content: await renderTemplate(
+						`systems/${SYSTEM_NAME}/templates/actor/import.hbs`,
+						{
+							name: `"${this.name}"`,
+						},
+					),
 					buttons: {
 						import: {
 							icon: `<i class="fas fa-file-import"></i>`,
@@ -1067,7 +1499,9 @@ class CharacterGURPS extends BaseActorGURPS {
 								const form = $(html).find("form")[0];
 								const files = form.data.files;
 								if (!files.length) {
-									return ui.notifications?.error("You did not upload a data file!");
+									return ui.notifications?.error(
+										"You did not upload a data file!",
+									);
 								} else {
 									const file = files[0];
 									readTextFromFile(file).then(text =>
@@ -1095,7 +1529,12 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 }
 
-export function processFeature(parent: any, m: Map<string, Feature[]>, f: Feature, levels: number): void {
+export function processFeature(
+	_parent: any,
+	m: Map<string, Feature[]>,
+	f: Feature,
+	levels: number,
+): void {
 	// const key = f.type;
 	const key = f.featureMapKey.toLowerCase();
 	const list = m.get(key) ?? [];

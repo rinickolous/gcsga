@@ -24,9 +24,14 @@ export class SpellSheet extends ItemSheetGURPS {
 		return sheetData;
 	}
 
-	protected _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
-		const attribute = formData["attribute"] ?? (this.item as SpellGURPS).attribute;
-		const difficulty = formData["difficulty"] ?? (this.item as SpellGURPS).difficulty;
+	protected _updateObject(
+		event: Event,
+		formData: Record<string, unknown>,
+	): Promise<unknown> {
+		const attribute =
+			formData["attribute"] ?? (this.item as SpellGURPS).attribute;
+		const difficulty =
+			formData["difficulty"] ?? (this.item as SpellGURPS).difficulty;
 		formData["system.difficulty"] = `${attribute}/${difficulty}`;
 		delete formData["attribute"];
 		delete formData["difficulty"];

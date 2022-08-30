@@ -1,8 +1,8 @@
-<form class="{{cssClass}} gcsga" autocomplete="off">
+<form class="{{cssClass}} gurps" autocomplete="off">
 	<div id="sheet">
 		<div id="details">
-			{{>input-text field="field" label="gcsga.item.name" name="name" data=item.name type="String"}}
-			<div class="label">{{localize "gcsga.item.tech_level"}}</div>
+			{{>input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
+			<div class="label">{{localize "gurps.item.tech_level"}}</div>
 			<div class="field no-stretch">
 				{{#if system.tech_level_required}}
 				{{>input-text name="system.tech_level"
@@ -14,18 +14,18 @@
 				<label class="label checkbox-label">
 					<input class="input" type="checkbox" name="system.tech_level_required" data-dtype="Boolean"
 						{{checked system.tech_level_required}} />
-					{{localize "gcsga.item.tech_level_required"}}
+					{{localize "gurps.item.tech_level_required"}}
 				</label>
 			</div>
-			{{>input-text field="field" label="gcsga.item.college" name="system.college" data=(join system.college ",
+			{{>input-text field="field" label="gurps.item.college" name="system.college" data=(join system.college ",
 			")
 			type="String"}}
-			{{>input-text field="field" label="gcsga.item.class" name="system.class" data=system.class type="String"}}
-			{{>input-text field="field" label="gcsga.item.power_source" name="system.power_source"
+			{{>input-text field="field" label="gurps.item.class" name="system.class" data=system.class type="String"}}
+			{{>input-text field="field" label="gurps.item.power_source" name="system.power_source"
 			data=system.power_source type="String"}}
-			{{>input-text field="field" label="gcsga.item.base_skill" name="system.base_skill"
+			{{>input-text field="field" label="gurps.item.base_skill" name="system.base_skill"
 			data=system.base_skill type="String"}}
-			<div class="label">{{localize "gcsga.item.difficulty"}}</div>
+			<div class="label">{{localize "gurps.item.difficulty"}}</div>
 			<div class="field no-stretch">
 				<select name="difficulty" data-dtype="String">
 					{{#select document.difficulty}}
@@ -34,32 +34,32 @@
 					{{/each}}
 					{{/select}}
 				</select>
-				<div class="label">{{localize "gcsga.item.prereq_count"}}</div>
+				<div class="label">{{localize "gurps.item.prereq_count"}}</div>
 				{{>input-text name="NUMBER.system.prereq_count" data=system.prereq_count type="String"}}
 			</div>
-			<div class="label">{{localize "gcsga.item.points"}}</div>
+			<div class="label">{{localize "gurps.item.points"}}</div>
 			<div class="field no-stretch">
 				{{>input-text name="NUMBER.system.points" data=system.points type="String"}}
-				<div class="label">{{localize "gcsga.item.level"}}</div>
+				<div class="label">{{localize "gurps.item.level"}}</div>
 				{{>input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}
 			</div>
-			{{>input-text field="field" label="gcsga.item.resist" name="system.resist" data=system.resist
+			{{>input-text field="field" label="gurps.item.resist" name="system.resist" data=system.resist
 			type="String"}}
-			{{>input-text field="field" label="gcsga.item.casting_cost" name="system.casting_cost"
+			{{>input-text field="field" label="gurps.item.casting_cost" name="system.casting_cost"
 			data=system.casting_cost type="String"}}
-			{{>input-text field="field" label="gcsga.item.maintenance_cost" name="system.maintenance_cost"
+			{{>input-text field="field" label="gurps.item.maintenance_cost" name="system.maintenance_cost"
 			data=system.maintenance_cost type="String"}}
-			{{>input-text field="field" label="gcsga.item.casting_time" name="system.casting_time"
+			{{>input-text field="field" label="gurps.item.casting_time" name="system.casting_time"
 			data=system.casting_time type="String"}}
-			{{>input-text field="field" label="gcsga.item.duration" name="system.duration" data=system.duration
+			{{>input-text field="field" label="gurps.item.duration" name="system.duration" data=system.duration
 			type="String"}}
-			{{>textarea field="field" label="gcsga.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gcsga.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
-			{{>input-text field="field" label="gcsga.item.tags" name="system.tags" data=(join system.tags ", ")
+			{{>input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>input-text field="field" label="gcsga.item.reference" name="system.reference" data=system.reference
+			{{>input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
 			type="String"}}
 		</div>
 		{{>prerequisites}}

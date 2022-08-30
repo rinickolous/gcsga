@@ -17,7 +17,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get enabled(): boolean {
 		if (this.system.disabled) return false;
 		let enabled = !this.system.disabled;
-		if (this.parent instanceof TraitContainerGURPS) enabled = enabled && this.parent.enabled;
+		if (this.parent instanceof TraitContainerGURPS)
+			enabled = enabled && this.parent.enabled;
 		return enabled;
 	}
 
@@ -43,8 +44,13 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get formattedCR(): string {
 		let cr = "";
-		if (this.cr != CR.None) cr += i18n(`gcsga.select.cr_level.${this.cr}`);
-		if (this.crAdj != "none") cr += ", " + i18n_f(`gcsga.select.cr_adj.${this.crAdj}`, { penalty: SelfControl.adjustment(this.cr, this.crAdj) });
+		if (this.cr != CR.None) cr += i18n(`gurps.select.cr_level.${this.cr}`);
+		if (this.crAdj != "none")
+			cr +=
+				", " +
+				i18n_f(`gurps.select.cr_adj.${this.crAdj}`, {
+					penalty: SelfControl.adjustment(this.cr, this.crAdj),
+				});
 		return cr;
 	}
 
@@ -55,9 +61,13 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get modifierNotes(): string {
 		let n = "";
 		if (this.cr != CR.None) {
-			n += i18n(`gcsga.select.cr_level.${this.cr}`);
+			n += i18n(`gurps.select.cr_level.${this.cr}`);
 			if (this.crAdj != "none") {
-				n += ", " + i18n_f(`gcsga.item.cr_adj_display.${this.crAdj}`, { penalty: "TODO" });
+				n +=
+					", " +
+					i18n_f(`gurps.item.cr_adj_display.${this.crAdj}`, {
+						penalty: "TODO",
+					});
 			}
 		}
 		this.deepModifiers.forEach(m => {
@@ -71,14 +81,20 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get children(): Collection<TraitGURPS | TraitContainerGURPS> {
 		return new Collection(
 			this.items
-				.filter(item => item instanceof TraitGURPS || item instanceof TraitContainerGURPS)
+				.filter(
+					item =>
+						item instanceof TraitGURPS ||
+						item instanceof TraitContainerGURPS,
+				)
 				.map(item => {
 					return [item.id!, item];
 				}),
 		) as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
 
-	get modifiers(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
+	get modifiers(): Collection<
+		TraitModifierGURPS | TraitModifierContainerGURPS
+	> {
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
@@ -111,20 +127,22 @@ export class TraitContainerGURPS extends ContainerGURPS {
 			let values: number[] = [];
 			this.children.forEach(child => {
 				values.push(child.adjustedPoints);
-				if (values[values.length - 1] > points) points = values[values.length - 1];
+				if (values[values.length - 1] > points)
+					points = values[values.length - 1];
 			});
 			let max = points;
 			let found = false;
 			for (let v of values) {
 				if (!found && max == v) found = true;
 				else {
-					if (this.roundCostDown) points += Math.floor(calculateModifierPoints(v, 20));
+					if (this.roundCostDown)
+						points += Math.floor(calculateModifierPoints(v, 20));
 					else points += Math.ceil(calculateModifierPoints(v, 20));
 				}
 			}
 		} else {
 			this.children.forEach(child => {
-				points == child.adjustedPoints;
+				points += child.adjustedPoints;
 			});
 		}
 		return points;

@@ -11,9 +11,15 @@ export interface ContainedQuantityPrereq extends BasePrereq {
 }
 
 export class ContainedQuantityPrereq extends BasePrereq {
-	constructor(data: ContainedQuantityPrereq, context: PrereqConstructionContext = {}) {
+	constructor(
+		data: ContainedQuantityPrereq,
+		context: PrereqConstructionContext = {},
+	) {
 		super(data, context);
-		Object.assign(this, mergeObject(ContainedQuantityPrereq.defaults, data));
+		Object.assign(
+			this,
+			mergeObject(ContainedQuantityPrereq.defaults, data),
+		);
 	}
 
 	static get defaults(): Record<string, any> {
@@ -23,9 +29,18 @@ export class ContainedQuantityPrereq extends BasePrereq {
 		});
 	}
 
-	satisfied(_: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
+	satisfied(
+		_: CharacterGURPS,
+		exclude: any,
+		tooltip: TooltipGURPS,
+		prefix: string,
+	): boolean {
 		let satisfied = false;
-		const eqp = exclude instanceof EquipmentGURPS || exclude instanceof EquipmentContainerGURPS ? exclude : null;
+		const eqp =
+			exclude instanceof EquipmentGURPS ||
+			exclude instanceof EquipmentContainerGURPS
+				? exclude
+				: null;
 		if (eqp) {
 			satisfied = !(eqp instanceof EquipmentContainerGURPS);
 			if (!satisfied) {
@@ -40,9 +55,11 @@ export class ContainedQuantityPrereq extends BasePrereq {
 
 		if (!satisfied) {
 			tooltip.push(prefix);
-			tooltip.push(i18n(`gcsga.prereqs.has.${this.has}`));
-			tooltip.push(i18n(`gcsga.prereqs.quantity`));
-			tooltip.push(i18n(`gcsga.prereqs.criteria.${this.quantity?.compare}`));
+			tooltip.push(i18n(`gurps.prereqs.has.${this.has}`));
+			tooltip.push(i18n(`gurps.prereqs.quantity`));
+			tooltip.push(
+				i18n(`gurps.prereqs.criteria.${this.quantity?.compare}`),
+			);
 			tooltip.push(this.quantity.qualifier.toString());
 		}
 		return satisfied;

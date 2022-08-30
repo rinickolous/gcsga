@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2022 Johannes Loher
+// SPDX-FileCopyrightText: 2022 David Archibald
+//
+// SPDX-License-Identifier: MIT
+
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 

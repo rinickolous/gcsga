@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2022 Johannes Loher
+// SPDX-FileCopyrightText: 2022 David Archibald
+//
+// SPDX-License-Identifier: MIT
+
 import fs from "fs-extra";
 import gulp from "gulp";
 import sass from "gulp-dart-sass";
@@ -16,7 +21,7 @@ import rollupConfig from "./rollup.config.mjs";
 /*  CONFIGURATION   */
 /********************/
 
-const name = "gurps";
+const packageId = "gurps";
 const sourceDirectory = "./src";
 const distDirectory = "./dist";
 const stylesDirectory = `${sourceDirectory}/styles`;
@@ -46,7 +51,7 @@ function buildCode() {
 		.on("bundle", bundle => {
 			cache = bundle;
 		})
-		.pipe(source(`${name}.js`))
+		.pipe(source(`${packageId}.js`))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({ loadMaps: true }))
 		.pipe(sourcemaps.write("."))
@@ -58,7 +63,7 @@ function buildCode() {
  */
 function buildStyles() {
 	return gulp
-		.src(`${stylesDirectory}/${name}.${stylesExtension}`)
+		.src(`${stylesDirectory}/${packageId}.${stylesExtension}`)
 		.pipe(sass().on("error", sass.logError))
 		.pipe(gulp.dest(`${distDirectory}/styles`));
 }
@@ -113,7 +118,7 @@ export const build = gulp.series(
 export async function clean() {
 	const files = [...staticFiles, "module"];
 
-	if (fs.existsSync(`${stylesDirectory}/${name}.${stylesExtension}`)) {
+	if (fs.existsSync(`${stylesDirectory}/${packageId}.${stylesExtension}`)) {
 		files.push("styles");
 	}
 
@@ -130,19 +135,30 @@ export async function clean() {
 /********************/
 
 /**
- * Get the data path of Foundry VTT based on what is configured in `foundryconfig.json`
+ * Get the data paths of Foundry VTT based on what is configured in `foundryconfig.json`
  */
-function getDataPath() {
+function getDataPaths() {
 	const config = fs.readJSONSync("foundryconfig.json");
+	const dataPath = config?.dataPath;
 
-	if (config?.dataPath) {
-		if (!fs.existsSync(path.resolve(config.dataPath))) {
-			throw new Error("User Data path invalid, no Data directory found");
-		}
+	if (dataPath) {
+		const dataPaths = Array.isArray(dataPath) ? dataPath : [dataPath];
 
-		return path.resolve(config.dataPath);
+		return dataPaths.map(dataPath => {
+			if (typeof dataPath !== "string") {
+				throw new Error(
+					`Property dataPath in foundryconfig.json is expected to be a string or an array of strings, but found ${dataPath}`,
+				);
+			}
+			if (!fs.existsSync(path.resolve(dataPath))) {
+				throw new Error(
+					`The dataPath ${dataPath} does not exist on the file system`,
+				);
+			}
+			return path.resolve(dataPath);
+		});
 	} else {
-		throw new Error("No User Data path defined in foundryconfig.json");
+		throw new Error("No dataPath defined in foundryconfig.json");
 	}
 }
 
@@ -157,11 +173,8 @@ export async function link() {
 		throw new Error("Could not find system.json");
 	}
 
-	const linkDirectory = path.resolve(
-		getDataPath(),
-		"Data",
-		destinationDirectory,
-		name,
+	const linkDirectories = getDataPaths().map(dataPath =>
+		path.resolve(dataPath, "Data", destinationDirectory, packageId),
 	);
 
 	const argv = yargs(hideBin(process.argv)).option("clean", {
@@ -171,13 +184,15 @@ export async function link() {
 	}).argv;
 	const clean = argv.c;
 
-	if (clean) {
-		console.log(`Removing build in ${linkDirectory}.`);
+	for (const linkDirectory of linkDirectories) {
+		if (clean) {
+			console.log(`Removing build in ${linkDirectory}.`);
 
-		await fs.remove(linkDirectory);
-	} else if (!fs.existsSync(linkDirectory)) {
-		console.log(`Linking dist to ${linkDirectory}.`);
-		await fs.ensureDir(path.resolve(linkDirectory, ".."));
-		await fs.symlink(path.resolve(distDirectory), linkDirectory);
+			await fs.remove(linkDirectory);
+		} else if (!fs.existsSync(linkDirectory)) {
+			console.log(`Linking dist to ${linkDirectory}.`);
+			await fs.ensureDir(path.resolve(linkDirectory, ".."));
+			await fs.symlink(path.resolve(distDirectory), linkDirectory);
+		}
 	}
 }

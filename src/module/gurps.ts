@@ -82,7 +82,7 @@ Hooks.once("init", async () => {
 
 	// TODO: change back to SYSTEM_NAME after mege
 	// const src = `systems/${SYSTEM_NAME}/assets/gurps.webp`;
-	const src = `systems/gcsga/assets/gurps.webp`;
+	const src = `systems/${SYSTEM_NAME}/assets/gurps.webp`;
 	$("#logo").attr("src", src);
 	$("#logo").attr("height", "32px");
 
@@ -197,8 +197,7 @@ Hooks.once("ready", async () => {
 	// Enable drag image
 	const DRAG_IMAGE = document.createElement("div");
 	DRAG_IMAGE.innerHTML = await renderTemplate(
-		// `systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`,
-		`systems/gcsga/templates/actor/drag-image.hbs`,
+		`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`,
 		{
 			name: "",
 			type: "",

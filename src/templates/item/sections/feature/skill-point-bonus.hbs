@@ -7,7 +7,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".name.qualifier") data=this.name.qualifier
+	{{>sections/input-text field="field" name=(concat "system.features." @index ".name.qualifier") data=this.name.qualifier
 	type="String" class=(input_lock (neq this.name.compare "none"))}}
 </div>
 <div class="field-2">
@@ -23,7 +23,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".specialization.qualifier")
+	{{>sections/input-text field="field" name=(concat "system.features." @index ".specialization.qualifier")
 	data=this.specialization.qualifier type="String" class=(input_lock (neq this.specialization.compare "none"))}}
 </div>
 {{#unless (eq this.selection_type "this_weapon")}}
@@ -36,7 +36,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".tags.qualifier")
+	{{>sections/input-text field="field" name=(concat "system.features." @index ".tags.qualifier")
 	data=this.tags.qualifier type="String" class=(input_lock (neq this.tags.compare "none"))}}
 </div>
 {{/unless}}

@@ -7,12 +7,15 @@ import {
 	LengthUnits,
 	WeightUnits,
 } from "./data";
+import { GURPS } from "./gurps";
 
 export const SYSTEM_NAME = "gcsga";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
-	(game as Game).settings.register(SYSTEM_NAME, "basic_set_pdf", {
+	const g = game as Game;
+
+	g.settings.register(SYSTEM_NAME, "basic_set_pdf", {
 		name: i18n("gurps.settings.basic_set_pdfs.name"),
 		hint: i18n("gurps.settings.basic_set_pdfs.hint"),
 		scope: "world",
@@ -26,7 +29,7 @@ export function registerSettings(): void {
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
 
-	(game as Game).settings.register(SYSTEM_NAME, "portrait_path", {
+	g.settings.register(SYSTEM_NAME, "portrait_path", {
 		name: i18n("gurps.settings.portrait_path.name"),
 		hint: i18n("gurps.settings.portrait_path.hint"),
 		scope: "world",
@@ -40,13 +43,24 @@ export function registerSettings(): void {
 		onChange: (value: string) => console.log(`Basic Set PDFs : ${value}`),
 	});
 
-	(game as Game).settings.register(SYSTEM_NAME, "portrait_overwrite", {
+	g.settings.register(SYSTEM_NAME, "portrait_overwrite", {
 		name: i18n("gurps.settings.portrait_overwrite.name"),
 		hint: i18n("gurps.settings.portrait_overwrite.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
+	});
+
+	g.settings.register(SYSTEM_NAME, "compendiumBrowserPacks", {
+		name: "placeholder",
+		hint: "placeholder",
+		default: "{}",
+		type: Object,
+		scope: "world",
+		onChange: () => {
+			GURPS.CompendiumBrowser.loadSettings();
+		},
 	});
 }
 

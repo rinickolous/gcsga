@@ -14,7 +14,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".name.qualifier") data=this.name.qualifier
+	{{>sections/input-text field="field" name=(concat "system.features." @index ".name.qualifier") data=this.name.qualifier
 	type="String" class=(input_lock (and (neq this.match "all_colleges") (neq this.name.compare "none")))}}
 </div>
 <div class="field-2">
@@ -25,6 +25,6 @@
 		<option value="{{k}}">{{localize "gurps.field_prefix.tags"}} {{localize v}}</option>
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "system.features." @index ".tags.qualifier")
+	{{>sections/input-text field="field" name=(concat "system.features." @index ".tags.qualifier")
 	data=this.tags.qualifier type="String" class=(input_lock (neq this.tags.compare "none"))}}
 </div>

@@ -58,7 +58,7 @@ export class ItemImporter {
 					),
 					buttons: {
 						import: {
-							icon: 'i class="fas fa-file-import"></i>',
+							icon: '<i class="fas fa-file-import"></i>',
 							label: i18n("gurps.system.library_import.import"),
 							//@ts-ignore
 							callback: (html: JQuery<HTMLElement>) => {
@@ -101,6 +101,8 @@ export class ItemImporter {
 
 	async _import(file: { text: string; name: string; path: string }) {
 		const json = file.text;
+		console.log(file);
+		const name = "Library Test";
 		let r: ItemLibraryData | any;
 		const errorMessages: string[] = [];
 		try {
@@ -128,11 +130,34 @@ export class ItemImporter {
 			const items: Array<ItemSystemDataGURPS> = [];
 			items.push(...this.importItems(r.rows));
 			commit = { ...commit, ...{ rows: items } };
+
+			console.log(commit);
+
+			let pack = (game as Game).packs.find(p => p.metadata.name === name);
+			if (!pack) {
+				pack = await CompendiumCollection.createCompendium({
+					type: "Item",
+					label: name,
+					name: name,
+					package: "world",
+					path: "",
+					private: true,
+				});
+			}
+			ui.notifications?.info(
+				"Importing Library. This will take a few seconds.",
+			);
+			let counter = 0;
+			for (const i of items) {
+				counter++;
+				Item.create(i, { pack: `world.${name}` });
+			}
+			ui.notifications?.info(`Finished importing ${counter} items.`);
 		} catch (err) {
 			console.error(err);
 			errorMessages.push(
 				i18n_f("gurps.error.import.generic", {
-					name: file.name,
+					name: name,
 					message: (err as Error).message,
 				}),
 			);
@@ -180,7 +205,7 @@ export class ItemImporter {
 		context?: { container?: boolean; other?: boolean },
 	): [ItemSystemDataGURPS, ItemFlagsGURPS] {
 		let data: ItemSystemDataGURPS;
-		const flags: ItemFlagsGURPS = { gurps: { contentsData: [] } };
+		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
 		switch (item.type) {
 			case "trait":
 				data = this.getTraitData(item as TraitSystemData);

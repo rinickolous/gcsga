@@ -7,7 +7,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat path ".name.qualifier") data=this.name.qualifier type="String"
+	{{>sections/input-text field="field" name=(concat path ".name.qualifier") data=this.name.qualifier type="String"
 	class=(input_lock (neq this.name.compare "none"))}}
 </div>
 <div>
@@ -19,7 +19,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat path ".notes.qualifier") data=this.notes.qualifier type="String"
+	{{>sections/input-text field="field" name=(concat path ".notes.qualifier") data=this.notes.qualifier type="String"
 	class=(input_lock (neq this.notes.compare "none"))}}
 </div>
 <div>
@@ -31,6 +31,6 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "NUMBER." path ".level.qualifier") data=this.levels.qualifier type="String"
+	{{>sections/input-text field="field" name=(concat "NUMBER." path ".level.qualifier") data=this.levels.qualifier type="String"
 	class=(input_lock (neq this.level.compare "none"))}}
 </div>

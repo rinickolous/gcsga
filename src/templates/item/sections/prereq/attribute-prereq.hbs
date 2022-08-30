@@ -23,7 +23,7 @@
 		{{/each}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat "NUMBER." path ".qualifier.qualifier") data=this.levels.qualifier
+	{{>sections/input-text field="field" name=(concat "NUMBER." path ".qualifier.qualifier") data=this.levels.qualifier
 	type="String"
 	class=(input_lock (neq this.qualifier.compare "none"))}}
 </div>

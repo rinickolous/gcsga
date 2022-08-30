@@ -1,18 +1,18 @@
 <form class="{{cssClass}} gurps" autocomplete="off">
 	<div id="sheet">
 		<div id="personal">
-			{{>portrait}}
-			{{>identity}}
-			{{>miscellaneous}}
-			{{>description}}
-			{{>points}}
+			{{>actor/character/sections/portrait}}
+			{{>actor/character/sections/identity}}
+			{{>actor/character/sections/miscellaneous}}
+			{{>actor/character/sections/description}}
+			{{>actor/character/sections/points}}
 		</div>
 		<div id="stats">
 			<div id="attributes">
-				{{>primary-attributes}}
-				{{>basic-damage}}
-				{{>secondary-attributes}}
-				{{>pool-attributes}}
+				{{>actor/character/sections/primary-attributes}}
+				{{>actor/character/sections/basic-damage}}
+				{{>actor/character/sections/secondary-attributes}}
+				{{>actor/character/sections/pool-attributes}}
 			</div>
 			<div id="hit-locations">
 				<div class="header body-plan">{{data.settings.body_type.name}}</div>
@@ -20,12 +20,12 @@
 				<div class="header location">{{localize "gurps.character.body_type.location"}}</div>
 				<div class="header dr">{{localize "gurps.character.body_type.dr"}}</div>
 				{{#each data.settings.body_type.locations}}
-				{{>hit-location tab=""}}
+				{{>actor/character/sections/hit-location tab=""}}
 				{{/each}}
 			</div>
 			<div id="encumbrance-lifting">
-				{{>encumbrance}}
-				{{>lifting}}
+				{{>actor/character/sections/encumbrance}}
+				{{>actor/character/sections/lifting}}
 			</div>
 		</div>
 		<div id="embeds" style="grid-template: {{blockLayout settings.block_layout blocks}};">
@@ -34,7 +34,7 @@
 				<div class="header modifier">{{localize "gurps.character.reactions.modifier"}}</div>
 				<div class="header condition">{{localize "gurps.character.reactions.reaction"}}</div>
 				{{#each reactions}}
-				{{>reaction}}
+				{{>actor/character/sections/reaction}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -43,7 +43,7 @@
 				<div class="header modifier">{{localize "gurps.character.conditional_modifiers.modifier"}}</div>
 				<div class="header condition">{{localize "gurps.character.conditional_modifiers.reaction"}}</div>
 				{{#each conditionalModifiers}}
-				{{>conditional-modifier}}
+				{{>actor/character/sections/conditional-modifier}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -58,7 +58,7 @@
 				<div class="header reach">{{localize "gurps.character.melee.reach"}}</div>
 				<div class="header st">{{localize "gurps.character.melee.st"}}</div>
 				{{#each melee}}
-				{{>melee-attack}}
+				{{>actor/character/sections/melee-attack}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -76,7 +76,7 @@
 				<div class="header recoil">{{localize "gurps.character.ranged.recoil"}}</div>
 				<div class="header st">{{localize "gurps.character.ranged.st"}}</div>
 				{{#each ranged}}
-				{{>ranged-attack}}
+				{{>actor/character/sections/ranged-attack}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -86,7 +86,7 @@
 				<div class="header points">{{localize "gurps.character.traits.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each traits}}
-				{{>trait}}
+				{{>actor/character/sections/trait}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -98,7 +98,7 @@
 				<div class="header points">{{localize "gurps.character.skills.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each skills}}
-				{{>skill}}
+				{{>actor/character/sections/skill}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -111,7 +111,7 @@
 				<div class="header points">{{localize "gurps.character.spells.points"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each spells}}
-				{{>spell}}
+				{{>actor/character/sections/spell}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -130,7 +130,7 @@
 				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each equipment}}
-				{{>equipment}}
+				{{>actor/character/sections/equipment}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -147,7 +147,7 @@
 				<div class="header extended-weight"><i class="gcs-stack"></i><i class="gcs-weight"></i></div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each other_equipment}}
-				{{>other-equipment}}
+				{{>actor/character/sections/other-equipment}}
 				{{/each}}
 			</div>
 			{{/if}}
@@ -156,7 +156,7 @@
 				<div class="header desc">{{localize "gurps.character.notes.desc"}}</div>
 				<div class="header reference"><i class="gcs-bookmark"></i></div>
 				{{#each notes}}
-				{{>note}}
+				{{>actor/character/sections/note}}
 				{{/each}}
 			</div>
 			{{/if}}

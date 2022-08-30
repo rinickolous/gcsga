@@ -20,8 +20,8 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		data: ContainerDataGURPS,
 		context: Context<Actor> & ItemConstructionContextGURPS = {},
 	) {
-		if (!data.flags[SYSTEM_NAME]?.contentsData)
-			mergeObject(data, { "flags.gurps.contentsData": [] });
+		if (!data.flags?.[SYSTEM_NAME]?.contentsData)
+			mergeObject(data, { [`flags.${SYSTEM_NAME}.contentsData`]: [] });
 		super(data, context);
 	}
 

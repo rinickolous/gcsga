@@ -19,7 +19,7 @@
 		{{!-- {{/unless}} --}}
 		{{/select}}
 	</select>
-	{{>input-text field="field" name=(concat path ".qualifier.qualifier") data=this.qualifier.qualifier type="String"
+	{{>sections/input-text field="field" name=(concat path ".qualifier.qualifier") data=this.qualifier.qualifier type="String"
 	class=(input_lock (and (neq this.sub_type 'college_count') (neq this.sub_type 'any') (neq this.qualifier.compare
 	'none')))}}
 </div>

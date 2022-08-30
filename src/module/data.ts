@@ -284,3 +284,6 @@ export const rollModifiers: RollModifier[] = [
 		tags: ["ranged_combat"],
 	},
 ];
+
+export type ImagePath = `${string}.${ImageFileExtension}`;
+type ImageFileExtension = "jpg" | "jpeg" | "png" | "svg" | "webp";

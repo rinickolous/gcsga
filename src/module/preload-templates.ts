@@ -69,12 +69,15 @@ export async function preloadTemplates(): Promise<
 		"item/sections/defaults",
 
 		"chat/import-character-error",
+
+		"compendium-browser/trait",
 	];
 	const formattedPaths: string[] = [];
 	templatePaths.forEach(filename => {
+		const name = filename;
 		filename = `systems/${SYSTEM_NAME}/templates/${filename}.hbs`;
-		const match = filename.match(`.*/(.*).hbs`);
-		const name = match ? match[1] : "";
+		// const match = filename.match(`.*/(.*).hbs`);
+		// const name = match ? match[1] : "";
 		fetch(filename)
 			.then(it => it.text())
 			.then(async text => {

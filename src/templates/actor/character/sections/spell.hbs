@@ -2,9 +2,9 @@
 	<div class="dropdown">
 		{{#if (eq this.type "spell_container")}}
 		{{#if this.open}}
-		{{>dropdown-open}}
+		{{>actor/character/sections/dropdown-open}}
 		{{else}}
-		{{>dropdown-closed}}
+		{{>actor/character/sections/dropdown-closed}}
 		{{/if}}
 		{{/if}}
 	</div>
@@ -12,7 +12,7 @@
 	<div class="name">
 		{{this.name}}
 	</div>
-	{{>item-notes}}
+	{{>actor/character/sections/item-notes}}
 </div>
 <div class="college">{{this.college}}</div>
 {{!-- <div class="resist">{{this.data.resist}}</div> --}}
@@ -27,6 +27,6 @@
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}
 {{#each (sort this.children "sort")}}
-{{>spell}}
+{{>actor/character/sections/spell}}
 {{/each}}
 {{/if}}

@@ -4,12 +4,14 @@
 - Roll Functionality
 	- ChatCommand for rolling
 	- Modifier parsing
+- Library Import
 ## Sheets & Styling
 - Global Foundry styling
 - Damage template
 - (compact) NPC sheet
 - GCS character settings form
 ## Large Features
+- Character export/sync
 - Manual Light & Dark Mode
 - Vehicles
 	- Spaceships

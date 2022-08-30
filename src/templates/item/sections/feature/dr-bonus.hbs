@@ -10,7 +10,7 @@
 </div>
 <div class="dr-bonus">
 	<div class="placeholder"> </div>
-	{{>input-text field="field" label=(localize "gurps.field_prefix.dr_bonus_before") after=(localize
+	{{>sections/input-text field="field" label=(localize "gurps.field_prefix.dr_bonus_before") after=(localize
 	"gurps.field_prefix.dr_bonus_after")name=(concat "system.features." @index ".specialization")
 	data=this.specialization
 	type="String"}}

@@ -56,6 +56,7 @@ import { SpellSheet } from "@item/spell/sheet";
 import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
+import { CompendiumBrowser } from "./compendium";
 
 Error.stackTraceLimit = Infinity;
 
@@ -182,8 +183,6 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: i18n("gurps.system.sheet.character"),
 	});
-
-	GURPS.ModifierButton = new ModifierButton();
 });
 
 // Setup system
@@ -215,7 +214,10 @@ Hooks.once("ready", async () => {
 
 	// Render modifier app after user object loaded to avoid old data
 	(game as Game).user?.setFlag(SYSTEM_NAME, "init", true);
+	GURPS.ModifierButton = new ModifierButton();
 	GURPS.ModifierButton.render(true);
+
+	GURPS.CompendiumBrowser = new CompendiumBrowser();
 });
 
 // Add any additional hooks if necessary
@@ -226,16 +228,24 @@ Hooks.on("renderChatMessage", (_app, html, _data) =>
 Hooks.on(
 	"renderSidebarTab",
 	async (app: SidebarTab, html: JQuery<HTMLElement>) => {
-		console.log(app, html, app.options.id);
 		if (app.options.id === "compendium") {
-			const button = $(
-				'<button class="import-library"><i class="gas fa-file-import"></i>' +
+			const importButton = $(
+				"<button><i class='fas fa-file-import'></i>" +
 					i18n("gurps.system.library_import.button") +
 					"</button>",
 			);
+			importButton.on("click", _event => ItemImporter.showDialog());
+			html.find(".directory-footer").append(importButton);
 
-			button.on("click", _event => ItemImporter.showDialog());
-			html.find(".directory-footer").append(button);
+			const browseButton = $(
+				"<button><i class='fas fa-book-open-cover'></i>" +
+					i18n("gurps.compendium_browser.button") +
+					"</button>",
+			);
+			browseButton.on("click", _event =>
+				GURPS.CompendiumBrowser.render(true),
+			);
+			html.find(".directory-footer").append(browseButton);
 		}
 	},
 );

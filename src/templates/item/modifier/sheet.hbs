@@ -9,13 +9,13 @@
 					{{localize "gurps.item.enabled"}}
 				</label>
 			</div>
-			{{>input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
-			{{>textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
 			type="String"}}
 			<div class="label">{{localize "gurps.item.point_cost"}}</div>
 			<div class="field no-stretch">
-				{{>input-text name="NUMBER.system.cost" data=system.cost type="String"}}
+				{{>sections/input-text name="NUMBER.system.cost" data=system.cost type="String"}}
 				<select name="system.cost_type" data-dtype="String">
 					{{#select system.cost_type}}
 					{{#each config.select.trait_mod_cost_type as |v k|}}
@@ -32,19 +32,19 @@
 				</select>
 			</div>
 			{{#if (eq system.cost_type "percentage_leveled")}}
-			{{>input-text field="field" label="gurps.item.level" name="NUMBER.system.levels" data=system.levels
+			{{>sections/input-text field="field" label="gurps.item.level" name="NUMBER.system.levels" data=system.levels
 			type="String"}}
 			{{else}}
-			{{>input-text field="field" label="gurps.item.level" data=system.levels class="disabled"}}
+			{{>sections/input-text field="field" label="gurps.item.level" data=system.levels class="disabled"}}
 			{{/if}}
-			{{>input-text field="field" label="gurps.item.total" data=document.costDescription class="readonly
+			{{>sections/input-text field="field" label="gurps.item.total" data=document.costDescription class="readonly
 			tabIndex='-1'"}}
-			{{>input-text label="gurps.item.tags" field="field" name="system.tags" data=(join system.tags ", ")
+			{{>sections/input-text label="gurps.item.tags" field="field" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>input-text field="field" label="gurps.item.reference" name="system.reference"
+			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
 			data=system.reference
 			type="String"}}
 		</div>
-		{{>features}}
+		{{>item/sections/features}}
 	</div>
 </form>

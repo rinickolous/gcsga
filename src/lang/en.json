@@ -457,6 +457,18 @@
 			"dr": "to the {location}",
 			"percentage": "by {value}%"
 		},
+		"compendium_browser": {
+			"button": "Open Library Browser",
+			"title": "GCS Library Browser",
+			"hint": "Use the tabs above to select a library.",
+			"trait": "Traits",
+			"modifier": "Trait Modifiers",
+			"skill": "Skills",
+			"spell": "Spells",
+			"equipment": "Equipment",
+			"eqp_modifier": "Equipment Modifiers",
+			"note": "Notes"
+		},
 		"system": {
 			"sheet": {
 				"character_gcs": "GURPS Dynamic Character Sheet",
@@ -483,6 +495,12 @@
 				"active_title": "Active Modifiers",
 				"pin_prompt": "Press Up for Pinned Modifiers",
 				"make_pin_prompt": "<b>Tip:</b>&nbsp;Press Shift+Enter to Pin Modifiers"
+			},
+			"library_import": {
+				"button": "Import GCS Library",
+				"title": "Import GCS Library",
+				"import": "Import",
+				"cancel": "Cancel"
 			}
 		},
 		"settings": {

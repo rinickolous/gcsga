@@ -1,9 +1,9 @@
 <div class="desc item" data-item-id="{{this.id}}" {{{indent this.parents.length}}}>
 	<div class="dropdown">{{#if (eq this.type "note_container")}}
 		{{#if this.system.open}}
-		{{>dropdown-open}}
+		{{>actor/character/sections/dropdown-open}}
 		{{else}}
-		{{>dropdown-closed}}
+		{{>actor/character/sections/dropdown-closed}}
 		{{/if}}
 		{{/if}}
 	</div>
@@ -12,3 +12,8 @@
 	</div>
 </div>
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
+{{#if this.open}}
+{{#each (sort this.children "sort")}}
+{{>actor/character/sections/note}}
+{{/each}}
+{{/if}}

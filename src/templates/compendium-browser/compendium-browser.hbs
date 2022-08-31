@@ -8,6 +8,9 @@
 		<a data-tab="equipment">{{localize "gurps.compendium_browser.equipment"}}</a>
 		<a data-tab="eqp_modifier">{{localize "gurps.compendium_browser.eqp_modifier"}}</a>
 		<a data-tab="note">{{localize "gurps.compendium_browser.note"}}</a>
+		{{#if user.isGM}}
+		<a data-tab="settings">{{localize "gurps.compendium_browser.settings"}}</a>
+		{{/if}}
 	</nav>
 	<section class="content">
 		<div class="tab" data-group="primary" data-tab="landing-page">
@@ -16,18 +19,66 @@
 
 		{{#with trait}}
 		<div class="tab browser" data-group="primary" data-tab="trait">
-			{{print this}}
-			{{>compendium-browser/filters}}
-			<ul class="item-list result-list"></ul>
+			<div class="library-tab" id="embeds">
+				<div class="searchbar">
+					<input name="searchQuery" class="input" value="{{searchQuery}}" data-dtype="String"
+						placeholder={{localize "gurps.compendium_browser.search" }} />
+				</div>
+				<div id="traits" class="item-list">
+					<div class="header desc">{{localize "gurps.character.traits.desc"}}</div>
+					<div class="header points">{{localize "gurps.character.traits.points"}}</div>
+					<div class="header tags">{{localize "gurps.compendium_browser.tags"}}</div>
+					<div class="header reference"><i class="gcs-bookmark"></i></div>
+					{{#each indexData}}
+					{{>compendium-browser/trait}}
+					{{/each}}
+				</div>
+			</div>
+		</div>
+		{{/with}}
+
+		{{#with modifier}}
+		<div class="tab browser" data-group="primary" data-tab="modifier">
+			{{>compendium-browser/modifier}}
+		</div>
+		{{/with}}
+
+		{{#with skill}}
+		<div class="tab browser" data-group="primary" data-tab="skill">
+			{{>compendium-browser/skill}}
+		</div>
+		{{/with}}
+
+		{{#with spell}}
+		<div class="tab browser" data-group="primary" data-tab="spell">
+			{{>compendium-browser/spell}}
 		</div>
 		{{/with}}
 
 		{{#with equipment}}
 		<div class="tab browser" data-group="primary" data-tab="equipment">
-			{{print this}}
-			{{>compendium-browser/filters}}
-			<ul class="item-list result-list"></ul>
+			{{>compendium-browser/equipment}}
 		</div>
 		{{/with}}
+
+		{{#with eqp_modifier}}
+		<div class="tab browser" data-group="primary" data-tab="eqp_modifier">
+			{{>compendium-browser/eqp_modifier}}
+		</div>
+		{{/with}}
+
+		{{#with note}}
+		<div class="tab browser" data-group="primary" data-tab="note">
+			{{>compendium-browser/note}}
+		</div>
+		{{/with}}
+
+		{{#if user.isGM}}
+		{{#with settings}}
+		<div class="tab browser" data-group="primary" data-tab="settings">
+			{{>compendium-browser/settings}}
+		</div>
+		{{/with}}
+		{{/if}}
 
 </div>

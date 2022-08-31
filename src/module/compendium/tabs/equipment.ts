@@ -1,11 +1,11 @@
 import { SYSTEM_NAME } from "@module/settings";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { CompendiumTab } from "./base";
-import { BaseFilterData } from "./data";
+import { FilterData } from "./data";
 
 export class CompendiumEquipmentTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/equipment.hbs`;
-	filterData!: BaseFilterData;
+	filterData!: FilterData;
 
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "equipment");
@@ -13,18 +13,18 @@ export class CompendiumEquipmentTab extends CompendiumTab {
 		this.prepareFilterData();
 	}
 
-	protected override prepareFilterData(): void {
-		this.filterData = {
-			search: {
-				text: "",
-			},
-			order: {
-				by: "name",
-				direction: "asc",
-				options: {},
-			},
-		};
-	}
+	// protected override prepareFilterData(): void {
+	// 	this.filterData = {
+	// 		search: {
+	// 			text: "",
+	// 		},
+	// 		order: {
+	// 			by: "name",
+	// 			direction: "asc",
+	// 			options: {},
+	// 		},
+	// 	};
+	// }
 
 	protected override async loadData(): Promise<void> {
 		const equipment: CompendiumIndexData[] = [];

@@ -1,18 +1,19 @@
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { TabName } from "../data";
-import { BaseFilterData } from "./data";
+import { FilterData } from "./data";
 
 export abstract class CompendiumTab {
 	/** A reference to the parent CompendiumBrowser */
 	protected browser: CompendiumBrowser;
 	/** An unmodified copy of this.filterData */
-	defaultFilterData!: BaseFilterData;
+	defaultFilterData!: FilterData;
 	/** The full CompendiumIndex of this tab */
-	protected indexData: CompendiumIndexData[] = [];
+	// protected indexData: CompendiumIndexData[] = [];
+	indexData: CompendiumIndexData[] = [];
 	/** Is this tab initialized? */
 	isInitialized = false;
 	/** The filter schema for this tab; The tabs filters are rendered based on this.*/
-	filterData!: BaseFilterData;
+	filterData!: FilterData;
 	/** The total count of items in the currently filtered index */
 	totalItemCount = 0;
 	/** The initial display limit for this tab; Scrolling is currently hardcoded to +100 */
@@ -44,7 +45,14 @@ export abstract class CompendiumTab {
 
 	/** Prepare the filterData object of this tab */
 	protected prepareFilterData(): void {
-		return;
+		this.filterData = {
+			searchQuery: "",
+			order: {
+				by: "name",
+				direction: "asc",
+				options: {},
+			},
+		};
 	}
 
 	/** Filter indexData */
@@ -69,6 +77,11 @@ export abstract class CompendiumTab {
 					return entryA.name.localeCompare(entryB.name, lang);
 				case "tags":
 					return entryA.tags.localeCompare(entryB.tags, lang);
+				case "reference":
+					return entryA.reference.localeCompare(
+						entryB.reference,
+						lang,
+					);
 				default:
 					return 0;
 			}
@@ -90,7 +103,7 @@ export abstract class CompendiumTab {
 			const html = domParser.parseFromString(htmlString, "text/html");
 			liElements.push(html.body.firstElementChild as HTMLLIElement);
 		}
-		console.log("liElements", liElements);
+		// console.log("liElements", liElements);
 		return liElements;
 	}
 }

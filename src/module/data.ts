@@ -18,8 +18,12 @@ export type DisplayMode =
 	| "tooltip"
 	| "inline_and_tooltip";
 
-export type Height = string;
-export type Weight = string;
+// TODO: change
+export type Height =
+	| `${number} ${LengthUnits}`
+	| `${number}'`
+	| `${number}'${number}"`;
+export type Weight = `${number} ${WeightUnits}`;
 
 export enum DamageProgression {
 	BasicSet = "basic_set",

@@ -70,8 +70,8 @@ export async function preloadTemplates(): Promise<
 
 		"chat/import-character-error",
 
-		"compendium-browser/filters",
 		"compendium-browser/trait",
+		"compendium-browser/settings",
 	];
 	const formattedPaths: string[] = [];
 	templatePaths.forEach(filename => {

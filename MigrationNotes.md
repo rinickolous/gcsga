@@ -3,7 +3,6 @@
 ## General
 - Store all modifiers as flags of various documents for consistency
 
-
 ## Roll Modifiers -> RollModifier
 - Previous model seems to just be a string, change to RollModifier interface
 

@@ -79,7 +79,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				return this.parent.updateEmbeddedDocuments("Item", [
 					{
 						_id: this.id,
-						"flags.gurps.contentsData": currentItems,
+						[`flags.${SYSTEM_NAME}.contentsData`]: currentItems,
 					},
 				]);
 			else this.setCollection(currentItems);
@@ -140,7 +140,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				await this.parent.updateEmbeddedDocuments("Item", [
 					{
 						_id: this.id,
-						"flags.gurps.contentsData": newContained,
+						[`flags.${SYSTEM_NAME}.contentsData`]: newContained,
 					},
 				]);
 			} else {
@@ -151,7 +151,9 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 	}
 
 	async setCollection(contents: any): Promise<void> {
-		this.update({ "flags.gurps.contentsData": duplicate(contents) });
+		this.update({
+			[`flags.${SYSTEM_NAME}.contentsData`]: duplicate(contents),
+		});
 	}
 
 	async deleteEmbeddedDocuments(
@@ -180,7 +182,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 			await this.parent.updateEmbeddedDocuments("Item", [
 				{
 					_id: this.id,
-					"flags.gurps.contentsData": newContainedItems,
+					[`flags.${SYSTEM_NAME}.contentsData`]: newContainedItems,
 				},
 			]);
 		} else {

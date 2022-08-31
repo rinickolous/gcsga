@@ -1,34 +1,21 @@
+import { BaseItemGURPS, TraitContainerGURPS, TraitGURPS } from "@item";
 import { SYSTEM_NAME } from "@module/settings";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { CompendiumTab } from "./base";
-import { BaseFilterData } from "./data";
 
 export class CompendiumTraitTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/trait.hbs`;
-	filterData!: BaseFilterData;
 
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "trait");
-
 		this.prepareFilterData();
-	}
-
-	protected override prepareFilterData(): void {
-		this.filterData = {
-			search: {
-				text: "",
-			},
-			order: {
-				by: "name",
-				direction: "asc",
-				options: {},
-			},
-		};
 	}
 
 	protected override async loadData(): Promise<void> {
 		const traits: CompendiumIndexData[] = [];
-		const indexFields = ["img", "name", "system.tags"];
+		// const indexFields = ["img", "name", "system.tags", "modifiers", "type", "open", "id", "children", "reference", "enabled", "notes", "cr", "formattedCR", "parents"];
+		// const indexFields = ["img", "name", "system.tags", "system.notes", `flags.${SYSTEM_NAME}.contentsData`];
+		const indexFields = ["img", "name", "system", "flags"];
 
 		for await (const { pack, index } of this.browser.packLoader.loadPacks(
 			"Item",
@@ -37,6 +24,9 @@ export class CompendiumTraitTab extends CompendiumTab {
 		)) {
 			console.log(pack, index);
 			for (const traitData of index) {
+				// console.log(traitData);
+				const trait: TraitGURPS | TraitContainerGURPS =
+					new BaseItemGURPS(traitData as any) as any;
 				if (["trait", "trait_container"].includes(traitData.type)) {
 					// TODO: hasAllIndexFields
 					traits.push({
@@ -45,6 +35,20 @@ export class CompendiumTraitTab extends CompendiumTab {
 						name: traitData.name,
 						img: traitData.img,
 						compendium: pack.collection,
+						open: trait.open,
+						id: traitData._id,
+						children:
+							trait instanceof TraitContainerGURPS
+								? trait.children
+								: [],
+						adjustedPoints: trait.adjustedPoints,
+						tags: trait.tags,
+						reference: trait.reference,
+						enabled: true,
+						parents: trait.parents,
+						modifiers: trait.modifiers,
+						cr: trait.cr,
+						formattedCR: trait.formattedCR,
 					});
 				}
 			}

@@ -198,6 +198,7 @@ export class TraitGURPS extends ContainerGURPS {
 	}
 
 	calculatePoints(): [number, number, number, number] {
+		if (!this.enabled) return [0, 0, 0, 0];
 		let [ad, disad, race, quirk] = [0, 0, 0, 0];
 		let pts = this.adjustedPoints;
 		if (pts == -1) quirk += pts;

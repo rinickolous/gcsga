@@ -1,0 +1,23 @@
+<div class="compendium-browser-settings">
+	<form autocomplete="off">
+		{{#each trait as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="trait-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{!-- <div class="searchbar"> --}}
+			{{!-- <input name="searchQuery" class="input" value="{{searchQuery}}" data-dtype="String" --}} {{!--
+				placeholder={{localize "gurps.compendium_browser_search" }} /> --}}
+			{{!-- </div> --}}
+		{{!-- <div class="item-list"> --}}
+			{{!-- <div class="header desc">{{localize "gurps.character.traits.desc"}}</div> --}}
+			{{!-- <div class="header points">{{localize "gurps.character.traits.points"}}</div> --}}
+			{{!-- <div class="header reference"><i class="gcs-bookmark"></i></div> --}}
+			{{!-- {{#each index}} --}}
+			{{!-- {{>actor/character/sections/trait}} --}}
+			{{!-- {{/each}} --}}
+			{{!-- </div> --}}
+		<button type="button" class="save-settings">{{localize "SETTINGS.Save"}}</button>
+	</form>
+</div>

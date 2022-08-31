@@ -40,7 +40,6 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	protected _onDrop(event: DragEvent): void {
-		// console.log(super._onDrop);
 		super._onDrop(event);
 	}
 

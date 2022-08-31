@@ -23,7 +23,7 @@
 	],
 	"compatibility": {
 		"minimum": 10,
-		"verified": "10.279",
+		"verified": "10.283",
 		"maximum": 10
 	},
 	"scripts": [],
@@ -40,8 +40,8 @@
 	],
 	"socket": false,
 	"url": "https://github.com/crnormand/gurps",
-	"manifest": "https://raw.githubusercontent.com/crnormand/gurps/release/system.json",
-	"download": "https://github.com/crnormand/gurps/archive/0.14.9.zip",
+	"manifest": "this is autoreplaced",
+	"download": "this is autoreplaced",
 	"license": "MIT",
 	"readme": "README.md",
 	"bugs": "https://github.com/crnormand/gurps/issues",

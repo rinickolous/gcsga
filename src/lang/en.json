@@ -101,7 +101,7 @@
 				"basic_lift": "Basic Lift",
 				"one_handed_lift": "One-Handed Lift",
 				"two_handed_lift": "Two-Handed Lift",
-				"shove": "Shvoe & Knock Over",
+				"shove": "Shove & Knock Over",
 				"running_shove": "Running Shove & Knock Over",
 				"carry_on_back": "Carry on Back",
 				"shift_slightly": "Shift Slightly"
@@ -467,7 +467,9 @@
 			"spell": "Spells",
 			"equipment": "Equipment",
 			"eqp_modifier": "Equipment Modifiers",
-			"note": "Notes"
+			"note": "Notes",
+			"search": "Search",
+			"tags": "Tags"
 		},
 		"system": {
 			"sheet": {

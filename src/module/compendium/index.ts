@@ -1,3 +1,4 @@
+import { ImagePath } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
 import { BrowserTab, PackInfo, TabData, TabName } from "./data";
@@ -107,56 +108,71 @@ export class CompendiumBrowser extends Application {
 
 		// Settings Tab
 		if (activeTabName === "settings") {
-			// const form = html.querySelector<HTMLFormElement>(".compendium-browser-settings form");
-			// if (form) {
-			//     form.querySelector("button.save-settings")?.addEventListener("click", async () => {
-			//         const formData = new FormData(form);
-			//         for (const [t, packs] of Object.entries(this.settings) as [string, { [key: string]: PackInfo }][]) {
-			//             for (const [key, pack] of Object.entries(packs) as [string, PackInfo][]) {
-			//                 pack.load = formData.has(`${t}-${key}`);
-			//             }
-			//         }
-			//         await game.settings.set("pf2e", "compendiumBrowserPacks", JSON.stringify(this.settings));
-			//         this.loadSettings();
-			//         this.initCompendiumList();
-			//         for (const tab of Object.values(this.tabs)) {
-			//             if (tab.isInitialized) {
-			//                 await tab.init();
-			//                 tab.scrollLimit = 100;
-			//             }
-			//         }
-			//         this.render(true);
-			//     });
-			// }
+			const form = _html.querySelector<HTMLFormElement>(
+				".compendium-browser-settings form",
+			);
+			if (form) {
+				form.querySelector("button.save-settings")?.addEventListener(
+					"click",
+					async () => {
+						const formData = new FormData(form);
+						for (const [t, packs] of Object.entries(
+							this.settings,
+						) as [string, { [key: string]: PackInfo }][]) {
+							for (const [key, pack] of Object.entries(packs) as [
+								string,
+								PackInfo,
+							][]) {
+								pack.load = formData.has(`${t}-${key}`);
+							}
+						}
+						// await (game as Game).settings.set(SYSTEM_NAME, "compendiumBrowserPacks", JSON.stringify(this.settings));
+						await (game as Game).settings.set(
+							SYSTEM_NAME,
+							"compendiumBrowserPacks",
+							this.settings,
+						);
+						this.loadSettings();
+						this.initCompendiumList();
+						for (const tab of Object.values(this.tabs)) {
+							if (tab.isInitialized) {
+								await tab.init();
+								tab.scrollLimit = 100;
+							}
+						}
+						this.render(true);
+					},
+				);
+			}
 			return;
 		}
 
-		const currentTab = this.tabs[activeTabName];
-		const controlArea =
-			_html.querySelector<HTMLDivElement>("div.control-area");
-		if (!controlArea) return;
+		// const currentTab = this.tabs[activeTabName];
+		// const controlArea =
+		// 	_html.querySelector<HTMLDivElement>("div.control-area");
+		// if (!controlArea) return;
 
-		const list = _html.querySelector<HTMLUListElement>(
-			".tab.active ul.item-list",
-		);
-		console.warn(list);
-		if (!list) return;
-		list.addEventListener("scroll", () => {
-			if (list.scrollTop + list.clientHeight >= list.scrollHeight - 5) {
-				const currentValue = currentTab.scrollLimit;
-				const maxValue = currentTab.totalItemCount ?? 0;
-				if (currentValue < maxValue) {
-					currentTab.scrollLimit = Math.clamped(
-						currentValue + 100,
-						100,
-						maxValue,
-					);
-					this.renderReultsList(_html, list, currentValue);
-				}
-			}
-		});
+		// const list = _html.querySelector<HTMLUListElement>(
+		// 	".tab.active ul.item-list",
+		// );
+		// console.warn(list);
+		// if (!list) return;
+		// list.addEventListener("scroll", () => {
+		// 	if (list.scrollTop + list.clientHeight >= list.scrollHeight - 5) {
+		// 		const currentValue = currentTab.scrollLimit;
+		// 		const maxValue = currentTab.totalItemCount ?? 0;
+		// 		if (currentValue < maxValue) {
+		// 			currentTab.scrollLimit = Math.clamped(
+		// 				currentValue + 100,
+		// 				100,
+		// 				maxValue,
+		// 			);
+		// 			this.renderReultsList(_html, list, currentValue);
+		// 		}
+		// 	}
+		// });
 
-		this.renderReultsList(_html, list);
+		// this.renderReultsList(_html, list);
 	}
 
 	override getData(): object | Promise<object> {
@@ -178,6 +194,7 @@ export class CompendiumBrowser extends Application {
 				user: (game as Game).user,
 				[activeTab]: {
 					filterData: tab.filterData,
+					indexData: tab.indexData,
 				},
 				scrollLimit: tab.scrollLimit,
 			};
@@ -201,42 +218,85 @@ export class CompendiumBrowser extends Application {
 			note: {},
 		};
 
-		// TODO: get rid of
-		const loadDefault: any = {
-			"world.Library Test": true,
-			"world.equipment": true,
-		};
-
 		for (const pack of (game as Game).packs) {
 			//@ts-ignore
 			const types = new Set(pack.index.map(entry => entry.type));
 			if (types.size === 0) continue;
-			console.log("types", types);
+			// console.log("types", types);
 
 			if (["trait", "trait_container"].some(type => types.has(type))) {
-				// const load =
-				// 	this.settings.trait?.[pack.collection]?.load ??
-				// 	!!loadDefault[pack.collection];
-				// let load = this.settings.trait?.[pack.collection]?.load ?? !!loadDefault[pack.collection];
-				// console.log(pack.collection, load);
-				// load = true;
-				const load = true;
+				const load =
+					this.settings.trait?.[pack.collection]?.load ?? false;
+				// console.log(this.settings, pack.collection, load);
+				// const load = true;
 				settings.trait![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};
 			}
-			if (types.has("modifier")) {
-				// TODO: finish
-				continue;
+			if (
+				["modifier", "modifier_container"].some(type => types.has(type))
+			) {
+				const load =
+					this.settings.modifier?.[pack.collection]?.load ?? false;
+				settings.trait![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
+			}
+			if (
+				["skill", "technique", "skill_container"].some(type =>
+					types.has(type),
+				)
+			) {
+				const load =
+					this.settings.skill?.[pack.collection]?.load ?? false;
+				settings.trait![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
+			}
+			if (
+				["spell", "ritual_magic_spell", "spell_container"].some(type =>
+					types.has(type),
+				)
+			) {
+				const load =
+					this.settings.spell?.[pack.collection]?.load ?? false;
+				settings.trait![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
 			}
 			if (
 				["equipment", "equipment_container"].some(type =>
 					types.has(type),
 				)
 			) {
-				const load = true;
+				const load =
+					this.settings.equipment?.[pack.collection]?.load ?? false;
 				settings.equipment![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
+			}
+			if (
+				["eqp_modifier", "eqp_modifier_container"].some(type =>
+					types.has(type),
+				)
+			) {
+				const load =
+					this.settings.eqp_modifier?.[pack.collection]?.load ??
+					false;
+				settings.eqp_modifier![pack.collection] = {
+					load,
+					name: pack.metadata.label,
+				};
+			}
+			if (["note", "note_container"].some(type => types.has(type))) {
+				const load =
+					this.settings.note?.[pack.collection]?.load ?? false;
+				settings.note![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};
@@ -259,14 +319,22 @@ export class CompendiumBrowser extends Application {
 	}
 
 	loadSettings(): void {
-		this.settings = (game as Game).settings.get(
+		const settings: string | any = (game as Game).settings.get(
 			SYSTEM_NAME,
 			"compendiumBrowserPacks",
-		) as CompendiumBrowserSettings;
+		);
+		// console.log(settings);
+		if (typeof settings === "string") this.settings = JSON.parse(settings);
+		else this.settings = settings;
 	}
 
 	openTab(tab: "trait", filter?: any): Promise<void>;
+	openTab(tab: "modifier", filter?: any): Promise<void>;
+	openTab(tab: "skill", filter?: any): Promise<void>;
+	openTab(tab: "spell", filter?: any): Promise<void>;
 	openTab(tab: "equipment", filter?: any): Promise<void>;
+	openTab(tab: "eqp_modifier", filter?: any): Promise<void>;
+	openTab(tab: "note", filter?: any): Promise<void>;
 	async openTab(tab: TabName, filter: any = {}): Promise<void> {
 		this.initialFilter = filter;
 		await this._render(true);
@@ -307,7 +375,7 @@ export class CompendiumBrowser extends Application {
 		if (tab === "settings") return [];
 		return Object.entries(this.settings[tab] ?? []).flatMap(
 			([collection, info]) => {
-				console.log(collection, info);
+				// console.log(collection, info);
 				return info?.load ? [collection] : [];
 			},
 		);
@@ -336,7 +404,7 @@ class PackLoader {
 		this.loadedPacks[documentType] ??= {};
 		// TODO: add progress bar
 		// const progress = new Progress
-		console.log(packs);
+		// console.log(packs);
 		for (const packId of packs) {
 			let data = this.loadedPacks[documentType][packId];
 			if (data) {
@@ -370,8 +438,8 @@ export interface CompendiumIndexData {
 	_id: string;
 	type: string;
 	name: string;
-	// img: ImagePath;
-	img?: string | null;
+	img: ImagePath;
+	// img?: string | null;
 	[key: string]: any;
 }
 

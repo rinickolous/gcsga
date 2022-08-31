@@ -7,9 +7,7 @@ export interface OrderData {
 	options: Record<string, string>;
 }
 
-export interface BaseFilterData {
+export interface FilterData {
 	order: OrderData;
-	search: {
-		text: string;
-	};
+	searchQuery: string;
 }

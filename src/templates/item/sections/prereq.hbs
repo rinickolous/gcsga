@@ -13,7 +13,8 @@
 			{{/each}}
 			{{/select}}
 		</select>
-		{{>sections/input-text field="field" name=(concat "NUMBER." path ".when_tl.qualifier") data=this.when_tl.qualifier
+		{{>sections/input-text field="field" name=(concat "NUMBER." path ".when_tl.qualifier")
+		data=this.when_tl.qualifier
 		type="String"
 		class=(disabled (eq this.when_tl.compare "none"))}}
 		<select name="{{path}}.all" data-dtype="Boolean">
@@ -40,8 +41,8 @@
 			{{/each}}
 			{{/select}}
 		</select>
-		{{#if (eq this.type "contained_quantity_prereq")}}{{>contained-quantity-prereq}}{{/if}}
-		{{#if (eq this.type "contained_weight_prereq")}}{{>contained-weight-prereq}}{{/if}}
+		{{#if (eq this.type "contained_quantity_prereq")}}{{>item/sections/prereq/contained-quantity-prereq}}{{/if}}
+		{{#if (eq this.type "contained_weight_prereq")}}{{>item/sections/prereq/contained-weight-prereq}}{{/if}}
 		{{else}}
 		<select name="{{path}}.quantity.compare">
 			{{#select this.quantity.compare}}
@@ -50,7 +51,8 @@
 			{{/each}}
 			{{/select}}
 		</select>
-		{{>sections/input-text field="field" name=(concat "NUMBER." path ".quantity.qualifier") data=this.quantity.qualifier
+		{{>sections/input-text field="field" name=(concat "NUMBER." path ".quantity.qualifier")
+		data=this.quantity.qualifier
 		type="String"}}
 		<select class="type" name="{{path}}.type" data-path="{{path}}">
 			{{#select this.type}}
@@ -62,13 +64,14 @@
 		{{/unless}}
 		{{/if}}
 	</div>
-	{{#if (eq this.type "trait_prereq")}}{{>trait-prereq}}{{/if}}
-	{{#if (eq this.type "attribute_prereq")}}{{>attribute-prereq}}{{/if}}
-	{{#if (eq this.type "skill_prereq")}}{{>skill-prereq}}{{/if}}
-	{{#if (eq this.type "spell_prereq")}}{{>spell-prereq}}{{/if}}
+	{{#if (eq this.type "trait_prereq")}}{{>item/sections/prereq/trait-prereq}}{{/if}}
+	{{#if (eq this.type "attribute_prereq")}}{{>item/sections/prereq/attribute-prereq}}{{/if}}
+	{{#if (eq this.type "skill_prereq")}}{{>item/sections/prereq/skill-prereq}}{{/if}}
+	{{#if (eq this.type "spell_prereq")}}{{>item/sections/prereq/spell-prereq}}{{/if}}
 </div>
 {{#if (eq this.type "prereq_list")}}
 {{#each this.prereqs}}
-{{>item/sections/prereq path=(concat ../path ".prereqs." @index) config=../config indent=(sum ../indent 1) attributes=../attributes}}
+{{>item/sections/prereq path=(concat ../path ".prereqs." @index) config=../config indent=(sum ../indent 1)
+attributes=../attributes}}
 {{/each}}
 {{/if}}

@@ -57,6 +57,7 @@ import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
+import { XMLtoJS } from "@util/xml_js";
 
 Error.stackTraceLimit = Infinity;
 
@@ -72,6 +73,7 @@ GURPS.BANNER = `   __   ____   ____  ____    ____     _     __
 GURPS.eval = evaluateToNumber;
 GURPS.search = fSearch;
 GURPS.dice = DiceGURPS;
+GURPS.XMLtoJS = XMLtoJS;
 
 // Initialize system
 Hooks.once("init", async () => {

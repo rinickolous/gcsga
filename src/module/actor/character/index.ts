@@ -1,6 +1,6 @@
 import { BaseActorGURPS } from "@actor/base";
 import { ActorConstructorContextGURPS } from "@actor/base";
-import { ActorImporter } from "@actor/import";
+import { CharacterImporter } from "./import";
 import { Feature } from "@feature";
 import { ConditionalModifier } from "@feature/conditional_modifier";
 import { CostReduction } from "@feature/cost_reduction";
@@ -1467,7 +1467,7 @@ class CharacterGURPS extends BaseActorGURPS {
 				request.onload = () => {
 					if (request.status === 200) {
 						const text = request.response;
-						ActorImporter.import(this, {
+						CharacterImporter.import(this, {
 							text: text,
 							name: import_name[1],
 							path: import_path,
@@ -1505,7 +1505,7 @@ class CharacterGURPS extends BaseActorGURPS {
 								} else {
 									const file = files[0];
 									readTextFromFile(file).then(text =>
-										ActorImporter.import(this, {
+										CharacterImporter.import(this, {
 											text: text,
 											name: file.name,
 											path: file.path,

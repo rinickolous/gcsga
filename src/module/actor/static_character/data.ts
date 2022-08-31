@@ -55,10 +55,18 @@ export interface StaticCharacterSystemData extends ActorSystemData {
 		};
 	};
 	// TODO: change
-	ads: any;
 	conditions: any;
 	traits: any;
 	encumbrance: any;
 	basicmove: any;
 	move: any;
+	attributes: any;
+	ads: any;
+	skills: any;
+	spells: any;
+	equipment: any;
+	melee: any;
+	ranged: any;
+	currentdodge: any;
+	languages: any;
 }

@@ -27,7 +27,7 @@ import { SkillDefault } from "@module/default";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
 import { i18n, i18n_f, newUUID, removeAccents } from "@util";
-import { CharacterDataGURPS, CharacterSystemData } from "./character/data";
+import { CharacterDataGURPS, CharacterSystemData } from "./data";
 
 export interface CharacterImportedData
 	extends Omit<CharacterSystemData, "attributes"> {
@@ -44,7 +44,7 @@ export interface CharacterImportedData
 	attributes: Array<AttributeObj>;
 }
 
-export class ActorImporter {
+export class CharacterImporter {
 	version: number;
 	document: CharacterGURPS;
 
@@ -57,7 +57,7 @@ export class ActorImporter {
 		document: CharacterGURPS,
 		file: { text: string; name: string; path: string },
 	) {
-		const importer = new ActorImporter(document);
+		const importer = new CharacterImporter(document);
 		importer._import(document, file);
 	}
 

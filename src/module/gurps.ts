@@ -57,6 +57,7 @@ import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
+import { g } from "./constants";
 
 Error.stackTraceLimit = Infinity;
 
@@ -206,13 +207,13 @@ Hooks.once("ready", async () => {
 	DRAG_IMAGE.id = "drag-ghost";
 	document.body.appendChild(DRAG_IMAGE);
 	await Promise.all(
-		(game as Game).actors!.map(async actor => {
+		g.actors!.map(async actor => {
 			actor.prepareData();
 		}),
 	);
 
 	// Render modifier app after user object loaded to avoid old data
-	(game as Game).user?.setFlag(SYSTEM_NAME, "init", true);
+	g.user?.setFlag(SYSTEM_NAME, "init", true);
 	GURPS.ModifierButton = new ModifierButton();
 	GURPS.ModifierButton.render(true);
 

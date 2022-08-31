@@ -1,3 +1,4 @@
+import { g } from "@module/constants";
 import {
 	NumberCompare,
 	NumberComparison,
@@ -7,7 +8,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 export function i18n(value: string, fallback?: string): string {
-	const result = (game as Game).i18n.localize(value);
+	const result = g.i18n.localize(value);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }
@@ -17,9 +18,9 @@ export function i18n_f(
 	data: Record<string, unknown>,
 	fallback?: string,
 ): string {
-	const template = (game as Game).i18n.has(value) ? value : fallback;
+	const template = g.i18n.has(value) ? value : fallback;
 	if (!template) return value;
-	const result = (game as Game).i18n.format(template, data);
+	const result = g.i18n.format(template, data);
 	if (!!fallback) return value === result ? fallback : result;
 	return result;
 }

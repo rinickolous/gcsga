@@ -1,3 +1,4 @@
+import { g } from "@module/constants";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { TabName } from "../data";
 import { BaseFilterData } from "./data";
@@ -62,7 +63,7 @@ export abstract class CompendiumTab {
 
 	protected sortResult(result: CompendiumIndexData[]): CompendiumIndexData[] {
 		const { order } = this.filterData;
-		const lang = (game as Game).i18n.lang;
+		const lang = g.i18n.lang;
 		const sorted = result.sort((entryA, entryB) => {
 			switch (order.by) {
 				case "name":

@@ -28,6 +28,7 @@ import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
 import { i18n, i18n_f, newUUID, removeAccents } from "@util";
 import { CharacterDataGURPS, CharacterSystemData } from "./character/data";
+import { g } from "@module/constants";
 
 export interface CharacterImportedData
 	extends Omit<CharacterSystemData, "attributes"> {
@@ -198,12 +199,9 @@ export class ActorImporter {
 	}
 
 	getPortraitPath(): string {
-		if (
-			(game as Game).settings.get(SYSTEM_NAME, "portrait_path") ==
-			"global"
-		)
+		if (g.settings.get(SYSTEM_NAME, "portrait_path") == "global")
 			return "images/portraits/";
-		return `worlds/${(game as Game).world.id}/images/portraits`;
+		return `worlds/${g.world.id}/images/portraits`;
 	}
 
 	importSettings(settings: CharacterImportedData["settings"]) {
@@ -802,9 +800,9 @@ export class ActorImporter {
 					lines: msg,
 				},
 			),
-			user: (game as Game).user!.id,
+			user: g.user!.id,
 			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
-			whisper: [(game as Game).user!.id],
+			whisper: [g.user!.id],
 		});
 		return false;
 	}

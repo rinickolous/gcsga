@@ -1,3 +1,4 @@
+import { g } from "@module/constants";
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { ModifierWindow } from "./window";
@@ -67,8 +68,7 @@ export class ModifierList extends Application {
 
 		const mods: any[] = this.mods;
 		const pinnedMods: any[] =
-			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ??
-			[];
+			(g.user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
 		mods.forEach(m => {
 			if (
 				pinnedMods.find(

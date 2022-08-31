@@ -16,6 +16,7 @@ import {
 } from "@item";
 import { Attribute } from "@module/attribute";
 import { CondMod } from "@module/conditional-modifier";
+import { g } from "@module/constants";
 import { RollType } from "@module/data";
 import { openPDF } from "@module/modules";
 import { SYSTEM_NAME } from "@module/settings";
@@ -165,7 +166,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 			data.modifier = $(event.currentTarget).data("modifier");
 			data.comment = $(event.currentTarget).data("comment");
 		}
-		return RollGURPS.handleRoll((game as Game).user, this.actor, data);
+		return RollGURPS.handleRoll(g.user, this.actor, data);
 	}
 
 	protected async _onItemDragEnter(event: JQuery.DragEnterEvent) {

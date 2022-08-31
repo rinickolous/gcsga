@@ -35,6 +35,7 @@
 - Support rolling on custom hit location tables (e.g. grand unified hit location table)
 - Tech Level Modifiers (B168)
 ## Small Features, Changes & Fixes
+- Polygot module support for Dynamic Characters
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
 - Redo drag & drop indicators

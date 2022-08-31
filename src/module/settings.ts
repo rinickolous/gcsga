@@ -1,6 +1,7 @@
 import { CharacterProfile } from "@actor/character/data";
 import { i18n } from "@util";
 import { AttributeDefObj } from "./attribute/attribute_def";
+import { g } from "./constants";
 import {
 	DamageProgression,
 	DisplayMode,
@@ -13,7 +14,6 @@ export const SYSTEM_NAME = "gcsga";
 
 export function registerSettings(): void {
 	// Register any custom system settings here
-	const g = game as Game;
 
 	g.settings.register(SYSTEM_NAME, "basic_set_pdf", {
 		name: i18n("gurps.settings.basic_set_pdfs.name"),

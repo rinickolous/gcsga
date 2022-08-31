@@ -48,7 +48,8 @@ export interface CharacterSystemData extends ActorSystemData {
 	total_points: number;
 	calc: CharacterCalc;
 	editing: boolean;
-	pools: any;
+	// TODO: check if this fits
+	pools: { [key: string]: Partial<Attribute> };
 }
 
 export interface CharacterSettings {

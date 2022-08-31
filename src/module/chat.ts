@@ -1,5 +1,6 @@
 import { ActorGURPS } from "@actor";
 import { RollGURPS } from "@util";
+import { g } from "./constants";
 import { RollType } from "./data";
 
 export function addChatListeners(html: JQuery<HTMLElement>): void {
@@ -14,7 +15,7 @@ export function addChatListeners(html: JQuery<HTMLElement>): void {
 
 async function _onDamageRoll(event: JQuery.ClickEvent) {
 	event.preventDefault();
-	const actor = (game as Game).actors!.get(
+	const actor = g.actors!.get(
 		$(event.currentTarget).data("actorId"),
 	) as ActorGURPS;
 	const type: RollType = $(event.currentTarget).data("type");
@@ -40,7 +41,7 @@ async function _onDamageRoll(event: JQuery.ClickEvent) {
 		data.modifier = $(event.currentTarget).data("modifier");
 		data.comment = $(event.currentTarget).data("comment");
 	}
-	return RollGURPS.handleRoll((game as Game).user, actor, data);
+	return RollGURPS.handleRoll(g.user, actor, data);
 }
 
 async function _onRollableHover(

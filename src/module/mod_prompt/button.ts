@@ -1,4 +1,3 @@
-import { g } from "@module/constants";
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
@@ -15,7 +14,7 @@ export class ModifierButton extends Application {
 		force?: boolean | undefined,
 		options?: Application.RenderOptions<ApplicationOptions> | undefined,
 	): Promise<unknown> {
-		await this.recalculateModTotal(g.user);
+		await this.recalculateModTotal((game as Game).user);
 		return super.render(force, options);
 	}
 
@@ -31,7 +30,7 @@ export class ModifierButton extends Application {
 	}
 
 	getData(options?: Partial<ApplicationOptions> | undefined): object {
-		const user = g.user;
+		const user = (game as Game).user;
 		let total = user?.getFlag(SYSTEM_NAME, "modifierTotal") ?? 0;
 
 		return mergeObject(super.getData(options), {

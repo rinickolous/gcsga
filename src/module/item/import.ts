@@ -23,7 +23,6 @@ import { SkillDefault } from "@module/default";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
 import { i18n, i18n_f, newUUID } from "@util";
-import { g } from "@module/constants";
 
 interface ItemLibraryData {
 	type: ItemLibraryType;
@@ -136,7 +135,7 @@ export class ItemImporter {
 
 			console.log(commit);
 
-			let pack = g.packs.find(p => p.metadata.name === name);
+			let pack = (game as Game).packs.find(p => p.metadata.name === name);
 			if (!pack) {
 				pack = await CompendiumCollection.createCompendium({
 					type: "Item",
@@ -702,9 +701,9 @@ export class ItemImporter {
 					lines: msg,
 				},
 			),
-			user: g.user!.id,
+			user: (game as Game).user!.id,
 			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
-			whisper: [g.user!.id],
+			whisper: [(game as Game).user!.id],
 		});
 		return false;
 	}

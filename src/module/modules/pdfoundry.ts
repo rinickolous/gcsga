@@ -1,4 +1,3 @@
-import { g } from "@module/constants";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
 
@@ -76,7 +75,7 @@ export function openPDF(pdfs: string) {
 		}
 
 		if (book === "B") {
-			const s = g.settings.get(SYSTEM_NAME, "basic_set_pdf");
+			const s = (game as Game).settings.get(SYSTEM_NAME, "basic_set_pdf");
 			if (page > 336) {
 				if (s === "separate") {
 					book = "BX";

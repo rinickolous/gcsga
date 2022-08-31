@@ -1,4 +1,3 @@
-import { g } from "@module/constants";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
 import { BrowserTab, PackInfo, TabData, TabName } from "./data";
@@ -166,7 +165,7 @@ export class CompendiumBrowser extends Application {
 		// Settings
 		if (activeTab === "settings") {
 			return {
-				user: g.user,
+				user: (game as Game).user,
 				settings: this.settings,
 			};
 		}
@@ -176,7 +175,7 @@ export class CompendiumBrowser extends Application {
 		if (tab) {
 			console.log("active tab", tab);
 			return {
-				user: g.user,
+				user: (game as Game).user,
 				[activeTab]: {
 					filterData: tab.filterData,
 				},
@@ -184,7 +183,7 @@ export class CompendiumBrowser extends Application {
 			};
 		}
 		return {
-			user: g.user,
+			user: (game as Game).user,
 		};
 	}
 
@@ -208,7 +207,7 @@ export class CompendiumBrowser extends Application {
 			"world.equipment": true,
 		};
 
-		for (const pack of g.packs) {
+		for (const pack of (game as Game).packs) {
 			//@ts-ignore
 			const types = new Set(pack.index.map(entry => entry.type));
 			if (types.size === 0) continue;
@@ -260,7 +259,7 @@ export class CompendiumBrowser extends Application {
 	}
 
 	loadSettings(): void {
-		this.settings = g.settings.get(
+		this.settings = (game as Game).settings.get(
 			SYSTEM_NAME,
 			"compendiumBrowserPacks",
 		) as CompendiumBrowserSettings;
@@ -344,7 +343,7 @@ class PackLoader {
 				// pack already loaded
 				// const pack = data;
 			} else {
-				const pack = g.packs.get(packId);
+				const pack = (game as Game).packs.get(packId);
 				if (!pack) continue;
 				if (pack.documentName === documentType) {
 					// TODO: fix

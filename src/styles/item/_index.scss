@@ -79,11 +79,11 @@
 			border-radius: 0px;
 			background-color: rgb(var(--color-editable));
 			color: rgb(var(--color-on-editable));
-			border: 1px solid rgba(var(--color-editable-border));
+			border: 1px solid rgba(var(--color-control-edge));
 			padding: 1px 3px;
 			&:focus {
 				box-shadow: none;
-				border: 2px solid rgb(var(--color-focused-editable-border));
+				border-width: 2px;
 				padding: 0 2px;
 			}
 			&[readonly] {
@@ -128,7 +128,7 @@
 			filter: none;
 			translate: 0px 4px;
 			&:focus {
-				border: 2px solid rgb(var(--color-focused-editable-border));
+				border-width: 2px;
 			}
 			&:active {
 				background-color: rgb(var(--color-pressed-control));

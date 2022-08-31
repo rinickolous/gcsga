@@ -29,11 +29,11 @@
 		background-color: rgba(var(--color-editable), 0.8);
 		color: rgb(var(--color-on-editable));
 		padding: 1px 3px;
-		border: 1px solid rgba(var(--color-editable-border), 1);
+		border: 1px solid rgba(var(--color-control-edge), 1);
 		border-radius: 0;
 		&:focus {
 			box-shadow: none;
-			border: 2px solid rgb(var(--color-focused-editable-border));
+			border-width: 2px;
 			padding: 0 2px;
 		}
 	}
@@ -68,7 +68,7 @@
 	position: absolute;
 	display: flex;
 	flex-direction: column-reverse;
-	border: 2px solid rgb(var(--color-focused-editable-border));
+	border: 2px solid rgb(var(--color-header));
 	border-bottom: none;
 	min-width: 180px;
 	width: max-content;

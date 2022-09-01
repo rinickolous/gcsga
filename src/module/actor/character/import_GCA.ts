@@ -82,7 +82,11 @@ export class GCAImporter {
 			items.push(...this.importItems(r.traits.skills));
 			items.push(...this.importItems(r.traits.spells));
 			items.push(...this.importItems(r.traits.equipment));
-		} catch (err) {}
+
+			console.log(commit, items);
+		} catch (err) {
+			console.error(err);
+		}
 	}
 
 	importMiscData(data: any) {
@@ -137,11 +141,14 @@ export class GCAImporter {
 		body.name = data.bodytype || "";
 		for (const part of data.hitlocationtable.hitlocationline) {
 			let table_name = part.location;
+			if (table_name === "Eye") table_name = "Eyes";
+			if (table_name === "Hand") table_name = "Hands";
+			if (table_name === "Foot") table_name = "Feet";
+			console.log(table_name);
 			const dr_bonus = parseInt(
 				data.body.bodyitem.find((e: any) => e.name == table_name)
 					.basedr,
 			);
-			if (table_name === "Eye") table_name = "Eyes";
 			let id = part.location.toLowerCase();
 			if (id.includes("leg")) id = "leg";
 			if (id.includes("arm")) id = "leg";
@@ -154,12 +161,14 @@ export class GCAImporter {
 				slots = parseInt(rolls[1]) - parseInt(rolls[0]);
 			let description = "";
 			if (!!part.notes) {
-				const notes = part.notes.split[","];
+				console.log(part.notes);
+				const notes = part.notes.split(",");
 				for (const i of notes) {
 					if (!!description) description += "\n";
-					description +=
-						data.hitlocationtable.hitlocationnote[parseInt(i)]
-							.value;
+					console.log(i, data.hitlocationtable.hitlocationnote);
+					description += data.hitlocationtable.hitlocationnote.find(
+						(e: any) => e.key == i,
+					).value;
 				}
 			}
 			body.locations?.push({
@@ -224,7 +233,7 @@ export class GCAImporter {
 			const newItem: Partial<{
 				flags: any;
 				_id: string;
-				system: Partial<ItemSystemDataGURPS>;
+				system: Partial<ItemSystemDataGURPS> | null;
 			}> = {};
 			newItem._id = randomID();
 			newItem.system = {};
@@ -233,9 +242,11 @@ export class GCAImporter {
 				Partial<ItemSystemDataGURPS> | null,
 				ItemFlagsGURPS | null,
 			] = this.getItemData(item, data, context);
+			newItem.system = itemData;
+			newItem.flags = itemFlags;
+			items.push(newItem);
 		}
-
-		return [];
+		return items;
 	}
 
 	getItemData(
@@ -269,12 +280,32 @@ export class GCAImporter {
 	getTraitData(item: any): any {
 		// TODO: taboo -> prereq
 		let disabled = false;
+		// console.log(item, item.extended);
+		// if (
+		// 	item.extended?.find(
+		// 		(e: any) => e.tagname == "inactive" && e.tagvalue == "yes",
+		// 	)
+		// )
+		// 	disabled = true;
 		if (
-			item.extended?.find(
-				(e: any) => e.tagname == "inactive" && e.tagvalue == "yes",
-			)
+			!!item.extended &&
+			!!item.extended.extendedtag &&
+			item.extended.extendedtag.tagname == "inactive" &&
+			item.extended.extendedtag.tagvalue == "yes"
 		)
 			disabled = true;
+		let [base_points, points_per_level] = [0, 0];
+		let strCost = item.calcs.cost;
+		if (strCost.includes("/")) {
+			const arCost = strCost.split("/");
+			base_points = parseInt(arCost[0]);
+			points_per_level = parseInt(arCost[1]) - base_points;
+		}
+		const levels = points_per_level > 0 ? parseInt(item.level) : 0;
+		let cr = 0;
+		console.log(item, item.modifiers);
+		if (item.modifiers.find((e: any) => e.group == "Self-Control"))
+			cr = parseInt(item.modifiers.find((e: any) => e.shortname));
 		return {
 			name: item.name ?? "Trait",
 			type: "trait",
@@ -285,6 +316,11 @@ export class GCAImporter {
 			prereqs: BasePrereq.list,
 			round_down: true,
 			disabled: disabled,
+			levels: levels,
+			base_points: base_points,
+			points_per_level: points_per_level,
+			cr: cr,
+			cr_adj: "none",
 		};
 	}
 

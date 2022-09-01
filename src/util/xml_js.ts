@@ -215,11 +215,11 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
       <name>GURPS Character Assistant</name>
       <version>GCA5Engine, Version=5.0.189.0</version>
       <copyright>Program code is copyright © 1995-2022 by Armin D. Sykes. All data files, graphics, and other GURPS-specific content is copyright © 2005 and other years by Steve Jackson Games Incorporated. GURPS and the all-seeing pyramid are registered trademarks of Steve Jackson Games Incorporated. All rights reserved.</copyright>
-      <datecreated>31 August 2022</datecreated>
+      <datecreated>01 September 2022</datecreated>
     </author>
     <system>
       <version>5</version>
-      <lastkey>10208</lastkey>
+      <lastkey>10239</lastkey>
     </system>
     <library>
       <name>%user%\\default.gds</name>
@@ -377,7 +377,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
       <exportsheet>Simple Text Export</exportsheet>
     </output>
     <vitals>
-      <race>Human</race>
+      <race>Elf</race>
       <height />
       <weight />
       <age />
@@ -387,10 +387,10 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
     <basicdefense>
       <parryidkey>10024</parryidkey>
       <parryusing>DX</parryusing>
-      <parryscore>10</parryscore>
+      <parryscore>9</parryscore>
       <blockidkey>10024</blockidkey>
       <blockusing>DX</blockusing>
-      <blockscore>8</blockscore>
+      <blockscore>7</blockscore>
     </basicdefense>
     <description><![CDATA[]]></description>
     <notes><![CDATA[]]></notes>
@@ -412,7 +412,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -430,7 +430,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -502,7 +502,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -520,7 +520,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>11</dr>
+        <dr>4</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -538,7 +538,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -556,7 +556,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -574,7 +574,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -592,7 +592,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -610,7 +610,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -628,7 +628,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -646,7 +646,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -664,7 +664,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -682,7 +682,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -700,7 +700,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -718,7 +718,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -736,7 +736,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -754,7 +754,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>-1</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -772,7 +772,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -790,7 +790,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -808,7 +808,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -826,7 +826,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -844,7 +844,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <expanded>0</expanded>
         <layers>0</layers>
         <db>0</db>
-        <dr>9</dr>
+        <dr>2</dr>
         <hp>0</hp>
       </bodyitem>
       <bodyitem>
@@ -1038,13 +1038,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10003">
           <name>Appealing</name>
+          <bonuslist>+1 from 'Appearance'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>0</score>
+          <score>1</score>
           <level>0</level>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basevalue>0</basevalue>
             <basescore>0</basescore>
           </calcs>
@@ -1122,7 +1123,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>BL</symbol>
           <points>0</points>
-          <score>20</score>
+          <score>24</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -1130,7 +1131,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>@if(ST:Lifting ST::score &lt;= 7 then 0 else 1)</round>
-            <basescore>20</basescore>
+            <basescore>24.2</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1153,7 +1154,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <down>-5</down>
             <step>1</step>
             <round>-1</round>
-            <basescore>6</basescore>
+            <basescore>6.25</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1188,7 +1189,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>6</score>
+          <score>6.25</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -1198,7 +1199,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <up>5</up>
             <down>-5</down>
             <step>0.25</step>
-            <basescore>6</basescore>
+            <basescore>6.25</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1233,12 +1234,12 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Striking ST</basevalue>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1256,14 +1257,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <reach>C</reach>
               <skillused>ST:DX, SK:Brawling</skillused>
               <charparry>No</charparry>
-              <chareffectivest>10</chareffectivest>
+              <chareffectivest>11</chareffectivest>
               <charskillscore>12</charskillscore>
               <charskillused>"ST:DX"</charskillused>
               <charparryscore>No</charparryscore>
               <charskillusedkey>k10024</charskillusedkey>
-              <chardamage>1d-3</chardamage>
+              <chardamage>1d-2</chardamage>
               <dmg>thr</dmg>
-              <chardamtype>imp</chardamtype>
+              <chardamtype>cr</chardamtype>
               <charreach>C</charreach>
               <itemnotes>{Brawling (p. B182) increases all unarmed damage; Claws (p. B42) and Karate (p. B203) improve damage with punches and kicks (Claws don't affect damage with brass knuckles or boots); and Boxing (p. B182) improves punching damage.}</itemnotes>
             </attackmode>
@@ -1271,14 +1272,13 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10013">
           <name>Block</name>
-          <bonuslist>+1 from 'Combat Reflexes'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>1</score>
+          <score>0</score>
           <level>0</level>
           <calcs>
-            <syslevels>1</syslevels>
+            <syslevels>0</syslevels>
             <basevalue>0</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
@@ -1335,14 +1335,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>300</score>
+          <score>360</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>15 * ST:Basic Lift</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>300</basescore>
+            <basescore>360</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1355,14 +1355,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>12</score>
+          <score>13</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:HT::score</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>12</basescore>
+            <basescore>13</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1397,12 +1397,12 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>DamageBase</symbol>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Striking ST</basevalue>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1433,14 +1433,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>12</score>
+          <score>13</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:HT::score</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>12</basescore>
+            <basescore>13</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1449,19 +1449,18 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10022">
           <name>Dodge</name>
-          <bonuslist>+1 from 'Combat Reflexes'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>9</score>
           <level>0</level>
           <calcs>
-            <syslevels>1</syslevels>
+            <syslevels>0</syslevels>
             <basevalue>ST:Basic Speed + 3</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>-1</round>
-            <basescore>9</basescore>
+            <basescore>9.25</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1488,14 +1487,15 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10024">
           <name>DX</name>
+          <conditionallist>-3 from 'Bad Sight (Farsighted)' when performing close manual tasks, +5 from 'Double-Jointed' when ignoring penalties for working in close quarters</conditionallist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <symbol>DX</symbol>
-          <points>40</points>
+          <points>24</points>
           <score>12</score>
           <level>2</level>
-          <parrylevel>10</parrylevel>
-          <blocklevel>8</blocklevel>
+          <parrylevel>9</parrylevel>
+          <blocklevel>7</blocklevel>
           <calcs>
             <syslevels>0</syslevels>
             <basepoints>40</basepoints>
@@ -1525,9 +1525,9 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <formula>-@if(ST:No Fine Manipulators &gt; 0 &amp; owner::level &gt; 0 then 40 else 0)</formula>
               <forceformula>yes</forceformula>
               <level>1</level>
-              <premodsvalue>+0%</premodsvalue>
-              <value>+0%</value>
-              <valuenum>0</valuenum>
+              <premodsvalue>-40%</premodsvalue>
+              <value>-40%</value>
+              <valuenum>-40</valuenum>
               <page>B145</page>
             </modifier>
           </modifiers>
@@ -1762,7 +1762,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>FP</symbol>
           <points>0</points>
-          <score>12</score>
+          <score>13</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -1772,7 +1772,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <up>3</up>
             <down>-3</down>
             <step>1</step>
-            <basescore>12</basescore>
+            <basescore>13</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1792,14 +1792,13 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10034">
           <name>Fright Check</name>
-          <bonuslist>+2 from 'Combat Reflexes'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>12</score>
+          <score>10</score>
           <level>0</level>
           <calcs>
-            <syslevels>2</syslevels>
+            <syslevels>0</syslevels>
             <basevalue>ST:Will</basevalue>
             <basescore>10</basescore>
           </calcs>
@@ -1829,14 +1828,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Perception</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -1847,7 +1846,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>HEnc</symbol>
           <points>0</points>
-          <score>120</score>
+          <score>144</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -1855,7 +1854,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>10000000</maxscore>
             <minscore>0</minscore>
             <round>0</round>
-            <basescore>120</basescore>
+            <basescore>144</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1908,18 +1907,20 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <symbol>HP</symbol>
-          <points>0</points>
-          <score>10</score>
-          <level>0</level>
+          <points>4</points>
+          <score>13</score>
+          <level>2</level>
           <calcs>
             <syslevels>0</syslevels>
+            <basepoints>4</basepoints>
+            <premodspoints>4</premodspoints>
             <basevalue>ST:ST</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0 - me::syslevels</minscore>
             <up>2</up>
             <down>-2</down>
             <step>1</step>
-            <basescore>10</basescore>
+            <basescore>13</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -1934,7 +1935,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <uses>=me::score</uses>
               <uses_sections>6</uses_sections>
               <uses_settings>trackusesbysection(False),altbox(gold,=me::score - @if(me::score/3 = me::score\\3 then me::score\\3-1 else me::score\\3),red,count,blue,count+1, red, count*2,blue,count*2+1, red, count*3, blue, count*3+1,red,count*4,blue,count*4+1, red, count*5,blue,count*5+1, red,count*6)</uses_settings>
-              <uses_used>0+0+0+0+0+0</uses_used>
+              <uses_used>4+0+0+0+0+0</uses_used>
             </attackmode>
           </attackmodes>
           <modifiers count="1">
@@ -1953,14 +1954,15 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10042">
           <name>HT</name>
+          <bonuslist>+1 from 'Elf (Basic Set)'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <symbol>HT</symbol>
           <points>20</points>
-          <score>12</score>
+          <score>13</score>
           <level>2</level>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basepoints>20</basepoints>
             <premodspoints>20</premodspoints>
             <basevalue>10</basevalue>
@@ -2025,21 +2027,24 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10045">
           <name>Kick</name>
+          <bonuslist>nobase reach from 'No Legs (Slithers)'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
+          <hide>yes</hide>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Striking ST</basevalue>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
             <gives>=-@textindexedvalue($modetag(charskillused), ("SK:Karate", ST:Encumbrance Penalty::score), ELSE 0) to me::skillscore$, =+(@textindexedvalue($modetag(charskillused), ("SK:Karate", 1), ELSE 0) * (@int(($modetag(charskillscore) + ST:Encumbrance Penalty::score)/2) - @int($modetag(charskillscore)/2) - ST:Encumbrance Penalty::score)) to me::parryscore$</gives>
             <mods>Punch/Kick</mods>
             <display>no</display>
+            <noresync>yes</noresync>
           </ref>
           <attackmodes count="1">
             <attackmode>
@@ -2052,15 +2057,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <reach>C,1</reach>
               <skillused>ST:DX-2, SK:Brawling-2, SK:Karate-2, SK:Kicking (Karate), SK:Kicking (Brawling)</skillused>
               <charparry>No</charparry>
-              <chareffectivest>10</chareffectivest>
+              <chareffectivest>11</chareffectivest>
               <charskillscore>10</charskillscore>
               <charskillused>"ST:DX"-2</charskillused>
               <charparryscore>No</charparryscore>
               <charskillusedkey>k10024</charskillusedkey>
-              <chardamage>1d-2</chardamage>
+              <chardamage>1d-1</chardamage>
               <dmg>thr</dmg>
               <chardamtype>cr</chardamtype>
-              <charreach>C,1</charreach>
               <itemnotes>{Brawling (p. B182) increases all unarmed damage; Claws (p. B42) and Karate (p. B203) improve damage with punches and kicks (Claws don't affect damage with brass knuckles or boots); and Boxing (p. B182) improves punching damage.}</itemnotes>
             </attackmode>
           </attackmodes>
@@ -2147,7 +2151,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -2158,7 +2162,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <down>0</down>
             <step>1</step>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -2184,7 +2188,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>LEnc</symbol>
           <points>0</points>
-          <score>40</score>
+          <score>48</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -2192,7 +2196,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>10000000</maxscore>
             <minscore>0</minscore>
             <round>0</round>
-            <basescore>40</basescore>
+            <basescore>48</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -2254,14 +2258,15 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10053">
           <name>Magery 0</name>
+          <bonuslist>+1 from 'Magery 0'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>0</score>
+          <score>1</score>
           <level>0</level>
           <hide>yes</hide>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basevalue>0</basevalue>
             <maxscore>100</maxscore>
             <minscore>0</minscore>
@@ -2778,7 +2783,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>MEnc</symbol>
           <points>0</points>
-          <score>60</score>
+          <score>72</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -2786,7 +2791,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>10000000</maxscore>
             <minscore>0</minscore>
             <round>0</round>
-            <basescore>60</basescore>
+            <basescore>72</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -2842,14 +2847,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>-440</score>
+          <score>200</score>
           <level>1</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Money Base + (ST:Starting Wealth * @max(@if(@hasmod(5% of Starting Wealth) THEN 0.05),@if(@hasmod(10% of Starting Wealth) THEN 0.1),@if(@hasmod(15% of Starting Wealth) THEN 0.15),@if(@hasmod(20% of Starting Wealth) THEN 0.2),@if(@hasmod(30% of Starting Wealth) THEN 0.3),@if(@hasmod(40% of Starting Wealth) THEN 0.4),@if(@hasmod(50% of Starting Wealth) THEN 0.5),@if(@hasmod(60% of Starting Wealth) THEN 0.6),@if(@hasmod(70% of Starting Wealth) THEN 0.7),@if(@hasmod(80% of Starting Wealth) THEN 0.8),@if(@hasmod(90% of Starting Wealth) THEN 0.9),@if(@hasmod(100% of Starting Wealth) THEN 1) ) ) - char::equipmentcost</basevalue>
             <minscore>0</minscore>
             <step>0</step>
-            <basescore>-440</basescore>
+            <basescore>200</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3004,7 +3009,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>NEnc</symbol>
           <points>0</points>
-          <score>20</score>
+          <score>24</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -3012,7 +3017,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>10000000</maxscore>
             <minscore>0</minscore>
             <round>0</round>
-            <basescore>20</basescore>
+            <basescore>24</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3042,14 +3047,15 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10092">
           <name>No Fine Manipulators</name>
+          <bonuslist>+1 from 'No Manipulators'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>0</score>
+          <score>1</score>
           <level>0</level>
           <hide>yes</hide>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basevalue>0</basevalue>
             <basescore>0</basescore>
           </calcs>
@@ -3063,7 +3069,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -3071,7 +3077,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -3132,7 +3138,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -3140,7 +3146,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -3150,7 +3156,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>40</score>
+          <score>48</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -3158,7 +3164,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>1</round>
-            <basescore>40</basescore>
+            <basescore>48</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3168,14 +3174,13 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10098">
           <name>Parry</name>
-          <bonuslist>+1 from 'Combat Reflexes'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>1</score>
+          <score>0</score>
           <level>0</level>
           <calcs>
-            <syslevels>1</syslevels>
+            <syslevels>0</syslevels>
             <basevalue>0</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
@@ -3188,14 +3193,15 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10099">
           <name>Perception</name>
+          <bonuslist>+1 from 'Elf (Basic Set)'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <symbol>Per</symbol>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basevalue>ST:IQ</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0 - me::syslevels</minscore>
@@ -3215,12 +3221,12 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:One Arm Striking ST</basevalue>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3239,12 +3245,12 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <reach>C</reach>
               <skillused>ST:DX, SK:Brawling, SK:Boxing, SK:Karate</skillused>
               <charparry>0</charparry>
-              <chareffectivest>10</chareffectivest>
+              <chareffectivest>11</chareffectivest>
               <charskillscore>12</charskillscore>
               <charskillused>"ST:DX"</charskillused>
-              <charparryscore>10</charparryscore>
+              <charparryscore>9</charparryscore>
               <charskillusedkey>k10024</charskillusedkey>
-              <chardamage>1d-3</chardamage>
+              <chardamage>1d-2</chardamage>
               <dmg>thr</dmg>
               <chardamtype>cr</chardamtype>
               <charreach>C</charreach>
@@ -3280,6 +3286,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10101">
           <name>Reaction</name>
+          <conditionallist>+2 from 'Voice' when your voice can be heard</conditionallist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
@@ -3300,14 +3307,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>360</score>
+          <score>1000</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Starting Wealth - char::equipmentcost</basevalue>
             <minscore>0</minscore>
             <step>0</step>
-            <basescore>360</basescore>
+            <basescore>1000</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3319,14 +3326,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>1000</score>
+          <score>1200</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>50 * ST:Basic Lift</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>1000</basescore>
+            <basescore>1200</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3339,14 +3346,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>240</score>
+          <score>288</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>12 * ST:Basic Lift</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>240</basescore>
+            <basescore>288</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3425,21 +3432,24 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10108">
           <name>ST</name>
+          <bonuslist>-1 from 'Racial ST Penalty'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <symbol>ST</symbol>
-          <points>0</points>
-          <score>10</score>
-          <level>0</level>
+          <points>12</points>
+          <score>11</score>
+          <level>2</level>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>-1</syslevels>
+            <basepoints>20</basepoints>
+            <premodspoints>20</premodspoints>
             <basevalue>10</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0 - me::syslevels</minscore>
             <up>10</up>
             <down>-10</down>
             <step>1</step>
-            <basescore>10</basescore>
+            <basescore>12</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3456,9 +3466,9 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <formula>-@if(ST:No Fine Manipulators &gt; 0 &amp; owner::level &gt; 0 then 40 else 0)</formula>
               <forceformula>yes</forceformula>
               <level>1</level>
-              <premodsvalue>+0%</premodsvalue>
-              <value>+0%</value>
-              <valuenum>0</valuenum>
+              <premodsvalue>-40%</premodsvalue>
+              <value>-40%</value>
+              <valuenum>-40</valuenum>
             </modifier>
             <modifier idkey="10109">
               <name>Size</name>
@@ -3521,7 +3531,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -3532,7 +3542,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <down>0</down>
             <step>1</step>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -3575,14 +3585,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Perception</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -4002,14 +4012,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Perception</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -4039,7 +4049,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -4047,7 +4057,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -4108,7 +4118,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -4116,7 +4126,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>-1</round>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -4126,7 +4136,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>160</score>
+          <score>192</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -4134,7 +4144,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
             <round>1</round>
-            <basescore>160</basescore>
+            <basescore>192</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -4144,13 +4154,14 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10143">
           <name>Unappealing</name>
+          <bonuslist>+1 from 'Appearance'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>0</score>
+          <score>1</score>
           <level>0</level>
           <calcs>
-            <syslevels>0</syslevels>
+            <syslevels>1</syslevels>
             <basevalue>0</basevalue>
             <basescore>0</basescore>
           </calcs>
@@ -4161,17 +4172,18 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         </trait>
         <trait type="Attributes" idkey="10144">
           <name>Vision</name>
+          <conditionallist>-6 from 'Bad Sight (Farsighted)' when item is within 1 yard</conditionallist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <points>0</points>
-          <score>10</score>
+          <score>11</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
             <basevalue>ST:Perception</basevalue>
             <maxscore>1000000</maxscore>
             <minscore>0</minscore>
-            <basescore>10</basescore>
+            <basescore>11</basescore>
           </calcs>
           <armordata />
           <ref />
@@ -4246,7 +4258,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           <taboofailed>0</taboofailed>
           <symbol>XEnc</symbol>
           <points>0</points>
-          <score>200</score>
+          <score>240</score>
           <level>0</level>
           <calcs>
             <syslevels>0</syslevels>
@@ -4254,7 +4266,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <maxscore>10000000</maxscore>
             <minscore>0</minscore>
             <round>0</round>
-            <basescore>200</basescore>
+            <basescore>240</basescore>
           </calcs>
           <armordata />
           <ref>
@@ -4283,72 +4295,145 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           </ref>
         </trait>
       </attributes>
-      <languages count="0" />
-      <cultures count="0" />
-      <advantages count="9">
-        <trait type="Advantages" idkey="10151">
-          <name>Combat Reflexes</name>
-          <childkeylist>k10152</childkeylist>
+      <languages count="1">
+        <trait type="Languages" idkey="10213">
+          <name>English</name>
+          <bonuslist>+1 from 'Language Talent'</bonuslist>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
-          <cat>Mundane, Mental, Mundane Mental</cat>
-          <points>17</points>
-          <level>1</level>
+          <cat>Mundane, Social, Language, Language Spoken, Language Written, Social Background</cat>
+          <points>2</points>
+          <level>2</level>
           <calcs>
-            <cost>15/45</cost>
-            <syslevels>0</syslevels>
+            <cost>2/4</cost>
+            <syslevels>1</syslevels>
             <baselevel>1</baselevel>
-            <premodspoints>15</premodspoints>
-            <childpoints>2</childpoints>
-            <upto>2</upto>
-            <levelnames>,Enhanced Time Sense</levelnames>
+            <premodspoints>2</premodspoints>
+            <upto>3 LimitingTotal</upto>
+            <levelnames>[None], Broken, Accented, Native</levelnames>
           </calcs>
           <armordata />
           <ref>
-            <page>B43</page>
-            <gives>=+1 To GR:Combat Reflexes, =+2 To Fright Check</gives>
-            <taboo>DI:Combat Paralysis, AD:Enhanced Time Sense</taboo>
-            <isparent>yes</isparent>
+            <basedon>Language</basedon>
+            <page>B24</page>
+            <taboo>Native Languages &gt; 1</taboo>
+            <mods>Language</mods>
           </ref>
-          <bonuses count="2">
+        </trait>
+      </languages>
+      <cultures count="0" />
+      <advantages count="18">
+        <trait type="Advantages" idkey="10212">
+          <name>Acute Vision</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>2</points>
+          <level>1</level>
+          <calcs>
+            <cost>2/4</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>2</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B35</page>
+            <gives>+1 To ST:Vision, +1 To SK:Observation</gives>
+            <conditional>+1 To SK:Tracking when "vision is a factor"</conditional>
+            <taboo>DI:Blindness</taboo>
+          </ref>
+          <attackmodes count="1">
+            <attackmode>
+              <name>see</name>
+              <skillused>ST:Vision</skillused>
+              <charskillscore>11</charskillscore>
+              <charskillused>"ST:Vision"</charskillused>
+              <charskillusedkey>k10144</charskillusedkey>
+            </attackmode>
+          </attackmodes>
+          <extended count="1">
+            <extendedtag>
+              <tagname>inactive</tagname>
+              <tagvalue>yes</tagvalue>
+            </extendedtag>
+          </extended>
+        </trait>
+        <trait type="Advantages" idkey="10231">
+          <name>Appearance</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>4</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>4/12/12/16/16/20</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>4</premodspoints>
+            <upto>6</upto>
+            <levelnames>[Average], Attractive, Beautiful, Handsome, Very Beautiful, Very Handsome, Transcendent</levelnames>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B21</page>
+            <gives>=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 2, 2, 2, 2, 2) ) to ST:Unappealing,=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) ) to ST:Appealing,=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) ) to SK:Sex Appeal</gives>
+            <taboo>DI:Appearance</taboo>
+            <mods>Attractive, Appearance</mods>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="3">
             <bonus>
-              <targetprefix>GR</targetprefix>
-              <targetname>combat reflexes</targetname>
-              <targettype>Unknown</targettype>
+              <targetprefix>ST</targetprefix>
+              <targetname>unappealing</targetname>
+              <targettype>Attributes</targettype>
               <affects>level</affects>
-              <bonuspart>+1</bonuspart>
+              <bonuspart>@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 2, 2, 2, 2, 2) )</bonuspart>
               <bonustype>3</bonustype>
-              <fullbonustext>=+1 To GR:Combat Reflexes</fullbonustext>
+              <fullbonustext>=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 2, 2, 2, 2, 2) ) to ST:Unappealing</fullbonustext>
               <value>1</value>
             </bonus>
             <bonus>
-              <targetname>fright check</targetname>
+              <targetprefix>ST</targetprefix>
+              <targetname>appealing</targetname>
               <targettype>Attributes</targettype>
               <affects>level</affects>
-              <bonuspart>+2</bonuspart>
+              <bonuspart>@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) )</bonuspart>
               <bonustype>3</bonustype>
-              <fullbonustext>=+2 To Fright Check</fullbonustext>
-              <value>2</value>
+              <fullbonustext>=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) ) to ST:Appealing</fullbonustext>
+              <value>1</value>
+            </bonus>
+            <bonus>
+              <targetprefix>SK</targetprefix>
+              <targetname>sex appeal</targetname>
+              <targettype>Skills</targettype>
+              <affects>level</affects>
+              <bonuspart>@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) )</bonuspart>
+              <bonustype>3</bonustype>
+              <fullbonustext>=@if((@hasmod(Androgynous) | @hasmod(Impressive) | @hasmod(Universal)) &amp; %level &gt;= 2 then @indexedvalue(%level, 0, 3, 3, 4, 4, 5) else @indexedvalue(%level, 1, 4, 4, 6, 6, 8) ) to SK:Sex Appeal</fullbonustext>
+              <value>1</value>
             </bonus>
           </bonuses>
         </trait>
-        <trait type="Advantages" idkey="10201">
+        <trait type="Advantages" idkey="10239">
           <name>Damage Resistance</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <cat>Exotic, Physical, Exotic Physical</cat>
-          <points>45</points>
-          <level>9</level>
-          <hide>yes</hide>
+          <points>10</points>
+          <level>2</level>
           <calcs>
             <cost>5/10</cost>
             <syslevels>0</syslevels>
-            <baselevel>9</baselevel>
-            <premodspoints>45</premodspoints>
+            <baselevel>2</baselevel>
+            <premodspoints>10</premodspoints>
           </calcs>
           <armordata>
             <dr>0</dr>
-            <chardr>9</chardr>
+            <chardr>2</chardr>
             <location>skin</location>
             <charlocation>skin</charlocation>
             <locationcoverage>skin</locationcoverage>
@@ -4357,9 +4442,6 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <page>B46</page>
             <gives>+1 to me::dr</gives>
             <mods>Damage Resistance, Damage Resistance Partial, Limited Defense</mods>
-            <keep>10198</keep>
-            <owned>yes</owned>
-            <locked>yes</locked>
           </ref>
           <bonuses count="1">
             <bonus>
@@ -4370,11 +4452,11 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
               <bonuspart>+1</bonuspart>
               <bonustype>1</bonustype>
               <fullbonustext>+1 to me::dr</fullbonustext>
-              <value>9</value>
+              <value>2</value>
             </bonus>
           </bonuses>
         </trait>
-        <trait type="Advantages" idkey="10200">
+        <trait type="Advantages" idkey="10216">
           <name>Doesn't Breathe</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
@@ -4393,12 +4475,108 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <page>B49</page>
             <taboo>AD:Filter Lungs</taboo>
             <mods>Doesn't Breathe</mods>
-            <keep>10198</keep>
+            <keep>10214</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
         </trait>
-        <trait type="Advantages" idkey="10199">
+        <trait type="Advantages" idkey="10217">
+          <name>Doesn't Eat or Drink</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic, Physical, Exotic Physical</cat>
+          <points>10</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>10</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>10</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B50</page>
+            <taboo>AD:Reduced Consumption, DI:Increased Consumption, DI:Restricted Diet, AD:Universal Digestion, DI:Slow Eater, DI:Gluttony</taboo>
+            <keep>10214</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+        </trait>
+        <trait type="Advantages" idkey="10218">
+          <name>Doesn't Sleep</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic, Physical, Exotic Physical</cat>
+          <points>20</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>20</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>20</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B50</page>
+            <taboo>AD:Extra Sleep, DI:Less Sleep, DI:Sleepy, DI:Slow Riser, DI:Insomniac</taboo>
+            <keep>10214</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+        </trait>
+        <trait type="Advantages" idkey="10225">
+          <name>Double-Jointed</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>15</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>15</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>15</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B56</page>
+            <gives>+5 To GR:Flexibility</gives>
+            <conditional>+5 To ST:DX when "ignoring penalties for working in close quarters"</conditional>
+            <taboo>AD:Flexibility</taboo>
+            <keep>10224</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>GR</targetprefix>
+              <targetname>flexibility</targetname>
+              <targettype>Unknown</targettype>
+              <affects>level</affects>
+              <bonuspart>+5</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+5 To GR:Flexibility</fullbonustext>
+              <value>5</value>
+            </bonus>
+          </bonuses>
+          <conditionals count="1">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>dx</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+5</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+5 To ST:DX when "ignoring penalties for working in close quarters"</fullbonustext>
+              <value>5</value>
+              <notes>ignoring penalties for working in close quarters</notes>
+            </bonus>
+          </conditionals>
+        </trait>
+        <trait type="Advantages" idkey="10215">
           <name>Immunity to Metabolic Hazards</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
@@ -4414,78 +4592,297 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           </calcs>
           <armordata />
           <ref>
-            <keep>10198</keep>
+            <keep>10214</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
         </trait>
-        <trait type="Advantages" idkey="10202">
-          <name>Injury Tolerance</name>
+        <trait type="Advantages" idkey="10219">
+          <name>Insubstantiality</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
-          <cat>Exotic, Physical, Exotic Physical</cat>
-          <points>45</points>
+          <cat>Exotic Physical, Exotic, Mental, Physical, Exotic Mental</cat>
+          <points>40</points>
           <level>1</level>
           <hide>yes</hide>
           <calcs>
-            <cost>0</cost>
+            <cost>80</cost>
             <syslevels>0</syslevels>
             <baselevel>1</baselevel>
+            <premodspoints>80</premodspoints>
           </calcs>
           <armordata />
           <ref>
-            <page>B60</page>
-            <mods>Injury Tolerance</mods>
-            <keep>10198</keep>
+            <page>B62</page>
+            <mods>Insubstantiality</mods>
+            <keep>10214</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
-          <modifiers count="2">
-            <modifier idkey="10203">
-              <name>Homogenous</name>
-              <group>Injury Tolerance</group>
-              <cost>+40</cost>
+          <modifiers count="1">
+            <modifier idkey="10220">
+              <name>Always On</name>
+              <group>Insubstantiality</group>
+              <cost>-50%</cost>
               <level>1</level>
-              <premodsvalue>+40</premodsvalue>
-              <value>+40</value>
-              <valuenum>40</valuenum>
-            </modifier>
-            <modifier idkey="10204">
-              <name>No Blood</name>
-              <group>Injury Tolerance</group>
-              <cost>+5</cost>
-              <level>1</level>
-              <premodsvalue>+5</premodsvalue>
-              <value>+5</value>
-              <valuenum>5</valuenum>
+              <premodsvalue>-50%</premodsvalue>
+              <value>-50%</value>
+              <valuenum>-50</valuenum>
             </modifier>
           </modifiers>
         </trait>
-        <trait type="Advantages" idkey="10205">
-          <name>Pressure Support</name>
+        <trait type="Advantages" idkey="10221">
+          <name>Invisibility</name>
+          <nameext>electromagnetic</nameext>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic, Mental, Exotic Mental</cat>
+          <points>36</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>40</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>40</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <basedon>Invisibility</basedon>
+            <page>B63</page>
+            <conditional>+9 to SK:Stealth when "being seen would matter"</conditional>
+            <mods>Invisibility</mods>
+            <keep>10214</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <modifiers count="1">
+            <modifier idkey="10222">
+              <name>Substantial Only</name>
+              <group>Invisibility</group>
+              <cost>-10%</cost>
+              <level>1</level>
+              <premodsvalue>-10%</premodsvalue>
+              <value>-10%</value>
+              <valuenum>-10</valuenum>
+            </modifier>
+          </modifiers>
+          <conditionals count="1">
+            <bonus>
+              <targetprefix>SK</targetprefix>
+              <targetname>stealth</targetname>
+              <targettype>Skills</targettype>
+              <affects>level</affects>
+              <bonuspart>+9</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+9 to SK:Stealth when "being seen would matter"</fullbonustext>
+              <value>9</value>
+              <notes>being seen would matter</notes>
+            </bonus>
+          </conditionals>
+        </trait>
+        <trait type="Advantages" idkey="10232">
+          <name>Language Talent</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Mental, Mundane Mental</cat>
+          <points>10</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>10</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>10</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B65</page>
+            <gives>+1 To Languages unless target::baselevel = 0</gives>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetname>languages</targetname>
+              <targettype>Unknown</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 To Languages unless target::baselevel = 0</fullbonustext>
+              <value>1</value>
+              <unless>target::baselevel = 0</unless>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Advantages" idkey="10233">
+          <name>Magery 0</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Supernatural, Mental, Supernatural Mental</cat>
+          <points>5</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>5</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>5</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B66</page>
+            <description>Magery 0 is included as a separate item from the normal Magery advantage, due to the fact that many kinds of enhancements and limitations are meant to only affect the levels above 0, not the base 5 points from Magery 0. The Magery advantage is set to have Magery 0 as a pre-req. WARNING: Always use the Magery modifiers with Magery and the Magery 0 modifiers with Magery 0. Using the Magery modifiers with any other item can cause your spells to be miscalculated.</description>
+            <gives>+1 to ST:Magery 0, +AD:Magery::level to me::skillscore</gives>
+            <taboo>@if(@itemhasmod(AD:Magic Resistance, Improved) THEN 0 ELSE AD:Magic Resistance), AD:Mana Damper</taboo>
+            <mods>Magery 0</mods>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <attackmodes count="1">
+            <attackmode>
+              <name>detect Magic Items with Mage Sense</name>
+              <skillused>ST:Perception</skillused>
+              <charskillscore>11</charskillscore>
+              <charskillused>"ST:Perception"</charskillused>
+              <charskillusedkey>k10099</charskillusedkey>
+            </attackmode>
+          </attackmodes>
+          <bonuses count="2">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>magery 0</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 to ST:Magery 0</fullbonustext>
+              <value>1</value>
+            </bonus>
+            <bonus>
+              <targetname>me</targetname>
+              <targettag>skillscore</targettag>
+              <targettype>Me</targettype>
+              <affects>other</affects>
+              <bonuspart>+AD:Magery::level</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+AD:Magery::level to me::skillscore</fullbonustext>
+              <value>0</value>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Advantages" idkey="10234">
+          <name>Perfect Balance</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>15</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>15</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>15</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B74</page>
+            <gives>+1 To GR:Perfect Balance, +4 to SK:Immovable Stance</gives>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="2">
+            <bonus>
+              <targetprefix>GR</targetprefix>
+              <targetname>perfect balance</targetname>
+              <targettype>Unknown</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 To GR:Perfect Balance</fullbonustext>
+              <value>1</value>
+            </bonus>
+            <bonus>
+              <targetprefix>SK</targetprefix>
+              <targetname>immovable stance</targetname>
+              <targettype>Skills</targettype>
+              <affects>level</affects>
+              <bonuspart>+4</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+4 to SK:Immovable Stance</fullbonustext>
+              <value>4</value>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Advantages" idkey="10230">
+          <name>Racial Skill Point Bonus</name>
+          <nameext>Connoisseur (Natural Environments)</nameext>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic Mental, Exotic Physical, Exotic, Mental, Physical, Talents</cat>
+          <points>1</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>1/2</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>1</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <basedon>Racial Skill Point Bonus ([skill])</basedon>
+            <page>B452</page>
+            <gives>+1pts to SK:Connoisseur (Natural Environments)</gives>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+            <noresync>yes</noresync>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>SK</targetprefix>
+              <targetname>connoisseur</targetname>
+              <targetext>natural environments</targetext>
+              <targettype>Skills</targettype>
+              <affects>points</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1pts to SK:Connoisseur (Natural Environments)</fullbonustext>
+              <value>1</value>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Advantages" idkey="10235">
+          <name>Telescopic Vision</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <cat>Exotic, Physical, Exotic Physical</cat>
-          <points>15</points>
-          <level>3</level>
+          <points>5</points>
+          <level>1</level>
           <hide>yes</hide>
           <calcs>
             <cost>5/10</cost>
             <syslevels>0</syslevels>
-            <baselevel>3</baselevel>
-            <premodspoints>15</premodspoints>
-            <upto>3</upto>
+            <baselevel>1</baselevel>
+            <premodspoints>5</premodspoints>
           </calcs>
           <armordata />
           <ref>
-            <page>B77</page>
-            <keep>10198</keep>
+            <page>B92</page>
+            <taboo>DI:Blindness</taboo>
+            <mods>Telescopic Vision</mods>
+            <keep>10228</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
         </trait>
-        <trait type="Advantages" idkey="10206">
-          <name>Sealed</name>
+        <trait type="Advantages" idkey="10223">
+          <name>Unaging</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <cat>Exotic, Physical, Exotic Physical</cat>
@@ -4500,69 +4897,307 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           </calcs>
           <armordata />
           <ref>
-            <page>B82</page>
-            <keep>10198</keep>
+            <page>B95</page>
+            <taboo>AD:Extended Lifespan, DI:Short Lifespan, DI:Self-Destruct, DI:Terminally Ill, AD:Longevity</taboo>
+            <mods>Unaging</mods>
+            <keep>10214</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
         </trait>
-        <trait type="Advantages" idkey="10152">
-          <name>Teeth</name>
-          <nameext>Fangs</nameext>
-          <parentkey>k10151</parentkey>
-          <needscheck>-1</needscheck>
-          <taboofailed>0</taboofailed>
-          <cat>Exotic, Physical, Natural Attacks, Exotic Physical</cat>
-          <points>2</points>
-          <level>1</level>
-          <calcs>
-            <cost>2</cost>
-            <syslevels>0</syslevels>
-            <baselevel>1</baselevel>
-            <premodspoints>2</premodspoints>
-          </calcs>
-          <armordata />
-          <ref>
-            <page>B91</page>
-            <taboo>"AD:Teeth (Blunt Teeth)", "AD:Teeth (Sharp Teeth)", "AD:Teeth (Sharp Beak)"</taboo>
-          </ref>
-        </trait>
-        <trait type="Advantages" idkey="10207">
-          <name>Vacuum Support</name>
+        <trait type="Advantages" idkey="10236">
+          <name>Unaging</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
           <cat>Exotic, Physical, Exotic Physical</cat>
-          <points>5</points>
+          <points>15</points>
           <level>1</level>
           <hide>yes</hide>
           <calcs>
-            <cost>5</cost>
+            <cost>15</cost>
             <syslevels>0</syslevels>
             <baselevel>1</baselevel>
-            <premodspoints>5</premodspoints>
+            <premodspoints>15</premodspoints>
           </calcs>
           <armordata />
           <ref>
-            <page>B96</page>
-            <keep>10198</keep>
+            <page>B95</page>
+            <taboo>AD:Extended Lifespan, DI:Short Lifespan, DI:Self-Destruct, DI:Terminally Ill, AD:Longevity</taboo>
+            <mods>Unaging</mods>
+            <keep>10228</keep>
             <owned>yes</owned>
             <locked>yes</locked>
           </ref>
         </trait>
-      </advantages>
-      <perks count="0" />
-      <disadvantages count="0" />
-      <quirks count="0" />
-      <features count="0" />
-      <skills count="4">
-        <trait type="Skills" idkey="10183">
-          <name>Armoury</name>
-          <nameext>Melee Weapons</nameext>
+        <trait type="Advantages" idkey="10237">
+          <name>Voice</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
-          <cat>_General, Military, Repair/Maintenance</cat>
-          <tl>3</tl>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>10</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>10</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>10</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B97</page>
+            <gives>+2 To GR:Voice</gives>
+            <conditional>+2 to ST:Reaction when "your voice can be heard"</conditional>
+            <taboo>DI:Mute, DI:Disturbing Voice, DI:Stuttering</taboo>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>GR</targetprefix>
+              <targetname>voice</targetname>
+              <targettype>Unknown</targettype>
+              <affects>level</affects>
+              <bonuspart>+2</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+2 To GR:Voice</fullbonustext>
+              <value>2</value>
+            </bonus>
+          </bonuses>
+          <conditionals count="1">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>reaction</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+2</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+2 to ST:Reaction when "your voice can be heard"</fullbonustext>
+              <value>2</value>
+              <notes>your voice can be heard</notes>
+            </bonus>
+          </conditionals>
+        </trait>
+      </advantages>
+      <perks count="1">
+        <trait type="Perks" idkey="10211">
+          <name>Fur</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>_General</cat>
           <points>1</points>
+          <level>1</level>
+          <calcs>
+            <cost>1</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>1</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B100</page>
+          </ref>
+        </trait>
+      </perks>
+      <disadvantages count="4">
+        <trait type="Disadvantages" idkey="10209">
+          <name>Bad Sight</name>
+          <nameext>Farsighted</nameext>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mundane, Physical, Mundane Physical</cat>
+          <points>-25</points>
+          <level>1</level>
+          <calcs>
+            <cost>-25</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>-25</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B123</page>
+            <conditional>-6 to ST:Vision when "item is within 1 yard",-3 to ST:DX when "performing close manual tasks",-3 to "CL:Combat/Weapons - Melee Combat" when "in Close Combat"</conditional>
+            <taboo>DI:Blindness, DI:Bad Sight (Nearsighted), AD:Acute Vision</taboo>
+            <mods>Bad Sight</mods>
+          </ref>
+          <conditionals count="3">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>vision</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>-6</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>-6 to ST:Vision when "item is within 1 yard"</fullbonustext>
+              <value>-6</value>
+              <notes>item is within 1 yard</notes>
+            </bonus>
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>dx</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>-3</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>-3 to ST:DX when "performing close manual tasks"</fullbonustext>
+              <value>-3</value>
+              <notes>performing close manual tasks</notes>
+            </bonus>
+            <bonus>
+              <targetprefix>CL</targetprefix>
+              <targetname>combat/weapons - melee combat</targetname>
+              <targettype>Unknown</targettype>
+              <affects>level</affects>
+              <bonuspart>-3</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>-3 to "CL:Combat/Weapons - Melee Combat" when "in Close Combat"</fullbonustext>
+              <value>-3</value>
+              <notes>in Close Combat</notes>
+            </bonus>
+          </conditionals>
+        </trait>
+        <trait type="Disadvantages" idkey="10226">
+          <name>No Legs</name>
+          <nameext>Slithers</nameext>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic, Physical, Exotic Physical</cat>
+          <points>0</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>0</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B145</page>
+            <gives>=nobase to ST:Kick::reach$</gives>
+            <taboo>DI:Cannot Kick, DI:No Legs (Aerial), DI:No Legs (Aquatic), DI:No Legs (Bounces), DI:No Legs (Rolls), DI:No Legs (Semi-Aquatic), DI:No Legs (Sessile), DI:No Legs (Tracked), DI:No Legs (Wheeled)</taboo>
+            <keep>10224</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>kick</targetname>
+              <targettag>reach</targettag>
+              <targettype>Attributes</targettype>
+              <affects>otherstring</affects>
+              <bonuspart>nobase</bonuspart>
+              <bonustype>3</bonustype>
+              <fullbonustext>=nobase to ST:Kick::reach$</fullbonustext>
+              <value>1</value>
+              <stringvalue>nobase</stringvalue>
+              <stringvaluetext>nobase</stringvaluetext>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Disadvantages" idkey="10227">
+          <name>No Manipulators</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic, Physical, Exotic Physical</cat>
+          <points>-50</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>-50</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>-50</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B145</page>
+            <gives>+1 to ST:No Fine Manipulators</gives>
+            <taboo>DI:One Arm, DI:Bad Grip, AD:High Manual Dexterity, "DI:Ham-Fisted", DI:No Fine Manipulators</taboo>
+            <keep>10224</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>no fine manipulators</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 to ST:No Fine Manipulators</fullbonustext>
+              <value>1</value>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Disadvantages" idkey="10229">
+          <name>Racial ST Penalty</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Exotic Physical, Exotic, Physical</cat>
+          <points>-10</points>
+          <level>1</level>
+          <hide>yes</hide>
+          <calcs>
+            <cost>-10/-20</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>-10</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <gives>-1 to ST:ST</gives>
+            <keep>10228</keep>
+            <owned>yes</owned>
+            <locked>yes</locked>
+          </ref>
+          <bonuses count="1">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>st</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>-1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>-1 to ST:ST</fullbonustext>
+              <value>-1</value>
+            </bonus>
+          </bonuses>
+        </trait>
+      </disadvantages>
+      <quirks count="1">
+        <trait type="Quirks" idkey="10210">
+          <name>Careful</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Mental, General</cat>
+          <points>-1</points>
+          <level>1</level>
+          <calcs>
+            <cost>-1</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>-1</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B164</page>
+          </ref>
+        </trait>
+      </quirks>
+      <features count="0" />
+      <skills count="1">
+        <trait type="Skills" idkey="10238">
+          <name>Connoisseur</name>
+          <nameext>Natural Environments</nameext>
+          <bonuslist>+1pts  from 'Racial Skill Point Bonus (Connoisseur (Natural Environments))'</bonuslist>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>_General, Arts/Entertainment, Knowledge, Social</cat>
+          <points>0</points>
           <type>IQ/A</type>
           <step>-1</step>
           <stepoff>IQ</stepoff>
@@ -4575,211 +5210,32 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
             <syslevels>0</syslevels>
             <extralevels>0</extralevels>
             <baselevel>9</baselevel>
-            <basepoints>1</basepoints>
-            <multpoints>1</multpoints>
             <apppoints>1</apppoints>
-            <premodspoints>1</premodspoints>
             <baseapppoints>1</baseapppoints>
+            <extrapoints>1</extrapoints>
           </calcs>
           <armordata />
           <ref>
-            <page>B178</page>
-            <default>IQ - 5, SK:Armoury - me::default0, "SK:Armoury (Battlesuits)" - 4, "SK:Armoury (Small Arms)" - 4, "SK:Armoury (Heavy Weapons)" - 4, "SK:Armoury (Missile Weapons)" - 4, "SK:Engineer (Melee Weapons)" - 4, "SK:Smith (Copper)" - me::default1, "SK:Smith (Iron)" - me::default2, SK:Machinist - me::default3</default>
+            <page>B185</page>
+            <default>IQ - 5</default>
           </ref>
-          <extended count="4">
+          <extended count="1">
             <extendedtag>
-              <tagname>default0</tagname>
-              <tagvalue>@if(me::tl &gt; 4 THEN 100 ELSE 4)</tagvalue>
-            </extendedtag>
-            <extendedtag>
-              <tagname>default1</tagname>
-              <tagvalue>@if(me::tl =1 THEN 3 ELSE 100)</tagvalue>
-            </extendedtag>
-            <extendedtag>
-              <tagname>default2</tagname>
-              <tagvalue>@if(me::tl = 2 then 3 else @if(me::tl = 3 then 3 else @if(me::tl = 4 then 3 else 100)))</tagvalue>
-            </extendedtag>
-            <extendedtag>
-              <tagname>default3</tagname>
-              <tagvalue>@if(me::tl &gt; 4 then 3 else 100)</tagvalue>
+              <tagname>syspoints</tagname>
+              <tagvalue>1</tagvalue>
             </extendedtag>
           </extended>
         </trait>
-        <trait type="Skills" idkey="10185">
-          <name>Jitte/Sai</name>
-          <needscheck>-1</needscheck>
-          <taboofailed>0</taboofailed>
-          <cat>_General, Combat/Weapons - Melee Combat</cat>
-          <points>8</points>
-          <type>DX/A</type>
-          <step>+2</step>
-          <stepoff>DX</stepoff>
-          <level>14</level>
-          <parrylevel>11</parrylevel>
-          <calcs>
-            <sd>0</sd>
-            <deflevel>0</deflevel>
-            <pointmult>1</pointmult>
-            <levelmult>1</levelmult>
-            <syslevels>0</syslevels>
-            <extralevels>0</extralevels>
-            <baselevel>14</baselevel>
-            <basepoints>8</basepoints>
-            <multpoints>8</multpoints>
-            <apppoints>8</apppoints>
-            <premodspoints>8</premodspoints>
-            <baseapppoints>8</baseapppoints>
-            <parryat>@int(%level/2)+3</parryat>
-          </calcs>
-          <armordata />
-          <ref>
-            <page>B208</page>
-            <default>DX - 5, SK:Force Sword - 4, "SK:Main-Gauche" - 4, SK:Shortsword - 3, "SK:Jitte/Sai Art" - 3, "SK:Jitte/Sai Sport" - 3, SK:Sword!</default>
-          </ref>
-        </trait>
-        <trait type="Skills" idkey="10184">
-          <name>Shield</name>
-          <nameext>Shield</nameext>
-          <needscheck>-1</needscheck>
-          <taboofailed>0</taboofailed>
-          <cat>_General, Combat/Weapons - Melee Combat</cat>
-          <points>4</points>
-          <type>DX/E</type>
-          <step>+2</step>
-          <stepoff>DX</stepoff>
-          <level>14</level>
-          <blocklevel>11</blocklevel>
-          <calcs>
-            <sd>0</sd>
-            <deflevel>0</deflevel>
-            <pointmult>1</pointmult>
-            <levelmult>1</levelmult>
-            <syslevels>0</syslevels>
-            <extralevels>0</extralevels>
-            <baselevel>14</baselevel>
-            <basepoints>4</basepoints>
-            <multpoints>4</multpoints>
-            <apppoints>4</apppoints>
-            <premodspoints>4</premodspoints>
-            <baseapppoints>4</baseapppoints>
-            <blockat>@int(%level/2)+3</blockat>
-          </calcs>
-          <armordata />
-          <ref>
-            <page>B220</page>
-            <default>DX - 4, "SK:Shield (Buckler)" - 2, "SK:Shield (Force)" - 2, "SK:Shield Art (Shield)" - 3, "SK:Shield Sport (Shield)" - 3</default>
-          </ref>
-        </trait>
-        <trait type="Skills" idkey="10186">
-          <name>Staff</name>
-          <needscheck>-1</needscheck>
-          <taboofailed>0</taboofailed>
-          <cat>_General, Combat/Weapons - Melee Combat</cat>
-          <points>8</points>
-          <type>DX/A</type>
-          <step>+2</step>
-          <stepoff>DX</stepoff>
-          <level>14</level>
-          <parrylevel>13</parrylevel>
-          <calcs>
-            <sd>0</sd>
-            <deflevel>0</deflevel>
-            <pointmult>1</pointmult>
-            <levelmult>1</levelmult>
-            <syslevels>0</syslevels>
-            <extralevels>0</extralevels>
-            <baselevel>14</baselevel>
-            <basepoints>8</basepoints>
-            <multpoints>8</multpoints>
-            <apppoints>8</apppoints>
-            <premodspoints>8</premodspoints>
-            <baseapppoints>8</baseapppoints>
-            <parryat>@int(%level/2)+3+2</parryat>
-          </calcs>
-          <armordata />
-          <ref>
-            <page>B208</page>
-            <default>DX - 5, SK:Polearm - 4, SK:Spear - 2, SK:Staff Art - 3, SK:Staff Sport - 3</default>
-          </ref>
-        </trait>
       </skills>
       <spells count="0" />
-      <equipment count="1">
-        <trait type="Equipment" idkey="10208">
-          <name>Auto Pistol, .40</name>
+      <equipment count="0" />
+      <templates count="3">
+        <trait type="Templates" idkey="10214">
+          <name>Astral Entity</name>
           <needscheck>-1</needscheck>
           <taboofailed>0</taboofailed>
-          <cat>Basic Set, Basic Set - Firearms, Basic Set - Firearms - Pistols &amp; SMGs, _Firearms, _Firearms - High-Tech</cat>
-          <cost>640</cost>
-          <count>1</count>
-          <weight>2.1</weight>
-          <level>0</level>
-          <calcs>
-            <basecost>640</basecost>
-            <baseweight>2.1</baseweight>
-            <precountcost>640</precountcost>
-            <precountweight>2.1</precountweight>
-            <premodscost>640</premodscost>
-            <preformulacost>640</preformulacost>
-            <preformulaweight>2.1</preformulaweight>
-            <postformulacost>640</postformulacost>
-            <postformulaweight>2.1</postformulaweight>
-            <prechildrencost>640</prechildrencost>
-            <prechildrenweight>2.1</prechildrenweight>
-          </calcs>
-          <armordata />
-          <ref>
-            <page>B278</page>
-            <description>TL:8 LC:3 Damage:2d pi+ Acc:2 Range:150/1900 RoF:3 Shots:15+1(3) ST:9 Bulk:-2 Rcl:2 Skill:Guns (Pistol)</description>
-            <mods>Equipment, Guns</mods>
-            <techlvl>8</techlvl>
-            <charunits>lb</charunits>
-          </ref>
-          <attackmodes count="1">
-            <attackmode>
-              <name />
-              <lc>3</lc>
-              <acc>2</acc>
-              <damage>2d</damage>
-              <damtype>pi+</damtype>
-              <minst>9</minst>
-              <rangehalfdam>150</rangehalfdam>
-              <rangemax>1900</rangemax>
-              <rcl>2</rcl>
-              <rof>3</rof>
-              <shots>15+1(3)</shots>
-              <skillused>SK:Gun!, SK:Guns (Pistol), ST:DX-4, SK:Guns (Grenade Launcher)-4, SK:Guns (Gyroc)-4, SK:Guns (Light Anti-Armor Weapon)-4, SK:Guns (Light Machine Gun)- 2, SK:Guns (Musket)-2, SK:Guns (Pistol)-2, SK:Guns (Rifle)-2, SK:Guns (Shotgun)-2, SK:Guns (Submachine Gun)-2</skillused>
-              <bulk>-2</bulk>
-              <uses>16</uses>
-              <malf>17</malf>
-              <chareffectivest>10</chareffectivest>
-              <charminst>9</charminst>
-              <charskillscore>8</charskillscore>
-              <charskillused>"ST:DX"-4</charskillused>
-              <charskillusedkey>k10024</charskillusedkey>
-              <chardamage>2d</chardamage>
-              <dmg>2</dmg>
-              <chardamtype>pi+</chardamtype>
-              <charrangehalfdam>150</charrangehalfdam>
-              <charrangemax>1900</charrangemax>
-              <characc>2</characc>
-              <charshots>15+1(3)</charshots>
-              <charmalf>17</charmalf>
-              <charbulk>-2</charbulk>
-              <charrof>3</charrof>
-              <charrcl>2</charrcl>
-              <uses_used>0</uses_used>
-            </attackmode>
-          </attackmodes>
-        </trait>
-      </equipment>
-      <templates count="1">
-        <trait type="Templates" idkey="10198">
-          <name>Body of Metal</name>
-          <needscheck>-1</needscheck>
-          <taboofailed>0</taboofailed>
-          <cat>Meta-Traits, Meta-Traits - Elemental</cat>
-          <points>175</points>
+          <cat>Meta-Traits, Meta-Traits - Spirit</cat>
+          <points>171</points>
           <level>1</level>
           <calcs>
             <cost>0</cost>
@@ -4788,14 +5244,80 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
           </calcs>
           <armordata />
           <ref>
-            <page>B262</page>
-            <description>Your body is made of metal.</description>
-            <needs>{AD:Immunity to Metabolic Hazards}, {AD:Doesn't Breathe}, {AD:Damage Resistance}=9, {AD:Injury Tolerance}, {AD:Pressure Support}=3, {AD:Sealed}, {AD:Vacuum Support}</needs>
+            <page>B263</page>
+            <description>An astral entity is a spirit that cannot materialize, become visible, or use its supernatural powers in the physical world.</description>
+            <needs>{AD:Immunity to Metabolic Hazards}, {AD:Doesn't Breathe}, {AD:Doesn't Eat or Drink}, {AD:Doesn't Sleep}, {AD:Insubstantiality}, {AD:Invisibility (electromagnetic)}, {AD:Unaging}</needs>
             <owns>yes</owns>
-            <pkids>10199, 10200, 10201, 10202, 10205, 10206, 10207</pkids>
-            <highlight>magenta</highlight>
-            <collapse>yes</collapse>
-            <isparent>yes</isparent>
+            <pkids>10215, 10216, 10217, 10218, 10219, 10221, 10223</pkids>
+            <noresync>yes</noresync>
+          </ref>
+        </trait>
+        <trait type="Templates" idkey="10228">
+          <name>Elf</name>
+          <nameext>Basic Set</nameext>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Racial Templates - Basic Set, Racial Templates</cat>
+          <points>70</points>
+          <level>1</level>
+          <calcs>
+            <cost>15</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+            <premodspoints>15</premodspoints>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B316</page>
+            <description>Elves are the quintessential fantasy race: very similar to humans (and cross-fertile with them, in many settings), but exceptionally beautiful, ageless, and naturally magical.</description>
+            <needs>{DI:Racial ST Penalty}, {AD:Racial Skill Point Bonus (Connoisseur (Natural Environments))}, {AD:Appearance}=1, {AD:Language Talent}, {AD:Magery 0}, {AD:Perfect Balance}, {AD:Telescopic Vision}=1, {AD:Unaging}, {AD:Voice}</needs>
+            <gives>+1 to ST:HT,+1 to ST:Perception</gives>
+            <owns>yes</owns>
+            <pkids>10229, 10230, 10231, 10232, 10233, 10234, 10235, 10236, 10237</pkids>
+            <noresync>yes</noresync>
+          </ref>
+          <bonuses count="2">
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>ht</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 to ST:HT</fullbonustext>
+              <value>1</value>
+            </bonus>
+            <bonus>
+              <targetprefix>ST</targetprefix>
+              <targetname>perception</targetname>
+              <targettype>Attributes</targettype>
+              <affects>level</affects>
+              <bonuspart>+1</bonuspart>
+              <bonustype>1</bonustype>
+              <fullbonustext>+1 to ST:Perception</fullbonustext>
+              <value>1</value>
+            </bonus>
+          </bonuses>
+        </trait>
+        <trait type="Templates" idkey="10224">
+          <name>Vermiform</name>
+          <needscheck>-1</needscheck>
+          <taboofailed>0</taboofailed>
+          <cat>Meta-Traits, Meta-Traits - Morphology</cat>
+          <points>-35</points>
+          <level>1</level>
+          <calcs>
+            <cost>0</cost>
+            <syslevels>0</syslevels>
+            <baselevel>1</baselevel>
+          </calcs>
+          <armordata />
+          <ref>
+            <page>B263</page>
+            <description>Your body is similar to that of a snake or a worm.</description>
+            <needs>{AD:Double-Jointed}, {DI:No Legs (Slithers)}, {DI:No Manipulators}</needs>
+            <owns>yes</owns>
+            <pkids>10225, 10226, 10227</pkids>
             <noresync>yes</noresync>
           </ref>
         </trait>
@@ -16825,7 +17347,7 @@ const testfile = `<?xml version="1.0" encoding="utf-8"?>
         <filename>mental_16.png</filename>
         <criteria>Advantages where cat listincludes {mental}</criteria>
         <image><![CDATA[iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
-AAALDwAACw8BkvkDpQAAAAd0SU1FB+EGERIZD2I0ZEoAAAD7SURBVDhPvZI/yoNAEMU9in8KC8FK
+AAALDQAACw0B7QfALAAAAAd0SU1FB+EGERIZD2I0ZEoAAAD7SURBVDhPvZI/yoNAEMU9in8KC8FK
 bKwttLMRQbDwCFqJCHZWVvYexs4beJtJnmaWTXaT70sTHo8dduY3zA5rkEbLspDv+9S2Lc3zTEVR
 UJ7ntO87yXVSeClJEhqGgY7jUDyOI63rKho8jktRFIlC0zQV476ua9q27WwgQMhxnLcgbFnWmW+a
 5nsYRr4sSxXmZBAEWhBGvqoqFcZY/G7P8/4PY8tcIC8ONu5lOBlO0/QZdl1XwLJt2z4BngRxlmX6
@@ -16837,7 +17359,7 @@ xg3BO+JKFy8frAAAAABJRU5ErkJggg==]]></image>
         <filename>mental_16.png</filename>
         <criteria>Disadvantages where cat listincludes {mental}</criteria>
         <image><![CDATA[iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
-AAALDwAACw8BkvkDpQAAAAd0SU1FB+EGERIZD2I0ZEoAAAD7SURBVDhPvZI/yoNAEMU9in8KC8FK
+AAALDQAACw0B7QfALAAAAAd0SU1FB+EGERIZD2I0ZEoAAAD7SURBVDhPvZI/yoNAEMU9in8KC8FK
 bKwttLMRQbDwCFqJCHZWVvYexs4beJtJnmaWTXaT70sTHo8dduY3zA5rkEbLspDv+9S2Lc3zTEVR
 UJ7ntO87yXVSeClJEhqGgY7jUDyOI63rKho8jktRFIlC0zQV476ua9q27WwgQMhxnLcgbFnWmW+a
 5nsYRr4sSxXmZBAEWhBGvqoqFcZY/G7P8/4PY8tcIC8ONu5lOBlO0/QZdl1XwLJt2z4BngRxlmX6
@@ -16895,8 +17417,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAA5NJREFUOE9lk3tM01cUx49AeUO1gFApA3mpW0JmshkTY+KGUZljsvgoGmXozHA+
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAA5NJREFUOE9lk3tM01cUx49AeUO1gFApA3mpW0JmshkTY+KGUZljsvgoGmXozHA+
 EPQvjYmIc8l0bjI25kSXKGYQH6gBFcUXY10qETtny6PwYy2dtmBJf0VaUqA5O+cuEN2anNz7uz3n
 c8/5nnvA5XKB3+8HSZJAp9OFt7W1xXg9niBEhJGXLxdsL9pmLj9YJo+Pj7/LZ+3t7YpLFy/G6PV6
 hdstA5+NjY0ByPK/H8anxpxl2dnjczMysOXBg6+cTieszvv4BQAg26GDZffdbjccPlReOTc9Ezeu
@@ -16965,8 +17487,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAA5NJREFUOE9lk3tM01cUx49AeUO1gFApA3mpW0JmshkTY+KGUZljsvgoGmXozHA+
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAA5NJREFUOE9lk3tM01cUx49AeUO1gFApA3mpW0JmshkTY+KGUZljsvgoGmXozHA+
 EPQvjYmIc8l0bjI25kSXKGYQH6gBFcUXY10qETtny6PwYy2dtmBJf0VaUqA5O+cuEN2anNz7uz3n
 c8/5nnvA5XKB3+8HSZJAp9OFt7W1xXg9niBEhJGXLxdsL9pmLj9YJo+Pj7/LZ+3t7YpLFy/G6PV6
 hdstA5+NjY0ByPK/H8anxpxl2dnjczMysOXBg6+cTieszvv4BQAg26GDZffdbjccPlReOTc9Ezeu
@@ -17035,8 +17557,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAABTtJREFUOE9tVHlQk1cQ3xA5FPEElcOEU/A+8WprFcQCCgI61AOtovWgtv7RqZwT
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAABTtJREFUOE9tVHlQk1cQ3xA5FPEElcOEU/A+8WprFcQCCgI61AOtovWgtv7RqZwT
 22o5PYvBKkJCiiYIIYQjciRMEKiOQggKigYB0TC2NlyKUa7Xfd+Mzjj2m3nzvWPf77e7v30L7W1t
 PPG1a2lV6iq3pvtNUCSXQ19vLyTGJ0ClSgVPWlth146dIBJmASEEGhoaQJgpgK6uLhgZGYYfjhyB
 iEOHQKVUMef1dfXQ0dEBXXq929Xs7DhRVtZRyLuee9uZwyGeS5aSqJ+OKaS5ucHDQ0Nmp5JToKWl
@@ -17113,8 +17635,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAABTtJREFUOE9tVHlQk1cQ3xA5FPEElcOEU/A+8WprFcQCCgI61AOtovWgtv7RqZwT
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAABTtJREFUOE9tVHlQk1cQ3xA5FPEElcOEU/A+8WprFcQCCgI61AOtovWgtv7RqZwT
 22o5PYvBKkJCiiYIIYQjciRMEKiOQggKigYB0TC2NlyKUa7Xfd+Mzjj2m3nzvWPf77e7v30L7W1t
 PPG1a2lV6iq3pvtNUCSXQ19vLyTGJ0ClSgVPWlth146dIBJmASEEGhoaQJgpgK6uLhgZGYYfjhyB
 iEOHQKVUMef1dfXQ0dEBXXq929Xs7DhRVtZRyLuee9uZwyGeS5aSqJ+OKaS5ucHDQ0Nmp5JToKWl
@@ -17191,8 +17713,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAAkFJREFUKFNj+Pr1K8P79+8Znj59ynDr1i31msqqiQmxcQdbm1tWrVm92vjZs2cM
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAAkFJREFUKFNj+Pr1K8P79+8Znj59ynDr1i31msqqiQmxcQdbm1tWrVm92vjZs2cM
 ////Z/j79y8Dw8+fP8Gcc2fPers5u/znZuf8z8vB+Z+ThfW/lpr6/9OnTlWB5P/8+cMANvnz58/m
 zg6O/xkYGP4rysj+V1VU+q8kJw/mgzQ8e/o0AKQBbGpdbe0mkISyvAIKBmkCiefn5F4EK3744IGd
 raXVfw5mlv8qCoooikF8QV6+/xoqqv+PHjniz7Bq5apiIT7+/3KSUigKYRjkHJAGoMc7GPp6e1Yw
@@ -17255,8 +17777,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAAkFJREFUKFNj+Pr1K8P79+8Znj59ynDr1i31msqqiQmxcQdbm1tWrVm92vjZs2cM
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAAkFJREFUKFNj+Pr1K8P79+8Znj59ynDr1i31msqqiQmxcQdbm1tWrVm92vjZs2cM
 ////Z/j79y8Dw8+fP8Gcc2fPers5u/znZuf8z8vB+Z+ThfW/lpr6/9OnTlWB5P/8+cMANvnz58/m
 zg6O/xkYGP4rysj+V1VU+q8kJw/mgzQ8e/o0AKQBbGpdbe0mkISyvAIKBmkCiefn5F4EK3744IGd
 raXVfw5mlv8qCoooikF8QV6+/xoqqv+PHjniz7Bq5apiIT7+/3KSUigKYRjkHJAGoMc7GPp6e1Yw
@@ -17319,8 +17841,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAAnhJREFUOE9VUklMk1EQHgiNIjsGEZEipZa4REiUoB6ApERD4sEFg0i8GKnVeAOR
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAAnhJREFUOE9VUklMk1EQHgiNIjsGEZEipZa4REiUoB6ApERD4sEFg0i8GKnVeAOR
 eFT04BKMtRgTPVUSXAktxBM1pUEoWKtiWaXYlcVg96bLD+ObX0U4fJl/3vu+eTPz/RCNRtchFosB
 IhIEGrX6jrq7uzzKzj6OjMDo11GASCSyChKEQiF4r9XCh4EBwRFpFYpFIjSbzY1erxfGx8YBVlZW
 VvG3MgwNDsLLzk5J2YFSPwBgXs42fPRQ0flraUm4SloDMUWdTnc8P3c7T85ISUUS3m5tnYfJiQmw
@@ -17384,8 +17906,8 @@ z86dSz83cz7h/HhPTM/9CxEXbvUG9g5c9Ll4+ZL7pQt9Tn1nL9tdPnXF5srJq4yrndcsr3X0W/S3
 /2TxU/uA5UDHdavrXTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriX
 eW/h/sYH6AdFD6UeVjxSfNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2d
 mnafvvF05dOJZ+nPFmYKf5X+tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/M
-F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDwAA
-Cw8BkvkDpQAAAnhJREFUOE9VUklMk1EQHgiNIjsGEZEipZa4REiUoB6ApERD4sEFg0i8GKnVeAOR
+F72Rf3P4LeNt37vwd5MLWe+x7ys/6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALDQAA
+Cw0B7QfALAAAAnhJREFUOE9VUklMk1EQHgiNIjsGEZEipZa4REiUoB6ApERD4sEFg0i8GKnVeAOR
 eFT04BKMtRgTPVUSXAktxBM1pUEoWKtiWaXYlcVg96bLD+ObX0U4fJl/3vu+eTPz/RCNRtchFosB
 IhIEGrX6jrq7uzzKzj6OjMDo11GASCSyChKEQiF4r9XCh4EBwRFpFYpFIjSbzY1erxfGx8YBVlZW
 VvG3MgwNDsLLzk5J2YFSPwBgXs42fPRQ0flraUm4SloDMUWdTnc8P3c7T85ISUUS3m5tnYfJiQmw

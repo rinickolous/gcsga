@@ -58,6 +58,7 @@ import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
 import { XMLtoJS } from "@util/xml_js";
+import { GCAImporter } from "@actor/character/import_GCA";
 
 Error.stackTraceLimit = Infinity;
 
@@ -74,6 +75,7 @@ GURPS.eval = evaluateToNumber;
 GURPS.search = fSearch;
 GURPS.dice = DiceGURPS;
 GURPS.XMLtoJS = XMLtoJS;
+GURPS.GCAImport = GCAImporter;
 
 // Initialize system
 Hooks.once("init", async () => {

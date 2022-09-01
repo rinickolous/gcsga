@@ -42,3 +42,4 @@
 - Add "children" section to sheets for items which can have children
 - Nested items cannot be dragged to item list
 - max uses blank value (current hack fix)
+- parse all objects with @count value as arrays

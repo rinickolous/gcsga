@@ -241,3 +241,14 @@ export function removeAccents(str: string): string {
 		.replace(/\-\-+/g, "-") // Replaces multiple hyphens by one hyphen
 		.replace(/(^-+|-+$)/g, "");
 }
+
+export function capitalize(s: string): string {
+	return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// Object.defineProperty(String.prototype, 'capitalize', {
+// 	value: function() {
+// 		return this.charAt(0).toUpperCase() + this.slice(1);
+// 	},
+// 	enumerable: false
+// });

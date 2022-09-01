@@ -49,7 +49,6 @@ export class ModifierButton extends Application {
 
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
-		console.warn(html, html.find("#show-popup"));
 		html.on("click", event => this._onClick(event));
 		html.on("wheel", event => this._onMouseWheel(event));
 	}

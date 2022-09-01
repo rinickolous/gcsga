@@ -25,8 +25,8 @@ export interface AttributeObj {
 
 export class Attribute {
 	actor: CharacterGURPS;
-	bonus = 0;
-	cost_reduction = 0;
+	bonus = 0; // ?
+	cost_reduction = 0; // ?
 	order: number;
 	attr_id: string;
 	adj = 0;

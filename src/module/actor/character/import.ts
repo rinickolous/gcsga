@@ -76,20 +76,22 @@ export class CharacterImporter {
 			return this.throwImportError(errorMessages);
 		}
 
-		let commit: CharacterDataGURPS | any;
+		let commit: Partial<CharacterDataGURPS> = {};
 		const imp = document.importData;
 		imp.name = file.name ?? imp.name;
 		imp.path = file.path ?? imp.path;
 		imp.last_import = new Date().toISOString();
 		try {
 			if (r.version < this.version)
-				return this.throwImportError(
-					errorMessages.concat(i18n("gurps.error.import.format_old")),
-				);
+				return this.throwImportError([
+					...errorMessages,
+					i18n("gurps.error.import.format_old"),
+				]);
 			else if (r.version > this.version)
-				return this.throwImportError(
-					errorMessages.concat(i18n("gurps.error.import.format_new")),
-				);
+				return this.throwImportError([
+					...errorMessages,
+					i18n("gurps.error.import.format_new"),
+				]);
 			commit = { ...commit, ...{ "system.import": imp } };
 			commit = { ...commit, ...{ name: r.profile.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
@@ -286,7 +288,7 @@ export class CharacterImporter {
 			if (context?.container) {
 				items.push({
 					name: item.name,
-					data: itemData,
+					system: itemData,
 					effects: [],
 					flags: itemFlags,
 					// folder: newItem.folder as Folder,

@@ -28,6 +28,7 @@ import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
 import { i18n, i18n_f, newUUID, removeAccents } from "@util";
 import { CharacterDataGURPS, CharacterSystemData } from "./data";
+import { GCAImporter } from "./import_GCA";
 
 export interface CharacterImportedData
 	extends Omit<CharacterSystemData, "attributes"> {
@@ -57,6 +58,8 @@ export class CharacterImporter {
 		document: CharacterGURPS,
 		file: { text: string; name: string; path: string },
 	) {
+		if (file.name.includes(".gca5"))
+			return GCAImporter.import(document, file);
 		const importer = new CharacterImporter(document);
 		importer._import(document, file);
 	}

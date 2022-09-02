@@ -1,9 +1,11 @@
 import { ItemGURPS } from "@item";
-import { ItemFlagsGURPS, ItemSystemDataGURPS } from "@item/data";
+import { ItemFlagsGURPS, ItemSystemDataGURPS, ItemType } from "@item/data";
+import { StringComparison } from "@module/data";
+import { SkillDefault } from "@module/default";
 import { DiceGURPS } from "@module/dice";
-import { SYSTEM_NAME } from "@module/settings";
+import { SETTINGS_TEMP, SYSTEM_NAME } from "@module/settings";
 import { BasePrereq } from "@prereq";
-import { capitalize, i18n, newUUID } from "@util";
+import { capitalize, i18n, i18n_f, newUUID, removeAccents } from "@util";
 import { XMLtoJS } from "@util/xml_js";
 import { CharacterGURPS } from ".";
 import { CharacterDataGURPS, HitLocationTable } from "./data";
@@ -36,6 +38,7 @@ export class GCAImporter {
 		const errorMessages: string[] = [];
 		try {
 			r = XMLtoJS(xml)["gca5"]["character"];
+			// r = XMLtoJS(xml);
 		} catch (err) {
 			console.error(err);
 			errorMessages.push(i18n("gurps.error.import.no_json_detected"));
@@ -49,44 +52,91 @@ export class GCAImporter {
 		imp.last_import = new Date().toISOString();
 		try {
 			const version: any[] | null =
-				r.author.version.match(/\d.\d+.\d+.\d+/);
+				r.author?.version.match(/\d.\d+.\d+.\d+/) ?? null;
 			if (version == null)
 				return this.throwImportError([
 					...errorMessages,
 					i18n("gurps.error.import_gca.version_unknown"),
 				]);
-			if (version[0] > this.version)
-				return this.throwImportError([
-					...errorMessages,
-					i18n("gurps.error.import_gca.version_new"),
-				]);
-			if (version[0] < this.version)
-				return this.throwImportError([
-					...errorMessages,
-					i18n("gurps.error.import_gca.version_old"),
-				]);
+			// if (version[0] > this.version)
+			// 	return this.throwImportError([
+			// 		...errorMessages,
+			// 		i18n("gurps.error.import_gca.version_new"),
+			// 	]);
+			// if (version[0] < this.version)
+			// 	return this.throwImportError([
+			// 		...errorMessages,
+			// 		i18n("gurps.error.import_gca.version_old"),
+			// 	]);
 			commit = { ...commit, ...{ "system.import": imp } };
 			commit = { ...commit, ...{ name: r.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
-			commit = { ...commit, ...this.importProfile(r) };
+			commit = { ...commit, ...(await this.importProfile(r)) };
 			commit = { ...commit, ...this.importSettings(r) };
 			commit = { ...commit, ...this.importAttributes(r) };
 
 			// Begin item impoprt
 			const items: Array<ItemGURPS> = [];
-			items.push(...this.importItems(r.traits.templates));
-			items.push(...this.importItems(r.traits.advantages));
-			items.push(...this.importItems(r.traits.disadvantages));
-			items.push(...this.importItems(r.traits.perks));
-			items.push(...this.importItems(r.traits.quirks));
-			items.push(...this.importItems(r.traits.skills));
-			items.push(...this.importItems(r.traits.spells));
-			items.push(...this.importItems(r.traits.equipment));
+			// items.push(...this.importItems(r.traits.templates, { data: r, js: commit }));
+			items.push(
+				...this.importItems(r.traits.advantages, {
+					data: r,
+					js: commit,
+				}),
+			);
+			items.push(
+				...this.importItems(r.traits.disadvantages, {
+					data: r,
+					js: commit,
+				}),
+			);
+			items.push(
+				...this.importItems(r.traits.perks, { data: r, js: commit }),
+			);
+			items.push(
+				...this.importItems(r.traits.quirks, { data: r, js: commit }),
+			);
+			items.push(
+				...this.importItems(r.traits.skills, { data: r, js: commit }),
+			);
+			items.push(
+				...this.importItems(r.traits.spells, { data: r, js: commit }),
+			);
+			items.push(
+				...this.importItems(r.traits.equipment, {
+					data: r,
+					js: commit,
+				}),
+			);
 
-			console.log(commit, items);
+			commit = { ...commit, ...{ items: items } };
 		} catch (err) {
 			console.error(err);
+			errorMessages.push(
+				i18n_f("gurps.error.import.generic", {
+					name: r.profile.name,
+					message: (err as Error).message,
+				}),
+			);
+			return this.throwImportError(errorMessages);
 		}
+
+		try {
+			await this.document.update(commit, {
+				diff: false,
+				recursive: false,
+			});
+		} catch (err) {
+			console.error(err);
+			errorMessages.push(
+				i18n_f("gurps.error.import.generic", {
+					name: r.profile.name,
+					message: (err as Error).message,
+				}),
+			);
+			return this.throwImportError(errorMessages);
+		}
+		return true;
 	}
 
 	importMiscData(data: any) {
@@ -101,7 +151,7 @@ export class GCAImporter {
 		};
 	}
 
-	importProfile(data: any) {
+	async importProfile(data: any) {
 		const p: any = {
 			"system.profile.player_name": data.player || "",
 			"system.profile.name": data.name || this.document.name,
@@ -130,6 +180,47 @@ export class GCAImporter {
 		);
 		if (tech_level) p["system.profile.tech_level"] = tech_level.score;
 
+		if (!!data.vitals.portraitimage) {
+			function getPortraitPath(): string {
+				if (
+					(game as Game).settings.get(SYSTEM_NAME, "portrait_path") ==
+					"global"
+				)
+					return "images/portraits/";
+				return `worlds/${(game as Game).world.id}/images/portraits`;
+			}
+
+			const path: string = getPortraitPath();
+			let currentDir = "";
+			for (const i of path.split("/")) {
+				try {
+					currentDir += i + "/";
+					await FilePicker.createDirectory("data", currentDir);
+				} catch (err) {
+					continue;
+				}
+			}
+			const portrait = data.vitals.portraitimage.replaceAll(/\n/g, "");
+			const filename = `${removeAccents(data.name)}_${
+				this.document.id
+			}_portrait.png`.replaceAll(" ", "_");
+			const url = `data:image/png;base64,${portrait}`;
+			await fetch(url)
+				.then(res => res.blob())
+				.then(blob => {
+					const file = new File([blob], filename);
+					// TODO: get rid of as any when new types version drops
+					(FilePicker as any).upload(
+						"data",
+						path,
+						file,
+						{},
+						{ notify: false },
+					);
+				});
+			p.img = (path + filename).replaceAll(" ", "_");
+		}
+
 		return p;
 	}
 
@@ -144,7 +235,6 @@ export class GCAImporter {
 			if (table_name === "Eye") table_name = "Eyes";
 			if (table_name === "Hand") table_name = "Hands";
 			if (table_name === "Foot") table_name = "Feet";
-			console.log(table_name);
 			const dr_bonus = parseInt(
 				data.body.bodyitem.find((e: any) => e.name == table_name)
 					.basedr,
@@ -161,11 +251,9 @@ export class GCAImporter {
 				slots = parseInt(rolls[1]) - parseInt(rolls[0]);
 			let description = "";
 			if (!!part.notes) {
-				console.log(part.notes);
-				const notes = part.notes.split(",");
+				const notes = part.notes?.split(",");
 				for (const i of notes) {
 					if (!!description) description += "\n";
-					console.log(i, data.hitlocationtable.hitlocationnote);
 					description += data.hitlocationtable.hitlocationnote.find(
 						(e: any) => e.key == i,
 					).value;
@@ -182,111 +270,224 @@ export class GCAImporter {
 			});
 		}
 		return {
-			"system.settings.body_type": body,
+			"system.settings": mergeObject(SETTINGS_TEMP.sheet, {
+				body_type: body,
+			}),
 		};
 	}
 
 	importAttributes(data: any) {
 		const atts: any = {};
 		for (const att of data.traits.attributes.trait) {
-			if (
-				![
-					"ST",
-					"DX",
-					"IQ",
-					"HT",
-					"Perception",
-					"Will",
-					"Vision",
-					"Hearing",
-					"Taste/Smell",
-					"Touch",
-					"Fright Check",
-					"Basic Speed",
-					"Basic Move",
-					"Hit Points",
-					"Fatigue Points",
-				].includes(att.name)
-			)
-				continue;
-			let id = att.name.toLowerCase();
-			if (id == "fright_check") id = "fright_check";
-			if (id == "taste/smell") id = "taste_smell";
-			if (id == "basic speed") id = "basic_speed";
-			if (id == "basic_move") id = "basic_move;";
-			if (id == "hit points") id = "hp";
-			if (id == "fatigue points") id = "fp";
-
-			atts[`system.attributes.${id}.adj`] = parseFloat(att.level);
-			if (["hp", "fp"].includes(id))
-				atts[`system.attributes.${id}.damage`] =
-					parseInt(att.attackmodes.attackmode.uses_used) || 0;
+			let id = this.translateAtt(att.name);
+			if (id == "null") continue;
+			atts[`${id}.adj`] = parseFloat(att.level);
+			if (["hp", "fp"].includes(id)) {
+				if (!!att.attackmodes) {
+					atts[`${id}.damage`] =
+						parseInt(att.attackmodes.attackmode.uses_used) || 0;
+				} else {
+					atts[`${id}.damage`] = 0;
+				}
+			}
 		}
-		return atts;
+		return {
+			"system.attributes": mergeObject(
+				this.document.newAttributes(),
+				atts,
+			),
+		};
 	}
 
-	importItems(data: any, context?: { container?: boolean }): ItemGURPS[] {
+	importItems(data: any, context: any = {}): ItemGURPS[] {
 		const list = data.trait;
 		if (!list) return [];
 		const items: Array<any> = [];
 		for (const item of list) {
-			const newItem: Partial<{
-				flags: any;
-				_id: string;
-				system: Partial<ItemSystemDataGURPS> | null;
-			}> = {};
-			newItem._id = randomID();
-			newItem.system = {};
-			newItem.system.name = item.name;
-			const [itemData, itemFlags]: [
-				Partial<ItemSystemDataGURPS> | null,
-				ItemFlagsGURPS | null,
-			] = this.getItemData(item, data, context);
-			newItem.system = itemData;
-			newItem.flags = itemFlags;
+			const id = randomID();
+			const [itemData, itemFlags, itemType]: [
+				ItemSystemDataGURPS,
+				ItemFlagsGURPS,
+				string,
+			] = this.getItemData(item, context);
+			const newItem = {
+				name: item.name,
+				type: itemType,
+				system: itemData,
+				flags: itemFlags,
+				_id: id,
+			};
+			// // const newItem: Partial<{
+			// // 	flags: any;
+			// // 	_id: string;
+			// // 	system: Partial<ItemSystemDataGURPS> | null;
+			// // }> = {};
+			// newItem._id = randomID();
+			// newItem.system = {};
+			// newItem.system.name = item.name;
+			// const [itemData, itemFlags]: [
+			// 	Partial<ItemSystemDataGURPS> | null,
+			// 	ItemFlagsGURPS | null,
+			// ] = this.getItemData(item, data, context);
+			// newItem.system = itemData;
+			// newItem.flags = itemFlags;
 			items.push(newItem);
 		}
 		return items;
 	}
 
-	getItemData(
-		item: any,
-		data: any,
-		context?: { container?: boolean },
-	): [any, any] {
-		let itemData: Partial<ItemSystemDataGURPS>;
+	getItemData(item: any, context: any = {}): [any, any, string] {
+		let itemData: Partial<ItemSystemDataGURPS> = {};
+		this.importFeatures(item, itemData, context);
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
 		switch (item["@type"]) {
 			case "Advantages":
 			case "Disadvantages":
 			case "Perks":
 			case "Quirks":
-				itemData = this.getTraitData(item);
+				itemData = { ...itemData, ...this.getTraitData(item) };
 				// flags[SYSTEM_NAME]!.contentsData = this.getNestedItems(item, data, context);
-				return [itemData, flags];
+				return [itemData, flags, "trait"];
 			case "Skills":
-			// itemData = this.getSkillData(item);
-			// flags[SYSTEM_NAME]!.contentsData = this.getNestedItems(item, data, context);
-			// return [itemData, flags];
+				if (item.type.includes("Tech")) {
+					itemData = this.getTechniqueData(item, context);
+					return [itemData, flags, "technique"];
+				} else {
+					itemData = this.getSkillData(item, context);
+					return [itemData, flags, "skill"];
+				}
 			case "Spells":
-			// itemData = this.getSpellData(item);
-			// flags[SYSTEM_NAME]!.contentsData = this.getNestedItems(item, data, context);
-			// return [itemData, flags];
+				itemData = this.getSpellData(item);
+				return [itemData, flags, "spell"];
+			case "Equipment":
+				itemData = this.getEquipmentData(item, context);
+				return [itemData, flags, "equipment"];
 			default:
-				return [null, null];
+				return [null, null, "error"];
+		}
+	}
+
+	importFeatures(
+		item: any,
+		itemData: Partial<ItemSystemDataGURPS> | any,
+		context: any = {},
+	): void {
+		const bonuses = item.bonuses?.bonus;
+		if (!bonuses) return;
+		else itemData.features = [];
+		for (const bonus of bonuses) {
+			if (bonus.targettype == "Attributes" && bonus.targetname != "dr") {
+				const att = this.translateAtt(bonus.targetname);
+				if (att == "null") continue;
+				itemData.features.push({
+					type: "attribute_bonus",
+					amount: parseInt(bonus.value),
+					attribute: att,
+					limitation: "none", // TODO: use case for lifting st etc.
+					per_level: bonus.bonustype != "3",
+				});
+			}
+			if (bonus.targettype == "Me" && bonus.targettag == "dr") {
+				const parts = new Set();
+				for (const part of context.js["system.settings"].body_type
+					.locations) {
+					parts.add(part.id);
+				}
+				for (const part of parts) {
+					if (part == "eyes") continue;
+					itemData.features.push({
+						type: "dr_bonus",
+						location: part,
+						specialization: "all",
+						amount: parseInt(bonus.value),
+						per_level: bonus.bonustype != "3",
+					});
+				}
+			}
+			if (bonus.targettype == "Attributes" && bonus.targetname == "dr") {
+				const parts = new Set();
+				for (const part of context.js["system.settings"].body_type
+					.locations) {
+					parts.add(part.id);
+				}
+				for (const part of parts) {
+					itemData.features.push({
+						type: "dr_bonus",
+						location: part,
+						specialization: "all",
+						amount: parseInt(bonus.value),
+						per_level: bonus.bonustype != "3",
+					});
+				}
+			}
+			if (bonus.targettype == "Unknown" && bonus.targetprefix == "GR") {
+				for (const groupitem of context.data.groups.group.find(
+					(e: any) =>
+						e.name.toLowerCase() == bonus.targetname.toLowerCase(),
+				).groupitem) {
+					if (groupitem.itemtype == "Stats") {
+						itemData.features.push({
+							type: "attribute_bonus",
+							amount: parseInt(bonus.value),
+							attribute: this.translateAtt(groupitem.name),
+							limitation: "none", // TODO: use case for lifting st etc.
+							per_level: bonus.bonustype != "3",
+						});
+					}
+					if (groupitem.itemtype == "Skills") {
+						itemData.features.push({
+							type: "skill_bonus",
+							selection_type: "skills_with_name",
+							amount: parseInt(bonus.value),
+							name: {
+								compare: StringComparison.Is,
+								qualifier: groupitem.name,
+							},
+							per_level: bonus.bonustype != "3",
+						});
+					}
+				}
+			}
+		}
+	}
+
+	translateAtt(att: string): string {
+		if (
+			![
+				"ST",
+				"DX",
+				"IQ",
+				"HT",
+				"Perception",
+				"Will",
+				"Vision",
+				"Hearing",
+				"Taste/Smell",
+				"Touch",
+				"Fright Check",
+				"Basic Speed",
+				"Basic Move",
+				"Hit Points",
+				"Fatigue Points",
+			].includes(att)
+		)
+			return "null";
+		att = att.toLowerCase().replaceAll(" ", "_").replaceAll("/", "_");
+		switch (att) {
+			case "hit_points":
+				return "hp";
+			case "fatigue_points":
+				return "fp";
+			case "perception":
+				return "per";
+			default:
+				return att.toLowerCase();
 		}
 	}
 
 	getTraitData(item: any): any {
 		// TODO: taboo -> prereq
 		let disabled = false;
-		// console.log(item, item.extended);
-		// if (
-		// 	item.extended?.find(
-		// 		(e: any) => e.tagname == "inactive" && e.tagvalue == "yes",
-		// 	)
-		// )
-		// 	disabled = true;
 		if (
 			!!item.extended &&
 			!!item.extended.extendedtag &&
@@ -300,19 +501,35 @@ export class GCAImporter {
 			const arCost = strCost.split("/");
 			base_points = parseInt(arCost[0]);
 			points_per_level = parseInt(arCost[1]) - base_points;
-		}
+			// Handles cases where traits of higher levels may be different advantages
+			if (item.calcs.levelnames) points_per_level = 0;
+			else if (
+				points_per_level % base_points == 0 &&
+				parseInt(item.calcs.premodspoints) ==
+					parseInt(item.level) * base_points
+			) {
+				points_per_level = base_points;
+				base_points = 0;
+			}
+		} else base_points = parseInt(strCost);
 		const levels = points_per_level > 0 ? parseInt(item.level) : 0;
 		let cr = 0;
-		console.log(item, item.modifiers);
-		if (item.modifiers.find((e: any) => e.group == "Self-Control"))
-			cr = parseInt(item.modifiers.find((e: any) => e.shortname));
-		return {
+		if (
+			item.modifiers &&
+			item.modifiers.modifier.find((e: any) => e.group == "Self-Control")
+		)
+			cr = parseInt(
+				item.modifiers.modifier.find((e: any) => e.shortname),
+			);
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+		const traitData = {
 			name: item.name ?? "Trait",
 			type: "trait",
 			id: newUUID(),
 			reference: item.ref.page ?? "",
 			notes: "",
-			tags: item.cat.split(", ") ?? [],
+			tags: tags,
 			prereqs: BasePrereq.list,
 			round_down: true,
 			disabled: disabled,
@@ -322,13 +539,230 @@ export class GCAImporter {
 			cr: cr,
 			cr_adj: "none",
 		};
+		return traitData;
 	}
 
-	getSkillData(item: any) {
-		return {};
+	getSkillData(item: any, context: any = {}) {
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+		let defaults: Partial<SkillDefault>[] = [];
+		if (!!item.ref.default) {
+			item.ref.default?.split(",").forEach((e: string) => {
+				const def: Partial<SkillDefault> = {};
+				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
+				if (e.startsWith("SK:")) {
+					def.type = "skill";
+					const arName: string[] = [];
+					const arSpecialization: string[] = [];
+					const arModifier: string[] = [];
+					for (const i of e
+						.replace("SK:", "")
+						.replace("::level", "")
+						.split(" ")) {
+						if (i.startsWith("-") || arModifier.length > 0)
+							arModifier.push(i);
+						else if (
+							i.startsWith("(") ||
+							arSpecialization.length > 0
+						)
+							arSpecialization.push(
+								i.replace("(", "").replace(")", ""),
+							);
+						else arName.push(i);
+					}
+					def.name = arName.join(" ");
+					def.specialization = arSpecialization.join(" ");
+					def.modifier = parseInt(arModifier.join("")) || 0;
+				} else {
+					def.type = this.translateAtt(e.split(" ")[0]);
+					def.modifier =
+						parseInt(e.split(" ").slice(1).join("")) || 0;
+				}
+				defaults.push(def);
+			});
+		}
+		let epm = 0;
+		const enc_pens = context.data.traits.attributes.trait.find(
+			(e: any) => e.name == "Encumbrance Penalty",
+		).conditionals.bonus;
+		for (const e of enc_pens) {
+			const penalty = parseInt(e.bonuspart) * -1;
+			let skills = e.targetname
+				.replace("(", "")
+				.replace(")", "")
+				.replaceAll("sk:", "")
+				.split(", ");
+			if (skills.includes(item.name.toLowerCase())) epm = penalty;
+		}
+		const skillData = {
+			name: item.name ?? "Skill",
+			type: "skill" as ItemType,
+			id: newUUID(),
+			reference: item.ref.page ?? "",
+			tech_level: item.tl,
+			specialization: item.nameext,
+			notes: "",
+			tags: tags,
+			prereqs: BasePrereq.list,
+			difficulty: item.type.toLowerCase(),
+			encumbrance_penalty_multiplier: epm as any,
+			points: parseInt(item.calcs.basepoints),
+			defaults: defaults,
+			weapons: [],
+		};
+		return skillData;
 	}
+
+	getTechniqueData(item: any, context: any) {
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+		let defaults: Partial<SkillDefault>[] = [];
+		if (!!item.ref.default) {
+			item.ref.default?.split(",").forEach((e: string) => {
+				const def: Partial<SkillDefault> = {};
+				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
+				if (e.startsWith("SK:")) {
+					def.type = "skill";
+					const arName: string[] = [];
+					const arSpecialization: string[] = [];
+					const arModifier: string[] = [];
+					for (const i of e
+						.replace("SK:", "")
+						.replace("::level", "")
+						.split(" ")) {
+						if (i.startsWith("-") || arModifier.length > 0)
+							arModifier.push(i);
+						else if (
+							i.startsWith("(") ||
+							arSpecialization.length > 0
+						)
+							arSpecialization.push(
+								i.replace("(", "").replace(")", ""),
+							);
+						else arName.push(i);
+					}
+					def.name = arName.join(" ");
+					def.specialization = arSpecialization.join(" ");
+					def.modifier = parseInt(arModifier.join("")) || 0;
+				} else {
+					def.type = this.translateAtt(e.split(" ")[0]);
+					def.modifier =
+						parseInt(e.split(" ").slice(1).join("")) || 0;
+				}
+				defaults.push(def);
+			});
+		}
+		let epm = 0;
+		const enc_pens = context.data.traits.attributes.trait.find(
+			(e: any) => e.name == "Encumbrance Penalty",
+		).conditionals.bonus;
+		for (const e of enc_pens) {
+			const penalty = parseInt(e.bonuspart) * -1;
+			let skills = e.targetname
+				.replace("(", "")
+				.replace(")", "")
+				.replaceAll("sk:", "")
+				.split(", ");
+			if (skills.includes(item.name.toLowerCase())) epm = penalty;
+		}
+		let limitStr = item.calcs.upto;
+		if (limitStr !== "prereq")
+			limitStr = item.calcs.upto
+				.replace("prereq", "")
+				.replaceAll(" ", "");
+		else limitStr = "0";
+		const skillData = {
+			name: item.name ?? "Skill",
+			type: "skill" as ItemType,
+			id: newUUID(),
+			reference: item.ref.page ?? "",
+			tech_level: item.tl,
+			specialization: item.nameext,
+			notes: "",
+			tags: tags,
+			prereqs: BasePrereq.list,
+			difficulty: item.type.toLowerCase().split("/")[1],
+			default: defaults[0],
+			encumbrance_penalty_multiplier: epm as any,
+			points: parseInt(item.points) || 0,
+			weapons: [],
+			limit: limitStr ? parseInt(limitStr) : undefined,
+			limited: limitStr ? true : false,
+		};
+		return skillData;
+	}
+
 	getSpellData(item: any) {
-		return {};
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+
+		let resist = "";
+		if (item.ref.class.includes("/"))
+			resist = item.ref.class.split("/")[1].replace("R-", "");
+		const spellData = {
+			type: "spell" as ItemType,
+			name: item.name,
+			id: newUUID(),
+			reference: item.ref.page ?? "",
+			notes: "",
+			tags: tags,
+			prereqs: BasePrereq.list,
+			difficulty: item.type.toLowerCase(),
+			tech_level: item.tl ?? "",
+			college: tags,
+			power_source: "Arcane", // TODO: change for clerical
+			spell_class: item.ref.class.split("/")[0],
+			resist: resist,
+			casting_cost: item.ref.castingcost.split("/")[0],
+			maintenance_cost: item.ref.castingcost.includes("/")
+				? item.ref.castingcost.split("/")[1]
+				: "",
+			casting_time: item.ref.time,
+			duration: item.ref.duration,
+			points: parseInt(item.points),
+		};
+
+		return spellData;
+	}
+
+	getEquipmentData(item: any, context: any) {
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+		const lc =
+			item.attackmodes?.attackmode?.find((e: any) =>
+				Object.keys(e).includes("lc"),
+			).lc ?? "4";
+		const useattack = item.attackmodes?.attackmode?.find((e: any) =>
+			Object.keys(e).includes("uses"),
+		) ?? { uses: "0", uses_used: "0" };
+		const equipped =
+			!(
+				item.extended?.extendedtag?.find(
+					(e: any) => e.tagname == "inactive",
+				)?.tagvalue == "yes"
+			) ?? true;
+		const equipmentData = {
+			type: "equipment" as ItemType,
+			name: item.name,
+			id: newUUID(),
+			reference: item.ref.page ?? "",
+			notes: "",
+			tags: tags,
+			description: item.name,
+			prereqs: BasePrereq.list,
+			equipped: equipped,
+			quantity: parseInt(item.count),
+			tech_level: item.ref.techlvl,
+			legality_class: lc,
+			value: parseFloat(item.calcs.basecost),
+			weight: `${parseFloat(item.calcs.baseweight) || 0} ${
+				item.ref.charunits
+			}`,
+			uses: parseInt(useattack.uses) - parseInt(useattack.uses_used),
+			max_uses: parseInt(useattack.uses),
+			other: false,
+		};
+		return equipmentData;
 	}
 
 	getNestedItems(item: any, data: any, context?: { container?: boolean }) {

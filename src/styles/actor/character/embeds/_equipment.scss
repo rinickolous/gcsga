@@ -5,6 +5,10 @@
 		grid-area: auto;
 	}
 
+	.equipped {
+		min-height: 22px;
+	}
+
 	.equipped:nth-child(22n + 1),
 	.quantity:nth-child(22n + 2),
 	.desc:nth-child(22n + 3),

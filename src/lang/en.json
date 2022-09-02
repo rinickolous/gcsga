@@ -153,6 +153,7 @@
 				"level": "SL",
 				"rsl": "RSL",
 				"points": "Pts",
+				"resist": "Resist",
 				"spell_class": "Class",
 				"casting_cost": "Cost",
 				"maintenance_cost": "Maintain",
@@ -229,7 +230,8 @@
 			"uses": "Uses",
 			"max_uses": "Maximum Uses",
 			"limit": "Cannot exceed default skill level by more than",
-			"total": "Total"
+			"total": "Total",
+			"slash": "/"
 		},
 		"attributes": {
 			"dodge": "Dodge",

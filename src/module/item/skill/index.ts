@@ -3,7 +3,7 @@ import { BaseItemGURPS } from "@item/base";
 import { Difficulty, gid } from "@module/data";
 import { SkillDefault } from "@module/default";
 import { TooltipGURPS } from "@module/tooltip";
-import { signed } from "@util";
+import { signed, toArray } from "@util";
 import { baseRelativeLevel, SkillData, SkillLevel } from "./data";
 
 export class SkillGURPS extends BaseItemGURPS {
@@ -15,6 +15,15 @@ export class SkillGURPS extends BaseItemGURPS {
 	// }
 
 	// Getters
+	get formattedName(): string {
+		const name: string = this.name ?? "";
+		const specialization = this.specialization;
+		const TL = this.techLevel;
+		return `${name}${TL ? "/TL" + TL : ""}${
+			specialization ? ` (${specialization})` : ""
+		}`;
+	}
+
 	get points(): number {
 		return this.system.points;
 	}
@@ -43,11 +52,15 @@ export class SkillGURPS extends BaseItemGURPS {
 	}
 
 	get defaults(): SkillDefault[] {
-		const defs: SkillDefault[] = [];
-		for (const d of this.system.defaults) {
-			defs.push(new SkillDefault(d));
+		if (this.system.hasOwnProperty("defaults")) {
+			const defaults: SkillDefault[] = [];
+			const list = toArray((this.system as any).defaults);
+			for (const f of list ?? []) {
+				defaults.push(new SkillDefault(f));
+			}
+			return defaults;
 		}
-		return defs;
+		return [];
 	}
 
 	get encumbrancePenaltyMultiplier(): number {

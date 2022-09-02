@@ -28,7 +28,7 @@ export interface SkillSystemData extends ItemSystemData {
 	tech_level_required: boolean;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;
 	// may change to object type
-	difficulty: string;
+	difficulty: `${string}/${string}`;
 	points: number;
 	// to change later
 	defaulted_from?: SkillDefault;

@@ -19,8 +19,10 @@
 					{{localize "gurps.item.tech_level_required"}}
 				</label>
 			</div>
-			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes
+			type="String"}}
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes
 			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
@@ -55,11 +57,12 @@
 				{{>sections/input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}
 			</div>
-			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
+			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
+			data=system.reference
 			type="String"}}
 		</div>
 		{{>item/sections/prerequisites}}
-		{{>item/sections/defaults document attributes=attributes sysPrefix=sysPrefix}}
+		{{>item/sections/defaults attributes=attributes sysPrefix=sysPrefix}}
 		{{>item/sections/features}}
 		{{>item/sections/melee}}
 		{{>item/sections/ranged}}

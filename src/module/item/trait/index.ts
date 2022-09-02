@@ -14,6 +14,12 @@ export class TraitGURPS extends ContainerGURPS {
 	// }
 
 	// Getters
+	get formattedName(): string {
+		const name: string = this.name ?? "";
+		const levels = this.levels;
+		return `${name}${levels ? " " + levels : ""}`;
+	}
+
 	get enabled(): boolean {
 		if (this.system.disabled) return false;
 		let enabled = !this.system.disabled;

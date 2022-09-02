@@ -94,7 +94,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		sd.modified_date = sd.created_date;
 		if (SETTINGS_TEMP.general.auto_fill)
 			sd.profile = SETTINGS_TEMP.general.auto_fill;
-		sd.atributes = this.newAttributes();
+		sd.attributes = this.newAttributes();
 		this.update({ _id: this._id, system: sd });
 		super._onCreate(data, options, userId);
 	}
@@ -107,7 +107,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		context?: DocumentModificationContext &
 			foundry.utils.MergeObjectOptions,
 	): Promise<this | undefined> {
-		// console.log(data);
+		console.log("update data:", data);
 		this.updateAttributes(data);
 		this.checkImport(data);
 		return super.update(data, context);
@@ -115,10 +115,9 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	checkImport(data?: any) {
 		for (const i in data) {
-			if (i.includes("system.import")) return data;
+			if (i.includes("system.import")) return;
 		}
 		data["system.modified_date"] = new Date().toISOString();
-		return data;
 	}
 
 	updateAttributes(
@@ -127,6 +126,9 @@ class CharacterGURPS extends BaseActorGURPS {
 			| (ActorDataConstructorData & Record<string, unknown>)
 		>,
 	) {
+		for (const i in data) {
+			if (i.includes("system.import")) return;
+		}
 		if (Object.keys(this.system.attributes).length == 0)
 			(data as any)["system.attributes"] = this.newAttributes();
 		for (const i in data) {
@@ -145,7 +147,6 @@ class CharacterGURPS extends BaseActorGURPS {
 				}
 			}
 		}
-		return data;
 	}
 
 	// Getters
@@ -370,12 +371,15 @@ class CharacterGURPS extends BaseActorGURPS {
 	weightCarried(for_skills: boolean): number {
 		let total = 0;
 		this.carried_equipment.forEach(e => {
-			if (e.parent == this)
+			if (e.parent == this) {
+				// console.log(e.name, e.extendedWeight(for_skills, this.settings.default_weight_units));
 				total += e.extendedWeight(
 					for_skills,
 					this.settings.default_weight_units,
 				);
+			}
 		});
+		// console.log(total);
 		return floatingMul(total);
 	}
 

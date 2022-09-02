@@ -18,6 +18,7 @@ export class SkillSheet extends ItemSheetGURPS {
 					...{ 10: "10" },
 					...super.getData(options).attributes,
 				},
+				defaults: (this.item as any).defaults,
 			},
 		};
 		return sheetData;

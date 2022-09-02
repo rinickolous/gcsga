@@ -130,6 +130,10 @@ class BaseItemGURPS extends Item {
 			});
 	}
 
+	get formattedName(): string {
+		return this.name ?? "";
+	}
+
 	get actor(): CharacterGURPS | null {
 		if (this.parent)
 			return this.parent instanceof CharacterGURPS

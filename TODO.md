@@ -10,6 +10,8 @@
 	- notes
 	- appearance
 	- finish features
+	- ritual magic spells
+	- containers
 ## Sheets & Styling
 - Global Foundry styling
 - Damage template

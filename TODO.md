@@ -50,3 +50,4 @@
 - Nested items cannot be dragged to item list
 - max uses blank value (current hack fix)
 - Calculate hit location table on prepareData
+- Different attribute based skill rolls 

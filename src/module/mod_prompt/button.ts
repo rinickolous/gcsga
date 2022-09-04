@@ -63,7 +63,7 @@ export class ModifierButton extends Application {
 	}
 
 	async _onMouseWheel(event: JQuery.TriggeredEvent) {
-		event.preventDefault();
+		// event.preventDefault();
 		const originalEvent = event.originalEvent;
 		if (originalEvent instanceof WheelEvent) {
 			const delta = Math.round(originalEvent.deltaY / -100);

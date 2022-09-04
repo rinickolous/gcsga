@@ -8,7 +8,11 @@ import {
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentModifierContainerGURPS } from "@item/equipment_modifier_container";
 import { WeightUnits } from "@module/data";
-import { determineModWeightValueTypeFromString, extractFraction } from "@util";
+import {
+	determineModWeightValueTypeFromString,
+	extractFraction,
+	floatingMul,
+} from "@util";
 import { EquipmentContainerData } from "./data";
 
 export class EquipmentContainerGURPS extends ContainerGURPS {
@@ -69,16 +73,9 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
-		const children: Collection<EquipmentGURPS | EquipmentContainerGURPS> =
-			new Collection();
-		this.items.forEach(item => {
-			if (
-				item instanceof EquipmentGURPS ||
-				item instanceof EquipmentContainerGURPS
-			)
-				children.set(item.id!, item);
-		});
-		return children;
+		return super.children as Collection<
+			EquipmentGURPS | EquipmentContainerGURPS
+		>;
 	}
 
 	get modifiers(): Collection<
@@ -120,7 +117,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		this.children.forEach(ch => {
 			value += ch.extendedValue;
 		});
-		return value * this.quantity;
+		return floatingMul(value * this.quantity);
 	}
 
 	adjustedWeight(for_skills: boolean, units: WeightUnits): number {
@@ -220,7 +217,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 				contained -= (contained * percentage) / 100;
 			base += Math.max(contained - reduction, 0);
 		}
-		return base * this.quantity;
+		return floatingMul(base * this.quantity);
 	}
 }
 

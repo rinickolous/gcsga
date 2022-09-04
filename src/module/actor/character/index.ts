@@ -921,8 +921,10 @@ class CharacterGURPS extends BaseActorGURPS {
 			`${attrPrefix}${gid.Strength}.throwing_only`,
 			undefined,
 		);
+		this.attributes = this.getAttributes();
 		if (this.attributes)
 			this.attributes.forEach(attr => {
+				if (!this.system.attributes[attr.attr_id]) return;
 				const def = attr.attribute_def;
 				if (def) {
 					const attrID = attrPrefix + attr.attr_id;

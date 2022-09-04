@@ -20,7 +20,7 @@ export interface TraitData
 	readonly _source: TraitSource;
 }
 
-export interface TraitSystemData extends Omit<BaseContainerSystemData, "open"> {
+export interface TraitSystemData extends BaseContainerSystemData {
 	prereqs: PrereqList;
 	round_down: boolean;
 	disabled: boolean;

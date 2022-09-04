@@ -6,12 +6,12 @@
 	- Modifier parsing
 - Library Import
 - GCA import
-	- prereqs
-	- notes
+	- prereqs (leave for later)
 	- appearance
 	- finish features
-	- ritual magic spells
-	- containers
+	- meta-traits
+	- racial templates
+	- alternate abilities
 ## Sheets & Styling
 - Global Foundry styling
 - Damage template
@@ -41,6 +41,9 @@
 - Support custom hit location tables in damage calculator
 - Support rolling on custom hit location tables (e.g. grand unified hit location table)
 - Tech Level Modifiers (B168)
+- Tours implementation for UI
+- update Nordlond sheet & compendium entries with dynamic characters
+- metric system conversion
 ## Small Features, Changes & Fixes
 - Polygot module support for Dynamic Characters
 - Sort character items on import
@@ -51,3 +54,4 @@
 - max uses blank value (current hack fix)
 - Calculate hit location table on prepareData
 - Different attribute based skill rolls 
+- automatically pop out effect mod window when choosing maneuver / posture / effect

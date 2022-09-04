@@ -1,11 +1,11 @@
-import { BaseItemGURPS } from "@item/base";
+import { ContainerGURPS } from "@item/container";
 import { baseRelativeLevel, SkillLevel } from "@item/skill/data";
 import { Difficulty, gid } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
 import { signed } from "@util";
 import { SpellData } from "./data";
 
-export class SpellGURPS extends BaseItemGURPS {
+export class SpellGURPS extends ContainerGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
 	unsatisfied_reason = "";
 

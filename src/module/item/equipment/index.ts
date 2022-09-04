@@ -1,4 +1,6 @@
+import { ContainedWeightReduction } from "@feature/contained_weight_reduction";
 import { ContainerGURPS } from "@item/container";
+import { EquipmentContainerGURPS } from "@item/equipment_container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import {
 	EquipmentCostType,
@@ -67,6 +69,13 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	// Embedded Items
+	// Embedded Items
+	get children(): Collection<EquipmentGURPS | EquipmentContainerGURPS> {
+		return super.children as Collection<
+			EquipmentGURPS | EquipmentContainerGURPS
+		>;
+	}
+
 	get modifiers(): Collection<
 		EquipmentModifierGURPS | EquipmentModifierContainerGURPS
 	> {
@@ -103,7 +112,10 @@ export class EquipmentGURPS extends ContainerGURPS {
 	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
-		return floatingMul(value, this.quantity);
+		this.children.forEach(ch => {
+			value += ch.extendedValue;
+		});
+		return floatingMul(value * this.quantity);
 	}
 
 	get adjustedWeightFast(): string {
@@ -116,14 +128,50 @@ export class EquipmentGURPS extends ContainerGURPS {
 	}
 
 	extendedWeight(for_skills: boolean, units: WeightUnits): number {
-		return floatingMul(
-			this.adjustedWeight(for_skills, units),
-			this.quantity,
-		);
+		return this.extendedWeightAdjustForMods(units, for_skills);
 	}
 
 	get extendedWeightFast(): string {
 		return this.extendedWeight(false, "lb").toString() + " lb";
+	}
+
+	extendedWeightAdjustForMods(
+		units: WeightUnits,
+		for_skills: boolean,
+	): number {
+		if (this.quantity <= 0) return 0;
+		let base = 0;
+		if (!for_skills || !this.system.ignore_weight_for_skills)
+			base = this.weightAdjustedForMods(units);
+		if (this.children) {
+			let contained = 0;
+			this.children?.forEach(ch => {
+				contained += ch.extendedWeight(for_skills, units);
+			});
+			let percentage = 0;
+			let reduction = 0;
+			for (const f of this.features) {
+				if (f instanceof ContainedWeightReduction) {
+					if (f.is_percentage_reduction)
+						percentage += parseFloat(f.reduction);
+					else reduction += parseFloat(f.reduction);
+				}
+			}
+			this.deepModifiers.forEach(mod => {
+				for (const f of mod.features) {
+					if (f instanceof ContainedWeightReduction) {
+						if (f.is_percentage_reduction)
+							percentage += parseFloat(f.reduction);
+						else reduction += parseFloat(f.reduction);
+					}
+				}
+			});
+			if (percentage >= 100) contained = 0;
+			else if (percentage > 0)
+				contained -= (contained * percentage) / 100;
+			base += Math.max(contained - reduction, 0);
+		}
+		return floatingMul(base * this.quantity);
 	}
 
 	weightAdjustedForMods(units: WeightUnits): number {

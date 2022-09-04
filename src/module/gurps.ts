@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Mikolaj Tomczynski
+ * Copyright (c) 2022 Chris Normand
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  * GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.
  * All rights are reserved by Steve Jackson Games.
- * This game aid is the original creation of Mikolaj Tomczynski and is released for free distribution,
+ * This game aid is the original creation of Chris Normand and is released for free distribution,
  * and not for resale, under the permissions granted by
  * http://www.sjgames.com/general/online_policy.html
  */
@@ -57,38 +57,45 @@ import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
-import { XMLtoJS } from "@util/xml_js";
-import { GCAImporter } from "@actor/character/import_GCA";
+// import { XMLtoJS } from "@util/xml_js";
+// import { GCAImporter } from "@actor/character/import_GCA";
 
 Error.stackTraceLimit = Infinity;
 
 export const GURPS: any = {};
-(window as any).GURPS = GURPS;
-GURPS.DEBUG = true;
-GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
-GURPS.BANNER = `   __   ____   ____  ____    ____     _     __  
-  / /  / ___| / ___|/ ___|  / ___|   / \\    \\ \\ 
- / /  | |  _ | |    \\___ \\ | |  _   / _ \\    \\ \\
- \\ \\  | |_| || |___  ___) || |_| | / ___ \\   / /
-  \\_\\  \\____| \\____||____/  \\____|/_/   \\_\\ /_/ `;
-GURPS.eval = evaluateToNumber;
-GURPS.search = fSearch;
-GURPS.dice = DiceGURPS;
-GURPS.XMLtoJS = XMLtoJS;
-GURPS.GCAImport = GCAImporter;
+if (!(globalThis as any).GURPS) {
+	(globalThis as any).GURPS = GURPS;
+	GURPS.DEBUG = true;
+	GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
+	GURPS.BANNER = `                                                                                       
+      .:~!!~:.        ...::  .:..:.   :..::::::.       .:..:::::..        :~7??!^.     
+    ?#@@&##&@@#J.     5@@&!  :&@@&.  .B@@@&##&@@@#7    ^&@@&#&&&@@&Y   :G@@@&&&@@@#J.  
+  ~&@@Y.     J@@7    ^@@P     G@@Y    7@@&     ^&@@5    B@@?    ^#@@# .@@@J     :@@@!  
+ ^@@@^              :@@B      G@@5    7@@#      J@@B    B@@?     ~@@@.:@@@#7^.   ^!    
+ B@@B       :^::^   &@@:      G@@5    7@@&~~~~!P@@#.    B@@?    ^&@@5  7&@@@@@@&BY~.   
+ G@@#       :&@@B  ^@@&       G@@5    7@@@#B&@@@5.      B@@J.~5&@@B^     .^?5B&@@@@@5  
+ :@@@7       G@@Y  :@@@:      G@@P    7@@&   P@@&:      B@@@&#P?^               .B@@@^ 
+  ^&@@P.     G@@Y   Y@@&~     G@@5    7@@#    J@@@!     B@@J          P@@@.      5@@@: 
+    7#@@&P?!~&@@G    !&@@@#GPP@@@#    5@@@.    !@@@P.  .&@@Y          .5@@@B5JYG@@@&~  
+      .^?5GBBBGG5.     .~?JYY5YJJJ^  .JJJJ~     :JJY7  ~JJJJ.           .~YB#&&BP7:    
+                                                                                       `;
+	GURPS.eval = evaluateToNumber;
+	GURPS.search = fSearch;
+	GURPS.dice = DiceGURPS;
+}
+// GURPS.XMLtoJS = XMLtoJS;
+// GURPS.GCAImport = GCAImporter;
 
 // Initialize system
 Hooks.once("init", async () => {
 	// CONFIG.debug.hooks = true;
 	console.log(`${SYSTEM_NAME} | Initializing ${SYSTEM_NAME}`);
-	console.log("%c" + GURPS.BANNER, "color:green");
+	console.log("%c" + GURPS.BANNER, "color:limegreen");
 	console.log("%c" + GURPS.LEGAL, "color:yellow");
 
-	// TODO: change back to SYSTEM_NAME after mege
-	// const src = `systems/${SYSTEM_NAME}/assets/gurps.webp`;
-	const src = `systems/${SYSTEM_NAME}/assets/gurps.webp`;
+	const src = `systems/${SYSTEM_NAME}/assets/gurps4e.svg`;
 	$("#logo").attr("src", src);
-	$("#logo").attr("height", "32px");
+	// $("#logo").attr("width", "100px");
 
 	// Assign custom classes and constants hereby
 	(CONFIG as any).GURPS = GURPSCONFIG;

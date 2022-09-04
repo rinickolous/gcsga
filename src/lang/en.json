@@ -537,7 +537,8 @@
 				"no_json_detected": "File is corrupted or not a JSON file",
 				"format_old": "File format is too old. Please save your file in the most up to date version of GCS",
 				"format_new": "File format it too new, and is not yet supported.",
-				"generic": "Import Error for {name}:\n{message}"
+				"generic": "Import Error for {name}:\n{message}",
+				"ritual_magic_gca": "GCA Import does not currently support Ritual Magic Spells. Spell levels will likely be incorrect."
 			},
 			"modules": {
 				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"

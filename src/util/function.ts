@@ -1,3 +1,4 @@
+import { DiceGURPS } from "@module/dice";
 import { Evaluator } from "@util";
 
 type eFunction = (evaluator: Evaluator | null, options: string) => [any, Error];
@@ -18,6 +19,8 @@ export function fixedFunctions(): Map<string, eFunction> {
 	m.set("min", fixedMinimum);
 	m.set("round", fixedRound);
 	m.set("sqrt", fixedSqrt);
+	m.set("dice", fixedDice);
+	m.set("roll", fixedRoll);
 	return m;
 }
 
@@ -108,6 +111,35 @@ function fixedRound(e: Evaluator, args: string): any {
 function fixedSqrt(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.sqrt(value);
+}
+
+function fixedDice(e: Evaluator, args: string): any {
+	const rollArgs: any = { sides: 6, count: 1, modifier: 1, multiplier: 1 };
+	const argArray = [];
+	let arg: string;
+	while (args) {
+		[arg, args] = nextArg(args);
+		argArray.push(fixedFrom(e.evaluateNew(arg)));
+	}
+	switch (rollArgs.length) {
+		case 4:
+			rollArgs.multiplier = argArray[3];
+		case 3:
+			rollArgs.modifier = argArray[2];
+		case 2:
+			rollArgs.count = argArray[1];
+		case 1:
+			rollArgs.sides = argArray[0];
+	}
+	const d = new DiceGURPS(rollArgs);
+	return d.toString(true);
+}
+
+function fixedRoll(e: Evaluator, args: string): any {
+	const d = new DiceGURPS(args);
+	const r = Roll.create(d.toString(true));
+	r.evaluate({ async: false });
+	return r.total;
 }
 
 function evalToFixed(e: Evaluator, arg: string): number {

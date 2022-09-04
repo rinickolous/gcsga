@@ -1,5 +1,10 @@
 import { ItemGURPS } from "@item";
-import { ItemFlagsGURPS, ItemSystemDataGURPS, ItemType } from "@item/data";
+import {
+	ItemFlagsGURPS,
+	ItemSystemDataGURPS,
+	ItemType,
+	NoteData,
+} from "@item/data";
 import { StringComparison } from "@module/data";
 import { SkillDefault } from "@module/default";
 import { DiceGURPS } from "@module/dice";
@@ -82,32 +87,56 @@ export class GCAImporter {
 				...this.importItems(r.traits.advantages, {
 					data: r,
 					js: commit,
+					type: "advantages",
 				}),
 			);
 			items.push(
 				...this.importItems(r.traits.disadvantages, {
 					data: r,
 					js: commit,
+					type: "disadvantages",
 				}),
 			);
 			items.push(
-				...this.importItems(r.traits.perks, { data: r, js: commit }),
+				...this.importItems(r.traits.perks, {
+					data: r,
+					js: commit,
+					type: "perks",
+				}),
 			);
 			items.push(
-				...this.importItems(r.traits.quirks, { data: r, js: commit }),
+				...this.importItems(r.traits.quirks, {
+					data: r,
+					js: commit,
+					type: "quirks",
+				}),
 			);
 			items.push(
-				...this.importItems(r.traits.skills, { data: r, js: commit }),
+				...this.importItems(r.traits.skills, {
+					data: r,
+					js: commit,
+					type: "skills",
+				}),
 			);
 			items.push(
-				...this.importItems(r.traits.spells, { data: r, js: commit }),
+				...this.importItems(r.traits.spells, {
+					data: r,
+					js: commit,
+					type: "spells",
+				}),
 			);
 			items.push(
 				...this.importItems(r.traits.equipment, {
 					data: r,
 					js: commit,
+					type: "equipment",
 				}),
 			);
+			items.push(...(this.importNotes(r.description) as any));
+			items.push(...(this.importNotes(r.notes) as any));
+
+			if (items.filter(e => e.type === "ritual_magic_spell").length > 0)
+				errorMessages.push(i18n("gurps.error.import.ritual_magic_gca"));
 
 			commit = { ...commit, ...{ items: items } };
 		} catch (err) {
@@ -136,6 +165,8 @@ export class GCAImporter {
 			);
 			return this.throwImportError(errorMessages);
 		}
+		if (errorMessages.length > 0)
+			return this.throwImportError(errorMessages);
 		return true;
 	}
 
@@ -299,11 +330,37 @@ export class GCAImporter {
 		};
 	}
 
+	importNotes(data: any): Partial<NoteData>[] {
+		if (!data) return [];
+		const readableData = data.match(/fs17 (.*)\\\\par/);
+		if (readableData) {
+			return [
+				{
+					_id: randomID(),
+					name: readableData[1],
+					type: "note",
+					flags: { [SYSTEM_NAME]: { contentsData: [] } },
+					system: {
+						name: readableData[1],
+						text: readableData[1],
+						reference: "",
+						id: newUUID(),
+						notes: "",
+						tags: [],
+						type: "note",
+					},
+				},
+			];
+		}
+		return [];
+	}
+
 	importItems(data: any, context: any = {}): ItemGURPS[] {
 		const list = data.trait;
 		if (!list) return [];
 		const items: Array<any> = [];
 		for (const item of list) {
+			if (!!item.parentkey && !context.container) continue;
 			const id = randomID();
 			const [itemData, itemFlags, itemType]: [
 				ItemSystemDataGURPS,
@@ -339,7 +396,19 @@ export class GCAImporter {
 	getItemData(item: any, context: any = {}): [any, any, string] {
 		let itemData: Partial<ItemSystemDataGURPS> = {};
 		this.importFeatures(item, itemData, context);
+		this.importPrereqs(item, itemData, context);
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
+		if (!!item.childkeylist) {
+			const childKeys = item.childkeylist.split(", ");
+			flags[SYSTEM_NAME]!.contentsData = this.importItems(
+				{
+					trait: context.data.traits[context.type].trait.filter(
+						(e: any) => childKeys.includes("k" + e["@idkey"]),
+					),
+				},
+				{ ...context, container: true },
+			);
+		}
 		switch (item["@type"]) {
 			case "Advantages":
 			case "Disadvantages":
@@ -357,8 +426,13 @@ export class GCAImporter {
 					return [itemData, flags, "skill"];
 				}
 			case "Spells":
-				itemData = this.getSpellData(item);
-				return [itemData, flags, "spell"];
+				if (item.type.includes("Tech")) {
+					itemData = this.getRitualMagicSpellData(item, context);
+					return [itemData, flags, "ritual_magic_spell"];
+				} else {
+					itemData = this.getSpellData(item);
+					return [itemData, flags, "spell"];
+				}
 			case "Equipment":
 				itemData = this.getEquipmentData(item, context);
 				return [itemData, flags, "equipment"];
@@ -451,6 +525,14 @@ export class GCAImporter {
 		}
 	}
 
+	importPrereqs(
+		_item: any,
+		itemData: Partial<ItemSystemDataGURPS> | any,
+		_context: any = {},
+	): void {
+		itemData.prereqs = { ...BasePrereq.list };
+	}
+
 	translateAtt(att: string): string {
 		if (
 			![
@@ -526,7 +608,7 @@ export class GCAImporter {
 		const traitData = {
 			name: item.name ?? "Trait",
 			type: "trait",
-			id: newUUID(),
+			id: item["@idkey"],
 			reference: item.ref.page ?? "",
 			notes: "",
 			tags: tags,
@@ -597,7 +679,7 @@ export class GCAImporter {
 		const skillData = {
 			name: item.name ?? "Skill",
 			type: "skill" as ItemType,
-			id: newUUID(),
+			id: item["@idkey"],
 			reference: item.ref.page ?? "",
 			tech_level: item.tl,
 			specialization: item.nameext,
@@ -674,7 +756,7 @@ export class GCAImporter {
 		const skillData = {
 			name: item.name ?? "Skill",
 			type: "skill" as ItemType,
-			id: newUUID(),
+			id: item["@idkey"],
 			reference: item.ref.page ?? "",
 			tech_level: item.tl,
 			specialization: item.nameext,
@@ -697,20 +779,23 @@ export class GCAImporter {
 		tags = tags.filter(e => !e.startsWith("_"));
 
 		let resist = "";
+		let power_source = "Arcane";
+		for (const tag of tags)
+			if (tag.includes("Clerical")) power_source = "Clerical";
 		if (item.ref.class.includes("/"))
 			resist = item.ref.class.split("/")[1].replace("R-", "");
 		const spellData = {
 			type: "spell" as ItemType,
 			name: item.name,
-			id: newUUID(),
+			id: item["@idkey"],
 			reference: item.ref.page ?? "",
 			notes: "",
 			tags: tags,
 			prereqs: BasePrereq.list,
 			difficulty: item.type.toLowerCase(),
 			tech_level: item.tl ?? "",
-			college: tags,
-			power_source: "Arcane", // TODO: change for clerical
+			college: tags.filter(e => !e.startsWith("~")),
+			power_source: power_source,
 			spell_class: item.ref.class.split("/")[0],
 			resist: resist,
 			casting_cost: item.ref.castingcost.split("/")[0],
@@ -725,13 +810,59 @@ export class GCAImporter {
 		return spellData;
 	}
 
+	getRitualMagicSpellData(item: any, context: any) {
+		let tags: string[] = item.cat.split(", ") ?? [];
+		tags = tags.filter(e => !e.startsWith("_"));
+
+		let resist = "";
+		if (item.ref.class.includes("/"))
+			resist = item.ref.class.split("/")[1].replace("R-", "");
+		let prereq_count = 0;
+		const prereq_match = item.ref.description.match(/Prereq Count: (\d+)/);
+		if (prereq_match) prereq_count = parseInt(prereq_match[1]);
+		const firstdef = context.data.traits.skills.trait.find(
+			(e: any) => e["@idkey"] == item.calcs.deffromid,
+		);
+		let seconddef = null;
+		if (firstdef)
+			seconddef = context.data.traits.skills.trait.find(
+				(e: any) => e["@idkey"] == firstdef.calcs.deffromid,
+			);
+		const spellData = {
+			type: "ritual_magic_spell" as ItemType,
+			name: item.name,
+			id: item["@idkey"],
+			reference: item.ref.page ?? "",
+			notes: "",
+			tags: tags,
+			prereqs: BasePrereq.list,
+			difficulty: item.type.toLowerCase().split("/")[1],
+			tech_level: item.tl ?? "",
+			college: tags,
+			power_source: "Arcane", // TODO: change for clerical
+			spell_class: item.ref.class.split("/")[0],
+			resist: resist,
+			casting_cost: item.ref.castingcost.split("/")[0],
+			maintenance_cost: item.ref.castingcost.includes("/")
+				? item.ref.castingcost.split("/")[1]
+				: "",
+			casting_time: item.ref.time,
+			duration: item.ref.duration,
+			points: parseInt(item.points),
+			base_skill: !!seconddef ? seconddef.name : "",
+			prereq_count: prereq_count,
+		};
+
+		return spellData;
+	}
+
 	getEquipmentData(item: any, context: any) {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
 		const lc =
 			item.attackmodes?.attackmode?.find((e: any) =>
 				Object.keys(e).includes("lc"),
-			).lc ?? "4";
+			)?.lc ?? "4";
 		const useattack = item.attackmodes?.attackmode?.find((e: any) =>
 			Object.keys(e).includes("uses"),
 		) ?? { uses: "0", uses_used: "0" };
@@ -744,7 +875,7 @@ export class GCAImporter {
 		const equipmentData = {
 			type: "equipment" as ItemType,
 			name: item.name,
-			id: newUUID(),
+			id: item["@idkey"],
 			reference: item.ref.page ?? "",
 			notes: "",
 			tags: tags,

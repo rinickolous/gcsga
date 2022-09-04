@@ -79,17 +79,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<TraitGURPS | TraitContainerGURPS> {
-		return new Collection(
-			this.items
-				.filter(
-					item =>
-						item instanceof TraitGURPS ||
-						item instanceof TraitContainerGURPS,
-				)
-				.map(item => {
-					return [item.id!, item];
-				}),
-		) as Collection<TraitGURPS | TraitContainerGURPS>;
+		return super.children as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
 
 	get modifiers(): Collection<

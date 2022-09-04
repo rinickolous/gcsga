@@ -1,6 +1,5 @@
 import { ContainerGURPS } from "@item/container";
 import { EquipmentModifierGURPS } from "@item/equipment_modifier";
-import { TechniqueGURPS } from "@item/technique";
 import { EquipmentModifierContainerData } from "./data";
 
 export class EquipmentModifierContainerGURPS extends ContainerGURPS {
@@ -10,24 +9,11 @@ export class EquipmentModifierContainerGURPS extends ContainerGURPS {
 
 	// Embedded Items
 	get children(): Collection<
-		| EquipmentModifierGURPS
-		| TechniqueGURPS
-		| EquipmentModifierContainerGURPS
+		EquipmentModifierGURPS | EquipmentModifierContainerGURPS
 	> {
-		const children: Collection<
-			| EquipmentModifierGURPS
-			| TechniqueGURPS
-			| EquipmentModifierContainerGURPS
-		> = new Collection();
-		this.items.forEach(item => {
-			if (
-				item instanceof EquipmentModifierGURPS ||
-				item instanceof TechniqueGURPS ||
-				item instanceof EquipmentModifierContainerGURPS
-			)
-				children.set(item.id!, item);
-		});
-		return children;
+		return super.children as Collection<
+			EquipmentModifierGURPS | EquipmentModifierContainerGURPS
+		>;
 	}
 }
 

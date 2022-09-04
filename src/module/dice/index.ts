@@ -67,14 +67,14 @@ class DiceGURPS {
 	}
 
 	get string(): string {
-		return this.toString();
+		return this.toString(false);
 	}
 
-	toString(): string {
+	toString(keepSix: boolean): string {
 		let str = "";
 		str += this.count;
 		str += "d";
-		if (this.sides != 6) str += this.sides;
+		if (this.sides != 6 || keepSix) str += this.sides;
 		if (this.modifier) {
 			if (this.modifier > 0) str += "+";
 			str += this.modifier;

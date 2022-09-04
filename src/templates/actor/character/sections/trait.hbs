@@ -1,6 +1,7 @@
 <div class="desc item {{disabled (not this.enabled)}}" data-item-id="{{this.id}}" {{{indent this.parents.length}}}>
 	<div class="dropdown">
-		{{#if (eq this.type "trait_container")}}
+		{{!-- {{#if (eq this.type "trait_container")}} --}}
+		{{#if (or (eq this.type "trait_container") this.children.size)}}
 		{{#if this.open}}
 		{{>actor/character/sections/dropdown-open}}
 		{{else}}

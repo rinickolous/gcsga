@@ -43,6 +43,18 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		);
 	}
 
+	// Embedded Items
+	get children(): Collection<ItemGURPS> {
+		const childTypes = (CONFIG as any).GURPS.Item.childTypes[this.type];
+		return new Collection(
+			this.items
+				.filter(item => childTypes.includes(item.type))
+				.map(item => {
+					return [item.id!, item];
+				}),
+		) as Collection<ItemGURPS>;
+	}
+
 	get open(): boolean {
 		return (this.system as any).open;
 	}

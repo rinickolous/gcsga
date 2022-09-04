@@ -18,9 +18,7 @@
 				</label>
 			</div>
 			{{>sections/input-text field="field" label="gurps.item.college" name="system.college" data=(join
-			system.college ",
-			")
-			type="String"}}
+			system.college ", ") type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.class" name="system.class" data=system.class
 			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.power_source" name="system.power_source"
@@ -29,7 +27,7 @@
 			data=system.base_skill type="String"}}
 			<div class="label">{{localize "gurps.item.difficulty"}}</div>
 			<div class="field no-stretch">
-				<select name="difficulty" data-dtype="String">
+				<select name="system.difficulty" data-dtype="String">
 					{{#select document.difficulty}}
 					{{#each config.select.difficulty as |v k|}}
 					<option value="{{k}}">{{localize (concat v)}}</option>

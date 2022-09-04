@@ -10,12 +10,15 @@
 				</label>
 			</div>
 			{{>sections/input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
-			{{>sections/input-text field="field" label="gurps.item.tech_level" name="system.tech_level" data=system.tech_level
+			{{>sections/input-text field="field" label="gurps.item.tech_level" name="system.tech_level"
+			data=system.tech_level
 			type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes
 			type="String"}}
-			<div class="label">{{localize "gurps.item.cost"}}</div>
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes
+			type="String"}}
+			<div class="label">{{localize "gurps.item.value_mod"}}</div>
 			<div class="field no-stretch">
 				{{>sections/input-text name="system.cost" data=system.cost type="String"}}
 				<select name="system.cost_type" data-dtype="String">
@@ -26,7 +29,7 @@
 					{{/select}}
 				</select>
 			</div>
-			<div class="label">{{localize "gurps.item.weight"}}</div>
+			<div class="label">{{localize "gurps.item.weight_mod"}}</div>
 			<div class="field no-stretch">
 				{{>sections/input-text name="system.weight" data=system.weight type="String"}}
 				<select name="system.weight_type" data-dtype="String">

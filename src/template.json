@@ -262,14 +262,29 @@
 		},
 		"trait": {
 			"templates": ["common", "prereqs"],
+			"round_down": false,
+			"disabled": false,
+			"levels": 0,
+			"base_points": 0,
+			"points_per_level": 0,
+			"cr": 0,
+			"cr_adj": "none",
 			"features": [],
 			"weapons": []
 		},
 		"trait_container": {
-			"templates": ["common"]
+			"templates": ["common"],
+			"disabled": false,
+			"container_type": "group",
+			"cr": 0,
+			"cr_adj": "none"
 		},
 		"modifier": {
 			"templates": ["common"],
+			"cost_type": "percentage",
+			"cost": 0,
+			"affects": "total",
+			"disabled": false,
 			"features": []
 		},
 		"modifier_container": {
@@ -278,11 +293,22 @@
 		},
 		"skill": {
 			"templates": ["common", "prereqs"],
+			"difficulty": "dx/a",
+			"points": 1,
+			"encumbrance_penalty_multiplier": 0,
 			"features": [],
 			"weapons": []
 		},
 		"technique": {
 			"templates": ["common", "prereqs"],
+			"difficulty": "a",
+			"points": 1,
+			"default": {
+				"type": "skill",
+				"name": "Skill",
+				"specialization": "",
+				"modifier": 0
+			},
 			"features": [],
 			"weapons": []
 		},
@@ -292,11 +318,30 @@
 		},
 		"spell": {
 			"templates": ["common", "prereqs"],
+			"spell_class": "Regular",
+			"power_source": "Arcane",
+			"points": 1,
+			"difficulty": "iq/h",
+			"casting_cost": "1",
+			"maintenance_cost": "",
+			"resist": "",
+			"casting_time": "1 sec",
+			"duration": "Instant",
 			"weapons": [],
 			"college": []
 		},
 		"ritual_magic_spell": {
 			"templates": ["common", "prereqs"],
+			"spell_class": "Regular",
+			"power_source": "Arcane",
+			"points": 1,
+			"difficulty": "h",
+			"casting_cost": "1",
+			"maintenance_cost": "",
+			"casting_time": "1 sec",
+			"duration": "Instant",
+			"base_skill": "Ritual Magic",
+			"prereq_count": 0,
 			"weapons": [],
 			"college": []
 		},
@@ -306,17 +351,34 @@
 		},
 		"equipment": {
 			"templates": ["common", "prereqs"],
+			"weight": "0 lb",
+			"value": 0,
+			"quantity": 1,
+			"uses": 0,
+			"max_uses": 0,
+			"legality_class": "4",
 			"features": [],
 			"weapons": []
 		},
 		"equipment_container": {
 			"templates": ["common", "prereqs"],
+			"weight": "0 lb",
+			"value": 0,
+			"quantity": 1,
+			"uses": 0,
+			"max_uses": 0,
+			"legality_class": "4",
 			"features": [],
 			"weapons": [],
 			"open": false
 		},
 		"eqp_modifier": {
 			"templates": ["common"],
+			"cost_type": "to_original_cost",
+			"cost": "+0",
+			"weight_type": "to_original_weight",
+			"weight": "+0 lb",
+			"disabled": false,
 			"features": []
 		},
 		"eqp_modifier_container": {

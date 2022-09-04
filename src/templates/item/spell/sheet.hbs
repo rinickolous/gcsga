@@ -17,10 +17,12 @@
 					{{localize "gurps.item.tech_level_required"}}
 				</label>
 			</div>
-			{{>sections/input-text field="field" label="gurps.item.college" name="system.college" data=(join system.college ",
+			{{>sections/input-text field="field" label="gurps.item.college" name="system.college" data=(join
+			system.college ",
 			")
 			type="String"}}
-			{{>sections/input-text field="field" label="gurps.item.class" name="system.class" data=system.class type="String"}}
+			{{>sections/input-text field="field" label="gurps.item.class" name="system.class" data=system.class
+			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.power_source" name="system.power_source"
 			data=system.power_source type="String"}}
 			<div class="label">{{localize "gurps.item.difficulty"}}</div>
@@ -41,6 +43,7 @@
 					{{/select}}
 				</select>
 			</div>
+			{{#if document.actor}}
 			<div class="label">{{localize "gurps.item.points"}}</div>
 			<div class="field no-stretch">
 				{{>sections/input-text name="NUMBER.system.points" data=system.points type="String"}}
@@ -48,6 +51,7 @@
 				{{>sections/input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}
 			</div>
+			{{/if}}
 			{{>sections/input-text field="field" label="gurps.item.resist" name="system.resist" data=system.resist
 			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.casting_cost" name="system.casting_cost"
@@ -58,12 +62,15 @@
 			data=system.casting_time type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.duration" name="system.duration" data=system.duration
 			type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes
+			type="String"}}
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes
 			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
+			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
+			data=system.reference
 			type="String"}}
 		</div>
 		{{>item/sections/prerequisites}}

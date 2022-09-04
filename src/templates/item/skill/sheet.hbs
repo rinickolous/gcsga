@@ -50,6 +50,7 @@
 				data=system.encumbrance_penalty_multiplier type="String"}}
 				<div class="label">{{localize "gurps.item.epm_after"}}</div>
 			</div>
+			{{#if document.actor}}
 			<div class="label">{{localize "gurps.item.points"}}</div>
 			<div class="field no-stretch">
 				{{>sections/input-text name="NUMBER.system.points" data=system.points type="String"}}
@@ -57,6 +58,7 @@
 				{{>sections/input-text data=(concat document.skillLevel "/" document.relativeLevel) class="readonly
 				tabIndex='-1'"}}
 			</div>
+			{{/if}}
 			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
 			data=system.reference
 			type="String"}}

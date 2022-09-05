@@ -1,6 +1,7 @@
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { fSearch } from "@util/fuse";
+import { ModifierBrowse } from "./browse";
 import { ModifierButton } from "./button";
 import { ModifierList } from "./list";
 
@@ -11,6 +12,7 @@ export class ModifierWindow extends Application {
 		this.value = "";
 		this.button = button;
 		this.list = new ModifierList(this, []);
+		this.browse = new ModifierBrowse(this);
 	}
 
 	static get defaultOptions(): ApplicationOptions {
@@ -30,12 +32,14 @@ export class ModifierWindow extends Application {
 		this.button.showing = true;
 		await super.render(force, options);
 		this.list.render(force, options);
+		this.browse.render(force, options);
 	}
 
 	close(options?: Application.CloseOptions | undefined): Promise<void> {
 		this.button.showing = false;
 		this.list.mods = [];
 		this.list.close(options);
+		this.browse.close(options);
 		return super.close(options);
 	}
 
@@ -164,6 +168,15 @@ export class ModifierWindow extends Application {
 		return this.addModifier(newMod);
 	}
 
+	addModFromBrowse() {
+		let newMod = null;
+		// const newMod: RollModifier = this.browse.categories[this.browse.selection[1]].mods[this.browse.selection[2]];
+		const cat = this.browse.categories[this.browse.selection[1]];
+		if (cat) newMod = cat.mods[this.browse.selection[2]];
+		if (!newMod) return;
+		return this.addModifier(newMod);
+	}
+
 	addModifier(mod: RollModifier) {
 		const modList: RollModifier[] =
 			((game as Game).user?.getFlag(
@@ -200,5 +213,6 @@ export class ModifierWindow extends Application {
 export interface ModifierWindow extends Application {
 	button: ModifierButton;
 	list: ModifierList;
+	browse: ModifierBrowse;
 	value: string;
 }

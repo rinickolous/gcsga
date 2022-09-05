@@ -501,7 +501,8 @@
 				"no_mods": "No modifiers currently active.",
 				"active_title": "Active Modifiers",
 				"pin_prompt": "Press Up for Pinned Modifiers",
-				"make_pin_prompt": "<b>Tip:</b>&nbsp;Press Shift+Enter to Pin Modifiers"
+				"make_pin_prompt": "<b>Tip:</b>&nbsp;Press Shift+Enter to Pin Modifiers",
+				"pinned_category": "Pinned"
 			},
 			"library_import": {
 				"button": "Import GCS Library",

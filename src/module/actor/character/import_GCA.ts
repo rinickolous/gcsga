@@ -629,7 +629,7 @@ export class GCAImporter {
 		tags = tags.filter(e => !e.startsWith("_"));
 		let defaults: Partial<SkillDefault>[] = [];
 		if (!!item.ref.default) {
-			item.ref.default?.split(",").forEach((e: string) => {
+			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
 				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
 				if (e.startsWith("SK:")) {
@@ -661,7 +661,7 @@ export class GCAImporter {
 						parseInt(e.split(" ").slice(1).join("")) || 0;
 				}
 				defaults.push(def);
-			});
+			}
 		}
 		let epm = 0;
 		const enc_pens = context.data.traits.attributes.trait.find(
@@ -700,7 +700,7 @@ export class GCAImporter {
 		tags = tags.filter(e => !e.startsWith("_"));
 		let defaults: Partial<SkillDefault>[] = [];
 		if (!!item.ref.default) {
-			item.ref.default?.split(",").forEach((e: string) => {
+			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
 				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
 				if (e.startsWith("SK:")) {
@@ -732,7 +732,7 @@ export class GCAImporter {
 						parseInt(e.split(" ").slice(1).join("")) || 0;
 				}
 				defaults.push(def);
-			});
+			}
 		}
 		let epm = 0;
 		const enc_pens = context.data.traits.attributes.trait.find(

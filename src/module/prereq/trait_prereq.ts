@@ -35,7 +35,7 @@ export class TraitPrereq extends BasePrereq {
 		prefix: string,
 	): boolean {
 		let satisfied = false;
-		actor.traits.forEach(t => {
+		for (const t of actor.traits) {
 			if (exclude == t || !stringCompare(t.name, this.name)) return false;
 			let notes = t.notes;
 			const mod_notes = t.modifierNotes;
@@ -43,7 +43,7 @@ export class TraitPrereq extends BasePrereq {
 			if (!stringCompare(notes, this.notes)) return false;
 			satisfied = numberCompare(Math.max(0, t.levels), this.level);
 			return satisfied;
-		});
+		}
 		if (this.has) satisfied = !satisfied;
 		if (!satisfied) {
 			tooltip.push(prefix);

@@ -206,17 +206,15 @@ class BaseItemGURPS extends Item {
 		)
 			return new Map();
 		const weapons: Map<number, Weapon> = new Map();
-		toArray((this as any).system.weapons).forEach(
-			(w: Weapon, index: number) => {
-				weapons.set(
-					index,
-					new BaseWeapon({
-						...w,
-						...{ parent: this, actor: this.actor, id: index },
-					}),
-				);
-			},
-		);
+		for (const [w, index] of toArray((this as any).system.weapons)) {
+			weapons.set(
+				index,
+				new BaseWeapon({
+					...w,
+					...{ parent: this, actor: this.actor, id: index },
+				}),
+			);
+		}
 		return weapons;
 	}
 

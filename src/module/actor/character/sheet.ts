@@ -169,17 +169,13 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected async _onItemDragEnter(event: JQuery.DragEnterEvent) {
 		event.preventDefault();
-		// let parent = $(event.currentTarget).parent();
-		// if (!parent.hasClass("item-list")) parent = parent.parent();
-		// const siblings = Array.prototype.slice.call(parent.children());
-		// siblings.forEach(e => e.classList.remove("drop-over"));
 		$(".drop-over").removeClass("drop-over");
 		const item = $(event.currentTarget).closest(".item.desc");
 		const selection = Array.prototype.slice.call(
 			item.nextUntil(".item.desc"),
 		);
 		selection.unshift(item);
-		selection.forEach(e => $(e).addClass("drop-over"));
+		for (const e of selection) $(e).addClass("drop-over");
 	}
 
 	protected async _onItemDragLeave(event: JQuery.DragLeaveEvent) {
@@ -224,21 +220,21 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const secondary_attributes: Attribute[] = [];
 		const point_pools: Attribute[] = [];
 		if (attributes) {
-			attributes.forEach(a => {
+			for (const a of Object.values(attributes)) {
 				if (a.attribute_def?.type.includes("pool")) point_pools.push(a);
 				else if (a.attribute_def?.isPrimary) primary_attributes.push(a);
 				else secondary_attributes.push(a);
-			});
+			}
 		}
 		return [primary_attributes, secondary_attributes, point_pools];
 	}
 
 	prepareEncumbrance() {
 		const encumbrance = [...this.actor.allEncumbrance];
-		encumbrance.forEach(e => {
+		for (const e of encumbrance) {
 			if (e.level == this.actor.encumbranceLevel().level)
 				(e as any).active = true;
-		});
+		}
 		return encumbrance;
 	}
 

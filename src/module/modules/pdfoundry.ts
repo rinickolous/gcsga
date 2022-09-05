@@ -61,7 +61,7 @@ export function openPDF(pdfs: string) {
 		return ui.notifications?.warn(
 			i18n("gurps.error.modules.pdfoundry_missing"),
 		);
-	pdfs.split(",").forEach(link => {
+	for (let link of pdfs.split(",")) {
 		link = link.trim();
 		const colonIndex = link.indexOf(":");
 		let book = "";
@@ -95,5 +95,5 @@ export function openPDF(pdfs: string) {
 			}
 			window.open(url, "_blank");
 		} else (ui as any).PDFoundry?.openPDF(pdf, { page: page });
-	});
+	}
 }

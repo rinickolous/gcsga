@@ -138,11 +138,11 @@ class BaseWeapon {
 			this.parent instanceof EquipmentGURPS ||
 			this.parent instanceof EquipmentContainerGURPS
 		) {
-			this.parent.modifiers.forEach(mod => {
+			for (const mod of this.parent.modifiers) {
 				for (const f of mod.features) {
 					adj += this.extractSkillBonusForThisWeapon(f, tooltip);
 				}
-			});
+			}
 		}
 		return adj;
 	}

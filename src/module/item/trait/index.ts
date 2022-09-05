@@ -83,10 +83,10 @@ export class TraitGURPS extends ContainerGURPS {
 					});
 			}
 		}
-		this.deepModifiers.forEach(m => {
+		for (const m of this.deepModifiers) {
 			if (n.length) n += ";";
 			n += m.fullDescription;
-		});
+		}
 		return n;
 	}
 
@@ -99,8 +99,8 @@ export class TraitGURPS extends ContainerGURPS {
 		let basePoints = this.basePoints;
 		let pointsPerLevel = this.pointsPerLevel;
 		let multiplier = this.crMultiplier(this.cr);
-		this.deepModifiers.forEach(mod => {
-			if (!mod.enabled) return;
+		for (const mod of this.deepModifiers) {
+			if (!mod.enabled) continue;
 			const modifier = mod.costModifier;
 			switch (mod.costType) {
 				case "percentage":
@@ -108,23 +108,23 @@ export class TraitGURPS extends ContainerGURPS {
 						case "total":
 							baseLim += modifier;
 							levelLim += modifier;
-							return;
+							continue;
 						case "base_only":
 							baseLim += modifier;
-							return;
+							continue;
 						case "levels_only":
 							levelLim += modifier;
-							return;
+							continue;
 					}
 				case "points":
 					if (mod.affects == "levels_only")
 						pointsPerLevel += modifier;
 					else basePoints += modifier;
-					return;
+					continue;
 				case "multiplier":
 					multiplier *= modifier;
 			}
-		});
+		}
 		let modifiedBasePoints = basePoints;
 		let leveledPoints = pointsPerLevel * this.levels;
 		if (baseEnh != 0 || baseLim != 0 || levelEnh != 0 || levelLim != 0) {
@@ -189,13 +189,13 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get deepModifiers(): Collection<TraitModifierGURPS> {
 		const deepModifiers: Array<TraitModifierGURPS> = [];
-		this.modifiers.forEach(mod => {
+		for (const mod of this.modifiers) {
 			if (mod instanceof TraitModifierGURPS) deepModifiers.push(mod);
 			else
-				mod.deepItems.forEach(e => {
+				for (const e of mod.deepItems) {
 					if (e instanceof TraitModifierGURPS) deepModifiers.push(e);
-				});
-		});
+				}
+		}
 		return new Collection(
 			deepModifiers.map(item => {
 				return [item.id!, item];

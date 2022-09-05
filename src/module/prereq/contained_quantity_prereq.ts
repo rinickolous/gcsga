@@ -45,9 +45,9 @@ export class ContainedQuantityPrereq extends BasePrereq {
 			satisfied = !(eqp instanceof EquipmentContainerGURPS);
 			if (!satisfied) {
 				let quantity = 0;
-				(eqp as EquipmentContainerGURPS).children.forEach(ch => {
+				for (const ch of (eqp as EquipmentContainerGURPS).children) {
 					quantity += ch.quantity;
-				});
+				}
 				satisfied = numberCompare(quantity, this.quantity);
 			}
 		}

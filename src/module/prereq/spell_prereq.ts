@@ -54,16 +54,16 @@ export class SpellPrereq extends BasePrereq {
 			tech_level = exclude.techLevel;
 		let count = 0;
 		const colleges: Map<string, boolean> = new Map();
-		character.spells.forEach(sp => {
-			if (sp instanceof SpellContainerGURPS) return;
+		for (let sp of character.spells) {
+			if (sp instanceof SpellContainerGURPS) continue;
 			sp = sp as SpellGURPS | RitualMagicSpellGURPS;
-			if (exclude == sp || sp.points == 0) return;
+			if (exclude == sp || sp.points == 0) continue;
 			if (tech_level && sp.techLevel && tech_level != sp.techLevel)
-				return false;
+				continue;
 			switch (this.sub_type) {
 				case "name":
 					if (stringCompare(sp.name, this.qualifier)) count++;
-					return;
+					continue;
 				case "tag":
 					if (stringCompare(sp.tags, this.qualifier)) count++;
 					break;
@@ -77,7 +77,7 @@ export class SpellPrereq extends BasePrereq {
 					count++;
 					break;
 			}
-		});
+		}
 		if (this.sub_type == "college_count") count = colleges.entries.length;
 		let satisfied = numberCompare(count, this.quantity);
 		if (!this.has) satisfied = !satisfied;

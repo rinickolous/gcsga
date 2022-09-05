@@ -32,9 +32,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 			for (const item of this.items) {
 				deepItems.push(item);
 				if (item instanceof ContainerGURPS)
-					item.deepItems.forEach(item => {
-						return deepItems.push(item);
-					});
+					for (const i of item.deepItems) deepItems.push(i);
 			}
 		return new Collection(
 			deepItems.map(e => {
@@ -218,7 +216,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		const oldItems = this.items ?? new Collection();
 
 		this.items = new Collection();
-		containedItems.forEach(item => {
+		for (const item of containedItems) {
 			if (!oldItems.has(item._id!)) {
 				const theItem = new CONFIG.Item.documentClass(item, {
 					parent: this as any,
@@ -240,7 +238,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 					});
 				}
 			}
-		});
+		}
 	}
 }
 

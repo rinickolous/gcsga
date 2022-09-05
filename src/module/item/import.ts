@@ -670,25 +670,25 @@ export class ItemImporter {
 
 	importFeatures(features: Feature[]): Feature[] {
 		const list: Feature[] = [];
-		features.forEach(f => {
+		for (const f of features) {
 			list.push(new BaseFeature(f, {}));
-		});
+		}
 		return list;
 	}
 
-	importWeapons(features: Weapon[]): Weapon[] {
+	importWeapons(weapons: Weapon[]): Weapon[] {
 		const list: Weapon[] = [];
-		features.forEach(w => {
+		for (const w of weapons) {
 			list.push(new BaseWeapon(w));
-		});
+		}
 		return list;
 	}
 
-	importDefaults(features: SkillDefault[]): SkillDefault[] {
+	importDefaults(defaults: SkillDefault[]): SkillDefault[] {
 		const list: SkillDefault[] = [];
-		features.forEach(d => {
+		for (const d of defaults) {
 			list.push(new SkillDefault(d));
-		});
+		}
 		return list;
 	}
 	async throwImportError(msg: string[]) {

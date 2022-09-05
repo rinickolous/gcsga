@@ -169,7 +169,7 @@ export class WeaponDamage {
 			t instanceof EquipmentGURPS ||
 			t instanceof EquipmentContainerGURPS
 		) {
-			t.modifiers.forEach(mod => {
+			for (const mod of t.modifiers) {
 				for (const f of mod.features) {
 					this.extractWeaponDamageBonus(
 						f,
@@ -178,7 +178,7 @@ export class WeaponDamage {
 						tooltip,
 					);
 				}
-			});
+			}
 		}
 		const adjustForPhoenixFlame =
 			actor.settings.damage_progression == "phoenix_flame_d3" &&

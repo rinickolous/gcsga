@@ -54,11 +54,10 @@ export class WeaponSheet extends FormApplication {
 	getData(options?: Partial<FormApplicationOptions> | undefined): any {
 		const attributes: Record<string, string> = {};
 		if (this.object.actor) {
-			(this.object.actor as unknown as CharacterGURPS).attributes.forEach(
-				(e: Attribute) => {
-					attributes[e.attr_id] = e.attribute_def.name;
-				},
-			);
+			const actor = this.object.actor as unknown as CharacterGURPS;
+			for (const e of Object.values(actor.attributes)) {
+				attributes[e.attr_id] = e.attribute_def.name;
+			}
 		} else {
 			mergeObject(attributes, {
 				st: "ST",

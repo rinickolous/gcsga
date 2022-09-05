@@ -253,9 +253,9 @@ export class CharacterImporter {
 
 	importAttributes(attributes: AttributeObj[]) {
 		const atts: Record<string, AttributeObj> = {};
-		attributes.forEach(a => {
+		for (const a of attributes) {
 			atts[a.attr_id] = a;
-		});
+		}
 		return {
 			"system.attributes": atts,
 		};
@@ -775,25 +775,25 @@ export class CharacterImporter {
 
 	importFeatures(features: Feature[]): Feature[] {
 		const list: Feature[] = [];
-		features.forEach(f => {
+		for (const f of features) {
 			list.push(new BaseFeature(f, {}));
-		});
+		}
 		return list;
 	}
 
 	importWeapons(features: Weapon[]): Weapon[] {
 		const list: Weapon[] = [];
-		features.forEach(w => {
+		for (const w of features) {
 			list.push(new BaseWeapon(w));
-		});
+		}
 		return list;
 	}
 
 	importDefaults(features: SkillDefault[]): SkillDefault[] {
 		const list: SkillDefault[] = [];
-		features.forEach(d => {
+		for (const d of features) {
 			list.push(new SkillDefault(d));
-		});
+		}
 		return list;
 	}
 

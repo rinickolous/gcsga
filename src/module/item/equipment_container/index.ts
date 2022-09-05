@@ -82,23 +82,23 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		EquipmentModifierGURPS | EquipmentModifierContainerGURPS
 	> {
 		const modifiers: Collection<EquipmentModifierGURPS> = new Collection();
-		this.items.forEach(item => {
+		for (const item of this.items) {
 			if (item instanceof EquipmentModifierGURPS)
 				modifiers.set(item.id!, item);
-		});
+		}
 		return modifiers;
 	}
 
 	get deepModifiers(): Collection<EquipmentModifierGURPS> {
 		const deepModifiers: Array<EquipmentModifierGURPS> = [];
-		this.modifiers.forEach(mod => {
+		for (const mod of this.modifiers) {
 			if (mod instanceof EquipmentModifierGURPS) deepModifiers.push(mod);
 			else
-				mod.deepItems.forEach(e => {
+				for (const e of mod.deepItems) {
 					if (e instanceof EquipmentModifierGURPS)
 						deepModifiers.push(e);
-				});
-		});
+				}
+		}
 		return new Collection(
 			deepModifiers.map(item => {
 				return [item.id!, item];
@@ -114,9 +114,9 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	get extendedValue(): number {
 		if (this.quantity <= 0) return 0;
 		let value = this.adjustedValue;
-		this.children.forEach(ch => {
+		for (const ch of this.children) {
 			value += ch.extendedValue;
-		});
+		}
 		return floatingMul(value * this.quantity);
 	}
 
@@ -133,7 +133,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		let percentages = 0;
 		let w = this.weight;
 
-		this.deepModifiers.forEach(mod => {
+		for (const mod of this.deepModifiers) {
 			if (mod.weightType == "to_original_weight") {
 				const t = determineModWeightValueTypeFromString(
 					mod.weightAmount,
@@ -146,7 +146,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 					percentages += amt;
 				}
 			}
-		});
+		}
 		if (percentages != 0) w += (this.weight * percentages) / 100;
 
 		w = processMultiplyAddWeightStep(
@@ -191,9 +191,9 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 			base = this.weightAdjustedForMods(units);
 		if (this.children) {
 			let contained = 0;
-			this.children?.forEach(ch => {
+			for (const ch of this.children ?? []) {
 				contained += ch.extendedWeight(for_skills, units);
-			});
+			}
 			let percentage = 0;
 			let reduction = 0;
 			for (const f of this.features) {
@@ -203,7 +203,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 					else reduction += parseFloat(f.reduction);
 				}
 			}
-			this.deepModifiers.forEach(mod => {
+			for (const mod of this.deepModifiers) {
 				for (const f of mod.features) {
 					if (f instanceof ContainedWeightReduction) {
 						if (f.is_percentage_reduction)
@@ -211,7 +211,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 						else reduction += parseFloat(f.reduction);
 					}
 				}
-			});
+			}
 			if (percentage >= 100) contained = 0;
 			else if (percentage > 0)
 				contained -= (contained * percentage) / 100;

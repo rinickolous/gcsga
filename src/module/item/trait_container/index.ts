@@ -70,10 +70,10 @@ export class TraitContainerGURPS extends ContainerGURPS {
 					});
 			}
 		}
-		this.deepModifiers.forEach(m => {
+		for (const m of this.deepModifiers) {
 			if (n.length) n += ";";
 			n += m.fullDescription;
-		});
+		}
 		return n;
 	}
 
@@ -96,13 +96,13 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get deepModifiers(): Collection<TraitModifierGURPS> {
 		const deepModifiers: Array<TraitModifierGURPS> = [];
-		this.modifiers.forEach(mod => {
+		for (const mod of this.modifiers) {
 			if (mod instanceof TraitModifierGURPS) deepModifiers.push(mod);
 			else
-				mod.deepItems.forEach(e => {
+				for (const e of mod.deepItems) {
 					if (e instanceof TraitModifierGURPS) deepModifiers.push(e);
-				});
-		});
+				}
+		}
 		return new Collection(
 			deepModifiers.map(item => {
 				return [item.id!, item];
@@ -115,11 +115,11 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		let points = 0;
 		if (this.containerType == "alternative_abilities") {
 			let values: number[] = [];
-			this.children.forEach(child => {
+			for (const child of this.children) {
 				values.push(child.adjustedPoints);
 				if (values[values.length - 1] > points)
 					points = values[values.length - 1];
-			});
+			}
 			let max = points;
 			let found = false;
 			for (let v of values) {
@@ -131,9 +131,9 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				}
 			}
 		} else {
-			this.children.forEach(child => {
+			for (const child of this.children) {
 				points += child.adjustedPoints;
-			});
+			}
 		}
 		return points;
 	}

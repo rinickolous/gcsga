@@ -92,17 +92,15 @@ export class SkillDefault {
 		excludes: Map<string, boolean>,
 	): number {
 		let best = Math.max();
-		actor
-			.skillNamed(
-				this.name!,
-				this.specialization || "",
-				require_points,
-				excludes,
-			)
-			.forEach(s => {
-				const level = s.calculateLevel.level;
-				if (best < level) best = level;
-			});
+		for (const s of actor.skillNamed(
+			this.name!,
+			this.specialization || "",
+			require_points,
+			excludes,
+		)) {
+			const level = s.calculateLevel.level;
+			if (best < level) best = level;
+		}
 		return best;
 	}
 
@@ -146,17 +144,15 @@ export class SkillDefault {
 		excludes: Map<string, boolean> | null,
 	): number {
 		let best = Math.max();
-		actor
-			.skillNamed(
-				this.name!,
-				this.specialization || "",
-				require_points,
-				excludes,
-			)
-			.forEach(sk => {
-				sk = sk as SkillGURPS | TechniqueGURPS;
-				if (best < sk.level.level) best = sk.level.level;
-			});
+		for (let sk of actor.skillNamed(
+			this.name!,
+			this.specialization || "",
+			require_points,
+			excludes,
+		)) {
+			sk = sk as SkillGURPS | TechniqueGURPS;
+			if (best < sk.level.level) best = sk.level.level;
+		}
 		return best;
 	}
 

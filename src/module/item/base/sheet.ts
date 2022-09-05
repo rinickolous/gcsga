@@ -1,7 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
 import { ItemGURPS } from "@item/data";
-import { Attribute } from "@module/attribute";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { WeaponSheet } from "@module/weapon/sheet";
@@ -12,20 +11,16 @@ import { BaseItemGURPS } from ".";
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
 		const itemData = this.object.toObject(false);
-
 		const attributes: Record<string, string> = {};
 		const locations: Record<string, string> = {};
-		if (this.item.actor) {
-			(this.item.actor as unknown as CharacterGURPS).attributes.forEach(
-				(e: Attribute) => {
-					attributes[e.attr_id] = e.attribute_def.name;
-				},
-			);
-			(
-				this.item.actor as unknown as CharacterGURPS
-			).system.settings.body_type.locations.forEach(e => {
+		const actor = this.item.actor as unknown as CharacterGURPS;
+		if (actor) {
+			for (const e of Object.values(actor.attributes)) {
+				attributes[e.attr_id] = e.attribute_def.name;
+			}
+			for (const e of actor.system.settings.body_type.locations) {
 				locations[e.id] = e.choice_name;
-			});
+			}
 		} else {
 			mergeObject(attributes, {
 				st: "ST",

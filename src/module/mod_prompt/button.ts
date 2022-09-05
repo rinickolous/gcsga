@@ -84,9 +84,9 @@ export class ModifierButton extends Application {
 			(user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ??
 			[];
 		if (mods.length > 0)
-			mods.forEach(m => {
+			for (const m of mods) {
 				total += m.modifier;
-			});
+			}
 		await user.setFlag(SYSTEM_NAME, "modifierTotal", total);
 	}
 }

@@ -69,7 +69,7 @@ export class ModifierList extends Application {
 		const pinnedMods: any[] =
 			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ??
 			[];
-		mods.forEach(m => {
+		for (const m of mods) {
 			if (
 				pinnedMods.find(
 					e => e.name == m.name && e.modifier && m.modifier,
@@ -77,7 +77,7 @@ export class ModifierList extends Application {
 			)
 				m.pinned = true;
 			else m.pinned = false;
-		});
+		}
 
 		return mergeObject(super.getData(options), {
 			mods: mods,

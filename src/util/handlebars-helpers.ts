@@ -7,22 +7,22 @@ import { i18n } from "./misc";
 export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("concat", function (...args) {
 		let outStr = "";
-		args.forEach(arg => {
+		for (const arg of args) {
 			if (typeof arg != "object") outStr += arg;
-		});
+		}
 		return outStr;
 	});
 
 	Handlebars.registerHelper("camelcase", function (s) {
 		let n = "";
-		s.split(" ").forEach((word: string) => {
+		for (const word of s.split(" ")) {
 			n =
 				n +
 				`<span class="first-letter">${word.substring(
 					0,
 					1,
 				)}</span>${word.substring(1)} `;
-		});
+		}
 		return n;
 	});
 
@@ -36,18 +36,18 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("or", function (...args) {
 		let val = false;
-		args.forEach(arg => {
+		for (const arg of args) {
 			if (arg && typeof arg != "object") val = true;
 			if (Array.isArray(arg) && arg.length) val = true;
-		});
+		}
 		return val;
 	});
 
 	Handlebars.registerHelper("and", function (...args) {
 		let val = true;
-		args.forEach(arg => {
+		for (const arg of args) {
 			if (!arg && typeof arg != "object") val = false;
-		});
+		}
 		return val;
 	});
 
@@ -112,9 +112,9 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("arr", function (...args) {
 		const outArr: any[] = [];
-		args.forEach(arg => {
+		for (const arg of args) {
 			if (arg && typeof arg != "object") outArr.push(arg);
-		});
+		}
 		return outArr;
 	});
 

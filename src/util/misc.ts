@@ -198,10 +198,10 @@ export function floatingMul(...args: number[]): number {
 	let multiplier = 100;
 	let x = args.length;
 	let result = multiplier;
-	args.forEach(arg => {
+	for (const arg of args) {
 		const newArg = arg * multiplier;
 		result *= newArg;
-	});
+	}
 	return parseFloat((result / multiplier ** (x + 1)).toPrecision(12));
 }
 

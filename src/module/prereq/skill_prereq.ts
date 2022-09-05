@@ -35,8 +35,8 @@ export class SkillPrereq extends BasePrereq {
 		let satisfied = false;
 		let tech_level = "";
 		if (exclude instanceof SkillGURPS) tech_level = exclude.techLevel;
-		character.skills.forEach(sk => {
-			if (sk instanceof SkillContainerGURPS) return;
+		for (let sk of character.skills) {
+			if (sk instanceof SkillContainerGURPS) continue;
 			sk = sk as SkillGURPS | TechniqueGURPS;
 			if (
 				exclude == sk ||
@@ -47,7 +47,7 @@ export class SkillPrereq extends BasePrereq {
 			satisfied = numberCompare(sk.level.level, this.level);
 			if (satisfied && tech_level)
 				satisfied = !sk.techLevel || tech_level == sk.techLevel;
-		});
+		}
 		if (!this.has) satisfied = !satisfied;
 		if (!satisfied) {
 			tooltip.push(prefix);

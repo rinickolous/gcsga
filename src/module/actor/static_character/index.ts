@@ -298,7 +298,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		let pi = (n?: string) => (!!n ? parseInt(n) : 0);
 		let gids: string[] = [];
 		const data = this.system;
-		this.items.forEach(item => {
+		for (const item of this.items) {
 			let itemData = (item as StaticItemGURPS).system;
 			if (
 				itemData.equipped &&
@@ -405,7 +405,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 					}
 				}
 			}
-		});
+		}
 	}
 }
 

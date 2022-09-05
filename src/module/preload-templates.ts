@@ -74,7 +74,7 @@ export async function preloadTemplates(): Promise<
 		"compendium-browser/settings",
 	];
 	const formattedPaths: string[] = [];
-	templatePaths.forEach(filename => {
+	for (let filename of templatePaths) {
 		const name = filename;
 		filename = `systems/${SYSTEM_NAME}/templates/${filename}.hbs`;
 		// const match = filename.match(`.*/(.*).hbs`);
@@ -85,6 +85,6 @@ export async function preloadTemplates(): Promise<
 				if (!!name) Handlebars.registerPartial(name, text);
 				formattedPaths.push(name);
 			});
-	});
+	}
 	return loadTemplates(formattedPaths);
 }

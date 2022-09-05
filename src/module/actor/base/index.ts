@@ -50,9 +50,9 @@ class BaseActorGURPS extends Actor {
 		for (const item of this.items as any as Collection<ItemGURPS>) {
 			deepItems.push(item);
 			if (item instanceof ContainerGURPS)
-				item.deepItems.forEach((item: ItemGURPS) => {
-					deepItems.push(item);
-				});
+				for (const i of item.deepItems) {
+					deepItems.push(i);
+				}
 		}
 		return new Collection(
 			deepItems.map(e => {

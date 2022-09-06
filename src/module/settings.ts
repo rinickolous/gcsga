@@ -1,12 +1,7 @@
 import { CharacterProfile } from "@actor/character/data";
 import { i18n } from "@util";
 import { AttributeDefObj } from "./attribute/attribute_def";
-import {
-	DamageProgression,
-	DisplayMode,
-	LengthUnits,
-	WeightUnits,
-} from "./data";
+import { DamageProgression, DisplayMode, LengthUnits, WeightUnits } from "./data";
 import { GURPS } from "./gurps";
 
 export const SYSTEM_NAME = "gcsga";
@@ -141,16 +136,7 @@ export const SETTINGS_TEMP: provider = {
 			right_margin: "0.25 in",
 			orientation: "portrait",
 		},
-		block_layout: [
-			"reactions conditional_modifiers",
-			"melee",
-			"ranged",
-			"traits skills",
-			"spells",
-			"equipment",
-			"other_equipment",
-			"notes",
-		],
+		block_layout: ["reactions conditional_modifiers", "melee", "ranged", "traits skills", "spells", "equipment", "other_equipment", "notes"],
 		attributes: {
 			st: {
 				id: "st",
@@ -264,8 +250,7 @@ export const SETTINGS_TEMP: provider = {
 					},
 					{
 						state: "Collapse",
-						explanation:
-							"Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
+						explanation: "Roll vs. Will to do anything besides talk or rest; failure causes unconsciousness\nEach FP you lose below 0 also causes 1 HP of injury\nMove, Dodge and ST are halved (B426)",
 						expression: "0",
 						ops: ["halve_move", "halve_dodge", "halve_st"],
 					},
@@ -301,36 +286,31 @@ export const SETTINGS_TEMP: provider = {
 					},
 					{
 						state: "Dying #4",
-						explanation:
-							"Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-4 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*4)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #3",
-						explanation:
-							"Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-3 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*3)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #2",
-						explanation:
-							"Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-2 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round(-$hp*2)",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Dying #1",
-						explanation:
-							"Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation: "Roll vs. HT to avoid death\nRoll vs. HT-1 every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "-$hp",
 						ops: ["halve_move", "halve_dodge"],
 					},
 					{
 						state: "Collapse",
-						explanation:
-							"Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
+						explanation: "Roll vs. HT every second to avoid falling unconscious\nMove and Dodge are halved (B419)",
 						expression: "round($hp/3)",
 						ops: ["halve_move", "halve_dodge"],
 					},

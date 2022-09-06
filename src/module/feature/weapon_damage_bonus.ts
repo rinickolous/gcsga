@@ -1,10 +1,5 @@
 import { BaseFeature } from "./base";
-import {
-	NumberCompare,
-	NumberComparison,
-	StringCompare,
-	StringComparison,
-} from "@module/data";
+import { NumberCompare, NumberComparison, StringCompare, StringComparison } from "@module/data";
 
 export class WeaponBonus extends BaseFeature {
 	static get defaults(): Record<string, any> {
@@ -34,11 +29,7 @@ export class WeaponBonus extends BaseFeature {
 	}
 
 	buildKey(prefix: string): string {
-		if (
-			this.name?.compare == "is" &&
-			this.specialization?.compare == "none" &&
-			this.tags?.compare == "none"
-		) {
+		if (this.name?.compare == "is" && this.specialization?.compare == "none" && this.tags?.compare == "none") {
 			return prefix + "/" + this.name?.qualifier;
 		}
 		return prefix + "*";
@@ -53,7 +44,4 @@ export interface WeaponBonus extends BaseFeature {
 	percent: boolean;
 }
 
-export type WeaponBonusSelectionType =
-	| "weapons_with_required_skill"
-	| "weapons_with_name"
-	| "this_weapon";
+export type WeaponBonusSelectionType = "weapons_with_required_skill" | "weapons_with_name" | "this_weapon";

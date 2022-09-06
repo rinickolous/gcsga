@@ -16,12 +16,7 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("camelcase", function (s) {
 		let n = "";
 		for (const word of s.split(" ")) {
-			n =
-				n +
-				`<span class="first-letter">${word.substring(
-					0,
-					1,
-				)}</span>${word.substring(1)} `;
+			n = n + `<span class="first-letter">${word.substring(0, 1)}</span>${word.substring(1)} `;
 		}
 		return n;
 	});
@@ -32,6 +27,10 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("signed", function (n: number) {
 		return n >= 0 ? `+${n}` : `${n}`;
+	});
+
+	Handlebars.registerHelper("abs", function (n: number) {
+		return Math.abs(n);
 	});
 
 	Handlebars.registerHelper("or", function (...args) {
@@ -59,6 +58,10 @@ export function registerHandlebarsHelpers() {
 		return a != b;
 	});
 
+	Handlebars.registerHelper("gt", function (a, b) {
+		return a > b;
+	});
+
 	Handlebars.registerHelper("sum", function (...args) {
 		const arr: number[] = [];
 		for (const arg of args) {
@@ -75,27 +78,21 @@ export function registerHandlebarsHelpers() {
 		return !!a.length;
 	});
 
-	Handlebars.registerHelper(
-		"blockLayout",
-		function (a: Array<string>, items: any) {
-			if (!a) return "";
-			let outStr = ``;
-			let line_length = 2;
-			for (const value of a) {
-				let line = value.split(" ");
-				if (line.length > line_length) line_length = line.length;
-				line = line.filter((e: string) => !!items[e]?.length);
-				if (!!line.length) {
-					if (line_length > line.length)
-						line = line.concat(
-							Array(line_length - line.length).fill(line[0]),
-						);
-					outStr += `\n"${line.join(" ")}"`;
-				}
+	Handlebars.registerHelper("blockLayout", function (a: Array<string>, items: any) {
+		if (!a) return "";
+		let outStr = ``;
+		let line_length = 2;
+		for (const value of a) {
+			let line = value.split(" ");
+			if (line.length > line_length) line_length = line.length;
+			line = line.filter((e: string) => !!items[e]?.length);
+			if (!!line.length) {
+				if (line_length > line.length) line = line.concat(Array(line_length - line.length).fill(line[0]));
+				outStr += `\n"${line.join(" ")}"`;
 			}
-			return outStr;
-		},
-	);
+		}
+		return outStr;
+	});
 
 	Handlebars.registerHelper("json", function (a: any) {
 		return JSON.stringify(a);
@@ -138,8 +135,7 @@ export function registerHandlebarsHelpers() {
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
-			if (v && v != "-")
-				list.push(`${i18n("gurps.character.spells." + k)}: ${v}`);
+			if (v && v != "-") list.push(`${i18n("gurps.character.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});
@@ -149,48 +145,35 @@ export function registerHandlebarsHelpers() {
 		return "";
 	});
 
-	Handlebars.registerHelper(
-		"getMove",
-		function (c: CharacterGURPS, level: Encumbrance): number {
-			return c.move(level);
-		},
-	);
+	Handlebars.registerHelper("getMove", function (c: CharacterGURPS, level: Encumbrance): number {
+		return c.move(level);
+	});
 
-	Handlebars.registerHelper(
-		"getDodge",
-		function (c: CharacterGURPS, level: Encumbrance): number {
-			return c.dodge(level);
-		},
-	);
+	Handlebars.registerHelper("getDodge", function (c: CharacterGURPS, level: Encumbrance): number {
+		return c.dodge(level);
+	});
 
 	Handlebars.registerHelper("date", function (str: string): string {
 		const date = new Date(str);
 		const options: any = {
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-			hour: "numeric",
-			minute: "numeric",
+			dateStyle: "medium",
+			timeStyle: "short",
 		};
 		options.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-		return date.toLocaleString("en-US", options);
+		return date.toLocaleString("en-US", options).replace(" at", ",");
 	});
 
 	Handlebars.registerHelper("length", function (...args: any[]): number {
 		let length = 0;
 		for (const a of args) {
-			if (
-				(typeof a == "number" || typeof a == "string") &&
-				`${a}`.length > length
-			)
-				length = `${a}`.length;
+			if ((typeof a == "number" || typeof a == "string") && `${a}`.length > length) length = `${a}`.length;
 		}
 		return length;
 	});
 
 	Handlebars.registerHelper("print", function (a: any): any {
 		console.log(a);
-		return a;
+		return "";
 	});
 
 	Handlebars.registerHelper("format", function (a: string): string {
@@ -208,23 +191,17 @@ export function registerHandlebarsHelpers() {
 	// 	return "";
 	// });
 
-	Handlebars.registerHelper(
-		"in",
-		function (total: string, sub: string): boolean {
-			if (!total) total = "";
-			return total.includes(sub);
-		},
-	);
+	Handlebars.registerHelper("in", function (total: string, sub: string): boolean {
+		if (!total) total = "";
+		return total.includes(sub);
+	});
 
 	// may be temporary
 	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
 		return new DiceGURPS(d).stringExtra(false);
 	});
 
-	Handlebars.registerHelper(
-		"sort",
-		function (list: any[], key: string): any[] {
-			return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
-		},
-	);
+	Handlebars.registerHelper("sort", function (list: any[], key: string): any[] {
+		return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
+	});
 }

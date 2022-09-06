@@ -24,10 +24,7 @@ export abstract class CompendiumTab {
 	/** The path to the result list template of this tab */
 	abstract templatePath: string;
 
-	constructor(
-		browser: CompendiumBrowser,
-		tabName: Exclude<TabName, "settings">,
-	) {
+	constructor(browser: CompendiumBrowser, tabName: Exclude<TabName, "settings">) {
 		this.browser = browser;
 		this.tabName = tabName;
 	}
@@ -61,9 +58,7 @@ export abstract class CompendiumTab {
 	}
 
 	getIndexData(start: number): CompendiumIndexData[] {
-		const currentIndex = this.sortResult(
-			this.indexData.filter(this.filterIndexData.bind(this)),
-		);
+		const currentIndex = this.sortResult(this.indexData.filter(this.filterIndexData.bind(this)));
 		this.totalItemCount = currentIndex.length;
 		return currentIndex.slice(start, this.scrollLimit);
 	}
@@ -78,10 +73,7 @@ export abstract class CompendiumTab {
 				case "tags":
 					return entryA.tags.localeCompare(entryB.tags, lang);
 				case "reference":
-					return entryA.reference.localeCompare(
-						entryB.reference,
-						lang,
-					);
+					return entryA.reference.localeCompare(entryB.reference, lang);
 				default:
 					return 0;
 			}
@@ -90,8 +82,7 @@ export abstract class CompendiumTab {
 	}
 
 	async renderResults(start: number): Promise<HTMLLIElement[]> {
-		if (!this.templatePath)
-			throw Error(`Tab "${this.tabName}" has no valid template path.`);
+		if (!this.templatePath) throw Error(`Tab "${this.tabName}" has no valid template path.`);
 		const indexData = this.getIndexData(start);
 		const domParser = new DOMParser();
 		const liElements: HTMLLIElement[] = [];

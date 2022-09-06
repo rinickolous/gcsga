@@ -10,8 +10,10 @@
 				</label>
 			</div>
 			{{>sections/input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes
+			type="String"}}
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes
 			type="String"}}
 			{{>sections/textarea field="field" label="gurps.item.user_description" name="system.user_description"
 			data=system.user_description type="String"}}
@@ -30,7 +32,8 @@
 				{{>sections/input-text name="NUMBER.system.base_points" data=system.base_points type="String"}}
 				{{>sections/input-text label="gurps.item.points_per_level" name="NUMBER.system.points_per_level"
 				data=system.points_per_level type="String"}}
-				{{>sections/input-text label="gurps.item.levels" name="NUMBER.system.levels" data=system.levels type="String"
+				{{>sections/input-text label="gurps.item.levels" name="NUMBER.system.levels" data=system.levels
+				type="String"
 				class=(input_lock system.points_per_level)}}
 			</div>
 			<div class="label">{{localize "gurps.item.cr"}}</div>
@@ -53,7 +56,8 @@
 					{{/select}}
 				</select>
 			</div>
-			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
+			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
+			data=system.reference
 			type="String"}}
 		</div>
 		{{>item/sections/prerequisites}}
@@ -65,7 +69,7 @@
 			<div class="header tags">{{localize "gurps.item.tags"}}</div>
 			<div class="header reference"><i class="gcs-bookmark"></i></div>
 			{{#each (sort modifiers "sort")}}
-			{{>trait-mod}}
+			{{>item/sections/trait-mod}}
 			{{/each}}
 		</div>
 		{{>item/sections/melee}}

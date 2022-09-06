@@ -49,17 +49,8 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
-			points += this.actor.skillPointComparedBonusFor(
-				"skill.points",
-				this.name!,
-				"",
-				this.tags,
-				tooltip,
-			);
-			points += this.actor.bonusFor(
-				`skills.points/${this.name}`,
-				tooltip,
-			);
+			points += this.actor.skillPointComparedBonusFor("skill.points", this.name!, "", this.tags, tooltip);
+			points += this.actor.bonusFor(`skills.points/${this.name}`, tooltip);
 			points = Math.max(points, 0);
 		}
 		return points;
@@ -67,14 +58,8 @@ export class TechniqueGURPS extends BaseItemGURPS {
 
 	satisfied(tooltip: TooltipGURPS, prefix: string): boolean {
 		if (this.default.type != "skill") return true;
-		const sk = this.actor?.bestSkillNamed(
-			this.default.name ?? "",
-			this.default.specialization ?? "",
-			false,
-			null,
-		);
-		const satisfied =
-			(sk && (sk instanceof TechniqueGURPS || sk.points > 0)) || false;
+		const sk = this.actor?.bestSkillNamed(this.default.name ?? "", this.default.specialization ?? "", false, null);
+		const satisfied = (sk && (sk instanceof TechniqueGURPS || sk.points > 0)) || false;
 		if (!satisfied) {
 			tooltip.push(prefix);
 			if (!sk) tooltip.push(`gurps.prereqs.technique.skill`);
@@ -122,13 +107,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				const sk = this.actor.baseSkill(this.default!, true);
 				if (sk) level = sk.calculateLevel.level;
 			} else if (this.default) {
-				level =
-					this.default?.skillLevelFast(
-						this.actor,
-						true,
-						null,
-						false,
-					) - this.default?.modifier;
+				level = this.default?.skillLevelFast(this.actor, true, null, false) - this.default?.modifier;
 			}
 			if (level != -Infinity) {
 				const base_level = level;
@@ -136,17 +115,8 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				if (this.difficulty == "h") points -= 1;
 				if (points > 0) relative_level = points;
 				if (level != -Infinity) {
-					relative_level += this.actor.bonusFor(
-						"skill.name/" + this.name,
-						tooltip,
-					);
-					relative_level += this.actor.skillComparedBonusFor(
-						"skill.name*",
-						this.name ?? "",
-						this.specialization,
-						this.tags,
-						tooltip,
-					);
+					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
+					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", this.specialization, this.tags, tooltip);
 					level += relative_level;
 				}
 				if (!!this.limit) {

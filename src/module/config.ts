@@ -67,22 +67,12 @@ const GURPSCONFIG: any = {
 		},
 		allowedContents: {
 			trait: ["modifier", "modifier_container"],
-			trait_container: [
-				"modifier",
-				"modifier_container",
-				"trait",
-				"trait_container",
-			],
+			trait_container: ["modifier", "modifier_container", "trait", "trait_container"],
 			modifier_container: ["modifier", "modifier_container"],
 			skill_container: ["skill", "technique", "skill_container"],
 			spell_container: ["spell", "ritual_magic_spell", "spell_container"],
 			equipment: ["eqp_modifier", "eqp_modifier_container"],
-			equipment_container: [
-				"equipment",
-				"equipment_container",
-				"eqp_modifier",
-				"eqp_modifier_container",
-			],
+			equipment_container: ["equipment", "equipment_container", "eqp_modifier", "eqp_modifier_container"],
 			eqp_modifier_container: ["eqp_modifier", "eqp_modifier_container"],
 			note_container: ["note", "note_container"],
 		},
@@ -93,11 +83,7 @@ const GURPSCONFIG: any = {
 			technique: ["skill", "technique", "skill_container"],
 			skill_container: ["skill", "technique", "skill_container"],
 			spell: ["spell", "ritual_magic_spell", "spell_container"],
-			ritual_magic_spell: [
-				"spell",
-				"ritual_magic_spell",
-				"spell_container",
-			],
+			ritual_magic_spell: ["spell", "ritual_magic_spell", "spell_container"],
 			spell_container: ["spell", "ritual_magic_spell", "spell_container"],
 			equipment: ["equipment", "equipment_container"],
 			equipment_container: ["equipment", "equipment_container"],
@@ -112,20 +98,7 @@ const GURPSCONFIG: any = {
 			character: BaseActorGURPS,
 		},
 		allowedContents: {
-			character: [
-				"trait",
-				"trait_container",
-				"skill",
-				"technique",
-				"skill_container",
-				"spell",
-				"ritual_magic_spell",
-				"spell_container",
-				"equipment",
-				"equipment_container",
-				"note",
-				"note_container",
-			],
+			character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
 		},
 	},
 	Feature: {
@@ -174,10 +147,8 @@ const GURPSCONFIG: any = {
 			reaction_penalty: "gurps.select.cr_adj.reaction_penalty",
 			fright_check_penalty: "gurps.select.cr_adj.fright_check_penalty",
 			fright_check_bonus: "gurps.select.cr_adj.fright_check_bonus",
-			minor_cost_of_living_increase:
-				"gurps.select.cr_adj.minor_cost_of_living_increase",
-			major_cost_of_living_increase:
-				"gurps.select.cr_adj.major_cost_of_living_increase",
+			minor_cost_of_living_increase: "gurps.select.cr_adj.minor_cost_of_living_increase",
+			major_cost_of_living_increase: "gurps.select.cr_adj.major_cost_of_living_increase",
 		},
 		number_compare: {
 			none: "gurps.select.number_compare.none",
@@ -198,8 +169,7 @@ const GURPSCONFIG: any = {
 			contains: "gurps.select.string_compare.contains",
 			does_not_contain: "gurps.select.string_compare.does_not_contain",
 			starts_with: "gurps.select.string_compare.starts_with",
-			does_not_start_with:
-				"gurps.select.string_compare.does_not_start_with",
+			does_not_start_with: "gurps.select.string_compare.does_not_start_with",
 			ends_with: "gurps.select.string_compare.ends_with",
 			does_not_end_with: "gurps.select.string_compare.does_not_end_with",
 		},
@@ -210,10 +180,8 @@ const GURPSCONFIG: any = {
 		prereqs: {
 			trait_prereq: "gurps.select.prereqs.trait_prereq",
 			attribute_prereq: "gurps.select.prereqs.attribute_prereq",
-			contained_quantity_prereq:
-				"gurps.select.prereqs.contained_quantity_prereq",
-			contained_weight_prereq:
-				"gurps.select.prereqs.contained_weight_prereq",
+			contained_quantity_prereq: "gurps.select.prereqs.contained_quantity_prereq",
+			contained_weight_prereq: "gurps.select.prereqs.contained_weight_prereq",
 			skill_prereq: "gurps.select.prereqs.skill_prereq",
 			spell_prereq: "gurps.select.prereqs.spell_prereq",
 		},
@@ -237,8 +205,7 @@ const GURPSCONFIG: any = {
 			cost_reduction: "gurps.select.features.cost_reduction",
 		},
 		features_eqc: {
-			contained_weight_reduction:
-				"gurps.select.features.contained_weight_reduction",
+			contained_weight_reduction: "gurps.select.features.contained_weight_reduction",
 		},
 		st_limitation: {
 			none: "gurps.select.st_limitation.none",
@@ -247,17 +214,13 @@ const GURPSCONFIG: any = {
 			throwing_only: "gurps.select.st_limitation.throwing_only",
 		},
 		skill_bonus_selection_type: {
-			skills_with_name:
-				"gurps.select.skill_bonus_selection_type.skills_with_name",
-			weapons_with_name:
-				"gurps.select.skill_bonus_selection_type.weapons_with_name",
+			skills_with_name: "gurps.select.skill_bonus_selection_type.skills_with_name",
+			weapons_with_name: "gurps.select.skill_bonus_selection_type.weapons_with_name",
 			this_weapon: "gurps.select.skill_bonus_selection_type.this_weapon",
 		},
 		weapon_bonus_selection_type: {
-			weapons_with_required_skill:
-				"gurps.select.weapon_bonus_selection_type.weapons_with_required_skill",
-			weapons_with_name:
-				"gurps.select.weapon_bonus_selection_type.weapons_with_name",
+			weapons_with_required_skill: "gurps.select.weapon_bonus_selection_type.weapons_with_required_skill",
+			weapons_with_name: "gurps.select.weapon_bonus_selection_type.weapons_with_name",
 			this_weapon: "gurps.select.weapon_bonus_selection_type.this_weapon",
 		},
 		spell_match: {
@@ -295,8 +258,7 @@ const GURPSCONFIG: any = {
 			group: "gurps.select.container_type.group",
 			meta_trait: "gurps.select.container_type.meta_trait",
 			race: "gurps.select.container_type.race",
-			alternative_abilities:
-				"gurps.select.container_type.alternative_abilities",
+			alternative_abilities: "gurps.select.container_type.alternative_abilities",
 		},
 		difficulty: {
 			e: "gurps.select.difficulty.easy",
@@ -306,8 +268,7 @@ const GURPSCONFIG: any = {
 			w: "gurps.select.difficulty.wildcard",
 		},
 		trait_mod_cost_type: {
-			percentage_leveled:
-				"gurps.select.trait_mod_cost_type.percentage_leveled",
+			percentage_leveled: "gurps.select.trait_mod_cost_type.percentage_leveled",
 			percentage: "gurps.select.trait_mod_cost_type.percentage",
 			points: "gurps.select.trait_mod_cost_type.points",
 			multiplier: "gurps.select.trait_mod_cost_type.multiplier",
@@ -320,16 +281,13 @@ const GURPSCONFIG: any = {
 		eqp_mod_cost_type: {
 			to_original_cost: "gurps.select.eqp_mod_cost_type.to_original_cost",
 			to_base_cost: "gurps.select.eqp_mod_cost_type.to_base_cost",
-			to_final_base_cost:
-				"gurps.select.eqp_mod_cost_type.to_final_base_cost",
+			to_final_base_cost: "gurps.select.eqp_mod_cost_type.to_final_base_cost",
 			to_final_cost: "gurps.select.eqp_mod_cost_type.to_final_cost",
 		},
 		eqp_mod_weight_type: {
-			to_original_weight:
-				"gurps.select.eqp_mod_weight_type.to_original_weight",
+			to_original_weight: "gurps.select.eqp_mod_weight_type.to_original_weight",
 			to_base_weight: "gurps.select.eqp_mod_weight_type.to_base_weight",
-			to_final_base_weight:
-				"gurps.select.eqp_mod_weight_type.to_final_base_weight",
+			to_final_base_weight: "gurps.select.eqp_mod_weight_type.to_final_base_weight",
 			to_final_weight: "gurps.select.eqp_mod_weight_type.to_final_weight",
 		},
 	},

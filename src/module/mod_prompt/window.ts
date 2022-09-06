@@ -25,10 +25,7 @@ export class ModifierWindow extends Application {
 		});
 	}
 
-	async render(
-		force?: boolean | undefined,
-		options?: Application.RenderOptions<ApplicationOptions> | undefined,
-	) {
+	async render(force?: boolean | undefined, options?: Application.RenderOptions<ApplicationOptions> | undefined) {
 		this.button.showing = true;
 		await super.render(force, options);
 		this.list.render(force, options);
@@ -43,9 +40,7 @@ export class ModifierWindow extends Application {
 		return super.close(options);
 	}
 
-	getData(
-		options?: Partial<ApplicationOptions> | undefined,
-	): object | Promise<object> {
+	getData(options?: Partial<ApplicationOptions> | undefined): object | Promise<object> {
 		const user = (game as Game).user;
 		let modStack = user?.getFlag(SYSTEM_NAME, "modifierStack") ?? [];
 
@@ -82,9 +77,7 @@ export class ModifierWindow extends Application {
 		searchbar.on("keydown", event => this._keyDown(event));
 
 		// Modifier Deleting
-		html.find(".click-delete").on("click", event =>
-			this.removeModifier(event),
-		);
+		html.find(".click-delete").on("click", event => this.removeModifier(event));
 	}
 
 	_updateQuery(event: JQuery.TriggeredEvent, html: JQuery<HTMLElement>) {
@@ -118,13 +111,11 @@ export class ModifierWindow extends Application {
 				case "ArrowUp":
 					if (this.list.mods.length == 0) return this.getPinnedMods();
 					this.list.selection += 1;
-					if (this.list.selection >= this.list.mods.length)
-						this.list.selection = 0;
+					if (this.list.selection >= this.list.mods.length) this.list.selection = 0;
 					return this.list.render();
 				case "ArrowDown":
 					this.list.selection -= 1;
-					if (this.list.selection < 0)
-						this.list.selection = this.list.mods.length - 1;
+					if (this.list.selection < 0) this.list.selection = this.list.mods.length - 1;
 					return this.list.render();
 				case "Enter":
 					if (event.shiftKey) return this.togglePin();
@@ -136,11 +127,7 @@ export class ModifierWindow extends Application {
 	}
 
 	togglePin() {
-		const pinnedMods: RollModifier[] =
-			((game as Game).user?.getFlag(
-				SYSTEM_NAME,
-				"pinnedMods",
-			) as RollModifier[]) ?? [];
+		const pinnedMods: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
 		const selectedMod: RollModifier = this.list.mods[this.list.selection];
 		const matchingMod = pinnedMods.find(e => e.name == selectedMod.name);
 		if (matchingMod) {
@@ -153,11 +140,7 @@ export class ModifierWindow extends Application {
 	}
 
 	getPinnedMods() {
-		const pinnedMods: RollModifier[] =
-			((game as Game).user?.getFlag(
-				SYSTEM_NAME,
-				"pinnedMods",
-			) as RollModifier[]) ?? [];
+		const pinnedMods: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
 		this.list.mods = pinnedMods;
 		this.list.render();
 	}
@@ -178,11 +161,7 @@ export class ModifierWindow extends Application {
 	}
 
 	addModifier(mod: RollModifier) {
-		const modList: RollModifier[] =
-			((game as Game).user?.getFlag(
-				SYSTEM_NAME,
-				"modifierStack",
-			) as RollModifier[]) ?? [];
+		const modList: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
 		const oldMod = modList.find(e => e.name == mod.name);
 		if (oldMod) oldMod.modifier += mod.modifier;
 		else modList.push(mod);
@@ -197,11 +176,7 @@ export class ModifierWindow extends Application {
 
 	removeModifier(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		const modList: RollModifier[] =
-			((game as Game).user?.getFlag(
-				SYSTEM_NAME,
-				"modifierStack",
-			) as RollModifier[]) ?? [];
+		const modList: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
 		const index = $(event.currentTarget).data("index");
 		modList.splice(index, 1);
 		(game as Game).user?.setFlag(SYSTEM_NAME, "modifierStack", modList);

@@ -10,9 +10,7 @@ export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
 
 // export class SkillData extends BaseItemDataGURPS<SkillGURPS> {}
 
-export interface SkillData
-	extends Omit<SkillSource, "effects">,
-		SkillSystemData {
+export interface SkillData extends Omit<SkillSource, "effects">, SkillSystemData {
 	readonly type: SkillSource["type"];
 	data: SkillSystemData;
 
@@ -42,17 +40,7 @@ export interface SkillSystemData extends ItemSystemData {
 	// };
 }
 
-export type EncumbrancePenaltyMultiplier =
-	| 0
-	| 1
-	| 2
-	| 3
-	| 4
-	| 5
-	| 6
-	| 7
-	| 8
-	| 9;
+export type EncumbrancePenaltyMultiplier = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export interface SkillLevel {
 	level: number;

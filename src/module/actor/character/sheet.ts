@@ -43,15 +43,10 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		super._onDrop(event);
 	}
 
-	protected async _updateObject(
-		event: Event,
-		formData: Record<string, unknown>,
-	): Promise<unknown> {
+	protected async _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown> {
 		// Edit total points when unspent points are edited
 		if (Object.keys(formData).includes("actor.unspentPoints")) {
-			formData["system.total_points"] =
-				(formData["actor.unspentPoints"] as number) +
-				this.actor.spentPoints;
+			formData["system.total_points"] = (formData["actor.unspentPoints"] as number) + this.actor.spentPoints;
 			delete formData["actor.unspentPoints"];
 		}
 		return super._updateObject(event, formData);
@@ -60,29 +55,17 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	override activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
 		html.find(".input").on("change", event => this._resizeInput(event));
-		html.find(".dropdown-toggle").on("click", event =>
-			this._onCollapseToggle(event),
-		);
+		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
 		html.find(".reference").on("click", event => this._handlePDF(event));
 		html.find(".item").on("dblclick", event => this._openItemSheet(event));
-		html.find(".equipped").on("click", event =>
-			this._onEquippedToggle(event),
-		);
-		html.find(".rollable").on("mouseover", event =>
-			this._onRollableHover(event, true),
-		);
-		html.find(".rollable").on("mouseout", event =>
-			this._onRollableHover(event, false),
-		);
+		html.find(".equipped").on("click", event => this._onEquippedToggle(event));
+		html.find(".rollable").on("mouseover", event => this._onRollableHover(event, true));
+		html.find(".rollable").on("mouseout", event => this._onRollableHover(event, false));
 		html.find(".rollable").on("click", event => this._onClickRoll(event));
 
 		// Hover Over
-		html.find(".item").on("dragleave", event =>
-			this._onItemDragLeave(event),
-		);
-		html.find(".item").on("dragenter", event =>
-			this._onItemDragEnter(event),
-		);
+		html.find(".item").on("dragleave", event => this._onItemDragLeave(event));
+		html.find(".item").on("dragenter", event => this._onItemDragEnter(event));
 	}
 
 	protected _resizeInput(event: JQuery.ChangeEvent) {
@@ -94,11 +77,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
 		event.preventDefault();
 		const id: string = $(event.currentTarget).data("item-id");
-		const open: boolean = $(event.currentTarget)
-			.attr("class")
-			?.includes("closed")
-			? true
-			: false;
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
 		const item = this.actor.deepItems.get(id);
 		item?.update({ _id: id, "system.open": open });
 	}
@@ -125,10 +104,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		});
 	}
 
-	protected async _onRollableHover(
-		event: JQuery.MouseOverEvent | JQuery.MouseOutEvent,
-		hover: boolean,
-	) {
+	protected async _onRollableHover(event: JQuery.MouseOverEvent | JQuery.MouseOutEvent, hover: boolean) {
 		event.preventDefault();
 		if (this.actor.editing) {
 			event.currentTarget.classList.remove("hover");
@@ -143,23 +119,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		if (this.actor.editing) return;
 		const type: RollType = $(event.currentTarget).data("type");
 		const data: { [key: string]: any } = { type: type };
-		if (
-			[
-				RollType.Damage,
-				RollType.Attack,
-				RollType.Skill,
-				RollType.SkillRelative,
-				RollType.Spell,
-				RollType.SpellRelative,
-			].includes(type)
-		)
-			data.item = this.actor.deepItems.get(
-				$(event.currentTarget).data("item-id"),
-			);
-		if ([RollType.Damage, RollType.Attack].includes(type))
-			data.weapon = data.item.weapons.get(
-				$(event.currentTarget).data("attack-id"),
-			);
+		if ([RollType.Damage, RollType.Attack, RollType.Skill, RollType.SkillRelative, RollType.Spell, RollType.SpellRelative].includes(type)) data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
+		if ([RollType.Damage, RollType.Attack].includes(type)) data.weapon = data.item.weapons.get($(event.currentTarget).data("attack-id"));
 		if (type == RollType.Modifier) {
 			data.modifier = $(event.currentTarget).data("modifier");
 			data.comment = $(event.currentTarget).data("comment");
@@ -171,9 +132,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		$(".drop-over").removeClass("drop-over");
 		const item = $(event.currentTarget).closest(".item.desc");
-		const selection = Array.prototype.slice.call(
-			item.nextUntil(".item.desc"),
-		);
+		const selection = Array.prototype.slice.call(item.nextUntil(".item.desc"));
 		selection.unshift(item);
 		for (const e of selection) $(e).addClass("drop-over");
 	}
@@ -190,8 +149,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				//@ts-ignore
 				.sort((a: Item, b: Item) => (a.sort ?? 0) - (b.sort ?? 0)),
 		);
-		const [primary_attributes, secondary_attributes, point_pools] =
-			this.prepareAttributes(this.actor.attributes);
+		const [primary_attributes, secondary_attributes, point_pools] = this.prepareAttributes(this.actor.attributes);
 		const encumbrance = this.prepareEncumbrance();
 		const lifts = this.prepareLifts();
 		const sheetData = {
@@ -213,27 +171,23 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		return sheetData;
 	}
 
-	prepareAttributes(
-		attributes: Map<string, Attribute>,
-	): [Attribute[], Attribute[], Attribute[]] {
+	prepareAttributes(attributes: Map<string, Attribute>): [Attribute[], Attribute[], Attribute[]] {
 		const primary_attributes: Attribute[] = [];
 		const secondary_attributes: Attribute[] = [];
 		const point_pools: Attribute[] = [];
-		if (attributes) {
-			for (const a of Object.values(attributes)) {
+		if (attributes)
+			attributes.forEach(a => {
 				if (a.attribute_def?.type.includes("pool")) point_pools.push(a);
 				else if (a.attribute_def?.isPrimary) primary_attributes.push(a);
 				else secondary_attributes.push(a);
-			}
-		}
+			});
 		return [primary_attributes, secondary_attributes, point_pools];
 	}
 
 	prepareEncumbrance() {
 		const encumbrance = [...this.actor.allEncumbrance];
 		for (const e of encumbrance) {
-			if (e.level == this.actor.encumbranceLevel().level)
-				(e as any).active = true;
+			if (e.level == this.actor.encumbranceLevel().level) (e as any).active = true;
 		}
 		return encumbrance;
 	}
@@ -252,41 +206,19 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 	}
 
 	prepareItems(data: any) {
-		const [traits, skills, spells, equipment, other_equipment, notes] =
-			data.items.reduce(
-				(arr: ItemGURPS[][], item: ItemGURPS) => {
-					if (
-						item instanceof TraitGURPS ||
-						item instanceof TraitContainerGURPS
-					)
-						arr[0].push(item);
-					else if (
-						item instanceof SkillGURPS ||
-						item instanceof TechniqueGURPS ||
-						item instanceof SkillContainerGURPS
-					)
-						arr[1].push(item);
-					else if (
-						item instanceof SpellGURPS ||
-						item instanceof RitualMagicSpellGURPS ||
-						item instanceof SpellContainerGURPS
-					)
-						arr[2].push(item);
-					else if (
-						item instanceof EquipmentGURPS ||
-						item instanceof EquipmentContainerGURPS
-					) {
-						if (item.other) arr[4].push(item);
-						else arr[3].push(item);
-					} else if (
-						item instanceof NoteGURPS ||
-						item instanceof NoteContainerGURPS
-					)
-						arr[5].push(item);
-					return arr;
-				},
-				[[], [], [], [], [], []],
-			);
+		const [traits, skills, spells, equipment, other_equipment, notes] = data.items.reduce(
+			(arr: ItemGURPS[][], item: ItemGURPS) => {
+				if (item instanceof TraitGURPS || item instanceof TraitContainerGURPS) arr[0].push(item);
+				else if (item instanceof SkillGURPS || item instanceof TechniqueGURPS || item instanceof SkillContainerGURPS) arr[1].push(item);
+				else if (item instanceof SpellGURPS || item instanceof RitualMagicSpellGURPS || item instanceof SpellContainerGURPS) arr[2].push(item);
+				else if (item instanceof EquipmentGURPS || item instanceof EquipmentContainerGURPS) {
+					if (item.other) arr[4].push(item);
+					else arr[3].push(item);
+				} else if (item instanceof NoteGURPS || item instanceof NoteContainerGURPS) arr[5].push(item);
+				return arr;
+			},
+			[[], [], [], [], [], []],
+		);
 
 		const melee: MeleeWeapon[] = this.actor.meleeWeapons;
 		const ranged: RangedWeapon[] = this.actor.rangedWeapons;
@@ -382,10 +314,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		event.preventDefault();
 		new CharacterSheetConfig(this.document as CharacterGURPS, {
 			top: this.position.top! + 40,
-			left:
-				this.position.left! +
-				(this.position.width! - DocumentSheet.defaultOptions.width!) /
-					2,
+			left: this.position.left! + (this.position.width! - DocumentSheet.defaultOptions.width!) / 2,
 		}).render(true);
 	}
 }

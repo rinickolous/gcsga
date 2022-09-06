@@ -37,14 +37,12 @@ export class ModifierList extends Application {
 		html.css("top", `${parentTop - height}px`);
 		parent.css("width", html.css("width"));
 
-		html.find(".entry").on("mouseover", event =>
-			this._onEntryMouseOver(event),
-		);
+		html.find(".entry").on("mouseenter", event => this._onEntryMouseEnter(event));
 		html.find(".entry").on("click", event => this._onEntryClick(event));
-		// html.css("width", `${parentWidth}px`);
 	}
 
-	_onEntryMouseOver(event: JQuery.MouseOverEvent) {
+	_onEntryMouseEnter(event: JQuery.MouseEnterEvent) {
+		if (this.selection == $(event.currentTarget).data("index")) return;
 		event.preventDefault();
 		event.stopPropagation();
 		this.selection = $(event.currentTarget).data("index");
@@ -53,29 +51,20 @@ export class ModifierList extends Application {
 
 	_onEntryClick(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		console.log("click");
+		if (event.shiftKey) return this.window.togglePin();
 		return this.window.addModFromList();
 	}
 
-	getData(
-		options?: Partial<ApplicationOptions> | undefined,
-	): object | Promise<object> {
+	getData(options?: Partial<ApplicationOptions> | undefined): object | Promise<object> {
 		if (this.customMod && !this.mods.includes(this.customMod)) {
 			this.mods.unshift(this.customMod);
 			this.selection = 0;
 		}
 
 		const mods: any[] = this.mods;
-		const pinnedMods: any[] =
-			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ??
-			[];
+		const pinnedMods: any[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
 		for (const m of mods) {
-			if (
-				pinnedMods.find(
-					e => e.name == m.name && e.modifier && m.modifier,
-				)
-			)
-				m.pinned = true;
+			if (pinnedMods.find(e => e.name == m.name && e.modifier && m.modifier)) m.pinned = true;
 			else m.pinned = false;
 		}
 

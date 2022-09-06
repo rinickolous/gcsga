@@ -55,3 +55,4 @@
 - Calculate hit location table on prepareData
 - Different attribute based skill rolls 
 - automatically pop out effect mod window when choosing maneuver / posture / effect
+- "disabled" input fields should not have blank text, such as in case of locked compendium

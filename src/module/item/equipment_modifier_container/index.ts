@@ -8,12 +8,8 @@ export class EquipmentModifierContainerGURPS extends ContainerGURPS {
 	// }
 
 	// Embedded Items
-	get children(): Collection<
-		EquipmentModifierGURPS | EquipmentModifierContainerGURPS
-	> {
-		return super.children as Collection<
-			EquipmentModifierGURPS | EquipmentModifierContainerGURPS
-		>;
+	get children(): Collection<EquipmentModifierGURPS | EquipmentModifierContainerGURPS> {
+		return super.children as Collection<EquipmentModifierGURPS | EquipmentModifierContainerGURPS>;
 	}
 }
 

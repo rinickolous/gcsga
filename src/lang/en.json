@@ -474,7 +474,8 @@
 			"eqp_modifier": "Equipment Modifiers",
 			"note": "Notes",
 			"search": "Search",
-			"tags": "Tags"
+			"tags": "Tags",
+			"settings": "Settings"
 		},
 		"system": {
 			"sheet": {
@@ -502,6 +503,7 @@
 				"active_title": "Active Modifiers",
 				"pin_prompt": "Press Up for Pinned Modifiers",
 				"make_pin_prompt": "<b>Tip:</b>&nbsp;Press Shift+Enter to Pin Modifiers",
+				"browse": "Browse All",
 				"pinned_category": "Pinned"
 			},
 			"library_import": {

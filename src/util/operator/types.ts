@@ -25,16 +25,8 @@ export class Operator {
 
 	match(expression: string, start: number, max: number): boolean {
 		if (max - start < this.symbol.length) return false;
-		const matches =
-			this.symbol ==
-			expression.substring(start, start + this.symbol.length);
-		if (
-			matches &&
-			this.symbol.length == 1 &&
-			this.symbol == "-" &&
-			start > 1 &&
-			expression.substring(start - 1, start) == "e"
-		) {
+		const matches = this.symbol == expression.substring(start, start + this.symbol.length);
+		if (matches && this.symbol.length == 1 && this.symbol == "-" && start > 1 && expression.substring(start - 1, start) == "e") {
 			const ch = expression.split("")[start - 2];
 			if (!isNaN(parseFloat(ch))) return false;
 		}

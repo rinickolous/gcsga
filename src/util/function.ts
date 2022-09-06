@@ -168,8 +168,7 @@ function nextArg(args: string): [string, string] {
 		const ch = args[i];
 		if (ch == "(") parens++;
 		else if (ch == ")") parens--;
-		else if (ch == "," && parens == 0)
-			return [args.substring(0, i), args.substring(i + 1)];
+		else if (ch == "," && parens == 0) return [args.substring(0, i), args.substring(i + 1)];
 	}
 	return [args, ""];
 }

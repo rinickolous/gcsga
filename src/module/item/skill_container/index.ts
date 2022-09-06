@@ -9,12 +9,8 @@ export class SkillContainerGURPS extends ContainerGURPS {
 	// }
 
 	// Embedded Items
-	get children(): Collection<
-		SkillGURPS | TechniqueGURPS | SkillContainerGURPS
-	> {
-		return super.children as Collection<
-			SkillGURPS | TechniqueGURPS | SkillContainerGURPS
-		>;
+	get children(): Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS> {
+		return super.children as Collection<SkillGURPS | TechniqueGURPS | SkillContainerGURPS>;
 	}
 }
 

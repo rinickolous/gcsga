@@ -12,8 +12,7 @@ class DiceGURPS {
 		this.modifier = 0;
 		this.multiplier = 0;
 		if (data) {
-			if (typeof data == "string")
-				Object.assign(this, this.fromString(data));
+			if (typeof data == "string") Object.assign(this, this.fromString(data));
 			else Object.assign(this, data);
 			this.sides = Math.floor(this.sides);
 			this.count = Math.floor(this.count);
@@ -84,15 +83,12 @@ class DiceGURPS {
 	}
 
 	stringExtra(extraDiceFromModifiers: boolean): string {
-		let [count, modifier] = this.adjustedCountAndModifier(
-			extraDiceFromModifiers,
-		);
+		let [count, modifier] = this.adjustedCountAndModifier(extraDiceFromModifiers);
 		let buffer = "";
 		if (count > 0) {
 			if (GURPSFormat || count > 1) buffer += count.toString();
 			buffer += "d";
-			if (!GURPSFormat || this.sides != 6)
-				buffer += this.sides.toString();
+			if (!GURPSFormat || this.sides != 6) buffer += this.sides.toString();
 		}
 		if (modifier > 0) {
 			if (count != 0 && this.sides != 0) buffer += "+";
@@ -109,9 +105,7 @@ class DiceGURPS {
 		if (this.multiplier! < 1) this.multiplier = 1;
 	}
 
-	adjustedCountAndModifier(
-		applyExtractDiceFromModifiers: boolean,
-	): [number, number] {
+	adjustedCountAndModifier(applyExtractDiceFromModifiers: boolean): [number, number] {
 		let [count, modifier] = [0, 0];
 		this.normalize();
 		if (this.sides == 0) return [this.count, this.modifier];

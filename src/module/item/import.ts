@@ -52,10 +52,7 @@ export class ItemImporter {
 			new Dialog(
 				{
 					title: i18n("gurps.system.library_import.title"),
-					content: await renderTemplate(
-						`systems/${SYSTEM_NAME}/templates/library-import.hbs`,
-						{},
-					),
+					content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/library-import.hbs`, {}),
 					buttons: {
 						import: {
 							icon: '<i class="fas fa-file-import"></i>',
@@ -64,10 +61,7 @@ export class ItemImporter {
 							callback: (html: JQuery<HTMLElement>) => {
 								const form = html.find("form")[0];
 								const files = form.data.files;
-								if (!files.length)
-									return ui.notifications?.error(
-										i18n("gurps.error.import.no_file"),
-									);
+								if (!files.length) return ui.notifications?.error(i18n("gurps.error.import.no_file"));
 								else {
 									const file = files[0];
 									readTextFromFile(file).then(text =>
@@ -117,14 +111,8 @@ export class ItemImporter {
 
 		let commit: ItemLibraryData | any = {};
 		try {
-			if (r.version < this.version)
-				return this.throwImportError(
-					errorMessages.concat(i18n("gurps.error.import.format_old")),
-				);
-			if (r.version > this.version)
-				return this.throwImportError(
-					errorMessages.concat(i18n("gurps.error.import.format_new")),
-				);
+			if (r.version < this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_old")));
+			if (r.version > this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_new")));
 
 			commit = { ...commit, ...{ type: r.type } };
 			commit = { ...commit, ...{ version: r.version } };
@@ -146,9 +134,7 @@ export class ItemImporter {
 					private: true,
 				});
 			}
-			ui.notifications?.info(
-				"Importing Library. This will take a few seconds.",
-			);
+			ui.notifications?.info("Importing Library. This will take a few seconds.");
 			let counter = 0;
 			for (const i of items) {
 				counter++;
@@ -167,18 +153,13 @@ export class ItemImporter {
 		}
 	}
 
-	importItems(
-		list: Array<ItemSystemDataGURPS>,
-		context?: { container?: boolean; other?: boolean },
-	): Array<any> {
+	importItems(list: Array<ItemSystemDataGURPS>, context?: { container?: boolean; other?: boolean }): Array<any> {
 		if (!list) return [];
 		const items: Array<any> = [];
 		for (const item of list) {
-			item.name =
-				item.name ?? (item as any).description ?? (item as any).text;
+			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] =
-				this.getItemData(item, context);
+			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
 			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,
@@ -202,28 +183,17 @@ export class ItemImporter {
 		return items;
 	}
 
-	getItemData(
-		item: ItemSystemDataGURPS,
-		context?: { container?: boolean; other?: boolean },
-	): [ItemSystemDataGURPS, ItemFlagsGURPS] {
+	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, ItemFlagsGURPS] {
 		let data: ItemSystemDataGURPS;
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
 		switch (item.type) {
 			case "trait":
 				data = this.getTraitData(item as TraitSystemData);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).modifiers,
-					{ container: true },
-				);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).modifiers, { container: true });
 				return [data, flags];
 			case "trait_container":
-				data = this.getTraitContainerData(
-					item as TraitContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getTraitContainerData(item as TraitContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				flags[SYSTEM_NAME]!.contentsData!.concat(
 					this.importItems((item as any).modifiers, {
 						container: true,
@@ -231,75 +201,37 @@ export class ItemImporter {
 				);
 				return [data, flags];
 			case "modifier":
-				return [
-					this.getTraitModifierData(item as TraitModifierSystemData),
-					flags,
-				];
+				return [this.getTraitModifierData(item as TraitModifierSystemData), flags];
 			case "modifier_container":
-				data = this.getTraitModifierContainerData(
-					item as TraitModifierContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getTraitModifierContainerData(item as TraitModifierContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				return [data, flags];
 			case "skill":
 				return [this.getSkillData(item as SkillSystemData), flags];
 			case "technique":
-				return [
-					this.getTechniqueData(item as TechniqueSystemData),
-					flags,
-				];
+				return [this.getTechniqueData(item as TechniqueSystemData), flags];
 			case "skill_container":
-				data = this.getSkillContainerData(
-					item as SkillContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getSkillContainerData(item as SkillContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				return [data, flags];
 			case "spell":
 				return [this.getSpellData(item as SpellSystemData), flags];
 			case "ritual_magic_spell":
-				return [
-					this.getRitualMagicSpellData(
-						item as RitualMagicSpellSystemData,
-					),
-					flags,
-				];
+				return [this.getRitualMagicSpellData(item as RitualMagicSpellSystemData), flags];
 			case "spell_container":
-				data = this.getSpellContainerData(
-					item as SpellContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getSpellContainerData(item as SpellContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				return [data, flags];
 			case "equipment":
-				data = this.getEquipmentData(
-					item as EquipmentSystemData,
-					context?.other,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).modifiers,
-					{ container: true },
-				);
+				data = this.getEquipmentData(item as EquipmentSystemData, context?.other);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).modifiers, { container: true });
 				return [data, flags];
 			case "equipment_container":
-				data = this.getEquipmentContainerData(
-					item as EquipmentContainerSystemData,
-					context?.other,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{
-						container: true,
-						other: context?.other,
-					},
-				);
+				data = this.getEquipmentContainerData(item as EquipmentContainerSystemData, context?.other);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, {
+					container: true,
+					other: context?.other,
+				});
 				flags[SYSTEM_NAME]!.contentsData!.concat(
 					this.importItems((item as any).modifiers, {
 						container: true,
@@ -308,31 +240,16 @@ export class ItemImporter {
 				);
 				return [data, flags];
 			case "eqp_modifier":
-				return [
-					this.getEquipmentModifierData(
-						item as EquipmentModifierSystemData,
-					),
-					flags,
-				];
+				return [this.getEquipmentModifierData(item as EquipmentModifierSystemData), flags];
 			case "eqp_modifier_container":
-				data = this.getEquipmentModifierContainerData(
-					item as EquipmentModifierContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getEquipmentModifierContainerData(item as EquipmentModifierContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				return [data, flags];
 			case "note":
 				return [this.getNoteData(item as NoteSystemData), flags];
 			case "note_container":
-				data = this.getNoteContainerData(
-					item as NoteContainerSystemData,
-				);
-				flags[SYSTEM_NAME]!.contentsData = this.importItems(
-					(item as any).children,
-					{ container: true },
-				);
+				data = this.getNoteContainerData(item as NoteContainerSystemData);
+				flags[SYSTEM_NAME]!.contentsData = this.importItems((item as any).children, { container: true });
 				return [data, flags];
 		}
 	}
@@ -345,9 +262,7 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			round_down: data.round_down ?? false,
 			disabled: data.disabled ?? false,
 			levels: data.levels ?? 0,
@@ -360,9 +275,7 @@ export class ItemImporter {
 		};
 	}
 
-	getTraitContainerData(
-		data: TraitContainerSystemData,
-	): TraitContainerSystemData {
+	getTraitContainerData(data: TraitContainerSystemData): TraitContainerSystemData {
 		return {
 			name: data.name ?? "Trait Container",
 			type: data.type ?? "trait_container",
@@ -378,9 +291,7 @@ export class ItemImporter {
 		};
 	}
 
-	getTraitModifierData(
-		data: TraitModifierSystemData,
-	): TraitModifierSystemData {
+	getTraitModifierData(data: TraitModifierSystemData): TraitModifierSystemData {
 		return {
 			name: data.name ?? "Trait Modifier",
 			type: data.type ?? "modifier",
@@ -397,9 +308,7 @@ export class ItemImporter {
 		};
 	}
 
-	getTraitModifierContainerData(
-		data: TraitModifierContainerSystemData,
-	): TraitModifierContainerSystemData {
+	getTraitModifierContainerData(data: TraitModifierContainerSystemData): TraitModifierContainerSystemData {
 		return {
 			name: data.name ?? "Trait Modifier Container",
 			type: data.type ?? "modifier_container",
@@ -419,15 +328,12 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			points: data.points ?? 1,
 			specialization: data.specialization ?? "",
 			tech_level: data.tech_level ?? "",
 			tech_level_required: !!data.tech_level ? true : false,
-			encumbrance_penalty_multiplier:
-				data.encumbrance_penalty_multiplier ?? 0,
+			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
 			defaults: data.defaults ? this.importDefaults(data.defaults) : [],
 			features: data.features ? this.importFeatures(data.features) : [],
@@ -443,28 +349,21 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			points: data.points ?? 1,
 			limit: data.limit ?? 0,
 			limited: !!data.limit ?? false,
 			tech_level: data.tech_level ?? "",
-			encumbrance_penalty_multiplier:
-				data.encumbrance_penalty_multiplier ?? 0,
+			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
-			default: data.default
-				? new SkillDefault(data.default)
-				: new SkillDefault(),
+			default: data.default ? new SkillDefault(data.default) : new SkillDefault(),
 			defaults: data.defaults ? this.importDefaults(data.defaults) : [],
 			features: data.features ? this.importFeatures(data.features) : [],
 			weapons: data.weapons ? this.importWeapons(data.weapons) : [],
 		};
 	}
 
-	getSkillContainerData(
-		data: SkillContainerSystemData,
-	): SkillContainerSystemData {
+	getSkillContainerData(data: SkillContainerSystemData): SkillContainerSystemData {
 		return {
 			name: data.name ?? "Skill Container",
 			type: data.type ?? "skill_container",
@@ -484,9 +383,7 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			points: data.points ?? 1,
 			tech_level: data.tech_level ?? "",
 			difficulty: data.difficulty ?? "dx/a",
@@ -502,9 +399,7 @@ export class ItemImporter {
 		};
 	}
 
-	getRitualMagicSpellData(
-		data: RitualMagicSpellSystemData,
-	): RitualMagicSpellSystemData {
+	getRitualMagicSpellData(data: RitualMagicSpellSystemData): RitualMagicSpellSystemData {
 		return {
 			name: data.name ?? "Spell",
 			type: data.type ?? "ritual_magic_spell",
@@ -512,9 +407,7 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			points: data.points ?? 1,
 			tech_level: data.tech_level ?? "",
 			difficulty: data.difficulty ?? "dx/a",
@@ -532,9 +425,7 @@ export class ItemImporter {
 		};
 	}
 
-	getSpellContainerData(
-		data: SpellContainerSystemData,
-	): SpellContainerSystemData {
+	getSpellContainerData(data: SpellContainerSystemData): SpellContainerSystemData {
 		return {
 			name: data.name ?? "Spell Container",
 			type: data.type ?? "spell_container",
@@ -546,10 +437,7 @@ export class ItemImporter {
 		};
 	}
 
-	getEquipmentData(
-		data: EquipmentSystemData,
-		other = false,
-	): EquipmentSystemData {
+	getEquipmentData(data: EquipmentSystemData, other = false): EquipmentSystemData {
 		return {
 			name: data.name ?? "Equipment",
 			type: data.type ?? "equipment",
@@ -557,9 +445,7 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			features: data.features ? this.importFeatures(data.features) : [],
 			weapons: data.weapons ? this.importWeapons(data.weapons) : [],
 			tech_level: data.tech_level ?? "",
@@ -576,10 +462,7 @@ export class ItemImporter {
 		};
 	}
 
-	getEquipmentContainerData(
-		data: EquipmentContainerSystemData,
-		other = false,
-	): EquipmentContainerSystemData {
+	getEquipmentContainerData(data: EquipmentContainerSystemData, other = false): EquipmentContainerSystemData {
 		return {
 			name: data.name ?? "Equipment",
 			type: data.type ?? "equipment",
@@ -587,9 +470,7 @@ export class ItemImporter {
 			reference: data.reference ?? "",
 			notes: data.notes ?? "",
 			tags: data.tags ?? [],
-			prereqs: data.prereqs
-				? new PrereqList(data.prereqs)
-				: BasePrereq.list,
+			prereqs: data.prereqs ? new PrereqList(data.prereqs) : BasePrereq.list,
 			features: data.features ? this.importFeatures(data.features) : [],
 			weapons: data.weapons ? this.importWeapons(data.weapons) : [],
 			tech_level: data.tech_level ?? "",
@@ -607,9 +488,7 @@ export class ItemImporter {
 		};
 	}
 
-	getEquipmentModifierData(
-		data: EquipmentModifierSystemData,
-	): EquipmentModifierSystemData {
+	getEquipmentModifierData(data: EquipmentModifierSystemData): EquipmentModifierSystemData {
 		return {
 			name: data.name ?? "Equipment Modifier",
 			type: data.type ?? "eqp_modifier",
@@ -627,9 +506,7 @@ export class ItemImporter {
 		};
 	}
 
-	getEquipmentModifierContainerData(
-		data: EquipmentModifierContainerSystemData,
-	): EquipmentModifierContainerSystemData {
+	getEquipmentModifierContainerData(data: EquipmentModifierContainerSystemData): EquipmentModifierContainerSystemData {
 		return {
 			name: data.name ?? "Equipment Modifier Container",
 			type: data.type ?? "eqp_modifier_container",
@@ -653,9 +530,7 @@ export class ItemImporter {
 		};
 	}
 
-	getNoteContainerData(
-		data: NoteContainerSystemData,
-	): NoteContainerSystemData {
+	getNoteContainerData(data: NoteContainerSystemData): NoteContainerSystemData {
 		return {
 			name: data.name ?? "Note",
 			type: data.type ?? "note_container",
@@ -695,12 +570,9 @@ export class ItemImporter {
 		ui.notifications?.error(msg.join("<br>"));
 
 		await ChatMessage.create({
-			content: await renderTemplate(
-				`systems/${SYSTEM_NAME}/templates/chat/character-import-error.hbs`,
-				{
-					lines: msg,
-				},
-			),
+			content: await renderTemplate(`systems/${SYSTEM_NAME}/templates/chat/character-import-error.hbs`, {
+				lines: msg,
+			}),
 			user: (game as Game).user!.id,
 			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
 			whisper: [(game as Game).user!.id],

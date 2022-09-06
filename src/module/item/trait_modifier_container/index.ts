@@ -4,12 +4,8 @@ import { TraitModifierContainerData } from "./data";
 
 export class TraitModifierContainerGURPS extends ContainerGURPS {
 	// Embedded Items
-	get children(): Collection<
-		TraitModifierGURPS | TraitModifierContainerGURPS
-	> {
-		return super.children as Collection<
-			TraitModifierGURPS | TraitModifierContainerGURPS
-		>;
+	get children(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
+		return super.children as Collection<TraitModifierGURPS | TraitModifierContainerGURPS>;
 	}
 }
 

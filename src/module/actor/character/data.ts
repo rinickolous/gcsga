@@ -1,28 +1,13 @@
-import {
-	DamageProgression,
-	DisplayMode,
-	Height,
-	LengthUnits,
-	Weight,
-	WeightUnits,
-} from "@module/data";
-import {
-	ActorFlagsGURPS,
-	ActorSystemData,
-	ActorType,
-	BaseActorSourceGURPS,
-} from "@actor/base/data";
+import { DamageProgression, DisplayMode, Height, LengthUnits, Weight, WeightUnits } from "@module/data";
+import { ActorFlagsGURPS, ActorSystemData, ActorType, BaseActorSourceGURPS } from "@actor/base/data";
 import { AttributeDef, AttributeDefObj } from "@module/attribute/attribute_def";
 import { Attribute, AttributeObj } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 
-export interface CharacterSource
-	extends BaseActorSourceGURPS<ActorType.CharacterGCS, CharacterSystemData> {
+export interface CharacterSource extends BaseActorSourceGURPS<ActorType.CharacterGCS, CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
-export interface CharacterDataGURPS
-	extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">,
-		CharacterSystemData {
+export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">, CharacterSystemData {
 	readonly type: CharacterSource["type"];
 	data: CharacterSystemData;
 	flags: CharacterFlags;

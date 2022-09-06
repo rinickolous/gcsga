@@ -1,15 +1,6 @@
 export function XMLtoJS(xml: string) {
 	xml = xml.replace(/\\/g, "\\\\");
-	return parseXml(xml, [
-		"damagebreaks",
-		"modifier",
-		"trait",
-		"bonus",
-		"groupitem",
-		"attackmode",
-		"extendedtag",
-		"bonuslist",
-	]);
+	return parseXml(xml, ["damagebreaks", "modifier", "trait", "bonus", "groupitem", "attackmode", "extendedtag", "bonuslist"]);
 }
 
 function parseXml(xml: string, arrayTags: string[]) {
@@ -32,12 +23,10 @@ function parseXml(xml: string, arrayTags: string[]) {
 		let jsonNode: any = {},
 			existing = result[xmlNode.nodeName];
 		if (existing) {
-			if (!Array.isArray(existing))
-				result[xmlNode.nodeName] = [existing, jsonNode];
+			if (!Array.isArray(existing)) result[xmlNode.nodeName] = [existing, jsonNode];
 			else result[xmlNode.nodeName].push(jsonNode);
 		} else {
-			if (arrayTags && arrayTags.indexOf(xmlNode.nodeName) != -1)
-				result[xmlNode.nodeName] = [jsonNode];
+			if (arrayTags && arrayTags.indexOf(xmlNode.nodeName) != -1) result[xmlNode.nodeName] = [jsonNode];
 			else {
 				result[xmlNode.nodeName] = jsonNode;
 			}
@@ -48,13 +37,10 @@ function parseXml(xml: string, arrayTags: string[]) {
 				jsonNode["@" + attribute.nodeName] = attribute.nodeValue;
 			}
 
-		if (xmlNode.childNodes.length == 0 && parent != "traits")
-			result[xmlNode.nodeName] = "";
+		if (xmlNode.childNodes.length == 0 && parent != "traits") result[xmlNode.nodeName] = "";
 		for (let node of xmlNode.childNodes) {
-			if (node.nodeName == "#text" && node.nodeValue.trim())
-				result[xmlNode.nodeName] = node.nodeValue.trim();
-			else if (node.nodeName == "#cdata-section")
-				result[xmlNode.nodeName] = node.nodeValue;
+			if (node.nodeName == "#text" && node.nodeValue.trim()) result[xmlNode.nodeName] = node.nodeValue.trim();
+			else if (node.nodeName == "#cdata-section") result[xmlNode.nodeName] = node.nodeValue;
 			else parseNode(node, jsonNode, xmlNode.nodeName);
 		}
 	}

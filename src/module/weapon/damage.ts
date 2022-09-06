@@ -20,8 +20,7 @@ export class WeaponDamage {
 		if (data) {
 			Object.assign(this, data);
 			if (data.base) this.base = new DiceGURPS(data.base);
-			if (data.fragmentation)
-				this.fragmentation = new DiceGURPS(data.fragmentation);
+			if (data.fragmentation) this.fragmentation = new DiceGURPS(data.fragmentation);
 		}
 	}
 
@@ -29,14 +28,11 @@ export class WeaponDamage {
 		let buffer = "";
 		if (this.st != "none") buffer += this.resolveST(this.st);
 		let convertMods = false;
-		if (this.parent && this.parent.actor)
-			convertMods =
-				this.parent.actor.settings.use_modifying_dice_plus_adds;
+		if (this.parent && this.parent.actor) convertMods = this.parent.actor.settings.use_modifying_dice_plus_adds;
 		if (this.base) {
 			let base = this.base.stringExtra(convertMods);
 			if (base != "0") {
-				if (buffer.length != 0 && base[0] != "+" && base[0] != "-")
-					buffer += "+";
+				if (buffer.length != 0 && base[0] != "+" && base[0] != "-") buffer += "+";
 				buffer += base;
 			}
 			if (this.armor_divisor != 1) buffer += `(${this.armor_divisor})`;
@@ -51,8 +47,7 @@ export class WeaponDamage {
 				const frag = this.fragmentation.stringExtra(convertMods);
 				if (frag != "0") {
 					buffer += "[" + frag;
-					if (this.fragmentation_armor_divisor != 1)
-						buffer += `(${this.fragmentation_armor_divisor})`;
+					if (this.fragmentation_armor_divisor != 1) buffer += `(${this.fragmentation_armor_divisor})`;
 					buffer += ` ${this.fragmentation_type}]`;
 				}
 			}
@@ -96,8 +91,7 @@ export class WeaponDamage {
 				break;
 			case "thr_leveled":
 				let thrust = actor.thrustFor(intST);
-				if (t instanceof TraitGURPS && t.isLeveled)
-					multiplyDice(Math.trunc(t.levels), thrust);
+				if (t instanceof TraitGURPS && t.isLeveled) multiplyDice(Math.trunc(t.levels), thrust);
 				base = addDice(base, thrust);
 				break;
 			case "sw":
@@ -105,8 +99,7 @@ export class WeaponDamage {
 				break;
 			case "sw_leveled":
 				let swing = actor.swingFor(intST);
-				if (t instanceof TraitGURPS && t.isLeveled)
-					multiplyDice(Math.trunc(t.levels), swing);
+				if (t instanceof TraitGURPS && t.isLeveled) multiplyDice(Math.trunc(t.levels), swing);
 				base = addDice(base, swing);
 		}
 		let bestDefault: SkillDefault | null = null;
@@ -123,66 +116,23 @@ export class WeaponDamage {
 		let bonusSet: Map<WeaponBonus, boolean> = new Map();
 		let tags = this.parent.parent.tags;
 		if (bestDefault) {
-			actor.addWeaponComparedDamageBonusesFor(
-				"skill.name*",
-				bestDefault.name ?? "",
-				bestDefault.specialization ?? "",
-				tags,
-				base.count,
-				tooltip,
-				bonusSet,
-			);
-			actor.addWeaponComparedDamageBonusesFor(
-				"skill.name/" + bestDefault.name,
-				bestDefault.name ?? "",
-				bestDefault.specialization ?? "",
-				tags,
-				base.count,
-				tooltip,
-				bonusSet,
-			);
+			actor.addWeaponComparedDamageBonusesFor("skill.name*", bestDefault.name ?? "", bestDefault.specialization ?? "", tags, base.count, tooltip, bonusSet);
+			actor.addWeaponComparedDamageBonusesFor("skill.name/" + bestDefault.name, bestDefault.name ?? "", bestDefault.specialization ?? "", tags, base.count, tooltip, bonusSet);
 		}
 		const nameQualifier = this.parent.name;
-		actor.addNamedWeaponDamageBonusesFor(
-			"weapon_named.*",
-			nameQualifier,
-			this.parent.usage,
-			tags,
-			base.count,
-			tooltip,
-			bonusSet,
-		);
-		actor.addNamedWeaponDamageBonusesFor(
-			"weapon_named./" + nameQualifier,
-			nameQualifier,
-			this.parent.usage,
-			tags,
-			base.count,
-			tooltip,
-			bonusSet,
-		);
+		actor.addNamedWeaponDamageBonusesFor("weapon_named.*", nameQualifier, this.parent.usage, tags, base.count, tooltip, bonusSet);
+		actor.addNamedWeaponDamageBonusesFor("weapon_named./" + nameQualifier, nameQualifier, this.parent.usage, tags, base.count, tooltip, bonusSet);
 		for (const f of this.parent.parent.features) {
 			this.extractWeaponDamageBonus(f, bonusSet, base.count, tooltip);
 		}
-		if (
-			t instanceof TraitGURPS ||
-			t instanceof EquipmentGURPS ||
-			t instanceof EquipmentContainerGURPS
-		) {
+		if (t instanceof TraitGURPS || t instanceof EquipmentGURPS || t instanceof EquipmentContainerGURPS) {
 			for (const mod of t.modifiers) {
 				for (const f of mod.features) {
-					this.extractWeaponDamageBonus(
-						f,
-						bonusSet,
-						base.count,
-						tooltip,
-					);
+					this.extractWeaponDamageBonus(f, bonusSet, base.count, tooltip);
 				}
 			}
 		}
-		const adjustForPhoenixFlame =
-			actor.settings.damage_progression == "phoenix_flame_d3" &&
-			base.sides == 3;
+		const adjustForPhoenixFlame = actor.settings.damage_progression == "phoenix_flame_d3" && base.sides == 3;
 		let percent = 0;
 		for (const bonus of bonusSet.keys()) {
 			if (bonus.percent) percent += bonus.amount;
@@ -203,9 +153,7 @@ export class WeaponDamage {
 		if (percent != 0) base = adjustDiceForPercentBonus(base, percent);
 		let buffer = "";
 		if (base.count != 0 || base.modifier != 0) {
-			buffer += base.stringExtra(
-				actor.settings.use_modifying_dice_plus_adds,
-			);
+			buffer += base.stringExtra(actor.settings.use_modifying_dice_plus_adds);
 		}
 		if (this.armor_divisor != 1) buffer += `(${this.armor_divisor})`;
 		if (this.type.trim() != "") {
@@ -213,26 +161,18 @@ export class WeaponDamage {
 			buffer += this.type;
 		}
 		if (this.fragmentation) {
-			let frag = this.fragmentation.stringExtra(
-				actor.settings.use_modifying_dice_plus_adds,
-			);
+			let frag = this.fragmentation.stringExtra(actor.settings.use_modifying_dice_plus_adds);
 			if (frag != "0") {
 				if (buffer.length != 0) buffer += " ";
 				buffer += "[" + frag;
-				if (this.fragmentation_armor_divisor != 1)
-					buffer += `(${this.fragmentation_armor_divisor})`;
+				if (this.fragmentation_armor_divisor != 1) buffer += `(${this.fragmentation_armor_divisor})`;
 				buffer += " " + this.fragmentation_type + "]";
 			}
 		}
 		return buffer;
 	}
 
-	extractWeaponDamageBonus(
-		f: Feature,
-		set: Map<WeaponBonus, boolean>,
-		dieCount: number,
-		tooltip?: TooltipGURPS,
-	): void {
+	extractWeaponDamageBonus(f: Feature, set: Map<WeaponBonus, boolean>, dieCount: number, tooltip?: TooltipGURPS): void {
 		if (f instanceof WeaponBonus) {
 			const level = f.levels;
 			f.levels = dieCount;
@@ -248,11 +188,7 @@ export class WeaponDamage {
 					}
 					break;
 				case "weapons_with_name":
-					if (
-						stringCompare(this.parent.name, f.name) &&
-						stringCompare(this.parent.usage, f.specialization) &&
-						stringCompare(this.parent.parent.tags, f.tags)
-					) {
+					if (stringCompare(this.parent.name, f.name) && stringCompare(this.parent.usage, f.specialization) && stringCompare(this.parent.parent.tags, f.tags)) {
 						if (!set.has(f)) {
 							set.set(f, true);
 							f.addToTooltip(tooltip);
@@ -275,18 +211,13 @@ function addDice(left: DiceGURPS, right: DiceGURPS): DiceGURPS {
 	if (left.sides > 1 && right.sides > 1 && left.sides != right.sides) {
 		const sides = Math.min(left.sides, right.sides);
 		const average = (sides + 1) / 2;
-		const averageLeft =
-			((left.count * (left.sides + 1)) / 2) * left.multiplier;
-		const averageRight =
-			((right.count * (right.sides + 1)) / 2) * right.multiplier;
+		const averageLeft = ((left.count * (left.sides + 1)) / 2) * left.multiplier;
+		const averageRight = ((right.count * (right.sides + 1)) / 2) * right.multiplier;
 		const averageBoth = averageLeft + averageRight;
 		return new DiceGURPS({
 			count: Math.trunc(averageBoth / average),
 			sides: sides,
-			modifier:
-				Math.round(averageBoth % average) +
-				left.modifier +
-				right.modifier,
+			modifier: Math.round(averageBoth % average) + left.modifier + right.modifier,
 			multiplier: 1,
 		});
 	}
@@ -330,9 +261,4 @@ export interface WeaponDamage {
 	modifier_per_die: number;
 }
 
-export type StrengthDamage =
-	| "none"
-	| "thr"
-	| "thr_leveled"
-	| "sw"
-	| "sw_leveled";
+export type StrengthDamage = "none" | "thr" | "thr_leveled" | "sw" | "sw_leveled";

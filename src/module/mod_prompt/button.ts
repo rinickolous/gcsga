@@ -10,10 +10,7 @@ export class ModifierButton extends Application {
 		this.window = new ModifierWindow(this, {});
 	}
 
-	async render(
-		force?: boolean | undefined,
-		options?: Application.RenderOptions<ApplicationOptions> | undefined,
-	): Promise<unknown> {
+	async render(force?: boolean | undefined, options?: Application.RenderOptions<ApplicationOptions> | undefined): Promise<unknown> {
 		await this.recalculateModTotal((game as Game).user);
 		return super.render(force, options);
 	}
@@ -75,14 +72,10 @@ export class ModifierButton extends Application {
 		}
 	}
 
-	async recalculateModTotal(
-		user: StoredDocument<User> | null,
-	): Promise<unknown> {
+	async recalculateModTotal(user: StoredDocument<User> | null): Promise<unknown> {
 		if (!user) return;
 		let total = 0;
-		const mods: RollModifier[] =
-			(user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ??
-			[];
+		const mods: RollModifier[] = (user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
 		if (mods.length > 0)
 			for (const m of mods) {
 				total += m.modifier;

@@ -26,12 +26,8 @@ export class BaseFeature {
 			Object.assign(this, data);
 		} else {
 			mergeObject(context, { ready: true });
-			const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[
-				data.type as FeatureType
-			];
-			return FeatureConstructor
-				? new FeatureConstructor(data, context)
-				: new BaseFeature(data, context);
+			const FeatureConstructor = (CONFIG as any).GURPS.Feature.classes[data.type as FeatureType];
+			return FeatureConstructor ? new FeatureConstructor(data, context) : new BaseFeature(data, context);
 		}
 	}
 

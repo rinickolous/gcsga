@@ -1,28 +1,11 @@
 import { i18n, i18n_f, signed } from "@util";
 
-export type LengthUnits =
-	| "pt"
-	| "in"
-	| "ft"
-	| "ft_in"
-	| "yd"
-	| "mi"
-	| "mm"
-	| "cm"
-	| "km"
-	| "m";
+export type LengthUnits = "pt" | "in" | "ft" | "ft_in" | "yd" | "mi" | "mm" | "cm" | "km" | "m";
 export type WeightUnits = "oz" | "lb" | "tn" | "lt" | "t" | "kg" | "g";
-export type DisplayMode =
-	| "not_shown"
-	| "inline"
-	| "tooltip"
-	| "inline_and_tooltip";
+export type DisplayMode = "not_shown" | "inline" | "tooltip" | "inline_and_tooltip";
 
 // TODO: change
-export type Height =
-	| `${number} ${LengthUnits}`
-	| `${number}'`
-	| `${number}'${number}"`;
+export type Height = `${number} ${LengthUnits}` | `${number}'` | `${number}'${number}"`;
 export type Weight = `${number} ${WeightUnits}`;
 
 export enum DamageProgression {

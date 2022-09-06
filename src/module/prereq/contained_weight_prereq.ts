@@ -11,10 +11,7 @@ export interface ContainedWeightPrereq extends BasePrereq {
 }
 
 export class ContainedWeightPrereq extends BasePrereq {
-	constructor(
-		data: ContainedWeightPrereq,
-		context: PrereqConstructionContext = {},
-	) {
+	constructor(data: ContainedWeightPrereq, context: PrereqConstructionContext = {}) {
 		super(data, context);
 		Object.assign(this, mergeObject(ContainedWeightPrereq.defaults, data));
 	}
@@ -26,21 +23,14 @@ export class ContainedWeightPrereq extends BasePrereq {
 		});
 	}
 
-	satisfied(
-		character: CharacterGURPS,
-		exclude: any,
-		tooltip: TooltipGURPS,
-		prefix: string,
-	): boolean {
+	satisfied(character: CharacterGURPS, exclude: any, tooltip: TooltipGURPS, prefix: string): boolean {
 		let satisfied = false;
 		const eqp = exclude as EquipmentGURPS | EquipmentContainerGURPS;
 		if (eqp) {
 			satisfied = !(eqp instanceof EquipmentContainerGURPS);
 			if (!satisfied) {
 				const units = character.settings.default_weight_units;
-				const weight =
-					eqp.extendedWeight(false, units) -
-					eqp.adjustedWeight(false, units);
+				const weight = eqp.extendedWeight(false, units) - eqp.adjustedWeight(false, units);
 				satisfied = numberCompare(weight, this.qualifier);
 			}
 		}
@@ -49,12 +39,8 @@ export class ContainedWeightPrereq extends BasePrereq {
 			tooltip.push(prefix);
 			tooltip.push(i18n(`gurps.prerqs.has.${this.has}`));
 			tooltip.push(i18n(`gurps.prereqs.weight`));
-			tooltip.push(
-				i18n(`gurps.prereqs.criteria.${this.qualifier?.compare}`),
-			);
-			tooltip.push(
-				(this.qualifier ? this.qualifier.qualifier : 0).toString(),
-			);
+			tooltip.push(i18n(`gurps.prereqs.criteria.${this.qualifier?.compare}`));
+			tooltip.push((this.qualifier ? this.qualifier.qualifier : 0).toString());
 		}
 		return satisfied;
 	}

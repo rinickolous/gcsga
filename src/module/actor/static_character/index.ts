@@ -8,12 +8,7 @@ import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 import { RollModifier } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
-import {
-	MoveMode,
-	MoveModeTypes,
-	StaticCharacterSource,
-	StaticCharacterSystemData,
-} from "./data";
+import { MoveMode, MoveModeTypes, StaticCharacterSource, StaticCharacterSystemData } from "./data";
 
 Hooks.on("createActor", async function (actor: StaticCharacterGURPS) {
 	if (actor.type == "character")
@@ -25,19 +20,12 @@ Hooks.on("createActor", async function (actor: StaticCharacterGURPS) {
 class StaticCharacterGURPS extends BaseActorGURPS {
 	ignoreRender = false;
 
-	constructor(
-		data: StaticCharacterSource,
-		context: ActorConstructorContextGURPS = {},
-	) {
+	constructor(data: StaticCharacterSource, context: ActorConstructorContextGURPS = {}) {
 		super(data, context);
 	}
 
 	getOwners() {
-		return (game as Game).users?.contents.filter(
-			u =>
-				this.getUserLevel(u) ??
-				0 >= CONST.DOCUMENT_PERMISSION_LEVELS.OWNER,
-		);
+		return (game as Game).users?.contents.filter(u => this.getUserLevel(u) ?? 0 >= CONST.DOCUMENT_PERMISSION_LEVELS.OWNER);
 	}
 
 	async openSheet(newSheet: ActorSheetGURPS): Promise<void> {
@@ -66,10 +54,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		if (sizemod !== 0) {
 			this.system.conditions.target.modifiers.push();
 			this.setFlag(SYSTEM_NAME, "targetModifiers", [
-				...(this.getFlag(
-					SYSTEM_NAME,
-					"targetModifiers",
-				) as RollModifier[]),
+				...(this.getFlag(SYSTEM_NAME, "targetModifiers") as RollModifier[]),
 				{
 					name: "for Size Modifier",
 					modifier: sizemod,
@@ -94,9 +79,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		if (this.system.encumbrance) {
 			let move: MoveMode = this.system.move;
 			if (!move) {
-				let currentMove =
-					this.system.encumbrance["00000"].move ??
-					this.system.basicmove.value;
+				let currentMove = this.system.encumbrance["00000"].move ?? this.system.basicmove.value;
 				let value: MoveMode = {
 					mode: MoveModeTypes.Ground,
 					basic: currentMove,
@@ -120,21 +103,14 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		this.calculateDerivedValues();
 
 		// TODO: figure out how to change the type of this.items to the appropriate type
-		let orig: StaticItemGURPS[] = (
-			this.items as EmbeddedCollection<typeof StaticItemGURPS, ActorData>
-		).contents
-			.slice()
-			.sort((a, b) => b.name?.localeCompare(a.name ?? "") ?? 0);
+		let orig: StaticItemGURPS[] = (this.items as EmbeddedCollection<typeof StaticItemGURPS, ActorData>).contents.slice().sort((a, b) => b.name?.localeCompare(a.name ?? "") ?? 0);
 		let good: StaticItemGURPS[] = [];
 		while (orig.length > 0) {
 			// We are trying to place 'parent' items before we place 'children' items
 			let left: StaticItemGURPS[] = [];
 			let atLeastOne = false;
 			for (const i of orig) {
-				if (
-					!i.system.eqt.parentuuid ||
-					good.find(e => e.system.eqt.uuid == i.system.eqt.parentuuid)
-				) {
+				if (!i.system.eqt.parentuuid || good.find(e => e.system.eqt.uuid == i.system.eqt.parentuuid)) {
 					atLeastOne = true;
 					good.push(i);
 				} else left.push(i);
@@ -148,10 +124,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		}
 		for (const item of good) await this.addItemData(item.data);
 
-		await this.update(
-			{ "data.migrationVersion": (game as Game).system.data.version },
-			{ diff: false, render: false },
-		);
+		await this.update({ "data.migrationVersion": (game as Game).system.data.version }, { diff: false, render: false });
 
 		// Set custom trackers based on templates. Should be last because it may need other data to initialize.
 		await this.setResourceTrackers();
@@ -165,34 +138,30 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 			let newads = this.system.ads;
 			let langn = new RegExp("Language:?", "i");
 			let langt = new RegExp(i18n("GURPS.language") + ":?", "i");
-			recurselist(
-				this.system.languages,
-				(e: StaticAdvantage, _k: any, _d: any) => {
-					let a = GURPS.findAdDisad(this, "*" + e.name); // Is there an advantage including the same name
-					if (a) {
-						if (!a.name.match(langn) && !a.name.match(langt)) {
-							// GCA4 / GCS style
-							a.name = i18n("GURPS.language") + ": " + a.name;
-							// updated = true;
-						}
-					} else {
-						// GCA5 style (Language without Adv)
-						let n = i18n("GURPS.language") + ": " + e.name;
-						if (e.spoken == e.written) n += ` (${e.spoken})`;
-						// TODO: may be broken, check later
-						// Otherwise, report type and level (like GCA4)
-						else if (!!e.spoken)
-							n += ` (${i18n("GURPS.spoken")}) (${e.spoken})`;
-						else n += ` (${i18n("GURPS.written")}) (${e.written})`;
-						let a = new StaticAdvantage();
-						a.name = n;
-						a.points = e.points;
-						// why is put global?
-						put(newads, a);
+			recurselist(this.system.languages, (e: StaticAdvantage, _k: any, _d: any) => {
+				let a = GURPS.findAdDisad(this, "*" + e.name); // Is there an advantage including the same name
+				if (a) {
+					if (!a.name.match(langn) && !a.name.match(langt)) {
+						// GCA4 / GCS style
+						a.name = i18n("GURPS.language") + ": " + a.name;
 						// updated = true;
 					}
-				},
-			);
+				} else {
+					// GCA5 style (Language without Adv)
+					let n = i18n("GURPS.language") + ": " + e.name;
+					if (e.spoken == e.written) n += ` (${e.spoken})`;
+					// TODO: may be broken, check later
+					// Otherwise, report type and level (like GCA4)
+					else if (!!e.spoken) n += ` (${i18n("GURPS.spoken")}) (${e.spoken})`;
+					else n += ` (${i18n("GURPS.written")}) (${e.written})`;
+					let a = new StaticAdvantage();
+					a.name = n;
+					a.points = e.points;
+					// why is put global?
+					put(newads, a);
+					// updated = true;
+				}
+			});
 		}
 	}
 
@@ -226,24 +195,15 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 			data.equipment.other ??= {};
 		}
 		if (!data.migrationVersion) return;
-		let v: SemanticVersion = SemanticVersion.fromString(
-			data.migrationVersion,
-		);
+		let v: SemanticVersion = SemanticVersion.fromString(data.migrationVersion);
 
 		// Attributes need to have 'value' set because Foundry expects objs with value and max
 		// to be attributes (so we can't use currentvalue)
 		// Need to protect against data errors
 		for (const attr in data.attributes) {
-			if (
-				typeof data.attributes[attr] === "object" &&
-				data.attributes[attr] !== null
-			)
-				if (isNaN(data.attributes[attr].import))
-					data.attributes[attr].value = 0;
-				else
-					data.attributes[attr].value = parseInt(
-						data.attributes[attr].import,
-					);
+			if (typeof data.attributes[attr] === "object" && data.attributes[attr] !== null)
+				if (isNaN(data.attributes[attr].import)) data.attributes[attr].value = 0;
+				else data.attributes[attr].value = parseInt(data.attributes[attr].import);
 		}
 
 		// After all of the attributes are copied over, apply tired to ST
@@ -300,12 +260,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		const data = this.system;
 		for (const item of this.items) {
 			let itemData = (item as StaticItemGURPS).system;
-			if (
-				itemData.equipped &&
-				itemData.carried &&
-				!!itemData.bonuses &&
-				gids.includes(itemData.globalid)
-			) {
+			if (itemData.equipped && itemData.carried && !!itemData.bonuses && gids.includes(itemData.globalid)) {
 				gids.push(itemData.globalid);
 				let bonuses = itemData.bonuses.split("\n");
 				for (let bonus of bonuses) {
@@ -314,93 +269,49 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 					let link = parselink(bonus);
 					if (!!link.action) {
 						// start OTF
-						recurselist(
-							data.melee,
-							(e: StaticMelee, _k: any, _d: any) => {
-								e.level = pi(e.level);
-								if (
-									link.action.type == "attribute" &&
-									link.action.attrkey == "DX"
-								) {
-									// All melee attacks skills affected by DX
+						recurselist(data.melee, (e: StaticMelee, _k: any, _d: any) => {
+							e.level = pi(e.level);
+							if (link.action.type == "attribute" && link.action.attrkey == "DX") {
+								// All melee attacks skills affected by DX
+								e.level += pi(link.action.mod);
+								if (!isNaN(parseInt(e.parry))) {
+									// handles "11f"
+									let m = (e.parry + "").match(/(\d+)(.*)/);
+									e.parry = 3 + Math.floor(e.level / 2);
+									if (!!e.parrybonus) e.parry += pi(e.parrybonus);
+									if (!!m) e.parry += m[2];
+								}
+								if (!isNaN(parseInt(e.block))) {
+									// handles "no"
+									e.block = 3 + Math.floor(e.level / 2);
+									if (!!e.blockbonus) e.block += pi(e.blockbonus);
+								}
+							}
+							if (link.action.type == "attack" && !!link.action.isMelee) {
+								if (e.name.match(makeRegexPatternFrom(link.action.name, false))) {
 									e.level += pi(link.action.mod);
 									if (!isNaN(parseInt(e.parry))) {
 										// handles "11f"
-										let m = (e.parry + "").match(
-											/(\d+)(.*)/,
-										);
+										let m = (e.parry + "").match(/(\d+)(.*)/);
 										e.parry = 3 + Math.floor(e.level / 2);
-										if (!!e.parrybonus)
-											e.parry += pi(e.parrybonus);
+										if (!!e.parrybonus) e.parry += pi(e.parrybonus);
 										if (!!m) e.parry += m[2];
 									}
 									if (!isNaN(parseInt(e.block))) {
-										// handles "no"
+										// Handles "no"
 										e.block = 3 + Math.floor(e.level / 2);
-										if (!!e.blockbonus)
-											e.block += pi(e.blockbonus);
+										if (!!e.blockbonus) e.block += pi(e.blockbonus);
 									}
 								}
-								if (
-									link.action.type == "attack" &&
-									!!link.action.isMelee
-								) {
-									if (
-										e.name.match(
-											makeRegexPatternFrom(
-												link.action.name,
-												false,
-											),
-										)
-									) {
-										e.level += pi(link.action.mod);
-										if (!isNaN(parseInt(e.parry))) {
-											// handles "11f"
-											let m = (e.parry + "").match(
-												/(\d+)(.*)/,
-											);
-											e.parry =
-												3 + Math.floor(e.level / 2);
-											if (!!e.parrybonus)
-												e.parry += pi(e.parrybonus);
-											if (!!m) e.parry += m[2];
-										}
-										if (!isNaN(parseInt(e.block))) {
-											// Handles "no"
-											e.block =
-												3 + Math.floor(e.level / 2);
-											if (!!e.blockbonus)
-												e.block += pi(e.blockbonus);
-										}
-									}
-								}
-							},
-						); // end melee
-						recurselist(
-							data.ranged,
-							(e: StaticRanged, _k: any, _d: any) => {
-								e.level = pi(e.level);
-								if (
-									link.action.type == "attribute" &&
-									link.action.attrkey == "DX"
-								)
-									e.level += pi(link.action.mod);
-								if (
-									link.action.type == "attack" &&
-									!!link.action.isRanged
-								) {
-									if (
-										e.name.match(
-											makeRegexPatternFrom(
-												link.action.name,
-												false,
-											),
-										)
-									)
-										e.level += pi(link.action.mod);
-								}
-							},
-						); // end ranged
+							}
+						}); // end melee
+						recurselist(data.ranged, (e: StaticRanged, _k: any, _d: any) => {
+							e.level = pi(e.level);
+							if (link.action.type == "attribute" && link.action.attrkey == "DX") e.level += pi(link.action.mod);
+							if (link.action.type == "attack" && !!link.action.isRanged) {
+								if (e.name.match(makeRegexPatternFrom(link.action.name, false))) e.level += pi(link.action.mod);
+							}
+						}); // end ranged
 						recurselist(data.skills);
 					}
 				}

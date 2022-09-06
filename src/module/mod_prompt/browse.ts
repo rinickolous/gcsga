@@ -18,32 +18,7 @@ export class ModifierBrowse extends Application {
 		this.selection = [-1, -1, -1];
 		this.catShowing = -1;
 		this.showing = false;
-	}
-
-	get categories() {
-		const categories: ModCategory[] = [];
-		for (const m of this.mods) {
-			for (const c of m.tags) {
-				let cat = categories.find(e => e.name == c);
-				if (!cat) {
-					categories.push({ name: c, mods: [], showing: false });
-					cat = categories.find(e => e.name == c);
-				}
-				cat?.mods.push(m);
-			}
-		}
-		categories.sort((a: ModCategory, b: ModCategory) =>
-			a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
-		);
-		const pinnedMods: RollModifier[] =
-			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ??
-			[];
-		categories.push({
-			name: i18n("gurps.system.modifier_stack.pinned_category"),
-			showing: false,
-			mods: pinnedMods,
-		});
-		return categories;
+		this.categories = [];
 	}
 
 	static get defaultOptions(): ApplicationOptions {
@@ -70,76 +45,89 @@ export class ModifierBrowse extends Application {
 		html.css("left", `${parentLeft - width - 5}px`);
 		html.css("top", `${parentTop + parentHeight - height}px`);
 
-		// html.find(".browse").on("mouseenter", event => this._onBrowseMouseOver(event));
-		// html.find(".browse").on("mouseleave", event => this._onBrowseMouseLeave(event));
 		html.find(".browse").on("click", event => this._onBrowseClick(event));
-		html.find(".category").on("click", event =>
-			this._onCategoryClick(event),
-		);
-		html.find(".category").on("mouseover", event =>
-			this._onCategoryMouseOver(event),
-		);
+		html.find(".category").on("click", event => this._onCategoryClick(event));
+		// html.find(".category").on("mouseenter", event => this._onCategoryMouseEnter(event));
 		html.find(".entry").on("click", event => this._onEntryClick(event));
-		// html.find(".entry").on("mouseover", event => this._onEntryMouseOver(event));
+		// html.find(".entry").on("mouseenter", event => this._onEntryMouseEnter(event));
+		html.on("mouseleave", event => this._onMouseLeave(event));
 	}
 
-	_onBrowseMouseOver(event: JQuery.MouseEnterEvent) {
+	_onMouseLeave(event: JQuery.MouseLeaveEvent) {
 		event.preventDefault();
-		// event.stopPropagation();
-		this.selection[0] = 0;
+		console.log("mouseLeave");
+		this.showing = false;
+		for (const c of this.categories) c.showing = false;
+		this.catShowing = -1;
 		this.render();
 	}
 
-	_onBrowseMouseLeave(event: JQuery.MouseLeaveEvent) {
+	_onBrowseMouseEnter(event: JQuery.MouseEnterEvent) {
 		event.preventDefault();
-		console.log("leave");
-		// event.stopPropagation();
-		this.selection[0] = -1;
+		this.selection[0] = 0;
 		this.render();
 	}
 
 	_onBrowseClick(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		console.log("checkem");
 		this.showing = true;
 		this.render();
 	}
 
-	_onCategoryMouseOver(event: JQuery.MouseOverEvent) {
-		if (this.selection[1] == $(event.currentTarget).data("index")) return;
-		console.log("woo");
-		event.preventDefault();
-		event.stopPropagation();
-		this.selection[1] = $(event.currentTarget).data("index");
-		this.render();
-	}
+	// _onCategoryMouseEnter(event: JQuery.MouseEnterEvent) {
+	// 	if (this.selection[1] == $(event.currentTarget).data("index")) return;
+	// 	event.preventDefault();
+	// 	event.stopPropagation();
+	// 	this.render();
+	// }
 
 	_onCategoryClick(event: JQuery.ClickEvent) {
 		event.preventDefault();
+		this.selection[1] = $(event.currentTarget).data("index");
 		this.catShowing = this.selection[1];
-		this.render();
+		this.selection[2] = -1;
+		return this.render();
 	}
 
-	_onEntryMouseOver(event: JQuery.MouseOverEvent) {
-		// event.preventDefault();
-		// event.stopPropagation();
-		this.selection[2] = $(event.currentTarget).data("index");
-	}
+	// _onEntryMouseEnter(event: JQuery.MouseEnterEvent) {
+	// 	if (this.selection[2] == $(event.currentTarget).data("index")) return;
+	// 	event.preventDefault();
+	// 	event.stopPropagation();
+	// 	this.selection[2] = $(event.currentTarget).data("index");
+	// 	this.render();
+	// }
 
 	_onEntryClick(event: JQuery.ClickEvent) {
 		event.preventDefault();
+		this.selection[2] = $(event.currentTarget).data("index");
 		return this.window.addModFromBrowse();
 	}
 
-	getData(
-		options?: Partial<ApplicationOptions> | undefined,
-	): object | Promise<object> {
-		const categories = this.categories;
+	getData(options?: Partial<ApplicationOptions> | undefined): object | Promise<object> {
+		const categories: ModCategory[] = [];
+		for (const m of this.mods) {
+			for (const c of m.tags) {
+				let cat = categories.find(e => e.name == c);
+				if (!cat) {
+					categories.push({ name: c, mods: [], showing: false });
+					cat = categories.find(e => e.name == c);
+				}
+				cat?.mods.push(m);
+			}
+		}
+		categories.sort((a: ModCategory, b: ModCategory) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+		const pinnedMods: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
+		categories.push({
+			name: i18n("gurps.system.modifier_stack.pinned_category"),
+			showing: false,
+			mods: pinnedMods,
+		});
+		for (const c of categories) if (c.mods.length === 0) categories.splice(categories.indexOf(c), 1);
+		this.categories = categories;
 		if (this.catShowing !== -1) categories[this.catShowing].showing = true;
-		console.log(this.catShowing, categories);
 
 		return mergeObject(super.getData(options), {
-			categories: this.categories,
+			categories: categories,
 			selection: this.selection,
 			showing: this.showing,
 		});
@@ -148,6 +136,7 @@ export class ModifierBrowse extends Application {
 
 export interface ModifierBrowse extends Application {
 	mods: RollModifier[];
+	categories: ModCategory[];
 	selection: [number, number, number];
 	showing: boolean;
 	window: ModifierWindow;

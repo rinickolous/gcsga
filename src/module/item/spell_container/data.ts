@@ -1,18 +1,10 @@
-import {
-	BaseContainerSource,
-	BaseContainerSystemData,
-} from "@item/container/data";
+import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 
-export type SpellContainerSource = BaseContainerSource<
-	"spell_container",
-	SpellContainerSystemData
->;
+export type SpellContainerSource = BaseContainerSource<"spell_container", SpellContainerSystemData>;
 
 // export class SpellContainerData extends BaseContainerData<SpellContainerGURPS> {}
 
-export interface SpellContainerData
-	extends Omit<SpellContainerSource, "effects" | "items">,
-		SpellContainerSystemData {
+export interface SpellContainerData extends Omit<SpellContainerSource, "effects" | "items">, SpellContainerSystemData {
 	readonly type: SpellContainerSource["type"];
 	data: SpellContainerSystemData;
 

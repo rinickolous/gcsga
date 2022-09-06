@@ -4,14 +4,7 @@ import { sanitize } from "@util";
 import { AttributeDef } from "./attribute_def";
 import { PoolThreshold } from "./pool_threshold";
 
-const reservedIds: string[] = [
-	gid.Skill,
-	gid.Parry,
-	gid.Block,
-	gid.Dodge,
-	gid.SizeModifier,
-	gid.Ten,
-];
+const reservedIds: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
 export interface AttributeObj {
 	bonus?: number;
@@ -32,12 +25,7 @@ export class Attribute {
 	adj = 0;
 	damage?: number;
 
-	constructor(
-		actor: CharacterGURPS,
-		attr_id: string,
-		order: number,
-		data?: any,
-	) {
+	constructor(actor: CharacterGURPS, attr_id: string, order: number, data?: any) {
 		if (data) Object.assign(this, data);
 		this.actor = actor;
 		this.attr_id = attr_id;
@@ -52,9 +40,7 @@ export class Attribute {
 	}
 
 	get attribute_def(): AttributeDef {
-		return (
-			this.actor?.settings.attributes as Record<string, AttributeDef>
-		)[this.attr_id];
+		return (this.actor?.settings.attributes as Record<string, AttributeDef>)[this.attr_id];
 	}
 
 	get max(): number {

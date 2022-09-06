@@ -1,7 +1,12 @@
 <div class="message-roll attack">
 	<div class="name">{{name}} ({{level}})</div>
-	<div class="total">{{#each rolls}}<i data-result={{this.result}} class="rollable fas fa-dice-{{this.word}}"></i>
-		{{/each}}= {{total}}</div>
+	<div class="total">{{#each rolls}}
+		{{#unless (eq @index 0)}} + {{/unless}}
+		<i data-result={{this.result}} class="rollable fas fa-dice-{{this.word}}"></i>
+		{{/each}}
+		{{#if modifier}}{{#if (gt modifier 0)}} + {{modifier}}{{else}} - {{abs modifier}}{{/if}}{{/if}}
+		= {{total}}
+	</div>
 	<div class="result {{success}}">{{localize (concat "gurps.roll.success_attack." success)}}</div>
 	<div class="margin">
 		{{#if (in success "success")}}

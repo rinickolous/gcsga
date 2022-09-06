@@ -2,10 +2,7 @@ import { StringCompare, StringComparison } from "@module/data";
 import { BaseFeature, FeatureConstructionContext } from "./base";
 
 export class SkillBonus extends BaseFeature {
-	constructor(
-		data: SkillBonus | any,
-		context: FeatureConstructionContext = {},
-	) {
+	constructor(data: SkillBonus | any, context: FeatureConstructionContext = {}) {
 		super(data, context);
 		Object.assign(this, { ...data, ...SkillBonus.defaults });
 	}
@@ -35,11 +32,7 @@ export class SkillBonus extends BaseFeature {
 	}
 
 	buildKey(prefix: string): string {
-		if (
-			this.name?.compare == "is" &&
-			this.specialization?.compare == "none" &&
-			this.tags?.compare == "none"
-		) {
+		if (this.name?.compare == "is" && this.specialization?.compare == "none" && this.tags?.compare == "none") {
 			return prefix + "/" + this.name?.qualifier;
 		}
 		return prefix + "*";
@@ -53,7 +46,4 @@ export interface SkillBonus extends BaseFeature {
 	tags?: StringCompare;
 }
 
-export type SkillBonusSelectionType =
-	| "skills_with_name"
-	| "weapons_with_name"
-	| "this_weapon";
+export type SkillBonusSelectionType = "skills_with_name" | "weapons_with_name" | "this_weapon";

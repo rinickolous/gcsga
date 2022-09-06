@@ -57,10 +57,7 @@ export const SJG_links = {
 };
 
 export function openPDF(pdfs: string) {
-	if (!(ui as any).PDFoundry)
-		return ui.notifications?.warn(
-			i18n("gurps.error.modules.pdfoundry_missing"),
-		);
+	if (!(ui as any).PDFoundry) return ui.notifications?.warn(i18n("gurps.error.modules.pdfoundry_missing"));
 	for (let link of pdfs.split(",")) {
 		link = link.trim();
 		const colonIndex = link.indexOf(":");
@@ -89,9 +86,7 @@ export function openPDF(pdfs: string) {
 			let url = (SJG_links as any)[book];
 			if (!url) {
 				if (pdfs.includes("http")) url = pdfs;
-				else
-					url =
-						"http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
+				else url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
 			}
 			window.open(url, "_blank");
 		} else (ui as any).PDFoundry?.openPDF(pdf, { page: page });

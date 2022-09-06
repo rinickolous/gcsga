@@ -9,12 +9,8 @@ export class SpellContainerGURPS extends ContainerGURPS {
 	// }
 
 	// Embedded Items
-	get children(): Collection<
-		SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS
-	> {
-		return super.children as Collection<
-			SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS
-		>;
+	get children(): Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS> {
+		return super.children as Collection<SpellGURPS | RitualMagicSpellGURPS | SpellContainerGURPS>;
 	}
 }
 

@@ -27,15 +27,7 @@ const distDirectory = "./dist";
 const stylesDirectory = `${sourceDirectory}/styles`;
 const stylesExtension = "scss";
 const sourceFileExtension = "ts";
-const staticFiles = [
-	"assets",
-	"fonts",
-	"lang",
-	"packs",
-	"templates",
-	"system.json",
-	"template.json",
-];
+const staticFiles = ["assets", "fonts", "lang", "packs", "templates", "system.json", "template.json"];
 
 /********************/
 /*      BUILD       */
@@ -74,10 +66,7 @@ function buildStyles() {
 async function copyFiles() {
 	for (const file of staticFiles) {
 		if (fs.existsSync(`${sourceDirectory}/${file}`)) {
-			await fs.copy(
-				`${sourceDirectory}/${file}`,
-				`${distDirectory}/${file}`,
-			);
+			await fs.copy(`${sourceDirectory}/${file}`, `${distDirectory}/${file}`);
 		}
 	}
 }
@@ -86,16 +75,8 @@ async function copyFiles() {
  * Watch for changes for each build step
  */
 export function watch() {
-	gulp.watch(
-		`${sourceDirectory}/**/*.${sourceFileExtension}`,
-		{ ignoreInitial: false },
-		buildCode,
-	);
-	gulp.watch(
-		`${stylesDirectory}/**/*.${stylesExtension}`,
-		{ ignoreInitial: false },
-		buildStyles,
-	);
+	gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
+	gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
 	gulp.watch(
 		staticFiles.map(file => `${sourceDirectory}/${file}`),
 		{ ignoreInitial: false },
@@ -103,10 +84,7 @@ export function watch() {
 	);
 }
 
-export const build = gulp.series(
-	clean,
-	gulp.parallel(buildCode, buildStyles, copyFiles),
-);
+export const build = gulp.series(clean, gulp.parallel(buildCode, buildStyles, copyFiles));
 
 /********************/
 /*      CLEAN       */
@@ -146,14 +124,10 @@ function getDataPaths() {
 
 		return dataPaths.map(dataPath => {
 			if (typeof dataPath !== "string") {
-				throw new Error(
-					`Property dataPath in foundryconfig.json is expected to be a string or an array of strings, but found ${dataPath}`,
-				);
+				throw new Error(`Property dataPath in foundryconfig.json is expected to be a string or an array of strings, but found ${dataPath}`);
 			}
 			if (!fs.existsSync(path.resolve(dataPath))) {
-				throw new Error(
-					`The dataPath ${dataPath} does not exist on the file system`,
-				);
+				throw new Error(`The dataPath ${dataPath} does not exist on the file system`);
 			}
 			return path.resolve(dataPath);
 		});
@@ -173,9 +147,7 @@ export async function link() {
 		throw new Error("Could not find system.json");
 	}
 
-	const linkDirectories = getDataPaths().map(dataPath =>
-		path.resolve(dataPath, "Data", destinationDirectory, packageId),
-	);
+	const linkDirectories = getDataPaths().map(dataPath => path.resolve(dataPath, "Data", destinationDirectory, packageId));
 
 	const argv = yargs(hideBin(process.argv)).option("clean", {
 		alias: "c",

@@ -3,8 +3,7 @@
 /* This is your Sass entry file */
 /* ---------------------------- */
 
-@import "fonts", "actor", "ui", "packs", "item", "scene", "settings", "system",
-	"variables", "app";
+@import "fonts", "actor", "ui", "packs", "item", "scene", "settings", "system", "variables", "app";
 
 // form.container {
 // 	.items {
@@ -41,10 +40,7 @@
 
 .window-app.gcs {
 	// Header
-	background-image: linear-gradient(
-		rgba(var(--color-focused-tab), 1),
-		rgba(var(--color-focused-tab), 1)
-	);
+	background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
 	color: rgba(var(--color-on-focused-tab), 1);
 	border: 1px solid rgba(var(--color-header), 1);
 	font: var(--font-system);

@@ -3,22 +3,9 @@ import { gid } from "@module/data";
 import { VariableResolver, evaluateToNumber, sanitize } from "@util";
 import { CharacterGURPS } from "@actor";
 
-export type AttributeType =
-	| "integer"
-	| "decimal"
-	| "pool"
-	| "primary_separator"
-	| "secondary_separator"
-	| "pool_separator";
+export type AttributeType = "integer" | "decimal" | "pool" | "primary_separator" | "secondary_separator" | "pool_separator";
 
-export const reserved_ids: string[] = [
-	gid.Skill,
-	gid.Parry,
-	gid.Block,
-	gid.Dodge,
-	gid.SizeModifier,
-	gid.Ten,
-];
+export const reserved_ids: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
 export class AttributeDef {
 	// def_id = "";
@@ -71,22 +58,9 @@ export class AttributeDef {
 		return evaluateToNumber(this.attribute_base, resolver);
 	}
 
-	computeCost(
-		actor: CharacterGURPS,
-		value: number,
-		cost_reduction: number,
-		size_modifier: number,
-	): number {
+	computeCost(actor: CharacterGURPS, value: number, cost_reduction: number, size_modifier: number): number {
 		let cost = value * this.cost_per_point;
-		if (
-			size_modifier > 0 &&
-			this.cost_adj_percent_per_sm > 0 &&
-			!(
-				this.def_id == "hp" &&
-				actor.settings.damage_progression == "knowing_your_own_strength"
-			)
-		)
-			cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
+		if (size_modifier > 0 && this.cost_adj_percent_per_sm > 0 && !(this.def_id == "hp" && actor.settings.damage_progression == "knowing_your_own_strength")) cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
 		if (cost_reduction > 0) {
 			if (cost_reduction > 80) cost_reduction = 80;
 			cost = (cost * (100 - cost_reduction)) / 100;

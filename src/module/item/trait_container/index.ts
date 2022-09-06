@@ -17,8 +17,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 	get enabled(): boolean {
 		if (this.system.disabled) return false;
 		let enabled = !this.system.disabled;
-		if (this.parent instanceof TraitContainerGURPS)
-			enabled = enabled && this.parent.enabled;
+		if (this.parent instanceof TraitContainerGURPS) enabled = enabled && this.parent.enabled;
 		return enabled;
 	}
 
@@ -82,9 +81,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		return super.children as Collection<TraitGURPS | TraitContainerGURPS>;
 	}
 
-	get modifiers(): Collection<
-		TraitModifierGURPS | TraitModifierContainerGURPS
-	> {
+	get modifiers(): Collection<TraitModifierGURPS | TraitModifierContainerGURPS> {
 		return new Collection(
 			this.items
 				.filter(item => item instanceof TraitModifierGURPS)
@@ -117,16 +114,14 @@ export class TraitContainerGURPS extends ContainerGURPS {
 			let values: number[] = [];
 			for (const child of this.children) {
 				values.push(child.adjustedPoints);
-				if (values[values.length - 1] > points)
-					points = values[values.length - 1];
+				if (values[values.length - 1] > points) points = values[values.length - 1];
 			}
 			let max = points;
 			let found = false;
 			for (let v of values) {
 				if (!found && max == v) found = true;
 				else {
-					if (this.roundCostDown)
-						points += Math.floor(calculateModifierPoints(v, 20));
+					if (this.roundCostDown) points += Math.floor(calculateModifierPoints(v, 20));
 					else points += Math.ceil(calculateModifierPoints(v, 20));
 				}
 			}

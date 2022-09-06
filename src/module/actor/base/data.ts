@@ -13,10 +13,7 @@ export interface ActorFlagsGURPS extends Record<string, unknown> {
 	gurps?: Record<string, unknown>;
 }
 
-export interface BaseActorSourceGURPS<
-	TActorType extends ActorType = ActorType,
-	TSystemData extends ActorSystemData = ActorSystemData,
-> extends ActorDataSource {
+export interface BaseActorSourceGURPS<TActorType extends ActorType = ActorType, TSystemData extends ActorSystemData = ActorSystemData> extends ActorDataSource {
 	type: TActorType;
 	data: TSystemData;
 	flags: DeepPartial<ActorFlagsGURPS>;

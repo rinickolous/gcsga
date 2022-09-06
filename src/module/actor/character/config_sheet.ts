@@ -39,10 +39,7 @@ export class CharacterSheetConfig extends FormApplication {
 		return all_buttons;
 	}
 
-	protected _updateObject(
-		event: Event,
-		formData?: object | undefined,
-	): Promise<unknown> {
+	protected _updateObject(event: Event, formData?: object | undefined): Promise<unknown> {
 		throw new Error("Function not yet implemented");
 	}
 }

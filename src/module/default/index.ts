@@ -32,13 +32,7 @@ export class SkillDefault {
 	}
 
 	equivalent(other: SkillDefault): boolean {
-		return (
-			other &&
-			this.type == other.type &&
-			this.modifier == other.modifier &&
-			this.name == other.name &&
-			this.specialization == other.specialization
-		);
+		return other && this.type == other.type && this.modifier == other.modifier && this.name == other.name && this.specialization == other.specialization;
 	}
 
 	fullName(actor: CharacterGURPS): string {
@@ -54,62 +48,34 @@ export class SkillDefault {
 		return actor.resolveAttributeName(this.type);
 	}
 
-	skillLevel(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean>,
-		rule_of_20: boolean,
-	): number {
+	skillLevel(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean>, rule_of_20: boolean): number {
 		let best = Math.max();
 		switch (this.type) {
 			case "parry":
 				best = this.best(actor, require_points, excludes);
-				if (best != Math.max())
-					best = best / 2 + 3 + actor.calc.parry_bonus;
+				if (best != Math.max()) best = best / 2 + 3 + actor.calc.parry_bonus;
 				return this.finalLevel(best);
 			case "block":
 				best = this.best(actor, require_points, excludes);
-				if (best != Math.max())
-					best = best / 2 + 3 + actor.calc.block_bonus;
+				if (best != Math.max()) best = best / 2 + 3 + actor.calc.block_bonus;
 				return this.finalLevel(best);
 			case "skill":
-				return this.finalLevel(
-					this.best(actor, require_points, excludes),
-				);
+				return this.finalLevel(this.best(actor, require_points, excludes));
 			default:
-				return this.skillLevelFast(
-					actor,
-					require_points,
-					excludes,
-					rule_of_20,
-				);
+				return this.skillLevelFast(actor, require_points, excludes, rule_of_20);
 		}
 	}
 
-	best(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean>,
-	): number {
+	best(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean>): number {
 		let best = Math.max();
-		for (const s of actor.skillNamed(
-			this.name!,
-			this.specialization || "",
-			require_points,
-			excludes,
-		)) {
+		for (const s of actor.skillNamed(this.name!, this.specialization || "", require_points, excludes)) {
 			const level = s.calculateLevel.level;
 			if (best < level) best = level;
 		}
 		return best;
 	}
 
-	skillLevelFast(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean> | null = new Map(),
-		rule_of_20: boolean,
-	): number {
+	skillLevelFast(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean> | null = new Map(), rule_of_20: boolean): number {
 		let level = 0;
 		let best = 0;
 		switch (this.type) {
@@ -119,18 +85,14 @@ export class SkillDefault {
 				return this.finalLevel(level);
 			case gid.Parry:
 				best = this.bestFast(actor, require_points, excludes);
-				if (best != Math.max())
-					best = Math.floor(best / 2) + 3 + actor.calc.parry_bonus;
+				if (best != Math.max()) best = Math.floor(best / 2) + 3 + actor.calc.parry_bonus;
 				return this.finalLevel(best);
 			case gid.Block:
 				best = this.bestFast(actor, require_points, excludes);
-				if (best != Math.max())
-					best = Math.floor(best / 2) + 3 + actor.calc.block_bonus;
+				if (best != Math.max()) best = Math.floor(best / 2) + 3 + actor.calc.block_bonus;
 				return this.finalLevel(best);
 			case gid.Skill:
-				return this.finalLevel(
-					this.bestFast(actor, require_points, excludes),
-				);
+				return this.finalLevel(this.bestFast(actor, require_points, excludes));
 			default:
 				level = actor.resolveAttributeCurrent(this.type);
 				if (rule_of_20) level = Math.min(level, 20);
@@ -138,18 +100,9 @@ export class SkillDefault {
 		}
 	}
 
-	bestFast(
-		actor: CharacterGURPS,
-		require_points: boolean,
-		excludes: Map<string, boolean> | null,
-	): number {
+	bestFast(actor: CharacterGURPS, require_points: boolean, excludes: Map<string, boolean> | null): number {
 		let best = Math.max();
-		for (let sk of actor.skillNamed(
-			this.name!,
-			this.specialization || "",
-			require_points,
-			excludes,
-		)) {
+		for (let sk of actor.skillNamed(this.name!, this.specialization || "", require_points, excludes)) {
 			sk = sk as SkillGURPS | TechniqueGURPS;
 			if (best < sk.level.level) best = sk.level.level;
 		}

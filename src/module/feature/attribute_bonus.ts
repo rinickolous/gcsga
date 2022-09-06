@@ -1,10 +1,7 @@
 import { BaseFeature, FeatureConstructionContext } from "./base";
 
 export class AttributeBonus extends BaseFeature {
-	constructor(
-		data: AttributeBonus | any,
-		context: FeatureConstructionContext,
-	) {
+	constructor(data: AttributeBonus | any, context: FeatureConstructionContext) {
 		super(data, context);
 	}
 
@@ -30,8 +27,4 @@ export interface AttributeBonus extends BaseFeature {
 	limitation: AttributeBonusLimitation;
 }
 
-type AttributeBonusLimitation =
-	| "none"
-	| "striking_only"
-	| "lifting_only"
-	| "throwing_only";
+type AttributeBonusLimitation = "none" | "striking_only" | "lifting_only" | "throwing_only";

@@ -2,16 +2,11 @@ import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 import { Weapon } from "@module/weapon";
 import { PrereqList } from "@prereq";
 
-export type RitualMagicSpellSource = BaseItemSourceGURPS<
-	"ritual_magic_spell",
-	RitualMagicSpellSystemData
->;
+export type RitualMagicSpellSource = BaseItemSourceGURPS<"ritual_magic_spell", RitualMagicSpellSystemData>;
 
 // export class RitualMagicSpellData extends BaseItemDataGURPS<RitualMagicSpellGURPS> {}
 
-export interface RitualMagicSpellData
-	extends Omit<RitualMagicSpellSource, "effects">,
-		RitualMagicSpellSystemData {
+export interface RitualMagicSpellData extends Omit<RitualMagicSpellSource, "effects">, RitualMagicSpellSystemData {
 	readonly type: RitualMagicSpellSource["type"];
 	data: RitualMagicSpellSystemData;
 

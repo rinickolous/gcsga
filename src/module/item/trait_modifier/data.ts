@@ -1,16 +1,11 @@
 import { Feature } from "@feature";
 import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
-export type TraitModifierSource = BaseItemSourceGURPS<
-	"modifier",
-	TraitModifierSystemData
->;
+export type TraitModifierSource = BaseItemSourceGURPS<"modifier", TraitModifierSystemData>;
 
 // export class TraitModifierData extends BaseItemDataGURPS<TraitModifierGURPS> {}
 
-export interface TraitModifierData
-	extends Omit<TraitModifierSource, "effects">,
-		TraitModifierSystemData {
+export interface TraitModifierData extends Omit<TraitModifierSource, "effects">, TraitModifierSystemData {
 	readonly type: TraitModifierSource["type"];
 	data: TraitModifierSystemData;
 

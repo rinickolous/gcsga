@@ -1,6 +1,5 @@
 .gcs.item {
-	@import "prereq", "feature", "trait_modifiers", "equipment_modifiers",
-		"melee", "ranged";
+	@import "prereq", "feature", "trait_modifiers", "equipment_modifiers", "melee", "ranged";
 	&.trait {
 		@import "trait";
 	}

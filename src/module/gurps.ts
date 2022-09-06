@@ -207,13 +207,10 @@ Hooks.once("ready", async () => {
 
 	// Enable drag image
 	const DRAG_IMAGE = document.createElement("div");
-	DRAG_IMAGE.innerHTML = await renderTemplate(
-		`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`,
-		{
-			name: "",
-			type: "",
-		},
-	);
+	DRAG_IMAGE.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
+		name: "",
+		type: "",
+	});
 	DRAG_IMAGE.id = "drag-ghost";
 	document.body.appendChild(DRAG_IMAGE);
 	await Promise.all(
@@ -231,31 +228,16 @@ Hooks.once("ready", async () => {
 });
 
 // Add any additional hooks if necessary
-Hooks.on("renderChatMessage", (_app, html, _data) =>
-	Chat.addChatListeners(html),
-);
+Hooks.on("renderChatMessage", (_app, html, _data) => Chat.addChatListeners(html));
 
-Hooks.on(
-	"renderSidebarTab",
-	async (app: SidebarTab, html: JQuery<HTMLElement>) => {
-		if (app.options.id === "compendium") {
-			const importButton = $(
-				"<button><i class='fas fa-file-import'></i>" +
-					i18n("gurps.system.library_import.button") +
-					"</button>",
-			);
-			importButton.on("click", _event => ItemImporter.showDialog());
-			html.find(".directory-footer").append(importButton);
+Hooks.on("renderSidebarTab", async (app: SidebarTab, html: JQuery<HTMLElement>) => {
+	if (app.options.id === "compendium") {
+		const importButton = $("<button><i class='fas fa-file-import'></i>" + i18n("gurps.system.library_import.button") + "</button>");
+		importButton.on("click", _event => ItemImporter.showDialog());
+		html.find(".directory-footer").append(importButton);
 
-			const browseButton = $(
-				"<button><i class='fas fa-book-open-cover'></i>" +
-					i18n("gurps.compendium_browser.button") +
-					"</button>",
-			);
-			browseButton.on("click", _event =>
-				GURPS.CompendiumBrowser.render(true),
-			);
-			html.find(".directory-footer").append(browseButton);
-		}
-	},
-);
+		const browseButton = $("<button><i class='fas fa-book-open-cover'></i>" + i18n("gurps.compendium_browser.button") + "</button>");
+		browseButton.on("click", _event => GURPS.CompendiumBrowser.render(true));
+		html.find(".directory-footer").append(browseButton);
+	}
+});

@@ -30,18 +30,10 @@ export class CompendiumEquipmentTab extends CompendiumTab {
 		const equipment: CompendiumIndexData[] = [];
 		const indexFields = ["img", "name", "system.tags"];
 
-		for await (const { pack, index } of this.browser.packLoader.loadPacks(
-			"Item",
-			this.browser.loadedPacks("equipment"),
-			indexFields,
-		)) {
+		for await (const { pack, index } of this.browser.packLoader.loadPacks("Item", this.browser.loadedPacks("equipment"), indexFields)) {
 			console.log(pack, index);
 			for (const equipmentData of index) {
-				if (
-					["equipment", "equipment_container"].includes(
-						equipmentData.type,
-					)
-				) {
+				if (["equipment", "equipment_container"].includes(equipmentData.type)) {
 					// TODO: hasAllIndexFields
 					equipment.push({
 						_id: equipmentData._id,

@@ -1,4 +1,3 @@
-import { BaseItemGURPS, TraitContainerGURPS, TraitGURPS } from "@item";
 import { SYSTEM_NAME } from "@module/settings";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { CompendiumTab } from "./base";
@@ -12,41 +11,41 @@ export class CompendiumTraitTab extends CompendiumTab {
 	}
 
 	protected override async loadData(): Promise<void> {
-		const traits: CompendiumIndexData[] = [];
-		// const indexFields = ["img", "name", "system.tags", "modifiers", "type", "open", "id", "children", "reference", "enabled", "notes", "cr", "formattedCR", "parents"];
-		// const indexFields = ["img", "name", "system.tags", "system.notes", `flags.${SYSTEM_NAME}.contentsData`];
+		const trait_list: CompendiumIndexData[] = [];
 		const indexFields = ["img", "name", "system", "flags"];
 
 		for await (const { pack, index } of this.browser.packLoader.loadPacks("Item", this.browser.loadedPacks("trait"), indexFields)) {
-			console.log(pack, index);
-			for (const traitData of index) {
-				// console.log(traitData);
-				const trait: TraitGURPS | TraitContainerGURPS = new BaseItemGURPS(traitData as any) as any;
-				if (["trait", "trait_container"].includes(traitData.type)) {
-					// TODO: hasAllIndexFields
-					traits.push({
-						_id: traitData._id,
-						type: traitData.type,
-						name: traitData.name,
-						formattedName: trait.formattedName,
-						img: traitData.img,
-						compendium: pack.collection,
-						open: trait.open,
-						id: traitData._id,
-						children: trait instanceof TraitContainerGURPS ? trait.children : [],
-						adjustedPoints: trait.adjustedPoints,
-						tags: trait.tags,
-						reference: trait.reference,
-						enabled: true,
-						parents: trait.parents,
-						modifiers: trait.modifiers,
-						cr: trait.cr,
-						formattedCR: trait.formattedCR,
-					});
-				}
-			}
+			const collection = (game as Game).packs.get(pack.collection);
+			((await collection?.getDocuments()) as any).forEach((trait: any) => {
+				if (!["trait", "trait_container"].includes(trait.type)) return;
+				trait.prepareData();
+				// TODO: hasAllIndexFields
+				trait_list.push({
+					_id: trait._id,
+					type: trait.type,
+					name: trait.name,
+					formattedName: trait.formattedName,
+					notes: trait.notes,
+					img: trait.img,
+					compendium: pack.collection,
+					open: trait.open,
+					id: trait._id,
+					children: trait.type === "trait_container" ? trait.children : [],
+					adjustedPoints: trait.adjustedPoints,
+					tags: trait.tags,
+					reference: trait.reference,
+					enabled: true,
+					parents: trait.parents,
+					modifiers: trait.modifiers,
+					cr: trait.cr,
+					formattedCR: trait.formattedCR,
+				});
+			});
+
+			// TODO: get rid of
+			trait_list.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
 		}
 
-		this.indexData = traits;
+		this.indexData = trait_list;
 	}
 }

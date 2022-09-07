@@ -35,36 +35,36 @@ export class CompendiumBrowser extends Application {
 		return i18n("gurps.compendium_browser.title");
 	}
 
-	private async renderReultsList(html: HTMLElement, list: HTMLUListElement, start = 0): Promise<void> {
-		const currentTab = this.activeTab !== "settings" ? this.tabs[this.activeTab] : null;
-		if (!currentTab) return;
+	// private async renderReultsList(html: HTMLElement, list: HTMLUListElement, start = 0): Promise<void> {
+	// 	const currentTab = this.activeTab !== "settings" ? this.tabs[this.activeTab] : null;
+	// 	if (!currentTab) return;
 
-		const newResults = await currentTab.renderResults(start);
-		this.activateResultListeners(newResults);
-		const fragment = document.createDocumentFragment();
-		fragment.append(...newResults);
-		list.append(fragment);
-		for (const dragDropHandler of this._dragDrop) {
-			dragDropHandler.bind(html);
-		}
-	}
+	// 	const newResults = await currentTab.renderResults(start);
+	// 	this.activateResultListeners(newResults);
+	// 	const fragment = document.createDocumentFragment();
+	// 	fragment.append(...newResults);
+	// 	list.append(fragment);
+	// 	for (const dragDropHandler of this._dragDrop) {
+	// 		dragDropHandler.bind(html);
+	// 	}
+	// }
 
-	private activateResultListeners(liElements: HTMLLIElement[] = []): void {
-		for (const liElement of liElements) {
-			const { entryUuid } = liElement.dataset;
-			if (!entryUuid) continue;
+	// private activateResultListeners(liElements: HTMLLIElement[] = []): void {
+	// 	for (const liElement of liElements) {
+	// 		const { entryUuid } = liElement.dataset;
+	// 		if (!entryUuid) continue;
 
-			const nameAnchor = liElement.querySelector<HTMLAnchorElement>("div.name > a");
-			if (nameAnchor) {
-				nameAnchor.addEventListener("click", async () => {
-					const document = (await fromUuid(entryUuid)) as any;
-					if (document?.sheet) {
-						document.sheet.render(true);
-					}
-				});
-			}
-		}
-	}
+	// 		const nameAnchor = liElement.querySelector<HTMLAnchorElement>("div.name > a");
+	// 		if (nameAnchor) {
+	// 			nameAnchor.addEventListener("click", async () => {
+	// 				const document = (await fromUuid(entryUuid)) as any;
+	// 				if (document?.sheet) {
+	// 					document.sheet.render(true);
+	// 				}
+	// 			});
+	// 		}
+	// 	}
+	// }
 
 	static override get defaultOptions(): ApplicationOptions {
 		return mergeObject(super.defaultOptions, {
@@ -187,7 +187,7 @@ export class CompendiumBrowser extends Application {
 		if (!item) return;
 		const sheet = (item as any).sheet;
 		if (sheet._minimized) return sheet.maximize();
-		else return sheet?.render(true, { editable: (game as Game).user?.isGM && (game as Game).packs.get(pack)?.locked });
+		else return sheet?.render(true, { editable: (game as Game).user?.isGM && !(game as Game).packs.get(pack)?.locked });
 	}
 
 	private initCompendiumList(): void {
@@ -209,8 +209,6 @@ export class CompendiumBrowser extends Application {
 
 			if (["trait", "trait_container"].some(type => types.has(type))) {
 				const load = this.settings.trait?.[pack.collection]?.load ?? false;
-				// console.log(this.settings, pack.collection, load);
-				// const load = true;
 				settings.trait![pack.collection] = {
 					load,
 					name: pack.metadata.label,
@@ -218,21 +216,21 @@ export class CompendiumBrowser extends Application {
 			}
 			if (["modifier", "modifier_container"].some(type => types.has(type))) {
 				const load = this.settings.modifier?.[pack.collection]?.load ?? false;
-				settings.trait![pack.collection] = {
+				settings.modifier![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};
 			}
 			if (["skill", "technique", "skill_container"].some(type => types.has(type))) {
 				const load = this.settings.skill?.[pack.collection]?.load ?? false;
-				settings.trait![pack.collection] = {
+				settings.skill![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};
 			}
 			if (["spell", "ritual_magic_spell", "spell_container"].some(type => types.has(type))) {
 				const load = this.settings.spell?.[pack.collection]?.load ?? false;
-				settings.trait![pack.collection] = {
+				settings.spell![pack.collection] = {
 					load,
 					name: pack.metadata.label,
 				};

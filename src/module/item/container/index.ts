@@ -165,6 +165,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				const theItem = new CONFIG.Item.documentClass(item, {
 					parent: this as any,
 				});
+				theItem.prepareData();
 				this.items.set(item._id!, theItem as ItemGURPS);
 			} else {
 				const currentItem = oldItems.get(item._id!)!;

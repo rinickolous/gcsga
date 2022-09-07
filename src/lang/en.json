@@ -475,7 +475,32 @@
 			"note": "Notes",
 			"search": "Search",
 			"tags": "Tags",
-			"settings": "Settings"
+			"settings": "Settings",
+			"item": {
+				"trait": "Trait",
+				"modifier": "Trait Modifier",
+				"skill": "Skill / Technique",
+				"spell": "Spell",
+				"equipment": "Equipment",
+				"eqp_modifier": "Equipmennt Modifier",
+				"note": "Note",
+				"tags": "Tags",
+				"points": "Pts",
+				"cost_mod": "Cost Modifier",
+				"difficulty": "Diff",
+				"college": "College",
+				"resist": "Resist",
+				"spell_class": "Class",
+				"casting_cost": "Cost",
+				"maintenance_cost": "Maintain",
+				"casting_time": "Time",
+				"duration": "Duration",
+				"uses": "Uses",
+				"tech_level": "TL",
+				"legality_class": "LC",
+				"value_mod": "Cost Adjustment",
+				"weight_mod": "Weight Adjustment"
+			}
 		},
 		"system": {
 			"sheet": {
@@ -510,7 +535,9 @@
 				"button": "Import GCS Library",
 				"title": "Import GCS Library",
 				"import": "Import",
-				"cancel": "Cancel"
+				"cancel": "Cancel",
+				"start": "Importing library: {name}",
+				"finished": "Finished importing {number} items."
 			}
 		},
 		"settings": {

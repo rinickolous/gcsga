@@ -17,6 +17,7 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 	get levels(): number {
 		return this.system.levels;
 	}
+
 	get costDescription() {
 		let base = "";
 		if (this.costType == "percentage") {

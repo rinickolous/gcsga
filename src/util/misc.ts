@@ -109,7 +109,7 @@ export function extractTechLevel(str: string): number {
 	return Math.min(Math.max(0, parseInt(str)), 12);
 }
 
-type WeightValueType = "weight_addition" | "weight_percentage_addition" | "weight_percentage_multiplier" | "weight_multiplier";
+export type WeightValueType = "weight_addition" | "weight_percentage_addition" | "weight_percentage_multiplier" | "weight_multiplier";
 
 export function determineModWeightValueTypeFromString(s: string): WeightValueType {
 	if (typeof s !== "string") s = `${s}`;

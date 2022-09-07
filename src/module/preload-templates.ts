@@ -69,6 +69,13 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 		"chat/import-character-error",
 
 		"compendium-browser/trait",
+		"compendium-browser/modifier",
+		"compendium-browser/skill",
+		"compendium-browser/spell",
+		"compendium-browser/equipment",
+		"compendium-browser/eqp_modifier",
+		"compendium-browser/note",
+		"compendium-browser/item-notes",
 		"compendium-browser/settings",
 	];
 	const formattedPaths: string[] = [];

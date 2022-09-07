@@ -79,6 +79,7 @@ const GURPSCONFIG: any = {
 		childTypes: {
 			trait: ["trait", "trait_container"],
 			trait_container: ["trait", "trait_container"],
+			modifier_container: ["modifier", "modifier_container"],
 			skill: ["skill", "technique", "skill_container"],
 			technique: ["skill", "technique", "skill_container"],
 			skill_container: ["skill", "technique", "skill_container"],
@@ -87,6 +88,7 @@ const GURPSCONFIG: any = {
 			spell_container: ["spell", "ritual_magic_spell", "spell_container"],
 			equipment: ["equipment", "equipment_container"],
 			equipment_container: ["equipment", "equipment_container"],
+			eqp_modifier_container: ["eqp_modifier", "eqp_modifier_container"],
 			note: ["note", "note_container"],
 			note_container: ["note", "note_container"],
 		},

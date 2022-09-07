@@ -6,6 +6,42 @@
 			<dd>{{conf.name}}</dd>
 		</label>
 		{{/each}}
+		{{#each modifier as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="modifier-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{#each skill as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="skill-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{#each spell as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="spell-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{#each equipment as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="equipment-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{#each eqp_modifier as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="eqp_modifier-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
+		{{#each note as |conf pack|}}
+		<label>
+			<dt><input type="checkbox" name="note-{{pack}}" {{checked conf.load}}></dt>
+			<dd>{{conf.name}}</dd>
+		</label>
+		{{/each}}
 		{{!-- <div class="searchbar"> --}}
 			{{!-- <input name="searchQuery" class="input" value="{{searchQuery}}" data-dtype="String" --}} {{!--
 				placeholder={{localize "gurps.compendium_browser_search" }} /> --}}

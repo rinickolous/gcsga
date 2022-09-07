@@ -109,19 +109,19 @@ export class ItemImporter {
 			return this.throwImportError(errorMessages);
 		}
 
-		let commit: ItemLibraryData | any = {};
+		// let commit: ItemLibraryData | any = {};
 		try {
 			if (r.version < this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_old")));
 			if (r.version > this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_new")));
 
-			commit = { ...commit, ...{ type: r.type } };
-			commit = { ...commit, ...{ version: r.version } };
+			// commit = { ...commit, ...{ type: r.type } };
+			// commit = { ...commit, ...{ version: r.version } };
 
 			const items: Array<ItemSystemDataGURPS> = [];
 			items.push(...this.importItems(r.rows));
-			commit = { ...commit, ...{ rows: items } };
+			// commit = { ...commit, ...{ rows: items } };
 
-			console.log(commit);
+			// console.log(commit);
 
 			let pack = (game as Game).packs.find(p => p.metadata.name === name);
 			if (!pack) {
@@ -134,13 +134,11 @@ export class ItemImporter {
 					private: true,
 				});
 			}
-			ui.notifications?.info("Importing Library. This will take a few seconds.");
-			let counter = 0;
-			for (const i of items) {
-				counter++;
-				Item.create(i, { pack: `world.${name}` });
-			}
-			ui.notifications?.info(`Finished importing ${counter} items.`);
+			ui.notifications?.info(i18n_f("gurps.system.library_import.start", { name: name }));
+			let counter = items.length;
+			console.log(items);
+			Item.create(items as any, { pack: `world.${name}` });
+			ui.notifications?.info(i18n_f("gurps.system.library_import.finished", { number: counter }));
 		} catch (err) {
 			console.error(err);
 			errorMessages.push(
@@ -160,6 +158,7 @@ export class ItemImporter {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
 			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
+			console.log(itemData);
 			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,

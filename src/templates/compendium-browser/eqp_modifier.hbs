@@ -12,11 +12,11 @@
 	<div class="name">
 		{{this.formattedName}}
 	</div>
-	{{>compendium-browser/item-notes}}
+	{{>actor/character/sections/item-notes}}
 </div>
-<div class="tl">{{this.techLevel}}</div>
-<div class="value">{{this.value}}</div>
-<div class="weight">{{this.weight}}</div>
+<div class="tech-level">{{this.techLevel}}</div>
+<div class="value">{{this.costDescription}}</div>
+<div class="weight">{{this.weightDescription}}</div>
 <div class="tags">{{join this.tags ", "}}</div>
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}

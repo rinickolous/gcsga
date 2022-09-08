@@ -1,5 +1,8 @@
-import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import { ItemDataGURPS, ItemFlagsGURPS, ItemType } from "@item/data";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, MeleeWeapon, RangedWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
@@ -12,6 +15,24 @@ import { BaseFeature } from "@feature/base";
 import { PrereqList } from "@prereq";
 import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/helpers.mjs";
 import { ContainerGURPS } from "@item/container";
+import {
+	EquipmentContainerGURPS,
+	EquipmentGURPS,
+	EquipmentModifierContainerGURPS,
+	EquipmentModifierGURPS,
+	NoteContainerGURPS,
+	NoteGURPS,
+	RitualMagicSpellGURPS,
+	SkillContainerGURPS,
+	SkillGURPS,
+	SpellContainerGURPS,
+	SpellGURPS,
+	TechniqueGURPS,
+	TraitContainerGURPS,
+	TraitGURPS,
+	TraitModifierContainerGURPS,
+	TraitModifierGURPS,
+} from "@item";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gurps?: {
@@ -19,8 +40,26 @@ export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	};
 }
 
+export type ItemGURPS =
+	| TraitGURPS
+	| TraitContainerGURPS
+	| TraitModifierGURPS
+	| TraitModifierContainerGURPS
+	| SkillGURPS
+	| TechniqueGURPS
+	| SkillContainerGURPS
+	| SpellGURPS
+	| RitualMagicSpellGURPS
+	| SpellContainerGURPS
+	| EquipmentGURPS
+	| EquipmentContainerGURPS
+	| EquipmentModifierGURPS
+	| EquipmentModifierContainerGURPS
+	| NoteGURPS
+	| NoteContainerGURPS;
+
 class BaseItemGURPS extends Item {
-	//@ts-ignore
+	// @ts-ignore
 	parent: CharacterGURPS | ContainerGURPS | null;
 
 	constructor(data: ItemDataGURPS | any, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
@@ -37,7 +76,7 @@ class BaseItemGURPS extends Item {
 		}
 	}
 
-	// static override async createDocuments(
+	// Static override async createDocuments(
 	// 	data: any[],
 	// 	context: DocumentModificationContext & { options?: any }
 	// ): Promise<any[]> {
@@ -58,21 +97,29 @@ class BaseItemGURPS extends Item {
 	// 	return parent.updateEmbeddedDocuments("Item", updates, options);
 	// }
 
-	protected async _preCreate(data: ItemDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
+	protected async _preCreate(
+		data: ItemDataGURPS,
+		options: DocumentModificationOptions,
+		user: BaseUser
+	): Promise<void> {
 		let type = data.type.replace("_container", "");
-		if (type == "technique") type = "skill";
-		if (type == "ritual_magic_spell") type = "spell";
+		if (type === "technique") type = "skill";
+		if (type === "ritual_magic_spell") type = "spell";
 		// TODO: remove any
-		if (this._source.img === (foundry.documents.BaseItem as any).DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
+		if (this._source.img === (foundry.documents.BaseItem as any).DEFAULT_ICON)
+			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 
-	override async update(data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>, context?: (DocumentModificationContext & MergeObjectOptions) | undefined): Promise<this | undefined> {
+	override async update(
+		data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>,
+		context?: (DocumentModificationContext & MergeObjectOptions) | undefined
+	): Promise<this | undefined> {
 		if (!(this.parent instanceof Item)) return super.update(data, context);
 		data = expandObject(data);
 		data._id = this.id;
 		await this.parent.updateEmbeddedDocuments("Item", [data]);
-		//@ts-ignore
+		// @ts-ignore
 		this.render(false, { action: "update", data: data });
 	}
 
@@ -145,7 +192,7 @@ class BaseItemGURPS extends Item {
 
 	get prereqsEmpty(): boolean {
 		if (!(this.system as any).prereqs.prereqs) return true;
-		return this.prereqs?.prereqs.length == 0;
+		return this.prereqs?.prereqs.length === 0;
 	}
 
 	get meleeWeapons(): Map<number, MeleeWeapon> {
@@ -157,7 +204,18 @@ class BaseItemGURPS extends Item {
 	}
 
 	get weapons(): Map<number, Weapon> {
-		if (!["trait", "skill", "technique", "spell", "ritual_magic_spell", "equipment", "equipment_container"].includes(this.type)) return new Map();
+		if (
+			![
+				"trait",
+				"skill",
+				"technique",
+				"spell",
+				"ritual_magic_spell",
+				"equipment",
+				"equipment_container",
+			].includes(this.type)
+		)
+			return new Map();
 		const weapons: Map<number, Weapon> = new Map();
 		toArray((this as any).system.weapons).forEach((w: any, index: number) => {
 			weapons.set(
@@ -165,7 +223,7 @@ class BaseItemGURPS extends Item {
 				new BaseWeapon({
 					...w,
 					...{ parent: this, actor: this.actor, id: index },
-				}),
+				})
 			);
 		});
 		return weapons;
@@ -201,11 +259,11 @@ class BaseItemGURPS extends Item {
 	}
 }
 
-//@ts-ignore
+// @ts-ignore
 interface BaseItemGURPS extends Item {
 	parent: CharacterGURPS | ContainerGURPS | null;
 	system: ItemSystemData;
-	// temporary
+	// Temporary
 	_id: string;
 	_source: BaseItemSourceGURPS;
 	flags: ItemFlagsGURPS;

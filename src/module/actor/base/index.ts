@@ -1,10 +1,14 @@
 import { ActorDataGURPS, ActorSourceGURPS } from "@actor/data";
-import { Context, DocumentModificationOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	Context,
+	DocumentModificationOptions,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import { ContainerGURPS, ItemGURPS } from "@item";
+import { ItemGURPS } from "@item";
 import { ActorSystemData, BaseActorSourceGURPS } from "./data";
+import { ContainerGURPS } from "@item/container";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gurps?: {
@@ -24,9 +28,14 @@ class BaseActorGURPS extends Actor {
 		}
 	}
 
-	protected async _preCreate(data: ActorDataConstructorData & ActorDataGURPS, options: DocumentModificationOptions, user: BaseUser): Promise<void> {
-		//@ts-ignore TODO:
-		if (this._source.img === foundry.documents.BaseActor.DEFAULT_ICON) this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
+	protected async _preCreate(
+		data: ActorDataConstructorData & ActorDataGURPS,
+		options: DocumentModificationOptions,
+		user: BaseUser
+	): Promise<void> {
+		// @ts-ignore TODO:
+		if (this._source.img === foundry.documents.BaseActor.DEFAULT_ICON)
+			this._source.img = data.img = `systems/${SYSTEM_NAME}/assets/icons/${data.type}.svg`;
 		await super._preCreate(data, options, user);
 	}
 
@@ -35,22 +44,22 @@ class BaseActorGURPS extends Actor {
 		for (const item of this.items as any as Collection<ItemGURPS>) {
 			deepItems.push(item);
 			if (item instanceof ContainerGURPS)
-				for (const i of item.deepItems) {
+				for (const i of (item as ContainerGURPS).deepItems) {
 					deepItems.push(i);
 				}
 		}
 		return new Collection(
 			deepItems.map(e => {
 				return [e.id!, e];
-			}),
+			})
 		);
 	}
 }
 
 interface BaseActorGURPS extends Actor {
-	// readonly data: BaseActorDataGURPS;
+	// Readonly data: BaseActorDataGURPS;
 	deepItems: Collection<ItemGURPS>;
-	// temp
+	// Temp
 	system: ActorSystemData;
 	_source: BaseActorSourceGURPS;
 	_id: string;

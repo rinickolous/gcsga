@@ -9,7 +9,7 @@ import { TraitContainerData, TraitContainerType } from "./data";
 export class TraitContainerGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
 
-	// static override get schema(): typeof TraitContainerData {
+	// Static override get schema(): typeof TraitContainerData {
 	// 	return TraitContainerData;
 	// }
 
@@ -43,13 +43,11 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get formattedCR(): string {
 		let cr = "";
-		if (this.cr != CR.None) cr += i18n(`gurps.select.cr_level.${this.cr}`);
-		if (this.crAdj != "none")
-			cr +=
-				", " +
-				i18n_f(`gurps.select.cr_adj.${this.crAdj}`, {
-					penalty: SelfControl.adjustment(this.cr, this.crAdj),
-				});
+		if (this.cr !== CR.None) cr += i18n(`gurps.select.cr_level.${this.cr}`);
+		if (this.crAdj !== "none")
+			cr += `, ${i18n_f(`gurps.select.cr_adj.${this.crAdj}`, {
+				penalty: SelfControl.adjustment(this.cr, this.crAdj),
+			})}`;
 		return cr;
 	}
 
@@ -59,14 +57,12 @@ export class TraitContainerGURPS extends ContainerGURPS {
 
 	get modifierNotes(): string {
 		let n = "";
-		if (this.cr != CR.None) {
+		if (this.cr !== CR.None) {
 			n += i18n(`gurps.select.cr_level.${this.cr}`);
-			if (this.crAdj != "none") {
-				n +=
-					", " +
-					i18n_f(`gurps.item.cr_adj_display.${this.crAdj}`, {
-						penalty: "TODO",
-					});
+			if (this.crAdj !== "none") {
+				n += `, ${i18n_f(`gurps.item.cr_adj_display.${this.crAdj}`, {
+					penalty: "TODO",
+				})}`;
 			}
 		}
 		for (const m of this.deepModifiers) {
@@ -87,7 +83,7 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				.filter(item => item instanceof TraitModifierGURPS)
 				.map(item => {
 					return [item.id!, item];
-				}),
+				})
 		) as Collection<TraitModifierGURPS>;
 	}
 
@@ -103,27 +99,25 @@ export class TraitContainerGURPS extends ContainerGURPS {
 		return new Collection(
 			deepModifiers.map(item => {
 				return [item.id!, item];
-			}),
+			})
 		);
 	}
 
 	get adjustedPoints(): number {
 		if (!this.enabled) return 0;
 		let points = 0;
-		if (this.containerType == "alternative_abilities") {
-			let values: number[] = [];
+		if (this.containerType === "alternative_abilities") {
+			const values: number[] = [];
 			for (const child of this.children) {
 				values.push(child.adjustedPoints);
 				if (values[values.length - 1] > points) points = values[values.length - 1];
 			}
-			let max = points;
+			const max = points;
 			let found = false;
-			for (let v of values) {
-				if (!found && max == v) found = true;
-				else {
-					if (this.roundCostDown) points += Math.floor(calculateModifierPoints(v, 20));
-					else points += Math.ceil(calculateModifierPoints(v, 20));
-				}
+			for (const v of values) {
+				if (!found && max === v) found = true;
+				else if (this.roundCostDown) points += Math.floor(calculateModifierPoints(v, 20));
+				else points += Math.ceil(calculateModifierPoints(v, 20));
 			}
 		} else {
 			for (const child of this.children) {
@@ -149,8 +143,8 @@ export class TraitContainerGURPS extends ContainerGURPS {
 				return [0, 0, this.adjustedPoints, 0];
 			}
 		}
-		let pts = this.adjustedPoints;
-		if (pts == -1) quirk += pts;
+		const pts = this.adjustedPoints;
+		if (pts === -1) quirk += pts;
 		else if (pts > 0) ad += pts;
 		else if (pts < 0) disad += pts;
 		return [ad, disad, race, quirk];

@@ -1,10 +1,7 @@
-import { BaseWeapon } from "./base";
-import { RangedWeapon } from "./ranged";
-import { MeleeWeapon } from "./melee";
+// Import { BaseWeapon } from "./base";
+// import { RangedWeapon } from "./ranged";
+// import { MeleeWeapon } from "./melee";
 
-export type WeaponType = "melee_weapon" | "ranged_weapon";
-export type Weapon = BaseWeapon | MeleeWeapon | RangedWeapon;
-
-export { BaseWeapon } from "./base";
 export { RangedWeapon } from "./ranged";
+export { BaseWeapon, WeaponType, Weapon } from "./base";
 export { MeleeWeapon } from "./melee";

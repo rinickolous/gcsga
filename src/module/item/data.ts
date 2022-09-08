@@ -3,7 +3,10 @@ import { SYSTEM_NAME } from "@module/settings";
 import { EquipmentData, EquipmentSystemData } from "./equipment/data";
 import { EquipmentContainerData, EquipmentContainerSystemData } from "./equipment_container/data";
 import { EquipmentModifierData, EquipmentModifierSystemData } from "./equipment_modifier/data";
-import { EquipmentModifierContainerData, EquipmentModifierContainerSystemData } from "./equipment_modifier_container/data";
+import {
+	EquipmentModifierContainerData,
+	EquipmentModifierContainerSystemData,
+} from "./equipment_modifier_container/data";
 import { NoteData, NoteSystemData } from "./note/data";
 import { NoteContainerData, NoteContainerSystemData } from "./note_container/data";
 import { RitualMagicSpellData, RitualMagicSpellSystemData } from "./ritual_magic_spell/data";
@@ -35,7 +38,17 @@ export type ItemDataGURPS =
 	| NoteData
 	| NoteContainerData;
 
-export type ContainerDataGURPS = TraitData | TraitContainerData | TraitModifierContainerData | SkillContainerData | SpellContainerData | EquipmentData | EquipmentContainerData | EquipmentModifierContainerData | NoteData | NoteContainerData;
+export type ContainerDataGURPS =
+	| TraitData
+	| TraitContainerData
+	| TraitModifierContainerData
+	| SkillContainerData
+	| SpellContainerData
+	| EquipmentData
+	| EquipmentContainerData
+	| EquipmentModifierContainerData
+	| NoteData
+	| NoteContainerData;
 
 export type ItemSystemDataGURPS =
 	| TraitSystemData
@@ -73,7 +86,7 @@ export type ItemType =
 	| "note"
 	| "note_container";
 
-// export type ContainerType =
+// Export type ContainerType =
 // 	| "trait"
 // 	| "trait_container"
 // 	| "skill_container"
@@ -97,17 +110,17 @@ export interface BaseItemSystemData {
 	type: ItemType;
 }
 
-export { ItemGURPS } from "@item";
-export { EquipmentData } from "./equipment/data";
-export { EquipmentContainerData } from "./equipment_container/data";
-export { EquipmentModifierData } from "./equipment_modifier/data";
-export { NoteData } from "./note/data";
-export { NoteContainerData } from "./note_container/data";
-export { RitualMagicSpellData } from "./ritual_magic_spell/data";
-export { SkillData } from "./skill/data";
-export { SkillContainerData } from "./skill_container/data";
-export { SpellData } from "./spell/data";
-export { TechniqueData } from "./technique/data";
-export { TraitData } from "./trait/data";
-export { TraitContainerData } from "./trait_container/data";
-export { TraitModifierData } from "./trait_modifier/data";
+// Export { ItemGURPS } from "@item";
+// export { EquipmentData } from "./equipment/data";
+// export { EquipmentContainerData } from "./equipment_container/data";
+// export { EquipmentModifierData } from "./equipment_modifier/data";
+// export { NoteData } from "./note/data";
+// export { NoteContainerData } from "./note_container/data";
+// export { RitualMagicSpellData } from "./ritual_magic_spell/data";
+// export { SkillData } from "./skill/data";
+// export { SkillContainerData } from "./skill_container/data";
+// export { SpellData } from "./spell/data";
+// export { TechniqueData } from "./technique/data";
+// export { TraitData } from "./trait/data";
+// export { TraitContainerData } from "./trait_container/data";
+// export { TraitModifierData } from "./trait_modifier/data";

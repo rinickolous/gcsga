@@ -3,8 +3,17 @@ import { RollType } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { toWord } from "./misc";
 
-export async function handleRoll(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
-	console.log(user, actor, data);
+/**
+ * Handle a roll made from the character sheet
+ * @param {StoredDocument<User> | null} user
+ * @param {ActorGURPS} actor
+ */
+export async function handleRoll(
+	user: StoredDocument<User> | null,
+	actor: ActorGURPS,
+	data: { [key: string]: any }
+): Promise<void> {
+	// Console.log(user, actor, data);
 	switch (data.type) {
 		case RollType.Modifier:
 			return addModifier(user, actor, data);
@@ -18,16 +27,30 @@ export async function handleRoll(user: StoredDocument<User> | null, actor: Actor
 		case RollType.Damage:
 			return rollDamage(user, actor, data);
 	}
-	if (data.type == RollType.Modifier) addModifier(user, actor, data);
+	if (data.type === RollType.Modifier) addModifier(user, actor, data);
 }
 
+/**
+ * Add a modifier to the list of active modifiers
+ * @param {StoredDocument<User>} user
+ * @param {ActorGURPS} actor
+ */
 function addModifier(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }) {
 	if (!user) return;
 	throw new Error("Function not implemented.");
 }
 
-async function rollSkill(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
-	// const formula = "3d6";
+/**
+ * Roll an skill, 3d against effective skill.
+ * @param {StoredDocument<User>} user
+ * @param {ActorGURPS} actor
+ */
+async function rollSkill(
+	user: StoredDocument<User> | null,
+	actor: ActorGURPS,
+	data: { [key: string]: any }
+): Promise<void> {
+	// Const formula = "3d6";
 	// const roll = Roll.create(formula);
 	// console.log(user, actor, data);
 	// await roll.evaluate({ async: true });
@@ -53,13 +76,22 @@ async function rollSkill(user: StoredDocument<User> | null, actor: ActorGURPS, d
 	// ChatMessage.create(messageData, {});
 }
 
-async function rollAttack(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): Promise<void> {
+/**
+ * Roll an attack, 3d against effective skill. Differentiated from rollSkill by the type of message displayed.
+ * @param {StoredDocument<User>} user
+ * @param {ActorGURPS} actor
+ */
+async function rollAttack(
+	user: StoredDocument<User> | null,
+	actor: ActorGURPS,
+	data: { [key: string]: any }
+): Promise<void> {
 	console.log("rollAttack", user, actor, data);
 	const modifier = user?.getFlag(SYSTEM_NAME, "modifierTotal");
 	const formula = `3d6 + ${modifier}`;
 	const roll = Roll.create(formula);
 	await roll.evaluate({ async: true });
-	let rollTotal = roll.total!;
+	const rollTotal = roll.total ?? 0;
 	const speaker = ChatMessage.getSpeaker({ actor: actor });
 
 	const level = data.weapon.skillLevel(false);
@@ -70,7 +102,7 @@ async function rollAttack(user: StoredDocument<User> | null, actor: ActorGURPS, 
 
 	// Set up Chat Data
 	const chatData: { [key: string]: any } = {
-		name: `${data.weapon.name}${data.weapon.usage ? " - " + data.weapon.usage : ""}`,
+		name: `${data.weapon.name}${data.weapon.usage ? ` - ${data.weapon.usage}` : ""}`,
 		success: getSuccess(level, rollTotal),
 		total: rollTotal,
 		level: level,
@@ -97,17 +129,27 @@ async function rollAttack(user: StoredDocument<User> | null, actor: ActorGURPS, 
 	ChatMessage.create(messageData, {});
 }
 
+/**
+ * Roll damage, specifying die formula in roll.
+ * @param {StoredDocument<User>} user
+ * @param {ActorGURPS} actor
+ */
 function rollDamage(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): void {
 	throw new Error("Function not implemented.");
 }
 
 // TODO: change from string to enum
+/**
+ * Check whether a success roll fails or succeeds.
+ * @param {number} level
+ * @param {number} rollTotal
+ */
 function getSuccess(level: number, rollTotal: number): string {
-	if (rollTotal == 18) return "critical_failure";
+	if (rollTotal === 18) return "critical_failure";
 	if (rollTotal <= 4) return "critical_success";
 	if (level >= 15 && rollTotal <= 5) return "critical_success";
 	if (level >= 16 && rollTotal <= 6) return "critical_success";
-	if (level <= 15 && rollTotal == 17) return "critical_failure";
+	if (level <= 15 && rollTotal === 17) return "critical_failure";
 	if (rollTotal - level >= 10) return "critical_failure";
 	if (level >= rollTotal) return "success";
 	return "failure";

@@ -3,7 +3,7 @@ import { TooltipGURPS } from "@module/tooltip";
 import { BaseWeapon } from "./base";
 
 class MeleeWeapon extends BaseWeapon {
-	// reach = "";
+	// Reach = "";
 	// parry = "";
 	// block = "";
 

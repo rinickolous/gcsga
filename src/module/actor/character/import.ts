@@ -42,6 +42,7 @@ export interface CharacterImportedData extends Omit<CharacterSystemData, "attrib
 
 export class CharacterImporter {
 	version: number;
+
 	document: CharacterGURPS;
 
 	constructor(document: CharacterGURPS) {
@@ -73,8 +74,10 @@ export class CharacterImporter {
 		imp.path = file.path ?? imp.path;
 		imp.last_import = new Date().toISOString();
 		try {
-			if (r.version < this.version) return this.throwImportError([...errorMessages, i18n("gurps.error.import.format_old")]);
-			else if (r.version > this.version) return this.throwImportError([...errorMessages, i18n("gurps.error.import.format_new")]);
+			if (r.version < this.version)
+				return this.throwImportError([...errorMessages, i18n("gurps.error.import.format_old")]);
+			else if (r.version > this.version)
+				return this.throwImportError([...errorMessages, i18n("gurps.error.import.format_new")]);
 			commit = { ...commit, ...{ "system.import": imp } };
 			commit = { ...commit, ...{ name: r.profile.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
@@ -97,7 +100,7 @@ export class CharacterImporter {
 				i18n_f("gurps.error.import.generic", {
 					name: r.profile.name,
 					message: (err as Error).message,
-				}),
+				})
 			);
 			return this.throwImportError(errorMessages);
 		}
@@ -113,7 +116,7 @@ export class CharacterImporter {
 				i18n_f("gurps.error.import.generic", {
 					name: r.profile.name,
 					message: (err as Error).message,
-				}),
+				})
 			);
 			return this.throwImportError(errorMessages);
 		}
@@ -149,12 +152,12 @@ export class CharacterImporter {
 			"system.profile.tech_level": profile.tech_level || "",
 			"system.profile.religion": profile.religion || "",
 		};
-		if (!!profile.portrait) {
+		if (profile.portrait) {
 			const path: string = this.getPortraitPath();
 			let currentDir = "";
 			for (const i of path.split("/")) {
 				try {
-					currentDir += i + "/";
+					currentDir += `${i}/`;
 					await FilePicker.createDirectory("data", currentDir);
 				} catch (err) {
 					continue;
@@ -223,7 +226,7 @@ export class CharacterImporter {
 		for (const item of list) {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
-			// console.log(item.name);
+			// Console.log(item.name);
 			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
 			const newItem = {
 				name: item.name ?? "ERROR",
@@ -232,7 +235,7 @@ export class CharacterImporter {
 				flags: itemFlags,
 				_id: id,
 			};
-			// const newItem = new BaseItemGURPS({
+			// Const newItem = new BaseItemGURPS({
 			// 	name: item.name ?? "ERROR",
 			// 	type: item.type,
 			// 	system: itemData,
@@ -245,7 +248,7 @@ export class CharacterImporter {
 					system: itemData,
 					effects: [],
 					flags: itemFlags,
-					// folder: newItem.folder as Folder,
+					// Folder: newItem.folder as Folder,
 					// img: newItem.img,
 					// permission: newItem.permission,
 					type: item.type,
@@ -258,7 +261,10 @@ export class CharacterImporter {
 		return items;
 	}
 
-	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, ItemFlagsGURPS] {
+	getItemData(
+		item: ItemSystemDataGURPS,
+		context?: { container?: boolean; other?: boolean }
+	): [ItemSystemDataGURPS, ItemFlagsGURPS] {
 		let data: ItemSystemDataGURPS;
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
 		switch (item.type) {
@@ -272,7 +278,7 @@ export class CharacterImporter {
 				flags[SYSTEM_NAME]!.contentsData!.concat(
 					this.importItems((item as any).modifiers, {
 						container: true,
-					}),
+					})
 				);
 				return [data, flags];
 			case "modifier":
@@ -311,7 +317,7 @@ export class CharacterImporter {
 					this.importItems((item as any).modifiers, {
 						container: true,
 						other: context?.other,
-					}),
+					})
 				);
 				return [data, flags];
 			case "eqp_modifier":
@@ -407,7 +413,7 @@ export class CharacterImporter {
 			points: data.points ?? 1,
 			specialization: data.specialization ?? "",
 			tech_level: data.tech_level ?? "",
-			tech_level_required: !!data.tech_level ? true : false,
+			tech_level_required: !!data.tech_level,
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
 			defaults: data.defaults ? this.importDefaults(data.defaults) : [],
@@ -581,7 +587,9 @@ export class CharacterImporter {
 		};
 	}
 
-	getEquipmentModifierContainerData(data: EquipmentModifierContainerSystemData): EquipmentModifierContainerSystemData {
+	getEquipmentModifierContainerData(
+		data: EquipmentModifierContainerSystemData
+	): EquipmentModifierContainerSystemData {
 		return {
 			name: data.name ?? "Equipment Modifier Container",
 			type: data.type ?? "eqp_modifier_container",

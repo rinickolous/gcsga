@@ -57,7 +57,7 @@ import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
-// import { XMLtoJS } from "@util/xml_js";
+// Import { XMLtoJS } from "@util/xml_js";
 // import { GCAImporter } from "@actor/character/import_GCA";
 
 Error.stackTraceLimit = Infinity;
@@ -66,7 +66,8 @@ export const GURPS: any = {};
 if (!(globalThis as any).GURPS) {
 	(globalThis as any).GURPS = GURPS;
 	GURPS.DEBUG = true;
-	GURPS.LEGAL = `GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html`;
+	GURPS.LEGAL =
+		"GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games.\nAll rights are reserved by Steve Jackson Games.\nThis game aid is the original creation of Mikolaj Tomczynski and is released for free distribution, and not for resale, under the permissions granted by\nhttp://www.sjgames.com/general/online_policy.html";
 	GURPS.BANNER = `                                                                                       
       .:~!!~:.        ...::  .:..:.   :..::::::.       .:..:::::..        :~7??!^.     
     ?#@@&##&@@#J.     5@@&!  :&@@&.  .B@@@&##&@@@#7    ^&@@&#&&&@@&Y   :G@@@&&&@@@#J.  
@@ -90,8 +91,8 @@ if (!(globalThis as any).GURPS) {
 Hooks.once("init", async () => {
 	// CONFIG.debug.hooks = true;
 	console.log(`${SYSTEM_NAME} | Initializing ${SYSTEM_NAME}`);
-	console.log("%c" + GURPS.BANNER, "color:limegreen");
-	console.log("%c" + GURPS.LEGAL, "color:yellow");
+	console.log(`%c${GURPS.BANNER}`, "color:limegreen");
+	console.log(`%c${GURPS.LEGAL}`, "color:yellow");
 
 	const src = `systems/${SYSTEM_NAME}/assets/gurps4e.svg`;
 	$("#logo").attr("src", src);
@@ -216,7 +217,7 @@ Hooks.once("ready", async () => {
 	await Promise.all(
 		(game as Game).actors!.map(async actor => {
 			actor.prepareData();
-		}),
+		})
 	);
 
 	// Render modifier app after user object loaded to avoid old data
@@ -232,11 +233,15 @@ Hooks.on("renderChatMessage", (_app, html, _data) => Chat.addChatListeners(html)
 
 Hooks.on("renderSidebarTab", async (app: SidebarTab, html: JQuery<HTMLElement>) => {
 	if (app.options.id === "compendium") {
-		const importButton = $("<button><i class='fas fa-file-import'></i>" + i18n("gurps.system.library_import.button") + "</button>");
+		const importButton = $(
+			`<button><i class='fas fa-file-import'></i>${i18n("gurps.system.library_import.button")}</button>`
+		);
 		importButton.on("click", _event => ItemImporter.showDialog());
 		html.find(".directory-footer").append(importButton);
 
-		const browseButton = $("<button><i class='fas fa-book-open-cover'></i>" + i18n("gurps.compendium_browser.button") + "</button>");
+		const browseButton = $(
+			`<button><i class='fas fa-book-open-cover'></i>${i18n("gurps.compendium_browser.button")}</button>`
+		);
 		browseButton.on("click", _event => GURPS.CompendiumBrowser.render(true));
 		html.find(".directory-footer").append(browseButton);
 	}

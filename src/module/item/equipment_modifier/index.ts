@@ -1,9 +1,16 @@
 import { BaseItemGURPS } from "@item/base";
-import { determineModWeightValueTypeFromString, extractFraction, Fraction, Fractions, i18n, WeightValueType } from "@util";
+import {
+	determineModWeightValueTypeFromString,
+	extractFraction,
+	Fraction,
+	Fractions,
+	i18n,
+	WeightValueType,
+} from "@util";
 import { EquipmentCostType, EquipmentModifierData, EquipmentWeightType } from "./data";
 
 export class EquipmentModifierGURPS extends BaseItemGURPS {
-	// static get schema(): typeof EquipmentModifierData {
+	// Static get schema(): typeof EquipmentModifierData {
 	// 	return EquipmentModifierData;
 	// }
 
@@ -24,7 +31,11 @@ export class EquipmentModifierGURPS extends BaseItemGURPS {
 	}
 
 	get weightDescription(): string {
-		if (this.weightType === "to_original_weight" && (this.weightAmount == "" || this.weightAmount.startsWith("+0"))) return "";
+		if (
+			this.weightType === "to_original_weight" &&
+			(this.weightAmount === "" || this.weightAmount.startsWith("+0"))
+		)
+			return "";
 		return this.formatWeight(this.system.weight, "lb") + i18n(this.weightType);
 	}
 
@@ -32,7 +43,7 @@ export class EquipmentModifierGURPS extends BaseItemGURPS {
 		const t = determineModWeightValueTypeFromString(weight);
 		let result = this._formatWeight(t, extractFraction(weight));
 		if (t === "weight_addition") {
-			result += " " + i18n(unit);
+			result += ` ${i18n(unit)}`;
 		}
 		return result;
 	}
@@ -48,7 +59,7 @@ export class EquipmentModifierGURPS extends BaseItemGURPS {
 					fraction.numerator = 100;
 					fraction.denominator = 1;
 				}
-				return "x" + Fractions.string(fraction) + i18n(t);
+				return `x${Fractions.string(fraction)}${i18n(t)}`;
 			case "weight_multiplier":
 				if (fraction.numerator <= 0) {
 					fraction.numerator = 1;

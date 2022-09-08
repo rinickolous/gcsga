@@ -56,6 +56,10 @@ export const SJG_links = {
 	VOR: "http://www.warehouse23.com/products/vorkosigan-saga-sourcebook-and-roleplaying-game",
 };
 
+/**
+ *
+ * @param pdfs
+ */
 export function openPDF(pdfs: string) {
 	if (!(ui as any).PDFoundry) return ui.notifications?.warn(i18n("gurps.error.modules.pdfoundry_missing"));
 	for (let link of pdfs.split(",")) {

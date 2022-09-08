@@ -7,9 +7,10 @@ import { SpellData } from "./data";
 
 export class SpellGURPS extends ContainerGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+
 	unsatisfied_reason = "";
 
-	// static get schema(): typeof SpellData {
+	// Static get schema(): typeof SpellData {
 	// 	return SpellData;
 	// }
 
@@ -45,7 +46,12 @@ export class SpellGURPS extends ContainerGURPS {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);
-			points += this.actor.spellPointBonusesFor("spell.power_source.points", this.powerSource, this.tags, tooltip);
+			points += this.actor.spellPointBonusesFor(
+				"spell.power_source.points",
+				this.powerSource,
+				this.tags,
+				tooltip
+			);
 			points += this.actor.spellPointBonusesFor("spell.points", this.name ?? "", this.tags, tooltip);
 			points = Math.max(points, 0);
 		}
@@ -53,20 +59,23 @@ export class SpellGURPS extends ContainerGURPS {
 	}
 
 	get skillLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
+		if (this.calculateLevel.level === -Infinity) return "-";
 		return this.calculateLevel.level.toString();
 	}
 
 	get relativeLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
-		return (this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") + signed(this.calculateLevel.relative_level);
+		if (this.calculateLevel.level === -Infinity) return "-";
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
+			signed(this.calculateLevel.relative_level)
+		);
 	}
 
 	// Point & Level Manipulation
 	updateLevel(): boolean {
 		const saved = this.level;
 		this.level = this.calculateLevel;
-		return saved != this.level;
+		return saved !== this.level;
 	}
 
 	get calculateLevel(): SkillLevel {
@@ -76,18 +85,21 @@ export class SpellGURPS extends ContainerGURPS {
 		if (this.actor) {
 			let points = Math.trunc(this.points);
 			level = this.actor.resolveAttributeCurrent(this.attribute);
-			if (this.difficulty == Difficulty.Wildcard) points = Math.trunc(points / 3);
+			if (this.difficulty === Difficulty.Wildcard) points = Math.trunc(points / 3);
 			if (points < 1) {
 				level = Math.max();
 				relative_level = 0;
-			} else if (points == 1) {
-			} // do nothing
-			else if (points < 4) relative_level += 1;
+			} else if (points < 4) relative_level += 1;
 			else relative_level += 1 + Math.trunc(points / 4);
 
-			if (level != Math.max()) {
+			if (level !== Math.max()) {
 				relative_level += this.actor.bestCollegeSpellBonus(this.college, this.tags, tooltip);
-				relative_level += this.actor.spellBonusesFor("spell.power_source", this.powerSource, this.tags, tooltip);
+				relative_level += this.actor.spellBonusesFor(
+					"spell.power_source",
+					this.powerSource,
+					this.tags,
+					tooltip
+				);
 				relative_level += this.actor.spellBonusesFor("spell.name", this.name ?? "", this.tags, tooltip);
 				relative_level = Math.trunc(relative_level);
 				level += relative_level;

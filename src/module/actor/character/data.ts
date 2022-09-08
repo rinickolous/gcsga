@@ -7,7 +7,9 @@ import { DiceGURPS } from "@module/dice";
 export interface CharacterSource extends BaseActorSourceGURPS<ActorType.CharacterGCS, CharacterSystemData> {
 	flags: DeepPartial<CharacterFlags>;
 }
-export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">, CharacterSystemData {
+export interface CharacterDataGURPS
+	extends Omit<CharacterSource, "effects" | "flags" | "items" | "token">,
+		CharacterSystemData {
 	readonly type: CharacterSource["type"];
 	data: CharacterSystemData;
 	flags: CharacterFlags;
@@ -17,13 +19,13 @@ export interface CharacterDataGURPS extends Omit<CharacterSource, "effects" | "f
 
 type CharacterFlags = ActorFlagsGURPS & {
 	gurps: {
-		// empty
+		// Empty
 	};
 };
 
 export interface CharacterSystemData extends ActorSystemData {
 	version: number;
-	// import: CharacterImportData;
+	// Import: CharacterImportData;
 	import: { name: string; path: string; last_import: string };
 	settings: CharacterSettings;
 	created_date: string;
@@ -62,7 +64,7 @@ export interface CharacterSettings {
 		orientation: string;
 	};
 	block_layout: Array<string>;
-	// attributes: Record<string, AttributeSettingDef>;
+	// Attributes: Record<string, AttributeSettingDef>;
 	body_type: HitLocationTable;
 	attributes: Record<string, AttributeDef | AttributeDefObj>; // AttributeObj represents the attribute as an object
 }
@@ -88,7 +90,7 @@ export interface CharacterProfile {
 }
 
 export interface CharacterCalc {
-	// swing: RollGURPS;
+	// Swing: RollGURPS;
 	// thrust: RollGURPS;
 	swing: string;
 	thrust: string;

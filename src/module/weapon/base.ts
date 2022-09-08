@@ -1,5 +1,5 @@
 import { SkillDefault } from "@module/default";
-import { MeleeWeapon, WeaponType } from ".";
+import { MeleeWeapon, RangedWeapon } from ".";
 import { EquipmentContainerGURPS, EquipmentGURPS, ItemGURPS, TraitGURPS } from "@item";
 import { TooltipGURPS } from "@module/tooltip";
 import { CharacterGURPS } from "@actor";
@@ -9,6 +9,9 @@ import { SkillBonus } from "@feature/skill_bonus";
 import { gid } from "@module/data";
 import { WeaponDamage } from "./damage";
 
+export type WeaponType = "melee_weapon" | "ranged_weapon";
+export type Weapon = BaseWeapon | MeleeWeapon | RangedWeapon;
+
 export interface WeaponConstructionContext {
 	ready?: boolean;
 	recursive?: boolean;
@@ -16,25 +19,30 @@ export interface WeaponConstructionContext {
 
 class BaseWeapon {
 	type: WeaponType = "melee_weapon";
-	// damage: WeaponDamage;
+
+	// Damage: WeaponDamage;
 	strength = "";
+
 	usage = "";
+
 	usage_notes = "";
+
 	defaults: SkillDefault[] = [];
 
 	constructor(data: BaseWeapon | any, context: WeaponConstructionContext = {}) {
-		// this.damage = new WeaponDamage({ parent: this });
+		// This.damage = new WeaponDamage({ parent: this });
 		if (context?.ready) {
 			Object.assign(this, data);
-			// this.actor = this.parent.actor;
+			// This.actor = this.parent.actor;
 			this.defaults = this.defaults.map(e => {
 				return new SkillDefault(e);
 			});
-			// this.damage = new WeaponDamage({ ...data.damage, ...{ parent: this } });
+			// This.damage = new WeaponDamage({ ...data.damage, ...{ parent: this } });
 			this.damage = new WeaponDamage(data.damage);
-			// horrible hack to prevent max stack size error
-			if (!context?.recursive) this.damage.parent = new BaseWeapon({ ...this }, { ...context, ...{ recursive: true } });
-			// this.damage.parent = this;
+			// Horrible hack to prevent max stack size error
+			if (!context?.recursive)
+				this.damage.parent = new BaseWeapon({ ...this }, { ...context, ...{ recursive: true } });
+			// This.damage.parent = this;
 		} else {
 			mergeObject(context, { ready: true });
 			const WeaponConstructor = (CONFIG as any).GURPS.Weapon.classes[data.type as WeaponType];
@@ -50,8 +58,8 @@ class BaseWeapon {
 	get notes(): string {
 		let buffer = "";
 		if (this.parent) buffer += this.parent.notes;
-		if (this.usage_notes.trim() != "") {
-			if (buffer.length != 0) buffer += "\n";
+		if (this.usage_notes.trim() !== "") {
+			if (buffer.length !== 0) buffer += "\n";
 			buffer += this.usage_notes;
 		}
 		return buffer;
@@ -66,18 +74,19 @@ class BaseWeapon {
 		if (!actor) return 0;
 		let primaryTooltip = new TooltipGURPS();
 		if (tooltip) primaryTooltip = tooltip;
-		const adj = this.skillLevelBaseAdjustment(actor, primaryTooltip) + this.skillLevelPostAdjustment(actor, primaryTooltip);
+		const adj =
+			this.skillLevelBaseAdjustment(actor, primaryTooltip) + this.skillLevelPostAdjustment(actor, primaryTooltip);
 		let best = -Infinity;
 		for (const def of this.defaults) {
 			let level = def.skillLevelFast(actor, false, null, true);
-			if (level != -Infinity) {
+			if (level !== -Infinity) {
 				level += adj;
 				if (best < level) best = level;
 			}
 		}
-		if (best == -Infinity) return 0;
-		if (tooltip && primaryTooltip && primaryTooltip.length != 0) {
-			if (tooltip.length != 0) tooltip.push("\n");
+		if (best === -Infinity) return 0;
+		if (tooltip && primaryTooltip && primaryTooltip.length !== 0) {
+			if (tooltip.length !== 0) tooltip.push("\n");
 			tooltip.push(primaryTooltip);
 		}
 		if (best < 0) best = 0;
@@ -89,16 +98,32 @@ class BaseWeapon {
 		const minST = this.resolvedMinimumStrength - (actor.strengthOrZero + actor.striking_st_bonus);
 		if (minST > 0) adj -= minST;
 		const nameQualifier = this.parent.name;
-		for (const bonus of actor.namedWeaponSkillBonusesFor("weapon_named.*", nameQualifier ?? "", this.usage, this.parent.tags, tooltip)) {
+		for (const bonus of actor.namedWeaponSkillBonusesFor(
+			"weapon_named.*",
+			nameQualifier ?? "",
+			this.usage,
+			this.parent.tags,
+			tooltip
+		)) {
 			adj += bonus.adjustedAmount;
 		}
-		for (const bonus of actor.namedWeaponSkillBonusesFor("weapon_named./" + nameQualifier, nameQualifier ?? "", this.usage, this.parent.tags, tooltip)) {
+		for (const bonus of actor.namedWeaponSkillBonusesFor(
+			`weapon_named./${nameQualifier}`,
+			nameQualifier ?? "",
+			this.usage,
+			this.parent.tags,
+			tooltip
+		)) {
 			adj += bonus.adjustedAmount;
 		}
 		for (const f of this.parent.features) {
 			adj += this.extractSkillBonusForThisWeapon(f, tooltip);
 		}
-		if (this.parent instanceof TraitGURPS || this.parent instanceof EquipmentGURPS || this.parent instanceof EquipmentContainerGURPS) {
+		if (
+			this.parent instanceof TraitGURPS ||
+			this.parent instanceof EquipmentGURPS ||
+			this.parent instanceof EquipmentContainerGURPS
+		) {
 			for (const mod of this.parent.modifiers) {
 				for (const f of mod.features) {
 					adj += this.extractSkillBonusForThisWeapon(f, tooltip);
@@ -109,14 +134,15 @@ class BaseWeapon {
 	}
 
 	skillLevelPostAdjustment(actor: CharacterGURPS, tooltip: TooltipGURPS): number {
-		if (this instanceof MeleeWeapon) if (this.parry?.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
+		if (this instanceof MeleeWeapon)
+			if (this.parry?.toLowerCase().includes("f")) return this.encumbrancePenalty(actor, tooltip);
 		return 0;
 	}
 
 	encumbrancePenalty(actor: CharacterGURPS, tooltip: TooltipGURPS): number {
 		if (!actor) return 0;
 		const penalty = actor.encumbranceLevel(true).penalty;
-		if (penalty != 0 && tooltip) {
+		if (penalty !== 0 && tooltip) {
 			tooltip.push("\n");
 			tooltip.push(i18n("gurps.tooltip.encumbrance"));
 			tooltip.push(` [${signed(penalty)}]`);
@@ -126,7 +152,7 @@ class BaseWeapon {
 
 	extractSkillBonusForThisWeapon(f: Feature, tooltip: TooltipGURPS): number {
 		if (f instanceof SkillBonus) {
-			if (f.selection_type == "this_weapon") {
+			if (f.selection_type === "this_weapon") {
 				if (stringCompare(this.usage, f.specialization)) {
 					f.addToTooltip(tooltip);
 					return f.adjustedAmount;
@@ -161,16 +187,16 @@ class BaseWeapon {
 		let skillLevel = -Infinity;
 		let line = input;
 		let max = line.length;
-		if (input != "")
+		if (input !== "")
 			for (let i = 0; i < max; i++) {
 				max = line.length;
-				while (i < max && input[i] == " ") i++;
+				while (i < max && input[i] === " ") i++;
 				let ch = line[i];
 				let neg = false;
 				let modifier = 0;
 				let found = false;
-				if (ch == "+" || ch == "-") {
-					neg = ch == "-";
+				if (ch === "+" || ch === "-") {
+					neg = ch === "-";
 					i++;
 					if (i < max) ch = line[i];
 				}
@@ -182,24 +208,24 @@ class BaseWeapon {
 					if (i < max) ch = line[i];
 				}
 				if (found) {
-					if (skillLevel == -Infinity) {
+					if (skillLevel === -Infinity) {
 						let primaryTooltip = new TooltipGURPS();
 						let secondaryTooltip = new TooltipGURPS();
 						if (tooltip) primaryTooltip = tooltip;
-						let preAdj = this.skillLevelBaseAdjustment(actor, primaryTooltip);
-						let postAdj = this.skillLevelPostAdjustment(actor, primaryTooltip);
+						const preAdj = this.skillLevelBaseAdjustment(actor, primaryTooltip);
+						const postAdj = this.skillLevelPostAdjustment(actor, primaryTooltip);
 						let adj = 3;
-						if (baseDefaultType == gid.Parry) adj += actor.parryBonus;
+						if (baseDefaultType === gid.Parry) adj += actor.parryBonus;
 						else adj += actor.blockBonus;
 						let best = -Infinity;
 						for (const def of this.defaults) {
 							let level = def.skillLevelFast(actor, false, null, true);
-							if (level == -Infinity) continue;
+							if (level === -Infinity) continue;
 							level += preAdj;
-							if (baseDefaultType != def.type) Math.trunc((level = level / 2 + adj));
-							level == postAdj;
+							if (baseDefaultType !== def.type) Math.trunc((level = level / 2 + adj));
+							level === postAdj;
 							let possibleTooltip = new TooltipGURPS();
-							if (def.type == gid.Skill && def.name == "Karate") {
+							if (def.type === gid.Skill && def.name === "Karate") {
 								if (tooltip) possibleTooltip = tooltip;
 								level += this.encumbrancePenalty(actor, possibleTooltip);
 							}
@@ -208,13 +234,13 @@ class BaseWeapon {
 								secondaryTooltip = possibleTooltip;
 							}
 						}
-						if (best != -Infinity && tooltip) {
-							if (primaryTooltip && primaryTooltip.length != 0) {
-								if (tooltip.length != 0) tooltip.push("\n");
+						if (best !== -Infinity && tooltip) {
+							if (primaryTooltip && primaryTooltip.length !== 0) {
+								if (tooltip.length !== 0) tooltip.push("\n");
 								tooltip.push(primaryTooltip);
 							}
-							if (secondaryTooltip && primaryTooltip.length != 0) {
-								if (tooltip.length != 0) tooltip.push("\n");
+							if (secondaryTooltip && primaryTooltip.length !== 0) {
+								if (tooltip.length !== 0) tooltip.push("\n");
 								tooltip.push(secondaryTooltip);
 							}
 						}

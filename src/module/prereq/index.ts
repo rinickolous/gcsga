@@ -1,17 +1,13 @@
-import { AttributePrereq } from "./attribute_prereq";
-import { ContainedQuantityPrereq } from "./contained_quantity_prereq";
-import { ContainedWeightPrereq } from "./contained_weight_prereq";
-import { PrereqList } from "./prereq_list";
-import { SkillPrereq } from "./skill_prereq";
-import { SpellPrereq } from "./spell_prereq";
-import { TraitPrereq } from "./trait_prereq";
-
-export type PrereqType = "prereq_list" | "trait_prereq" | "attribute_prereq" | "contained_quantity_prereq" | "contained_weight_prereq" | "skill_prereq" | "spell_prereq";
-
-export type Prereq = PrereqList | TraitPrereq | AttributePrereq | ContainedWeightPrereq | ContainedQuantityPrereq | SkillPrereq | SpellPrereq;
+// Import { AttributePrereq } from "./attribute_prereq";
+// import { ContainedQuantityPrereq } from "./contained_quantity_prereq";
+// import { ContainedWeightPrereq } from "./contained_weight_prereq";
+// import { PrereqList } from "./prereq_list";
+// import { SkillPrereq } from "./skill_prereq";
+// import { SpellPrereq } from "./spell_prereq";
+// import { TraitPrereq } from "./trait_prereq";
 
 export const prereqClasses = {
-	// prereq_list: PrereqList,
+	// Prereq_list: PrereqList,
 	// trait_prereq: TraitPrereq,
 	// attribute_prereq: AttributePrereq,
 	// contained_quantity_prereq: ContainedQuantityPrereq,
@@ -20,7 +16,7 @@ export const prereqClasses = {
 	// spell_prereq: SpellPrereq,
 };
 
-export { BasePrereq } from "./base";
+export { BasePrereq, Prereq, PrereqType } from "./base";
 export { AttributePrereq } from "./attribute_prereq";
 export { ContainedQuantityPrereq } from "./contained_quantity_prereq";
 export { ContainedWeightPrereq } from "./contained_weight_prereq";

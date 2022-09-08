@@ -6,10 +6,15 @@ import * as browserTabs from "./tabs";
 
 export class CompendiumBrowser extends Application {
 	settings!: CompendiumBrowserSettings;
+
 	dataTabsList = ["trait", "modifier", "skill", "spell", "equipment", "eqp_modifier", "note"] as const;
+
 	tabs: Record<Exclude<TabName, "settings">, BrowserTab>;
+
 	packLoader = new PackLoader();
+
 	activeTab!: TabName;
+
 	navigationTab!: Tabs;
 
 	initialFilter: any = {};
@@ -35,7 +40,7 @@ export class CompendiumBrowser extends Application {
 		return i18n("gurps.compendium_browser.title");
 	}
 
-	// private async renderReultsList(html: HTMLElement, list: HTMLUListElement, start = 0): Promise<void> {
+	// Private async renderReultsList(html: HTMLElement, list: HTMLUListElement, start = 0): Promise<void> {
 	// 	const currentTab = this.activeTab !== "settings" ? this.tabs[this.activeTab] : null;
 	// 	if (!currentTab) return;
 
@@ -104,7 +109,6 @@ export class CompendiumBrowser extends Application {
 							pack.load = formData.has(`${t}-${key}`);
 						}
 					}
-					// await (game as Game).settings.set(SYSTEM_NAME, "compendiumBrowserPacks", JSON.stringify(this.settings));
 					await (game as Game).settings.set(SYSTEM_NAME, "compendiumBrowserPacks", this.settings);
 					this.loadSettings();
 					this.initCompendiumList();
@@ -117,10 +121,9 @@ export class CompendiumBrowser extends Application {
 					this.render(true);
 				});
 			}
-			return;
 		}
 
-		// const currentTab = this.tabs[activeTabName];
+		// Const currentTab = this.tabs[activeTabName];
 		// const controlArea =
 		// 	_html.querySelector<HTMLDivElement>("div.control-area");
 		// if (!controlArea) return;
@@ -187,7 +190,10 @@ export class CompendiumBrowser extends Application {
 		if (!item) return;
 		const sheet = (item as any).sheet;
 		if (sheet._minimized) return sheet.maximize();
-		else return sheet?.render(true, { editable: (game as Game).user?.isGM && !(game as Game).packs.get(pack)?.locked });
+		else
+			return sheet?.render(true, {
+				editable: (game as Game).user?.isGM && !(game as Game).packs.get(pack)?.locked,
+			});
 	}
 
 	private initCompendiumList(): void {
@@ -202,10 +208,10 @@ export class CompendiumBrowser extends Application {
 		};
 
 		for (const pack of (game as Game).packs) {
-			//@ts-ignore
+			// @ts-ignore
 			const types = new Set(pack.index.map(entry => entry.type));
 			if (types.size === 0) continue;
-			// console.log("types", types);
+			// Console.log("types", types);
 
 			if (["trait", "trait_container"].some(type => types.has(type))) {
 				const load = this.settings.trait?.[pack.collection]?.load ?? false;
@@ -262,7 +268,7 @@ export class CompendiumBrowser extends Application {
 			settings[tab] = Object.fromEntries(
 				Object.entries(settings[tab]!).sort(([_collectionA, dataA], [_collectionB, dataB]) => {
 					return (dataA?.name ?? "") > (dataB?.name ?? "") ? 1 : -1;
-				}),
+				})
 			);
 		}
 
@@ -271,18 +277,25 @@ export class CompendiumBrowser extends Application {
 
 	loadSettings(): void {
 		const settings: string | any = (game as Game).settings.get(SYSTEM_NAME, "compendiumBrowserPacks");
-		// console.log(settings);
+		// Console.log(settings);
 		if (typeof settings === "string") this.settings = JSON.parse(settings);
 		else this.settings = settings;
 	}
 
-	openTab(tab: "trait", filter?: any): Promise<void>;
-	openTab(tab: "modifier", filter?: any): Promise<void>;
-	openTab(tab: "skill", filter?: any): Promise<void>;
-	openTab(tab: "spell", filter?: any): Promise<void>;
-	openTab(tab: "equipment", filter?: any): Promise<void>;
-	openTab(tab: "eqp_modifier", filter?: any): Promise<void>;
-	openTab(tab: "note", filter?: any): Promise<void>;
+	// OpenTab(tab: "trait", filter?: any): Promise<void>;
+
+	// openTab(tab: "modifier", filter?: any): Promise<void>;
+
+	// openTab(tab: "skill", filter?: any): Promise<void>;
+
+	// openTab(tab: "spell", filter?: any): Promise<void>;
+
+	// openTab(tab: "equipment", filter?: any): Promise<void>;
+
+	// openTab(tab: "eqp_modifier", filter?: any): Promise<void>;
+
+	// openTab(tab: "note", filter?: any): Promise<void>;
+
 	async openTab(tab: TabName, filter: any = {}): Promise<void> {
 		this.initialFilter = filter;
 		await this._render(true);
@@ -307,9 +320,9 @@ export class CompendiumBrowser extends Application {
 	hookTab(): void {
 		this.navigationTab = this._tabs[0];
 		const tabCallback = this.navigationTab.callback;
-		//@ts-ignore
+		// @ts-ignore
 		this.navigationTab.callback = async (event: JQuery.TriggeredEvent | null, tabs: Tabs, active: TabName) => {
-			//@ts-ignore
+			// @ts-ignore
 			tabCallback?.(event, tabs, active);
 			await this.loadTab(active);
 		};
@@ -318,7 +331,7 @@ export class CompendiumBrowser extends Application {
 	loadedPacks(tab: TabName): string[] {
 		if (tab === "settings") return [];
 		return Object.entries(this.settings[tab] ?? []).flatMap(([collection, info]) => {
-			// console.log(collection, info);
+			// Console.log(collection, info);
 			return info?.load ? [collection] : [];
 		});
 	}
@@ -335,7 +348,7 @@ export class CompendiumBrowser extends Application {
 			JSON.stringify({
 				type: type,
 				uuid: uuid,
-			}),
+			})
 		);
 
 		const dragImage = document.createElement("div");
@@ -365,7 +378,7 @@ class PackLoader {
 		for (const packId of packs) {
 			let data = this.loadedPacks[documentType][packId];
 			if (data) {
-				// pack already loaded
+				// Pack already loaded
 				// const pack = data;
 			} else {
 				const pack = (game as Game).packs.get(packId);
@@ -395,7 +408,7 @@ export interface CompendiumIndexData {
 	type: string;
 	name: string;
 	img: ImagePath;
-	// img?: string | null;
+	// Img?: string | null;
 	[key: string]: any;
 }
 

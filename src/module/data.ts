@@ -19,7 +19,9 @@ export enum DamageProgression {
 
 export class LeveledAmount {
 	level = 0;
+
 	amount = 1;
+
 	per_level = false;
 
 	constructor(data?: { level: number; amount: number; per_level: boolean }) {
@@ -88,7 +90,7 @@ export enum NumberComparison {
 	AtMost = "at_most",
 }
 
-// standard attribute related ids
+// Standard attribute related ids
 export enum gid {
 	All = "all",
 	BasicMove = "basic_move",

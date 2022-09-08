@@ -2,7 +2,7 @@ import { BaseContainerSource, BaseContainerSystemData } from "@item/container/da
 
 export type NoteContainerSource = BaseContainerSource<"note_container", NoteContainerSystemData>;
 
-// export class NoteContainerData extends BaseContainerData<NoteContainerGURPS> {}
+// Export class NoteContainerData extends BaseContainerData<NoteContainerGURPS> {}
 
 export interface NoteContainerData extends Omit<NoteContainerSource, "effects" | "items">, NoteContainerSystemData {
 	readonly type: NoteContainerSource["type"];

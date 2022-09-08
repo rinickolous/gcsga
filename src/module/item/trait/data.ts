@@ -7,11 +7,11 @@ import { PrereqList } from "@prereq";
 
 export type TraitSource = BaseContainerSource<"trait", TraitSystemData>;
 
-// export class TraitData extends BaseContainerData<TraitGURPS> {}
+// Export class TraitData extends BaseContainerData<TraitGURPS> {}
 
 export interface TraitData extends Omit<TraitSource, "effects" | "items">, TraitSystemData {
 	readonly type: TraitSource["type"];
-	// data: TraitSystemData;
+	// Data: TraitSystemData;
 	readonly _source: TraitSource;
 }
 
@@ -19,7 +19,7 @@ export interface TraitSystemData extends BaseContainerSystemData {
 	prereqs: PrereqList;
 	round_down: boolean;
 	disabled: boolean;
-	// mental: boolean;
+	// Mental: boolean;
 	// physical: boolean;
 	// social: boolean;
 	// exotic: boolean;
@@ -27,7 +27,7 @@ export interface TraitSystemData extends BaseContainerSystemData {
 	levels: number;
 	base_points: number;
 	points_per_level: number;
-	// calc: {
+	// Calc: {
 	// 	points: number;
 	// };
 	cr: number;
@@ -46,7 +46,7 @@ CR_Features.set("major_cost_of_living_increase", [
 			specialization: { compare: "none" },
 			tags: { compare: "none" },
 		},
-		{ ready: true },
+		{ ready: true }
 	),
 ]);
 

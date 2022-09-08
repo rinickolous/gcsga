@@ -3,7 +3,7 @@ import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
 export type EquipmentModifierSource = BaseItemSourceGURPS<"eqp_modifier", EquipmentModifierSystemData>;
 
-// export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
+// Export class EquipmentModifierData extends BaseItemDataGURPS<EquipmentModifierGURPS> {}
 
 export interface EquipmentModifierData extends Omit<EquipmentModifierSource, "effects">, EquipmentModifierSystemData {
 	readonly type: EquipmentModifierSource["type"];

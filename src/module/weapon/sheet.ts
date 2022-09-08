@@ -37,7 +37,7 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	get title(): string {
-		return `${this.object.name} - ${this.weapon.usage || i18n("gurps.weapon.usage") + " " + this.index}`;
+		return `${this.object.name} - ${this.weapon.usage || `${i18n("gurps.weapon.usage")} ${this.index}`}`;
 	}
 
 	getData(options?: Partial<FormApplicationOptions> | undefined): any {
@@ -76,7 +76,7 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	protected _getHeaderButtons(): Application.HeaderButton[] {
-		const all_buttons = super._getHeaderButtons();
+		const all_buttons = super._getHeaderButtons() ?? [];
 		all_buttons.at(-1)!.label = "";
 		all_buttons.at(-1)!.icon = "gcs-circled-x";
 		return all_buttons;
@@ -112,10 +112,10 @@ export class WeaponSheet extends FormApplication {
 			modifier: 0,
 		});
 		const update: any = {};
-		this.weapon["defaults"] = defaults;
+		this.weapon.defaults = defaults;
 		weapons[this.index] = { ...this.weapon };
 		console.log(weapons);
-		update[`system.weapons`] = weapons;
+		update["system.weapons"] = weapons;
 		await this.object.update(update);
 		return this.render(false, { action: "update", data: update } as any);
 	}
@@ -128,10 +128,10 @@ export class WeaponSheet extends FormApplication {
 		console.log(index, weapons, defaults);
 		defaults.splice(index, 1);
 		const update: any = {};
-		this.weapon["defaults"] = defaults;
+		this.weapon.defaults = defaults;
 		weapons[this.index] = { ...this.weapon };
 		console.log(weapons);
-		update[`system.weapons`] = weapons;
+		update["system.weapons"] = weapons;
 		await this.object.update(update);
 		return this.render(false, { action: "update", data: update } as any);
 	}

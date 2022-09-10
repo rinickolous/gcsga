@@ -3,7 +3,6 @@
 	"title": "GURPS 4th Ed. Game Aid (Unofficial)",
 	"description": "A game aid to help play GURPS 4e for FoundryVTT",
 	"version": "0.15.0",
-	"author": "Chris Normand/Nose66",
 	"authors": [
 		{
 			"name": "Chris Normand",
@@ -23,7 +22,7 @@
 	],
 	"compatibility": {
 		"minimum": 10,
-		"verified": "10.283",
+		"verified": "10.284",
 		"maximum": 10
 	},
 	"scripts": [],

@@ -30,9 +30,9 @@ export class ModifierList extends Application {
 		const parentTop = parent.offset()?.top ?? 0; // Might use position() depending on as yet unencountered issues
 		const parentLeft = parent.offset()?.left ?? 0;
 		// Let parentWidth = parseFloat(parent.css("width").replace("px", ""));
-		const height = parseFloat(html.css("height").replace("px", ""));
+		let height = parseFloat(html.css("height").replace("px", ""));
 
-		const left = Math.max(parentLeft, 10);
+		let left = Math.max(parentLeft, 10);
 		html.css("left", `${left}px`);
 		html.css("top", `${parentTop - height}px`);
 		parent.css("width", html.css("width"));

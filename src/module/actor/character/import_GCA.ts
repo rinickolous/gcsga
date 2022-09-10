@@ -1,6 +1,5 @@
 import { ItemGURPS } from "@item";
-import { ItemFlagsGURPS, ItemSystemDataGURPS, ItemType } from "@item/data";
-import { NoteData } from "@item/note/data";
+import { ItemFlagsGURPS, ItemSystemDataGURPS, ItemType, NoteData } from "@item/data";
 import { StringComparison } from "@module/data";
 import { SkillDefault } from "@module/default";
 import { DiceGURPS } from "@module/dice";
@@ -275,7 +274,7 @@ export class GCAImporter {
 	importAttributes(data: any) {
 		const atts: any = {};
 		for (const att of data.traits.attributes.trait) {
-			const id = this.translateAtt(att.name);
+			let id = this.translateAtt(att.name);
 			if (id === "null") continue;
 			atts[`${id}.adj`] = parseFloat(att.level);
 			if (["hp", "fp"].includes(id)) {
@@ -527,7 +526,7 @@ export class GCAImporter {
 		)
 			disabled = true;
 		let [base_points, points_per_level] = [0, 0];
-		const strCost = item.calcs.cost;
+		let strCost = item.calcs.cost;
 		if (strCost.includes("/")) {
 			const arCost = strCost.split("/");
 			base_points = parseInt(arCost[0]);
@@ -570,7 +569,7 @@ export class GCAImporter {
 	getSkillData(item: any, context: any = {}) {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
-		const defaults: Partial<SkillDefault>[] = [];
+		let defaults: Partial<SkillDefault>[] = [];
 		if (item.ref.default) {
 			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
@@ -601,7 +600,7 @@ export class GCAImporter {
 			.conditionals.bonus;
 		for (const e of enc_pens) {
 			const penalty = parseInt(e.bonuspart) * -1;
-			const skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
+			let skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
 			if (skills.includes(item.name.toLowerCase())) epm = penalty;
 		}
 		const skillData = {
@@ -626,7 +625,7 @@ export class GCAImporter {
 	getTechniqueData(item: any, context: any) {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
-		const defaults: Partial<SkillDefault>[] = [];
+		let defaults: Partial<SkillDefault>[] = [];
 		if (item.ref.default) {
 			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
@@ -657,7 +656,7 @@ export class GCAImporter {
 			.conditionals.bonus;
 		for (const e of enc_pens) {
 			const penalty = parseInt(e.bonuspart) * -1;
-			const skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
+			let skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
 			if (skills.includes(item.name.toLowerCase())) epm = penalty;
 		}
 		let limitStr = item.calcs.upto;

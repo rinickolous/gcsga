@@ -54,14 +54,14 @@ export class Attribute {
 		const def = this.attribute_def;
 		if (!def) return 0;
 		let max = def.baseValue(this.actor) + this.adj + this.bonus;
-		if (def.type !== "decimal") {
+		if (def.type != "decimal") {
 			max = Math.floor(max);
 		}
 		return max;
 	}
 
 	set max(v: number) {
-		if (this.max === v) return;
+		if (this.max == v) return;
 		const def = this.attribute_def;
 		if (def) this.adj = v - (def.baseValue(this.actor) + this.bonus);
 	}
@@ -69,7 +69,7 @@ export class Attribute {
 	get current(): number {
 		const max = this.max;
 		const def = this.attribute_def;
-		if (!def || def.type !== "pool") {
+		if (!def || def.type != "pool") {
 			return max;
 		}
 		return max - (this.damage ?? 0);

@@ -86,7 +86,7 @@ class DiceGURPS {
 	}
 
 	stringExtra(extraDiceFromModifiers: boolean): string {
-		const [count, modifier] = this.adjustedCountAndModifier(extraDiceFromModifiers);
+		let [count, modifier] = this.adjustedCountAndModifier(extraDiceFromModifiers);
 		let buffer = "";
 		if (count > 0) {
 			if (GURPSFormat || count > 1) buffer += count.toString();
@@ -115,7 +115,7 @@ class DiceGURPS {
 		count = this.count;
 		modifier = this.modifier;
 		if (applyExtractDiceFromModifiers && modifier > 0) {
-			const average = (this.sides + 1) / 2;
+			let average = (this.sides + 1) / 2;
 			if (this.sides % 2 !== 1) {
 				count += modifier / average;
 				modifier %= average;

@@ -57,9 +57,8 @@ export class ItemImporter {
 						import: {
 							icon: '<i class="fas fa-file-import"></i>',
 							label: i18n("gurps.system.library_import.import"),
-							// @ts-ignore
-							callback: (html: JQuery<HTMLElement>) => {
-								const form = html.find("form")[0];
+							callback: (html: HTMLElement | JQuery<HTMLElement>) => {
+								const form = $(html).find("form")[0];
 								const files = form.data.files;
 								if (!files.length) return ui.notifications?.error(i18n("gurps.error.import.no_file"));
 								else {
@@ -137,7 +136,7 @@ export class ItemImporter {
 				});
 			}
 			ui.notifications?.info(i18n_f("gurps.system.library_import.start", { name: name }));
-			const counter = items.length;
+			let counter = items.length;
 			console.log(items);
 			Item.create(items as any, { pack: `world.${name}` });
 			ui.notifications?.info(i18n_f("gurps.system.library_import.finished", { number: counter }));

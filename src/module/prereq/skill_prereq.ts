@@ -43,11 +43,11 @@ export class SkillPrereq extends BasePrereq {
 			tooltip.push(i18n(`gurps.prereqs.has.${this.has}`));
 			tooltip.push(i18n("gurps.prereqs.skill.name"));
 			tooltip.push(i18n(`gurps.prereqs.criteria.${this.name?.compare}`));
-			tooltip.push(this.name.qualifier ?? "");
+			tooltip.push(this.name.qualifier!);
 			if (this.specialization.compare !== "none") {
 				tooltip.push(i18n("gurps.prereqs.skill.specialization"));
 				tooltip.push(i18n(`gurps.prereqs.criteria.${this.specialization.compare}`));
-				tooltip.push(this.specialization.qualifier ?? "");
+				tooltip.push(this.specialization.qualifier!);
 				tooltip.push(",");
 			}
 			if (!tech_level) {

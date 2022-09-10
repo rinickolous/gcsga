@@ -51,7 +51,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	adjustedPoints(tooltip?: TooltipGURPS): number {
 		let points = this.points;
 		if (this.actor) {
-			points += this.actor.skillPointComparedBonusFor("skill.points", this.name ?? "", "", this.tags, tooltip);
+			points += this.actor.skillPointComparedBonusFor("skill.points", this.name!, "", this.tags, tooltip);
 			points += this.actor.bonusFor(`skills.points/${this.name}`, tooltip);
 			points = Math.max(points, 0);
 		}

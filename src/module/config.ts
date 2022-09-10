@@ -13,6 +13,7 @@ import { SpellPointBonus } from "@feature/spell_point_bonus";
 import { WeaponBonus } from "@feature/weapon_damage_bonus";
 import {
 	BaseItemGURPS,
+	ContainerGURPS,
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
 	EquipmentModifierContainerGURPS,
@@ -46,6 +47,7 @@ const GURPSCONFIG: any = {
 	Item: {
 		documentClasses: {
 			base: BaseItemGURPS,
+			container: ContainerGURPS,
 			trait: TraitGURPS,
 			trait_container: TraitContainerGURPS,
 			modifier: TraitModifierGURPS,

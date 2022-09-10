@@ -1,6 +1,6 @@
 import { Feature } from "@feature";
-import { LeveledAmount } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
+import { LeveledAmount } from "@util/leveled_amount";
 
 export type FeatureType =
 	| "attribute_bonus"

@@ -90,12 +90,6 @@ export interface VariableResolver {
 	resolveVariable: (variableName: string) => string;
 }
 
-export class VariableResolver {
-	constructor(k: any) {
-		if (k) return k;
-	}
-}
-
 /**
  *
  * @param expression
@@ -236,7 +230,7 @@ export class Evaluator {
 			index = tmp;
 		}
 		let stackOp: expressionOperator | null = null;
-		switch (op?.symbol) {
+		switch (op!.symbol) {
 			case "(":
 				this.operatorStack.push(new expressionOperator({ op: op, unaryOp: unaryOp }));
 				break;
@@ -274,7 +268,7 @@ export class Evaluator {
 				}
 				this.operatorStack.push(new expressionOperator({ op: op, unaryOp: unaryOp }));
 		}
-		return index + (op?.symbol.length ?? 0);
+		return index + op!.symbol.length;
 	}
 
 	processFunction(expression: string, opIndex: number): [number, Operator | null] {

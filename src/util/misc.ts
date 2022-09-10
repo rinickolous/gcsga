@@ -223,8 +223,8 @@ export function dollarFormat(i: number): string {
  * @param {...any} args
  */
 export function floatingMul(...args: number[]): number {
-	const multiplier = 100;
-	const x = args.length;
+	let multiplier = 100;
+	let x = args.length;
 	let result = multiplier;
 	for (const arg of args) {
 		const newArg = arg * multiplier;

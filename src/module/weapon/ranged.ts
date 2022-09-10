@@ -25,13 +25,13 @@ class RangedWeapon extends BaseWeapon {
 		const where = inRange.indexOf("x");
 		if (where === -1) return inRange;
 		let last = where + 1;
-		const max = inRange.length;
+		let max = inRange.length;
 		if (last < max && inRange[last] === " ") last++;
 		if (last >= max) return inRange;
 		let ch = inRange[last];
 		let found = false;
 		let decimal = false;
-		const started = last;
+		let started = last;
 		while ((!decimal && ch === ".") || ch.match("[0-9]")) {
 			found = true;
 			if (ch === ".") decimal = true;
@@ -40,7 +40,7 @@ class RangedWeapon extends BaseWeapon {
 			ch = inRange[last];
 		}
 		if (!found) return inRange;
-		const value = parseFloat(inRange.substring(started, last));
+		let value = parseFloat(inRange.substring(started, last));
 		let buffer = "";
 		if (where > 0) buffer += inRange.substring(0, where);
 		buffer += Math.trunc(value * st).toString();

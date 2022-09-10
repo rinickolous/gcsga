@@ -52,7 +52,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		this.system.conditions.exhausted = false;
 		this.system.conditions.reeling = false;
 
-		const sizemod = this.system.traits.sizemod;
+		let sizemod = this.system.traits.sizemod;
 		if (sizemod !== 0) {
 			this.system.conditions.target.modifiers.push();
 			this.setFlag(SYSTEM_NAME, "targetModifiers", [
@@ -81,8 +81,8 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		if (this.system.encumbrance) {
 			let move: MoveMode = this.system.move;
 			if (!move) {
-				const currentMove = this.system.encumbrance["00000"].move ?? this.system.basicmove.value;
-				const value: MoveMode = {
+				let currentMove = this.system.encumbrance["00000"].move ?? this.system.basicmove.value;
+				let value: MoveMode = {
 					mode: MoveModeTypes.Ground,
 					basic: currentMove,
 					default: true,
@@ -91,7 +91,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 				move = this.system.move;
 			}
 
-			const current = Object.values(move).find(it => it.default);
+			let current = Object.values(move).find(it => it.default);
 			if (current) {
 				this.system.encumbrance["00000"].move = current.basic;
 			}
@@ -111,7 +111,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 		let good: StaticItemGURPS[] = [];
 		while (orig.length > 0) {
 			// We are trying to place 'parent' items before we place 'children' items
-			const left: StaticItemGURPS[] = [];
+			let left: StaticItemGURPS[] = [];
 			let atLeastOne = false;
 			for (const i of orig) {
 				if (!i.system.eqt.parentuuid || good.find(e => e.system.eqt.uuid === i.system.eqt.parentuuid)) {
@@ -142,11 +142,11 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 	async syncLanguages(): Promise<void> {
 		if (this.system.languages) {
 			// Let updated = false;
-			const newads = this.system.ads;
-			const langn = new RegExp("Language:?", "i");
-			const langt = new RegExp(`${i18n("GURPS.language")}:?`, "i");
+			let newads = this.system.ads;
+			let langn = new RegExp("Language:?", "i");
+			let langt = new RegExp(`${i18n("GURPS.language")}:?`, "i");
 			recurselist(this.system.languages, (e: StaticAdvantage, _k: any, _d: any) => {
-				const a = GURPS.findAdDisad(this, `*${e.name}`); // Is there an advantage including the same name
+				let a = GURPS.findAdDisad(this, `*${e.name}`); // Is there an advantage including the same name
 				if (a) {
 					if (!a.name.match(langn) && !a.name.match(langt)) {
 						// GCA4 / GCS style
@@ -161,7 +161,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 					// Otherwise, report type and level (like GCA4)
 					else if (e.spoken) n += ` (${i18n("GURPS.spoken")}) (${e.spoken})`;
 					else n += ` (${i18n("GURPS.written")}) (${e.written})`;
-					const a = new StaticAdvantage();
+					let a = new StaticAdvantage();
 					a.name = n;
 					a.points = e.points;
 					// Why is put global?
@@ -174,7 +174,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 
 	// This will ensure that every characater at least starts with these new data values.  actor-sheet.js may change them.
 	calculateDerivedValues() {
-		const saved = !!this.ignoreRender;
+		let saved = !!this.ignoreRender;
 		this.ignoreRender = true;
 		this._initializeStartingValues();
 		this.applyItemBonuses();
@@ -202,7 +202,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 			data.equipment.other ??= {};
 		}
 		if (!data.migrationVersion) return;
-		const v: SemanticVersion = SemanticVersion.fromString(data.migrationVersion);
+		let v: SemanticVersion = SemanticVersion.fromString(data.migrationVersion);
 
 		// Attributes need to have 'value' set because Foundry expects objs with value and max
 		// to be attributes (so we can't use currentvalue)
@@ -230,15 +230,15 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 				e.level = parseInt(e.import);
 				if (!isNaN(parseInt(e.parry))) {
 					// Allows for '14f' and 'no'
-					const base = 3 + Math.floor(e.level / 2);
-					const bonus = parseInt(e.parry) - base;
+					let base = 3 + Math.floor(e.level / 2);
+					let bonus = parseInt(e.parry) - base;
 					if (bonus !== 0) {
 						e.parrybonus = (bonus > 0 ? "+" : "") + bonus;
 					}
 				}
 				if (!isNaN(parseInt(e.block))) {
-					const base = 3 + Math.floor(e.level / 2);
-					const bonus = parseInt(e.block) - base;
+					let base = 3 + Math.floor(e.level / 2);
+					let bonus = parseInt(e.block) - base;
 					if (bonus !== 0) {
 						e.blockbonus = (bonus > 0 ? "+" : "") + bonus;
 					}
@@ -262,18 +262,18 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 	}
 
 	_applyItemBonuses(): void {
-		const pi = (n?: string) => (n ? parseInt(n) : 0);
-		const gids: string[] = [];
+		let pi = (n?: string) => (n ? parseInt(n) : 0);
+		let gids: string[] = [];
 		const data = this.system;
 		for (const item of this.items) {
-			const itemData = (item as StaticItemGURPS).system;
+			let itemData = (item as StaticItemGURPS).system;
 			if (itemData.equipped && itemData.carried && itemData.bonuses && gids.includes(itemData.globalid)) {
 				gids.push(itemData.globalid);
-				const bonuses = itemData.bonuses.split("\n");
+				let bonuses = itemData.bonuses.split("\n");
 				for (let bonus of bonuses) {
-					const m = bonus.match(/\[(.*)\]/);
+					let m = bonus.match(/\[(.*)\]/);
 					if (m) bonus = m[1]; // Remove extranious [ ]
-					const link = parselink(bonus);
+					let link = parselink(bonus);
 					if (link.action) {
 						// Start OTF
 						recurselist(data.melee, (e: StaticMelee, _k: any, _d: any) => {
@@ -283,7 +283,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 								e.level += pi(link.action.mod);
 								if (!isNaN(parseInt(e.parry))) {
 									// Handles "11f"
-									const m = `${e.parry}`.match(/(\d+)(.*)/);
+									let m = `${e.parry}`.match(/(\d+)(.*)/);
 									e.parry = 3 + Math.floor(e.level / 2);
 									if (e.parrybonus) e.parry += pi(e.parrybonus);
 									if (m) e.parry += m[2];
@@ -299,7 +299,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 									e.level += pi(link.action.mod);
 									if (!isNaN(parseInt(e.parry))) {
 										// Handles "11f"
-										const m = `${e.parry}`.match(/(\d+)(.*)/);
+										let m = `${e.parry}`.match(/(\d+)(.*)/);
 										e.parry = 3 + Math.floor(e.level / 2);
 										if (e.parrybonus) e.parry += pi(e.parrybonus);
 										if (m) e.parry += m[2];

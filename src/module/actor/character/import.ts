@@ -178,7 +178,7 @@ export class CharacterImporter {
 	}
 
 	getPortraitPath(): string {
-		if ((game as Game).settings.get(SYSTEM_NAME, "portrait_path") == "global") return "images/portraits/";
+		if ((game as Game).settings.get(SYSTEM_NAME, "portrait_path") === "global") return "images/portraits/";
 		return `worlds/${(game as Game).world.id}/images/portraits`;
 	}
 

@@ -1,11 +1,12 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
+import { ItemGURPS } from "@item/data";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { WeaponSheet } from "@module/weapon/sheet";
 import { PrereqType } from "@prereq";
 import { i18n, toArray } from "@util";
-import { BaseItemGURPS, ItemGURPS } from ".";
+import { BaseItemGURPS } from ".";
 
 export class ItemSheetGURPS extends ItemSheet {
 	getData(options?: Partial<ItemSheet.Options>): any {
@@ -263,6 +264,6 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _onWeaponEdit(event: JQuery.DoubleClickEvent): Promise<any> {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
-		new WeaponSheet(this.item as ItemGURPS, {}, index).render(true);
+		new WeaponSheet(this.item as ItemGURPS, index, {}).render(true);
 	}
 }

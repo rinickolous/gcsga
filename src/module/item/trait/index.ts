@@ -88,8 +88,8 @@ export class TraitGURPS extends ContainerGURPS {
 
 	get adjustedPoints(): number {
 		if (!this.enabled) return 0;
-		const baseEnh = 0;
-		const levelEnh = 0;
+		let baseEnh = 0;
+		let levelEnh = 0;
 		let baseLim = 0;
 		let levelLim = 0;
 		let basePoints = this.basePoints;
@@ -121,7 +121,7 @@ export class TraitGURPS extends ContainerGURPS {
 			}
 		}
 		let modifiedBasePoints = basePoints;
-		const leveledPoints = pointsPerLevel * this.levels;
+		let leveledPoints = pointsPerLevel * this.levels;
 		if (baseEnh !== 0 || baseLim !== 0 || levelEnh !== 0 || levelLim !== 0) {
 			if (this.actor?.settings.use_multiplicative_modifiers) {
 				if (baseEnh === levelEnh && baseLim === levelLim) {
@@ -135,8 +135,8 @@ export class TraitGURPS extends ContainerGURPS {
 						modifyPoints(modifyPoints(leveledPoints, levelEnh), Math.max(-80, levelLim));
 				}
 			} else {
-				const baseMod = Math.max(-80, baseEnh + baseLim);
-				const levelMod = Math.max(-80, levelEnh + levelLim);
+				let baseMod = Math.max(-80, baseEnh + baseLim);
+				let levelMod = Math.max(-80, levelEnh + levelLim);
 				if (baseMod === levelMod) {
 					modifiedBasePoints = modifyPoints(modifiedBasePoints + leveledPoints, baseMod);
 				} else {
@@ -181,7 +181,7 @@ export class TraitGURPS extends ContainerGURPS {
 	calculatePoints(): [number, number, number, number] {
 		if (!this.enabled) return [0, 0, 0, 0];
 		let [ad, disad, race, quirk] = [0, 0, 0, 0];
-		const pts = this.adjustedPoints;
+		let pts = this.adjustedPoints;
 		if (pts === -1) quirk += pts;
 		else if (pts > 0) ad += pts;
 		else if (pts < 0) disad += pts;

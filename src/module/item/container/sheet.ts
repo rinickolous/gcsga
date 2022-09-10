@@ -1,5 +1,5 @@
-import { ItemGURPS } from "@item";
 import { ItemSheetGURPS } from "@item/base/sheet";
+import { ItemGURPS } from "@item/data";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";

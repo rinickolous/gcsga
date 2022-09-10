@@ -193,7 +193,7 @@ export function valueAdjustedForModifiers(value: number, modifiers: Collection<E
 	let cf = 0;
 	for (const mod of modifiers) {
 		if (mod.costType === "to_base_cost") {
-			const t = determineModCostValueTypeFromString(mod.costAmount);
+			let t = determineModCostValueTypeFromString(mod.costAmount);
 			cf += extractValue(mod.costAmount);
 			if (t === "multiplier") cf -= 1;
 		}
@@ -224,8 +224,8 @@ export function processNonCFStep(
 	let additions = 0;
 	for (const mod of modifiers) {
 		if (mod.costType === costType) {
-			const t = determineModCostValueTypeFromString(mod.costAmount);
-			const amt = extractValue(mod.costAmount);
+			let t = determineModCostValueTypeFromString(mod.costAmount);
+			let amt = extractValue(mod.costAmount);
 			if (t === "addition") additions += amt;
 			if (t === "percentage") percentages += amt;
 			if (t === "multiplier") cost *= amt;
@@ -267,13 +267,13 @@ export function extractValue(s: string): number {
  */
 export function extract(s: string): number {
 	let last = 0;
-	const max = s.length;
+	let max = s.length;
 	if (last < max && s[last] === " ") last++;
 	if (last >= max) return 0;
 	let ch = s[last];
 	let found = false;
 	let decimal = false;
-	const start = last;
+	let start = last;
 	while ((start === last && ["+", "-"].includes(ch)) || (!decimal && ch === ".") || ch.match("[0-9]")) {
 		if (ch.match("[0-9]")) found = true;
 		if (ch === ".") decimal = true;
@@ -282,7 +282,7 @@ export function extract(s: string): number {
 		ch = s[last];
 	}
 	if (!found) return 0;
-	const value = parseFloat(s.substring(start, last));
+	let value = parseFloat(s.substring(start, last));
 	if (isNaN(value)) return 0;
 	return value;
 }

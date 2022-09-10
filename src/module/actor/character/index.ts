@@ -196,7 +196,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		let [ad, disad, race, quirk] = [0, 0, 0, 0];
 		for (const t of this.traits) {
 			if (t.parent !== t.actor) continue;
-			const [a, d, r, q] = t.calculatePoints();
+			let [a, d, r, q] = t.calculatePoints();
 			ad += a;
 			disad += d;
 			race += r;
@@ -264,7 +264,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	get settings() {
-		const settings = this.system.settings;
+		let settings = this.system.settings;
 		const defs: Record<string, AttributeDef> = {};
 		for (const att in settings.attributes) {
 			defs[att] = new AttributeDef(settings.attributes[att]);
@@ -535,7 +535,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	}
 
 	equippedWeapons(type: WeaponType): Weapon[] {
-		const weaponList: Weapon[] = [];
+		let weaponList: Weapon[] = [];
 		for (const t of this.traits) {
 			t.weapons.forEach(w => {
 				if (w.type === type) weaponList.push(w);
@@ -577,16 +577,16 @@ class CharacterGURPS extends BaseActorGURPS {
 	// 	return new Collection();
 	// }
 	get reactions(): CondMod[] {
-		const reactionMap: Map<string, CondMod> = new Map();
+		let reactionMap: Map<string, CondMod> = new Map();
 		for (const t of this.traits) {
-			const source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
+			let source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
 			this.reactionsFromFeatureList(source, t.features, reactionMap);
 			for (const mod of t.deepModifiers) {
 				this.reactionsFromFeatureList(source, mod.features, reactionMap);
 			}
 			if (t.cr !== -1 && t.crAdj === "reaction_penalty") {
-				const amount = SelfControl.adjustment(t.cr, t.crAdj);
-				const situation = i18n_f("gurps.reaction.cr", {
+				let amount = SelfControl.adjustment(t.cr, t.crAdj);
+				let situation = i18n_f("gurps.reaction.cr", {
 					trait: t.name ?? "",
 				});
 				if (reactionMap.has(situation)) reactionMap.get(situation)!.add(source, amount);
@@ -595,7 +595,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		}
 		for (const e of this.carried_equipment) {
 			if (e.equipped && e.quantity > 0) {
-				const source = i18n("gurps.reaction.from_equipment") + (e.name ?? "");
+				let source = i18n("gurps.reaction.from_equipment") + (e.name ?? "");
 				this.reactionsFromFeatureList(source, e.features, reactionMap);
 				for (const mod of e.deepModifiers) {
 					this.reactionsFromFeatureList(source, mod.features, reactionMap);
@@ -607,23 +607,23 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (sk instanceof TechniqueGURPS) source = i18n("gurps.reaction.from_technique") + (sk.name ?? "");
 			this.reactionsFromFeatureList(source, sk.features, reactionMap);
 		}
-		const reactionList = Array.from(reactionMap.values());
+		let reactionList = Array.from(reactionMap.values());
 		return reactionList;
 	}
 
 	reactionsFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
 		for (const f of features)
 			if (f instanceof ReactionBonus) {
-				const amount = f.adjustedAmount;
+				let amount = f.adjustedAmount;
 				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
 				else m.set(f.situation, new CondMod(source, f.situation, amount));
 			}
 	}
 
 	get conditionalModifiers(): CondMod[] {
-		const reactionMap: Map<string, CondMod> = new Map();
+		let reactionMap: Map<string, CondMod> = new Map();
 		for (const t of this.traits) {
-			const source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
+			let source = i18n("gurps.reaction.from_trait") + (t.name ?? "");
 			this.conditionalModifiersFromFeatureList(source, t.features, reactionMap);
 			for (const mod of t.deepModifiers) {
 				this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
@@ -631,7 +631,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		}
 		for (const e of this.carried_equipment) {
 			if (e.equipped && e.quantity > 0) {
-				const source = i18n("gurps.reaction.from_equipment") + (e.name ?? "");
+				let source = i18n("gurps.reaction.from_equipment") + (e.name ?? "");
 				this.conditionalModifiersFromFeatureList(source, e.features, reactionMap);
 				for (const mod of e.deepModifiers) {
 					this.conditionalModifiersFromFeatureList(source, mod.features, reactionMap);
@@ -643,14 +643,14 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (sk instanceof TechniqueGURPS) source = i18n("gurps.reaction.from_technique") + (sk.name ?? "");
 			this.conditionalModifiersFromFeatureList(source, sk.features, reactionMap);
 		}
-		const reactionList = Array.from(reactionMap.values());
+		let reactionList = Array.from(reactionMap.values());
 		return reactionList;
 	}
 
 	conditionalModifiersFromFeatureList(source: string, features: Feature[], m: Map<string, CondMod>): void {
 		for (const f of features)
 			if (f instanceof ConditionalModifier) {
-				const amount = f.adjustedAmount;
+				let amount = f.adjustedAmount;
 				if (m.has(f.situation)) m.get(f.situation)!.add(source, amount);
 				else m.set(f.situation, new CondMod(source, f.situation, amount));
 			}
@@ -686,7 +686,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		const a: Map<string, Attribute> = new Map();
 		let i = 0;
 		for (const attr_id in this.system.attributes) {
-			const att = this.system.attributes[attr_id];
+			let att = this.system.attributes[attr_id];
 			a.set(attr_id, new Attribute(this, attr_id, i, att));
 			i++;
 		}
@@ -723,8 +723,8 @@ class CharacterGURPS extends BaseActorGURPS {
 		for (let i = 0; i < 5; i++) {
 			this.processFeatures();
 			this.processPrereqs();
-			const skillsChanged = this.updateSkills();
-			const spellsChanged = this.updateSpells();
+			let skillsChanged = this.updateSkills();
+			let spellsChanged = this.updateSpells();
 			if (!skillsChanged && !spellsChanged) break;
 		}
 		this.pools = {};
@@ -1119,7 +1119,7 @@ class CharacterGURPS extends BaseActorGURPS {
 	): Feature[] {
 		const list = this.featureMap.get(featureID.toLowerCase()) ?? [];
 		if (list.length === 0) return [];
-		const bonuses: SkillBonus[] = [];
+		let bonuses: SkillBonus[] = [];
 		for (const f of list) {
 			if (
 				f instanceof SkillBonus &&
@@ -1148,7 +1148,7 @@ class CharacterGURPS extends BaseActorGURPS {
 			if (rsl < sk.level.relative_level) rsl = sk.level.relative_level;
 		}
 		if (rsl === -Infinity) return [];
-		const bonuses: WeaponBonus[] = [];
+		let bonuses: WeaponBonus[] = [];
 		for (const f of this.featureMap.get(featureID.toLowerCase()) ?? []) {
 			if (f instanceof WeaponBonus) {
 				if (
@@ -1158,7 +1158,7 @@ class CharacterGURPS extends BaseActorGURPS {
 					stringCompare(tagsQualifier, f.tags)
 				) {
 					bonuses.push(f);
-					const level = f.levels;
+					let level = f.levels;
 					f.levels = dieCount;
 					f.addToTooltip(tooltip);
 					f.levels = level;

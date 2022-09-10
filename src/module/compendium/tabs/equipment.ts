@@ -2,9 +2,12 @@ import { EquipmentContainerGURPS } from "@item";
 import { SYSTEM_NAME } from "@module/settings";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { CompendiumTab } from "./base";
+import { FilterData } from "./data";
 
 export class CompendiumEquipmentTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/equipment.hbs`;
+
+	filterData!: FilterData;
 
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "equipment");

@@ -55,7 +55,7 @@ module.exports = {
 		"no-dupe-class-members": "warn",
 		"no-dupe-keys": "warn",
 		"no-duplicate-case": "warn",
-		"no-duplicate-imports": ["warn", { includeExports: true }],
+		"no-duplicate-imports": ["warn", { includeExports: false }],
 		"no-empty": ["warn", { allowEmptyCatch: true }],
 		"no-empty-character-class": "warn",
 		"no-empty-pattern": "warn",

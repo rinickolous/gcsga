@@ -30,7 +30,7 @@ export class WeaponDamage {
 		let convertMods = false;
 		if (this.parent && this.parent.actor) convertMods = this.parent.actor.settings.use_modifying_dice_plus_adds;
 		if (this.base) {
-			const base = this.base.stringExtra(convertMods);
+			let base = this.base.stringExtra(convertMods);
 			if (base !== "0") {
 				if (buffer.length !== 0 && base[0] !== "+" && base[0] !== "-") buffer += "+";
 				buffer += base;
@@ -84,13 +84,13 @@ export class WeaponDamage {
 		if (t instanceof TraitGURPS && t.isLeveled) {
 			multiplyDice(t.levels, base);
 		}
-		const intST = Math.trunc(st);
+		let intST = Math.trunc(st);
 		switch (this.st) {
 			case "thr":
 				base = addDice(base, actor.thrustFor(intST));
 				break;
 			case "thr_leveled":
-				const thrust = actor.thrustFor(intST);
+				let thrust = actor.thrustFor(intST);
 				if (t instanceof TraitGURPS && t.isLeveled) multiplyDice(Math.trunc(t.levels), thrust);
 				base = addDice(base, thrust);
 				break;
@@ -98,7 +98,7 @@ export class WeaponDamage {
 				base = addDice(base, actor.swingFor(intST));
 				break;
 			case "sw_leveled":
-				const swing = actor.swingFor(intST);
+				let swing = actor.swingFor(intST);
 				if (t instanceof TraitGURPS && t.isLeveled) multiplyDice(Math.trunc(t.levels), swing);
 				base = addDice(base, swing);
 		}
@@ -106,15 +106,15 @@ export class WeaponDamage {
 		let best = -Infinity;
 		for (const d of this.parent.defaults) {
 			if (d.skillBased) {
-				const level = d.skillLevelFast(actor, false, null, true);
+				let level = d.skillLevelFast(actor, false, null, true);
 				if (best < level) {
 					best = level;
 					bestDefault = d;
 				}
 			}
 		}
-		const bonusSet: Map<WeaponBonus, boolean> = new Map();
-		const tags = this.parent.parent.tags;
+		let bonusSet: Map<WeaponBonus, boolean> = new Map();
+		let tags = this.parent.parent.tags;
 		if (bestDefault) {
 			actor.addWeaponComparedDamageBonusesFor(
 				"skill.name*",
@@ -193,7 +193,7 @@ export class WeaponDamage {
 			buffer += this.type;
 		}
 		if (this.fragmentation) {
-			const frag = this.fragmentation.stringExtra(actor.settings.use_modifying_dice_plus_adds);
+			let frag = this.fragmentation.stringExtra(actor.settings.use_modifying_dice_plus_adds);
 			if (frag !== "0") {
 				if (buffer.length !== 0) buffer += " ";
 				buffer += `[${frag}`;
@@ -220,7 +220,7 @@ export class WeaponDamage {
 					if (stringCompare(this.parent.usage, f.specialization)) {
 						if (!set.has(f)) {
 							set.set(f, true);
-							return f.addToTooltip(tooltip);
+							f.addToTooltip(tooltip);
 						}
 					}
 					break;

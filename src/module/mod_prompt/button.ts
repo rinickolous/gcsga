@@ -31,7 +31,7 @@ export class ModifierButton extends Application {
 
 	getData(options?: Partial<ApplicationOptions> | undefined): object {
 		const user = (game as Game).user;
-		const total = user?.getFlag(SYSTEM_NAME, "modifierTotal") ?? 0;
+		let total = user?.getFlag(SYSTEM_NAME, "modifierTotal") ?? 0;
 
 		return mergeObject(super.getData(options), {
 			total: total,

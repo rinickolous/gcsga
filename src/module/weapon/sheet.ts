@@ -1,13 +1,12 @@
 import { CharacterGURPS } from "@actor";
 import { ItemGURPS } from "@item";
-import { Attribute } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n, toArray } from "@util";
 import { Weapon } from ".";
 
 export class WeaponSheet extends FormApplication {
-	constructor(object: ItemGURPS, options: any = {}, index: number) {
+	constructor(object: ItemGURPS, index: number, options: any = {}) {
 		super(object, options);
 		this.index = index;
 		this.weapon = (object.system as any).weapons[index];
@@ -76,7 +75,7 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	protected _getHeaderButtons(): Application.HeaderButton[] {
-		const all_buttons = super._getHeaderButtons() ?? [];
+		const all_buttons = super._getHeaderButtons();
 		all_buttons.at(-1)!.label = "";
 		all_buttons.at(-1)!.icon = "gcs-circled-x";
 		return all_buttons;

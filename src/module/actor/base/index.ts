@@ -6,9 +6,8 @@ import {
 import { ActorDataConstructorData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData";
 import { BaseUser } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 import { SYSTEM_NAME } from "@module/settings";
-import { ItemGURPS } from "@item";
+import { ContainerGURPS, ItemGURPS } from "@item";
 import { ActorSystemData, BaseActorSourceGURPS } from "./data";
-import { ContainerGURPS } from "@item/container";
 
 export interface ActorConstructorContextGURPS extends Context<TokenDocument> {
 	gurps?: {
@@ -44,7 +43,7 @@ class BaseActorGURPS extends Actor {
 		for (const item of this.items as any as Collection<ItemGURPS>) {
 			deepItems.push(item);
 			if (item instanceof ContainerGURPS)
-				for (const i of (item as ContainerGURPS).deepItems) {
+				for (const i of item.deepItems) {
 					deepItems.push(i);
 				}
 		}

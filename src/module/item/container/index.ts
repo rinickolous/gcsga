@@ -1,6 +1,6 @@
 import { BaseItemGURPS } from "@item";
-import { ItemConstructionContextGURPS, ItemGURPS } from "@item/base";
-import { ContainerDataGURPS, ItemDataGURPS } from "@item/data";
+import { ItemConstructionContextGURPS } from "@item/base";
+import { ContainerDataGURPS, ItemDataGURPS, ItemGURPS } from "@item/data";
 import { AnyDocumentData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/data.mjs";
 import {
 	Context,

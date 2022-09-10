@@ -14,7 +14,7 @@ export class SpellPointBonus extends BaseFeature {
 
 	get featureMapKey(): string {
 		if (this.tags?.compare !== "none") {
-			return "spell.points*";
+			return "spell.points" + "*";
 		}
 		switch (this.match) {
 			case "all_colleges":

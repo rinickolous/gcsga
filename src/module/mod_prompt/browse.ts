@@ -38,9 +38,9 @@ export class ModifierBrowse extends Application {
 		const parent = $("#modifier-app-window").find(".searchbar");
 		const parentTop = parent.offset()?.top ?? 0; // Might use position() depending on as yet unencountered issues
 		const parentLeft = parent.offset()?.left ?? 0;
-		const parentHeight = parseFloat(parent.css("height").replace("px", ""));
-		const height = parseFloat(html.css("height").replace("px", ""));
-		const width = parseFloat(html.css("width").replace("px", ""));
+		let parentHeight = parseFloat(parent.css("height").replace("px", ""));
+		let height = parseFloat(html.css("height").replace("px", ""));
+		let width = parseFloat(html.css("width").replace("px", ""));
 
 		html.css("left", `${parentLeft - width - 5}px`);
 		html.css("top", `${parentTop + parentHeight - height}px`);

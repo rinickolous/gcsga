@@ -1,37 +1,11 @@
 import { CharacterGURPS } from "@actor";
 import { NumberComparison, StringComparison } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
-import {
-	AttributePrereq,
-	ContainedQuantityPrereq,
-	ContainedWeightPrereq,
-	PrereqList,
-	SkillPrereq,
-	SpellPrereq,
-	TraitPrereq,
-} from "@prereq";
+import { Prereq, PrereqList, PrereqType, TraitPrereq } from "@prereq";
 
 export interface PrereqConstructionContext {
 	ready?: boolean;
 }
-
-export type PrereqType =
-	| "prereq_list"
-	| "trait_prereq"
-	| "attribute_prereq"
-	| "contained_quantity_prereq"
-	| "contained_weight_prereq"
-	| "skill_prereq"
-	| "spell_prereq";
-
-export type Prereq =
-	| PrereqList
-	| TraitPrereq
-	| AttributePrereq
-	| ContainedWeightPrereq
-	| ContainedQuantityPrereq
-	| SkillPrereq
-	| SpellPrereq;
 
 export class BasePrereq {
 	constructor(data: Prereq | any, context: PrereqConstructionContext = {}) {

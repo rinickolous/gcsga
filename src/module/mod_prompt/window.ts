@@ -42,7 +42,7 @@ export class ModifierWindow extends Application {
 
 	getData(options?: Partial<ApplicationOptions> | undefined): object | Promise<object> {
 		const user = (game as Game).user;
-		const modStack = user?.getFlag(SYSTEM_NAME, "modifierStack") ?? [];
+		let modStack = user?.getFlag(SYSTEM_NAME, "modifierStack") ?? [];
 
 		return mergeObject(super.getData(options), {
 			value: this.value,
@@ -58,13 +58,13 @@ export class ModifierWindow extends Application {
 		// Const buttonTop = button.offset()?.top ?? 0; // might use position() depending on as yet unencountered issues
 		// const buttonLeft = button.offset()?.left ?? 0;
 		const buttonTop = button.position()?.top ?? 0;
-		const buttonLeft = (button.position()?.left ?? 0) + 220 ?? 0;
-		const buttonWidth = parseFloat(button.css("width").replace("px", ""));
+		const buttonLeft = button.position()?.left + 220 ?? 0;
+		let buttonWidth = parseFloat(button.css("width").replace("px", ""));
 		// Let width = parseFloat(html.find(".searchbar").css("width").replace("px", ""));
 		const width = 180;
-		const height = parseFloat(html.css("height").replace("px", ""));
+		let height = parseFloat(html.css("height").replace("px", ""));
 
-		const left = Math.max(buttonLeft + buttonWidth / 2 - width / 2, 10);
+		let left = Math.max(buttonLeft + buttonWidth / 2 - width / 2, 10);
 		html.css("left", `${left}px`);
 		html.css("top", `${buttonTop - height - 10}px`);
 

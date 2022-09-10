@@ -2,7 +2,7 @@ import {
 	Context,
 	DocumentModificationOptions,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { ItemDataGURPS, ItemFlagsGURPS, ItemType } from "@item/data";
+import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, MeleeWeapon, RangedWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
@@ -15,48 +15,12 @@ import { BaseFeature } from "@feature/base";
 import { PrereqList } from "@prereq";
 import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/helpers.mjs";
 import { ContainerGURPS } from "@item/container";
-import {
-	EquipmentContainerGURPS,
-	EquipmentGURPS,
-	EquipmentModifierContainerGURPS,
-	EquipmentModifierGURPS,
-	NoteContainerGURPS,
-	NoteGURPS,
-	RitualMagicSpellGURPS,
-	SkillContainerGURPS,
-	SkillGURPS,
-	SpellContainerGURPS,
-	SpellGURPS,
-	TechniqueGURPS,
-	TraitContainerGURPS,
-	TraitGURPS,
-	TraitModifierContainerGURPS,
-	TraitModifierGURPS,
-} from "@item";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gurps?: {
 		ready?: boolean;
 	};
 }
-
-export type ItemGURPS =
-	| TraitGURPS
-	| TraitContainerGURPS
-	| TraitModifierGURPS
-	| TraitModifierContainerGURPS
-	| SkillGURPS
-	| TechniqueGURPS
-	| SkillContainerGURPS
-	| SpellGURPS
-	| RitualMagicSpellGURPS
-	| SpellContainerGURPS
-	| EquipmentGURPS
-	| EquipmentContainerGURPS
-	| EquipmentModifierGURPS
-	| EquipmentModifierContainerGURPS
-	| NoteGURPS
-	| NoteContainerGURPS;
 
 class BaseItemGURPS extends Item {
 	// @ts-ignore

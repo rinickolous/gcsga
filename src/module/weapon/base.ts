@@ -1,5 +1,5 @@
 import { SkillDefault } from "@module/default";
-import { MeleeWeapon, RangedWeapon } from ".";
+import { MeleeWeapon, WeaponType } from ".";
 import { EquipmentContainerGURPS, EquipmentGURPS, ItemGURPS, TraitGURPS } from "@item";
 import { TooltipGURPS } from "@module/tooltip";
 import { CharacterGURPS } from "@actor";
@@ -8,9 +8,6 @@ import { Feature } from "@feature";
 import { SkillBonus } from "@feature/skill_bonus";
 import { gid } from "@module/data";
 import { WeaponDamage } from "./damage";
-
-export type WeaponType = "melee_weapon" | "ranged_weapon";
-export type Weapon = BaseWeapon | MeleeWeapon | RangedWeapon;
 
 export interface WeaponConstructionContext {
 	ready?: boolean;
@@ -212,8 +209,8 @@ class BaseWeapon {
 						let primaryTooltip = new TooltipGURPS();
 						let secondaryTooltip = new TooltipGURPS();
 						if (tooltip) primaryTooltip = tooltip;
-						const preAdj = this.skillLevelBaseAdjustment(actor, primaryTooltip);
-						const postAdj = this.skillLevelPostAdjustment(actor, primaryTooltip);
+						let preAdj = this.skillLevelBaseAdjustment(actor, primaryTooltip);
+						let postAdj = this.skillLevelPostAdjustment(actor, primaryTooltip);
 						let adj = 3;
 						if (baseDefaultType === gid.Parry) adj += actor.parryBonus;
 						else adj += actor.blockBonus;

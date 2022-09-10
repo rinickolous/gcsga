@@ -247,7 +247,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 		const conditionalModifiers: CondMod[] = this.actor.conditionalModifiers;
 
 		const carried_value = this.actor.wealthCarried();
-		const carried_weight = this.actor.weightCarried(true);
+		let carried_weight = this.actor.weightCarried(true);
 
 		data.carried_weight = `${carried_weight} lb`;
 		data.carried_value = dollarFormat(carried_value);

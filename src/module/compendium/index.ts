@@ -74,7 +74,7 @@ export class CompendiumBrowser extends Application {
 	static override get defaultOptions(): ApplicationOptions {
 		return mergeObject(super.defaultOptions, {
 			id: "compendium-browser",
-			classes: [],
+			classes: ["gcs"],
 			template: `systems/${SYSTEM_NAME}/templates/compendium-browser/compendium-browser.hbs`,
 			width: 800,
 			height: 700,
@@ -147,8 +147,15 @@ export class CompendiumBrowser extends Application {
 		// 		}
 		// 	}
 		// });
+		html.find("input.input").on("change", event => this._updateQuery(event));
 
-		// this.renderReultsList(_html, list);
+		// This.renderReultsList(_html, list);
+	}
+
+	_updateQuery(event: JQuery.TriggeredEvent): void {
+		if (this.activeTab === "settings") return;
+		this.tabs[this.activeTab].filterData.searchQuery = String($(event.currentTarget).val());
+		this.render();
 	}
 
 	override getData(): object | Promise<object> {
@@ -165,12 +172,12 @@ export class CompendiumBrowser extends Application {
 		// Active Tab
 		const tab = this.tabs[activeTab];
 		if (tab) {
-			console.log("active tab", tab);
 			return {
 				user: (game as Game).user,
 				[activeTab]: {
 					filterData: tab.filterData,
-					indexData: tab.indexData,
+					// IndexData: tab.indexData,
+					indexData: tab.getIndexData(0),
 				},
 				scrollLimit: tab.scrollLimit,
 			};
@@ -182,7 +189,6 @@ export class CompendiumBrowser extends Application {
 
 	async _onClickEntry(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
-		console.log("dclick");
 		const li = event.currentTarget;
 		const uuid = $(li!).data("uuid");
 		const pack: string = this.loadedPacks(this.activeTab).find((e: string) => uuid.includes(e)) ?? "";
@@ -211,7 +217,6 @@ export class CompendiumBrowser extends Application {
 			// @ts-ignore
 			const types = new Set(pack.index.map(entry => entry.type));
 			if (types.size === 0) continue;
-			// Console.log("types", types);
 
 			if (["trait", "trait_container"].some(type => types.has(type))) {
 				const load = this.settings.trait?.[pack.collection]?.load ?? false;
@@ -277,7 +282,6 @@ export class CompendiumBrowser extends Application {
 
 	loadSettings(): void {
 		const settings: string | any = (game as Game).settings.get(SYSTEM_NAME, "compendiumBrowserPacks");
-		// Console.log(settings);
 		if (typeof settings === "string") this.settings = JSON.parse(settings);
 		else this.settings = settings;
 	}
@@ -331,7 +335,6 @@ export class CompendiumBrowser extends Application {
 	loadedPacks(tab: TabName): string[] {
 		if (tab === "settings") return [];
 		return Object.entries(this.settings[tab] ?? []).flatMap(([collection, info]) => {
-			// Console.log(collection, info);
 			return info?.load ? [collection] : [];
 		});
 	}
@@ -340,9 +343,9 @@ export class CompendiumBrowser extends Application {
 		const li = event.currentTarget;
 		const type: "Item" | "Actor" = $(li!).data("type");
 		const uuid = $(li!).data("uuid");
-		const pack: string = this.loadedPacks(this.activeTab).find((e: string) => uuid.includes(e)) ?? "";
-		const item = this.packLoader.loadedPacks[type][pack]?.index.get(uuid.split(".").at(-1));
-		console.log(item);
+		// Const pack: string = this.loadedPacks(this.activeTab).find((e: string) => uuid.includes(e)) ?? "";
+		const item = (await fromUuid(uuid)) as Item | Actor;
+		// Let item = this.packLoader.loadedPacks[type][pack]?.index.get(uuid.split(".").at(3));
 		event.dataTransfer?.setData(
 			"text/plain",
 			JSON.stringify({
@@ -362,6 +365,14 @@ export class CompendiumBrowser extends Application {
 		const height = (document.body.querySelector("#drag-ghost") as HTMLElement).offsetHeight;
 		event.dataTransfer?.setDragImage(dragImage, 0, height / 2);
 	}
+
+	protected override _getHeaderButtons(): Application.HeaderButton[] {
+		const buttons: Application.HeaderButton[] = [];
+		const all_buttons = [...buttons, ...super._getHeaderButtons()];
+		all_buttons.at(-1)!.label = "";
+		all_buttons.at(-1)!.icon = "gcs-circled-x";
+		return all_buttons;
+	}
 }
 
 class PackLoader {
@@ -374,7 +385,6 @@ class PackLoader {
 		this.loadedPacks[documentType] ??= {};
 		// TODO: add progress bar
 		// const progress = new Progress
-		// console.log(packs);
 		for (const packId of packs) {
 			let data = this.loadedPacks[documentType][packId];
 			if (data) {
@@ -395,7 +405,6 @@ class PackLoader {
 					} else continue;
 				} else continue;
 			}
-			console.log("data:", data);
 			yield data;
 		}
 	}

@@ -1,5 +1,5 @@
 import { ActorGURPS } from "@actor";
-import { ContainerGURPS, ItemGURPS } from "@item";
+import { BaseItemGURPS, ContainerGURPS, ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";
@@ -35,23 +35,22 @@ export class ActorSheetGURPS extends ActorSheet {
 		// If (event.target.classList.contains("contents-link")) return;
 
 		let dragData: any;
-		// Const dragData: any = {
-		// 	actorId: this.actor.id,
-		// 	sceneId: this.actor.isToken ? canvas?.scene?.id : null,
-		// 	tokenId: this.actor.isToken ? this.actor.token?.id : null,
-		// 	pack: this.actor?.pack,
-		// };
 
 		// Owned Items
-		if ((list as HTMLElement).dataset.itemId) {
-			const item = this.actor.deepItems.get((list as HTMLElement).dataset.itemId!);
-			dragData = (item as any)?.toDragData();
+		if ($(list as HTMLElement).data("uuid")) {
+			// If ((list as HTMLElement).dataset.itemI) {
+			const itemData = duplicate((await fromUuid($(list as HTMLElement).data("uuid"))) as Item | Actor) as any;
+			delete itemData._id;
+			dragData = {
+				type: "Item",
+				data: itemData,
+			};
 
 			// Create custom drag image
 			const dragImage = document.createElement("div");
 			dragImage.innerHTML = await renderTemplate(`systems/${SYSTEM_NAME}/templates/actor/drag-image.hbs`, {
-				name: `${item?.name}`,
-				type: `${item?.type.replace("_container", "").replaceAll("_", "-")}`,
+				name: `${itemData?.name}`,
+				type: `${itemData?.type.replace("_container", "").replaceAll("_", "-")}`,
 			});
 			dragImage.id = "drag-ghost";
 			document.body.querySelectorAll("#drag-ghost").forEach(e => e.remove());
@@ -68,7 +67,6 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		// Set data transfer
 		event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
-		console.log(dragData);
 	}
 
 	protected override async _onSortItem(
@@ -98,7 +96,6 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		if (source && target && source.parent !== target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
-			console.log(source);
 			await source.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
 			return parent?.createEmbeddedDocuments(
 				"Item",
@@ -114,7 +111,6 @@ export class ActorSheetGURPS extends ActorSheet {
 				{ temporary: false }
 			);
 		}
-		console.log(updateData);
 		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
 	}
 }

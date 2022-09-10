@@ -29,10 +29,11 @@
 			</div>
 			<div class="label">{{localize "gurps.item.base_cost"}}</div>
 			<div class="field no-stretch">
-				{{>sections/input-text name="NUMBER.system.base_points" data=system.base_points type="String"}}
-				{{>sections/input-text label="gurps.item.points_per_level" name="NUMBER.system.points_per_level"
-				data=system.points_per_level type="String"}}
-				{{>sections/input-text label="gurps.item.levels" name="NUMBER.system.levels" data=system.levels
+				{{numberInput system.base_points name="NUMBER.system.base_points"}}
+				<div class="label">{{localize "gurps.item.points_per_level"}}</div>
+				{{numberInput system.points_per_level name="NUMBER.system.points_per_level"}}
+				<div class="label">{{localize "gurps.item.levels"}}</div>
+				{{>sections/input-text name="NUMBER.system.levels" data=system.levels
 				type="String"
 				class=(input_lock system.points_per_level)}}
 			</div>

@@ -76,7 +76,9 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
 		event.preventDefault();
-		const id: string = $(event.currentTarget).data("item-id");
+		const uuid: string = $(event.currentTarget).data("uuid");
+		console.log(uuid);
+		const id = uuid.split(".").at(-1) ?? "";
 		const open = !!$(event.currentTarget).attr("class")?.includes("closed");
 		const item = this.actor.deepItems.get(id);
 		item?.update({ _id: id, "system.open": open });
@@ -90,7 +92,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 
 	protected async _openItemSheet(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
-		const id = $(event.currentTarget).data("item-id");
+		const uuid: string = $(event.currentTarget).data("uuid");
+		const id = uuid.split(".").at(-1) ?? "";
 		const item = this.actor.deepItems.get(id);
 		item?.sheet?.render(true);
 	}
@@ -319,7 +322,7 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				onclick: event => this._onGMenu(event),
 			},
 		];
-		const all_buttons = buttons.concat(super._getHeaderButtons());
+		const all_buttons = [...buttons, ...super._getHeaderButtons()];
 		all_buttons.at(-1)!.label = "";
 		all_buttons.at(-1)!.icon = "gcs-circled-x";
 		return all_buttons;

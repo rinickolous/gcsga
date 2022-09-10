@@ -5,6 +5,10 @@ import { CompendiumTab } from "./base";
 export class CompendiumTraitModifierTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/modifier.hbs`;
 
+	override get searchFields(): string[] {
+		return [...super.searchFields, "costDescription"];
+	}
+
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "modifier");
 	}
@@ -30,7 +34,7 @@ export class CompendiumTraitModifierTab extends CompendiumTab {
 					formattedName: modifier.formattedName,
 					notes: modifier.notes,
 					img: modifier.img,
-					compendium: pack.collection,
+					compendium: pack,
 					open: modifier.open,
 					id: modifier._id,
 					children: modifier.type === "modifier_container" ? modifier.children : [],

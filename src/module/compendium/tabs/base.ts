@@ -32,9 +32,14 @@ export abstract class CompendiumTab {
 	/** The path to the result list template of this tab */
 	abstract templatePath: string;
 
+	get searchFields(): string[] {
+		return ["name", "tags", "reference", "notes"];
+	}
+
 	constructor(browser: CompendiumBrowser, tabName: Exclude<TabName, "settings">) {
 		this.browser = browser;
 		this.tabName = tabName;
+		this.prepareFilterData();
 	}
 
 	async init(): Promise<void> {
@@ -62,9 +67,24 @@ export abstract class CompendiumTab {
 
 	/**
 	 * Filter indexData
-	 * @param _entry
+	 * @param {CompendiumIndexData} entry
 	 */
-	protected filterIndexData(_entry: CompendiumIndexData): boolean {
+	protected filterIndexData(entry: CompendiumIndexData): boolean {
+		const { searchQuery } = this.filterData;
+
+		// Name
+		if (searchQuery) {
+			for (const i of this.searchFields) {
+				const term = String(getProperty(entry, i));
+				if (
+					term
+						.toLocaleLowerCase((game as Game).i18n.lang)
+						.includes(searchQuery.toLocaleLowerCase((game as Game).i18n.lang))
+				)
+					return true;
+			}
+			return false;
+		}
 		return true;
 	}
 

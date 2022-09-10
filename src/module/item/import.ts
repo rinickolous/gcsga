@@ -57,9 +57,8 @@ export class ItemImporter {
 						import: {
 							icon: '<i class="fas fa-file-import"></i>',
 							label: i18n("gurps.system.library_import.import"),
-							//@ts-ignore
-							callback: (html: JQuery<HTMLElement>) => {
-								const form = html.find("form")[0];
+							callback: (html: HTMLElement | JQuery<HTMLElement>) => {
+								const form = $(html).find("form")[0];
 								const files = form.data.files;
 								if (!files.length) return ui.notifications?.error(i18n("gurps.error.import.no_file"));
 								else {
@@ -69,7 +68,7 @@ export class ItemImporter {
 											text: text,
 											name: file.name,
 											path: file.path,
-										}),
+										})
 									);
 								}
 							},
@@ -83,7 +82,7 @@ export class ItemImporter {
 				},
 				{
 					width: 400,
-				},
+				}
 			).render(true);
 		}, 200);
 	}
@@ -96,9 +95,9 @@ export class ItemImporter {
 	async _import(file: { text: string; name: string; path: string }) {
 		const json = file.text;
 		console.log(file);
-		// return;
+		// Return;
 		const name = file.name.split(".")[0];
-		// const name = "Library Test";
+		// Const name = "Library Test";
 		let r: ItemLibraryData | any;
 		const errorMessages: string[] = [];
 		try {
@@ -109,17 +108,19 @@ export class ItemImporter {
 			return this.throwImportError(errorMessages);
 		}
 
-		// let commit: ItemLibraryData | any = {};
+		// Let commit: ItemLibraryData | any = {};
 		try {
-			if (r.version < this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_old")));
-			if (r.version > this.version) return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_new")));
+			if (r.version < this.version)
+				return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_old")));
+			if (r.version > this.version)
+				return this.throwImportError(errorMessages.concat(i18n("gurps.error.import.format_new")));
 
-			// commit = { ...commit, ...{ type: r.type } };
+			// Commit = { ...commit, ...{ type: r.type } };
 			// commit = { ...commit, ...{ version: r.version } };
 
 			const items: Array<ItemSystemDataGURPS> = [];
 			items.push(...this.importItems(r.rows));
-			// commit = { ...commit, ...{ rows: items } };
+			// Commit = { ...commit, ...{ rows: items } };
 
 			// console.log(commit);
 
@@ -145,7 +146,7 @@ export class ItemImporter {
 				i18n_f("gurps.error.import.generic", {
 					name: name,
 					message: (err as Error).message,
-				}),
+				})
 			);
 			return this.throwImportError(errorMessages);
 		}
@@ -182,7 +183,10 @@ export class ItemImporter {
 		return items;
 	}
 
-	getItemData(item: ItemSystemDataGURPS, context?: { container?: boolean; other?: boolean }): [ItemSystemDataGURPS, ItemFlagsGURPS] {
+	getItemData(
+		item: ItemSystemDataGURPS,
+		context?: { container?: boolean; other?: boolean }
+	): [ItemSystemDataGURPS, ItemFlagsGURPS] {
 		let data: ItemSystemDataGURPS;
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
 		switch (item.type) {
@@ -196,7 +200,7 @@ export class ItemImporter {
 				flags[SYSTEM_NAME]!.contentsData!.concat(
 					this.importItems((item as any).modifiers, {
 						container: true,
-					}),
+					})
 				);
 				return [data, flags];
 			case "modifier":
@@ -235,7 +239,7 @@ export class ItemImporter {
 					this.importItems((item as any).modifiers, {
 						container: true,
 						other: context?.other,
-					}),
+					})
 				);
 				return [data, flags];
 			case "eqp_modifier":
@@ -331,7 +335,7 @@ export class ItemImporter {
 			points: data.points ?? 1,
 			specialization: data.specialization ?? "",
 			tech_level: data.tech_level ?? "",
-			tech_level_required: !!data.tech_level ? true : false,
+			tech_level_required: !!data.tech_level,
 			encumbrance_penalty_multiplier: data.encumbrance_penalty_multiplier ?? 0,
 			difficulty: data.difficulty ?? "dx/a",
 			defaults: data.defaults ? this.importDefaults(data.defaults) : [],
@@ -505,7 +509,9 @@ export class ItemImporter {
 		};
 	}
 
-	getEquipmentModifierContainerData(data: EquipmentModifierContainerSystemData): EquipmentModifierContainerSystemData {
+	getEquipmentModifierContainerData(
+		data: EquipmentModifierContainerSystemData
+	): EquipmentModifierContainerSystemData {
 		return {
 			name: data.name ?? "Equipment Modifier Container",
 			type: data.type ?? "eqp_modifier_container",
@@ -565,6 +571,7 @@ export class ItemImporter {
 		}
 		return list;
 	}
+
 	async throwImportError(msg: string[]) {
 		ui.notifications?.error(msg.join("<br>"));
 

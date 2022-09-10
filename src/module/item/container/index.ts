@@ -2,7 +2,10 @@ import { BaseItemGURPS } from "@item";
 import { ItemConstructionContextGURPS } from "@item/base";
 import { ContainerDataGURPS, ItemDataGURPS, ItemGURPS } from "@item/data";
 import { AnyDocumentData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/data.mjs";
-import { Context, Metadata } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
+import {
+	Context,
+	Metadata,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
 import EmbeddedCollection from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/embedded-collection.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 import { DocumentConstructor } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
@@ -10,7 +13,7 @@ import { SYSTEM_NAME } from "@module/settings";
 import { BaseContainerSystemData } from "./data";
 
 export abstract class ContainerGURPS extends BaseItemGURPS {
-	// items?: EmbeddedCollection<ConfiguredDocumentClass<typeof BaseItemGURPS>, any>;
+	// Items?: EmbeddedCollection<ConfiguredDocumentClass<typeof BaseItemGURPS>, any>;
 	items: foundry.utils.Collection<ItemGURPS> = new Collection();
 
 	constructor(data: ContainerDataGURPS, context: Context<Actor> & ItemConstructionContextGURPS = {}) {
@@ -29,7 +32,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return new Collection(
 			deepItems.map(e => {
 				return [e.id!, e];
-			}),
+			})
 		);
 	}
 
@@ -41,7 +44,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				.filter(item => childTypes.includes(item.type))
 				.map(item => {
 					return [item.id!, item];
-				}),
+				})
 		) as Collection<ItemGURPS>;
 	}
 
@@ -49,7 +52,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		return (this.system as any).open;
 	}
 
-	async createEmbeddedDocuments(embeddedName: string, data: Array<{ name: string; type: string } & Record<string, unknown>>, context: DocumentModificationContext & any): Promise<any> {
+	async createEmbeddedDocuments(
+		embeddedName: string,
+		data: Array<{ name: string; type: string } & Record<string, unknown>>,
+		context: DocumentModificationContext & any
+	): Promise<any> {
 		if (embeddedName !== "Item") return super.createEmbeddedDocuments(embeddedName, data, context);
 		if (!Array.isArray(data)) data = [data];
 
@@ -77,12 +84,20 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		}
 	}
 
-	getEmbeddedDocument(embeddedName: string, id: string, options?: { strict?: boolean | undefined } | undefined): Document<any, any, Metadata<any>> | undefined {
+	getEmbeddedDocument(
+		embeddedName: string,
+		id: string,
+		options?: { strict?: boolean | undefined } | undefined
+	): Document<any, any, Metadata<any>> | undefined {
 		if (embeddedName !== "Item") return super.getEmbeddedDocument(embeddedName, id, options);
 		return this.items.get(id);
 	}
 
-	async updateEmbeddedDocuments(embeddedName: string, updates: Record<string, unknown>[], context?: DocumentModificationContext | undefined): Promise<Document<any, any, Metadata<any>>[]> {
+	async updateEmbeddedDocuments(
+		embeddedName: string,
+		updates: Record<string, unknown>[],
+		context?: DocumentModificationContext | undefined
+	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.updateEmbeddedDocuments(embeddedName, updates, context);
 
 		const contained: any[] = (this.getFlag(SYSTEM_NAME, "contentsData") as any[]) ?? [];
@@ -97,10 +112,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 					insertValues: true,
 					inplace: false,
 				});
-				if (!!newData["system.prereqs.-=prereqs"]) delete newData["system.prereqs.-=prereqs"];
-				// temporary hack to fix prereqs. will fix later
+				if (newData["system.prereqs.-=prereqs"]) delete newData["system.prereqs.-=prereqs"];
+				// Temporary hack to fix prereqs. will fix later
 				// TODO: fix later
-				if (Object.keys(theUpdate).includes("system.prereqs.-=prereqs")) (newData.system as any).prereqs.prereqs = null;
+				if (Object.keys(theUpdate).includes("system.prereqs.-=prereqs"))
+					(newData.system as any).prereqs.prereqs = null;
 				updated.push(newData);
 				return newData;
 			}
@@ -128,7 +144,11 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 		});
 	}
 
-	async deleteEmbeddedDocuments(embeddedName: string, ids: string[], context?: DocumentModificationContext | undefined): Promise<Document<any, any, Metadata<any>>[]> {
+	async deleteEmbeddedDocuments(
+		embeddedName: string,
+		ids: string[],
+		context?: DocumentModificationContext | undefined
+	): Promise<Document<any, any, Metadata<any>>[]> {
 		if (embeddedName !== "Item") return super.deleteEmbeddedDocuments(embeddedName, ids, context);
 
 		const containedItems: ItemGURPS[] = (this.getFlag(SYSTEM_NAME, "contentsData") as ItemGURPS[]) ?? [];
@@ -177,7 +197,7 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 				this.items.set(item._id!, currentItem);
 				if (this.sheet) {
 					currentItem.render(false, {
-						//@ts-ignore
+						// @ts-ignore
 						action: "update",
 						data: currentItem.toObject(),
 					});
@@ -189,6 +209,6 @@ export abstract class ContainerGURPS extends BaseItemGURPS {
 
 export interface ContainerGURPS extends BaseItemGURPS {
 	readonly system: BaseContainerSystemData;
-	// items: foundry.utils.Collection<ItemGURPS>;
+	// Items: foundry.utils.Collection<ItemGURPS>;
 	// items?: EmbeddedCollection<ConfiguredDocumentClass<typeof BaseItemGURPS>, any>;
 }

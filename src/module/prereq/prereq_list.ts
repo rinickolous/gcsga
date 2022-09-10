@@ -22,7 +22,7 @@ export class PrereqList extends BasePrereq {
 	constructor(data?: PrereqListObj, context: PrereqConstructionContext = {}) {
 		super(data, context);
 		Object.assign(this, mergeObject(PrereqList.defaults, data));
-		if (!!(data as PrereqList).prereqs) {
+		if ((data as PrereqList).prereqs) {
 			const list = toArray((data as PrereqList).prereqs);
 			this.prereqs = [];
 			for (const e of list) {
@@ -42,7 +42,7 @@ export class PrereqList extends BasePrereq {
 	}
 
 	override satisfied(character: CharacterGURPS, exclude: any, buffer: TooltipGURPS, prefix: string): boolean {
-		if (this.when_tl?.compare != "none") {
+		if (this.when_tl?.compare !== "none") {
 			let tl = extractTechLevel(character.profile.tech_level);
 			if (tl < 0) tl = 0;
 			if (!numberCompare(tl, this.when_tl)) return true;
@@ -53,7 +53,7 @@ export class PrereqList extends BasePrereq {
 			for (const p of this.prereqs) {
 				if (p.satisfied(character, exclude, local, prefix)) count++;
 			}
-		const satisfied = count == this.prereqs.length || (!this.all && count > 0);
+		const satisfied = count === this.prereqs.length || (!this.all && count > 0);
 		if (!satisfied) {
 			if (this.all) buffer.push(i18n("gurps.prereqs.requires_all"));
 			else buffer.push(i18n("gurps.prereqs.requires_all"));

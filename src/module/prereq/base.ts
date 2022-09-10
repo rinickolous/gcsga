@@ -10,7 +10,7 @@ export interface PrereqConstructionContext {
 export class BasePrereq {
 	constructor(data: Prereq | any, context: PrereqConstructionContext = {}) {
 		if (context.ready) {
-			// do nothing
+			// Do nothing
 		} else {
 			mergeObject(context, {
 				ready: true,
@@ -36,7 +36,7 @@ export class BasePrereq {
 				levels: { compare: NumberComparison.AtLeast, qualifier: 0 },
 				has: true,
 			},
-			{ ready: true },
+			{ ready: true }
 		);
 	}
 

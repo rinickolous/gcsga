@@ -5,22 +5,30 @@ import { FilterData } from "./data";
 export abstract class CompendiumTab {
 	/** A reference to the parent CompendiumBrowser */
 	protected browser: CompendiumBrowser;
+
 	/** An unmodified copy of this.filterData */
 	defaultFilterData!: FilterData;
+
 	/** The full CompendiumIndex of this tab */
 	// protected indexData: CompendiumIndexData[] = [];
 	indexData: CompendiumIndexData[] = [];
+
 	/** Is this tab initialized? */
 	isInitialized = false;
+
 	/** The filter schema for this tab; The tabs filters are rendered based on this.*/
 	filterData!: FilterData;
+
 	/** The total count of items in the currently filtered index */
 	totalItemCount = 0;
+
 	/** The initial display limit for this tab; Scrolling is currently hardcoded to +100 */
 	// TODO: change later
 	scrollLimit = 10000;
+
 	/** The name of this tab */
 	tabName: Exclude<TabName, "settings">;
+
 	/** The path to the result list template of this tab */
 	abstract templatePath: string;
 
@@ -37,7 +45,7 @@ export abstract class CompendiumTab {
 
 	/** Load and prepare the compendium index and set filter options */
 	protected async loadData(): Promise<void> {
-		return;
+		this.indexData = [];
 	}
 
 	/** Prepare the filterData object of this tab */
@@ -52,7 +60,10 @@ export abstract class CompendiumTab {
 		};
 	}
 
-	/** Filter indexData */
+	/**
+	 * Filter indexData
+	 * @param _entry
+	 */
 	protected filterIndexData(_entry: CompendiumIndexData): boolean {
 		return true;
 	}
@@ -94,7 +105,7 @@ export abstract class CompendiumTab {
 			const html = domParser.parseFromString(htmlString, "text/html");
 			liElements.push(html.body.firstElementChild as HTMLLIElement);
 		}
-		// console.log("liElements", liElements);
+		// Console.log("liElements", liElements);
 		return liElements;
 	}
 }

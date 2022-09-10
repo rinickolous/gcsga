@@ -53,9 +53,9 @@ export class ItemSheetGURPS extends ItemSheet {
 				vitals: "Vitals",
 			});
 		}
-		attributes["dodge"] = i18n("gurps.attributes.dodge");
-		attributes["parry"] = i18n("gurps.attributes.parry");
-		attributes["block"] = i18n("gurps.attributes.block");
+		attributes.dodge = i18n("gurps.attributes.dodge");
+		attributes.parry = i18n("gurps.attributes.parry");
+		attributes.block = i18n("gurps.attributes.block");
 		const item = this.item as BaseItemGURPS;
 		const meleeWeapons = [...item.meleeWeapons].map(e => mergeObject(e[1], { index: e[0] }));
 		const rangedWeapons = [...item.rangedWeapons].map(e => mergeObject(e[1], { index: e[0] }));
@@ -108,25 +108,25 @@ export class ItemSheetGURPS extends ItemSheet {
 	}
 
 	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
-		// console.log("_updateObject", formData);
-		if (formData["system.tags"] && typeof formData["system.tags"] == "string") {
+		// Console.log("_updateObject", formData);
+		if (formData["system.tags"] && typeof formData["system.tags"] === "string") {
 			const tags = formData["system.tags"].split(",").map(e => e.trim());
 			formData["system.tags"] = tags;
 		}
-		if (formData["system.college"] && typeof formData["system.college"] == "string") {
+		if (formData["system.college"] && typeof formData["system.college"] === "string") {
 			const college = formData["system.college"].split(",").map(e => e.trim());
 			formData["system.college"] = college;
 		}
 		for (const [key, value] of Object.entries(formData)) {
-			if (typeof value == "string" && value.includes("<div>")) {
+			if (typeof value === "string" && value.includes("<div>")) {
 				formData[key] = value
 					.replace(/(<\/div>)?<div>/g, "\n")
 					.replace("<br></div>", "")
 					.replace("<br>", "\n");
 			}
-			if (value == "false") formData[key] = false;
-			if (value == "true") formData[key] = true;
-			if (value == "\n") formData[key] = "";
+			if (value === "false") formData[key] = false;
+			if (value === "true") formData[key] = true;
+			if (value === "\n") formData[key] = "";
 			// HACK: values of 0 are replaced with empty strings. this fixes it, but it's messy
 			if (key.startsWith("NUMBER.")) {
 				formData[key.replace("NUMBER.", "")] = parseFloat(value);
@@ -138,7 +138,7 @@ export class ItemSheetGURPS extends ItemSheet {
 
 	protected async _addPrereqChild(event: JQuery.ClickEvent): Promise<any> {
 		const path = $(event.currentTarget).data("path");
-		// console.log(path);
+		// Console.log(path);
 		const prereqs = toArray(duplicate(getProperty(this.item as any, `${path}.prereqs`)));
 		prereqs.push({
 			type: "trait_prereq",
@@ -148,9 +148,9 @@ export class ItemSheetGURPS extends ItemSheet {
 			has: true,
 		});
 		const update: any = {};
-		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		// Update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
 		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
-		// await this.item.update({ "system.-=prereqs": null }, { render: false });
+		// Await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
@@ -163,15 +163,15 @@ export class ItemSheetGURPS extends ItemSheet {
 			when_tl: { compare: NumberComparison.None },
 		});
 		const update: any = {};
-		// update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
+		// Update["system.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
 		// update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
 		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(`${path}.prereqs`, { ...prereqs });
-		// await this.item.update({ "system.-=prereqs": null }, { render: false });
+		// Await this.item.update({ "system.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
 	protected async _removePrereq(event: JQuery.ClickEvent): Promise<any> {
-		// path = system.prereqs.prereqs.0
+		// Path = system.prereqs.prereqs.0
 		let path = $(event.currentTarget).data("path");
 		const items = path.split(".");
 		const index = items.pop();
@@ -179,11 +179,11 @@ export class ItemSheetGURPS extends ItemSheet {
 		const prereqs = toArray(duplicate(getProperty(this.item as any, path)));
 		prereqs.splice(index, 1);
 		const update: any = {};
-		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		// Update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
 		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, {
 			...prereqs,
 		});
-		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
+		// Await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
@@ -201,16 +201,16 @@ export class ItemSheetGURPS extends ItemSheet {
 			has: prereqs[index].has,
 		};
 		const update: any = {};
-		// update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
+		// Update["system.prereqs"] = await this.getPrereqUpdate(path, { ...prereqs });
 		update["system.prereqs.prereqs"] = await this.getPrereqUpdate(path, prereqs);
-		// await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
+		// Await this.item.update({ "system.prereqs.-=prereqs": null }, { render: false });
 		return this.item.update(update);
 	}
 
 	async getPrereqUpdate(path: string, data: any): Promise<any> {
-		// console.log(path);
-		// if (path == "system.prereqs") return data;
-		if (path == "system.prereqs.prereqs") return toArray(data);
+		// Console.log(path);
+		// if (path === "system.prereqs") return data;
+		if (path === "system.prereqs.prereqs") return toArray(data);
 		const list = path.split(".");
 		const variable: string = list.pop()!;
 		const parent = duplicate(getProperty(this.item as any, list.join(".")));
@@ -264,6 +264,6 @@ export class ItemSheetGURPS extends ItemSheet {
 	protected async _onWeaponEdit(event: JQuery.DoubleClickEvent): Promise<any> {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
-		new WeaponSheet(this.item as ItemGURPS, {}, index).render(true);
+		new WeaponSheet(this.item as ItemGURPS, index, {}).render(true);
 	}
 }

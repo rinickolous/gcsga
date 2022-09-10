@@ -4,7 +4,7 @@ import { TechniqueGURPS } from "@item/technique";
 import { SkillContainerData } from "./data";
 
 export class SkillContainerGURPS extends ContainerGURPS {
-	// static override get schema(): typeof SkillContainerData {
+	// Static override get schema(): typeof SkillContainerData {
 	// 	return SkillContainerData;
 	// }
 

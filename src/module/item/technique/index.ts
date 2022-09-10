@@ -8,9 +8,10 @@ import { TechniqueData } from "./data";
 
 export class TechniqueGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+
 	unsatisfied_reason = "";
 
-	// static get schema(): typeof TechniqueData {
+	// Static get schema(): typeof TechniqueData {
 	// 	return TechniqueData;
 	// }
 
@@ -38,6 +39,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	get defaultedFrom(): SkillDefault | undefined {
 		return this.system.defaulted_from;
 	}
+
 	set defaultedFrom(v: SkillDefault | undefined) {
 		this.system.defaulted_from = v;
 	}
@@ -57,25 +59,25 @@ export class TechniqueGURPS extends BaseItemGURPS {
 	}
 
 	satisfied(tooltip: TooltipGURPS, prefix: string): boolean {
-		if (this.default.type != "skill") return true;
+		if (this.default.type !== "skill") return true;
 		const sk = this.actor?.bestSkillNamed(this.default.name ?? "", this.default.specialization ?? "", false, null);
 		const satisfied = (sk && (sk instanceof TechniqueGURPS || sk.points > 0)) || false;
 		if (!satisfied) {
 			tooltip.push(prefix);
-			if (!sk) tooltip.push(`gurps.prereqs.technique.skill`);
-			else tooltip.push(`gurps.prereqs.technique.point`);
+			if (!sk) tooltip.push("gurps.prereqs.technique.skill");
+			else tooltip.push("gurps.prereqs.technique.point");
 			tooltip.push(this.default.fullName(this.actor!));
 		}
 		return satisfied;
 	}
 
 	get skillLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
+		if (this.calculateLevel.level === -Infinity) return "-";
 		return this.calculateLevel.level.toString();
 	}
 
 	get relativeLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
+		if (this.calculateLevel.level === -Infinity) return "-";
 		return signed(this.calculateLevel.relative_level);
 	}
 
@@ -94,7 +96,7 @@ export class TechniqueGURPS extends BaseItemGURPS {
 				this.level = previous;
 			}
 		}
-		return saved != this.level;
+		return saved !== this.level;
 	}
 
 	get calculateLevel(): SkillLevel {
@@ -103,23 +105,30 @@ export class TechniqueGURPS extends BaseItemGURPS {
 		let points = this.adjustedPoints();
 		let level = -Infinity;
 		if (this.actor) {
-			if (this.default?.type == gid.Skill) {
+			if (this.default?.type === gid.Skill) {
 				const sk = this.actor.baseSkill(this.default!, true);
 				if (sk) level = sk.calculateLevel.level;
 			} else if (this.default) {
-				level = this.default?.skillLevelFast(this.actor, true, null, false) - this.default?.modifier;
+				level =
+					(this.default?.skillLevelFast(this.actor, true, null, false) ?? 0) - (this.default?.modifier ?? 0);
 			}
-			if (level != -Infinity) {
+			if (level !== -Infinity) {
 				const base_level = level;
 				level += this.default.modifier;
-				if (this.difficulty == "h") points -= 1;
+				if (this.difficulty === "h") points -= 1;
 				if (points > 0) relative_level = points;
-				if (level != -Infinity) {
-					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", this.specialization, this.tags, tooltip);
+				if (level !== -Infinity) {
+					relative_level += this.actor.bonusFor(`skill.name/${this.name}`, tooltip);
+					relative_level += this.actor.skillComparedBonusFor(
+						"skill.name*",
+						this.name ?? "",
+						this.specialization,
+						this.tags,
+						tooltip
+					);
 					level += relative_level;
 				}
-				if (!!this.limit) {
+				if (this.limit) {
 					const max = base_level + this.limit;
 					if (level > max) {
 						relative_level -= level - max;

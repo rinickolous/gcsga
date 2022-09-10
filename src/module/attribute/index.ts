@@ -18,11 +18,17 @@ export interface AttributeObj {
 
 export class Attribute {
 	actor: CharacterGURPS;
+
 	bonus = 0; // ?
+
 	cost_reduction = 0; // ?
+
 	order: number;
+
 	attr_id: string;
+
 	adj = 0;
+
 	damage?: number;
 
 	constructor(actor: CharacterGURPS, attr_id: string, order: number, data?: any) {
@@ -35,6 +41,7 @@ export class Attribute {
 	get id(): string {
 		return this.attr_id;
 	}
+
 	set id(v: string) {
 		this.attr_id = sanitize(v, false, reservedIds);
 	}
@@ -52,6 +59,7 @@ export class Attribute {
 		}
 		return max;
 	}
+
 	set max(v: number) {
 		if (this.max == v) return;
 		const def = this.attribute_def;
@@ -66,6 +74,7 @@ export class Attribute {
 		}
 		return max - (this.damage ?? 0);
 	}
+
 	set current(v: number) {
 		this.max = v;
 	}
@@ -99,7 +108,7 @@ export class Attribute {
 			attr_id: this.attr_id,
 			adj: this.adj,
 		};
-		if (!!this.damage) obj.damage = this.damage;
+		if (this.damage) obj.damage = this.damage;
 		return obj;
 	}
 }

@@ -1,5 +1,29 @@
-import { add, closeParen, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, logicalAnd, logicalOr, multiply, not, divide, modulo, notEqual, openParen, Operator, opFunction, power, subtract } from "./types";
+import {
+	add,
+	closeParen,
+	equal,
+	greaterThan,
+	greaterThanOrEqual,
+	lessThan,
+	lessThanOrEqual,
+	logicalAnd,
+	logicalOr,
+	multiply,
+	not,
+	divide,
+	modulo,
+	notEqual,
+	openParen,
+	Operator,
+	opFunction,
+	power,
+	subtract,
+} from "./types";
 
+/**
+ *
+ * @param dbzrz
+ */
 export function fixedOperators(dbzrz: boolean): Operator[] {
 	let eDivide: opFunction;
 	let eModulo: opFunction;
@@ -32,56 +56,88 @@ export function fixedOperators(dbzrz: boolean): Operator[] {
 	];
 }
 
+/**
+ *
+ * @param arg
+ */
 function fixedNot(arg: any): any {
 	const b = Boolean(arg);
-	if (typeof b == "boolean") return !b;
+	if (typeof b === "boolean") return !b;
 	const v = fixedFrom(arg);
-	if (v == 0) return true;
+	if (v === 0) return true;
 	return false;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedLogicalOr(left: any, right: any): any {
 	const l = fixedFrom(left);
-	if (l != 0) return true;
+	if (l !== 0) return true;
 	let r = 0;
 	r = fixedFrom(right);
-	return r != 0;
+	return r !== 0;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedLogicalAnd(left: any, right: any): any {
 	const l = fixedFrom(left);
-	if (l == 0) return false;
+	if (l === 0) return false;
 	let r = 0;
 	r = fixedFrom(right);
-	return r != 0;
+	return r !== 0;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedEqual(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
 	} catch (err) {
 		console.error(err);
-		return left.toString() == right.toString();
+		return left.toString() === right.toString();
 	}
-	return l == r;
+	return l === r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedNotEqual(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
 	} catch (err) {
 		console.error(err);
-		return left.toString() != right.toString();
+		return left.toString() !== right.toString();
 	}
-	return l != r;
+	return l !== r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedGreaterThan(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
@@ -92,8 +148,14 @@ function fixedGreaterThan(left: any, right: any): any {
 	return l > r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedGreaterThanOrEqual(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
@@ -104,8 +166,14 @@ function fixedGreaterThanOrEqual(left: any, right: any): any {
 	return l >= r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedLessThan(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
@@ -116,8 +184,14 @@ function fixedLessThan(left: any, right: any): any {
 	return l < r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedLessThanOrEqual(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
@@ -128,8 +202,14 @@ function fixedLessThanOrEqual(left: any, right: any): any {
 	return l <= r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedAdd(left: any, right: any): any {
-	let l, r;
+	let l;
+	let r;
 	try {
 		l = fixedFrom(left);
 		r = fixedFrom(right);
@@ -140,10 +220,19 @@ function fixedAdd(left: any, right: any): any {
 	return l + r;
 }
 
+/**
+ *
+ * @param arg
+ */
 function fixedAddUnary(arg: any): any {
 	return fixedFrom(arg);
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedSubtract(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
@@ -151,11 +240,20 @@ function fixedSubtract(left: any, right: any): any {
 	return l - r;
 }
 
+/**
+ *
+ * @param arg
+ */
 function fixedSubtractUnary(arg: any): any {
 	const v = fixedFrom(arg);
 	return -v;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedMultiply(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
@@ -163,38 +261,63 @@ function fixedMultiply(left: any, right: any): any {
 	return l * r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedDivide(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
 	r = fixedFrom(right);
-	if (r == 0) throw new Error("Divide by zero");
+	if (r === 0) throw new Error("Divide by zero");
 	return l / r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedDivideAllowDivideByZero(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
 	r = fixedFrom(right);
-	if (r == 0) return r;
+	if (r === 0) return r;
 	return l / r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedModulo(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
 	r = fixedFrom(right);
-	if (r == 0) throw new Error("Divide by zero");
+	if (r === 0) throw new Error("Divide by zero");
 	return l % r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedModuloAllowDivideByZero(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
 	r = fixedFrom(right);
-	if (r == 0) return r;
+	if (r === 0) return r;
 	return l % r;
 }
 
+/**
+ *
+ * @param left
+ * @param right
+ */
 function fixedPower(left: any, right: any): any {
 	const l = fixedFrom(left);
 	let r = 0;
@@ -202,6 +325,10 @@ function fixedPower(left: any, right: any): any {
 	return Math.pow(l, r);
 }
 
+/**
+ *
+ * @param arg
+ */
 function fixedFrom(arg: any): number {
 	const a = typeof arg;
 	switch (a) {

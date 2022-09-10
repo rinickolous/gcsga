@@ -8,9 +8,10 @@ import { RitualMagicSpellData } from "./data";
 
 export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	level: SkillLevel = { level: 0, relative_level: 0, tooltip: "" };
+
 	unsatisfied_reason = "";
 
-	// static get schema(): typeof RitualMagicSpellData {
+	// Static get schema(): typeof RitualMagicSpellData {
 	// 	return RitualMagicSpellData;
 	// }
 
@@ -51,7 +52,12 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		let points = this.points;
 		if (this.actor) {
 			points += this.actor.bestCollegeSpellPointBonus(this.college, this.tags, tooltip);
-			points += this.actor.spellPointBonusesFor("spell.power_source.points", this.powerSource, this.tags, tooltip);
+			points += this.actor.spellPointBonusesFor(
+				"spell.power_source.points",
+				this.powerSource,
+				this.tags,
+				tooltip
+			);
 			points += this.actor.spellPointBonusesFor("spell.points", this.name ?? "", this.tags, tooltip);
 			points = Math.max(points, 0);
 		}
@@ -59,9 +65,9 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	satisfied(tooltip: TooltipGURPS, prefix: string): boolean {
-		if (this.college.length == 0) {
+		if (this.college.length === 0) {
 			tooltip.push(prefix);
-			tooltip.push(`gurps.ritual_magic_spell.must_assign_college`);
+			tooltip.push("gurps.ritual_magic_spell.must_assign_college");
 			return false;
 		}
 		for (const c of this.college) {
@@ -69,13 +75,13 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		}
 		if (this.actor?.bestSkillNamed(this.baseSkill, "", false, null)) return true;
 		tooltip.push(prefix);
-		tooltip.push(`gurps.prereqs.ritual_magic.skill.name`);
+		tooltip.push("gurps.prereqs.ritual_magic.skill.name");
 		tooltip.push(this.baseSkill);
 		tooltip.push(` (${this.college[0]})`);
 		const colleges = this.college;
 		colleges.shift();
 		for (const c of colleges) {
-			tooltip.push(`gurps.prereqs.ritual_magic.skill.or`);
+			tooltip.push("gurps.prereqs.ritual_magic.skill.or");
 			tooltip.push(this.baseSkill);
 			tooltip.push(`(${c})`);
 		}
@@ -83,19 +89,23 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 	}
 
 	get skillLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
+		if (this.calculateLevel.level === -Infinity) return "-";
 		return this.calculateLevel.level.toString();
 	}
 
 	get relativeLevel(): string {
-		if (this.calculateLevel.level == -Infinity) return "-";
-		return (this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") + signed(this.calculateLevel.relative_level);
+		if (this.calculateLevel.level === -Infinity) return "-";
+		return (
+			(this.actor?.attributes?.get(this.attribute)?.attribute_def.name ?? "") +
+			signed(this.calculateLevel.relative_level)
+		);
 	}
+
 	// Point & Level Manipulation
 	updateLevel(): boolean {
 		const saved = this.level;
 		this.level = this.calculateLevel;
-		return saved != this.level;
+		return saved !== this.level;
 	}
 
 	get calculateLevel(): SkillLevel {
@@ -104,7 +114,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 			relative_level: 0,
 			tooltip: new TooltipGURPS() as TooltipGURPS | string,
 		};
-		if (this.college.length == 0) skillLevel = this.determineLevelForCollege("");
+		if (this.college.length === 0) skillLevel = this.determineLevelForCollege("");
 		else {
 			for (const c of this.college) {
 				const possible = this.determineLevelForCollege(c);
@@ -136,7 +146,7 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 			specialization: college,
 			modifier: -this.prereqCount,
 		});
-		if (college == "") def.name = "";
+		if (college === "") def.name = "";
 		const limit = 0;
 		const skillLevel = this.calculateLevelAsTechnique(def, college, limit);
 		skillLevel.relative_level += def.modifier;
@@ -154,20 +164,26 @@ export class RitualMagicSpellGURPS extends BaseItemGURPS {
 		let points = this.adjustedPoints();
 		let level = Math.max();
 		if (this.actor) {
-			if (def?.type == gid.Skill) {
+			if (def?.type === gid.Skill) {
 				const sk = this.actor.baseSkill(def!, true);
 				if (sk) level = sk.calculateLevel.level;
 			} else if (def) {
 				level = def?.skillLevelFast(this.actor, true, null, false) - def?.modifier;
 			}
-			if (level != Math.max()) {
+			if (level !== Math.max()) {
 				const base_level = level;
 				level += def!.modifier; // ?
-				if (this.difficulty == "h") points -= 1;
+				if (this.difficulty === "h") points -= 1;
 				if (points > 0) relative_level = points;
-				if (level != Math.max()) {
-					relative_level += this.actor.bonusFor("skill.name/" + this.name, tooltip);
-					relative_level += this.actor.skillComparedBonusFor("skill.name*", this.name ?? "", college, this.tags, tooltip);
+				if (level !== Math.max()) {
+					relative_level += this.actor.bonusFor(`skill.name/${this.name}`, tooltip);
+					relative_level += this.actor.skillComparedBonusFor(
+						"skill.name*",
+						this.name ?? "",
+						college,
+						this.tags,
+						tooltip
+					);
 					level += relative_level;
 				}
 				if (limit) {

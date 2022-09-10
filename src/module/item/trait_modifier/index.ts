@@ -3,14 +3,14 @@ import { signed } from "@util";
 import { TraitModifierAffects, TraitModifierCostType, TraitModifierData } from "./data";
 
 export class TraitModifierGURPS extends BaseItemGURPS {
-	// static get schema(): typeof TraitModifierData {
+	// Static get schema(): typeof TraitModifierData {
 	// 	return TraitModifierData;
 	// }
 
 	prepareBaseData() {
 		super.prepareBaseData();
 		// HACK: find a way to avoid this
-		if (typeof this.system.levels == "string") this.system.levels = parseInt(this.system.levels);
+		if (typeof this.system.levels === "string") this.system.levels = parseInt(this.system.levels);
 	}
 
 	// Getters
@@ -20,15 +20,15 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 
 	get costDescription() {
 		let base = "";
-		if (this.costType == "percentage") {
+		if (this.costType === "percentage") {
 			if (this.hasLevels) {
 				base = signed(this.cost * this.levels);
 			} else {
 				base = signed(this.cost);
 			}
 			base += "%";
-		} else if (this.costType == "points") base = signed(this.cost);
-		else if (this.costType == "multiplier") return `${this.costType}${this.cost}`;
+		} else if (this.costType === "points") base = signed(this.cost);
+		else if (this.costType === "multiplier") return `${this.costType}${this.cost}`;
 		return base;
 	}
 
@@ -62,7 +62,7 @@ export class TraitModifierGURPS extends BaseItemGURPS {
 	}
 
 	get hasLevels(): boolean {
-		return this.costType == "percentage" && this.levels > 0;
+		return this.costType === "percentage" && this.levels > 0;
 	}
 }
 export interface TraitModifierGURPS {

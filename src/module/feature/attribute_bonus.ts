@@ -14,9 +14,9 @@ export class AttributeBonus extends BaseFeature {
 	}
 
 	get featureMapKey(): string {
-		let key = "attr." + this.attribute;
-		if (this.limitation && this.limitation != "none") {
-			key += "." + this.limitation;
+		let key = `attr.${this.attribute}`;
+		if (this.limitation && this.limitation !== "none") {
+			key += `.${this.limitation}`;
 		}
 		return key;
 	}

@@ -55,12 +55,12 @@ export class ModifierWindow extends Application {
 
 		// Get position
 		const button = $("#modifier-app");
-		// const buttonTop = button.offset()?.top ?? 0; // might use position() depending on as yet unencountered issues
+		// Const buttonTop = button.offset()?.top ?? 0; // might use position() depending on as yet unencountered issues
 		// const buttonLeft = button.offset()?.left ?? 0;
 		const buttonTop = button.position()?.top ?? 0;
 		const buttonLeft = button.position()?.left + 220 ?? 0;
 		let buttonWidth = parseFloat(button.css("width").replace("px", ""));
-		// let width = parseFloat(html.find(".searchbar").css("width").replace("px", ""));
+		// Let width = parseFloat(html.find(".searchbar").css("width").replace("px", ""));
 		const width = 180;
 		let height = parseFloat(html.css("height").replace("px", ""));
 
@@ -99,7 +99,7 @@ export class ModifierWindow extends Application {
 			customMod.modifier = parseInt(modifierMatch[0]) ?? 0;
 			customMod.name = input.replace(modifierMatch[0], "");
 		}
-		if (customMod.modifier == 0) this.list.customMod = null;
+		if (customMod.modifier === 0) this.list.customMod = null;
 		else this.list.customMod = customMod;
 		this.list.render();
 	}
@@ -109,7 +109,7 @@ export class ModifierWindow extends Application {
 			event.preventDefault();
 			switch (event.key) {
 				case "ArrowUp":
-					if (this.list.mods.length == 0) return this.getPinnedMods();
+					if (this.list.mods.length === 0) return this.getPinnedMods();
 					this.list.selection += 1;
 					if (this.list.selection >= this.list.mods.length) this.list.selection = 0;
 					return this.list.render();
@@ -127,9 +127,10 @@ export class ModifierWindow extends Application {
 	}
 
 	togglePin() {
-		const pinnedMods: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
+		const pinnedMods: RollModifier[] =
+			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
 		const selectedMod: RollModifier = this.list.mods[this.list.selection];
-		const matchingMod = pinnedMods.find(e => e.name == selectedMod.name);
+		const matchingMod = pinnedMods.find(e => e.name === selectedMod.name);
 		if (matchingMod) {
 			pinnedMods.splice(pinnedMods.indexOf(matchingMod), 1);
 		} else {
@@ -140,7 +141,8 @@ export class ModifierWindow extends Application {
 	}
 
 	getPinnedMods() {
-		const pinnedMods: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
+		const pinnedMods: RollModifier[] =
+			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
 		this.list.mods = pinnedMods;
 		this.list.render();
 	}
@@ -153,7 +155,7 @@ export class ModifierWindow extends Application {
 
 	addModFromBrowse() {
 		let newMod = null;
-		// const newMod: RollModifier = this.browse.categories[this.browse.selection[1]].mods[this.browse.selection[2]];
+		// Const newMod: RollModifier = this.browse.categories[this.browse.selection[1]].mods[this.browse.selection[2]];
 		const cat = this.browse.categories[this.browse.selection[1]];
 		if (cat) newMod = cat.mods[this.browse.selection[2]];
 		if (!newMod) return;
@@ -161,8 +163,9 @@ export class ModifierWindow extends Application {
 	}
 
 	addModifier(mod: RollModifier) {
-		const modList: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
-		const oldMod = modList.find(e => e.name == mod.name);
+		const modList: RollModifier[] =
+			((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
+		const oldMod = modList.find(e => e.name === mod.name);
 		if (oldMod) oldMod.modifier += mod.modifier;
 		else modList.push(mod);
 		(game as Game).user?.setFlag(SYSTEM_NAME, "modifierStack", modList);
@@ -176,7 +179,8 @@ export class ModifierWindow extends Application {
 
 	removeModifier(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		const modList: RollModifier[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
+		const modList: RollModifier[] =
+			((game as Game).user?.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
 		const index = $(event.currentTarget).data("index");
 		modList.splice(index, 1);
 		(game as Game).user?.setFlag(SYSTEM_NAME, "modifierStack", modList);

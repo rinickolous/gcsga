@@ -10,7 +10,7 @@ import { EquipmentContainerData } from "./data";
 export class EquipmentContainerGURPS extends ContainerGURPS {
 	unsatisfied_reason = "";
 
-	// static override get schema(): typeof EquipmentContainerData {
+	// Static override get schema(): typeof EquipmentContainerData {
 	// 	return EquipmentContainerData;
 	// }
 
@@ -31,7 +31,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		return parseFloat(this.system.weight);
 	}
 
-	// get features() {
+	// Get features() {
 	// 	const features: Feature[] = [];
 	// 	for (const f of this.system.features ?? []) {
 	// 		features.push(new BaseFeature(f));
@@ -88,7 +88,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		return new Collection(
 			deepModifiers.map(item => {
 				return [item.id!, item];
-			}),
+			})
 		);
 	}
 
@@ -112,7 +112,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get adjustedWeightFast(): string {
-		return this.adjustedWeight(false, "lb").toString() + " lb";
+		return `${this.adjustedWeight(false, "lb").toString()} lb`;
 	}
 
 	weightAdjustedForMods(units: WeightUnits): number {
@@ -120,18 +120,18 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 		let w = this.weight;
 
 		for (const mod of this.deepModifiers) {
-			if (mod.weightType == "to_original_weight") {
+			if (mod.weightType === "to_original_weight") {
 				const t = determineModWeightValueTypeFromString(mod.weightAmount);
 				const f = extractFraction(mod.weightAmount);
 				const amt = f.numerator / f.denominator;
-				if (t == "weight_addition") {
+				if (t === "weight_addition") {
 					w = w + amt;
 				} else {
 					percentages += amt;
 				}
 			}
 		}
-		if (percentages != 0) w += (this.weight * percentages) / 100;
+		if (percentages !== 0) w += (this.weight * percentages) / 100;
 
 		w = processMultiplyAddWeightStep("to_base_weight", w, units, this.deepModifiers);
 
@@ -147,7 +147,7 @@ export class EquipmentContainerGURPS extends ContainerGURPS {
 	}
 
 	get extendedWeightFast(): string {
-		return this.extendedWeight(false, "lb").toString() + " lb";
+		return `${this.extendedWeight(false, "lb").toString()} lb`;
 	}
 
 	extendedWeightAdjustForMods(units: WeightUnits, for_skills: boolean): number {

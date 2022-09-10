@@ -1,13 +1,12 @@
 import { CharacterGURPS } from "@actor";
 import { ItemGURPS } from "@item";
-import { Attribute } from "@module/attribute";
 import { DiceGURPS } from "@module/dice";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n, toArray } from "@util";
 import { Weapon } from ".";
 
 export class WeaponSheet extends FormApplication {
-	constructor(object: ItemGURPS, options: any = {}, index: number) {
+	constructor(object: ItemGURPS, index: number, options: any = {}) {
 		super(object, options);
 		this.index = index;
 		this.weapon = (object.system as any).weapons[index];
@@ -37,7 +36,7 @@ export class WeaponSheet extends FormApplication {
 	}
 
 	get title(): string {
-		return `${this.object.name} - ${this.weapon.usage || i18n("gurps.weapon.usage") + " " + this.index}`;
+		return `${this.object.name} - ${this.weapon.usage || `${i18n("gurps.weapon.usage")} ${this.index}`}`;
 	}
 
 	getData(options?: Partial<FormApplicationOptions> | undefined): any {
@@ -112,10 +111,10 @@ export class WeaponSheet extends FormApplication {
 			modifier: 0,
 		});
 		const update: any = {};
-		this.weapon["defaults"] = defaults;
+		this.weapon.defaults = defaults;
 		weapons[this.index] = { ...this.weapon };
 		console.log(weapons);
-		update[`system.weapons`] = weapons;
+		update["system.weapons"] = weapons;
 		await this.object.update(update);
 		return this.render(false, { action: "update", data: update } as any);
 	}
@@ -128,10 +127,10 @@ export class WeaponSheet extends FormApplication {
 		console.log(index, weapons, defaults);
 		defaults.splice(index, 1);
 		const update: any = {};
-		this.weapon["defaults"] = defaults;
+		this.weapon.defaults = defaults;
 		weapons[this.index] = { ...this.weapon };
 		console.log(weapons);
-		update[`system.weapons`] = weapons;
+		update["system.weapons"] = weapons;
 		await this.object.update(update);
 		return this.render(false, { action: "update", data: update } as any);
 	}

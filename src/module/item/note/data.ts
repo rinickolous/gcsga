@@ -2,7 +2,7 @@ import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
 export type NoteSource = BaseItemSourceGURPS<"note", NoteSystemData>;
 
-// export class NoteData extends BaseItemDataGURPS<NoteGURPS> {}
+// Export class NoteData extends BaseItemDataGURPS<NoteGURPS> {}
 
 export interface NoteData extends Omit<NoteSource, "effects">, NoteSystemData {
 	readonly type: NoteSource["type"];

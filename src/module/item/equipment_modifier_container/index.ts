@@ -3,7 +3,7 @@ import { EquipmentModifierGURPS } from "@item/equipment_modifier";
 import { EquipmentModifierContainerData } from "./data";
 
 export class EquipmentModifierContainerGURPS extends ContainerGURPS {
-	// static override get schema(): typeof EquipmentModifierContainerData {
+	// Static override get schema(): typeof EquipmentModifierContainerData {
 	// 	return EquipmentModifierContainerData;
 	// }
 

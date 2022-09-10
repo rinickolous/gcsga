@@ -17,7 +17,9 @@ export interface MoveMode {
 export interface StaticCharacterSource extends BaseActorSourceGURPS<ActorType.CharacterGCA, StaticCharacterSystemData> {
 	flags: DeepPartial<StaticCharacterFlags>;
 }
-export interface StaticCharacterDataGURPS extends Omit<StaticCharacterSource, "effects" | "flags" | "items" | "token">, StaticCharacterSystemData {
+export interface StaticCharacterDataGURPS
+	extends Omit<StaticCharacterSource, "effects" | "flags" | "items" | "token">,
+		StaticCharacterSystemData {
 	readonly type: StaticCharacterSource["type"];
 	data: StaticCharacterSystemData;
 	flags: StaticCharacterFlags;
@@ -27,7 +29,7 @@ export interface StaticCharacterDataGURPS extends Omit<StaticCharacterSource, "e
 
 type StaticCharacterFlags = ActorFlagsGURPS & {
 	gurps: {
-		// empty
+		// Empty
 	};
 };
 

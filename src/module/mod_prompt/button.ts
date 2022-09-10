@@ -10,7 +10,10 @@ export class ModifierButton extends Application {
 		this.window = new ModifierWindow(this, {});
 	}
 
-	async render(force?: boolean | undefined, options?: Application.RenderOptions<ApplicationOptions> | undefined): Promise<unknown> {
+	async render(
+		force?: boolean | undefined,
+		options?: Application.RenderOptions<ApplicationOptions> | undefined
+	): Promise<unknown> {
 		await this.recalculateModTotal((game as Game).user);
 		return super.render(force, options);
 	}
@@ -60,7 +63,7 @@ export class ModifierButton extends Application {
 	}
 
 	async _onMouseWheel(event: JQuery.TriggeredEvent) {
-		// event.preventDefault();
+		// Event.preventDefault();
 		const originalEvent = event.originalEvent;
 		if (originalEvent instanceof WheelEvent) {
 			const delta = Math.round(originalEvent.deltaY / -100);

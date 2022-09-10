@@ -1,15 +1,18 @@
-// import { ItemType } from "@item/data";
+// Import { ItemType } from "@item/data";
 import { ItemFlagsGURPS, ItemType } from "@item/data";
 import { ItemDataSource } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
-// import { BaseItemGURPS } from ".";
+// Import { BaseItemGURPS } from ".";
 
-export interface BaseItemSourceGURPS<TItemType extends ItemType = ItemType, TSystemData extends ItemSystemData = ItemSystemData> extends ItemDataSource {
+export interface BaseItemSourceGURPS<
+	TItemType extends ItemType = ItemType,
+	TSystemData extends ItemSystemData = ItemSystemData
+> extends ItemDataSource {
 	type: TItemType;
 	system: TSystemData;
 	flags: DeepPartial<ItemFlagsGURPS>;
 }
 
-// export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {
+// Export abstract class BaseItemDataGURPS<TItem extends BaseItemGURPS = BaseItemGURPS> extends foundry.data.ItemData {
 // 	enabled?: boolean;
 // }
 

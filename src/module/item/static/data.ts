@@ -2,7 +2,7 @@ import { BaseItemSourceGURPS, ItemSystemData } from "@item/base/data";
 
 export type StaticItemSource = BaseItemSourceGURPS<"note", StaticItemSystemData>;
 
-// export class StaticItemData extends BaseItemDataGURPS<StaticItemGURPS> {}
+// Export class StaticItemData extends BaseItemDataGURPS<StaticItemGURPS> {}
 
 export interface StaticItemData extends Omit<StaticItemSource, "effects">, StaticItemSystemData {
 	readonly type: StaticItemSource["type"];

@@ -13,7 +13,11 @@ export class CompendiumTraitModifierTab extends CompendiumTab {
 		const modifier_list: CompendiumIndexData[] = [];
 		const indexFields = ["img", "name", "system", "flags"];
 
-		for await (const { pack, index } of this.browser.packLoader.loadPacks("Item", this.browser.loadedPacks("modifier"), indexFields)) {
+		for await (const { pack, index } of this.browser.packLoader.loadPacks(
+			"Item",
+			this.browser.loadedPacks("modifier"),
+			indexFields
+		)) {
 			const collection = (game as Game).packs.get(pack.collection);
 			((await collection?.getDocuments()) as any).forEach((modifier: any) => {
 				if (!["modifier", "modifier_container"].includes(modifier.type)) return;

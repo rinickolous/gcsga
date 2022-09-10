@@ -4,7 +4,7 @@ import { SpellGURPS } from "@item/spell";
 import { SpellContainerData } from "./data";
 
 export class SpellContainerGURPS extends ContainerGURPS {
-	// static override get schema(): typeof SpellContainerData {
+	// Static override get schema(): typeof SpellContainerData {
 	// 	return SpellContainerData;
 	// }
 

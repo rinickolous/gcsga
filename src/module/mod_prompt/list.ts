@@ -27,9 +27,9 @@ export class ModifierList extends Application {
 
 		// Get position
 		const parent = $("#modifier-app-window").find(".searchbar");
-		const parentTop = parent.offset()?.top ?? 0; // might use position() depending on as yet unencountered issues
+		const parentTop = parent.offset()?.top ?? 0; // Might use position() depending on as yet unencountered issues
 		const parentLeft = parent.offset()?.left ?? 0;
-		// let parentWidth = parseFloat(parent.css("width").replace("px", ""));
+		// Let parentWidth = parseFloat(parent.css("width").replace("px", ""));
 		let height = parseFloat(html.css("height").replace("px", ""));
 
 		let left = Math.max(parentLeft, 10);
@@ -42,7 +42,7 @@ export class ModifierList extends Application {
 	}
 
 	_onEntryMouseEnter(event: JQuery.MouseEnterEvent) {
-		if (this.selection == $(event.currentTarget).data("index")) return;
+		if (this.selection === $(event.currentTarget).data("index")) return;
 		event.preventDefault();
 		event.stopPropagation();
 		this.selection = $(event.currentTarget).data("index");
@@ -64,7 +64,7 @@ export class ModifierList extends Application {
 		const mods: any[] = this.mods;
 		const pinnedMods: any[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
 		for (const m of mods) {
-			if (pinnedMods.find(e => e.name == m.name && e.modifier && m.modifier)) m.pinned = true;
+			if (pinnedMods.find(e => e.name === m.name && e.modifier && m.modifier)) m.pinned = true;
 			else m.pinned = false;
 		}
 

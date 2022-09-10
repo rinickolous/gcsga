@@ -13,6 +13,7 @@ import { CharacterImportedData } from "./import";
 
 export class GCAImporter {
 	version: string;
+
 	document: CharacterGURPS;
 
 	constructor(document: CharacterGURPS) {
@@ -31,8 +32,8 @@ export class GCAImporter {
 		let r: CharacterImportedData | any;
 		const errorMessages: string[] = [];
 		try {
-			r = XMLtoJS(xml)["gca5"]["character"];
-			// r = XMLtoJS(xml);
+			r = XMLtoJS(xml).gca5.character;
+			// R = XMLtoJS(xml);
 		} catch (err) {
 			console.error(err);
 			errorMessages.push(i18n("gurps.error.import.no_json_detected"));
@@ -46,8 +47,9 @@ export class GCAImporter {
 		imp.last_import = new Date().toISOString();
 		try {
 			const version: any[] | null = r.author?.version.match(/\d.\d+.\d+.\d+/) ?? null;
-			if (version == null) return this.throwImportError([...errorMessages, i18n("gurps.error.import_gca.version_unknown")]);
-			// if (version[0] > this.version)
+			if (version === null)
+				return this.throwImportError([...errorMessages, i18n("gurps.error.import_gca.version_unknown")]);
+			// If (version[0] > this.version)
 			// 	return this.throwImportError([
 			// 		...errorMessages,
 			// 		i18n("gurps.error.import_gca.version_new"),
@@ -66,60 +68,61 @@ export class GCAImporter {
 
 			// Begin item impoprt
 			const items: Array<ItemGURPS> = [];
-			// items.push(...this.importItems(r.traits.templates, { data: r, js: commit }));
+			// Items.push(...this.importItems(r.traits.templates, { data: r, js: commit }));
 			items.push(
 				...this.importItems(r.traits.advantages, {
 					data: r,
 					js: commit,
 					type: "advantages",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.disadvantages, {
 					data: r,
 					js: commit,
 					type: "disadvantages",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.perks, {
 					data: r,
 					js: commit,
 					type: "perks",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.quirks, {
 					data: r,
 					js: commit,
 					type: "quirks",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.skills, {
 					data: r,
 					js: commit,
 					type: "skills",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.spells, {
 					data: r,
 					js: commit,
 					type: "spells",
-				}),
+				})
 			);
 			items.push(
 				...this.importItems(r.traits.equipment, {
 					data: r,
 					js: commit,
 					type: "equipment",
-				}),
+				})
 			);
 			items.push(...(this.importNotes(r.description) as any));
 			items.push(...(this.importNotes(r.notes) as any));
 
-			if (items.filter(e => e.type === "ritual_magic_spell").length > 0) errorMessages.push(i18n("gurps.error.import.ritual_magic_gca"));
+			if (items.filter(e => e.type === "ritual_magic_spell").length > 0)
+				errorMessages.push(i18n("gurps.error.import.ritual_magic_gca"));
 
 			commit = { ...commit, ...{ items: items } };
 		} catch (err) {
@@ -128,7 +131,7 @@ export class GCAImporter {
 				i18n_f("gurps.error.import.generic", {
 					name: r.profile.name,
 					message: (err as Error).message,
-				}),
+				})
 			);
 			return this.throwImportError(errorMessages);
 		}
@@ -144,7 +147,7 @@ export class GCAImporter {
 				i18n_f("gurps.error.import.generic", {
 					name: r.profile.name,
 					message: (err as Error).message,
-				}),
+				})
 			);
 			return this.throwImportError(errorMessages);
 		}
@@ -157,7 +160,7 @@ export class GCAImporter {
 			"system.id": "none",
 			"system.created_date": new Date(data.author.datecreated).toISOString(),
 			"system.modified_date": new Date().toISOString(),
-			// temporary
+			// Temporary
 			"system.total_points": 0,
 		};
 	}
@@ -182,14 +185,17 @@ export class GCAImporter {
 			"system.profile.religion": "",
 		};
 
-		const sizemod = data.traits.attributes.trait.find((e: any) => e["name"] == "Size Modifier");
+		const sizemod = data.traits.attributes.trait.find((e: any) => e.name === "Size Modifier");
 		if (sizemod) p["system.profile.SM"] = parseInt(sizemod.score);
-		const tech_level = data.traits.attributes.trait.find((e: any) => e["name"] == "Tech Level");
+		const tech_level = data.traits.attributes.trait.find((e: any) => e.name === "Tech Level");
 		if (tech_level) p["system.profile.tech_level"] = tech_level.score;
 
-		if (!!data.vitals.portraitimage) {
+		if (data.vitals.portraitimage) {
+			/**
+			 *
+			 */
 			function getPortraitPath(): string {
-				if ((game as Game).settings.get(SYSTEM_NAME, "portrait_path") == "global") return "images/portraits/";
+				if ((game as Game).settings.get(SYSTEM_NAME, "portrait_path") === "global") return "images/portraits/";
 				return `worlds/${(game as Game).world.id}/images/portraits`;
 			}
 
@@ -197,7 +203,7 @@ export class GCAImporter {
 			let currentDir = "";
 			for (const i of path.split("/")) {
 				try {
-					currentDir += i + "/";
+					currentDir += `${i}/`;
 					await FilePicker.createDirectory("data", currentDir);
 				} catch (err) {
 					continue;
@@ -230,7 +236,7 @@ export class GCAImporter {
 			if (table_name === "Eye") table_name = "Eyes";
 			if (table_name === "Hand") table_name = "Hands";
 			if (table_name === "Foot") table_name = "Feet";
-			const dr_bonus = parseInt(data.body.bodyitem.find((e: any) => e.name == table_name).basedr);
+			const dr_bonus = parseInt(data.body.bodyitem.find((e: any) => e.name === table_name).basedr);
 			let id = part.location.toLowerCase();
 			if (id.includes("leg")) id = "leg";
 			if (id.includes("arm")) id = "leg";
@@ -239,13 +245,13 @@ export class GCAImporter {
 			const hit_penalty = parseInt(part.penalty);
 			const rolls = part.roll.split("-");
 			let slots = 0;
-			if (!!rolls[0] && rolls[1]) slots = parseInt(rolls[1]) - parseInt(rolls[0]);
+			if (rolls[0] && rolls[1]) slots = parseInt(rolls[1]) - parseInt(rolls[0]);
 			let description = "";
-			if (!!part.notes) {
+			if (part.notes) {
 				const notes = part.notes?.split(",");
 				for (const i of notes) {
-					if (!!description) description += "\n";
-					description += data.hitlocationtable.hitlocationnote.find((e: any) => e.key == i).value;
+					if (description) description += "\n";
+					description += data.hitlocationtable.hitlocationnote.find((e: any) => e.key === i).value;
 				}
 			}
 			body.locations?.push({
@@ -269,10 +275,10 @@ export class GCAImporter {
 		const atts: any = {};
 		for (const att of data.traits.attributes.trait) {
 			let id = this.translateAtt(att.name);
-			if (id == "null") continue;
+			if (id === "null") continue;
 			atts[`${id}.adj`] = parseFloat(att.level);
 			if (["hp", "fp"].includes(id)) {
-				if (!!att.attackmodes) {
+				if (att.attackmodes) {
 					atts[`${id}.damage`] = parseInt(att.attackmodes.attackmode.uses_used) || 0;
 				} else {
 					atts[`${id}.damage`] = 0;
@@ -314,9 +320,12 @@ export class GCAImporter {
 		if (!list) return [];
 		const items: Array<any> = [];
 		for (const item of list) {
-			if (!!item.parentkey && !context.container) continue;
+			if (item.parentkey && !context.container) continue;
 			const id = randomID();
-			const [itemData, itemFlags, itemType]: [ItemSystemDataGURPS, ItemFlagsGURPS, string] = this.getItemData(item, context);
+			const [itemData, itemFlags, itemType]: [ItemSystemDataGURPS, ItemFlagsGURPS, string] = this.getItemData(
+				item,
+				context
+			);
 			const newItem = {
 				name: item.name,
 				type: itemType,
@@ -348,13 +357,15 @@ export class GCAImporter {
 		this.importFeatures(item, itemData, context);
 		this.importPrereqs(item, itemData, context);
 		const flags: ItemFlagsGURPS = { [SYSTEM_NAME]: { contentsData: [] } };
-		if (!!item.childkeylist) {
+		if (item.childkeylist) {
 			const childKeys = item.childkeylist.split(", ");
 			flags[SYSTEM_NAME]!.contentsData = this.importItems(
 				{
-					trait: context.data.traits[context.type].trait.filter((e: any) => childKeys.includes("k" + e["@idkey"])),
+					trait: context.data.traits[context.type].trait.filter((e: any) =>
+						childKeys.includes(`k${e["@idkey"]}`)
+					),
 				},
-				{ ...context, container: true },
+				{ ...context, container: true }
 			);
 		}
 		switch (item["@type"]) {
@@ -363,7 +374,7 @@ export class GCAImporter {
 			case "Perks":
 			case "Quirks":
 				itemData = { ...itemData, ...this.getTraitData(item) };
-				// flags[SYSTEM_NAME]!.contentsData = this.getNestedItems(item, data, context);
+				// Flags[SYSTEM_NAME]!.contentsData = this.getNestedItems(item, data, context);
 				return [itemData, flags, "trait"];
 			case "Skills":
 				if (item.type.includes("Tech")) {
@@ -394,34 +405,34 @@ export class GCAImporter {
 		if (!bonuses) return;
 		else itemData.features = [];
 		for (const bonus of bonuses) {
-			if (bonus.targettype == "Attributes" && bonus.targetname != "dr") {
+			if (bonus.targettype === "Attributes" && bonus.targetname !== "dr") {
 				const att = this.translateAtt(bonus.targetname);
-				if (att == "null") continue;
+				if (att === "null") continue;
 				itemData.features.push({
 					type: "attribute_bonus",
 					amount: parseInt(bonus.value),
 					attribute: att,
 					limitation: "none", // TODO: use case for lifting st etc.
-					per_level: bonus.bonustype != "3",
+					per_level: bonus.bonustype !== "3",
 				});
 			}
-			if (bonus.targettype == "Me" && bonus.targettag == "dr") {
+			if (bonus.targettype === "Me" && bonus.targettag === "dr") {
 				const parts = new Set();
 				for (const part of context.js["system.settings"].body_type.locations) {
 					parts.add(part.id);
 				}
 				for (const part of parts) {
-					if (part == "eyes") continue;
+					if (part === "eyes") continue;
 					itemData.features.push({
 						type: "dr_bonus",
 						location: part,
 						specialization: "all",
 						amount: parseInt(bonus.value),
-						per_level: bonus.bonustype != "3",
+						per_level: bonus.bonustype !== "3",
 					});
 				}
 			}
-			if (bonus.targettype == "Attributes" && bonus.targetname == "dr") {
+			if (bonus.targettype === "Attributes" && bonus.targetname === "dr") {
 				const parts = new Set();
 				for (const part of context.js["system.settings"].body_type.locations) {
 					parts.add(part.id);
@@ -432,22 +443,24 @@ export class GCAImporter {
 						location: part,
 						specialization: "all",
 						amount: parseInt(bonus.value),
-						per_level: bonus.bonustype != "3",
+						per_level: bonus.bonustype !== "3",
 					});
 				}
 			}
-			if (bonus.targettype == "Unknown" && bonus.targetprefix == "GR") {
-				for (const groupitem of context.data.groups.group.find((e: any) => e.name.toLowerCase() == bonus.targetname.toLowerCase()).groupitem) {
-					if (groupitem.itemtype == "Stats") {
+			if (bonus.targettype === "Unknown" && bonus.targetprefix === "GR") {
+				for (const groupitem of context.data.groups.group.find(
+					(e: any) => e.name.toLowerCase() === bonus.targetname.toLowerCase()
+				).groupitem) {
+					if (groupitem.itemtype === "Stats") {
 						itemData.features.push({
 							type: "attribute_bonus",
 							amount: parseInt(bonus.value),
 							attribute: this.translateAtt(groupitem.name),
 							limitation: "none", // TODO: use case for lifting st etc.
-							per_level: bonus.bonustype != "3",
+							per_level: bonus.bonustype !== "3",
 						});
 					}
-					if (groupitem.itemtype == "Skills") {
+					if (groupitem.itemtype === "Skills") {
 						itemData.features.push({
 							type: "skill_bonus",
 							selection_type: "skills_with_name",
@@ -456,7 +469,7 @@ export class GCAImporter {
 								compare: StringComparison.Is,
 								qualifier: groupitem.name,
 							},
-							per_level: bonus.bonustype != "3",
+							per_level: bonus.bonustype !== "3",
 						});
 					}
 				}
@@ -469,7 +482,26 @@ export class GCAImporter {
 	}
 
 	translateAtt(att: string): string {
-		if (!["ST", "DX", "IQ", "HT", "Perception", "Will", "Vision", "Hearing", "Taste/Smell", "Touch", "Fright Check", "Basic Speed", "Basic Move", "Hit Points", "Fatigue Points"].includes(att)) return "null";
+		if (
+			![
+				"ST",
+				"DX",
+				"IQ",
+				"HT",
+				"Perception",
+				"Will",
+				"Vision",
+				"Hearing",
+				"Taste/Smell",
+				"Touch",
+				"Fright Check",
+				"Basic Speed",
+				"Basic Move",
+				"Hit Points",
+				"Fatigue Points",
+			].includes(att)
+		)
+			return "null";
 		att = att.toLowerCase().replaceAll(" ", "_").replaceAll("/", "_");
 		switch (att) {
 			case "hit_points":
@@ -486,7 +518,13 @@ export class GCAImporter {
 	getTraitData(item: any): any {
 		// TODO: taboo -> prereq
 		let disabled = false;
-		if (!!item.extended && !!item.extended.extendedtag && item.extended.extendedtag.tagname == "inactive" && item.extended.extendedtag.tagvalue == "yes") disabled = true;
+		if (
+			item.extended &&
+			item.extended.extendedtag &&
+			item.extended.extendedtag.tagname === "inactive" &&
+			item.extended.extendedtag.tagvalue === "yes"
+		)
+			disabled = true;
 		let [base_points, points_per_level] = [0, 0];
 		let strCost = item.calcs.cost;
 		if (strCost.includes("/")) {
@@ -495,14 +533,18 @@ export class GCAImporter {
 			points_per_level = parseInt(arCost[1]) - base_points;
 			// Handles cases where traits of higher levels may be different advantages
 			if (item.calcs.levelnames) points_per_level = 0;
-			else if (points_per_level % base_points == 0 && parseInt(item.calcs.premodspoints) == parseInt(item.level) * base_points) {
+			else if (
+				points_per_level % base_points === 0 &&
+				parseInt(item.calcs.premodspoints) === parseInt(item.level) * base_points
+			) {
 				points_per_level = base_points;
 				base_points = 0;
 			}
 		} else base_points = parseInt(strCost);
 		const levels = points_per_level > 0 ? parseInt(item.level) : 0;
 		let cr = 0;
-		if (item.modifiers && item.modifiers.modifier.find((e: any) => e.group == "Self-Control")) cr = parseInt(item.modifiers.modifier.find((e: any) => e.shortname));
+		if (item.modifiers && item.modifiers.modifier.find((e: any) => e.group === "Self-Control"))
+			cr = parseInt(item.modifiers.modifier.find((e: any) => e.shortname));
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
 		const traitData = {
@@ -528,10 +570,10 @@ export class GCAImporter {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
 		let defaults: Partial<SkillDefault>[] = [];
-		if (!!item.ref.default) {
+		if (item.ref.default) {
 			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
-				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
+				e = e.trim().replaceAll("\\", "").replaceAll('"', "");
 				if (e.startsWith("SK:")) {
 					def.type = "skill";
 					const arName: string[] = [];
@@ -539,7 +581,8 @@ export class GCAImporter {
 					const arModifier: string[] = [];
 					for (const i of e.replace("SK:", "").replace("::level", "").split(" ")) {
 						if (i.startsWith("-") || arModifier.length > 0) arModifier.push(i);
-						else if (i.startsWith("(") || arSpecialization.length > 0) arSpecialization.push(i.replace("(", "").replace(")", ""));
+						else if (i.startsWith("(") || arSpecialization.length > 0)
+							arSpecialization.push(i.replace("(", "").replace(")", ""));
 						else arName.push(i);
 					}
 					def.name = arName.join(" ");
@@ -553,7 +596,8 @@ export class GCAImporter {
 			}
 		}
 		let epm = 0;
-		const enc_pens = context.data.traits.attributes.trait.find((e: any) => e.name == "Encumbrance Penalty").conditionals.bonus;
+		const enc_pens = context.data.traits.attributes.trait.find((e: any) => e.name === "Encumbrance Penalty")
+			.conditionals.bonus;
 		for (const e of enc_pens) {
 			const penalty = parseInt(e.bonuspart) * -1;
 			let skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
@@ -582,10 +626,10 @@ export class GCAImporter {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
 		let defaults: Partial<SkillDefault>[] = [];
-		if (!!item.ref.default) {
+		if (item.ref.default) {
 			for (let e of item.ref.default?.split(",")) {
 				const def: Partial<SkillDefault> = {};
-				e = e.trim().replaceAll("\\", "").replaceAll(`"`, ``);
+				e = e.trim().replaceAll("\\", "").replaceAll('"', "");
 				if (e.startsWith("SK:")) {
 					def.type = "skill";
 					const arName: string[] = [];
@@ -593,7 +637,8 @@ export class GCAImporter {
 					const arModifier: string[] = [];
 					for (const i of e.replace("SK:", "").replace("::level", "").split(" ")) {
 						if (i.startsWith("-") || arModifier.length > 0) arModifier.push(i);
-						else if (i.startsWith("(") || arSpecialization.length > 0) arSpecialization.push(i.replace("(", "").replace(")", ""));
+						else if (i.startsWith("(") || arSpecialization.length > 0)
+							arSpecialization.push(i.replace("(", "").replace(")", ""));
 						else arName.push(i);
 					}
 					def.name = arName.join(" ");
@@ -607,7 +652,8 @@ export class GCAImporter {
 			}
 		}
 		let epm = 0;
-		const enc_pens = context.data.traits.attributes.trait.find((e: any) => e.name == "Encumbrance Penalty").conditionals.bonus;
+		const enc_pens = context.data.traits.attributes.trait.find((e: any) => e.name === "Encumbrance Penalty")
+			.conditionals.bonus;
 		for (const e of enc_pens) {
 			const penalty = parseInt(e.bonuspart) * -1;
 			let skills = e.targetname.replace("(", "").replace(")", "").replaceAll("sk:", "").split(", ");
@@ -632,7 +678,7 @@ export class GCAImporter {
 			points: parseInt(item.points) || 0,
 			weapons: [],
 			limit: limitStr ? parseInt(limitStr) : undefined,
-			limited: limitStr ? true : false,
+			limited: !!limitStr,
 		};
 		return skillData;
 	}
@@ -678,9 +724,10 @@ export class GCAImporter {
 		let prereq_count = 0;
 		const prereq_match = item.ref.description.match(/Prereq Count: (\d+)/);
 		if (prereq_match) prereq_count = parseInt(prereq_match[1]);
-		const firstdef = context.data.traits.skills.trait.find((e: any) => e["@idkey"] == item.calcs.deffromid);
+		const firstdef = context.data.traits.skills.trait.find((e: any) => e["@idkey"] === item.calcs.deffromid);
 		let seconddef = null;
-		if (firstdef) seconddef = context.data.traits.skills.trait.find((e: any) => e["@idkey"] == firstdef.calcs.deffromid);
+		if (firstdef)
+			seconddef = context.data.traits.skills.trait.find((e: any) => e["@idkey"] === firstdef.calcs.deffromid);
 		const spellData = {
 			type: "ritual_magic_spell" as ItemType,
 			name: item.name,
@@ -700,7 +747,7 @@ export class GCAImporter {
 			casting_time: item.ref.time,
 			duration: item.ref.duration,
 			points: parseInt(item.points),
-			base_skill: !!seconddef ? seconddef.name : "",
+			base_skill: seconddef ? seconddef.name : "",
 			prereq_count: prereq_count,
 		};
 
@@ -711,8 +758,12 @@ export class GCAImporter {
 		let tags: string[] = item.cat.split(", ") ?? [];
 		tags = tags.filter(e => !e.startsWith("_"));
 		const lc = item.attackmodes?.attackmode?.find((e: any) => Object.keys(e).includes("lc"))?.lc ?? "4";
-		const useattack = item.attackmodes?.attackmode?.find((e: any) => Object.keys(e).includes("uses")) ?? { uses: "0", uses_used: "0" };
-		const equipped = !(item.extended?.extendedtag?.find((e: any) => e.tagname == "inactive")?.tagvalue == "yes") ?? true;
+		const useattack = item.attackmodes?.attackmode?.find((e: any) => Object.keys(e).includes("uses")) ?? {
+			uses: "0",
+			uses_used: "0",
+		};
+		const equipped =
+			!(item.extended?.extendedtag?.find((e: any) => e.tagname === "inactive")?.tagvalue === "yes") ?? true;
 		const equipmentData = {
 			type: "equipment" as ItemType,
 			name: item.name,

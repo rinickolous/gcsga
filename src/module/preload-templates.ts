@@ -1,5 +1,8 @@
 import { SYSTEM_NAME } from "./settings";
 
+/**
+ *
+ */
 export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
 	const templatePaths: string[] = [
 		// Add paths to "systems/gurps/templates"
@@ -82,12 +85,12 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
 	for (let filename of templatePaths) {
 		const name = filename;
 		filename = `systems/${SYSTEM_NAME}/templates/${filename}.hbs`;
-		// const match = filename.match(`.*/(.*).hbs`);
+		// Const match = filename.match(`.*/(.*).hbs`);
 		// const name = match ? match[1] : "";
 		fetch(filename)
 			.then(it => it.text())
 			.then(async text => {
-				if (!!name) Handlebars.registerPartial(name, text);
+				if (name) Handlebars.registerPartial(name, text);
 				formattedPaths.push(name);
 			});
 	}

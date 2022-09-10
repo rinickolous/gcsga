@@ -1,10 +1,15 @@
 import { BaseContainerSource, BaseContainerSystemData } from "@item/container/data";
 
-export type EquipmentModifierContainerSource = BaseContainerSource<"eqp_modifier_container", EquipmentModifierContainerSystemData>;
+export type EquipmentModifierContainerSource = BaseContainerSource<
+	"eqp_modifier_container",
+	EquipmentModifierContainerSystemData
+>;
 
-// export class EquipmentModifierContainerData extends BaseContainerData<EquipmentModifierContainerGURPS> {}
+// Export class EquipmentModifierContainerData extends BaseContainerData<EquipmentModifierContainerGURPS> {}
 
-export interface EquipmentModifierContainerData extends Omit<EquipmentModifierContainerSource, "effects" | "items">, EquipmentModifierContainerSystemData {
+export interface EquipmentModifierContainerData
+	extends Omit<EquipmentModifierContainerSource, "effects" | "items">,
+		EquipmentModifierContainerSystemData {
 	readonly type: EquipmentModifierContainerSource["type"];
 	data: EquipmentModifierContainerSystemData;
 	readonly _source: EquipmentModifierContainerSource;

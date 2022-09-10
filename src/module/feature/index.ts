@@ -11,9 +11,21 @@ import { SpellBonus } from "./spell_bonus";
 import { SpellPointBonus } from "./spell_point_bonus";
 import { WeaponBonus } from "./weapon_damage_bonus";
 
-export type Feature = BaseFeature | AttributeBonus | ConditionalModifier | DRBonus | ReactionBonus | SkillBonus | SkillPointBonus | SpellBonus | SpellPointBonus | WeaponBonus | CostReduction | ContainedWeightReduction;
+export type Feature =
+	| BaseFeature
+	| AttributeBonus
+	| ConditionalModifier
+	| DRBonus
+	| ReactionBonus
+	| SkillBonus
+	| SkillPointBonus
+	| SpellBonus
+	| SpellPointBonus
+	| WeaponBonus
+	| CostReduction
+	| ContainedWeightReduction;
 
-// export { BaseFeature } from "./base";
+// Export { BaseFeature } from "./base";
 // export { AttributeBonus } from "./attribute_bonus";
 // export { ConditionalModifier } from "./conditional_modifier";
 // export { ContainedWeightReduction } from "./contained_weight_reduction";

@@ -41,7 +41,7 @@ import { TraitPrereq } from "@prereq/trait_prereq";
 import { rollModifiers } from "./data";
 import { MeleeWeapon, RangedWeapon } from "./weapon";
 
-// const GURPSCONFIG: any = CONFIG;
+// Const GURPSCONFIG: any = CONFIG;
 const GURPSCONFIG: any = {
 	modifiers: rollModifiers,
 	Item: {
@@ -100,7 +100,20 @@ const GURPSCONFIG: any = {
 			character: BaseActorGURPS,
 		},
 		allowedContents: {
-			character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
+			character: [
+				"trait",
+				"trait_container",
+				"skill",
+				"technique",
+				"skill_container",
+				"spell",
+				"ritual_magic_spell",
+				"spell_container",
+				"equipment",
+				"equipment_container",
+				"note",
+				"note_container",
+			],
 		},
 	},
 	Feature: {

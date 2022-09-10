@@ -1,6 +1,6 @@
 import { Feature } from "@feature";
-import { LeveledAmount } from "@module/data";
 import { TooltipGURPS } from "@module/tooltip";
+import { LeveledAmount } from "@util/leveled_amount";
 
 export type FeatureType =
 	| "attribute_bonus"
@@ -21,7 +21,7 @@ export interface FeatureConstructionContext {
 
 export class BaseFeature {
 	constructor(data: Feature | any, context: FeatureConstructionContext = {}) {
-		this.type = data.type; // needed?
+		this.type = data.type; // Needed?
 		if (context?.ready) {
 			Object.assign(this, data);
 		} else {
@@ -58,7 +58,7 @@ export class BaseFeature {
 						amount: this.amount,
 						per_level: this.per_level,
 					}).formatWithLevel
-				}]`,
+				}]`
 			);
 		}
 	}

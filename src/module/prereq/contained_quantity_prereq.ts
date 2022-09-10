@@ -41,7 +41,7 @@ export class ContainedQuantityPrereq extends BasePrereq {
 		if (!satisfied) {
 			tooltip.push(prefix);
 			tooltip.push(i18n(`gurps.prereqs.has.${this.has}`));
-			tooltip.push(i18n("gurps.prereqs.quantity"));
+			tooltip.push(i18n(`gurps.prereqs.quantity`));
 			tooltip.push(i18n(`gurps.prereqs.criteria.${this.quantity?.compare}`));
 			tooltip.push(this.quantity.qualifier.toString());
 		}

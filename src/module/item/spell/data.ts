@@ -4,7 +4,7 @@ import { PrereqList } from "@prereq";
 
 export type SpellSource = BaseItemSourceGURPS<"spell", SpellSystemData>;
 
-// Export class SpellData extends BaseItemDataGURPS<SpellGURPS> {}
+// export class SpellData extends BaseItemDataGURPS<SpellGURPS> {}
 
 export interface SpellData extends Omit<SpellSource, "effects">, SpellSystemData {
 	readonly type: SpellSource["type"];
@@ -27,7 +27,7 @@ export interface SpellSystemData extends ItemSystemData {
 	duration: string;
 	points: number;
 	weapons: Weapon[];
-	// Calc: {
+	// calc: {
 	// 	level: number;
 	// 	rsl: string;
 	// 	points: number;

@@ -43,8 +43,8 @@ export class SpellPrereq extends BasePrereq {
 		for (let sp of character.spells) {
 			if (sp instanceof SpellContainerGURPS) continue;
 			sp = sp as SpellGURPS | RitualMagicSpellGURPS;
-			if (exclude === sp || sp.points === 0) continue;
-			if (tech_level && sp.techLevel && tech_level !== sp.techLevel) continue;
+			if (exclude == sp || sp.points == 0) continue;
+			if (tech_level && sp.techLevel && tech_level != sp.techLevel) continue;
 			switch (this.sub_type) {
 				case "name":
 					if (stringCompare(sp.name, this.qualifier)) count++;
@@ -63,27 +63,27 @@ export class SpellPrereq extends BasePrereq {
 					break;
 			}
 		}
-		if (this.sub_type === "college_count") count = colleges.entries.length;
+		if (this.sub_type == "college_count") count = colleges.entries.length;
 		let satisfied = numberCompare(count, this.quantity);
 		if (!this.has) satisfied = !satisfied;
 		if (!satisfied) {
 			tooltip.push(prefix);
 			tooltip.push(`gurps.prereqs.has.${this.has}`);
-			if (this.sub_type === "college_count") {
-				tooltip.push("gurps.prereqs.spell.college_count");
+			if (this.sub_type == "college_count") {
+				tooltip.push(`gurps.prereqs.spell.college_count`);
 				tooltip.push(`gurps.prereqs.criteria.${this.quantity.compare}`);
 				tooltip.push(this.quantity.compare.toString());
 			} else {
 				tooltip.push(" ");
 				tooltip.push(`gurps.prereqs.criteria.${this.quantity?.compare}`);
-				if (this.quantity?.qualifier === 1) tooltip.push("gurps.prereqs.spell.one");
-				else tooltip.push("gurps.prereqs.spell.many");
+				if (this.quantity?.qualifier == 1) tooltip.push(`gurps.prereqs.spell.one`);
+				else tooltip.push(`gurps.prereqs.spell.many`);
 				tooltip.push(" ");
-				if (this.sub_type === "any") tooltip.push("gurps.prereqs.spell.any");
+				if (this.sub_type == "any") tooltip.push(`gurps.prereqs.spell.any`);
 				else {
-					if (this.sub_type === "name") tooltip.push("gurps.prereqs.spell.name");
-					else if (this.sub_type === "tag") tooltip.push("gurps.prereqs.spell.tag");
-					else if (this.sub_type === "college") tooltip.push("gurps.prereqs.spell.college");
+					if (this.sub_type == "name") tooltip.push(`gurps.prereqs.spell.name`);
+					else if (this.sub_type == "tag") tooltip.push(`gurps.prereqs.spell.tag`);
+					else if (this.sub_type == "college") tooltip.push(`gurps.prereqs.spell.college`);
 					tooltip.push(`gurps.prereqs.criteria.${this.qualifier?.compare}`);
 					tooltip.push(this.qualifier?.qualifier ?? "");
 				}

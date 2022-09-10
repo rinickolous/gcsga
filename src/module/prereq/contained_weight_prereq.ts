@@ -38,7 +38,7 @@ export class ContainedWeightPrereq extends BasePrereq {
 		if (!satisfied) {
 			tooltip.push(prefix);
 			tooltip.push(i18n(`gurps.prerqs.has.${this.has}`));
-			tooltip.push(i18n("gurps.prereqs.weight"));
+			tooltip.push(i18n(`gurps.prereqs.weight`));
 			tooltip.push(i18n(`gurps.prereqs.criteria.${this.qualifier?.compare}`));
 			tooltip.push((this.qualifier ? this.qualifier.qualifier : 0).toString());
 		}

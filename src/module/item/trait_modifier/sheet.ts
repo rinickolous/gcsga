@@ -11,11 +11,7 @@ export class TraitModifierSheet extends ItemSheetGURPS {
 	}
 
 	getData(options?: Partial<DocumentSheetOptions> | undefined) {
-		const adjustedCostType =
-			(this.item as TraitModifierGURPS).system.cost_type === "percentage" &&
-			(this.item as TraitModifierGURPS).hasLevels
-				? "percentage_leveled"
-				: (this.item as TraitModifierGURPS).system.cost_type;
+		const adjustedCostType = (this.item as TraitModifierGURPS).system.cost_type == "percentage" && (this.item as TraitModifierGURPS).hasLevels ? "percentage_leveled" : (this.item as TraitModifierGURPS).system.cost_type;
 		const sheetData = {
 			...super.getData(options),
 			system: {
@@ -33,10 +29,9 @@ export class TraitModifierSheet extends ItemSheetGURPS {
 	}
 
 	protected _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
-		if (Object.keys(formData).includes("system.disabled"))
-			formData["system.disabled"] = !formData["system.disabled"];
+		if (Object.keys(formData).includes("system.disabled")) formData["system.disabled"] = !formData["system.disabled"];
 
-		if (formData["system.cost_type"] === "percentage_leveled") {
+		if (formData["system.cost_type"] == "percentage_leveled") {
 			formData["system.levels"] = 1;
 			formData["system.cost_type"] = "percentage";
 		} else {

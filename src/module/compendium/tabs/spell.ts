@@ -8,16 +8,11 @@ export class CompendiumSpellTab extends CompendiumTab {
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "spell");
 	}
-
 	protected override async loadData(): Promise<void> {
 		const spell_list: CompendiumIndexData[] = [];
 		const indexFields = ["img", "name", "system", "flags"];
 
-		for await (const { pack, index } of this.browser.packLoader.loadPacks(
-			"Item",
-			this.browser.loadedPacks("spell"),
-			indexFields
-		)) {
+		for await (const { pack, index } of this.browser.packLoader.loadPacks("Item", this.browser.loadedPacks("spell"), indexFields)) {
 			const collection = (game as Game).packs.get(pack.collection);
 			((await collection?.getDocuments()) as any).forEach((spell: any) => {
 				if (!["spell", "spell_container"].includes(spell.type)) return;

@@ -1,6 +1,5 @@
 import { ActorGURPS } from "@actor";
-import { ItemGURPS } from "@item";
-import { ContainerGURPS } from "@item/container";
+import { ContainerGURPS, ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";
@@ -21,11 +20,11 @@ export class ActorSheetGURPS extends ActorSheet {
 
 		if (!this.actor.isOwner) return false;
 
-		// Const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
+		// const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
 		const item = await (Item.implementation as any).fromDropData(data);
 		const itemData = item.toObject();
 
-		// Handle item sorting within the same Actor
+		//Handle item sorting within the same Actor
 		if (this.actor.uuid === item.actor?.uuid) return this._onSortItem(event, itemData);
 
 		return this._onDropItemCreate(itemData);
@@ -33,10 +32,10 @@ export class ActorSheetGURPS extends ActorSheet {
 
 	protected override async _onDragStart(event: DragEvent): Promise<void> {
 		const list = event.currentTarget;
-		// If (event.target.classList.contains("contents-link")) return;
+		// if (event.target.classList.contains("contents-link")) return;
 
 		let dragData: any;
-		// Const dragData: any = {
+		// const dragData: any = {
 		// 	actorId: this.actor.id,
 		// 	sceneId: this.actor.isToken ? canvas?.scene?.id : null,
 		// 	tokenId: this.actor.isToken ? this.actor.token?.id : null,
@@ -72,18 +71,13 @@ export class ActorSheetGURPS extends ActorSheet {
 		console.log(dragData);
 	}
 
-	protected override async _onSortItem(
-		event: DragEvent,
-		itemData: PropertiesToSource<ItemDataBaseProperties>
-	): Promise<Item[]> {
+	protected override async _onSortItem(event: DragEvent, itemData: PropertiesToSource<ItemDataBaseProperties>): Promise<Item[]> {
 		const source = this.actor.deepItems.get(itemData._id!);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
 		const target = this.actor.deepItems.get(dropTarget.data("item-id"));
 		if (!target) return [];
 		const parent = target?.parent;
-		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(
-			i => i._id !== source!._id && source!.sameSection(i)
-		);
+		const siblings = (target!.parent!.items as Collection<ItemGURPS>).filter(i => i._id !== source!._id && source!.sameSection(i));
 
 		if (target && !source?.sameSection(target)) return [];
 
@@ -97,7 +91,7 @@ export class ActorSheetGURPS extends ActorSheet {
 			return update;
 		});
 
-		if (source && target && source.parent !== target.parent) {
+		if (source && target && source.parent != target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
 			console.log(source);
 			await source.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
@@ -112,7 +106,7 @@ export class ActorSheetGURPS extends ActorSheet {
 						sort: updateData[0].sort,
 					},
 				],
-				{ temporary: false }
+				{ temporary: false },
 			);
 		}
 		console.log(updateData);

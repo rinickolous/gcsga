@@ -6,7 +6,7 @@ export interface PoolThresholdDef {
 	state: string;
 	explanation?: string;
 	expression?: string;
-	// Multiplier?: number;
+	// multiplier?: number;
 	// divisor?: number;
 	// addition?: number;
 	ops?: ThresholdOp[];
@@ -14,12 +14,9 @@ export interface PoolThresholdDef {
 
 export class PoolThreshold {
 	state = "";
-
 	explanation = "";
-
 	expression = "";
-
-	// Multiplier = 0;
+	// multiplier = 0;
 	// divisor = 1;
 	// addition = 0;
 	ops: ThresholdOp[] = [];
@@ -30,7 +27,7 @@ export class PoolThreshold {
 
 	threshold(resolver: VariableResolver): number {
 		return evaluateToNumber(this.expression, resolver);
-		// Let divisor = this.divisor;
+		// let divisor = this.divisor;
 		// if (divisor == 0) divisor = 1;
 		// return Math.round((max * this.multiplier) / this.divisor + this.addition);
 	}

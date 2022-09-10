@@ -3,7 +3,7 @@ import { CRAdjustment } from "@module/data";
 
 export type TraitContainerSource = BaseContainerSource<"trait_container", TraitContainerSystemData>;
 
-// Export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
+// export class TraitContainerData extends BaseContainerData<TraitContainerGURPS> {}
 
 export interface TraitContainerData extends Omit<TraitContainerSource, "effects" | "items">, TraitContainerSystemData {
 	readonly type: TraitContainerSource["type"];
@@ -12,10 +12,10 @@ export interface TraitContainerData extends Omit<TraitContainerSource, "effects"
 }
 
 export interface TraitContainerSystemData extends BaseContainerSystemData {
-	// Modifiers: Array<any>;
+	// modifiers: Array<any>;
 	disabled: boolean;
 	container_type: TraitContainerType;
-	// Calc: {
+	// calc: {
 	// 	points: number;
 	// };
 	cr: number;

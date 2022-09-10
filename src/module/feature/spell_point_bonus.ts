@@ -13,8 +13,8 @@ export class SpellPointBonus extends BaseFeature {
 	}
 
 	get featureMapKey(): string {
-		if (this.tags?.compare !== "none") {
-			return "spell.points*";
+		if (this.tags?.compare != "none") {
+			return "spell.points" + "*";
 		}
 		switch (this.match) {
 			case "all_colleges":
@@ -32,10 +32,10 @@ export class SpellPointBonus extends BaseFeature {
 	}
 
 	buildKey(prefix: string): string {
-		if (this.name?.compare === "is") {
-			return `${prefix}/${this.name.qualifier}`;
+		if (this.name?.compare == "is") {
+			return prefix + "/" + this.name.qualifier;
 		}
-		return `${prefix}*`;
+		return prefix + "*";
 	}
 }
 

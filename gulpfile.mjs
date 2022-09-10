@@ -17,9 +17,9 @@ import rollupStream from "@rollup/stream";
 
 import rollupConfig from "./rollup.config.mjs";
 
-/** ******************/
+/********************/
 /*  CONFIGURATION   */
-/** ******************/
+/********************/
 
 const packageId = "gurps";
 const sourceDirectory = "./src";
@@ -29,9 +29,9 @@ const stylesExtension = "scss";
 const sourceFileExtension = "ts";
 const staticFiles = ["assets", "fonts", "lang", "packs", "templates", "system.json", "template.json"];
 
-/** ******************/
+/********************/
 /*      BUILD       */
-/** ******************/
+/********************/
 
 let cache;
 
@@ -80,15 +80,15 @@ export function watch() {
 	gulp.watch(
 		staticFiles.map(file => `${sourceDirectory}/${file}`),
 		{ ignoreInitial: false },
-		copyFiles
+		copyFiles,
 	);
 }
 
 export const build = gulp.series(clean, gulp.parallel(buildCode, buildStyles, copyFiles));
 
-/** ******************/
+/********************/
 /*      CLEAN       */
-/** ******************/
+/********************/
 
 /**
  * Remove built files from `dist` folder while ignoring source files
@@ -108,9 +108,9 @@ export async function clean() {
 	}
 }
 
-/** ******************/
+/********************/
 /*       LINK       */
-/** ******************/
+/********************/
 
 /**
  * Get the data paths of Foundry VTT based on what is configured in `foundryconfig.json`
@@ -124,9 +124,7 @@ function getDataPaths() {
 
 		return dataPaths.map(dataPath => {
 			if (typeof dataPath !== "string") {
-				throw new Error(
-					`Property dataPath in foundryconfig.json is expected to be a string or an array of strings, but found ${dataPath}`
-				);
+				throw new Error(`Property dataPath in foundryconfig.json is expected to be a string or an array of strings, but found ${dataPath}`);
 			}
 			if (!fs.existsSync(path.resolve(dataPath))) {
 				throw new Error(`The dataPath ${dataPath} does not exist on the file system`);
@@ -149,9 +147,7 @@ export async function link() {
 		throw new Error("Could not find system.json");
 	}
 
-	const linkDirectories = getDataPaths().map(dataPath =>
-		path.resolve(dataPath, "Data", destinationDirectory, packageId)
-	);
+	const linkDirectories = getDataPaths().map(dataPath => path.resolve(dataPath, "Data", destinationDirectory, packageId));
 
 	const argv = yargs(hideBin(process.argv)).option("clean", {
 		alias: "c",

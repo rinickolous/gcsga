@@ -10,8 +10,7 @@ export class EquipmentModifierSheet extends ItemSheetGURPS {
 	}
 
 	protected _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
-		if (Object.keys(formData).includes("system.disabled"))
-			formData["system.disabled"] = !formData["system.disabled"];
+		if (Object.keys(formData).includes("system.disabled")) formData["system.disabled"] = !formData["system.disabled"];
 
 		return super._updateObject(event, formData);
 	}

@@ -3,9 +3,6 @@ import { Evaluator } from "@util";
 
 type eFunction = (evaluator: Evaluator | null, options: string) => [any, Error];
 
-/**
- *
- */
 export function fixedFunctions(): Map<string, eFunction> {
 	const m = new Map();
 	m.set("abs", fixedAbsolute);
@@ -27,88 +24,48 @@ export function fixedFunctions(): Map<string, eFunction> {
 	return m;
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedAbsolute(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.abs(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedCubeRoot(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.cbrt(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedCeiling(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.ceil(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedBaseEExpontential(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.exp(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedBase2Expontential(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return 2 ** value;
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedFloor(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.floor(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedIf(e: Evaluator, args: string): any {
 	let arg: string;
 	[arg, args] = nextArg(args);
 	const evaluated = e.evaluateNew(arg);
 	const value = fixedFrom(evaluated);
-	if (value === 0) {
+	if (value == 0) {
 		[, args] = nextArg(args);
 	}
 	[arg] = nextArg(args);
 	return e.evaluateNew(arg);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedMaximum(e: Evaluator, args: string): any {
 	let max: number = Math.max();
 	while (args) {
@@ -120,11 +77,6 @@ function fixedMaximum(e: Evaluator, args: string): any {
 	return max;
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedMinimum(e: Evaluator, args: string): any {
 	let min: number = Math.min();
 	while (args) {
@@ -136,61 +88,31 @@ function fixedMinimum(e: Evaluator, args: string): any {
 	return min;
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedNaturalLog(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.log(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedNaturalLogSum(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.log1p(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedDecimalLog(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.log10(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedRound(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.round(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedSqrt(e: Evaluator, args: string): any {
 	const value = evalToFixed(e, args);
 	return Math.sqrt(value);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedDice(e: Evaluator, args: string): any {
 	const rollArgs: any = { sides: 6, count: 1, modifier: 1, multiplier: 1 };
 	const argArray = [];
@@ -213,11 +135,6 @@ function fixedDice(e: Evaluator, args: string): any {
 	return d.toString(true);
 }
 
-/**
- *
- * @param e
- * @param args
- */
 function fixedRoll(e: Evaluator, args: string): any {
 	const d = new DiceGURPS(args);
 	const r = Roll.create(d.toString(true));
@@ -225,20 +142,11 @@ function fixedRoll(e: Evaluator, args: string): any {
 	return r.total;
 }
 
-/**
- *
- * @param e
- * @param arg
- */
 function evalToFixed(e: Evaluator, arg: string): number {
 	const evaluated = e.evaluateNew(arg);
 	return fixedFrom(evaluated);
 }
 
-/**
- *
- * @param arg
- */
 function fixedFrom(arg: any): number {
 	const a = typeof arg;
 	switch (a) {
@@ -254,17 +162,13 @@ function fixedFrom(arg: any): number {
 	}
 }
 
-/**
- *
- * @param args
- */
 function nextArg(args: string): [string, string] {
 	let parens = 0;
 	for (let i = 0; i < args.length; i++) {
 		const ch = args[i];
-		if (ch === "(") parens++;
-		else if (ch === ")") parens--;
-		else if (ch === "," && parens === 0) return [args.substring(0, i), args.substring(i + 1)];
+		if (ch == "(") parens++;
+		else if (ch == ")") parens--;
+		else if (ch == "," && parens == 0) return [args.substring(0, i), args.substring(i + 1)];
 	}
 	return [args, ""];
 }

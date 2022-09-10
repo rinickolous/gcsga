@@ -5,7 +5,7 @@ import { PrereqList } from "@prereq";
 
 export type EquipmentSource = BaseContainerSource<"equipment", EquipmentSystemData>;
 
-// Export class EquipmentData extends BaseContainerData<EquipmentGURPS> {}
+// export class EquipmentData extends BaseContainerData<EquipmentGURPS> {}
 
 export interface EquipmentData extends Omit<EquipmentSource, "effects" | "items">, EquipmentSystemData {
 	readonly type: EquipmentSource["type"];
@@ -28,7 +28,7 @@ export interface EquipmentSystemData extends Omit<BaseContainerSystemData, "open
 	max_uses: number;
 	weapons: Weapon[];
 	features: Feature[];
-	// Calc: {
+	// calc: {
 	// 	extended_value: string;
 	// 	extended_weight: string;
 	// 	extended_weight_for_skills: string;

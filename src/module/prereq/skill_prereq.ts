@@ -28,40 +28,35 @@ export class SkillPrereq extends BasePrereq {
 		for (let sk of character.skills) {
 			if (sk instanceof SkillContainerGURPS) continue;
 			sk = sk as SkillGURPS | TechniqueGURPS;
-			if (
-				exclude === sk ||
-				!stringCompare(sk.name, this.name) ||
-				!stringCompare(sk.specialization, this.specialization)
-			)
-				return false;
+			if (exclude == sk || !stringCompare(sk.name, this.name) || !stringCompare(sk.specialization, this.specialization)) return false;
 			satisfied = numberCompare(sk.level.level, this.level);
-			if (satisfied && tech_level) satisfied = !sk.techLevel || tech_level === sk.techLevel;
+			if (satisfied && tech_level) satisfied = !sk.techLevel || tech_level == sk.techLevel;
 		}
 		if (!this.has) satisfied = !satisfied;
 		if (!satisfied) {
 			tooltip.push(prefix);
 			tooltip.push(i18n(`gurps.prereqs.has.${this.has}`));
-			tooltip.push(i18n("gurps.prereqs.skill.name"));
+			tooltip.push(i18n(`gurps.prereqs.skill.name`));
 			tooltip.push(i18n(`gurps.prereqs.criteria.${this.name?.compare}`));
-			tooltip.push(this.name.qualifier ?? "");
-			if (this.specialization.compare !== "none") {
-				tooltip.push(i18n("gurps.prereqs.skill.specialization"));
+			tooltip.push(this.name.qualifier!);
+			if (this.specialization.compare != "none") {
+				tooltip.push(i18n(`gurps.prereqs.skill.specialization`));
 				tooltip.push(i18n(`gurps.prereqs.criteria.${this.specialization.compare}`));
-				tooltip.push(this.specialization.qualifier ?? "");
+				tooltip.push(this.specialization.qualifier!);
 				tooltip.push(",");
 			}
 			if (!tech_level) {
-				tooltip.push(i18n("gurps.prereqs.skill.level"));
+				tooltip.push(i18n(`gurps.prereqs.skill.level`));
 				tooltip.push(i18n(`gurps.prereqs.criteria.${this.level.compare}`));
 				tooltip.push(this.level.qualifier.toString());
 			} else {
-				if (this.specialization.compare !== "none") {
+				if (this.specialization.compare != "none") {
 					tooltip.push(",");
 				}
-				tooltip.push(i18n("gurps.prereqs.skill.level"));
+				tooltip.push(i18n(`gurps.prereqs.skill.level`));
 				tooltip.push(i18n(`gurps.prereqs.criteria.${this.level.compare}`));
 				tooltip.push(this.level.qualifier.toString());
-				tooltip.push(i18n("gurps.prereqs.skill.tech_level"));
+				tooltip.push(i18n(`gurps.prereqs.skill.tech_level`));
 			}
 		}
 		return satisfied;

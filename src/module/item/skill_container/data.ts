@@ -2,7 +2,7 @@ import { BaseContainerSource, BaseContainerSystemData } from "@item/container/da
 
 export type SkillContainerSource = BaseContainerSource<"skill_container", SkillContainerSystemData>;
 
-// Export class SkillContainerData extends BaseContainerData<SkillContainerGURPS> {}
+// export class SkillContainerData extends BaseContainerData<SkillContainerGURPS> {}
 
 export interface SkillContainerData extends Omit<SkillContainerSource, "effects" | "items">, SkillContainerSystemData {
 	readonly type: SkillContainerSource["type"];

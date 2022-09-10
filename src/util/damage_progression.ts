@@ -1,13 +1,8 @@
 import { DamageProgression } from "@module/data";
 import { DiceGURPS } from "@module/dice";
 
-/**
- *
- * @param p
- * @param st
- */
 export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
-	if (p === DamageProgression.BasicSet) {
+	if (p == DamageProgression.BasicSet) {
 		if (st < 19)
 			return new DiceGURPS({
 				count: 1,
@@ -28,7 +23,7 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 			modifier: (value % 8) / 2 - 1,
 			multiplier: 1,
 		});
-	} else if (p === DamageProgression.KnowingYourOwnStrength) {
+	} else if (p == DamageProgression.KnowingYourOwnStrength) {
 		if (st < 12) {
 			return new DiceGURPS({
 				count: 1,
@@ -43,7 +38,7 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 			modifier: ((st + 1) % 4) - 1,
 			multiplier: 1,
 		});
-	} else if (p === DamageProgression.NoSchoolGrognardDamage) {
+	} else if (p == DamageProgression.NoSchoolGrognardDamage) {
 		if (st < 11) {
 			return new DiceGURPS({
 				count: 1,
@@ -59,13 +54,13 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 			modifier: (st % 8) / 2 - 1,
 			multiplier: 1,
 		});
-	} else if (p === DamageProgression.ThrustEqualsSwingMinus2) {
+	} else if (p == DamageProgression.ThrustEqualsSwingMinus2) {
 		return thrustFor(DamageProgression.BasicSet, st);
-	} else if (p === DamageProgression.SwingEqualsThrustPlus2) {
+	} else if (p == DamageProgression.SwingEqualsThrustPlus2) {
 		const dice = swingFor(DamageProgression.BasicSet, st);
 		dice.modifier -= 2;
 		return dice;
-	} else if (p === DamageProgression.PhoenixFlameD3) {
+	} else if (p == DamageProgression.PhoenixFlameD3) {
 		if (st < 7) {
 			if (st < 1) st = 1;
 			return new DiceGURPS({
@@ -94,13 +89,8 @@ export function thrustFor(p: DamageProgression, st: number): DiceGURPS {
 	}
 }
 
-/**
- *
- * @param p
- * @param st
- */
 export function swingFor(p: DamageProgression, st: number): DiceGURPS {
-	if (p === DamageProgression.BasicSet) {
+	if (p == DamageProgression.BasicSet) {
 		if (st < 10)
 			return new DiceGURPS({
 				count: 1,
@@ -127,7 +117,7 @@ export function swingFor(p: DamageProgression, st: number): DiceGURPS {
 			modifier: (value % 8) / 2 - 1,
 			multiplier: 1,
 		});
-	} else if (p === DamageProgression.KnowingYourOwnStrength) {
+	} else if (p == DamageProgression.KnowingYourOwnStrength) {
 		if (st < 12) {
 			return new DiceGURPS({
 				count: 1,
@@ -142,15 +132,15 @@ export function swingFor(p: DamageProgression, st: number): DiceGURPS {
 			modifier: ((st + 1) % 4) - 1,
 			multiplier: 1,
 		});
-	} else if (p === DamageProgression.NoSchoolGrognardDamage) {
+	} else if (p == DamageProgression.NoSchoolGrognardDamage) {
 		return thrustFor(DamageProgression.NoSchoolGrognardDamage, st + 3);
-	} else if (p === DamageProgression.ThrustEqualsSwingMinus2) {
+	} else if (p == DamageProgression.ThrustEqualsSwingMinus2) {
 		return swingFor(DamageProgression.BasicSet, st);
-	} else if (p === DamageProgression.SwingEqualsThrustPlus2) {
+	} else if (p == DamageProgression.SwingEqualsThrustPlus2) {
 		const dice = thrustFor(DamageProgression.BasicSet, st);
 		dice.modifier += 2;
 		return dice;
-	} else if (p === DamageProgression.PhoenixFlameD3) {
+	} else if (p == DamageProgression.PhoenixFlameD3) {
 		return thrustFor(DamageProgression.PhoenixFlameD3, st);
 	} else {
 		return thrustFor(DamageProgression.BasicSet, st);

@@ -36,20 +36,20 @@ export class ModifierBrowse extends Application {
 
 		// Get position
 		const parent = $("#modifier-app-window").find(".searchbar");
-		const parentTop = parent.offset()?.top ?? 0; // Might use position() depending on as yet unencountered issues
+		const parentTop = parent.offset()?.top ?? 0; // might use position() depending on as yet unencountered issues
 		const parentLeft = parent.offset()?.left ?? 0;
-		const parentHeight = parseFloat(parent.css("height").replace("px", ""));
-		const height = parseFloat(html.css("height").replace("px", ""));
-		const width = parseFloat(html.css("width").replace("px", ""));
+		let parentHeight = parseFloat(parent.css("height").replace("px", ""));
+		let height = parseFloat(html.css("height").replace("px", ""));
+		let width = parseFloat(html.css("width").replace("px", ""));
 
 		html.css("left", `${parentLeft - width - 5}px`);
 		html.css("top", `${parentTop + parentHeight - height}px`);
 
 		html.find(".browse").on("click", event => this._onBrowseClick(event));
 		html.find(".category").on("click", event => this._onCategoryClick(event));
-		// Html.find(".category").on("mouseenter", event => this._onCategoryMouseEnter(event));
+		// html.find(".category").on("mouseenter", event => this._onCategoryMouseEnter(event));
 		html.find(".entry").on("click", event => this._onEntryClick(event));
-		// Html.find(".entry").on("mouseenter", event => this._onEntryMouseEnter(event));
+		// html.find(".entry").on("mouseenter", event => this._onEntryMouseEnter(event));
 		html.on("mouseleave", event => this._onMouseLeave(event));
 	}
 
@@ -75,7 +75,7 @@ export class ModifierBrowse extends Application {
 	}
 
 	// _onCategoryMouseEnter(event: JQuery.MouseEnterEvent) {
-	// 	if (this.selection[1] === $(event.currentTarget).data("index")) return;
+	// 	if (this.selection[1] == $(event.currentTarget).data("index")) return;
 	// 	event.preventDefault();
 	// 	event.stopPropagation();
 	// 	this.render();
@@ -90,7 +90,7 @@ export class ModifierBrowse extends Application {
 	}
 
 	// _onEntryMouseEnter(event: JQuery.MouseEnterEvent) {
-	// 	if (this.selection[2] === $(event.currentTarget).data("index")) return;
+	// 	if (this.selection[2] == $(event.currentTarget).data("index")) return;
 	// 	event.preventDefault();
 	// 	event.stopPropagation();
 	// 	this.selection[2] = $(event.currentTarget).data("index");
@@ -107,10 +107,10 @@ export class ModifierBrowse extends Application {
 		const categories: ModCategory[] = [];
 		for (const m of this.mods) {
 			for (const c of m.tags) {
-				let cat = categories.find(e => e.name === c);
+				let cat = categories.find(e => e.name == c);
 				if (!cat) {
 					categories.push({ name: c, mods: [], showing: false });
-					cat = categories.find(e => e.name === c);
+					cat = categories.find(e => e.name == c);
 				}
 				cat?.mods.push(m);
 			}

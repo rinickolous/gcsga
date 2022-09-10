@@ -3,18 +3,12 @@ import { gid } from "@module/data";
 import { VariableResolver, evaluateToNumber, sanitize } from "@util";
 import { CharacterGURPS } from "@actor";
 
-export type AttributeType =
-	| "integer"
-	| "decimal"
-	| "pool"
-	| "primary_separator"
-	| "secondary_separator"
-	| "pool_separator";
+export type AttributeType = "integer" | "decimal" | "pool" | "primary_separator" | "secondary_separator" | "pool_separator";
 
 export const reserved_ids: string[] = [gid.Skill, gid.Parry, gid.Block, gid.Dodge, gid.SizeModifier, gid.Ten];
 
 export class AttributeDef {
-	// Def_id = "";
+	// def_id = "";
 	// type: AttributeType = "integer";
 	// name = "";
 	// full_name = "";
@@ -39,7 +33,6 @@ export class AttributeDef {
 	get id(): string {
 		return this.def_id;
 	}
-
 	set id(v: string) {
 		this.def_id = sanitize(v, false, reserved_ids);
 	}
@@ -51,12 +44,12 @@ export class AttributeDef {
 
 	get combinedName(): string {
 		if (!this.full_name) return this.name;
-		if (!this.name || this.name === this.full_name) return this.full_name;
+		if (!this.name || this.name == this.full_name) return this.full_name;
 		return `${this.full_name} (${this.name})`;
 	}
 
 	get isPrimary(): boolean {
-		if (this.type === "primary_separator") return true;
+		if (this.type == "primary_separator") return true;
 		if (this.type.includes("_separator")) return false;
 		return !isNaN(parseInt(this.attribute_base));
 	}
@@ -67,12 +60,7 @@ export class AttributeDef {
 
 	computeCost(actor: CharacterGURPS, value: number, cost_reduction: number, size_modifier: number): number {
 		let cost = value * this.cost_per_point;
-		if (
-			size_modifier > 0 &&
-			this.cost_adj_percent_per_sm > 0 &&
-			!(this.def_id === "hp" && actor.settings.damage_progression === "knowing_your_own_strength")
-		)
-			cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
+		if (size_modifier > 0 && this.cost_adj_percent_per_sm > 0 && !(this.def_id == "hp" && actor.settings.damage_progression == "knowing_your_own_strength")) cost_reduction = size_modifier * this.cost_adj_percent_per_sm;
 		if (cost_reduction > 0) {
 			if (cost_reduction > 80) cost_reduction = 80;
 			cost = (cost * (100 - cost_reduction)) / 100;

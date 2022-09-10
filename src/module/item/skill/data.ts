@@ -8,7 +8,7 @@ import { PrereqList } from "@prereq";
 
 export type SkillSource = BaseItemSourceGURPS<"skill", SkillSystemData>;
 
-// Export class SkillData extends BaseItemDataGURPS<SkillGURPS> {}
+// export class SkillData extends BaseItemDataGURPS<SkillGURPS> {}
 
 export interface SkillData extends Omit<SkillSource, "effects">, SkillSystemData {
 	readonly type: SkillSource["type"];
@@ -21,19 +21,19 @@ export interface SkillSystemData extends ItemSystemData {
 	prereqs: PrereqList;
 	specialization: string;
 	tech_level: string;
-	// Should not be needed
+	// should not be needed
 	// TODO: find a way to remove
 	tech_level_required: boolean;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;
-	// May change to object type
+	// may change to object type
 	difficulty: `${string}/${string}`;
 	points: number;
-	// To change later
+	// to change later
 	defaulted_from?: SkillDefault;
 	weapons: Weapon[];
 	defaults: SkillDefault[];
 	features: Feature[];
-	// Calc: {
+	// calc: {
 	// 	level: number;
 	// 	rsl: string;
 	// 	points: number;
@@ -48,10 +48,6 @@ export interface SkillLevel {
 	tooltip: TooltipGURPS | string;
 }
 
-/**
- *
- * @param d
- */
 export function baseRelativeLevel(d: string): number {
 	switch (d) {
 		case Difficulty.Easy:

@@ -13,17 +13,12 @@ export class CompendiumSkillTab extends CompendiumTab {
 		const skill_list: CompendiumIndexData[] = [];
 		const indexFields = ["name", "system", "flags"];
 
-		for await (const { pack, index } of this.browser.packLoader.loadPacks(
-			"Item",
-			this.browser.loadedPacks("skill"),
-			indexFields
-		)) {
+		for await (const { pack, index } of this.browser.packLoader.loadPacks("Item", this.browser.loadedPacks("skill"), indexFields)) {
 			const collection = (game as Game).packs.get(pack.collection);
 			((await collection?.getDocuments()) as any).forEach((skill: any) => {
 				if (!["skill", "technique", "skill_container"].includes(skill.type)) return;
 				let difficulty = "";
-				if (skill.type === "skill")
-					difficulty = `${skill.attribute.toUpperCase()}/${skill.difficulty.toUpperCase()}`;
+				if (skill.type === "skill") difficulty = `${skill.attribute.toUpperCase()}/${skill.difficulty.toUpperCase()}`;
 				if (skill.type === "technique") difficulty = `Tech/${skill.difficulty.toUpperCase()}`;
 				skill.prepareData();
 				skill_list.push({

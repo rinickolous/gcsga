@@ -7,7 +7,7 @@ import { PrereqList } from "@prereq";
 
 export type TechniqueSource = BaseItemSourceGURPS<"technique", TechniqueSystemData>;
 
-// Export class TechniqueData extends BaseItemDataGURPS<TechniqueGURPS> {}
+// export class TechniqueData extends BaseItemDataGURPS<TechniqueGURPS> {}
 
 export interface TechniqueData extends Omit<TechniqueSource, "effects">, TechniqueSystemData {
 	readonly type: TechniqueSource["type"];
@@ -20,15 +20,15 @@ export interface TechniqueSystemData extends ItemSystemData {
 	prereqs: PrereqList;
 	tech_level: string;
 	encumbrance_penalty_multiplier: EncumbrancePenaltyMultiplier;
-	// May change to object type
+	// may change to object type
 	difficulty: string;
 	points: number;
-	// To change later
+	// to change later
 	defaulted_from?: SkillDefault;
 	weapons: Weapon[];
 	defaults: SkillDefault[];
 	features: Feature[];
-	// Calc: {
+	// calc: {
 	// 	level: number;
 	// 	rsl: string;
 	// };

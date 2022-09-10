@@ -2,7 +2,7 @@ import { BaseContainerSource, BaseContainerSystemData } from "@item/container/da
 
 export type SpellContainerSource = BaseContainerSource<"spell_container", SpellContainerSystemData>;
 
-// Export class SpellContainerData extends BaseContainerData<SpellContainerGURPS> {}
+// export class SpellContainerData extends BaseContainerData<SpellContainerGURPS> {}
 
 export interface SpellContainerData extends Omit<SpellContainerSource, "effects" | "items">, SpellContainerSystemData {
 	readonly type: SpellContainerSource["type"];

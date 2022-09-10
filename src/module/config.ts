@@ -13,6 +13,7 @@ import { SpellPointBonus } from "@feature/spell_point_bonus";
 import { WeaponBonus } from "@feature/weapon_damage_bonus";
 import {
 	BaseItemGURPS,
+	ContainerGURPS,
 	EquipmentContainerGURPS,
 	EquipmentGURPS,
 	EquipmentModifierContainerGURPS,
@@ -40,12 +41,13 @@ import { TraitPrereq } from "@prereq/trait_prereq";
 import { rollModifiers } from "./data";
 import { MeleeWeapon, RangedWeapon } from "./weapon";
 
-// Const GURPSCONFIG: any = CONFIG;
+// const GURPSCONFIG: any = CONFIG;
 const GURPSCONFIG: any = {
 	modifiers: rollModifiers,
 	Item: {
 		documentClasses: {
 			base: BaseItemGURPS,
+			container: ContainerGURPS,
 			trait: TraitGURPS,
 			trait_container: TraitContainerGURPS,
 			modifier: TraitModifierGURPS,
@@ -98,20 +100,7 @@ const GURPSCONFIG: any = {
 			character: BaseActorGURPS,
 		},
 		allowedContents: {
-			character: [
-				"trait",
-				"trait_container",
-				"skill",
-				"technique",
-				"skill_container",
-				"spell",
-				"ritual_magic_spell",
-				"spell_container",
-				"equipment",
-				"equipment_container",
-				"note",
-				"note_container",
-			],
+			character: ["trait", "trait_container", "skill", "technique", "skill_container", "spell", "ritual_magic_spell", "spell_container", "equipment", "equipment_container", "note", "note_container"],
 		},
 	},
 	Feature: {

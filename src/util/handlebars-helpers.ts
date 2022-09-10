@@ -4,14 +4,11 @@ import { SpellGURPS } from "@item";
 import { DiceGURPS } from "@module/dice";
 import { i18n } from "./misc";
 
-/**
- *
- */
 export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("concat", function (...args) {
 		let outStr = "";
 		for (const arg of args) {
-			if (typeof arg !== "object") outStr += arg;
+			if (typeof arg != "object") outStr += arg;
 		}
 		return outStr;
 	});
@@ -19,7 +16,7 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("camelcase", function (s) {
 		let n = "";
 		for (const word of s.split(" ")) {
-			n = `${n}<span class="first-letter">${word.substring(0, 1)}</span>${word.substring(1)} `;
+			n = n + `<span class="first-letter">${word.substring(0, 1)}</span>${word.substring(1)} `;
 		}
 		return n;
 	});
@@ -39,7 +36,7 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("or", function (...args) {
 		let val = false;
 		for (const arg of args) {
-			if (arg && typeof arg !== "object") val = true;
+			if (arg && typeof arg != "object") val = true;
 			if (Array.isArray(arg) && arg.length) val = true;
 		}
 		return val;
@@ -48,17 +45,17 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("and", function (...args) {
 		let val = true;
 		for (const arg of args) {
-			if (!arg && typeof arg !== "object") val = false;
+			if (!arg && typeof arg != "object") val = false;
 		}
 		return val;
 	});
 
 	Handlebars.registerHelper("eq", function (a, b) {
-		return a === b;
+		return a == b;
 	});
 
 	Handlebars.registerHelper("neq", function (a, b) {
-		return a !== b;
+		return a != b;
 	});
 
 	Handlebars.registerHelper("gt", function (a, b) {
@@ -83,13 +80,13 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("blockLayout", function (a: Array<string>, items: any) {
 		if (!a) return "";
-		let outStr = "";
+		let outStr = ``;
 		let line_length = 2;
 		for (const value of a) {
 			let line = value.split(" ");
 			if (line.length > line_length) line_length = line.length;
 			line = line.filter((e: string) => !!items[e]?.length);
-			if (line.length) {
+			if (!!line.length) {
 				if (line_length > line.length) line = line.concat(Array(line_length - line.length).fill(line[0]));
 				outStr += `\n"${line.join(" ")}"`;
 			}
@@ -113,7 +110,7 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("arr", function (...args) {
 		const outArr: any[] = [];
 		for (const arg of args) {
-			if (arg && typeof arg !== "object") outArr.push(arg);
+			if (arg && typeof arg != "object") outArr.push(arg);
 		}
 		return outArr;
 	});
@@ -124,7 +121,7 @@ export function registerHandlebarsHelpers() {
 		const step = 12;
 		let sum = init;
 		sum += step * i;
-		return `style="padding-left: ${sum}px;"`;
+		return `style=\"padding-left: ${sum}px;\"`;
 	});
 
 	Handlebars.registerHelper("spellValues", function (i: SpellGURPS): string {
@@ -138,7 +135,7 @@ export function registerHandlebarsHelpers() {
 		};
 		const list = [];
 		for (const [k, v] of Object.entries(values)) {
-			if (v && v !== "-") list.push(`${i18n(`gurps.character.spells.${k}`)}: ${v}`);
+			if (v && v != "-") list.push(`${i18n("gurps.character.spells." + k)}: ${v}`);
 		}
 		return list.join("; ");
 	});
@@ -169,7 +166,7 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("length", function (...args: any[]): number {
 		let length = 0;
 		for (const a of args) {
-			if ((typeof a === "number" || typeof a === "string") && `${a}`.length > length) length = `${a}`.length;
+			if ((typeof a == "number" || typeof a == "string") && `${a}`.length > length) length = `${a}`.length;
 		}
 		return length;
 	});
@@ -180,7 +177,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("format", function (a: string): string {
-		return (a ? a : "").replace(/\n/g, "<br>");
+		return (!!a ? a : "").replace(/\n/g, "<br>");
 	});
 
 	Handlebars.registerHelper("ref", function (a: string): string {
@@ -199,7 +196,7 @@ export function registerHandlebarsHelpers() {
 		return total.includes(sub);
 	});
 
-	// May be temporary
+	// may be temporary
 	Handlebars.registerHelper("diceString", function (d: DiceGURPS): string {
 		return new DiceGURPS(d).stringExtra(false);
 	});

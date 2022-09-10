@@ -1,5 +1,5 @@
-import { ItemGURPS } from "@item";
 import { ItemSheetGURPS } from "@item/base/sheet";
+import { ItemGURPS } from "@item/data";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
@@ -18,8 +18,8 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		return deepClone(
 			(this.item as ContainerGURPS).items
 				.map(item => item as Item)
-				// @ts-ignore sort not in Item type yet
-				.sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0))
+				//@ts-ignore sort not in Item type yet
+				.sort((a: Item, b: Item) => (a.sort || 0) - (b.sort || 0)),
 		);
 	}
 
@@ -27,15 +27,15 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		super.activateListeners(html);
 		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
 		html.find(".enabled").on("click", event => this._onEnabledToggle(event));
-		// Html.find(".item-list").on("dragend", event => this._onDrop(event));
+		// html.find(".item-list").on("dragend", event => this._onDrop(event));
 	}
 
 	protected override async _onDragStart(event: DragEvent): Promise<void> {
 		const list = event.currentTarget;
-		// If (event.target.classList.contains("contents-link")) return;
+		// if (event.target.classList.contains("contents-link")) return;
 
 		let dragData: any;
-		// Const dragData: any = {
+		// const dragData: any = {
 		// 	actorId: this.actor.id,
 		// 	sceneId: this.actor.isToken ? canvas?.scene?.id : null,
 		// 	tokenId: this.actor.isToken ? this.actor.token?.id : null,
@@ -95,11 +95,11 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 
 		if (!this.item.isOwner) return false;
 
-		// Const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
+		// const item = await (BaseItemGURPS as any).implementation.fromDropData(data);
 		const item = await (Item.implementation as any).fromDropData(data);
 		const itemData = item.toObject();
 
-		// Handle item sorting within the same Actor
+		//Handle item sorting within the same Actor
 		if (this.item.uuid === item.parent?.uuid) return this._onSortItem(event, itemData);
 
 		return this._onDropItemCreate(itemData);
@@ -110,10 +110,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		return (this.item as ContainerGURPS).createEmbeddedDocuments("Item", itemData, { temporary: false });
 	}
 
-	protected async _onSortItem(
-		event: DragEvent,
-		itemData: PropertiesToSource<ItemDataBaseProperties>
-	): Promise<Item[]> {
+	protected async _onSortItem(event: DragEvent, itemData: PropertiesToSource<ItemDataBaseProperties>): Promise<Item[]> {
 		const source = (this.item as ContainerGURPS).deepItems.get(itemData._id!);
 		const dropTarget = $(event.target!).closest("[data-item-id]");
 		const target = (this.item as ContainerGURPS).deepItems.get(dropTarget.data("item-id"));
@@ -131,7 +128,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 			return update;
 		});
 
-		if (source && target && source.parent !== target.parent) {
+		if (source && target && source.parent != target.parent) {
 			if (source instanceof ContainerGURPS && target.parents.includes(source)) return [];
 			await source!.parent!.deleteEmbeddedDocuments("Item", [source!._id!], { render: false });
 			return parent?.createEmbeddedDocuments(
@@ -145,7 +142,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 						sort: updateData[0].sort,
 					},
 				],
-				{ temporary: false }
+				{ temporary: false },
 			);
 		}
 		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
@@ -154,7 +151,7 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
 		event.preventDefault();
 		const id: string = $(event.currentTarget).data("item-id");
-		const open = !!$(event.currentTarget).attr("class")?.includes("closed");
+		const open: boolean = $(event.currentTarget).attr("class")?.includes("closed") ? true : false;
 		const item = (this.item as ContainerGURPS).deepItems.get(id);
 		item?.update({ _id: id, "system.open": open });
 	}

@@ -107,6 +107,11 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
+	protected _onSubmit(event: Event, context?: any): Promise<Partial<Record<string, unknown>>> {
+		// Console.log(event, context);
+		return super._onSubmit(event, context);
+	}
+
 	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
 		// Console.log("_updateObject", formData);
 		if (formData["system.tags"] && typeof formData["system.tags"] === "string") {
@@ -265,5 +270,13 @@ export class ItemSheetGURPS extends ItemSheet {
 		event.preventDefault();
 		const index = $(event.currentTarget).data("index");
 		new WeaponSheet(this.item as ItemGURPS, index, {}).render(true);
+	}
+
+	protected override _getHeaderButtons(): Application.HeaderButton[] {
+		const buttons: Application.HeaderButton[] = [];
+		const all_buttons = [...buttons, ...super._getHeaderButtons()];
+		all_buttons.at(-1)!.label = "";
+		all_buttons.at(-1)!.icon = "gcs-circled-x";
+		return all_buttons;
 	}
 }

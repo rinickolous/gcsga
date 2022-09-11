@@ -24,7 +24,7 @@
 			{{>sections/input-text field="field" name=(concat ../sysPrefix "defaults." @index ".specialization")
 			data=this.specialization type="String" class=(input_lock (eq this.type "skill"))}}
 			{{>sections/input-text field="field" name=(concat "NUMBER." ../sysPrefix "defaults." @index ".modifier")
-			data=this.modifier type="String"}}
+			data=(signed this.modifier) type="String"}}
 		</div>
 		{{/each}}
 	</div>

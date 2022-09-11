@@ -5,6 +5,10 @@ import { CompendiumTab } from "./base";
 export class CompendiumSkillTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/skill.hbs`;
 
+	override get searchFields(): string[] {
+		return [...super.searchFields, "system.difficulty"];
+	}
+
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "skill");
 	}
@@ -33,8 +37,9 @@ export class CompendiumSkillTab extends CompendiumTab {
 					formattedName: skill.formattedName,
 					notes: skill.notes,
 					img: skill.img,
-					compendium: pack.collection,
+					compendium: pack,
 					open: skill.open,
+					uuid: skill.uuid,
 					id: skill._id,
 					children: skill.type === "skill_container" ? skill.children : [],
 					tags: skill.tags,

@@ -5,6 +5,19 @@ import { CompendiumTab } from "./base";
 export class CompendiumSpellTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/spell.hbs`;
 
+	override get searchFields(): string[] {
+		return [
+			...super.searchFields,
+			"system.difficulty",
+			"system.resist",
+			"system.spell_class",
+			"system.casting_cost",
+			"system.maintenance_cost",
+			"system.casting_time",
+			"system.duration",
+		];
+	}
+
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "spell");
 	}
@@ -30,8 +43,9 @@ export class CompendiumSpellTab extends CompendiumTab {
 					formattedName: spell.formattedName,
 					notes: spell.notes,
 					img: spell.img,
-					compendium: pack.collection,
+					compendium: pack,
 					open: spell.open,
+					uuid: spell.uuid,
 					id: spell._id,
 					children: spell.type === "spell_container" ? spell.children : [],
 					adjustedPoints: spell.adjustedPoints,

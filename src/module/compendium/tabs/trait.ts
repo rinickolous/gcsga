@@ -5,9 +5,12 @@ import { CompendiumTab } from "./base";
 export class CompendiumTraitTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/trait.hbs`;
 
+	override get searchFields(): string[] {
+		return [...super.searchFields, "adjustedPoints"];
+	}
+
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "trait");
-		this.prepareFilterData();
 	}
 
 	protected override async loadData(): Promise<void> {
@@ -23,6 +26,8 @@ export class CompendiumTraitTab extends CompendiumTab {
 			((await collection?.getDocuments()) as any).forEach((trait: any) => {
 				if (!["trait", "trait_container"].includes(trait.type)) return;
 				trait.prepareData();
+				const children = trait.type === "trait_container" ? trait.children : [];
+				children.forEach((c: Item) => c.prepareData());
 				// TODO: hasAllIndexFields
 				trait_list.push({
 					_id: trait._id,
@@ -31,10 +36,11 @@ export class CompendiumTraitTab extends CompendiumTab {
 					formattedName: trait.formattedName,
 					notes: trait.notes,
 					img: trait.img,
-					compendium: pack.collection,
+					compendium: pack,
 					open: trait.open,
 					id: trait._id,
-					children: trait.type === "trait_container" ? trait.children : [],
+					uuid: trait.uuid,
+					children: trait.type === "trait_container" ? children : [],
 					adjustedPoints: trait.adjustedPoints,
 					tags: trait.tags,
 					reference: trait.reference,

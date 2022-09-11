@@ -1,4 +1,4 @@
-<div class="desc item" data-item-id="{{this.id}}" {{{indent this.parents.length}}}>
+<div class="desc item" data-uuid="{{this.uuid}}" {{{indent this.parents.length}}}>
 	<div class="dropdown">
 		{{#if (eq this.type "skill_container")}}
 		{{#if this.open}}
@@ -13,8 +13,8 @@
 	</div>
 	{{>actor/character/sections/item-notes}}
 </div>
-<div data-item-id="{{this.id}}" data-type="skill" class="level rollable">{{this.skillLevel}}</div>
-<div data-item-id="{{this.id}}" data-type="skill_rsl" class="rsl rollable">{{this.relativeLevel}}</div>
+<div data-uuid="{{this.uuid}}" data-type="skill" class="level rollable">{{this.skillLevel}}</div>
+<div data-uuid="{{this.uuid}}" data-type="skill_rsl" class="rsl rollable">{{this.relativeLevel}}</div>
 <div class="points">{{this.points}}</div>
 <div class="reference" data-pdf="{{this.reference}}">{{ref this.reference}}</div>
 {{#if this.open}}

@@ -2,17 +2,16 @@ import { EquipmentContainerGURPS } from "@item";
 import { SYSTEM_NAME } from "@module/settings";
 import { CompendiumBrowser, CompendiumIndexData } from "..";
 import { CompendiumTab } from "./base";
-import { FilterData } from "./data";
 
 export class CompendiumEquipmentTab extends CompendiumTab {
 	override templatePath = `systems/${SYSTEM_NAME}/templates/compendium-browser/equipment.hbs`;
 
-	filterData!: FilterData;
+	override get searchFields(): string[] {
+		return [...super.searchFields, "techLevel", "costDescription", "weightDescription"];
+	}
 
 	constructor(browser: CompendiumBrowser) {
 		super(browser, "equipment");
-
-		this.prepareFilterData();
 	}
 
 	protected override async loadData(): Promise<void> {
@@ -35,8 +34,9 @@ export class CompendiumEquipmentTab extends CompendiumTab {
 					formattedName: equipment.formattedName,
 					notes: equipment.notes,
 					img: equipment.img,
-					compendium: pack.collection,
+					compendium: pack,
 					open: equipment.open,
+					uuid: equipment.uuid,
 					id: equipment._id,
 					children: equipment instanceof EquipmentContainerGURPS ? equipment.children : [],
 					uses: equipment.maxUses,

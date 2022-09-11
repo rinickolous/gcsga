@@ -38,6 +38,21 @@
 	}
 }
 
+* {
+	--color-border-highlight: rgba(var(--color-scroll-edge), 1);
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: none;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(var(--color-scroll));
+	border-radius: 6px;
+	&:hover {
+		background: rgba(var(--color-scroll-rollover));
+	}
+}
+
 .window-app.gcs {
 	// Header
 	background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
@@ -56,10 +71,12 @@
 		height: 100%;
 		padding: 0px;
 		scroll-behavior: smooth;
+
+		background: rgb(var(--color-background));
+		color: rgb(var(--color-on-background));
 		// border-right: 2px solid transparent;
 
 		// Scrollbar
-		--color-border-highlight: rgba(var(--color-scroll-edge), 1);
 		scrollbar-gutter: stable;
 		overflow-y: overlay;
 		// &::-webkit-scrollbar {
@@ -80,6 +97,55 @@
 	.window-resizable-handle {
 		background-color: rgb(var(--color-focused-tab));
 		color: rgb(var(--color-on-focused-tab));
+	}
+
+	input[type="checkbox"] {
+		appearance: none;
+		margin: 0;
+		background-color: rgb(var(--color-control));
+		color: rgb(var(--color-on-control)); // Redundant?
+		font: inherit;
+		width: 14px;
+		height: 14px;
+		border: 1px solid rgb(var(--color-control-edge));
+		border-radius: 4px;
+		display: grid;
+		place-content: center;
+		filter: none;
+		translate: 0px 4px;
+		&:focus {
+			border-width: 2px;
+		}
+		&:active {
+			background-color: rgb(var(--color-pressed-control));
+		}
+		&::before {
+			font-family: "gcs";
+			font-size: var(--font-size-12);
+			content: "\e804";
+			opacity: 0;
+		}
+		&:checked::before {
+			opacity: 1;
+		}
+	}
+	.checkbox-label {
+		display: grid;
+		grid-auto-flow: column;
+		grid-gap: 5px;
+		justify-content: left;
+	}
+	/* .checkbox-label + .checkbox-label { */
+	/* 	margin-top: 1em; */
+	/* } */
+
+	.header {
+		grid-area: auto;
+		padding: var(--padding-header);
+		background-color: rgb(var(--color-header));
+		color: rgb(var(--color-on-header));
+		border-right: 1px solid rgb(var(--color-separator));
+		white-space: nowrap;
 	}
 }
 

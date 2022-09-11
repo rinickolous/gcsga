@@ -105,14 +105,20 @@ export class ModifierWindow extends Application {
 	}
 
 	_keyDown(event: JQuery.KeyDownEvent) {
-		if (["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(event.key)) {
+		if (
+			["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(event.key) ||
+			// Vim keys
+			(["j", "k"].includes(event.key) && event.ctrlKey)
+		) {
 			event.preventDefault();
 			switch (event.key) {
+				case "k":
 				case "ArrowUp":
 					if (this.list.mods.length === 0) return this.getPinnedMods();
 					this.list.selection += 1;
 					if (this.list.selection >= this.list.mods.length) this.list.selection = 0;
 					return this.list.render();
+				case "j":
 				case "ArrowDown":
 					this.list.selection -= 1;
 					if (this.list.selection < 0) this.list.selection = this.list.mods.length - 1;
@@ -127,6 +133,7 @@ export class ModifierWindow extends Application {
 	}
 
 	togglePin() {
+		if (this.list.selection === -1) return;
 		const pinnedMods: RollModifier[] =
 			((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as RollModifier[]) ?? [];
 		const selectedMod: RollModifier = this.list.mods[this.list.selection];

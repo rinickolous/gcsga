@@ -69,8 +69,9 @@
 				outline: none;
 			}
 		}
-		.input[type="text"],
-		.input[type="number"] {
+		span[role="textbox"],
+		input[type="text"],
+		input[type="number"] {
 			font: var(--font-field);
 			height: 24px;
 			width: 100%;
@@ -102,6 +103,9 @@
 				width: 67px;
 			}
 		}
+		input[type="number"] {
+			width: 60px;
+		}
 		.checkbox-label {
 			display: grid;
 			grid-template-columns: 1em auto;
@@ -112,7 +116,7 @@
 			white-space: nowrap;
 			translate: 0px -4px;
 		}
-		input.input[type="checkbox"] {
+		input[type="checkbox"] {
 			appearance: none;
 			margin: 0;
 			background-color: rgb(var(--color-control));

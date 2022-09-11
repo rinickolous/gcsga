@@ -4,8 +4,6 @@
 - Roll Functionality
 	- ChatCommand for rolling
 	- Modifier parsing
-- Library Import
-	- Overwrite items instead of appending
 - GCA import
 	- prereqs (leave for later)
 	- appearance
@@ -45,7 +43,10 @@
 - Tours implementation for UI
 - update Nordlond sheet & compendium entries with dynamic characters
 - metric system conversion
+- Native PDF support
 ## Small Features, Changes & Fixes
+- Library Import
+	- Overwrite items instead of appending
 - Polygot module support for Dynamic Characters
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization

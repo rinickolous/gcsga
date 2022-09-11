@@ -53,7 +53,7 @@
 	}
 }
 
-.window-app.gcs {
+.window-app {
 	// Header
 	background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
 	color: rgba(var(--color-on-focused-tab), 1);
@@ -99,7 +99,84 @@
 		color: rgb(var(--color-on-focused-tab));
 	}
 
+	select {
+		align-self: center;
+		font: var(--font-system);
+		background-color: rgb(var(--color-control));
+		color: rgb(var(--color-on-control));
+		border: 1px solid rgb(var(--color-control-edge));
+		padding: 1px 3px;
+		border-radius: 3px;
+		height: 24px;
+		width: max-content;
+		align-items: self-end;
+		optgroup {
+			font: var(--font-system);
+			background-color: rgb(var(--color-header));
+			color: rgb(var(--color-on-header));
+			border: 1px solid rgb(var(--color-on-header));
+		}
+		option {
+			font: var(--font-system);
+			background-color: rgb(var(--color-control));
+			color: rgb(var(--color-on-control));
+			border: 1px solid rgb(var(--color-control-edge));
+		}
+		&:focus {
+			box-shadow: none;
+			border-width: 2px;
+			padding: 0px 2px;
+		}
+	}
+	button {
+		justify-self: center;
+		width: min-content;
+		white-space: nowrap;
+		grid-area: button;
+		background-color: rgb(var(--color-control));
+		color: rgb(var(--color-on-control));
+		font: var(--font-system);
+		border: 1px solid rgb(var(--color-control-edge));
+		border-radius: 4px;
+		&:hover,
+		&:focus {
+			box-shadow: none;
+		}
+		&:active {
+			background-color: rgb(var(--color-pressed-control));
+			color: rgb(var(--color-on-pressed-control));
+		}
+	}
+	input[type="text"],
+	input[type="search"],
+	input[type="number"] {
+		font: var(--font-field);
+		height: 24px;
+		width: 100%;
+		min-width: 40px;
+		border-radius: 0px;
+		background-color: rgb(var(--color-editable));
+		color: rgb(var(--color-on-editable));
+		border: 1px solid rgba(var(--color-control-edge));
+		padding: 1px 3px;
+		&:focus {
+			box-shadow: none;
+			border-width: 2px;
+			padding: 0 2px;
+		}
+		&[readonly] {
+			background-color: rgb(var(--color-backgroudn));
+			color: rgb(var(--color-on-background));
+			pointer-events: none;
+		}
+		&:disabled {
+			background-color: rgb(var(--color-background));
+			color: rgba(var(--color-on-editable), 0); // Invisible Text
+			pointer-events: none;
+		}
+	}
 	input[type="checkbox"] {
+		flex: 0 !important;
 		appearance: none;
 		margin: 0;
 		background-color: rgb(var(--color-control));

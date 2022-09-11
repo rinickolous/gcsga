@@ -1,5 +1,29 @@
 @import "compendium_browser";
 
+@media (max-width: 1120px) {
+	#modifier-app {
+		height: calc(var(--hotbar-height) * 2) !important;
+	}
+}
+
+#context-menu {
+	background: rgb(var(--color-background));
+	color: rgb(var(--color-on-background));
+	font: var(--font-system);
+	width: max-content;
+	border: 1px solid rgb(var(--color-divider));
+	border-radius: 0;
+	li.context-item {
+		line-height: 24px;
+		padding: var(--padding-header);
+		&:hover {
+			background: rgb(var(--color-selection));
+			color: rgb(var(--color-on-selection));
+			text-shadow: none;
+		}
+	}
+}
+
 #modifier-app {
 	display: grid;
 	pointer-events: auto;
@@ -9,7 +33,7 @@
 	color: rgb(var(--color-on-control));
 	background-color: rgba(var(--color-control), 0.8);
 	border: 2px solid rgb(var(--color-control-edge));
-	border-radius: 2px;
+	border-radius: 4px;
 	padding: 10px;
 	align-items: center;
 }

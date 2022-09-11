@@ -256,10 +256,10 @@ class CharacterGURPS extends BaseActorGURPS {
 
 	countThresholdOpMet(op: ThresholdOp, attributes: Map<string, Attribute>) {
 		let total = 0;
-		for (const a of Object.values(attributes)) {
+		attributes.forEach(a => {
 			const threshold = a.currentThreshold;
 			if (threshold && threshold.ops.includes(op)) total++;
-		}
+		});
 		return total;
 	}
 

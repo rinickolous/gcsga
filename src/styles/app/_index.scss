@@ -6,6 +6,16 @@
 	}
 }
 
+.window-app.gcs.pdf {
+	.window-content {
+		overflow: clip;
+	}
+	iframe {
+		height: 100%;
+		width: 100%;
+	}
+}
+
 #context-menu {
 	background: rgb(var(--color-background));
 	color: rgb(var(--color-on-background));
@@ -165,7 +175,7 @@
 			background-color: rgba(var(--color-banding), 0.8);
 			color: rgb(var(--color-on-banding));
 		}
-		&:hover {
+		hidden &:hover {
 			background-color: rgba(var(--color-selection), 0.8);
 			color: rgb(var(--color-on-selection));
 		}

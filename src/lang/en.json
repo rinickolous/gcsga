@@ -22,6 +22,10 @@
 		"TypeNote_container": "Note Container"
 	},
 	"gurps": {
+		"pdf": {
+			"offset": "Page Offset",
+			"code": "PDF Book Code"
+		},
 		"character": {
 			"portrait": "Portrait",
 			"identity": "Identity",

@@ -11,6 +11,7 @@
 	- meta-traits
 	- racial templates
 	- alternate abilities
+ - PDF Support
 ## Sheets & Styling
 - Global Foundry styling
 - Damage template

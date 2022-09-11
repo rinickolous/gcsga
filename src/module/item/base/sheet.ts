@@ -107,6 +107,11 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
+	protected _onSubmit(event: Event, context?: any): Promise<Partial<Record<string, unknown>>> {
+		// Console.log(event, context);
+		return super._onSubmit(event, context);
+	}
+
 	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
 		// Console.log("_updateObject", formData);
 		if (formData["system.tags"] && typeof formData["system.tags"] === "string") {

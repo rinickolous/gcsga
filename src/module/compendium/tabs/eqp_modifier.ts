@@ -38,6 +38,7 @@ export class CompendiumEquipmentModifierTab extends CompendiumTab {
 					img: modifier.img,
 					compendium: pack,
 					open: modifier.open,
+					uuid: modifier.uuid,
 					id: modifier._id,
 					parents: modifier.parents,
 					children: modifier.type === "eqp_modifier_container" ? children : [],

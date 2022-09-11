@@ -5,6 +5,7 @@
 	- ChatCommand for rolling
 	- Modifier parsing
 - Library Import
+	- Overwrite items instead of appending
 - GCA import
 	- prereqs (leave for later)
 	- appearance

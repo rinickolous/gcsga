@@ -1,5 +1,5 @@
 import { ActorGURPS } from "@actor";
-import { BaseItemGURPS, ContainerGURPS, ItemGURPS } from "@item";
+import { ContainerGURPS, ItemGURPS } from "@item";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 import { SYSTEM_NAME } from "@module/settings";

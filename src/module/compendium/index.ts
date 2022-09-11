@@ -40,6 +40,11 @@ export class CompendiumBrowser extends Application {
 		return i18n("gurps.compendium_browser.title");
 	}
 
+	// Override render(force?: boolean | undefined, options?: Application.RenderOptions<ApplicationOptions> | undefined): unknown {
+	// 	this.initCompendiumList();
+	// 	return super.render(force, options);
+	// }
+
 	// Private async renderReultsList(html: HTMLElement, list: HTMLUListElement, start = 0): Promise<void> {
 	// 	const currentTab = this.activeTab !== "settings" ? this.tabs[this.activeTab] : null;
 	// 	if (!currentTab) return;
@@ -87,7 +92,7 @@ export class CompendiumBrowser extends Application {
 					initital: "landing-page",
 				},
 			],
-			scrollY: [".control-area", ".item-list"],
+			scrollY: [".item-list"],
 		});
 	}
 
@@ -95,6 +100,7 @@ export class CompendiumBrowser extends Application {
 		const _html = html[0];
 		super.activateListeners(html);
 		html.find(".item").on("dblclick", event => this._onClickEntry(event));
+		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
 
 		const activeTabName = this.activeTab;
 
@@ -152,6 +158,20 @@ export class CompendiumBrowser extends Application {
 		// This.renderReultsList(_html, list);
 	}
 
+	protected async _onCollapseToggle(event: JQuery.ClickEvent): Promise<unknown> {
+		event.preventDefault();
+		const uuid: string = $(event.currentTarget).data("uuid");
+		// Console.log(uuid);
+		const open = !!$(event.currentTarget).attr("class")?.includes("closed");
+		const item = (await fromUuid(uuid)) as Item;
+		await item?.update({ _id: uuid.split(".").at(-1), "system.open": open });
+		// Const gparent = await fromUuid(uuid.split(".").splice(0, 4).join("."));
+		// console.log(item);
+		// console.log(item, gparent);
+		if (this.activeTab !== "settings") await this.tabs[this.activeTab].init();
+		return this.render();
+	}
+
 	_updateQuery(event: JQuery.TriggeredEvent): void {
 		if (this.activeTab === "settings") return;
 		this.tabs[this.activeTab].filterData.searchQuery = String($(event.currentTarget).val());
@@ -163,6 +183,7 @@ export class CompendiumBrowser extends Application {
 
 		// Settings
 		if (activeTab === "settings") {
+			this.initCompendiumList();
 			return {
 				user: (game as Game).user,
 				settings: this.settings,
@@ -172,12 +193,12 @@ export class CompendiumBrowser extends Application {
 		// Active Tab
 		const tab = this.tabs[activeTab];
 		if (tab) {
+			const indexData = tab.getIndexData(0);
 			return {
 				user: (game as Game).user,
 				[activeTab]: {
 					filterData: tab.filterData,
-					// IndexData: tab.indexData,
-					indexData: tab.getIndexData(0),
+					indexData: indexData,
 				},
 				scrollLimit: tab.scrollLimit,
 			};
@@ -192,7 +213,8 @@ export class CompendiumBrowser extends Application {
 		const li = event.currentTarget;
 		const uuid = $(li!).data("uuid");
 		const pack: string = this.loadedPacks(this.activeTab).find((e: string) => uuid.includes(e)) ?? "";
-		const item = await (game as Game).packs.get(pack)?.getDocument(uuid.split(".").at(-1));
+		// Const item = await (game as Game).packs.get(pack)?.getDocument(uuid.split(".").at(-1));
+		const item = await fromUuid(uuid);
 		if (!item) return;
 		const sheet = (item as any).sheet;
 		if (sheet._minimized) return sheet.maximize();

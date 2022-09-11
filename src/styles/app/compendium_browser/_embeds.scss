@@ -21,6 +21,12 @@
 		background-color: rgb(var(--color-header));
 		color: rgb(var(--color-on-header));
 		padding: var(--padding-header);
+		position: sticky;
+		top: 0;
+	}
+
+	.dropdown {
+		font-size: var(--font-size-10);
 	}
 
 	.item-list {

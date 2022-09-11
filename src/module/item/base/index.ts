@@ -15,6 +15,11 @@ import { BaseFeature } from "@feature/base";
 import { PrereqList } from "@prereq";
 import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/helpers.mjs";
 import { ContainerGURPS } from "@item/container";
+import {
+	DocumentConstructor,
+	ConstructorDataType,
+	ConfiguredDocumentClass,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gurps?: {
@@ -61,6 +66,15 @@ class BaseItemGURPS extends Item {
 	// 	return parent.updateEmbeddedDocuments("Item", updates, options);
 	// }
 
+	static override async updateDocuments(
+		updates: any[],
+		context: DocumentModificationContext & { options: any }
+	): Promise<any[]> {
+		// Console.log(updates, context);
+		if (!(parent instanceof Item)) return super.updateDocuments(updates, context);
+		return parent.updateEmbeddedDocuments("Item", updates, context.options);
+	}
+
 	protected async _preCreate(
 		data: ItemDataGURPS,
 		options: DocumentModificationOptions,
@@ -79,6 +93,7 @@ class BaseItemGURPS extends Item {
 		data: DeepPartial<ItemDataConstructorData | (ItemDataConstructorData & Record<string, unknown>)>,
 		context?: (DocumentModificationContext & MergeObjectOptions) | undefined
 	): Promise<this | undefined> {
+		// Console.log(data, context, this);
 		if (!(this.parent instanceof Item)) return super.update(data, context);
 		data = expandObject(data);
 		data._id = this.id;
@@ -90,6 +105,10 @@ class BaseItemGURPS extends Item {
 	override delete(context?: DocumentModificationContext | undefined): Promise<any> {
 		if (!(this.parent instanceof Item)) return super.delete(context);
 		return this.parent.deleteEmbeddedDocuments("Item", [this.id!]);
+	}
+
+	prepareData(): void {
+		super.prepareData();
 	}
 
 	// Should not be necessary

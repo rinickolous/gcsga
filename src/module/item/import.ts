@@ -23,6 +23,7 @@ import { SkillDefault } from "@module/default";
 import { BaseWeapon, Weapon } from "@module/weapon";
 import { BasePrereq, PrereqList } from "@prereq";
 import { i18n, i18n_f, newUUID } from "@util";
+import { GURPS } from "@module/gurps";
 
 interface ItemLibraryData {
 	type: ItemLibraryType;
@@ -94,7 +95,7 @@ export class ItemImporter {
 
 	async _import(file: { text: string; name: string; path: string }) {
 		const json = file.text;
-		console.log(file);
+		// Console.log(file);
 		// Return;
 		const name = file.name.split(".")[0];
 		// Const name = "Library Test";
@@ -137,9 +138,12 @@ export class ItemImporter {
 			}
 			ui.notifications?.info(i18n_f("gurps.system.library_import.start", { name: name }));
 			let counter = items.length;
-			console.log(items);
+			// Console.log(items);
 			Item.create(items as any, { pack: `world.${name}` });
 			ui.notifications?.info(i18n_f("gurps.system.library_import.finished", { number: counter }));
+			const cb = GURPS.CompendiumBrowser;
+			console.log(cb, cb.rendered);
+			if (cb.rendered) cb.render(true);
 		} catch (err) {
 			console.error(err);
 			errorMessages.push(
@@ -159,7 +163,7 @@ export class ItemImporter {
 			item.name = item.name ?? (item as any).description ?? (item as any).text;
 			const id = randomID();
 			const [itemData, itemFlags]: [ItemSystemDataGURPS, ItemFlagsGURPS] = this.getItemData(item, context);
-			console.log(itemData);
+			// Console.log(itemData);
 			const newItem = {
 				name: item.name ?? "ERROR",
 				type: item.type,

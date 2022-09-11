@@ -38,6 +38,21 @@
 	}
 }
 
+* {
+	--color-border-highlight: rgba(var(--color-scroll-edge), 1);
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: none;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(var(--color-scroll));
+	border-radius: 6px;
+	&:hover {
+		background: rgba(var(--color-scroll-rollover));
+	}
+}
+
 .window-app.gcs {
 	// Header
 	background-image: linear-gradient(rgba(var(--color-focused-tab), 1), rgba(var(--color-focused-tab), 1));
@@ -62,7 +77,6 @@
 		// border-right: 2px solid transparent;
 
 		// Scrollbar
-		--color-border-highlight: rgba(var(--color-scroll-edge), 1);
 		scrollbar-gutter: stable;
 		overflow-y: overlay;
 		// &::-webkit-scrollbar {

@@ -45,6 +45,7 @@ export class CompendiumSpellTab extends CompendiumTab {
 					img: spell.img,
 					compendium: pack,
 					open: spell.open,
+					uuid: spell.uuid,
 					id: spell._id,
 					children: spell.type === "spell_container" ? spell.children : [],
 					adjustedPoints: spell.adjustedPoints,

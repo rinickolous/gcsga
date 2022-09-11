@@ -39,6 +39,7 @@ export class CompendiumSkillTab extends CompendiumTab {
 					img: skill.img,
 					compendium: pack,
 					open: skill.open,
+					uuid: skill.uuid,
 					id: skill._id,
 					children: skill.type === "skill_container" ? skill.children : [],
 					tags: skill.tags,

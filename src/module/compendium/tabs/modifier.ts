@@ -36,6 +36,7 @@ export class CompendiumTraitModifierTab extends CompendiumTab {
 					img: modifier.img,
 					compendium: pack,
 					open: modifier.open,
+					uuid: modifier.uuid,
 					id: modifier._id,
 					children: modifier.type === "modifier_container" ? modifier.children : [],
 					tags: modifier.tags,

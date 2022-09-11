@@ -36,6 +36,7 @@ export class CompendiumEquipmentTab extends CompendiumTab {
 					img: equipment.img,
 					compendium: pack,
 					open: equipment.open,
+					uuid: equipment.uuid,
 					id: equipment._id,
 					children: equipment instanceof EquipmentContainerGURPS ? equipment.children : [],
 					uses: equipment.maxUses,

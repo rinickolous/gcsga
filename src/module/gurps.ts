@@ -246,3 +246,20 @@ Hooks.on("renderSidebarTab", async (app: SidebarTab, html: JQuery<HTMLElement>) 
 		html.find(".directory-footer").append(browseButton);
 	}
 });
+
+Hooks.on("updateCompendium", async (pack, _documents, _options, _userId) => {
+	// Console.log(pack, documents, options, userId);
+	// const uuids = documents.map((e: any) => e.uuid);
+	const cb = GURPS.CompendiumBrowser;
+	if (cb.rendered && cb.loadedPacks(cb.activeTab).includes(pack.collection)) {
+		await cb.tabs[cb.activeTab].init();
+		cb.render();
+	}
+	// Uuids.forEach(async (e: string) => {
+	// 	console.log(e);
+	// 	// const sheet = ((await fromUuid(e)) as Item)?.sheet;
+	// 	// if (!sheet?.rendered) {
+	// 	// 	sheet?.render(true);
+	// 	// }
+	// })
+});

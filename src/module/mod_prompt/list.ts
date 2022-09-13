@@ -1,4 +1,4 @@
-import { RollModifier } from "@module/data";
+import { RollModifier, UserFlags } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { ModifierWindow } from "./window";
 
@@ -62,7 +62,7 @@ export class ModifierList extends Application {
 		}
 
 		const mods: any[] = this.mods;
-		const pinnedMods: any[] = ((game as Game).user?.getFlag(SYSTEM_NAME, "pinnedMods") as []) ?? [];
+		const pinnedMods: any[] = ((game as Game).user?.getFlag(SYSTEM_NAME, UserFlags.ModifierPinned) as []) ?? [];
 		for (const m of mods) {
 			if (pinnedMods.find(e => e.name === m.name && e.modifier && m.modifier)) m.pinned = true;
 			else m.pinned = false;

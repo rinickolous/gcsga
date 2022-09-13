@@ -19,8 +19,44 @@
 		grid-auto-flow: row;
 		align-items: center;
 		text-align: center;
+
+		> hr {
+			border-color: rgb(var(--color-divider));
+			height: 1px;
+			width: 90%;
+		}
+
 		.name {
 			font-size: var(--font-size-16);
+		}
+		.modifiers {
+			display: grid;
+			grid-auto-flow: rows;
+			grid-gap: 2px;
+
+			> [class*="mod-"] {
+				margin: auto;
+				border: 2px solid;
+				border-radius: 4px;
+				max-width: 80%;
+				padding: var(--padding-standard);
+				cursor: pointer;
+				&.mod-pos {
+					border-color: green;
+					background-color: lightgreen;
+					color: black;
+				}
+				&.mod-neg {
+					border-color: red;
+					background-color: pink;
+					color: black;
+				}
+				&.mod-zero {
+					border-color: yellow;
+					background-color: beige;
+					color: black;
+				}
+			}
 		}
 		.result {
 			font-size: var(--font-size-20);
@@ -48,6 +84,9 @@
 			&.failure {
 				background-color: rgb(var(--color-failure));
 			}
+		}
+		.total {
+			margin-bottom: 5px;
 		}
 	}
 }

@@ -231,3 +231,11 @@ export const rollModifiers: RollModifier[] = [
 
 export type ImagePath = `${string}.${ImageFileExtension}`;
 type ImageFileExtension = "jpg" | "jpeg" | "png" | "svg" | "webp";
+
+export enum UserFlags {
+	Init = "init",
+	ModifierStack = "modifierStack",
+	ModifierTotal = "modifierTotal",
+	ModifierSticky = "modifierSticky",
+	ModifierPinned = "pinnedMods",
+}

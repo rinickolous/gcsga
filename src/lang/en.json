@@ -284,6 +284,7 @@
 			"bulk": "Bulk"
 		},
 		"roll": {
+			"effective_skill": "Effective Skill: {level}",
 			"just_made_it": "Just made it.",
 			"success_margin": "Made it by {margin}.",
 			"failure_margin": "Missed it by {margin}.",

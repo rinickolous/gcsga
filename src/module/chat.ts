@@ -1,6 +1,7 @@
 import { ActorGURPS } from "@actor";
 import { RollGURPS } from "@util";
-import { RollType } from "./data";
+import { RollModifier, RollType } from "./data";
+import { GURPS } from "./gurps";
 
 /**
  *
@@ -10,6 +11,17 @@ export function addChatListeners(html: JQuery<HTMLElement>): void {
 	html.find(".rollable.damage").on("click", event => _onDamageRoll(event));
 	html.find(".rollable").on("mouseover", event => _onRollableHover(event, true));
 	html.find(".rollable").on("mouseout", event => _onRollableHover(event, false));
+	html.find(".mod").on("click", event => _onModClick(event));
+}
+
+/**
+ *
+ * @param event
+ */
+async function _onModClick(event: JQuery.ClickEvent): Promise<void> {
+	event.preventDefault();
+	const mod: RollModifier = $(event.currentTarget).data("mod");
+	await GURPS.ModifierButton.window.addModifier(mod);
 }
 
 /**

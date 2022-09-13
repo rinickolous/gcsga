@@ -97,7 +97,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		data?: DeepPartial<ActorDataConstructorData | (ActorDataConstructorData & Record<string, unknown>)>,
 		context?: DocumentModificationContext & foundry.utils.MergeObjectOptions
 	): Promise<this | undefined> {
-		console.log("update data:", data);
+		// Console.log("update data:", data);
 		this.updateAttributes(data);
 		this.checkImport(data);
 		return super.update(data, context);

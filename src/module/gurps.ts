@@ -60,11 +60,13 @@ import { CompendiumBrowser } from "./compendium";
 import { PDFViewerSheet } from "@module/pdf/sheet";
 import { JournalEntryPageGURPS } from "./pdf";
 import { PDFEditorSheet } from "./pdf/edit";
+import { UserFlags } from "./data";
 // Import { XMLtoJS } from "@util/xml_js";
 // import { GCAImporter } from "@actor/character/import_GCA";
 
 Error.stackTraceLimit = Infinity;
 
+// TODO: make GURPS type concrete
 export const GURPS: any = {};
 if (!(globalThis as any).GURPS) {
 	(globalThis as any).GURPS = GURPS;
@@ -243,7 +245,7 @@ Hooks.once("ready", async () => {
 	);
 
 	// Render modifier app after user object loaded to avoid old data
-	(game as Game).user?.setFlag(SYSTEM_NAME, "init", true);
+	(game as Game).user?.setFlag(SYSTEM_NAME, UserFlags.Init, true);
 	GURPS.ModifierButton = new ModifierButton();
 	GURPS.ModifierButton.render(true);
 

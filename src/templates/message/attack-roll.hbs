@@ -1,13 +1,13 @@
 <div class="message-roll attack">
 	<div class="name">{{name}} ({{level}})</div>
-	<div class="total">{{#each rolls}}
-		{{#unless (eq @index 0)}} + {{/unless}}
-		<i data-result={{this.result}} class="rollable fas fa-dice-{{this.word}}"></i>
+	<div class="modifiers">
+		{{#each modifiers}}
+		<div class="mod mod-{{this.class}}" data-mod="{{json this}}">{{signed this.modifier}}{{#if this.name}}:
+			{{this.name}}{{/if}}</div>
 		{{/each}}
-		{{#if modifier}}{{#if (gt modifier 0)}} + {{modifier}}{{else}} - {{abs modifier}}{{/if}}{{/if}}
-		= {{total}}
 	</div>
-	<div class="result {{success}}">{{localize (concat "gurps.roll.success_attack." success)}}</div>
+	<div class="effective">{{localize "gurps.roll.effective_skill" level=effectiveLevel}}</div>
+	<div class="result {{success}}">{{total}}: {{localize (concat "gurps.roll.success_attack." success)}}</div>
 	<div class="margin">
 		{{#if (in success "success")}}
 		{{#if (eq margin 0)}}
@@ -18,6 +18,13 @@
 		{{else}}
 		{{localize "gurps.roll.failure_margin" margin=margin}}
 		{{/if}}
+	</div>
+	<hr>
+	<div class="total">{{#each rolls}}
+		{{#unless (eq @index 0)}} + {{/unless}}
+		<i data-result={{this.result}} class="rollable fas fa-dice-{{this.word}}"></i>
+		{{/each}}
+		= {{total}}
 	</div>
 	{{!-- <div data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-attack-id="{{weapon.id}}" data-type="damage"
 		--}} {{!-- class="damage rollable">Roll --}}

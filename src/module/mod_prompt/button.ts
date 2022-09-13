@@ -1,4 +1,4 @@
-import { RollModifier } from "@module/data";
+import { RollModifier, UserFlags } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
 import { ModifierWindow } from "./window";
@@ -31,10 +31,17 @@ export class ModifierButton extends Application {
 
 	getData(options?: Partial<ApplicationOptions> | undefined): object {
 		const user = (game as Game).user;
-		let total = user?.getFlag(SYSTEM_NAME, "modifierTotal") ?? 0;
+		let total = user?.getFlag(SYSTEM_NAME, UserFlags.ModifierTotal) ?? 0;
+		let buttonMagnet = "";
+		if (user?.getFlag(SYSTEM_NAME, UserFlags.ModifierSticky) === true) buttonMagnet = "sticky";
+		let buttonColor = "total-white";
+		if (total > 0) buttonColor = "total-green";
+		if (total < 0) buttonColor = "total-red";
 
 		return mergeObject(super.getData(options), {
 			total: total,
+			buttonColor: buttonColor,
+			buttonMagnet: buttonMagnet,
 		});
 	}
 
@@ -51,6 +58,8 @@ export class ModifierButton extends Application {
 		super.activateListeners(html);
 		html.on("click", event => this._onClick(event));
 		html.on("wheel", event => this._onMouseWheel(event));
+		html.find(".magnet").on("click", event => this._onMagnetClick(event));
+		html.find(".trash").on("click", event => this._onTrashClick(event));
 	}
 
 	async _onClick(event: JQuery.ClickEvent): Promise<void> {
@@ -62,8 +71,23 @@ export class ModifierButton extends Application {
 		}
 	}
 
+	async _onMagnetClick(event: JQuery.ClickEvent): Promise<unknown> {
+		event.preventDefault();
+		event.stopPropagation();
+		const sticky = (game as Game).user?.getFlag(SYSTEM_NAME, UserFlags.ModifierSticky) ?? false;
+		await (game as Game).user?.setFlag(SYSTEM_NAME, UserFlags.ModifierSticky, !sticky);
+		return this.render();
+	}
+
+	async _onTrashClick(event: JQuery.ClickEvent): Promise<unknown> {
+		event.preventDefault();
+		event.stopPropagation();
+		await (game as Game).user?.setFlag(SYSTEM_NAME, UserFlags.ModifierStack, []);
+		if (this.window.rendered) await this.window.render();
+		return this.render();
+	}
+
 	async _onMouseWheel(event: JQuery.TriggeredEvent) {
-		// Event.preventDefault();
 		const originalEvent = event.originalEvent;
 		if (originalEvent instanceof WheelEvent) {
 			const delta = Math.round(originalEvent.deltaY / -100);
@@ -78,12 +102,12 @@ export class ModifierButton extends Application {
 	async recalculateModTotal(user: StoredDocument<User> | null): Promise<unknown> {
 		if (!user) return;
 		let total = 0;
-		const mods: RollModifier[] = (user.getFlag(SYSTEM_NAME, "modifierStack") as RollModifier[]) ?? [];
+		const mods: RollModifier[] = (user.getFlag(SYSTEM_NAME, UserFlags.ModifierStack) as RollModifier[]) ?? [];
 		if (mods.length > 0)
 			for (const m of mods) {
 				total += m.modifier;
 			}
-		await user.setFlag(SYSTEM_NAME, "modifierTotal", total);
+		await user.setFlag(SYSTEM_NAME, UserFlags.ModifierTotal, total);
 	}
 }
 

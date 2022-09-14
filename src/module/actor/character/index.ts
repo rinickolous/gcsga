@@ -873,6 +873,42 @@ class CharacterGURPS extends BaseActorGURPS {
 		return this.bestSkillNamed(def.name ?? "", def.specialization ?? "", require_points, null);
 	}
 
+	bestWeaponNamed(
+		name: string,
+		usage: string,
+		type: WeaponType,
+		excludes: Map<string, boolean> | null
+	): Weapon | null {
+		let best: Weapon | null = null;
+		let level = Math.max();
+		for (const w of this.weaponNamed(name, usage, type, excludes)) {
+			const skill_level = w.level;
+			if (!best || level < skill_level) {
+				best = w;
+				level = skill_level;
+			}
+		}
+		return best;
+	}
+
+	weaponNamed(
+		name: string,
+		usage: string,
+		type: WeaponType,
+		excludes: Map<string, boolean> | null
+	): Collection<Weapon> {
+		const weapons: Collection<Weapon> = new Collection();
+		for (const wep of this.equippedWeapons(type)) {
+			if (
+				(excludes === null || !excludes.get(wep.name!)) &&
+				wep.parent.name === name &&
+				(usage === "" || usage === wep.usage)
+			)
+				weapons.set(`${wep.parent._id}-${wep.id}`, wep);
+		}
+		return weapons;
+	}
+
 	bestSkillNamed(
 		name: string,
 		specialization: string,
@@ -883,7 +919,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		let level = Math.max();
 		for (const sk of this.skillNamed(name, specialization, require_points, excludes)) {
 			const skill_level = sk.calculateLevel.level;
-			if (best || level < skill_level) {
+			if (!best || level < skill_level) {
 				best = sk;
 				level = skill_level;
 			}
@@ -900,7 +936,7 @@ class CharacterGURPS extends BaseActorGURPS {
 		const skills: Collection<SkillGURPS | TechniqueGURPS> = new Collection();
 		for (const item of this.skills) {
 			if (
-				(!excludes || !excludes.get(item.name!)) &&
+				(excludes === null || !excludes.get(item.name!)) &&
 				(item instanceof SkillGURPS || item instanceof TechniqueGURPS) &&
 				item.name === name &&
 				(!require_points || item instanceof TechniqueGURPS || item.adjustedPoints() > 0) &&

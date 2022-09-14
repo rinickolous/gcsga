@@ -10,21 +10,26 @@ import { i18n_f, toWord } from "./misc";
  */
 export async function handleRoll(
 	user: StoredDocument<User> | null,
-	actor: ActorGURPS,
+	actor: ActorGURPS | any,
 	data: { [key: string]: any }
 ): Promise<void> {
-	console.log(user, actor, data);
+	// Console.log(user, actor, data);
+	let name = "";
+	let rollData: any = {};
 	switch (data.type) {
 		case RollType.Modifier:
 			return addModifier(user, actor, data);
 		case RollType.Skill:
-			return rollSkill(user, actor, data);
+			// Console.log(data);
+			name = `${data.item.formattedName}`;
+			rollData = await getRollData(user, actor, data, name, "3d6");
+			return rollSkill(rollData);
 		case RollType.SkillRelative:
 		case RollType.Spell:
 		case RollType.SpellRelative:
 		case RollType.Attack:
-			const name = `${data.weapon.name}${data.weapon.usage ? ` - ${data.weapon.usage}` : ""}`;
-			const rollData = await getRollData(user, actor, data, name, "3d6");
+			name = `${data.weapon.name}${data.weapon.usage ? ` - ${data.weapon.usage}` : ""}`;
+			rollData = await getRollData(user, actor, data, name, "3d6");
 			return rollAttack(rollData);
 		case RollType.Damage:
 			return rollDamage(user, actor, data);
@@ -46,6 +51,7 @@ async function getRollData(
 	name: string,
 	formula: string
 ): Promise<any> {
+	console.log(data);
 	const roll = Roll.create(formula);
 	await roll.evaluate({ async: true });
 	const rolls = roll.dice[0].results.map(e => {
@@ -53,7 +59,24 @@ async function getRollData(
 	});
 	let rollTotal = roll.total!;
 	const speaker = ChatMessage.getSpeaker({ actor: actor });
-	const level = data.weapon.skillLevel(false);
+
+	/**
+	 *
+	 * @param data
+	 */
+	function getLevel(data: any): number {
+		switch (data.type) {
+			case RollType.Skill:
+				return parseInt(data.item.skillLevel) ?? 0;
+			case RollType.Attack:
+				return data.weapon.skillLevel(false);
+			default:
+				return 0;
+		}
+	}
+	const level = getLevel(data);
+	console.log(name, level);
+
 	const modifiers: Array<RollModifier & { class?: string }> = [
 		...(user?.getFlag(SYSTEM_NAME, UserFlags.ModifierStack) as RollModifier[]),
 	];
@@ -72,7 +95,7 @@ async function getRollData(
 		marginMod.name = i18n_f("gurps.roll.success_from", { from: name });
 		marginClass = "pos";
 	} else {
-		marginMod.modifier = -margin;
+		marginMod.modifier = margin;
 		marginMod.name = i18n_f("gurps.roll.failure_from", { from: name });
 		marginClass = "neg";
 	}
@@ -108,38 +131,38 @@ function addModifier(user: StoredDocument<User> | null, actor: ActorGURPS, data:
 
 /**
  * Handles Skill Rolls
- * @param {StoredDocument<User>} user
- * @param {ActorGURPS} actor
+ * @param {any} rollData
  */
-async function rollSkill(
-	user: StoredDocument<User> | null,
-	actor: ActorGURPS,
-	data: { [key: string]: any }
-): Promise<void> {
-	// Const formula = "3d6";
-	// const roll = Roll.create(formula);
-	// console.log(user, actor, data);
-	// await roll.evaluate({ async: true });
-	// let rollTotal = roll.total;
-	// const speaker = ChatMessage.getSpeaker({ actor: actor as any });
-	// // Set up Chat Data
-	// const chatData: { [key: string]: any } = {};
-	// chatData.text = `<b>${data.item.name}</b> - ${item.skillLevel}/${item.relativeLevel}`;
-	// chatData.success = "";
-	// chatData.total = rollTotal;
-	// chatData.margin = rollTotal;
-	// console.log("chatData", chatData);
-	// const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/skill-roll.hbs`, chatData);
-	// console.log(roll.dice[0].results);
-	// const messageData = {
-	// 	user: user,
-	// 	speaker: speaker,
-	// 	type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-	// 	content: message,
-	// 	roll: JSON.stringify(roll),
-	// 	sound: CONFIG.sounds.dice,
-	// };
-	// ChatMessage.create(messageData, {});
+async function rollSkill(rollData: any): Promise<void> {
+	const chatData: { [key: string]: any } = {
+		data: rollData.data,
+		name: rollData.name,
+		success: getSuccess(rollData.effectiveLevel, rollData.rollTotal),
+		total: rollData.rollTotal,
+		level: rollData.level,
+		effectiveLevel: rollData.effectiveLevel,
+		margin: rollData.margin,
+		marginMod: rollData.marginMod,
+		marginClass: rollData.marginClass,
+		actor: rollData.actor,
+		item: rollData.data.item,
+		rolls: rollData.rolls,
+		modifiers: rollData.modifiers,
+	};
+
+	// Console.log("chatData", chatData);
+
+	const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/skill-roll.hbs`, chatData);
+
+	const messageData = {
+		user: rollData.user,
+		speaker: rollData.speaker,
+		type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+		content: message,
+		roll: JSON.stringify(rollData.roll),
+		sound: CONFIG.sounds.dice,
+	};
+	ChatMessage.create(messageData, {});
 }
 
 /**
@@ -151,6 +174,7 @@ async function rollAttack(rollData: any): Promise<void> {
 
 	// Set up Chat Data
 	const chatData: { [key: string]: any } = {
+		data: rollData.data,
 		name: rollData.name,
 		success: getSuccess(rollData.effectiveLevel, rollData.rollTotal),
 		total: rollData.rollTotal,
@@ -158,6 +182,7 @@ async function rollAttack(rollData: any): Promise<void> {
 		effectiveLevel: rollData.effectiveLevel,
 		margin: rollData.margin,
 		marginMod: rollData.marginMod,
+		marginClass: rollData.marginClass,
 		actor: rollData.actor,
 		item: rollData.data.item,
 		weapon: rollData.data.weapon,
@@ -166,7 +191,7 @@ async function rollAttack(rollData: any): Promise<void> {
 		// Modifier: modifier,
 	};
 
-	console.log("chatData", chatData);
+	// Console.log("chatData", chatData);
 
 	const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/attack-roll.hbs`, chatData);
 

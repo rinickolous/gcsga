@@ -132,7 +132,8 @@ export class CharacterSheetGURPS extends ActorSheetGURPS {
 				RollType.SpellRelative,
 			].includes(type)
 		)
-			data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
+			data.item = await fromUuid($(event.currentTarget).data("uuid"));
+		// Data.item = this.actor.deepItems.get($(event.currentTarget).data("item-id"));
 		if ([RollType.Damage, RollType.Attack].includes(type))
 			data.weapon = data.item.weapons.get($(event.currentTarget).data("attack-id"));
 		if (type === RollType.Modifier) {

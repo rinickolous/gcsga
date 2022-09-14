@@ -59,3 +59,4 @@
 - Different attribute based skill rolls 
 - automatically pop out effect mod window when choosing maneuver / posture / effect
 - "disabled" input fields should not have blank text, such as in case of locked compendium
+- switch between number and dice display for skill rolls

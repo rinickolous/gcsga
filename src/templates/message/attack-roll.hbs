@@ -1,5 +1,6 @@
 <div class="message-roll attack">
-	<div class="name">{{name}} ({{level}})</div>
+	<div data-uuid="{{data.item.uuid}}" data-weapon="{{data.weapon.id}}" data-type="attack" class="name rollable">
+		{{name}} ({{level}})</div>
 	<div class="modifiers">
 		{{#each modifiers}}
 		<div class="mod mod-{{this.class}}" data-mod="{{json this}}">{{signed this.modifier}}{{#if this.name}}:
@@ -26,7 +27,4 @@
 		{{/each}}
 		= {{total}}
 	</div>
-	{{!-- <div data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-attack-id="{{weapon.id}}" data-type="damage"
-		--}} {{!-- class="damage rollable">Roll --}}
-		{{!-- Damage</div> --}}
 </div>

@@ -29,3 +29,5 @@ export interface JournalEntryPageGURPS extends JournalEntryPage {
 		code: string;
 	};
 }
+
+export { openPDF } from "./pdf";

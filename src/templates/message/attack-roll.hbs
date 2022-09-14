@@ -8,7 +8,7 @@
 	</div>
 	<div class="effective">{{localize "gurps.roll.effective_skill" level=effectiveLevel}}</div>
 	<div class="result {{success}}">{{total}}: {{localize (concat "gurps.roll.success_attack." success)}}</div>
-	<div class="margin">
+	<div class="margin mod mod-{{marginClass}}" data-mod="{{json marginMod}}">
 		{{#if (in success "success")}}
 		{{#if (eq margin 0)}}
 		{{localize "gurps.roll.just_made_it"}}

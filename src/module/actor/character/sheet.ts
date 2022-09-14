@@ -17,7 +17,7 @@ import {
 import { Attribute } from "@module/attribute";
 import { CondMod } from "@module/conditional-modifier";
 import { RollType } from "@module/data";
-import { openPDF } from "@module/modules";
+import { openPDF } from "@module/pdf";
 import { SYSTEM_NAME } from "@module/settings";
 import { MeleeWeapon, RangedWeapon } from "@module/weapon";
 import { dollarFormat, RollGURPS } from "@util";

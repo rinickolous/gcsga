@@ -62,7 +62,6 @@ export const SJG_links = {
  * @param {string} pdfs
  */
 export function openPDF(pdfs: string) {
-	// If (!(ui as any).PDFoundry) return ui.notifications?.warn(i18n("gurps.error.modules.pdfoundry_missing"));
 	for (let link of pdfs.split(",")) {
 		link = link.trim();
 		const colonIndex = link.indexOf(":");
@@ -94,7 +93,6 @@ export function openPDF(pdfs: string) {
 				else url = "http://www.warehouse23.com/products?taxons%5B%5D=558398545-sb";
 			}
 			window.open(url, "_blank");
-			// } else (ui as any).PDFoundry?.openPDF(pdf, { page: page });
 		} else {
 			const pdfPages: any[] = [];
 			(game as Game).journal?.forEach(j => {

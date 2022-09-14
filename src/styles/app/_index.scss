@@ -89,9 +89,13 @@
 		> a {
 			color: rgb(var(--color-icon-button));
 			&.sticky {
+				--fa-primary-color: rbb(var(--color-magnet));
+				--fa-secondary-color: rbb(var(--color-magnet-secondary));
 				color: rgb(var(--color-magnet));
 				&:hover {
 					color: rgb(var(--color-magnet-rollover));
+					--fa-primary-color: rbb(var(--color-magnet--rollover));
+					--fa-secondary-color: rbb(var(--color-magnet-secondary--rollover));
 				}
 			}
 			&:hover {

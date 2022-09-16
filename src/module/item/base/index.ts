@@ -2,7 +2,7 @@ import {
 	Context,
 	DocumentModificationOptions,
 } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs";
-import { ItemDataGURPS, ItemFlagsGURPS, ItemGURPS, ItemType } from "@item/data";
+import { ItemDataGURPS, ItemFlagsGURPS, ItemType } from "@item/data";
 import { CharacterGURPS } from "@actor/character";
 import { BaseWeapon, MeleeWeapon, RangedWeapon, Weapon } from "@module/weapon";
 import { Feature } from "@feature";
@@ -15,11 +15,7 @@ import { BaseFeature } from "@feature/base";
 import { PrereqList } from "@prereq";
 import { MergeObjectOptions } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/utils/helpers.mjs";
 import { ContainerGURPS } from "@item/container";
-import {
-	DocumentConstructor,
-	ConstructorDataType,
-	ConfiguredDocumentClass,
-} from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
+import { ItemGURPS } from "@item";
 
 export interface ItemConstructionContextGURPS extends Context<Actor | Item> {
 	gurps?: {

@@ -1,6 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
-import { ItemGURPS } from "@item/data";
+import { ItemGURPS } from "@item";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { WeaponSheet } from "@module/weapon/sheet";

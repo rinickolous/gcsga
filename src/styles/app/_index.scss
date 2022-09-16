@@ -182,7 +182,7 @@
 		height: 24px;
 		width: 100%;
 		white-space: nowrap;
-		padding: 1px 3px;
+		padding: 5px 3px;
 		font: var(--font-field);
 		justify-content: space-between;
 		.fas {
@@ -235,13 +235,13 @@
 		min-width: 196px;
 		width: 100%;
 		white-space: nowrap;
-		padding: 1px 3px;
+		padding: 5px 3px;
 		font: var(--font-field);
 		&:nth-child(2n + 1) {
 			background-color: rgba(var(--color-banding), 0.8);
 			color: rgb(var(--color-on-banding));
 		}
-		hidden &:hover {
+		.hidden &:hover {
 			background-color: rgba(var(--color-selection), 0.8);
 			color: rgb(var(--color-on-selection));
 		}
@@ -254,6 +254,10 @@
 		/* border: 2px solid rgb(var(--color-header)); */
 		&.categories > div {
 			justify-content: left;
+		}
+		> :hover {
+			background-color: rgba(var(--color-selection), 0.8) !important;
+			color: rgb(var(--color-on-selection)) !important;
 		}
 	}
 

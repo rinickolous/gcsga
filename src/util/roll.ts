@@ -1,5 +1,7 @@
 import { ActorGURPS, CharacterGURPS } from "@actor";
 import { RollModifier, RollType, UserFlags } from "@module/data";
+import { DiceGURPS } from "@module/dice";
+import { GURPS } from "@module/gurps";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n_f, toWord } from "./misc";
 
@@ -28,6 +30,7 @@ export async function handleRoll(
 		case RollType.Spell:
 		case RollType.SpellRelative:
 		case RollType.Attack:
+			console.log(data);
 			name = `${data.weapon.name}${data.weapon.usage ? ` - ${data.weapon.usage}` : ""}`;
 			rollData = await getRollData(user, actor, data, name, "3d6");
 			return rollAttack(rollData);
@@ -120,6 +123,20 @@ async function getRollData(
 }
 
 /**
+ *
+ * @param user
+ */
+async function resetMods(user: StoredDocument<User> | null) {
+	if (!user) return;
+	const sticky = user.getFlag(SYSTEM_NAME, UserFlags.ModifierSticky);
+	if (sticky === false) {
+		await user.setFlag(SYSTEM_NAME, UserFlags.ModifierStack, []);
+		const button = GURPS.ModifierButton;
+		return button.render();
+	}
+}
+
+/**
  * Handle adding modifiers via OTF
  * @param {StoredDocument<User>} user
  * @param {ActorGURPS} actor
@@ -163,6 +180,7 @@ async function rollSkill(rollData: any): Promise<void> {
 		sound: CONFIG.sounds.dice,
 	};
 	ChatMessage.create(messageData, {});
+	await resetMods(rollData.user);
 }
 
 /**
@@ -204,6 +222,7 @@ async function rollAttack(rollData: any): Promise<void> {
 		sound: CONFIG.sounds.dice,
 	};
 	ChatMessage.create(messageData, {});
+	await resetMods(rollData.user);
 }
 
 /**
@@ -211,8 +230,63 @@ async function rollAttack(rollData: any): Promise<void> {
  * @param {StoredDocument<User>} user
  * @param {ActorGURPS} actor
  */
-function rollDamage(user: StoredDocument<User> | null, actor: ActorGURPS, data: { [key: string]: any }): void {
-	throw new Error("Function not implemented.");
+async function rollDamage(
+	user: StoredDocument<User> | null,
+	actor: ActorGURPS,
+	data: { [key: string]: any }
+): Promise<void> {
+	console.log(data);
+	const dice = new DiceGURPS(data.weapon.fastResolvedDamage);
+	const roll = Roll.create(dice.toString(true));
+	await roll.evaluate({ async: true });
+	const rolls = roll.dice[0].results.map(e => {
+		return { result: e.result, word: toWord(e.result) };
+	});
+	let rollTotal = roll.total!;
+	const speaker = ChatMessage.getSpeaker({ actor: actor });
+
+	const modifiers: Array<RollModifier & { class?: string }> = [
+		...(user?.getFlag(SYSTEM_NAME, UserFlags.ModifierStack) as RollModifier[]),
+	];
+	modifiers.forEach(m => {
+		m.class = "zero";
+		if (m.modifier > 0) m.class = "pos";
+		if (m.modifier < 0) m.class = "neg";
+	});
+	const damage = applyMods(rollTotal, user);
+	const damageType = data.weapon.fastResolvedDamage.match(/\d*d?[+-]?\d*\s*(.*)/)[1] ?? "";
+
+	const chatData = {
+		user,
+		actor,
+		data,
+		rolls,
+		damage,
+		damageType,
+	};
+	console.log(chatData);
+
+	// Const message = await renderTemplate(`systems/${SYSTEM_NAME}/templates/message/damage-roll.hbs`, chatData);
+
+	// const messageData = {
+	// 	user: user,
+	// 	speaker: speaker,
+	// 	type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+	// 	content: message,
+	// 	roll: JSON.stringify(roll),
+	// 	sound: CONFIG.sounds.dice,
+	// };
+	// ChatMessage.create(messageData, {});
+	// await resetMods(user);
+	// if ([RollSuccess.CriticalSuccess, RollSuccess.Success].includes(success)) {
+	// 	marginMod.modifier = margin;
+	// 	marginMod.name = i18n_f("gurps.roll.success_from", { from: name });
+	// 	marginClass = "pos";
+	// } else {
+	// 	marginMod.modifier = margin;
+	// 	marginMod.name = i18n_f("gurps.roll.failure_from", { from: name });
+	// 	marginClass = "neg";
+	// }
 }
 
 enum RollSuccess {

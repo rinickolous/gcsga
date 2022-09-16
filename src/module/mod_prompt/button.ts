@@ -15,6 +15,7 @@ export class ModifierButton extends Application {
 		options?: Application.RenderOptions<ApplicationOptions> | undefined
 	): Promise<unknown> {
 		await this.recalculateModTotal((game as Game).user);
+		if (this.window.rendered) await this.window.render();
 		return super.render(force, options);
 	}
 
@@ -59,7 +60,7 @@ export class ModifierButton extends Application {
 		html.on("click", event => this._onClick(event));
 		html.on("wheel", event => this._onMouseWheel(event));
 		html.find(".magnet").on("click", event => this._onMagnetClick(event));
-		html.find(".trash").on("click", event => this._onTrashClick(event));
+		html.find(".trash").on("click", event => this.resetMods(event));
 	}
 
 	async _onClick(event: JQuery.ClickEvent): Promise<void> {
@@ -79,11 +80,10 @@ export class ModifierButton extends Application {
 		return this.render();
 	}
 
-	async _onTrashClick(event: JQuery.ClickEvent): Promise<unknown> {
+	async resetMods(event: JQuery.ClickEvent): Promise<unknown> {
 		event.preventDefault();
 		event.stopPropagation();
 		await (game as Game).user?.setFlag(SYSTEM_NAME, UserFlags.ModifierStack, []);
-		if (this.window.rendered) await this.window.render();
 		return this.render();
 	}
 

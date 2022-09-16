@@ -4,6 +4,12 @@
 - Roll Functionality
 	- ChatCommand for rolling
 	- Modifier parsing
+	- pin function doesn't work sometimes
+	- neutral mod color change
+	- skill rolls don't reset mods
+	- type error when skill/attack doesn't exist
+	- attribute rolls
+	- CR rolls
 - GCA import
 	- prereqs (leave for later)
 	- appearance

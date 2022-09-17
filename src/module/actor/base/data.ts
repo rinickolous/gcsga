@@ -10,7 +10,12 @@ export enum ActorType {
 }
 
 export interface ActorFlagsGURPS extends Record<string, unknown> {
-	gurps?: Record<string, unknown>;
+	gurps?: Record<ActorFlags, unknown>;
+}
+
+export enum ActorFlags {
+	TargetModifiers = "targetModifiers",
+	SelfModifiers = "selfModifiers",
 }
 
 export interface BaseActorSourceGURPS<

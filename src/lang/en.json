@@ -67,6 +67,12 @@
 				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
 				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
 			},
+			"move_modes": {
+				"ground": "Ground",
+				"air": "Air",
+				"water": "Water",
+				"other": "Other..."
+			},
 			"settings": {
 				"import_title": "Import",
 				"import_note": "Select a file exported from GCS.<br><b>This import will overwrite the data for {name}</b>",

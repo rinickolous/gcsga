@@ -1,11 +1,15 @@
 import { ActorFlagsGURPS, ActorSystemData, ActorType, BaseActorSourceGURPS } from "@actor/base/data";
 
 export const MoveModeTypes = {
-	Ground: "GURPS.moveModeGround",
-	Air: "GURPS.moveModeAir",
-	Water: "GURPS.moveModeWater",
-	Space: "GURPS.moveModeSpace",
+	Ground: "gurps.character.move_modes.ground",
+	Air: "gurps.character.move_modes.air",
+	Water: "gurps.character.move_modes.water",
+	Space: "gurps.character.move_modes.space",
 };
+
+export enum Posture {
+	Standing = "standing",
+}
 
 export interface MoveMode {
 	mode: typeof MoveModeTypes | string;

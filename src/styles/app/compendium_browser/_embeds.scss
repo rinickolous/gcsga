@@ -63,6 +63,12 @@
 		}
 	}
 
+	> .reference:not(.header):not([data-pdf=""]):hover {
+		background-color: rgba(var(--color-link), 1) !important;
+		color: rgba(var(--color-on-link), 1) !important;
+		cursor: pointer;
+	}
+
 	> div {
 		border-right: 1px solid rgb(var(--color-header));
 		border-bottom: 1px solid rgb(var(--color-header));

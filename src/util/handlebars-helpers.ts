@@ -29,7 +29,7 @@ export function registerHandlebarsHelpers() {
 	});
 
 	Handlebars.registerHelper("signed", function (n: number) {
-		return n >= 0 ? `+${n}` : `${n}`;
+		return n >= 0 ? `+${n}` : `${n.toString().replace("-", "−")}`;
 	});
 
 	Handlebars.registerHelper("abs", function (n: number) {
@@ -206,5 +206,14 @@ export function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper("sort", function (list: any[], key: string): any[] {
 		return list.map(e => e).sort((a: any, b: any) => a[key] - b[key]);
+	});
+
+	Handlebars.registerHelper("json", function (o: any): string {
+		return JSON.stringify(o);
+	});
+
+	Handlebars.registerHelper("textareaFormat", function (s: string): string {
+		return s.replaceAll("\t", "").replaceAll("\n", "\r");
+		// Return s;
 	});
 }

@@ -1,11 +1,20 @@
 import { ActorFlagsGURPS, ActorSystemData, ActorType, BaseActorSourceGURPS } from "@actor/base/data";
 
 export const MoveModeTypes = {
-	Ground: "GURPS.moveModeGround",
-	Air: "GURPS.moveModeAir",
-	Water: "GURPS.moveModeWater",
-	Space: "GURPS.moveModeSpace",
+	Ground: "gurps.character.move_modes.ground",
+	Air: "gurps.character.move_modes.air",
+	Water: "gurps.character.move_modes.water",
+	Space: "gurps.character.move_modes.space",
 };
+
+export enum Posture {
+	Standing = "standing",
+	Prone = "prone",
+	Kneeling = "kneeling",
+	Crouching = "crouching",
+	Sitting = "sitting",
+	Crawling = "crawling",
+}
 
 export interface MoveMode {
 	mode: typeof MoveModeTypes | string;
@@ -34,6 +43,9 @@ type StaticCharacterFlags = ActorFlagsGURPS & {
 };
 
 export interface StaticCharacterSystemData extends ActorSystemData {
+	attributes: {
+		[key in StaticAttributeName]: StaticAttribute;
+	};
 	pools: {
 		[key: string]: {
 			value: number;
@@ -42,13 +54,32 @@ export interface StaticCharacterSystemData extends ActorSystemData {
 			points: number;
 		};
 	};
+	dodge: {
+		value: number;
+		enc_level: number;
+	};
+	basicmove: {
+		value: string;
+		points: number;
+	};
+	basicspeed: {
+		value: string;
+		points: number;
+	};
+	parry: number;
+	currentmove: number;
+	thrust: string;
+	swing: string;
+	frightcheck: number;
+	hearing: number;
+	tastesmell: number;
+	vision: number;
+	touch: number;
 	// TODO: change
 	conditions: any;
 	traits: any;
 	encumbrance: any;
-	basicmove: any;
 	move: any;
-	attributes: any;
 	ads: any;
 	skills: any;
 	spells: any;
@@ -57,4 +88,21 @@ export interface StaticCharacterSystemData extends ActorSystemData {
 	ranged: any;
 	currentdodge: any;
 	languages: any;
+}
+
+enum StaticAttributeName {
+	ST = "ST",
+	DX = "DX",
+	IQ = "IQ",
+	HT = "HT",
+	WILL = "WILL",
+	PER = "PER",
+	QN = "QN",
+}
+
+interface StaticAttribute {
+	import: number;
+	value: number;
+	points: number;
+	dtype: "Number";
 }

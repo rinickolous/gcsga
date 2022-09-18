@@ -86,7 +86,6 @@
 	}
 
 	.input {
-		// Overwrite default input field
 		padding: 0;
 		border: none;
 		border-bottom: 1px solid rgba(var(--color-control-edge), 1);
@@ -94,6 +93,8 @@
 		color: rgba(var(--color-on-editable), 1);
 		background: rgba(var(--color-editable), 1);
 		height: 100%;
+		min-width: 20px;
+		width: calc(100% - 2px);
 		&:focus {
 			box-shadow: none;
 			border-bottom-color: rgba(var(--color-accent), 1);

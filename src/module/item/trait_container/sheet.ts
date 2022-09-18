@@ -1,5 +1,5 @@
+import { ItemGURPS } from "@item";
 import { ContainerSheetGURPS } from "@item/container/sheet";
-import { TraitContainerGURPS } from ".";
 
 export class TraitContainerSheet extends ContainerSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
@@ -28,8 +28,8 @@ export class TraitContainerSheet extends ContainerSheetGURPS {
 
 	protected async _openItemSheet(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
-		const id = $(event.currentTarget).data("item-id");
-		const item = (this.item as TraitContainerGURPS).deepItems.get(id);
+		const uuid = $(event.currentTarget).data("uuid");
+		const item = (await fromUuid(uuid)) as ItemGURPS;
 		item?.sheet?.render(true);
 	}
 

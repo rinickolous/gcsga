@@ -1,5 +1,5 @@
 import { ContainerSheetGURPS } from "@item/container/sheet";
-import { TraitGURPS } from ".";
+import { ItemGURPS } from "@item";
 
 export class TraitSheet extends ContainerSheetGURPS {
 	static get defaultOptions(): DocumentSheetOptions {
@@ -24,12 +24,13 @@ export class TraitSheet extends ContainerSheetGURPS {
 	activateListeners(html: JQuery<HTMLElement>): void {
 		super.activateListeners(html);
 		html.find(".item").on("dblclick", event => this._openItemSheet(event));
+		html.find(".enabled").on("click", event => this._onEnabledToggle(event));
 	}
 
 	protected async _openItemSheet(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
-		const id = $(event.currentTarget).data("item-id");
-		const item = (this.item as TraitGURPS).deepItems.get(id);
+		const uuid = $(event.currentTarget).data("uuid");
+		const item = (await fromUuid(uuid)) as ItemGURPS;
 		item?.sheet?.render(true);
 	}
 

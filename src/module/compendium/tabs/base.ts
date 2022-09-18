@@ -91,7 +91,8 @@ export abstract class CompendiumTab {
 	getIndexData(start: number): CompendiumIndexData[] {
 		const currentIndex = this.sortResult(this.indexData.filter(this.filterIndexData.bind(this)));
 		this.totalItemCount = currentIndex.length;
-		return currentIndex.slice(start, this.scrollLimit);
+		// Return currentIndex.slice(start, this.scrollLimit);
+		return currentIndex;
 	}
 
 	protected sortResult(result: CompendiumIndexData[]): CompendiumIndexData[] {

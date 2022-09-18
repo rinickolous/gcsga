@@ -2,10 +2,13 @@
 	<div id="sheet">
 		<div id="details">
 			{{>sections/input-text field="field" label="gurps.item.name" name="name" data=item.name type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes type="String"}}
-			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes" data=system.vtt_notes
+			{{>sections/textarea field="field" label="gurps.item.notes" name="system.notes" data=system.notes
 			type="String"}}
-			{{>sections/input-text field="field" label="gurps.item.tech_level" name="system.tech_level" data=system.tech_level
+			{{>sections/textarea field="field" label="gurps.item.vtt_notes" name="system.vtt_notes"
+			data=system.vtt_notes
+			type="String"}}
+			{{>sections/input-text field="field" label="gurps.item.tech_level" name="system.tech_level"
+			data=system.tech_level
 			type="String"}}
 			{{>sections/input-text field="field" label="gurps.item.legality_class" name="system.legality_class"
 			data=system.legality_class type="String"}}
@@ -42,11 +45,12 @@
 				system.max_uses
 				0))}}
 				<div class="label">{{localize "gurps.item.max_uses"}}</div>
-				{{>sections/input-text name="NUMBER.system.max_uses" data=system._max_uses type="String"}}
+				{{>sections/input-text name="NUMBER.system.max_uses" data=system.max_uses type="String"}}
 			</div>
 			{{>sections/input-text field="field" label="gurps.item.tags" name="system.tags" data=(join system.tags ", ")
 			type="String"}}
-			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference" data=system.reference
+			{{>sections/input-text field="field" label="gurps.item.reference" name="system.reference"
+			data=system.reference
 			type="String"}}
 		</div>
 		{{>item/sections/prerequisites}}

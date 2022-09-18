@@ -13,11 +13,10 @@
 				height: calc(100% - 10px);
 
 				> div {
-					display: grid;
 					height: 100%;
 
 					.item-list {
-						height: 100%;
+						height: calc(100% - 30px);
 						overflow: visible scroll;
 					}
 				}

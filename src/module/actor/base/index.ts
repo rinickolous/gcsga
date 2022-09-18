@@ -38,6 +38,25 @@ class BaseActorGURPS extends Actor {
 		await super._preCreate(data, options, user);
 	}
 
+	protected async _preUpdate(
+		changed: DeepPartial<ActorDataConstructorData & ActorDataGURPS>,
+		options: DocumentModificationOptions,
+		user: BaseUser
+	): Promise<void> {
+		const defaultToken = `systems/${SYSTEM_NAME}/assets/icons/${this.type}.svg`;
+		if (changed.img && !(changed as any).prototypeToken?.texture?.src) {
+			if (
+				!(this as any).prototypeToken.texture.src ||
+				(this as any).prototypeToken.texture.src === defaultToken
+			) {
+				setProperty(changed, "prototypeToken.texture.src", changed.img);
+			} else {
+				setProperty(changed, "prototypeToken.texture.src", (this as any).prototypeToken.texture.src);
+			}
+		}
+		await super._preUpdate(changed, options, user);
+	}
+
 	get deepItems(): Collection<ItemGURPS> {
 		const deepItems: ItemGURPS[] = [];
 		for (const item of this.items as any as Collection<ItemGURPS>) {

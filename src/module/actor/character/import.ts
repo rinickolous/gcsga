@@ -79,7 +79,7 @@ export class CharacterImporter {
 			else if (r.version > this.version)
 				return this.throwImportError([...errorMessages, i18n("gurps.error.import.format_new")]);
 			commit = { ...commit, ...{ "system.import": imp } };
-			commit = { ...commit, ...{ name: r.profile.name } };
+			commit = { ...commit, ...{ name: r.profile.name, "prototypeToken.name": r.profile.name } };
 			commit = { ...commit, ...this.importMiscData(r) };
 			commit = { ...commit, ...(await this.importProfile(r.profile)) };
 			commit = { ...commit, ...this.importSettings(r.settings) };

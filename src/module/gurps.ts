@@ -57,11 +57,16 @@ import { EquipmentModifierSheet } from "@item/equipment_modifier/sheet";
 import { ModifierButton } from "./mod_prompt/button";
 import { ItemImporter } from "@item/import";
 import { CompendiumBrowser } from "./compendium";
+import { PDFViewerSheet } from "@module/pdf/sheet";
+import { JournalEntryPageGURPS } from "./pdf";
+import { PDFEditorSheet } from "./pdf/edit";
+import { UserFlags } from "./data";
 // Import { XMLtoJS } from "@util/xml_js";
 // import { GCAImporter } from "@actor/character/import_GCA";
 
 Error.stackTraceLimit = Infinity;
 
+// TODO: make GURPS type concrete
 export const GURPS: any = {};
 if (!(globalThis as any).GURPS) {
 	(globalThis as any).GURPS = GURPS;
@@ -83,6 +88,7 @@ if (!(globalThis as any).GURPS) {
 	GURPS.eval = evaluateToNumber;
 	GURPS.search = fSearch;
 	GURPS.dice = DiceGURPS;
+	GURPS.pdf = PDFViewerSheet;
 }
 // GURPS.XMLtoJS = XMLtoJS;
 // GURPS.GCAImport = GCAImporter;
@@ -102,6 +108,7 @@ Hooks.once("init", async () => {
 	(CONFIG as any).GURPS = GURPSCONFIG;
 	(CONFIG.Item.documentClass as any) = BaseItemGURPS;
 	CONFIG.Actor.documentClass = BaseActorGURPS;
+	(CONFIG as any).JournalEntryPage.documentClass = JournalEntryPageGURPS;
 
 	// Register custom system settings
 	registerSettings();
@@ -111,8 +118,11 @@ Hooks.once("init", async () => {
 	registerHandlebarsHelpers();
 
 	// Register custom sheets (if any)
-	// Items.unregisterSheet("core", ItemSheet);
+	Items.unregisterSheet("core", ItemSheet);
 	Actors.unregisterSheet("core", ActorSheet);
+
+	// @ts-ignore
+	DocumentSheetConfig.unregisterSheet(JournalEntryPage, "core", JournalPDFPageSheet);
 
 	Items.registerSheet(SYSTEM_NAME, TraitSheet, {
 		types: ["trait"],
@@ -195,6 +205,20 @@ Hooks.once("init", async () => {
 		makeDefault: true,
 		label: i18n("gurps.system.sheet.character"),
 	});
+
+	// //@ts-ignore
+	// DocumentSheetConfig.registerSheet(JournalEntryPage, SYSTEM_NAME, PDFViewerSheet, {
+	// 	types: ["pdf"],
+	// 	makeDefault: true,
+	// 	label: i18n("gurps.system.sheet.pdf"),
+	// });
+
+	// @ts-ignore
+	DocumentSheetConfig.registerSheet(JournalEntryPage, SYSTEM_NAME, PDFEditorSheet, {
+		types: ["pdf"],
+		makeDefault: true,
+		label: i18n("gurps.system.sheet.pdf_edit"),
+	});
 });
 
 // Setup system
@@ -221,7 +245,7 @@ Hooks.once("ready", async () => {
 	);
 
 	// Render modifier app after user object loaded to avoid old data
-	(game as Game).user?.setFlag(SYSTEM_NAME, "init", true);
+	(game as Game).user?.setFlag(SYSTEM_NAME, UserFlags.Init, true);
 	GURPS.ModifierButton = new ModifierButton();
 	GURPS.ModifierButton.render(true);
 

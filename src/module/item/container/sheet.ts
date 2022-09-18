@@ -1,5 +1,5 @@
 import { ItemSheetGURPS } from "@item/base/sheet";
-import { ItemGURPS } from "@item/data";
+import { ItemGURPS } from "@item";
 import { TraitModifierGURPS } from "@item/trait_modifier";
 import { ItemDataBaseProperties } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 import { PropertiesToSource } from "@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes";
@@ -151,21 +151,22 @@ export class ContainerSheetGURPS extends ItemSheetGURPS {
 		return parent!.updateEmbeddedDocuments("Item", updateData) as unknown as Item[];
 	}
 
-	protected _onCollapseToggle(event: JQuery.ClickEvent): void {
+	protected async _onCollapseToggle(event: JQuery.ClickEvent): Promise<void> {
 		event.preventDefault();
-		const id: string = $(event.currentTarget).data("item-id");
+		const uuid = $(event.currentTarget).data("uuid");
+		const item = (await fromUuid(uuid)) as ItemGURPS;
 		const open = !!$(event.currentTarget).attr("class")?.includes("closed");
-		const item = (this.item as ContainerGURPS).deepItems.get(id);
-		item?.update({ _id: id, "system.open": open });
+		item?.update({ "system.open": open });
 	}
 
 	protected async _onEnabledToggle(event: JQuery.ClickEvent) {
 		event.preventDefault();
-		const id = $(event.currentTarget).data("item-id");
-		const item = (this.item as ContainerGURPS).deepItems.get(id);
+		const uuid = $(event.currentTarget).data("uuid");
+		const item = (await fromUuid(uuid)) as ItemGURPS;
 		if (item?.type.includes("container")) return;
-		return item?.update({
+		await item?.update({
 			"system.disabled": (item as TraitModifierGURPS).enabled,
 		});
+		return this.render();
 	}
 }

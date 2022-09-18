@@ -17,6 +17,13 @@
 		.message-metadata {
 			font-size: var(--fontsize-7);
 		}
+		.message-delete {
+			color: rgb(var(--color-icon-button));
+			&:hover {
+				color: rgb(var(--color-icon-button-rollover));
+				text-shadow: none;
+			}
+		}
 	}
 	.message-content {
 		grid-area: content;

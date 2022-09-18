@@ -110,7 +110,6 @@ export interface BaseItemSystemData {
 	type: ItemType;
 }
 
-export { ItemGURPS } from "@item";
 export { EquipmentData } from "./equipment/data";
 export { EquipmentContainerData } from "./equipment_container/data";
 export { EquipmentModifierData } from "./equipment_modifier/data";

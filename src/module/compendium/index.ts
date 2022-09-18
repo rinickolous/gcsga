@@ -1,4 +1,5 @@
 import { ImagePath } from "@module/data";
+import { openPDF } from "@module/pdf";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
 import { BrowserTab, PackInfo, TabData, TabName } from "./data";
@@ -101,6 +102,7 @@ export class CompendiumBrowser extends Application {
 		super.activateListeners(html);
 		html.find(".item").on("dblclick", event => this._onClickEntry(event));
 		html.find(".dropdown-toggle").on("click", event => this._onCollapseToggle(event));
+		html.find(".reference").on("click", event => this._handlePDF(event));
 
 		const activeTabName = this.activeTab;
 
@@ -121,7 +123,7 @@ export class CompendiumBrowser extends Application {
 					for (const tab of Object.values(this.tabs)) {
 						if (tab.isInitialized) {
 							await tab.init();
-							tab.scrollLimit = 100;
+							// Tab.scrollLimit = 100;
 						}
 					}
 					this.render(true);
@@ -208,7 +210,7 @@ export class CompendiumBrowser extends Application {
 		};
 	}
 
-	async _onClickEntry(event: JQuery.DoubleClickEvent) {
+	protected async _onClickEntry(event: JQuery.DoubleClickEvent) {
 		event.preventDefault();
 		const li = event.currentTarget;
 		const uuid = $(li!).data("uuid");
@@ -222,6 +224,12 @@ export class CompendiumBrowser extends Application {
 			return sheet?.render(true, {
 				editable: (game as Game).user?.isGM && !(game as Game).packs.get(pack)?.locked,
 			});
+	}
+
+	protected async _handlePDF(event: JQuery.ClickEvent): Promise<void> {
+		event.preventDefault();
+		const pdf = $(event.currentTarget).data("pdf");
+		if (pdf) return openPDF(pdf);
 	}
 
 	private initCompendiumList(): void {

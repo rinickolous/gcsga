@@ -1,6 +1,6 @@
 import { CharacterGURPS } from "@actor";
 import { FeatureType } from "@feature/base";
-import { ItemGURPS } from "@item/data";
+import { ItemGURPS } from "@item";
 import { NumberComparison, StringComparison } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { WeaponSheet } from "@module/weapon/sheet";
@@ -103,8 +103,19 @@ export class ItemSheetGURPS extends ItemSheet {
 		html.find(".feature .remove").on("click", event => this._removeFeature(event));
 		html.find(".feature .type").on("change", event => this._onFeatureTypeChange(event));
 		html.find(".weapon-list > :not(.header)").on("dblclick", event => this._onWeaponEdit(event));
+		html.find("textarea")
+			.each(function () {
+				const height = this.scrollHeight - 2;
+				this.setAttribute("style", `height:${height}px;`);
+			})
+			.on("input", function () {
+				const height = this.scrollHeight;
+				// Const height = this.value.split("\r").length * 24;
+				this.style.height = "0";
+				this.style.height = `${height}px`;
+			});
 
-		html.find("span.input").on("blur", event => this._onSubmit(event as any));
+		// Html.find("span.input").on("blur", event => this._onSubmit(event as any));
 	}
 
 	protected _onSubmit(event: Event, context?: any): Promise<Partial<Record<string, unknown>>> {
@@ -113,7 +124,7 @@ export class ItemSheetGURPS extends ItemSheet {
 	}
 
 	protected async _updateObject(event: Event, formData: Record<string, any>): Promise<unknown> {
-		// Console.log("_updateObject", formData);
+		console.log("_updateObject", formData);
 		if (formData["system.tags"] && typeof formData["system.tags"] === "string") {
 			const tags = formData["system.tags"].split(",").map(e => e.trim());
 			formData["system.tags"] = tags;
@@ -123,18 +134,19 @@ export class ItemSheetGURPS extends ItemSheet {
 			formData["system.college"] = college;
 		}
 		for (const [key, value] of Object.entries(formData)) {
-			if (typeof value === "string" && value.includes("<div>")) {
-				formData[key] = value
-					.replace(/(<\/div>)?<div>/g, "\n")
-					.replace("<br></div>", "")
-					.replace("<br>", "\n");
-			}
+			// If (typeof value === "string" && value.includes("\n")) formData[key] = value.replaceAll("\n", "\r")
+			// if (typeof value === "string" && value.includes("<div>")) {
+			// 	formData[key] = value
+			// 		.replace(/(<\/div>)?<div>/g, "\n")
+			// 		.replace("<br></div>", "")
+			// 		.replace("<br>", "\n");
+			// }
 			if (value === "false") formData[key] = false;
 			if (value === "true") formData[key] = true;
-			if (value === "\n") formData[key] = "";
+			// If (value === "\n") formData[key] = "";
 			// HACK: values of 0 are replaced with empty strings. this fixes it, but it's messy
 			if (key.startsWith("NUMBER.")) {
-				formData[key.replace("NUMBER.", "")] = parseFloat(value);
+				formData[key.replace("NUMBER.", "")] = isNaN(parseFloat(value)) ? 0 : parseFloat(value);
 				delete formData[key];
 			}
 		}

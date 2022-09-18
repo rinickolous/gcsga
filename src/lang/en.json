@@ -22,6 +22,10 @@
 		"TypeNote_container": "Note Container"
 	},
 	"gurps": {
+		"pdf": {
+			"offset": "Page Offset",
+			"code": "PDF Book Code"
+		},
 		"character": {
 			"portrait": "Portrait",
 			"identity": "Identity",
@@ -62,6 +66,12 @@
 				"fright_check_bonus": "{penalty} Fright Check Bonus",
 				"minor_cost_of_living_increase": "{penalty} Cost of Living Increase",
 				"major_cost_of_living_increase": "{penalty} Cost of Living Increase"
+			},
+			"move_modes": {
+				"ground": "Ground",
+				"air": "Air",
+				"water": "Water",
+				"other": "Other..."
 			},
 			"settings": {
 				"import_title": "Import",
@@ -280,9 +290,12 @@
 			"bulk": "Bulk"
 		},
 		"roll": {
+			"effective_skill": "Effective Skill: {level}",
 			"just_made_it": "Just made it.",
 			"success_margin": "Made it by {margin}.",
 			"failure_margin": "Missed it by {margin}.",
+			"success_from": "Margin of Success | {from}",
+			"failure_from": "Margin of Failure | {from}",
 			"success": {
 				"success": "Success!",
 				"failure": "Failure!",
@@ -482,7 +495,7 @@
 				"skill": "Skill / Technique",
 				"spell": "Spell",
 				"equipment": "Equipment",
-				"eqp_modifier": "Equipmennt Modifier",
+				"eqp_modifier": "Equipment Modifier",
 				"note": "Note",
 				"tags": "Tags",
 				"points": "Pts",
@@ -543,7 +556,7 @@
 		"settings": {
 			"basic_set_pdfs": {
 				"name": "Basic Set PDFs",
-				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFoundry. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDFoundry test.",
+				"hint": "Select Combined or Separate and use the associated PDF codes when configuring PDFs. Note: If you select Separate, the Basic Set Campaigns PDF should open up to page 340 during the PDF test.",
 				"choices": {
 					"combined": "Combined Basic Set (B)",
 					"separate": "Separate (Characters: B, Campaigns: BX)"
@@ -563,15 +576,13 @@
 			}
 		},
 		"error": {
+			"header": "Error!",
 			"import": {
 				"no_json_detected": "File is corrupted or not a JSON file",
 				"format_old": "File format is too old. Please save your file in the most up to date version of GCS",
 				"format_new": "File format it too new, and is not yet supported.",
 				"generic": "Import Error for {name}:\n{message}",
 				"ritual_magic_gca": "GCA Import does not currently support Ritual Magic Spells. Spell levels will likely be incorrect."
-			},
-			"modules": {
-				"pdfoundry_missing": "PDFoundry is not enabled. Please enable PDFoundry to view PDFs"
 			},
 			"modifier_app_load_failed": "Failed to initialize the Modifier Stack App."
 		}

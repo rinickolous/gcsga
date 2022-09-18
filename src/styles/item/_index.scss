@@ -59,17 +59,17 @@
 		&.no-stretch {
 			width: max-content;
 		}
-		span.input {
+		textarea.input {
 			min-height: 24px;
 			padding: 1px 3px;
 			line-height: 24px;
-			resize: both;
-			height: initial !important;
+			resize: none;
+			overflow-y: hidden;
 			&:focus-visible {
 				outline: none;
 			}
 		}
-		span[role="textbox"],
+		textarea,
 		input[type="text"],
 		input[type="number"] {
 			font: var(--font-field);

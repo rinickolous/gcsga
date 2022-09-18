@@ -9,7 +9,7 @@ import { ActorData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 import { RollModifier, UserFlags } from "@module/data";
 import { SYSTEM_NAME } from "@module/settings";
 import { i18n } from "@util";
-import { MoveMode, MoveModeTypes, StaticCharacterSource, StaticCharacterSystemData } from "./data";
+import { MoveMode, MoveModeTypes, Posture, StaticCharacterSource, StaticCharacterSystemData } from "./data";
 
 Hooks.on("createActor", async function (actor: StaticCharacterGURPS) {
 	if (actor.type === "character")
@@ -49,7 +49,7 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 	override prepareBaseData(): void {
 		// NOTE: why not set flags after sizemod calculation?
 		super.prepareBaseData();
-		this.system.conditions.posture = "standing";
+		this.system.conditions.posture = Posture.Standing;
 		this.setFlag(SYSTEM_NAME, ActorFlags.SelfModifiers, []);
 		this.setFlag(SYSTEM_NAME, ActorFlags.TargetModifiers, []);
 		// This.system.conditions.self = { modifiers: [] };
@@ -69,7 +69,6 @@ class StaticCharacterGURPS extends BaseActorGURPS {
 				},
 			]);
 		}
-
 		// Let attributes = this.getGurpsActorData().attributes;
 		// if (foundry.utils.getType(attributes.ST.import) === "string")
 		// 	this.getGurpsActorData().attributes.ST.import = parseInt(

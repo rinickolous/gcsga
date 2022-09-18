@@ -211,4 +211,9 @@ export function registerHandlebarsHelpers() {
 	Handlebars.registerHelper("json", function (o: any): string {
 		return JSON.stringify(o);
 	});
+
+	Handlebars.registerHelper("textareaFormat", function (s: string): string {
+		return s.replaceAll("\t", "").replaceAll("\n", "\r");
+		// Return s;
+	});
 }

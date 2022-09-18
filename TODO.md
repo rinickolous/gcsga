@@ -18,6 +18,19 @@
 	- racial templates
 	- alternate abilities
  - PDF Support
+ - GGA 0.15 integration
+	- add posture to dynamic character
+	- add maneuver to dynamic character
+	- add non-attribute resource trackers to dynamic character (optional, could think of better solution)
+	- add move modes to dynamic character
+	- add move advantage parsing (by name? or feature? or VTT notes?) for "Flight", "Walk on Air".
+	the names pased should be customizable via an object-type system setting. the names(?) value should be an array of strings
+	- add optional encumbrance to dynamic character
+	- add deprecation/migration warning to static character
+	- modify static charsheet to match stylistically with dynamic charsheet. also eliminate "editable" static charsheet, instead using same system as dynamic
+	- add deprecation warning to static items
+	- (?) add optional reeling to dynamic character (maybe add ability to manually switch pool state for purposes of move etc. calculation)
+	- 
 ## Sheets & Styling
 - Global Foundry styling
 - Damage template
@@ -51,9 +64,11 @@
 - update Nordlond sheet & compendium entries with dynamic characters
 - metric system conversion
 - Native PDF support
+- Roll20 style notes about character in place of character sheet (for players with limited access?)
 ## Small Features, Changes & Fixes
 - Library Import
 	- Overwrite items instead of appending
+	- When importing to world items, overwrite items with the same GCS UUID
 - Polygot module support for Dynamic Characters
 - Sort character items on import
 - Change unsatisfied prerequisite messages for better formatting & localization
